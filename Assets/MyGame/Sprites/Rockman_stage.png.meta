@@ -1,0 +1,702 @@
+fileFormatVersion: 2
+guid: 324858c19562e584ca4105ad7f320352
+TextureImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 12
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 26
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 3
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 256
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Server
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Rockman_stage_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 114
+        width: 26
+        height: 26
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape:
+      - - {x: -13, y: 13}
+        - {x: -13, y: -13}
+        - {x: 13, y: -13}
+        - {x: 13, y: 13}
+      tessellationDetail: 0
+      bones: []
+      spriteID: d12671944e7aa214b80ac7af0806e98a
+      internalID: 574920010
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Rockman_stage_1
+      rect:
+        serializedVersion: 2
+        x: 76
+        y: 89
+        width: 26
+        height: 26
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape:
+      - - {x: -12, y: 13}
+        - {x: -13, y: 12}
+        - {x: -13, y: -13}
+        - {x: 13, y: -13}
+        - {x: 13, y: 13}
+      tessellationDetail: 0
+      bones: []
+      spriteID: 40d73f039157d5646b610cf712ae434b
+      internalID: -416650286
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Rockman_stage_3
+      rect:
+        serializedVersion: 2
+        x: 130
+        y: 89
+        width: 26
+        height: 26
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape:
+      - - {x: -13, y: 13}
+        - {x: -13, y: -13}
+        - {x: 13, y: -13}
+        - {x: 13, y: 13}
+      tessellationDetail: 0
+      bones: []
+      spriteID: c97fc75fa0cfd2848b10882966ecbe61
+      internalID: -402911880
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Rockman_stage_4
+      rect:
+        serializedVersion: 2
+        x: 157
+        y: 89
+        width: 26
+        height: 26
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape:
+      - - {x: -13, y: 13}
+        - {x: -13, y: -13}
+        - {x: 13, y: -13}
+        - {x: 13, y: 13}
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3fce0bbe17435af47b0da3e1cf1640ce
+      internalID: 890915961
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Rockman_stage_5
+      rect:
+        serializedVersion: 2
+        x: 76
+        y: 62
+        width: 26
+        height: 26
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape:
+      - - {x: -13, y: 13}
+        - {x: -13, y: -13}
+        - {x: 13, y: -13}
+        - {x: 13, y: 13}
+      tessellationDetail: 0
+      bones: []
+      spriteID: 937a8c31a5c2b6c498da3bdf249cc206
+      internalID: 49067952
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Rockman_stage_6
+      rect:
+        serializedVersion: 2
+        x: 103
+        y: 63
+        width: 26
+        height: 26
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape:
+      - - {x: -13, y: 13}
+        - {x: -13, y: -13}
+        - {x: 13, y: -13}
+        - {x: 13, y: 13}
+      tessellationDetail: 0
+      bones: []
+      spriteID: 287d5be1c1f217e4eb91e6dde103dc7a
+      internalID: 1293895854
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Rockman_stage_7
+      rect:
+        serializedVersion: 2
+        x: 130
+        y: 62
+        width: 26
+        height: 26
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape:
+      - - {x: -13, y: 13}
+        - {x: -13, y: -13}
+        - {x: 13, y: -13}
+        - {x: 13, y: 13}
+      tessellationDetail: 0
+      bones: []
+      spriteID: 158fd7a6157c20843a88195d5902d04a
+      internalID: -1065221658
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Rockman_stage_8
+      rect:
+        serializedVersion: 2
+        x: 157
+        y: 62
+        width: 26
+        height: 26
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape:
+      - - {x: -13, y: 13}
+        - {x: -13, y: -13}
+        - {x: 13, y: -13}
+        - {x: 13, y: 13}
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9c13a337da9398d45a5bee170aa3412d
+      internalID: -2113533735
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Rockman_stage_9
+      rect:
+        serializedVersion: 2
+        x: 26
+        y: 10
+        width: 26
+        height: 26
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape:
+      - - {x: -13, y: 13}
+        - {x: -13, y: -13}
+        - {x: 13, y: -13}
+        - {x: 13, y: 13}
+      tessellationDetail: 0
+      bones: []
+      spriteID: e2cea4099e8d14043864cca3abc9fc31
+      internalID: 912900426
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Rockman_stage_10
+      rect:
+        serializedVersion: 2
+        x: 76
+        y: 35
+        width: 26
+        height: 26
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape:
+      - - {x: -13, y: 13}
+        - {x: -13, y: -12}
+        - {x: -12, y: -13}
+        - {x: 13, y: -13}
+        - {x: 13, y: 13}
+      tessellationDetail: 0
+      bones: []
+      spriteID: d00aa401573aaba4486094826210bf9c
+      internalID: 2132045870
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Rockman_stage_11
+      rect:
+        serializedVersion: 2
+        x: 103
+        y: 35
+        width: 26
+        height: 26
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape:
+      - - {x: -13, y: 13}
+        - {x: -13, y: -13}
+        - {x: 13, y: -13}
+        - {x: 13, y: 13}
+      tessellationDetail: 0
+      bones: []
+      spriteID: b56f0147e50069d4cbe08f498be46285
+      internalID: 408536709
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Rockman_stage_12
+      rect:
+        serializedVersion: 2
+        x: 130
+        y: 35
+        width: 26
+        height: 26
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape:
+      - - {x: -13, y: 13}
+        - {x: -13, y: -13}
+        - {x: 13, y: -13}
+        - {x: 13, y: 13}
+      tessellationDetail: 0
+      bones: []
+      spriteID: d02fb810afbbe924b9f4d53686a813f0
+      internalID: -1875177516
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Rockman_stage_13
+      rect:
+        serializedVersion: 2
+        x: 157
+        y: 35
+        width: 26
+        height: 26
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape:
+      - - {x: -13, y: 13}
+        - {x: -13, y: -13}
+        - {x: 13, y: -13}
+        - {x: 13, y: 13}
+      tessellationDetail: 0
+      bones: []
+      spriteID: c9de5ad6427b4c64f84f70c22da57a13
+      internalID: 1644112681
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Rockman_stage_14
+      rect:
+        serializedVersion: 2
+        x: 103
+        y: 89
+        width: 26
+        height: 26
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape:
+      - - {x: -13, y: 13}
+        - {x: -13, y: -13}
+        - {x: 13, y: -13}
+        - {x: 13, y: 13}
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8f25a0451611d0b478cdc32d9b4ba9d1
+      internalID: -1397129085
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Rockman_stage_2
+      rect:
+        serializedVersion: 2
+        x: 104
+        y: 127
+        width: 26
+        height: 4
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape:
+      - - {x: -13, y: 2}
+        - {x: -13, y: -2}
+        - {x: 13, y: -2}
+        - {x: 13, y: 2}
+      tessellationDetail: 0
+      bones: []
+      spriteID: 89a5572f664a3aa41a20ab1d25752105
+      internalID: 1320578665
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Rockman_stage_15
+      rect:
+        serializedVersion: 2
+        x: 130
+        y: 127
+        width: 26
+        height: 4
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape:
+      - - {x: -13, y: 2}
+        - {x: -13, y: -2}
+        - {x: 13, y: -2}
+        - {x: 13, y: 2}
+      tessellationDetail: 0
+      bones: []
+      spriteID: 34fa9edd08d374b428dd2ae622587e4b
+      internalID: 1277912647
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Rockman_stage_16
+      rect:
+        serializedVersion: 2
+        x: 156
+        y: 127
+        width: 26
+        height: 4
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape:
+      - - {x: -13, y: 2}
+        - {x: -13, y: -2}
+        - {x: 13, y: -2}
+        - {x: 13, y: 2}
+      tessellationDetail: 0
+      bones: []
+      spriteID: 333607fe6805f804f9979f191adc7163
+      internalID: -52486917
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Rockman_stage_17
+      rect:
+        serializedVersion: 2
+        x: 26
+        y: 114
+        width: 26
+        height: 26
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape:
+      - - {x: -13, y: 13}
+        - {x: -13, y: -13}
+        - {x: 13, y: -13}
+        - {x: 13, y: 13}
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0e4d734977694d14aadc03077dc756a5
+      internalID: 1594207834
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Rockman_stage_18
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 88
+        width: 26
+        height: 26
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape:
+      - - {x: -13, y: 13}
+        - {x: -13, y: -13}
+        - {x: 13, y: -13}
+        - {x: 13, y: 13}
+      tessellationDetail: 0
+      bones: []
+      spriteID: bff376f8b10cd1444b9d84934e22c14c
+      internalID: -1067872252
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Rockman_stage_19
+      rect:
+        serializedVersion: 2
+        x: 26
+        y: 88
+        width: 26
+        height: 26
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape:
+      - - {x: 13, y: -13}
+        - {x: 13, y: 13}
+        - {x: -13, y: 13}
+        - {x: -13, y: -13}
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1e783738863601f43a276aa41a8e5c4d
+      internalID: 2030130907
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Rockman_stage_20
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 62
+        width: 26
+        height: 26
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape:
+      - - {x: -13, y: 13}
+        - {x: -13, y: -13}
+        - {x: 13, y: -13}
+        - {x: 13, y: 13}
+      tessellationDetail: 0
+      bones: []
+      spriteID: ff3f60568a8d568429243a13f729c2da
+      internalID: 883621206
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Rockman_stage_22
+      rect:
+        serializedVersion: 2
+        x: 26
+        y: 62
+        width: 26
+        height: 26
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape:
+      - - {x: -13, y: 13}
+        - {x: -13, y: -13}
+        - {x: 13, y: -13}
+        - {x: 13, y: 13}
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0c86660e980f095468442ca0bc7acb1d
+      internalID: -551444388
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    nameFileIdTable:
+      Rockman_stage_0: 574920010
+      Rockman_stage_1: -416650286
+      Rockman_stage_10: 2132045870
+      Rockman_stage_11: 408536709
+      Rockman_stage_12: -1875177516
+      Rockman_stage_13: 1644112681
+      Rockman_stage_14: -1397129085
+      Rockman_stage_15: -297031010
+      Rockman_stage_16: 1277912647
+      Rockman_stage_17: -52486917
+      Rockman_stage_18: 1594207834
+      Rockman_stage_19: -1067872252
+      Rockman_stage_2: 1320578665
+      Rockman_stage_20: 2030130907
+      Rockman_stage_21: 883621206
+      Rockman_stage_22: 1201660673
+      Rockman_stage_3: -402911880
+      Rockman_stage_4: 890915961
+      Rockman_stage_5: 49067952
+      Rockman_stage_6: 1293895854
+      Rockman_stage_7: -1065221658
+      Rockman_stage_8: -2113533735
+      Rockman_stage_9: 912900426
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
