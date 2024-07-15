@@ -37,7 +37,7 @@ public class Player : CharacterObject
 
         public override void Update(Player player)
         {
-            if (Input.GetKey(KeyCode.LeftArrow))
+            if (InputManager.Instance.GetInput(InputManager.InputType.Left))
             {
                 player.stateMachine.TransitState(player, 2);
             }
@@ -63,7 +63,7 @@ public class Player : CharacterObject
             }
 
 
-            if (Input.GetKeyDown(KeyCode.Space))
+            if (InputManager.Instance.GetInput(InputManager.InputType.Jump))
             {
                 player.stateMachine.TransitState(player, 4);
             }
