@@ -41,19 +41,19 @@ public class Player : CharacterObject
             {
                 player.stateMachine.TransitState(player, 2);
             }
-            else if (Input.GetKey(KeyCode.RightArrow))
+            else if (InputManager.Instance.GetInput(InputManager.InputType.Right))
             {
                 player.stateMachine.TransitState(player, 2);
             }
 
-            if (player.bodyLadder != null && Input.GetKey(KeyCode.UpArrow))
+            if (player.bodyLadder != null && InputManager.Instance.GetInput(InputManager.InputType.Up))
             {
                 Vector2 pos = player.exRb.position;
                 pos.y += 0.1f;
                 player.exRb.SetPosition(pos);
                 player.stateMachine.TransitState(player, 3);
             }
-            else if (player.onTheGround.GroundHit && Input.GetKey(KeyCode.DownArrow))
+            else if (player.onTheGround.GroundHit && InputManager.Instance.GetInput(InputManager.InputType.Down))
             {
                 if (player.onTheGround.GroundHit.collider.gameObject.CompareTag("Ladder"))
                 {
@@ -104,7 +104,7 @@ public class Player : CharacterObject
                 player.stateMachine.TransitState(player, 0);
             }
 
-            if (player.bodyLadder != null && Input.GetKey(KeyCode.UpArrow))
+            if (player.bodyLadder != null && InputManager.Instance.GetInput(InputManager.InputType.Up))
             {
                 player.stateMachine.TransitState(player, 3);
             }
@@ -149,7 +149,7 @@ public class Player : CharacterObject
 
         public override void Update(Player player)
         {
-            if (!Input.GetKey(KeyCode.LeftArrow) && !Input.GetKey(KeyCode.RightArrow))
+            if (!InputManager.Instance.GetInput(InputManager.InputType.Left) && !InputManager.Instance.GetInput(InputManager.InputType.Right))
             {
                 player.stateMachine.TransitState(player, 0);
             }
@@ -258,17 +258,17 @@ public class Player : CharacterObject
             }
 
             player.isladderTop = player.transform.position.y > player.bodyLadder.bounds.max.y;
-            if (player.isladderTop && Input.GetKey(KeyCode.UpArrow))
+            if (player.isladderTop && InputManager.Instance.GetInput(InputManager.InputType.Up))
             {
                 player.stateMachine.TransitState(player, 5);
             }
-            else if (Input.GetKey(KeyCode.DownArrow))
+            else if (InputManager.Instance.GetInput(InputManager.InputType.Down))
             {
                 player.animator.speed = 1;
                 input= InputType.Down;
 
             }
-            else if (Input.GetKey(KeyCode.UpArrow))
+            else if (InputManager.Instance.GetInput(InputManager.InputType.Up))
             {
                 player.animator.speed = 1;
                 input = InputType.Up;
