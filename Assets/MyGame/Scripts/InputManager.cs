@@ -55,13 +55,11 @@ public class InputManager : SingletonComponent<InputManager>
         if (vector.y < 0)OnInputBit(InputType.Down);
         else OffInputBit(InputType.Down);
 
-        Debug.Log(inputBitFlag);
     }
 
     void OffMove(InputAction.CallbackContext context)
     {
         OffInputBit(InputType.UpDownRightLeft);
-        Debug.Log(inputBitFlag);
     }
 
     void OnJump(InputAction.CallbackContext context)
