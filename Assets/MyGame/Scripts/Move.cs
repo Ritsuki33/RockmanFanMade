@@ -19,22 +19,13 @@ public class Move : MonoBehaviour, IHitEvent
     Rigidbody2D rb;
 
     Vector2 velocity;
-    enum Direction
-    {
-        Left,
-        Right
-    }
 
-    enum InputType
+    public enum InputType
     {
         None,
         Left,
         Right
     }
-
-    Direction direction;
-    InputType input;
-
 
     RaycastHit2D leftHit;
     RaycastHit2D rightHit;
@@ -44,7 +35,7 @@ public class Move : MonoBehaviour, IHitEvent
         physicalLayer = Physics2D.GetLayerCollisionMask(this.gameObject.layer);
     }
 
-    public Vector2 GetVelocity(Vector2 dir)
+    public Vector2 GetVelocity(Vector2 dir,InputType input)
     {
         dir = (((dir.x > 0) ? 1 : -1) * dir);
       
@@ -57,14 +48,12 @@ public class Move : MonoBehaviour, IHitEvent
                 if (!leftHit)
                 {
                     velocity = dir * -speed;
-                    direction = Direction.Left;
                 }
                 break;
             case InputType.Right:
                 if (!rightHit)
                 {
                     velocity = dir * speed;
-                    direction = Direction.Right;
                 }
                 break;
             default:
@@ -75,21 +64,21 @@ public class Move : MonoBehaviour, IHitEvent
         return velocity;
     }
 
-    private void Update()
-    {
-        if (Input.GetKey(KeyCode.LeftArrow))
-        {
-            input = InputType.Left;
-        }
-        else if (Input.GetKey(KeyCode.RightArrow))
-        {
-            input = InputType.Right;
-        }
-        else
-        {
-            input = InputType.None;
-        }
-    }
+    //private void Update()
+    //{
+    //    if (Input.GetKey(KeyCode.LeftArrow))
+    //    {
+    //        input = InputType.Left;
+    //    }
+    //    else if (Input.GetKey(KeyCode.RightArrow))
+    //    {
+    //        input = InputType.Right;
+    //    }
+    //    else
+    //    {
+    //        input = InputType.None;
+    //    }
+    //}
 
 
     public void OnRightHitStay(RaycastHit2D hit) {

@@ -4,25 +4,40 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Interactions;
 
-public class InputManager : SingletonComponent<InputManager>
+public enum InputType
+{
+    Up = 1,
+    Down = 2,
+    Left = 4,
+    Right = 8,
+    UpLeft = Up | Left,
+    URight = Up | Right,
+    DownLeft = Down | Left,
+    DownRight = Down | Right,
+    UpDownRightLeft = Up | Down | Right | Left,
+    Jump = 16,
+}
+public interface IInput
+{
+    bool GetInput(InputType type);
+}
+
+public class DummyInput: IInput
+{
+    public bool GetInput(InputType type)
+    {
+        return false;
+    }
+}
+
+public class InputManager : SingletonComponent<InputManager>, IInput
 {
     PlayerInput playerInput;
 
-    public enum InputType
-    {
-        Up = 1,
-        Down = 2,
-        Left = 4,
-        Right = 8,
-        UpLeft = Up | Left,
-        URight = Up | Right,
-        DownLeft = Down | Left,
-        DownRight = Down | Right,
-        UpDownRightLeft = Up | Down | Right | Left,
-        Jump = 16,
-    }
-
     int inputBitFlag = 0;
+
+    public int InputBitFlag { get; set; }
+
     protected override void Awake()
     {
         base.Awake();
@@ -50,9 +65,9 @@ public class InputManager : SingletonComponent<InputManager>
         if (vector.x < 0) OnInputBit(InputType.Left);
         else OffInputBit(InputType.Left);
 
-        if (vector.y > 0)OnInputBit(InputType.Up);
+        if (vector.y > 0) OnInputBit(InputType.Up);
         else OffInputBit(InputType.Up);
-        if (vector.y < 0)OnInputBit(InputType.Down);
+        if (vector.y < 0) OnInputBit(InputType.Down);
         else OffInputBit(InputType.Down);
 
     }
@@ -71,7 +86,7 @@ public class InputManager : SingletonComponent<InputManager>
     {
         OffInputBit(InputType.Jump);
     }
-     
+
     /// <summary>
     /// ƒrƒbƒg‚ð‚P‚É‚·‚é
     /// </summary>
