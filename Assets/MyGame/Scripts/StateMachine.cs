@@ -41,6 +41,17 @@ public class StateMachine<T> where T : MonoBehaviour
 
     int preId = -1;
     int curId = -1;
+
+    /// <summary>
+    /// 前ステートのID
+    /// </summary>
+    public int PreStateID => preId;
+
+    /// <summary>
+    /// 現在ステートのID
+    /// </summary>
+    public int CurrentStateID => curId;
+
     public void AddState(int id, State<T> state)
     {
         states.Add(id, state);
@@ -67,6 +78,7 @@ public class StateMachine<T> where T : MonoBehaviour
                 // 出口処理
                 curState?.Exit(obj);
                 curState = nextState;
+                nextState = null;
                 // 入口処理
                 curState?.Enter(preId, obj);
             }
@@ -76,7 +88,7 @@ public class StateMachine<T> where T : MonoBehaviour
                 {
                     obj.StopCoroutine(coroutine);
                 }
-                coroutine = obj.StartCoroutine(TransitStateCoroutine(obj, nextState));
+                coroutine = obj.StartCoroutine(TransitStateCoroutine(obj));
             }
         }
     }
@@ -92,12 +104,13 @@ public class StateMachine<T> where T : MonoBehaviour
         this.reset = reset;
     }
 
-    IEnumerator TransitStateCoroutine(T obj,State<T> nextState)
+    IEnumerator TransitStateCoroutine(T obj)
     {
         // 出口処理
         if (curState != null) yield return curState.ExitCoroutine(obj);
 
         curState = nextState;
+        nextState = null;
 
         // 入口処理
         yield return curState.EnterCoroutine(obj);

@@ -13,6 +13,9 @@ public class Player : CharacterObject
     Collider2D bodyLadder = null;
     bool isladderTop = false;
 
+    InputInfo inputInfo;
+    bool isUpdate = true;
+
     class Idle : State<Player>
     {
         int animationHash = 0;
@@ -26,7 +29,11 @@ public class Player : CharacterObject
         public override void FixedUpdate(Player player)
         {
             player.AddVelocity(player.gravity.GetVelocity());
-            Vector2 moveV = player.move.GetVelocity(player.onTheGround.GroundHit.normal.Verticalize());
+            Move.InputType type = default;
+            if (player.inputInfo.left == true) type = Move.InputType.Left;
+            else if (player.inputInfo.right == true) type = Move.InputType.Right;
+
+            Vector2 moveV = player.move.GetVelocity(player.onTheGround.GroundHit.normal.Verticalize(), type);
 
             var hitCheck = player.onTheGround.Check();
             if (!hitCheck)
@@ -37,23 +44,23 @@ public class Player : CharacterObject
 
         public override void Update(Player player)
         {
-            if (Input.GetKey(KeyCode.LeftArrow))
+            if (player.inputInfo.left)
             {
                 player.stateMachine.TransitState(player, 2);
             }
-            else if (Input.GetKey(KeyCode.RightArrow))
+            else if (player.inputInfo.right)
             {
                 player.stateMachine.TransitState(player, 2);
             }
 
-            if (player.bodyLadder != null && Input.GetKey(KeyCode.UpArrow))
+            if (player.bodyLadder != null && player.inputInfo.up)
             {
                 Vector2 pos = player.exRb.position;
                 pos.y += 0.1f;
                 player.exRb.SetPosition(pos);
                 player.stateMachine.TransitState(player, 3);
             }
-            else if (player.onTheGround.GroundHit && Input.GetKey(KeyCode.DownArrow))
+            else if (player.onTheGround.GroundHit && player.inputInfo.down)
             {
                 if (player.onTheGround.GroundHit.collider.gameObject.CompareTag("Ladder"))
                 {
@@ -63,7 +70,7 @@ public class Player : CharacterObject
             }
 
 
-            if (Input.GetKeyDown(KeyCode.Space))
+            if (player.inputInfo.jump)
             {
                 player.stateMachine.TransitState(player, 4);
             }
@@ -84,7 +91,11 @@ public class Player : CharacterObject
         public override void FixedUpdate(Player player)
         {
             player.AddVelocity(player.gravity.GetVelocity());
-            Vector2 moveV = player.move.GetVelocity(Vector2.right);
+            Move.InputType type = default;
+            if (player.inputInfo.left == true) type = Move.InputType.Left;
+            else if (player.inputInfo.right == true) type = Move.InputType.Right;
+
+            Vector2 moveV = player.move.GetVelocity(Vector2.right, type);
             player.AddVelocity(moveV);
 
             if (moveV.x > 0)
@@ -104,10 +115,11 @@ public class Player : CharacterObject
                 player.stateMachine.TransitState(player, 0);
             }
 
-            if (player.bodyLadder != null && Input.GetKey(KeyCode.UpArrow))
+            if (player.bodyLadder != null && player.inputInfo.up)
             {
-                player.stateMachine.TransitState(player, 3);
+                player.stateMachine.TransitState(player, 3); 
             }
+
         }
     }
 
@@ -124,7 +136,11 @@ public class Player : CharacterObject
         public override void FixedUpdate(Player player)
         {
             //player.AddVelocity(player.gravity.GetVelocity());
-            Vector2 moveV = player.move.GetVelocity(player.onTheGround.GroundHit.normal.Verticalize());
+            Move.InputType type = default;
+            if (player.inputInfo.left == true) type = Move.InputType.Left;
+            else if (player.inputInfo.right == true) type = Move.InputType.Right;
+
+            Vector2 moveV = player.move.GetVelocity(player.onTheGround.GroundHit.normal.Verticalize(), type);
             player.AddVelocity(moveV);
 
             if (moveV.x > 0)
@@ -149,11 +165,11 @@ public class Player : CharacterObject
 
         public override void Update(Player player)
         {
-            if (!Input.GetKey(KeyCode.LeftArrow) && !Input.GetKey(KeyCode.RightArrow))
+            if (!player.inputInfo.left && !player.inputInfo.right)
             {
                 player.stateMachine.TransitState(player, 0);
             }
-            else if (Input.GetKeyDown(KeyCode.Space))
+            else if (player.inputInfo.jump)
             {
                 player.stateMachine.TransitState(player, 4);
             }
@@ -173,7 +189,12 @@ public class Player : CharacterObject
 
         public override void FixedUpdate(Player player)
         {
-            Vector2 moveV = player.move.GetVelocity(Vector2.right);
+            Move.InputType type = default;
+            if (player.inputInfo.left == true) type = Move.InputType.Left;
+            else if (player.inputInfo.right == true) type = Move.InputType.Right;
+
+            Vector2 moveV = player.move.GetVelocity(player.onTheGround.GroundHit.normal.Verticalize(), type);
+
             player.AddVelocity(moveV);
 
             if (moveV.x > 0)
@@ -204,13 +225,13 @@ public class Player : CharacterObject
         int animationHash = 0;
         public Climb() { animationHash = Animator.StringToHash("Climb"); }
 
-        enum InputType
+        enum Dir
         {
             Up,
             Down,
             None
         }
-        InputType input = InputType.None;
+        Dir input = Dir.None;
         public override void Enter(int preId, Player player)
         {
             player.animator.Play(animationHash);
@@ -227,13 +248,13 @@ public class Player : CharacterObject
         {
             switch (input)
             {
-                case InputType.Up:
+                case Dir.Up:
                 player.AddVelocity(new Vector2(0, 5));
                     break;
-                case InputType.Down:
+                case Dir.Down:
                 player.AddVelocity(new Vector2(0, -5));
                     break;
-                case InputType.None:
+                case Dir.None:
                     break;
                 default:
                     break;
@@ -258,24 +279,24 @@ public class Player : CharacterObject
             }
 
             player.isladderTop = player.transform.position.y > player.bodyLadder.bounds.max.y;
-            if (player.isladderTop && Input.GetKey(KeyCode.UpArrow))
+            if (player.isladderTop && player.inputInfo.up)
             {
                 player.stateMachine.TransitState(player, 5);
             }
-            else if (Input.GetKey(KeyCode.DownArrow))
+            else if (player.inputInfo.down)
             {
                 player.animator.speed = 1;
-                input= InputType.Down;
+                input= Dir.Down;
 
             }
-            else if (Input.GetKey(KeyCode.UpArrow))
+            else if (player.inputInfo.up)
             {
                 player.animator.speed = 1;
-                input = InputType.Up;
+                input = Dir.Up;
             }
             else
             {
-                input= InputType.None;
+                input= Dir.None;
                 player.animator.speed = 0;
             }
         }
@@ -332,6 +353,9 @@ public class Player : CharacterObject
             }
         }
     }
+
+    class Pause : State<Player> { }
+
     protected override void OnAwake()
     {
         gravity = GetComponent<Gravity>();
@@ -351,17 +375,39 @@ public class Player : CharacterObject
         stateMachine.AddState(4, new Jumping());
         stateMachine.AddState(5, new ClimbUp());
         stateMachine.AddState(6, new ClimbDown());
+        stateMachine.AddState(7, new Pause());
         stateMachine.TransitState(this, 1);
     }
 
     protected override void OnFixedUpdate()
     {
-        stateMachine.FixedUpdate(this);
+        if(isUpdate) stateMachine.FixedUpdate(this);
     }
 
     private void Update()
     {
-        stateMachine.Update(this);
+        if(isUpdate)stateMachine.Update(this);
+    }
+
+    public void UpdateInput(InputInfo input)
+    {
+        inputInfo = input;
+    }
+
+    /// <summary>
+    /// プレイヤーのポーズ
+    /// </summary>
+    public void PlayerPause()
+    {
+        isUpdate = false;
+    }
+
+    /// <summary>
+    /// プレイヤーのポーズキャンセル（一つ前の状態に戻す）
+    /// </summary>
+    public void PlayerPuaseCancel()
+    {
+        isUpdate = true;
     }
 
     private void OnTriggerStay2D(Collider2D collision)
