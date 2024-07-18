@@ -20,6 +20,7 @@ public class ExpandRigidBody : MonoBehaviour
         Right,
         Center
     }
+    [SerializeField] Rigidbody2D rb;
 
     [SerializeField] Vector2 physicalOffset = new Vector2(0.05f, 0.05f);
     [SerializeField] float physicalGap = 0.005f;
@@ -30,7 +31,6 @@ public class ExpandRigidBody : MonoBehaviour
     [SerializeField, Range(0, 1)] float ratio_y = 1.0f;
 
     [SerializeField] LayerMask throughFloorLayer = default;
-    Rigidbody2D rb;
     BoxCollider2D boxCollider = null;
     LayerMask physicalLayer = default;
 
@@ -45,6 +45,8 @@ public class ExpandRigidBody : MonoBehaviour
     Vector2 boxColliderSize => ((boxCollider != null) ? boxCollider.size : Vector2.zero);
 
     public Vector2 position => BoxColliderCenter;
+
+    public Vector2 velocity { get { return rb.velocity; } set { rb.velocity = value; } }
 
     /// <summary>
     /// コライダー各4辺の中心
@@ -159,22 +161,17 @@ public class ExpandRigidBody : MonoBehaviour
 
     bool isCollideThroughFloorBottom = false;
 
-    Vector2 currentVelocity;
-
-    Vector2 currentMovement => currentVelocity * Time.fixedDeltaTime;
+    Vector2 CurrentMovement => this.rb.velocity * Time.fixedDeltaTime;
     private void Awake()
     {
-        rb = GetComponent<Rigidbody2D>();
         boxCollider = GetComponent<BoxCollider2D>();
         physicalLayer = Physics2D.GetLayerCollisionMask(boxCollider.gameObject.layer);
     }
 
-    public Vector2 CorrectVelocity(Vector2 curVelocity)
+    public void CorrectVelocity()
     {
-        currentVelocity = curVelocity;
-        PhysicalVelocityCorrect();
-        ThroughFloorVelocityCorrect();
-        return currentVelocity;
+        PhysicalVelocityCorrect(this.rb.velocity);
+        ThroughFloorVelocityCorrect(this.rb.velocity);
     }
 
     /// <summary>
@@ -203,19 +200,33 @@ public class ExpandRigidBody : MonoBehaviour
         }
     }
 
+    private void FixedUpdate()
+    {
+        CorrectVelocity();
+    }
+
     public void SetPosition(Vector2 pos)
     {
         BoxColliderCenter = pos;
     }
 
-    private void PhysicalVelocityCorrect()
+    /// <summary>
+    /// リジッドボディへの速度付加
+    /// </summary>
+    /// <param name="velocity"></param>
+    protected void AddVelocity(Vector2 velocity)
+    {
+        rb.velocity += velocity;
+    }
+
+    private void PhysicalVelocityCorrect(Vector2 currentVelocity)
     {
         topHit = Physics2D.BoxCast(
             VirtualTopColliderCenter
             , VerticalCheckHitSize
             , 0
             , Vector2.up
-            , Top - VirtualTopColliderCenter.y + ((currentMovement.y > 0) ? Mathf.Abs(currentMovement.y) : 0)
+            , Top - VirtualTopColliderCenter.y + ((CurrentMovement.y > 0) ? Mathf.Abs(CurrentMovement.y) : 0)
             , physicalLayer);
 
 
@@ -224,7 +235,7 @@ public class ExpandRigidBody : MonoBehaviour
             , VerticalCheckHitSize
             , 0
             , Vector2.down
-            , VirtualBottomColliderCenter.y - Bottom + ((currentMovement.y < 0) ? Mathf.Abs(currentMovement.y) : 0)
+            , VirtualBottomColliderCenter.y - Bottom + ((CurrentMovement.y < 0) ? Mathf.Abs(CurrentMovement.y) : 0)
             , physicalLayer);
 
 
@@ -233,7 +244,7 @@ public class ExpandRigidBody : MonoBehaviour
             , HorizenCheckHitSize
             , 0
             , Vector2.right
-            , Right - VirtualRigthColliderCenter.x + ((currentMovement.x > 0) ? Mathf.Abs(currentMovement.x) : 0)
+            , Right - VirtualRigthColliderCenter.x + ((CurrentMovement.x > 0) ? Mathf.Abs(CurrentMovement.x) : 0)
             , physicalLayer);
 
 
@@ -242,7 +253,7 @@ public class ExpandRigidBody : MonoBehaviour
             , HorizenCheckHitSize
             , 0
             , Vector2.left
-            , VirtualLeftColliderCenter.x - Left + ((currentMovement.x < 0) ? Mathf.Abs(currentMovement.x) : 0)
+            , VirtualLeftColliderCenter.x - Left + ((CurrentMovement.x < 0) ? Mathf.Abs(CurrentMovement.x) : 0)
             , physicalLayer);
 
 
@@ -309,17 +320,19 @@ public class ExpandRigidBody : MonoBehaviour
             if (isCollideRight) onHitRightExit?.Invoke(rightHit);
             isCollideRight = false;
         }
+
+        this.rb.velocity = currentVelocity;
     }
     
     
-    private void ThroughFloorVelocityCorrect()
+    private void ThroughFloorVelocityCorrect(Vector2 currentVelocity)
     {
         bottomHit = Physics2D.BoxCast(
            VirtualBottomColliderCenter
            , VerticalCheckHitSize
            , 0
            , Vector2.down
-           , VirtualBottomColliderCenter.y - Bottom + ((currentMovement.y < 0) ? Mathf.Abs(currentMovement.y) : 0)
+           , VirtualBottomColliderCenter.y - Bottom + ((CurrentMovement.y < 0) ? Mathf.Abs(CurrentMovement.y) : 0)
            , throughFloorLayer);
 
         if (bottomHit)
@@ -346,8 +359,10 @@ public class ExpandRigidBody : MonoBehaviour
             if (isCollideThroughFloorBottom) onHitBottomExit?.Invoke(bottomHit);
             isCollideThroughFloorBottom = false;
         }
+
+        this.rb.velocity = currentVelocity;
     }
-    
+
     public void RemoveThroughFloorLayer(int excludeLayer)
     {
         int layerMaskToExclude = 1 << excludeLayer;
@@ -359,6 +374,23 @@ public class ExpandRigidBody : MonoBehaviour
         int layerMaskToExclude = 1 << addLayer;
         throughFloorLayer = throughFloorLayer | layerMaskToExclude;
     }
+
+    /// <summary>
+    /// 上下左右ヒット時のコールバック登録
+    /// </summary>
+    /// <param name="createVelocity"></param>
+    public void AddOnHitEventCallback(IHitEvent createVelocity)
+    {
+        onHitBottomStay += createVelocity.OnBottomHitStay;
+        onHitTopStay += createVelocity.OnTopHitStay;
+        onHitLeftStay += createVelocity.OnLeftHitStay;
+        onHitRightStay += createVelocity.OnRightHitStay;
+        onHitBottomExit += createVelocity.OnBottomHitExit;
+        onHitTopExit += createVelocity.OnTopHitExit;
+        onHitRightExit += createVelocity.OnRightHitExit;
+        onHitLeftExit += createVelocity.OnLeftHitExit;
+    }
+
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
@@ -386,23 +418,23 @@ public class ExpandRigidBody : MonoBehaviour
         if (leftHit) { Gizmos.DrawSphere(leftHit.point, 0.05f); }
         Gizmos.color = Color.red;
 
-        Vector2 topCheckCenter = new Vector2(BoxColliderCenter.x, BoxColliderCenter.y + VirtualSize.y / 2 + (Top - (BoxColliderCenter.y + VirtualSize.y / 2)) / 2 + ((currentMovement.y > 0) ? currentMovement.y / 2 : 0));
-        Vector2 topCheckSize = new Vector2(CheckSize.x, Top - (BoxColliderCenter.y + VirtualSize.y / 2) + ((currentMovement.y > 0) ? currentMovement.y : 0));
+        Vector2 topCheckCenter = new Vector2(BoxColliderCenter.x, BoxColliderCenter.y + VirtualSize.y / 2 + (Top - (BoxColliderCenter.y + VirtualSize.y / 2)) / 2 + ((CurrentMovement.y > 0) ? CurrentMovement.y / 2 : 0));
+        Vector2 topCheckSize = new Vector2(CheckSize.x, Top - (BoxColliderCenter.y + VirtualSize.y / 2) + ((CurrentMovement.y > 0) ? CurrentMovement.y : 0));
         Gizmos.DrawWireCube(topCheckCenter, topCheckSize);
 
-        Vector2 bottomCheckCenter = new Vector2(BoxColliderCenter.x, BoxColliderCenter.y - VirtualSize.y / 2 + (Bottom - (BoxColliderCenter.y - VirtualSize.y / 2)) / 2 + ((currentMovement.y < 0) ? currentMovement.y / 2 : 0));
-        Vector2 bottomCheckSize = new Vector2(CheckSize.x, Bottom - (BoxColliderCenter.y - VirtualSize.y / 2) + ((currentMovement.y < 0) ? currentMovement.y : 0));
+        Vector2 bottomCheckCenter = new Vector2(BoxColliderCenter.x, BoxColliderCenter.y - VirtualSize.y / 2 + (Bottom - (BoxColliderCenter.y - VirtualSize.y / 2)) / 2 + ((CurrentMovement.y < 0) ? CurrentMovement.y / 2 : 0));
+        Vector2 bottomCheckSize = new Vector2(CheckSize.x, Bottom - (BoxColliderCenter.y - VirtualSize.y / 2) + ((CurrentMovement.y < 0) ? CurrentMovement.y : 0));
         Gizmos.DrawWireCube(bottomCheckCenter, bottomCheckSize);
 
 
         Gizmos.color = Color.blue;
 
-        Vector2 leftCheckCenter = new Vector2(BoxColliderCenter.x - VirtualSize.x / 2 + (Left - (BoxColliderCenter.x - VirtualSize.x / 2)) / 2 + ((currentMovement.x < 0) ? currentMovement.x / 2 : 0), BoxColliderCenter.y);
-        Vector2 leftCheckSize = new Vector2(Left - (BoxColliderCenter.x - VirtualSize.x / 2) + ((currentMovement.x < 0) ? currentMovement.x : 0), CheckSize.y);
+        Vector2 leftCheckCenter = new Vector2(BoxColliderCenter.x - VirtualSize.x / 2 + (Left - (BoxColliderCenter.x - VirtualSize.x / 2)) / 2 + ((CurrentMovement.x < 0) ? CurrentMovement.x / 2 : 0), BoxColliderCenter.y);
+        Vector2 leftCheckSize = new Vector2(Left - (BoxColliderCenter.x - VirtualSize.x / 2) + ((CurrentMovement.x < 0) ? CurrentMovement.x : 0), CheckSize.y);
         Gizmos.DrawWireCube(leftCheckCenter, leftCheckSize);
 
-        Vector2 rightCheckCenter = new Vector2(BoxColliderCenter.x + VirtualSize.x / 2 + (Right - (BoxColliderCenter.x + VirtualSize.x / 2)) / 2 + ((currentMovement.x < 0) ? currentMovement.x / 2 : 0), BoxColliderCenter.y);
-        Vector2 rightCheckSize = new Vector2(Right - (BoxColliderCenter.x + VirtualSize.x / 2) + ((currentMovement.x > 0) ? currentMovement.x : 0), CheckSize.y);
+        Vector2 rightCheckCenter = new Vector2(BoxColliderCenter.x + VirtualSize.x / 2 + (Right - (BoxColliderCenter.x + VirtualSize.x / 2)) / 2 + ((CurrentMovement.x < 0) ? CurrentMovement.x / 2 : 0), BoxColliderCenter.y);
+        Vector2 rightCheckSize = new Vector2(Right - (BoxColliderCenter.x + VirtualSize.x / 2) + ((CurrentMovement.x > 0) ? CurrentMovement.x : 0), CheckSize.y);
         Gizmos.DrawWireCube(rightCheckCenter, rightCheckSize);
     }
 }

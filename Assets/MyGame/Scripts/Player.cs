@@ -1,7 +1,8 @@
+using System.Collections;
 using UnityEngine;
 using static Player;
 
-public class Player : CharacterObject
+public class Player : MonoBehaviour
 {
     Gravity gravity;
     Move move;
@@ -15,6 +16,7 @@ public class Player : CharacterObject
 
     InputInfo inputInfo;
     bool isUpdate = true;
+    protected ExpandRigidBody exRb;
 
     class Idle : State<Player>
     {
@@ -28,12 +30,7 @@ public class Player : CharacterObject
 
         public override void FixedUpdate(Player player)
         {
-            player.AddVelocity(player.gravity.GetVelocity());
-            Move.InputType type = default;
-            if (player.inputInfo.left == true) type = Move.InputType.Left;
-            else if (player.inputInfo.right == true) type = Move.InputType.Right;
-
-            Vector2 moveV = player.move.GetVelocity(player.onTheGround.GroundHit.normal.Verticalize(), type);
+            player.exRb.velocity = player.gravity.GetVelocity();
 
             var hitCheck = player.onTheGround.Check();
             if (!hitCheck)
@@ -74,6 +71,11 @@ public class Player : CharacterObject
             {
                 player.stateMachine.TransitState(player, 4);
             }
+
+            if (player.inputInfo.fire)
+            {
+                player.stateMachine.TransitState(player, 7);
+            }
         }
     }
 
@@ -90,13 +92,13 @@ public class Player : CharacterObject
 
         public override void FixedUpdate(Player player)
         {
-            player.AddVelocity(player.gravity.GetVelocity());
+            player.exRb.velocity = player.gravity.GetVelocity();
             Move.InputType type = default;
             if (player.inputInfo.left == true) type = Move.InputType.Left;
             else if (player.inputInfo.right == true) type = Move.InputType.Right;
 
             Vector2 moveV = player.move.GetVelocity(Vector2.right, type);
-            player.AddVelocity(moveV);
+            player.exRb.velocity += moveV;
 
             if (moveV.x > 0)
             {
@@ -141,7 +143,7 @@ public class Player : CharacterObject
             else if (player.inputInfo.right == true) type = Move.InputType.Right;
 
             Vector2 moveV = player.move.GetVelocity(player.onTheGround.GroundHit.normal.Verticalize(), type);
-            player.AddVelocity(moveV);
+            player.exRb.velocity = moveV;
 
             if (moveV.x > 0)
             {
@@ -193,10 +195,9 @@ public class Player : CharacterObject
             if (player.inputInfo.left == true) type = Move.InputType.Left;
             else if (player.inputInfo.right == true) type = Move.InputType.Right;
 
-            Vector2 moveV = player.move.GetVelocity(player.onTheGround.GroundHit.normal.Verticalize(), type);
-
-            player.AddVelocity(moveV);
-
+            Vector2 moveV = player.move.GetVelocity(Vector2.right, type);
+            player.exRb.velocity = moveV;
+             
             if (moveV.x > 0)
             {
                 Vector3 localScale = player.transform.localScale;
@@ -211,12 +212,13 @@ public class Player : CharacterObject
             }
 
             Vector2 jumpSpeed = player.jump.GetVelocity();
-            player.AddVelocity(jumpSpeed);
+            player.exRb.velocity += jumpSpeed;
 
             if (jumpSpeed.sqrMagnitude <= 0.001f)
             {
                 player.stateMachine.TransitState(player, 1);
             }
+            Debug.Log(player.exRb.velocity);
         }
     }
 
@@ -249,10 +251,10 @@ public class Player : CharacterObject
             switch (input)
             {
                 case Dir.Up:
-                player.AddVelocity(new Vector2(0, 5));
+                    player.exRb.velocity = new Vector2(0, 5);
                     break;
                 case Dir.Down:
-                player.AddVelocity(new Vector2(0, -5));
+                    player.exRb.velocity = new Vector2(0, -5);
                     break;
                 case Dir.None:
                     break;
@@ -354,19 +356,34 @@ public class Player : CharacterObject
         }
     }
 
-    class Pause : State<Player> { }
+    class Fire : State<Player> {
 
-    protected override void OnAwake()
+        int animationHash = 0;
+        public Fire():base(false) { animationHash = Animator.StringToHash("Fire"); }
+
+        public override IEnumerator EnterCoroutine(Player player)
+        {
+            player.animator.Play(animationHash);
+
+            yield return new WaitForSeconds(0.15f);
+
+            player.stateMachine.TransitState(player, 0);
+        }
+
+    }
+
+    private void Awake()
     {
+        exRb = GetComponent<ExpandRigidBody>();
         gravity = GetComponent<Gravity>();
         move = GetComponent<Move>();
         onTheGround = GetComponent<OnTheGround>();
         animator = GetComponent<Animator>();
         jump=GetComponent<Jump>();
-        AddOnHitEventCallback(gravity);
-        AddOnHitEventCallback(move);
-        AddOnHitEventCallback(jump);
-        AddOnHitEventCallback(onTheGround);
+        exRb.AddOnHitEventCallback(gravity);
+        exRb.AddOnHitEventCallback(move);
+        exRb.AddOnHitEventCallback(jump);
+        exRb.AddOnHitEventCallback(onTheGround);
 
         stateMachine.AddState(0, new Idle());
         stateMachine.AddState(1, new Float());
@@ -375,11 +392,11 @@ public class Player : CharacterObject
         stateMachine.AddState(4, new Jumping());
         stateMachine.AddState(5, new ClimbUp());
         stateMachine.AddState(6, new ClimbDown());
-        stateMachine.AddState(7, new Pause());
+        stateMachine.AddState(7, new Fire());
         stateMachine.TransitState(this, 1);
     }
 
-    protected override void OnFixedUpdate()
+    private void FixedUpdate()
     {
         if(isUpdate) stateMachine.FixedUpdate(this);
     }
