@@ -1,18 +1,18 @@
 using Cinemachine;
 using System.Collections;
 using UnityEngine;
-using UnityEngine.Windows;
 
 public struct InputInfo
 {
-    public bool left, right, up, down, jump;
+    public bool left, right, up, down, jump, fire;
     public void SetInput(IInput input = null)
     {
         left = input.GetInput(InputType.Left);
         right = input.GetInput(InputType.Right);
         up = input.GetInput(InputType.Up);
         down = input.GetInput(InputType.Down);
-        jump = input.GetInput(InputType.Jump);
+        jump = input.GetInput(InputType.Cancel);
+        fire = input.GetInput(InputType.Decide);
     }
 }
 
