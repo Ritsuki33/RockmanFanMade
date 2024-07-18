@@ -22,7 +22,7 @@ public class Jump : MonoBehaviour, IHitEvent
 
         currentSpeed = Mathf.Clamp(currentSpeed, 0, speed);
 
-        return Vector2.up* currentSpeed;
+        return Vector2.up * currentSpeed;
     }
 
 

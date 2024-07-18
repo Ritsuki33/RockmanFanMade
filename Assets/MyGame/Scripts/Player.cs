@@ -218,7 +218,6 @@ public class Player : MonoBehaviour
             {
                 player.stateMachine.TransitState(player, 1);
             }
-            Debug.Log(player.exRb.velocity);
         }
     }
 
