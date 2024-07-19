@@ -1989,6 +1989,37 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &193906506
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 193906507}
+  m_Layer: 7
+  m_Name: Launcher
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &193906507
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 193906506}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.532, y: -0.094, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1836540445}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &264042288 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3077438752260732575, guid: 50db6328845417f428e76f577eadc620, type: 3}
@@ -2172,6 +2203,10 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: 25fd6647-3830-49ee-ad1c-8336488ca632
     m_ActionName: Player/Jump[/Keyboard/space]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 358e098a-c673-49e5-8c25-3e4f9f598102
+    m_ActionName: Player/Decide[/Keyboard/l]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
@@ -2216,6 +2251,7 @@ GameObject:
   - component: {fileID: 519420031}
   - component: {fileID: 519420029}
   - component: {fileID: 519420033}
+  - component: {fileID: 519420034}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -2331,6 +2367,21 @@ MonoBehaviour:
   m_CameraActivatedEvent:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &519420034
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 519420028}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db95e76cde70a7f4a934ce9e23dea2d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _camera: {fileID: 519420031}
+  m_cinemachineBrain: {fileID: 519420033}
+  outOfViewOffset: 0.13
 --- !u!1 &743065202
 GameObject:
   m_ObjectHideFlags: 0
@@ -2614,8 +2665,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9bcac297dbe2f124c9615c787b90c5c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_mainCamera: {fileID: 519420031}
-  m_cinemachineBrain: {fileID: 519420033}
+  m_mainCameraControll: {fileID: 519420034}
   player: {fileID: 1836540451}
 --- !u!4 &902695090
 Transform:
@@ -3101,7 +3151,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 5
-  m_Sprite: {fileID: 1951629975, guid: 30faac527e0178b4aae8034b9fadeb3b, type: 3}
+  m_Sprite: {fileID: -189820562, guid: 30faac527e0178b4aae8034b9fadeb3b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -3125,6 +3175,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 867832902}
+  - {fileID: 193906507}
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -3179,7 +3230,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1, y: 1}
+    oldSize: {x: 1.125, y: 1}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -3242,8 +3293,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e9389d2952f07143863749bbd49ce0c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  boxCollider: {fileID: 1836540448}
-  rb: {fileID: 0}
+  launcher: {fileID: 193906506}
+  rockBasterPrefab: {fileID: 9215056445613080431, guid: 3aa76ed7d8599b14d8ea3aac03793f44, type: 3}
 --- !u!95 &1836540452
 Animator:
   serializedVersion: 5
@@ -3295,6 +3346,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0de98cabf75ebf44f9e360d301c8bafa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  rb: {fileID: 1836540449}
   physicalOffset: {x: 0.02, y: 0.03}
   physicalGap: 0.005
   priority: 1

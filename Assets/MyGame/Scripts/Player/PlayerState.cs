@@ -1,21 +1,9 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
-using static Player;
 
-public class Player : CharacterObject
+public partial class Player
 {
-    Gravity gravity;
-    Move move;
-    OnTheGround onTheGround;
-    Animator animator;
-    Jump jump;
-    StateMachine<Player> stateMachine = new StateMachine<Player>();
-
-    Collider2D bodyLadder = null;
-    bool isladderTop = false;
-
-    InputInfo inputInfo;
-    bool isUpdate = true;
-
     class Idle : State<Player>
     {
         int animationHash = 0;
@@ -28,12 +16,7 @@ public class Player : CharacterObject
 
         public override void FixedUpdate(Player player)
         {
-            player.AddVelocity(player.gravity.GetVelocity());
-            Move.InputType type = default;
-            if (player.inputInfo.left == true) type = Move.InputType.Left;
-            else if (player.inputInfo.right == true) type = Move.InputType.Right;
-
-            Vector2 moveV = player.move.GetVelocity(player.onTheGround.GroundHit.normal.Verticalize(), type);
+            player.exRb.velocity = player.gravity.GetVelocity();
 
             var hitCheck = player.onTheGround.Check();
             if (!hitCheck)
@@ -74,6 +57,11 @@ public class Player : CharacterObject
             {
                 player.stateMachine.TransitState(player, 4);
             }
+
+            if (player.inputInfo.fire)
+            {
+                player.stateMachine.TransitState(player, 7);
+            }
         }
     }
 
@@ -90,13 +78,13 @@ public class Player : CharacterObject
 
         public override void FixedUpdate(Player player)
         {
-            player.AddVelocity(player.gravity.GetVelocity());
+            player.exRb.velocity = player.gravity.GetVelocity();
             Move.InputType type = default;
             if (player.inputInfo.left == true) type = Move.InputType.Left;
             else if (player.inputInfo.right == true) type = Move.InputType.Right;
 
             Vector2 moveV = player.move.GetVelocity(Vector2.right, type);
-            player.AddVelocity(moveV);
+            player.exRb.velocity += moveV;
 
             if (moveV.x > 0)
             {
@@ -117,7 +105,7 @@ public class Player : CharacterObject
 
             if (player.bodyLadder != null && player.inputInfo.up)
             {
-                player.stateMachine.TransitState(player, 3); 
+                player.stateMachine.TransitState(player, 3);
             }
 
         }
@@ -141,7 +129,7 @@ public class Player : CharacterObject
             else if (player.inputInfo.right == true) type = Move.InputType.Right;
 
             Vector2 moveV = player.move.GetVelocity(player.onTheGround.GroundHit.normal.Verticalize(), type);
-            player.AddVelocity(moveV);
+            player.exRb.velocity = moveV;
 
             if (moveV.x > 0)
             {
@@ -160,7 +148,7 @@ public class Player : CharacterObject
                 player.stateMachine.TransitState(player, 1);
             }
 
-         
+
         }
 
         public override void Update(Player player)
@@ -184,7 +172,7 @@ public class Player : CharacterObject
         public override void Enter(int preId, Player player)
         {
             player.animator.Play(animationHash);
-             player.jump.Init();
+            player.jump.Init();
         }
 
         public override void FixedUpdate(Player player)
@@ -193,9 +181,8 @@ public class Player : CharacterObject
             if (player.inputInfo.left == true) type = Move.InputType.Left;
             else if (player.inputInfo.right == true) type = Move.InputType.Right;
 
-            Vector2 moveV = player.move.GetVelocity(player.onTheGround.GroundHit.normal.Verticalize(), type);
-
-            player.AddVelocity(moveV);
+            Vector2 moveV = player.move.GetVelocity(Vector2.right, type);
+            player.exRb.velocity = moveV;
 
             if (moveV.x > 0)
             {
@@ -211,7 +198,7 @@ public class Player : CharacterObject
             }
 
             Vector2 jumpSpeed = player.jump.GetVelocity();
-            player.AddVelocity(jumpSpeed);
+            player.exRb.velocity += jumpSpeed;
 
             if (jumpSpeed.sqrMagnitude <= 0.001f)
             {
@@ -236,7 +223,7 @@ public class Player : CharacterObject
         {
             player.animator.Play(animationHash);
             player.animator.speed = 0;
-            Vector2 pos= player.exRb.BoxColliderCenter;
+            Vector2 pos = player.exRb.BoxColliderCenter;
             pos.x = player.bodyLadder.transform.position.x;
             player.exRb.SetPosition(pos);
 
@@ -249,10 +236,10 @@ public class Player : CharacterObject
             switch (input)
             {
                 case Dir.Up:
-                player.AddVelocity(new Vector2(0, 5));
+                    player.exRb.velocity = new Vector2(0, 5);
                     break;
                 case Dir.Down:
-                player.AddVelocity(new Vector2(0, -5));
+                    player.exRb.velocity = new Vector2(0, -5);
                     break;
                 case Dir.None:
                     break;
@@ -260,13 +247,13 @@ public class Player : CharacterObject
                     break;
             }
 
-       
+
         }
 
         public override void Update(Player player)
         {
 
-            if (player.bodyLadder==null)
+            if (player.bodyLadder == null)
             {
                 player.stateMachine.TransitState(player, 0);
                 return;
@@ -286,7 +273,7 @@ public class Player : CharacterObject
             else if (player.inputInfo.down)
             {
                 player.animator.speed = 1;
-                input= Dir.Down;
+                input = Dir.Down;
 
             }
             else if (player.inputInfo.up)
@@ -296,7 +283,7 @@ public class Player : CharacterObject
             }
             else
             {
-                input= Dir.None;
+                input = Dir.None;
                 player.animator.speed = 0;
             }
         }
@@ -354,76 +341,21 @@ public class Player : CharacterObject
         }
     }
 
-    class Pause : State<Player> { }
-
-    protected override void OnAwake()
+    class Fire : State<Player>
     {
-        gravity = GetComponent<Gravity>();
-        move = GetComponent<Move>();
-        onTheGround = GetComponent<OnTheGround>();
-        animator = GetComponent<Animator>();
-        jump=GetComponent<Jump>();
-        AddOnHitEventCallback(gravity);
-        AddOnHitEventCallback(move);
-        AddOnHitEventCallback(jump);
-        AddOnHitEventCallback(onTheGround);
 
-        stateMachine.AddState(0, new Idle());
-        stateMachine.AddState(1, new Float());
-        stateMachine.AddState(2, new Run());
-        stateMachine.AddState(3, new Climb());
-        stateMachine.AddState(4, new Jumping());
-        stateMachine.AddState(5, new ClimbUp());
-        stateMachine.AddState(6, new ClimbDown());
-        stateMachine.AddState(7, new Pause());
-        stateMachine.TransitState(this, 1);
-    }
+        int animationHash = 0;
+        public Fire() : base(false) { animationHash = Animator.StringToHash("Fire"); }
 
-    protected override void OnFixedUpdate()
-    {
-        if(isUpdate) stateMachine.FixedUpdate(this);
-    }
-
-    private void Update()
-    {
-        if(isUpdate)stateMachine.Update(this);
-    }
-
-    public void UpdateInput(InputInfo input)
-    {
-        inputInfo = input;
-    }
-
-    /// <summary>
-    /// プレイヤーのポーズ
-    /// </summary>
-    public void PlayerPause()
-    {
-        isUpdate = false;
-    }
-
-    /// <summary>
-    /// プレイヤーのポーズキャンセル（一つ前の状態に戻す）
-    /// </summary>
-    public void PlayerPuaseCancel()
-    {
-        isUpdate = true;
-    }
-
-    private void OnTriggerStay2D(Collider2D collision)
-    {
-        if (collision.gameObject.CompareTag("Ladder"))
+        public override IEnumerator EnterCoroutine(Player player)
         {
-            
-            bodyLadder = collision;
-        }
-    }
+            player.animator.Play(animationHash);
 
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-        if (collision.gameObject.CompareTag("Ladder"))
-        {
-            bodyLadder = null;
+            player.LaunchBaster();
+            yield return new WaitForSeconds(0.15f);
+
+            player.stateMachine.TransitState(player, 0);
         }
+
     }
 }

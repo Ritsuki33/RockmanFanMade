@@ -84,11 +84,13 @@ public class StateMachine<T> where T : MonoBehaviour
             }
             else
             {
+                var tmpNextState = nextState;
+                nextState = null;
                 if (coroutine != null)
                 {
                     obj.StopCoroutine(coroutine);
                 }
-                coroutine = obj.StartCoroutine(TransitStateCoroutine(obj));
+                coroutine = obj.StartCoroutine(TransitStateCoroutine(obj, tmpNextState));
             }
         }
     }
@@ -104,13 +106,12 @@ public class StateMachine<T> where T : MonoBehaviour
         this.reset = reset;
     }
 
-    IEnumerator TransitStateCoroutine(T obj)
+    IEnumerator TransitStateCoroutine(T obj,State<T> nextState)
     {
         // oŒûˆ—
         if (curState != null) yield return curState.ExitCoroutine(obj);
 
         curState = nextState;
-        nextState = null;
 
         // “üŒûˆ—
         yield return curState.EnterCoroutine(obj);

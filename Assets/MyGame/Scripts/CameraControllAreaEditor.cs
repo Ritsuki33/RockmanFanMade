@@ -1,14 +1,14 @@
 using UnityEditor;
 using UnityEngine;
 
-[CustomEditor(typeof(CameraControllArea2))]
+[CustomEditor(typeof(CameraControllArea))]
 public class CameraControllArea2Editor : Editor
 {
     public override void OnInspectorGUI()
     {
         base.OnInspectorGUI();
 
-        var cameraControllArea = target as CameraControllArea2;
+        var cameraControllArea = target as CameraControllArea;
         //ƒ{ƒ^ƒ“‚ð•\Ž¦
         if (GUILayout.Button("Create TransitCameraArea"))
         {

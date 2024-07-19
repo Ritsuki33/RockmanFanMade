@@ -7,14 +7,10 @@ public class TransitCameraArea : MonoBehaviour
 {
     [SerializeField] private CinemachineVirtualCamera m_nextVirtualCamera = default;
     [SerializeField] private BoxCollider2D transitArea;
-    CinemachineBrain m_cinemachineBrain;
 
 
     public BoxCollider2D TransitArea => transitArea;
-    private void Start()
-    {
-        m_cinemachineBrain = GameManager.Instance.CinemachineBrain;
-    }
+
 
     private void OnTriggerEnter2D(Collider2D collision)
     {

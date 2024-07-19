@@ -15,7 +15,8 @@ public enum InputType
     DownLeft = Down | Left,
     DownRight = Down | Right,
     UpDownRightLeft = Up | Down | Right | Left,
-    Jump = 16,
+    Cancel = 16,
+    Decide = 32,
 }
 public interface IInput
 {
@@ -45,10 +46,14 @@ public class InputManager : SingletonComponent<InputManager>, IInput
 
         playerInput.Player.Move.performed += OnMove;
         playerInput.Player.Move.canceled += OffMove;
-        playerInput.Player.Jump.performed += OnJump;
-        playerInput.Player.Jump.canceled += OffJump;
+        playerInput.Player.Cancel.performed += OnCancel;
+        playerInput.Player.Cancel.canceled += OffCancel;
         playerInput.Player.Move.Enable();
-        playerInput.Player.Jump.Enable();
+        playerInput.Player.Cancel.Enable();
+
+        playerInput.Player.Decide.performed += OnDecide;
+        playerInput.Player.Decide.canceled += OffDecide;
+        playerInput.Player.Decide.Enable();
     }
 
     public bool GetInput(InputType type)
@@ -77,14 +82,24 @@ public class InputManager : SingletonComponent<InputManager>, IInput
         OffInputBit(InputType.UpDownRightLeft);
     }
 
-    void OnJump(InputAction.CallbackContext context)
+    void OnCancel(InputAction.CallbackContext context)
     {
-        OnInputBit(InputType.Jump);
+        OnInputBit(InputType.Cancel);
     }
 
-    void OffJump(InputAction.CallbackContext context)
+    void OffCancel(InputAction.CallbackContext context)
     {
-        OffInputBit(InputType.Jump);
+        OffInputBit(InputType.Cancel);
+    }
+
+    void OnDecide(InputAction.CallbackContext context)
+    {
+        OnInputBit(InputType.Decide);
+    }
+
+    void OffDecide(InputAction.CallbackContext context)
+    {
+        OffInputBit(InputType.Decide);
     }
 
     /// <summary>
