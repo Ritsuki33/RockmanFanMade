@@ -34,6 +34,7 @@ public class ExpandRigidBody : MonoBehaviour
     BoxCollider2D boxCollider = null;
     LayerMask physicalLayer = default;
 
+    private Vector2 currentVelocity;
     /// <summary>
     /// コライダーの中心とサイズ
     /// </summary>
@@ -46,7 +47,7 @@ public class ExpandRigidBody : MonoBehaviour
 
     public Vector2 position => BoxColliderCenter;
 
-    public Vector2 velocity { get { return rb.velocity; } set { rb.velocity = value; } }
+    public Vector2 velocity { get { return currentVelocity; } set { currentVelocity = value; } }
 
     /// <summary>
     /// コライダー各4辺の中心
@@ -161,17 +162,11 @@ public class ExpandRigidBody : MonoBehaviour
 
     bool isCollideThroughFloorBottom = false;
 
-    Vector2 CurrentMovement => this.rb.velocity * Time.fixedDeltaTime;
+    Vector2 CurrentMovement => velocity * Time.fixedDeltaTime;
     private void Awake()
     {
         boxCollider = GetComponent<BoxCollider2D>();
         physicalLayer = Physics2D.GetLayerCollisionMask(boxCollider.gameObject.layer);
-    }
-
-    public void CorrectVelocity()
-    {
-        PhysicalVelocityCorrect(this.rb.velocity);
-        ThroughFloorVelocityCorrect(this.rb.velocity);
     }
 
     /// <summary>
@@ -203,6 +198,16 @@ public class ExpandRigidBody : MonoBehaviour
     private void FixedUpdate()
     {
         CorrectVelocity();
+
+        rb.velocity= currentVelocity;
+        currentVelocity = Vector2.zero;
+    }
+
+
+    public void CorrectVelocity()
+    {
+        PhysicalVelocityCorrect(currentVelocity);
+        ThroughFloorVelocityCorrect(currentVelocity);
     }
 
     public void SetPosition(Vector2 pos)
@@ -214,10 +219,10 @@ public class ExpandRigidBody : MonoBehaviour
     /// リジッドボディへの速度付加
     /// </summary>
     /// <param name="velocity"></param>
-    protected void AddVelocity(Vector2 velocity)
-    {
-        rb.velocity += velocity;
-    }
+    //protected void AddVelocity(Vector2 velocity)
+    //{
+    //    rb.velocity += velocity;
+    //}
 
     private void PhysicalVelocityCorrect(Vector2 currentVelocity)
     {
@@ -321,7 +326,7 @@ public class ExpandRigidBody : MonoBehaviour
             isCollideRight = false;
         }
 
-        this.rb.velocity = currentVelocity;
+        this.currentVelocity = currentVelocity;
     }
     
     
@@ -360,7 +365,7 @@ public class ExpandRigidBody : MonoBehaviour
             isCollideThroughFloorBottom = false;
         }
 
-        this.rb.velocity = currentVelocity;
+        this.currentVelocity = currentVelocity;
     }
 
     public void RemoveThroughFloorLayer(int excludeLayer)
