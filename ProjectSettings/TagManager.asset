@@ -22,8 +22,8 @@ TagManager:
   - CameraCollider
   - TransitCameraArea
   - PlayerTrigger
-  - 
-  - 
+  - Attack
+  - Ennemy
   - 
   - 
   - 

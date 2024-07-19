@@ -11,7 +11,7 @@ public class CinemachineLineLimit : CinemachineExtension
 
     private float _scrollRange = 0;
 
-    [SerializeField] CameraControllArea2 _controlArea;
+    [SerializeField] CameraControllArea _controlArea;
     protected override void Awake()
     {
         base.Awake();

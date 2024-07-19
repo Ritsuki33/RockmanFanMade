@@ -18,13 +18,11 @@ public struct InputInfo
 
 public class GameManager : SingletonComponent<GameManager>
 {
-    [SerializeField] Camera m_mainCamera = default;
-    [SerializeField] CinemachineBrain m_cinemachineBrain = default;
+    [SerializeField] MainCameraControll m_mainCameraControll = default;
 
     [SerializeField] Player player = default;
 
-    public Camera MainCamera => m_mainCamera;
-    public CinemachineBrain CinemachineBrain => m_cinemachineBrain;
+    public MainCameraControll MainCameraControll => m_mainCameraControll;
 
     public Player Player => player;
 
@@ -56,19 +54,19 @@ public class GameManager : SingletonComponent<GameManager>
 
     IEnumerator ChangeCameraCo(CinemachineVirtualCamera nextVirtualCamera)
     {
-        if (nextVirtualCamera.gameObject == m_cinemachineBrain.ActiveVirtualCamera.VirtualCameraGameObject) yield break;
-        m_cinemachineBrain.ActiveVirtualCamera.VirtualCameraGameObject.SetActive(false);
+        if (nextVirtualCamera.gameObject == m_mainCameraControll.CinemachineBrain.ActiveVirtualCamera.VirtualCameraGameObject) yield break;
+        m_mainCameraControll.CinemachineBrain.ActiveVirtualCamera.VirtualCameraGameObject.SetActive(false);
         nextVirtualCamera.gameObject.SetActive(true);
         // プレイヤーの動きを止める
         player.PlayerPause();
         // ブレンディングをスタートさせるため、次フレームまで待つ 
         yield return null;
-        Vector3 pre_cameraPos= m_cinemachineBrain.transform.position;
-        while (m_cinemachineBrain.IsBlending)
+        Vector3 pre_cameraPos= m_mainCameraControll.CinemachineBrain.transform.position;
+        while (m_mainCameraControll.CinemachineBrain.IsBlending)
         {
-            Vector3 delta = m_cinemachineBrain.transform.position - pre_cameraPos;
+            Vector3 delta = m_mainCameraControll.CinemachineBrain.transform.position - pre_cameraPos;
             player.transform.position += delta * 0.08f;
-            pre_cameraPos = m_cinemachineBrain.transform.position;
+            pre_cameraPos = m_mainCameraControll.CinemachineBrain.transform.position;
             yield return null;
         }
         player.PlayerPuaseCancel();
