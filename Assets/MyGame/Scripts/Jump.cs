@@ -9,8 +9,6 @@ public class Jump : MonoBehaviour, IHitEvent
 
     float currentSpeed = 0;
 
-    bool jumped = false;
-
     public void Init()
     {
         this.currentSpeed = speed;
