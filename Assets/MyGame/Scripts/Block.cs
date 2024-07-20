@@ -13,7 +13,10 @@ public class Block : MonoBehaviour
         {
             Destroy(this.gameObject);
             var explode = ExplodePool.Pool.Get();
+
             explode.transform.position = this.transform.position;
+            var rockBuster = collision.gameObject.GetComponent<RockBuster>();
+            rockBuster?.Erase();
         }
     }
 }

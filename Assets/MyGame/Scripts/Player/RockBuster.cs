@@ -20,7 +20,12 @@ public class RockBuster : ReusableObject<RockBuster>
 
         if (GameManager.Instance.MainCameraControll.CheckOutOfView(this.gameObject))
         {
-            Pool.Release(this);
+            Erase();
         }
+    }
+
+    public void Erase()
+    {
+        Pool.Release(this);
     }
 }
