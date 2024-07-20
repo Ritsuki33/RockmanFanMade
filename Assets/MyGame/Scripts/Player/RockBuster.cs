@@ -3,13 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Pool;
 
-public class RockBuster : MonoBehaviour
+public class RockBuster : ReusableObject<RockBuster>
 {
     [SerializeField] float speedRatio = 0.06f;
-
     private Vector2 direction = default;
-
-    public IObjectPool<RockBuster> Pool { get; set; }
 
     public void Init(Vector2 direction,Vector2 position)
     {

@@ -1998,6 +1998,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 193906507}
+  - component: {fileID: 193906508}
   m_Layer: 7
   m_Name: Launcher
   m_TagString: Untagged
@@ -2020,6 +2021,21 @@ Transform:
   m_Father: {fileID: 1836540445}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &193906508
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 193906506}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9565e044a9ac83f44aead6e7ee91c38f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  prefab: {fileID: 9215056445613080431, guid: 3aa76ed7d8599b14d8ea3aac03793f44, type: 3}
+  defaultCapacity: 10
+  maxSize: 10
 --- !u!4 &264042288 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3077438752260732575, guid: 50db6328845417f428e76f577eadc620, type: 3}
@@ -2326,7 +2342,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 519420028}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.77, z: -5}
+  m_LocalPosition: {x: -1.54, y: -0.3, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2749,7 +2765,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac0b09e7857660247b1477e93731de29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &1034719726
+--- !u!1 &949628380
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2757,43 +2773,29 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 1034719727}
-  - component: {fileID: 1034719728}
-  m_Layer: 7
-  m_Name: RockBusterPool
+  - component: {fileID: 949628381}
+  m_Layer: 0
+  m_Name: GameObject
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &1034719727
+--- !u!4 &949628381
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1034719726}
+  m_GameObject: {fileID: 949628380}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 66.03275, y: -0.5565027, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1836540445}
-  m_RootOrder: -1
+  m_Father: {fileID: 0}
+  m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1034719728
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1034719726}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9565e044a9ac83f44aead6e7ee91c38f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  rockBusterPrefab: {fileID: 9215056445613080431, guid: 3aa76ed7d8599b14d8ea3aac03793f44, type: 3}
 --- !u!1 &1335048722
 GameObject:
   m_ObjectHideFlags: 0
@@ -3221,7 +3223,6 @@ Transform:
   m_Children:
   - {fileID: 867832902}
   - {fileID: 193906507}
-  - {fileID: 1034719727}
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -3341,7 +3342,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   launcher: {fileID: 193906506}
   rockBasterPrefab: {fileID: 9215056445613080431, guid: 3aa76ed7d8599b14d8ea3aac03793f44, type: 3}
-  rockBusterPool: {fileID: 1034719728}
+  rockBusterPool: {fileID: 193906508}
 --- !u!95 &1836540452
 Animator:
   serializedVersion: 5
@@ -3820,15 +3821,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4661674441792234916, guid: 50db6328845417f428e76f577eadc620, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -1.54
       objectReference: {fileID: 0}
     - target: {fileID: 4661674441792234916, guid: 50db6328845417f428e76f577eadc620, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: -2.07
       objectReference: {fileID: 0}
     - target: {fileID: 4661674441792234916, guid: 50db6328845417f428e76f577eadc620, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: -5
       objectReference: {fileID: 0}
     - target: {fileID: 5107075163451444145, guid: 50db6328845417f428e76f577eadc620, type: 3}
       propertyPath: m_Follow
