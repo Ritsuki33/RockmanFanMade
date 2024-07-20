@@ -18,9 +18,9 @@ public partial class Player : MonoBehaviour
     protected ExpandRigidBody exRb;
 
     [SerializeField] GameObject launcher;
-    [SerializeField] RockBuster rockBasterPrefab;
 
-    [SerializeField] RockBusterPool rockBusterPool;
+    [SerializeField] RockBusterPool RockBusterPool => EffectManager.Instance.RockBusterPool;
+
     bool IsRight => this.transform.localScale.x > 0;
     private void Awake()
     {
@@ -96,7 +96,7 @@ public partial class Player : MonoBehaviour
 
     public void LaunchBaster()
     {
-        var rockBaster = rockBusterPool.pool.Get();
+        var rockBaster = RockBusterPool.Pool.Get();
         rockBaster.Init((IsRight) ? Vector2.right : Vector2.left, launcher.transform.position);
     }
 }

@@ -302,7 +302,7 @@ public class ExpandRigidBody : MonoBehaviour
             float correct = (leftHit.point.x - Left + physicalGap) / Time.fixedDeltaTime;
             currentVelocity.x = correct;
 
-            onHitLeftExit?.Invoke(leftHit);
+            onHitLeftStay?.Invoke(leftHit);
             isCollideLeft = true;
         }
         else

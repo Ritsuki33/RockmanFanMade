@@ -31,7 +31,6 @@ public class GameManager : SingletonComponent<GameManager>
     /// </summary>
     private IInput InputController => InputManager.Instance;
 
-    Coroutine coroutine = null;
     protected override void Awake()
     {
         base.Awake();

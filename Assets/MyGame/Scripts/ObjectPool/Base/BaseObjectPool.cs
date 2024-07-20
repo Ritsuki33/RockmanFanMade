@@ -8,12 +8,12 @@ public class BaseObjectPool<T> : MonoBehaviour where T: ReusableObject<T>
     [SerializeField] private T prefab;
     [SerializeField] int defaultCapacity = 10;
     [SerializeField] int maxSize = 10;
-    public ObjectPool<T> pool;
+    public ObjectPool<T> Pool { get; private set; }
 
     private void Awake()
     {
         // オブジェクトプールを作成します
-        pool = new ObjectPool<T>
+        Pool = new ObjectPool<T>
         (
             createFunc: OnCreateToPool,
             actionOnGet: OnGetFromPool,
@@ -27,8 +27,8 @@ public class BaseObjectPool<T> : MonoBehaviour where T: ReusableObject<T>
 
     T OnCreateToPool()
     {
-        var gameObject = Instantiate(prefab);
-        gameObject.Pool = pool;
+        var gameObject = Instantiate(prefab, this.transform);
+        gameObject.Pool = Pool;
 
         return gameObject;
     }
