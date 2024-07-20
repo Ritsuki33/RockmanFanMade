@@ -20,6 +20,7 @@ public partial class Player : MonoBehaviour
     [SerializeField] GameObject launcher;
     [SerializeField] RockBuster rockBasterPrefab;
 
+    [SerializeField] RockBusterPool rockBusterPool;
     bool IsRight => this.transform.localScale.x > 0;
     private void Awake()
     {
@@ -95,7 +96,7 @@ public partial class Player : MonoBehaviour
 
     public void LaunchBaster()
     {
-        var rockBaster = Instantiate<RockBuster>(rockBasterPrefab);
+        var rockBaster = rockBusterPool.pool.Get();
         rockBaster.Init((IsRight) ? Vector2.right : Vector2.left, launcher.transform.position);
     }
 }

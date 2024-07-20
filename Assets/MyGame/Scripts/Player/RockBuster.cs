@@ -1,12 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Pool;
 
 public class RockBuster : MonoBehaviour
 {
     [SerializeField] float speedRatio = 0.06f;
 
     private Vector2 direction = default;
+
+    public IObjectPool<RockBuster> Pool { get; set; }
 
     public void Init(Vector2 direction,Vector2 position)
     {
@@ -20,7 +23,7 @@ public class RockBuster : MonoBehaviour
 
         if (GameManager.Instance.MainCameraControll.CheckOutOfView(this.gameObject))
         {
-            Destroy(this.gameObject);
+            Pool.Release(this);
         }
     }
 }
