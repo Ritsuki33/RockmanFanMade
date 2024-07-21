@@ -42,7 +42,10 @@ public partial class Player : MonoBehaviour
         stateMachine.AddState(4, new Jumping());
         stateMachine.AddState(5, new ClimbUp());
         stateMachine.AddState(6, new ClimbDown());
-        stateMachine.AddState(7, new Fire());
+        stateMachine.AddState(7, new IdleFire());
+        stateMachine.AddState(8, new RunBuster());
+        stateMachine.AddState(9, new FloatBuster());
+        stateMachine.AddState(10, new JumpingBuster());
         stateMachine.TransitState(this, 1);
     }
 
