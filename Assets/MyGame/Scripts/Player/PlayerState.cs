@@ -1,5 +1,7 @@
+using Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public partial class Player
@@ -109,6 +111,14 @@ public partial class Player
             }
 
         }
+
+        public override void Update(Player player)
+        {
+            if (player.inputInfo.fire)
+            {
+                player.stateMachine.TransitState(player, 9);
+            }
+        }
     }
 
     class Run : State<Player>
@@ -148,7 +158,7 @@ public partial class Player
                 player.stateMachine.TransitState(player, 1);
             }
 
-
+            
         }
 
         public override void Update(Player player)
@@ -161,6 +171,10 @@ public partial class Player
             {
                 player.stateMachine.TransitState(player, 4);
             }
+            else if (player.inputInfo.fire)
+            {
+                player.stateMachine.TransitState(player, 8);
+            }
         }
     }
 
@@ -172,7 +186,7 @@ public partial class Player
         public override void Enter(int preId, Player player)
         {
             player.animator.Play(animationHash);
-            player.jump.Init();
+            if (preId != 10) player.jump.Init();
         }
 
         public override void FixedUpdate(Player player)
@@ -203,6 +217,14 @@ public partial class Player
             if (jumpSpeed.sqrMagnitude <= 0.001f)
             {
                 player.stateMachine.TransitState(player, 1);
+            }
+        }
+
+        public override void Update(Player player)
+        {
+            if (player.inputInfo.fire)
+            {
+                player.stateMachine.TransitState(player, 10);
             }
         }
     }
@@ -341,11 +363,11 @@ public partial class Player
         }
     }
 
-    class Fire : State<Player>
+    class IdleFire : State<Player>
     {
 
         int animationHash = 0;
-        public Fire() : base(false) { animationHash = Animator.StringToHash("Fire"); }
+        public IdleFire() : base(false) { animationHash = Animator.StringToHash("Fire"); }
 
         public override IEnumerator EnterCoroutine(Player player)
         {
@@ -357,5 +379,202 @@ public partial class Player
             player.stateMachine.TransitState(player, 0);
         }
 
+
+        public override void Update(Player player)
+        {
+            if (player.inputInfo.jump)
+            {
+                player.stateMachine.TransitState(player, 4);
+            }
+        }
+    }
+
+    class RunBuster : State<Player>
+    {
+        int animationHash = 0;
+        public RunBuster()  { animationHash = Animator.StringToHash("RunBuster"); }
+        float time = 0.15f;
+        public override void Enter(int preId, Player player)
+        {
+            time = 0.15f;
+            player.animator.Play(animationHash);
+
+            player.LaunchBaster();
+        }
+
+        public override void FixedUpdate(Player player)
+        {
+            Move.InputType type = default;
+            if (player.inputInfo.left == true) type = Move.InputType.Left;
+            else if (player.inputInfo.right == true) type = Move.InputType.Right;
+
+            Vector2 moveV = player.move.GetVelocity(player.onTheGround.GroundHit.normal.Verticalize(), type);
+            player.exRb.velocity = moveV;
+
+            if (moveV.x > 0)
+            {
+                Vector3 localScale = player.transform.localScale;
+                localScale.x = 1;
+                player.transform.localScale = localScale;
+            }
+            else if (moveV.x < 0)
+            {
+                Vector3 localScale = player.transform.localScale;
+                localScale.x = -1;
+                player.transform.localScale = localScale;
+            }
+
+            if (!player.onTheGround.Check())
+            {
+                player.stateMachine.TransitState(player, 1);
+            }
+
+        }
+
+        public override void Update(Player player)
+        {
+            if (!player.inputInfo.left && !player.inputInfo.right)
+            {
+                player.stateMachine.TransitState(player, 0);
+            }
+            else if (player.inputInfo.jump)
+            {
+                player.stateMachine.TransitState(player, 4);
+            }
+
+            if (time < 0)
+            {
+                player.stateMachine.TransitState(player, 2);
+            }
+            else if (player.inputInfo.fire)
+            {
+                time = 0.15f;
+                player.LaunchBaster();
+            }
+            time -= Time.deltaTime;
+        }
+    }
+
+
+    class FloatBuster : State<Player>
+    {
+        int animationHash = 0;
+        public FloatBuster() { animationHash = Animator.StringToHash("FloatBuster"); }
+        float time = 0.15f;
+        public override void Enter(int preId, Player player)
+        {
+            time = 0.15f;
+            player.animator.Play(animationHash);
+
+            player.LaunchBaster();
+        }
+
+        public override void FixedUpdate(Player player)
+        {
+            player.exRb.velocity = player.gravity.GetVelocity();
+            Move.InputType type = default;
+            if (player.inputInfo.left == true) type = Move.InputType.Left;
+            else if (player.inputInfo.right == true) type = Move.InputType.Right;
+
+            Vector2 moveV = player.move.GetVelocity(Vector2.right, type);
+            player.exRb.velocity += moveV;
+
+            if (moveV.x > 0)
+            {
+                Vector3 localScale = player.transform.localScale;
+                localScale.x = 1;
+                player.transform.localScale = localScale;
+            }
+            else if (moveV.x < 0)
+            {
+                Vector3 localScale = player.transform.localScale;
+                localScale.x = -1;
+                player.transform.localScale = localScale;
+            }
+            if (player.onTheGround.CheckBottomHit())
+            {
+                player.stateMachine.TransitState(player, 0);
+            }
+
+            if (player.bodyLadder != null && player.inputInfo.up)
+            {
+                player.stateMachine.TransitState(player, 3);
+            }
+
+        }
+
+        public override void Update(Player player)
+        {
+            if (time < 0)
+            {
+                player.stateMachine.TransitState(player, 1);
+            }
+            else if (player.inputInfo.fire)
+            {
+                time = 0.15f;
+                player.LaunchBaster();
+            }
+            time -= Time.deltaTime;
+        }
+    }
+
+
+    public class JumpingBuster : State<Player>
+    {
+        int animationHash = 0;
+        public JumpingBuster() { animationHash = Animator.StringToHash("FloatBuster"); }
+        float time = 0.15f;
+
+        public override void Enter(int preId, Player player)
+        {
+            player.animator.Play(animationHash);
+            time = 0.15f;
+
+        }
+
+        public override void FixedUpdate(Player player)
+        {
+            Move.InputType type = default;
+            if (player.inputInfo.left == true) type = Move.InputType.Left;
+            else if (player.inputInfo.right == true) type = Move.InputType.Right;
+
+            Vector2 moveV = player.move.GetVelocity(Vector2.right, type);
+            player.exRb.velocity = moveV;
+
+            if (moveV.x > 0)
+            {
+                Vector3 localScale = player.transform.localScale;
+                localScale.x = 1;
+                player.transform.localScale = localScale;
+            }
+            else if (moveV.x < 0)
+            {
+                Vector3 localScale = player.transform.localScale;
+                localScale.x = -1;
+                player.transform.localScale = localScale;
+            }
+
+            Vector2 jumpSpeed = player.jump.GetVelocity();
+            player.exRb.velocity += jumpSpeed;
+
+            if (jumpSpeed.sqrMagnitude <= 0.001f)
+            {
+                player.stateMachine.TransitState(player, 9);
+            }
+        }
+
+        public override void Update(Player player)
+        {
+            if (time < 0)
+            {
+                player.stateMachine.TransitState(player, 4);
+            }
+            else if (player.inputInfo.fire)
+            {
+                time = 0.15f;
+                player.LaunchBaster();
+            }
+            time -= Time.deltaTime;
+        }
     }
 }
