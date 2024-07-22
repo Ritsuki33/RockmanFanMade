@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
+using UnityEditor.PackageManager.Requests;
 using UnityEngine;
 
 /// <summary>
@@ -52,6 +53,7 @@ public class StateMachine<T> where T : MonoBehaviour
     /// </summary>
     public int CurrentStateID => curId;
 
+    public int requestId = -1;
     public void AddState(int id, State<T> state)
     {
         states.Add(id, state);
@@ -71,47 +73,47 @@ public class StateMachine<T> where T : MonoBehaviour
     {
         if(coroutine == null) curState?.Update(obj);
 
-        if (nextState != null && (reset || curState != nextState))
+        if (requestId != -1 && (reset || curId != requestId))
         {
-            if (nextState.immediate)
+            preId = curId;
+
+            curId = requestId;
+            requestId = -1;
+            if (true||nextState.immediate)
             {
                 // oŒûˆ—
                 curState?.Exit(obj);
-                curState = nextState;
+                curState = states[curId];
                 nextState = null;
                 // “üŒûˆ—
                 curState?.Enter(preId, obj);
             }
             else
             {
-                var tmpNextState = nextState;
-                nextState = null;
                 if (coroutine != null)
                 {
                     obj.StopCoroutine(coroutine);
                 }
-                coroutine = obj.StartCoroutine(TransitStateCoroutine(obj, tmpNextState));
+                coroutine = obj.StartCoroutine(TransitStateCoroutine(obj, curId));
             }
         }
     }
 
-    public void TransitState(T obj,int id, bool reset = false)
+    public void TransitState(int id, bool reset = false)
     {
         if (states.ContainsKey(id))
         {
-            nextState = states[id];
-            preId = curId;
-            curId = id;
+            requestId = id;
         }
         this.reset = reset;
     }
 
-    IEnumerator TransitStateCoroutine(T obj,State<T> nextState)
+    IEnumerator TransitStateCoroutine(T obj,int requestId)
     {
         // oŒûˆ—
         if (curState != null) yield return curState.ExitCoroutine(obj);
 
-        curState = nextState;
+        curState = states[requestId];
 
         // “üŒûˆ—
         yield return curState.EnterCoroutine(obj);
