@@ -23,7 +23,7 @@ public partial class Player
             var hitCheck = player.onTheGround.Check();
             if (!hitCheck)
             {
-                player.stateMachine.TransitState(player, 1);
+                player.stateMachine.TransitState(1);
             }
         }
 
@@ -31,11 +31,11 @@ public partial class Player
         {
             if (player.inputInfo.left)
             {
-                player.stateMachine.TransitState(player, 2);
+                player.stateMachine.TransitState(2);
             }
             else if (player.inputInfo.right)
             {
-                player.stateMachine.TransitState(player, 2);
+                player.stateMachine.TransitState(2);
             }
 
             if (player.bodyLadder != null && player.inputInfo.up)
@@ -43,26 +43,26 @@ public partial class Player
                 Vector2 pos = player.exRb.position;
                 pos.y += 0.1f;
                 player.exRb.SetPosition(pos);
-                player.stateMachine.TransitState(player, 3);
+                player.stateMachine.TransitState(3);
             }
             else if (player.onTheGround.GroundHit && player.inputInfo.down)
             {
                 if (player.onTheGround.GroundHit.collider.gameObject.CompareTag("Ladder"))
                 {
                     player.bodyLadder = player.onTheGround.GroundHit.collider;
-                    player.stateMachine.TransitState(player, 6);
+                    player.stateMachine.TransitState(6);
                 }
             }
 
 
             if (player.inputInfo.jump)
             {
-                player.stateMachine.TransitState(player, 4);
+                player.stateMachine.TransitState(4);
             }
 
             if (player.inputInfo.fire)
             {
-                player.stateMachine.TransitState(player, 7);
+                player.stateMachine.TransitState(7);
             }
         }
     }
@@ -102,12 +102,12 @@ public partial class Player
             }
             if (player.onTheGround.CheckBottomHit())
             {
-                player.stateMachine.TransitState(player, 0);
+                player.stateMachine.TransitState(0);
             }
 
             if (player.bodyLadder != null && player.inputInfo.up)
             {
-                player.stateMachine.TransitState(player, 3);
+                player.stateMachine.TransitState(3);
             }
 
         }
@@ -116,7 +116,7 @@ public partial class Player
         {
             if (player.inputInfo.fire)
             {
-                player.stateMachine.TransitState(player, 9);
+                player.stateMachine.TransitState(9);
             }
         }
     }
@@ -155,7 +155,7 @@ public partial class Player
             }
             if (!player.onTheGround.Check())
             {
-                player.stateMachine.TransitState(player, 1);
+                player.stateMachine.TransitState(1);
             }
 
             
@@ -165,15 +165,15 @@ public partial class Player
         {
             if (!player.inputInfo.left && !player.inputInfo.right)
             {
-                player.stateMachine.TransitState(player, 0);
+                player.stateMachine.TransitState(0);
             }
             else if (player.inputInfo.jump)
             {
-                player.stateMachine.TransitState(player, 4);
+                player.stateMachine.TransitState(4);
             }
             else if (player.inputInfo.fire)
             {
-                player.stateMachine.TransitState(player, 8);
+                player.stateMachine.TransitState(8);
             }
         }
     }
@@ -187,6 +187,7 @@ public partial class Player
         {
             player.animator.Play(animationHash);
             if (preId != 10) player.jump.Init();
+            Debug.Log(preId);
         }
 
         public override void FixedUpdate(Player player)
@@ -216,7 +217,7 @@ public partial class Player
 
             if (jumpSpeed.sqrMagnitude <= 0.001f)
             {
-                player.stateMachine.TransitState(player, 1);
+                player.stateMachine.TransitState(1);
             }
         }
 
@@ -224,7 +225,7 @@ public partial class Player
         {
             if (player.inputInfo.fire)
             {
-                player.stateMachine.TransitState(player, 10);
+                player.stateMachine.TransitState(10);
             }
         }
     }
@@ -277,20 +278,20 @@ public partial class Player
 
             if (player.bodyLadder == null)
             {
-                player.stateMachine.TransitState(player, 0);
+                player.stateMachine.TransitState(0);
                 return;
             }
 
             if (player.onTheGround.CheckBottomHit())
             {
-                player.stateMachine.TransitState(player, 0);
+                player.stateMachine.TransitState(0);
                 return;
             }
 
             player.isladderTop = player.transform.position.y > player.bodyLadder.bounds.max.y;
             if (player.isladderTop && player.inputInfo.up)
             {
-                player.stateMachine.TransitState(player, 5);
+                player.stateMachine.TransitState(5);
             }
             else if (player.inputInfo.down)
             {
@@ -333,7 +334,7 @@ public partial class Player
             if (time > 0.1f)
             {
                 player.exRb.SetPosition(ExpandRigidBody.PostionSetType.Bottom, player.bodyLadder.bounds.max.y);
-                player.stateMachine.TransitState(player, 0);
+                player.stateMachine.TransitState(0);
             }
         }
     }
@@ -358,7 +359,7 @@ public partial class Player
             time += Time.deltaTime;
             if (time > 0.1f)
             {
-                player.stateMachine.TransitState(player, 3);
+                player.stateMachine.TransitState(3);
             }
         }
     }
@@ -367,16 +368,15 @@ public partial class Player
     {
 
         int animationHash = 0;
-        public IdleFire() : base(false) { animationHash = Animator.StringToHash("Fire"); }
+        public IdleFire(){ animationHash = Animator.StringToHash("Fire"); }
 
-        public override IEnumerator EnterCoroutine(Player player)
+        Coroutine coroutine = null;
+        float time = 0.15f;
+        public override void Enter(int preId, Player player)
         {
             player.animator.Play(animationHash);
-
             player.LaunchBaster();
-            yield return new WaitForSeconds(0.15f);
-
-            player.stateMachine.TransitState(player, 0);
+            time = 0.15f;
         }
 
 
@@ -384,8 +384,25 @@ public partial class Player
         {
             if (player.inputInfo.jump)
             {
-                player.stateMachine.TransitState(player, 4);
+                player.stateMachine.TransitState(4);
             }
+
+            if (time < 0)
+            {
+                player.stateMachine.TransitState(0);
+            }
+            else if (player.inputInfo.fire)
+            {
+                time = 0.15f;
+                player.LaunchBaster();
+            }
+            time -= Time.deltaTime;
+        }
+
+        public override void Exit(Player player)
+        {
+            if(coroutine!=null) player.StopCoroutine(coroutine);
+            coroutine = null;
         }
     }
 
@@ -393,10 +410,10 @@ public partial class Player
     {
         int animationHash = 0;
         public RunBuster()  { animationHash = Animator.StringToHash("RunBuster"); }
-        float time = 0.15f;
+        float time = 0.3f;
         public override void Enter(int preId, Player player)
         {
-            time = 0.15f;
+            time = 0.3f;
             player.animator.Play(animationHash);
 
             player.LaunchBaster();
@@ -426,7 +443,7 @@ public partial class Player
 
             if (!player.onTheGround.Check())
             {
-                player.stateMachine.TransitState(player, 1);
+                player.stateMachine.TransitState(1);
             }
 
         }
@@ -435,20 +452,20 @@ public partial class Player
         {
             if (!player.inputInfo.left && !player.inputInfo.right)
             {
-                player.stateMachine.TransitState(player, 0);
+                player.stateMachine.TransitState(0);
             }
             else if (player.inputInfo.jump)
             {
-                player.stateMachine.TransitState(player, 4);
+                player.stateMachine.TransitState(4);
             }
 
             if (time < 0)
             {
-                player.stateMachine.TransitState(player, 2);
+                player.stateMachine.TransitState(2);
             }
             else if (player.inputInfo.fire)
             {
-                time = 0.15f;
+                time = 0.3f;
                 player.LaunchBaster();
             }
             time -= Time.deltaTime;
@@ -466,7 +483,7 @@ public partial class Player
             time = 0.15f;
             player.animator.Play(animationHash);
 
-            player.LaunchBaster();
+            if(preId!=10)player.LaunchBaster();
         }
 
         public override void FixedUpdate(Player player)
@@ -493,21 +510,15 @@ public partial class Player
             }
             if (player.onTheGround.CheckBottomHit())
             {
-                player.stateMachine.TransitState(player, 0);
+                player.stateMachine.TransitState(0);
             }
-
-            if (player.bodyLadder != null && player.inputInfo.up)
-            {
-                player.stateMachine.TransitState(player, 3);
-            }
-
         }
 
         public override void Update(Player player)
         {
             if (time < 0)
             {
-                player.stateMachine.TransitState(player, 1);
+                player.stateMachine.TransitState(1);
             }
             else if (player.inputInfo.fire)
             {
@@ -528,6 +539,7 @@ public partial class Player
         public override void Enter(int preId, Player player)
         {
             player.animator.Play(animationHash);
+            player.LaunchBaster();
             time = 0.15f;
 
         }
@@ -559,7 +571,7 @@ public partial class Player
 
             if (jumpSpeed.sqrMagnitude <= 0.001f)
             {
-                player.stateMachine.TransitState(player, 9);
+                player.stateMachine.TransitState(9);
             }
         }
 
@@ -567,7 +579,8 @@ public partial class Player
         {
             if (time < 0)
             {
-                player.stateMachine.TransitState(player, 4);
+                player.stateMachine.TransitState(4);
+                Debug.Log("Bug");
             }
             else if (player.inputInfo.fire)
             {

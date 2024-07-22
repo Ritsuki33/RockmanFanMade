@@ -21,21 +21,23 @@ public enum InputType
 public interface IInput
 {
     bool GetInput(InputType type);
+    bool GetDownInput(InputType type);
 }
 
-public class DummyInput: IInput
-{
-    public bool GetInput(InputType type)
-    {
-        return false;
-    }
-}
+//public class DummyInput: IInput
+//{
+//    public bool GetInput(InputType type)
+//    {
+//        return false;
+//    }
+//}
 
 public class InputManager : SingletonComponent<InputManager>, IInput
 {
     PlayerInput playerInput;
 
     int inputBitFlag = 0;
+    int inputDownBitFlag = 0;
 
     public int InputBitFlag { get; set; }
 
@@ -119,4 +121,26 @@ public class InputManager : SingletonComponent<InputManager>, IInput
     {
         inputBitFlag &= ~(int)type;
     }
+
+    public bool GetDownInput(InputType type)
+    {
+        bool input = GetInput(type);
+
+        if (!input)
+        {
+            inputDownBitFlag &= ~(int)type;
+            return false;
+        }
+
+;        if((inputDownBitFlag & (int)type) != 0)
+        {
+            return false;
+        }
+        else
+        {
+            inputDownBitFlag |= (int)type;
+            return true;
+        }
+    }
+
 }

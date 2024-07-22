@@ -46,7 +46,7 @@ public partial class Player : MonoBehaviour
         stateMachine.AddState(8, new RunBuster());
         stateMachine.AddState(9, new FloatBuster());
         stateMachine.AddState(10, new JumpingBuster());
-        stateMachine.TransitState(this, 1);
+        stateMachine.TransitState(1);
     }
 
     private void FixedUpdate()
