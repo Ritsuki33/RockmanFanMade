@@ -21,6 +21,15 @@ public class OnTheGround : MonoBehaviour,IHitEvent
     public RaycastHit2D GroundHit => hit;
 
     bool bottomhit = false;
+
+    GameObject onGroundObj = default;
+    Vector2 preGroundPos = default;
+
+    Vector2 diffGroundPos = default;
+
+    public Vector2 MoveOnTheGround => diffGroundPos;
+    //public Vector2 MoveOnTheGround { get; set; }
+
     private void Awake()
     {
         boxCollider=GetComponent<BoxCollider2D>();
@@ -29,6 +38,9 @@ public class OnTheGround : MonoBehaviour,IHitEvent
     public void Reset()
     {
         hit = default;
+        diffGroundPos = Vector2.zero;
+        preGroundPos = Vector2.zero;
+        onGroundObj = null;
     }
     public bool CheckBottomHit()
     {
@@ -38,6 +50,28 @@ public class OnTheGround : MonoBehaviour,IHitEvent
     {
         center = new Vector2(this.transform.position.x, this.transform.position.y + offset_y - CheckSize.y / 2);
         hit = Physics2D.BoxCast(topCenter, new Vector2(CheckSize.x, 0.001f), 0, Vector2.down, CheckSize.y, physicalLayer);
+
+        if (hit)
+        {
+            if (onGroundObj == hit.collider.gameObject)
+            {
+                diffGroundPos = (Vector2)onGroundObj.transform.position - preGroundPos;
+            }
+            else
+            {
+                diffGroundPos = Vector2.zero;
+            }
+            onGroundObj = hit.collider.gameObject;
+            preGroundPos = onGroundObj.transform.position;
+            //MoveOnTheGround = hit.rigidbody.velocity;
+
+        }
+        else
+        {
+            diffGroundPos = Vector2.zero;
+            preGroundPos = Vector2.zero;
+            onGroundObj = null;
+        }
 
         return hit;
     }

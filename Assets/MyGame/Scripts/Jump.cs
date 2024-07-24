@@ -16,7 +16,7 @@ public class Jump : MonoBehaviour, IHitEvent
 
     public Vector2 GetVelocity()
     {
-        currentSpeed -= decrease;
+         currentSpeed -= decrease;
 
         currentSpeed = Mathf.Clamp(currentSpeed, 0, speed);
 

@@ -267,7 +267,8 @@ public class ExpandRigidBody : MonoBehaviour
             if (!bottomHit)
             {
                 float correct = (topHit.point.y - Top - physicalGap) / Time.fixedDeltaTime;
-                currentVelocity.y = correct;
+                if (currentVelocity.y >= 0) currentVelocity.y = correct;
+                else currentVelocity.y += correct;
             }
 
             onHitTopStay?.Invoke(topHit);
@@ -285,7 +286,8 @@ public class ExpandRigidBody : MonoBehaviour
             if (!topHit)
             {
                 float correct = (bottomHit.point.y - Bottom + physicalGap) / Time.fixedDeltaTime;
-                currentVelocity.y = correct;
+                if (currentVelocity.y <= 0) currentVelocity.y = correct;
+                else currentVelocity.y += correct;
             }
 
             onHitBottomStay?.Invoke(bottomHit);
@@ -300,8 +302,8 @@ public class ExpandRigidBody : MonoBehaviour
         if (leftHit)
         {
             float correct = (leftHit.point.x - Left + physicalGap) / Time.fixedDeltaTime;
-            currentVelocity.x = correct;
-
+            if (currentVelocity.x <= 0) currentVelocity.x = correct;
+            else currentVelocity.x += correct;
             onHitLeftStay?.Invoke(leftHit);
             isCollideLeft = true;
         }
@@ -315,7 +317,8 @@ public class ExpandRigidBody : MonoBehaviour
         if (rightHit)
         {
             float correct = (rightHit.point.x - Right - physicalGap) / Time.fixedDeltaTime;
-            currentVelocity.x = correct;
+            if (currentVelocity.x >= 0) currentVelocity.x = correct;
+            else currentVelocity.x += correct;
 
             onHitRightStay?.Invoke(rightHit);
             isCollideRight = true;
@@ -327,6 +330,7 @@ public class ExpandRigidBody : MonoBehaviour
         }
 
         this.currentVelocity = currentVelocity;
+
     }
     
     
@@ -352,7 +356,8 @@ public class ExpandRigidBody : MonoBehaviour
                 if (!topHit)
                 {
                     float correct = (bottomHit.point.y - Bottom + physicalGap) / Time.fixedDeltaTime;
-                    currentVelocity.y = correct;
+                    if (currentVelocity.y >= 0) currentVelocity.y = correct;
+                    else currentVelocity.y += correct;
                 }
 
                 onHitBottomStay?.Invoke(bottomHit);

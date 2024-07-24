@@ -82,12 +82,12 @@ public class Move : MonoBehaviour, IHitEvent
 
 
     public void OnRightHitStay(RaycastHit2D hit) {
-        velocity = Vector2.zero;
+        if (velocity.x > 0) velocity.x = 0;
     }
 
     public void OnLeftHitStay(RaycastHit2D hit)
     {
-        velocity = Vector2.zero;
+        if (velocity.x < 0) velocity.x = 0;
     }
 
     private void CheckSide()

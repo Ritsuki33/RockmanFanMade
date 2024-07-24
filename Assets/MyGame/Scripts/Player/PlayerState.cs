@@ -25,6 +25,10 @@ public partial class Player
             {
                 player.stateMachine.TransitState(1);
             }
+            else
+            {
+                player.exRb.velocity += player.onTheGround.MoveOnTheGround / Time.fixedDeltaTime;
+            }
         }
 
         public override void Update(Player player)
@@ -157,8 +161,11 @@ public partial class Player
             {
                 player.stateMachine.TransitState(1);
             }
+            else
+            {
+                player.exRb.velocity += player.onTheGround.MoveOnTheGround / Time.fixedDeltaTime;
+            }
 
-            
         }
 
         public override void Update(Player player)
@@ -187,7 +194,7 @@ public partial class Player
         {
             player.animator.Play(animationHash);
             if (preId != 10) player.jump.Init();
-            Debug.Log(preId);
+            player.onTheGround.Reset();
         }
 
         public override void FixedUpdate(Player player)
@@ -370,7 +377,6 @@ public partial class Player
         int animationHash = 0;
         public IdleFire(){ animationHash = Animator.StringToHash("Fire"); }
 
-        Coroutine coroutine = null;
         float time = 0.15f;
         public override void Enter(int preId, Player player)
         {
@@ -399,11 +405,21 @@ public partial class Player
             time -= Time.deltaTime;
         }
 
-        public override void Exit(Player player)
+        public override void FixedUpdate(Player player)
         {
-            if(coroutine!=null) player.StopCoroutine(coroutine);
-            coroutine = null;
+            player.exRb.velocity = player.gravity.GetVelocity();
+
+            var hitCheck = player.onTheGround.Check();
+            if (!hitCheck)
+            {
+                player.stateMachine.TransitState(1);
+            }
+            else
+            {
+                player.exRb.velocity += player.onTheGround.MoveOnTheGround / Time.fixedDeltaTime;
+            }
         }
+     
     }
 
     class RunBuster : State<Player>
@@ -445,7 +461,10 @@ public partial class Player
             {
                 player.stateMachine.TransitState(1);
             }
-
+            else
+            {
+                player.exRb.velocity += player.onTheGround.MoveOnTheGround / Time.fixedDeltaTime;
+            }
         }
 
         public override void Update(Player player)
