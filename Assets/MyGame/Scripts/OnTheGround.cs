@@ -12,7 +12,7 @@ public class OnTheGround : MonoBehaviour,IHitEvent
 
     Vector2 CheckSize => new Vector2(this.boxCollider.size.x, check_y);
 
-    Vector2 center = default;
+    Vector2 center => new Vector2(this.transform.position.x, this.transform.position.y + offset_y - CheckSize.y / 2);
 
     Vector2 topCenter => new Vector2(center.x, center.y + CheckSize.y / 2);
 
@@ -21,6 +21,9 @@ public class OnTheGround : MonoBehaviour,IHitEvent
     public RaycastHit2D GroundHit => hit;
 
     bool bottomhit = false;
+
+    //public Vector2 MoveOnTheGround { get; set; }
+
     private void Awake()
     {
         boxCollider=GetComponent<BoxCollider2D>();
@@ -36,7 +39,6 @@ public class OnTheGround : MonoBehaviour,IHitEvent
     }
     public RaycastHit2D Check()
     {
-        center = new Vector2(this.transform.position.x, this.transform.position.y + offset_y - CheckSize.y / 2);
         hit = Physics2D.BoxCast(topCenter, new Vector2(CheckSize.x, 0.001f), 0, Vector2.down, CheckSize.y, physicalLayer);
 
         return hit;

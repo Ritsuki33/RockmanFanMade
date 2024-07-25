@@ -133,13 +133,13 @@ public partial class Player
 
         public override void FixedUpdate(Player player)
         {
-            //player.AddVelocity(player.gravity.GetVelocity());
+            player.exRb.velocity += player.gravity.GetVelocity();
             Move.InputType type = default;
             if (player.inputInfo.left == true) type = Move.InputType.Left;
             else if (player.inputInfo.right == true) type = Move.InputType.Right;
 
             Vector2 moveV = player.move.GetVelocity(player.onTheGround.GroundHit.normal.Verticalize(), type);
-            player.exRb.velocity = moveV;
+            player.exRb.velocity += moveV;
 
             if (moveV.x > 0)
             {
@@ -157,8 +157,6 @@ public partial class Player
             {
                 player.stateMachine.TransitState(1);
             }
-
-            
         }
 
         public override void Update(Player player)
@@ -187,7 +185,7 @@ public partial class Player
         {
             player.animator.Play(animationHash);
             if (preId != 10) player.jump.Init();
-            Debug.Log(preId);
+            player.onTheGround.Reset();
         }
 
         public override void FixedUpdate(Player player)
@@ -370,7 +368,6 @@ public partial class Player
         int animationHash = 0;
         public IdleFire(){ animationHash = Animator.StringToHash("Fire"); }
 
-        Coroutine coroutine = null;
         float time = 0.15f;
         public override void Enter(int preId, Player player)
         {
@@ -399,11 +396,17 @@ public partial class Player
             time -= Time.deltaTime;
         }
 
-        public override void Exit(Player player)
+        public override void FixedUpdate(Player player)
         {
-            if(coroutine!=null) player.StopCoroutine(coroutine);
-            coroutine = null;
+            player.exRb.velocity = player.gravity.GetVelocity();
+
+            var hitCheck = player.onTheGround.Check();
+            if (!hitCheck)
+            {
+                player.stateMachine.TransitState(1);
+            }
         }
+     
     }
 
     class RunBuster : State<Player>
@@ -445,7 +448,6 @@ public partial class Player
             {
                 player.stateMachine.TransitState(1);
             }
-
         }
 
         public override void Update(Player player)
