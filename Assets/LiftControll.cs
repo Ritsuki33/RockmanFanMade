@@ -17,14 +17,31 @@ public class LiftControll : MonoBehaviour
 
     public event Action onGoalEvent = null;
 
+    Rigidbody2D rb = null;
+
+    private void Awake()
+    {
+        rb = GetComponent<Rigidbody2D>();
+    }
     private void FixedUpdate()
     {
         if (!isGoal)
         {
-            Vector3 startPos = (!isReturn) ? start.position : end.position;
-            Vector3 endPos = (!isReturn) ? end.position : start.position;
-            transform.position = Vector3.Lerp(startPos, endPos, currentTime / oneWayTime);
+           
+            if (oneWayTime > 0)
+            {
+                Vector3 startPos = (!isReturn) ? start.position : end.position;
+                Vector3 endPos = (!isReturn) ? end.position : start.position;
 
+
+                Vector2 newPos = Vector3.Lerp(startPos, endPos, currentTime / oneWayTime);
+
+                rb.velocity = (newPos - (Vector2)this.transform.position) / Time.deltaTime;
+            }
+            else
+            {
+                rb.velocity = Vector2.zero;
+            }
             if (currentTime == oneWayTime)
             {
                 Goal();

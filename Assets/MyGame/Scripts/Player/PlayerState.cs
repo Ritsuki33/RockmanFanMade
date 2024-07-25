@@ -25,10 +25,6 @@ public partial class Player
             {
                 player.stateMachine.TransitState(1);
             }
-            else
-            {
-                player.exRb.velocity += player.onTheGround.MoveOnTheGround / Time.fixedDeltaTime;
-            }
         }
 
         public override void Update(Player player)
@@ -137,13 +133,13 @@ public partial class Player
 
         public override void FixedUpdate(Player player)
         {
-            //player.AddVelocity(player.gravity.GetVelocity());
+            player.exRb.velocity += player.gravity.GetVelocity();
             Move.InputType type = default;
             if (player.inputInfo.left == true) type = Move.InputType.Left;
             else if (player.inputInfo.right == true) type = Move.InputType.Right;
 
             Vector2 moveV = player.move.GetVelocity(player.onTheGround.GroundHit.normal.Verticalize(), type);
-            player.exRb.velocity = moveV;
+            player.exRb.velocity += moveV;
 
             if (moveV.x > 0)
             {
@@ -161,11 +157,6 @@ public partial class Player
             {
                 player.stateMachine.TransitState(1);
             }
-            else
-            {
-                player.exRb.velocity += player.onTheGround.MoveOnTheGround / Time.fixedDeltaTime;
-            }
-
         }
 
         public override void Update(Player player)
@@ -414,10 +405,6 @@ public partial class Player
             {
                 player.stateMachine.TransitState(1);
             }
-            else
-            {
-                player.exRb.velocity += player.onTheGround.MoveOnTheGround / Time.fixedDeltaTime;
-            }
         }
      
     }
@@ -460,10 +447,6 @@ public partial class Player
             if (!player.onTheGround.Check())
             {
                 player.stateMachine.TransitState(1);
-            }
-            else
-            {
-                player.exRb.velocity += player.onTheGround.MoveOnTheGround / Time.fixedDeltaTime;
             }
         }
 

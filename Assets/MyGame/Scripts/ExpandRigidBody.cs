@@ -163,6 +163,7 @@ public class ExpandRigidBody : MonoBehaviour
     bool isCollideThroughFloorBottom = false;
 
     Vector2 CurrentMovement => velocity * Time.fixedDeltaTime;
+
     private void Awake()
     {
         boxCollider = GetComponent<BoxCollider2D>();
@@ -288,6 +289,8 @@ public class ExpandRigidBody : MonoBehaviour
                 float correct = (bottomHit.point.y - Bottom + physicalGap) / Time.fixedDeltaTime;
                 if (currentVelocity.y <= 0) currentVelocity.y = correct;
                 else currentVelocity.y += correct;
+
+                if (bottomHit.rigidbody) currentVelocity += bottomHit.rigidbody.velocity;
             }
 
             onHitBottomStay?.Invoke(bottomHit);
@@ -358,6 +361,8 @@ public class ExpandRigidBody : MonoBehaviour
                     float correct = (bottomHit.point.y - Bottom + physicalGap) / Time.fixedDeltaTime;
                     if (currentVelocity.y >= 0) currentVelocity.y = correct;
                     else currentVelocity.y += correct;
+
+                    if (bottomHit.rigidbody) currentVelocity += bottomHit.rigidbody.velocity;
                 }
 
                 onHitBottomStay?.Invoke(bottomHit);
