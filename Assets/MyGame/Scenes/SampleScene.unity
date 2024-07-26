@@ -3433,7 +3433,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   launcher: {fileID: 193906506}
-  PlayerDeathEffect: {fileID: 2033599882}
 --- !u!95 &1836540452
 Animator:
   serializedVersion: 5
@@ -3557,7 +3556,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   explodePool: {fileID: 181752605}
   rockBusterPool: {fileID: 2133600924}
-  playerDeathEffect: {fileID: 0}
+  playerDeathEffect: {fileID: 2033599882}
 --- !u!1 &1943220354
 GameObject:
   m_ObjectHideFlags: 0
