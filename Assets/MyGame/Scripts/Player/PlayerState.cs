@@ -531,7 +531,6 @@ public partial class Player
         }
     }
 
-
     public class JumpingBuster : State<Player>
     {
         int animationHash = 0;
@@ -590,6 +589,16 @@ public partial class Player
                 player.LaunchBaster();
             }
             time -= Time.deltaTime;
+        }
+    }
+
+    public class Death : State<Player>
+    {
+        public override void Enter(int preId, Player player)
+        {
+            player.gameObject.SetActive(false);
+            EffectManager.Instance.PlayerDeathEffect.gameObject.transform.position = player.transform.position;
+            EffectManager.Instance.PlayerDeathEffect.Play();
         }
     }
 }

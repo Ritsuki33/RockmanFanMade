@@ -46,6 +46,7 @@ public partial class Player : MonoBehaviour
         stateMachine.AddState(8, new RunBuster());
         stateMachine.AddState(9, new FloatBuster());
         stateMachine.AddState(10, new JumpingBuster());
+        stateMachine.AddState(11, new Death());
         stateMachine.TransitState(1);
     }
 
@@ -80,6 +81,14 @@ public partial class Player : MonoBehaviour
         isUpdate = true;
     }
 
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("DeadZone"))
+        {
+            Dead();
+        }
+    }
+
     private void OnTriggerStay2D(Collider2D collision)
     {
         if (collision.gameObject.CompareTag("Ladder"))
@@ -101,5 +110,10 @@ public partial class Player : MonoBehaviour
     {
         var rockBaster = RockBusterPool.Pool.Get();
         rockBaster.Init((IsRight) ? Vector2.right : Vector2.left, launcher.transform.position);
+    }
+
+    public void Dead()
+    {
+        stateMachine.TransitState(11);
     }
 }
