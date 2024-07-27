@@ -176,7 +176,7 @@ public partial class Player
         }
     }
 
-    public class Jumping : State<Player>
+    class Jumping : State<Player>
     {
         int animationHash = 0;
         public Jumping() { animationHash = Animator.StringToHash("Float"); }
@@ -366,7 +366,7 @@ public partial class Player
     {
 
         int animationHash = 0;
-        public IdleFire(){ animationHash = Animator.StringToHash("Fire"); }
+        public IdleFire() { animationHash = Animator.StringToHash("Fire"); }
 
         float time = 0.15f;
         public override void Enter(int preId, Player player)
@@ -406,13 +406,13 @@ public partial class Player
                 player.stateMachine.TransitState(1);
             }
         }
-     
+
     }
 
     class RunBuster : State<Player>
     {
         int animationHash = 0;
-        public RunBuster()  { animationHash = Animator.StringToHash("RunBuster"); }
+        public RunBuster() { animationHash = Animator.StringToHash("RunBuster"); }
         float time = 0.3f;
         public override void Enter(int preId, Player player)
         {
@@ -485,7 +485,7 @@ public partial class Player
             time = 0.15f;
             player.animator.Play(animationHash);
 
-            if(preId!=10)player.LaunchBaster();
+            if (preId != 10) player.LaunchBaster();
         }
 
         public override void FixedUpdate(Player player)
@@ -531,7 +531,7 @@ public partial class Player
         }
     }
 
-    public class JumpingBuster : State<Player>
+    class JumpingBuster : State<Player>
     {
         int animationHash = 0;
         public JumpingBuster() { animationHash = Animator.StringToHash("FloatBuster"); }
@@ -581,7 +581,6 @@ public partial class Player
             if (time < 0)
             {
                 player.stateMachine.TransitState(4);
-                Debug.Log("Bug");
             }
             else if (player.inputInfo.fire)
             {
@@ -592,13 +591,45 @@ public partial class Player
         }
     }
 
-    public class Death : State<Player>
+    class Death : State<Player>
     {
         public override void Enter(int preId, Player player)
         {
             player.gameObject.SetActive(false);
             EffectManager.Instance.PlayerDeathEffect.gameObject.transform.position = player.transform.position;
             EffectManager.Instance.PlayerDeathEffect.Play();
+        }
+    }
+
+    class Transfer : State<Player>
+    {
+        int animationHash = 0;
+        public Transfer() { animationHash = Animator.StringToHash("Transfer"); }
+
+        public override void Enter(int preId, Player player)
+        {
+            player.animator.Play(animationHash);
+        }
+
+        public override void FixedUpdate(Player player)
+        {
+            player.exRb.velocity = Vector2.down * 13;
+
+            if (player.onTheGround.CheckBottomHit())
+            {
+                player.stateMachine.TransitState(13);
+            }
+        }
+    }
+
+    class Transfered : State<Player>
+    {
+        int animationHash = 0;
+        public Transfered() { animationHash = Animator.StringToHash("Transfered"); }
+
+        public override void Enter(int preId, Player player)
+        {
+            player.animator.Play(animationHash);
         }
     }
 }

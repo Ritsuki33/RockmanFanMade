@@ -20,7 +20,7 @@ public class ExpandRigidBody : MonoBehaviour
         Right,
         Center
     }
-    [SerializeField] Rigidbody2D rb;
+    Rigidbody2D rb;
 
     [SerializeField] Vector2 physicalOffset = new Vector2(0.05f, 0.05f);
     [SerializeField] float physicalGap = 0.005f;
@@ -168,6 +168,17 @@ public class ExpandRigidBody : MonoBehaviour
     {
         boxCollider = GetComponent<BoxCollider2D>();
         physicalLayer = Physics2D.GetLayerCollisionMask(boxCollider.gameObject.layer);
+
+
+        rb = GetComponent<Rigidbody2D>();
+        if (!rb) rb = gameObject.AddComponent<Rigidbody2D>();
+
+        rb.bodyType = RigidbodyType2D.Dynamic;
+        rb.mass = 0;
+        rb.drag = 0;
+        rb.gravityScale = 0;
+        rb.angularDrag = 0;
+        rb.constraints = RigidbodyConstraints2D.FreezeRotation;
     }
 
     /// <summary>
@@ -198,7 +209,7 @@ public class ExpandRigidBody : MonoBehaviour
 
     private void FixedUpdate()
     {
-        CorrectVelocity();
+        if (boxCollider.enabled) CorrectVelocity();
 
         rb.velocity= currentVelocity;
         currentVelocity = Vector2.zero;
@@ -408,6 +419,7 @@ public class ExpandRigidBody : MonoBehaviour
 
     private void OnDrawGizmos()
     {
+        if (boxCollider && !boxCollider.enabled) return;
         Gizmos.color = Color.red;
 
         //Vector2 topCheckCenter = new Vector2(boxColliderCenter.x, boxColliderCenter.y + boxColliderSize.y / 2 + physicalOffset.y /2 + ((currentMovement.y > 0) ? currentMovement.y / 2 : 0));
