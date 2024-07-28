@@ -79,6 +79,9 @@ public class GameManager : SingletonComponent<GameManager>
 
     IEnumerator StageStartCo()
     {
+        yield return new WaitForSeconds(1);
+        UiManager.Instance.FadeInManager.FadeOut();
+        while (UiManager.Instance.FadeInManager.IsFade) yield return null;
         player.Prepare(StartPos);
         UiManager.Instance.ReadyUi.Play();
         while(UiManager.Instance.ReadyUi.IsPlaying) yield return null;
