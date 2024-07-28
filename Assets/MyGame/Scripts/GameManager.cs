@@ -19,8 +19,8 @@ public struct InputInfo
 public class GameManager : SingletonComponent<GameManager>
 {
     [SerializeField] MainCameraControll m_mainCameraControll = default;
-
     [SerializeField] Player player = default;
+    [SerializeField] Transform StartPos = default;
 
     public MainCameraControll MainCameraControll => m_mainCameraControll;
 
@@ -34,6 +34,7 @@ public class GameManager : SingletonComponent<GameManager>
     protected override void Awake()
     {
         base.Awake();
+        StageStart();
     }
 
     private void Update()
@@ -70,10 +71,17 @@ public class GameManager : SingletonComponent<GameManager>
         }
         player.PlayerPuaseCancel();
     }
-
-    IEnumerator PlayerForceMove()
+   
+    public void StageStart()
     {
-        yield return new WaitForSeconds(1f);
-        player.PlayerPause();
+        StartCoroutine(StageStartCo());
     }
-  }
+
+    IEnumerator StageStartCo()
+    {
+        player.Prepare(StartPos);
+        UiManager.Instance.ReadyUi.Play();
+        while(UiManager.Instance.ReadyUi.IsPlaying) yield return null;
+        player.TransferPlayer();
+    }
+}
