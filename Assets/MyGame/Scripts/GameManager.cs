@@ -33,7 +33,7 @@ public class GameManager : SingletonComponent<GameManager>
 
     protected override void Awake()
     {
-        base.Awake();
+        UiManager.Instance.ReadyUi.Play();
     }
 
     private void Update()
