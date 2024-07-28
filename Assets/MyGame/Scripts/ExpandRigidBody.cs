@@ -370,7 +370,7 @@ public class ExpandRigidBody : MonoBehaviour
                 if (!topHit)
                 {
                     float correct = (bottomHit.point.y - Bottom + physicalGap) / Time.fixedDeltaTime;
-                    if (currentVelocity.y >= 0) currentVelocity.y = correct;
+                    if (currentVelocity.y <= 0) currentVelocity.y = correct;
                     else currentVelocity.y += correct;
 
                     if (bottomHit.rigidbody) currentVelocity += bottomHit.rigidbody.velocity;
