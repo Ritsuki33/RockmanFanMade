@@ -49,7 +49,6 @@ public partial class Player : MonoBehaviour
         stateMachine.AddState(11, new Death());
         stateMachine.AddState(12, new Transfer());
         stateMachine.AddState(13, new Transfered());
-        stateMachine.TransitState(12);
     }
 
     private void FixedUpdate()
@@ -122,5 +121,17 @@ public partial class Player : MonoBehaviour
     public void TransferedAnimationEnd()
     {
         stateMachine.TransitState(0);
+    }
+
+    public void Prepare(Transform tranform)
+    {
+        this.gameObject.SetActive(false);
+        this.transform.position = tranform.position;
+    }
+
+    public void TransferPlayer()
+    {
+        this.gameObject.SetActive(true);
+        stateMachine.TransitState(12);
     }
 }

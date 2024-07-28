@@ -11,7 +11,7 @@ public class ReadyUi : MonoBehaviour
 
     Coroutine coroutine = default;
 
-    public bool IsBlinking => coroutine != null;
+    public bool IsPlaying => coroutine != null;
 
     private void Awake()
     {
