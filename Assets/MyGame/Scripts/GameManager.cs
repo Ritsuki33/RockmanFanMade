@@ -80,7 +80,7 @@ public class GameManager : SingletonComponent<GameManager>
     IEnumerator StageStartCo()
     {
         yield return new WaitForSeconds(1);
-        UiManager.Instance.FadeInManager.FadeOut();
+        UiManager.Instance.FadeInManager.FadeIn();
         while (UiManager.Instance.FadeInManager.IsFade) yield return null;
         player.Prepare(StartPos);
         UiManager.Instance.ReadyUi.Play();
