@@ -9,6 +9,7 @@ public class Jump : MonoBehaviour, IHitEvent
 
     float currentSpeed = 0;
 
+    bool isBottomHit = false;
     public void Init()
     {
         this.currentSpeed = speed;
@@ -26,6 +27,12 @@ public class Jump : MonoBehaviour, IHitEvent
 
     public void OnBottomHitStay(RaycastHit2D hit)
     {
-        currentSpeed = 0;
+        if (!isBottomHit) currentSpeed = 0;
+        isBottomHit = true;
+    }
+
+    public void OnBottomHitExit(RaycastHit2D hit)
+    {
+        isBottomHit = false;
     }
 }
