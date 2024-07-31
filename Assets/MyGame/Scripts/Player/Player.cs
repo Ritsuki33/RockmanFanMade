@@ -117,6 +117,7 @@ public partial class Player : MonoBehaviour
     public void Dead()
     {
         stateMachine.TransitState(11);
+        GameManager.Instance.DeathNotification();
     }
 
     public void TransferedAnimationEnd()

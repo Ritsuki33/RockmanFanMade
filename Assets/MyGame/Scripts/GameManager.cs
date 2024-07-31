@@ -1,4 +1,5 @@
 using Cinemachine;
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -79,9 +80,26 @@ public class GameManager : SingletonComponent<GameManager>
 
     IEnumerator StageStartCo()
     {
+        yield return new WaitForSeconds(1);
         player.Prepare(StartPos);
+        UiManager.Instance.FadeInManager.FadeIn();
+        while (UiManager.Instance.FadeInManager.IsFade) yield return null;
         UiManager.Instance.ReadyUi.Play();
         while(UiManager.Instance.ReadyUi.IsPlaying) yield return null;
         player.TransferPlayer();
+    }
+
+    public void DeathNotification()
+    {
+        StartCoroutine(DeathExecuteCo(StageStart));
+    }
+
+    IEnumerator DeathExecuteCo(Action action)
+    {
+        yield return new WaitForSeconds(4.0f);
+        UiManager.Instance.FadeInManager.FadeOut();
+        while (UiManager.Instance.FadeInManager.IsFade) yield return null;
+
+        action.Invoke();
     }
 }
