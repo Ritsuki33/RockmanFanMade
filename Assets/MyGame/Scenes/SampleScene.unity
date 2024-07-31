@@ -3983,7 +3983,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   explodePool: {fileID: 181752605}
-  explode2Pool: {fileID: 0}
+  explode2Pool: {fileID: 423814550}
   rockBusterPool: {fileID: 2133600924}
   playerDeathEffect: {fileID: 2033599882}
 --- !u!1 &1943220354
