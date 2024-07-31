@@ -19,7 +19,7 @@ public partial class Player : MonoBehaviour
 
     [SerializeField] GameObject launcher;
 
-    [SerializeField] RockBusterPool RockBusterPool => EffectManager.Instance.RockBusterPool;
+    [SerializeField] BaseObjectPool RockBusterPool => EffectManager.Instance.RockBusterPool;
 
     bool IsRight => this.transform.localScale.x > 0;
     private void Awake()
@@ -110,7 +110,8 @@ public partial class Player : MonoBehaviour
     public void LaunchBaster()
     {
         var rockBaster = RockBusterPool.Pool.Get();
-        rockBaster.Init((IsRight) ? Vector2.right : Vector2.left, launcher.transform.position);
+        
+        rockBaster.GetComponent<RockBuster>().Init((IsRight) ? Vector2.right : Vector2.left, launcher.transform.position);
     }
 
     public void Dead()
