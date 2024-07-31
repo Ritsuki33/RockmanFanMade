@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.Pool;
 
-public class ReusableObject<T> : MonoBehaviour where T : MonoBehaviour
+public class ReusableObject: MonoBehaviour 
 {
-    public IObjectPool<T> Pool { get; set; }
+    public IObjectPool<ReusableObject> Pool { get; set; }
 }
