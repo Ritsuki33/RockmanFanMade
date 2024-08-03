@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Move : MonoBehaviour, IHitEvent
+public class Move : BaseExRbHit
 {
     [SerializeField] float speed = 5.0f;
 
@@ -29,8 +29,9 @@ public class Move : MonoBehaviour, IHitEvent
 
     RaycastHit2D leftHit;
     RaycastHit2D rightHit;
-    private void Awake()
+    protected  override void Awake()
     {
+        base.Awake();
         rb = GetComponent<Rigidbody2D>();
         physicalLayer = Physics2D.GetLayerCollisionMask(this.gameObject.layer);
     }
@@ -81,11 +82,11 @@ public class Move : MonoBehaviour, IHitEvent
     //}
 
 
-    public void OnRightHitStay(RaycastHit2D hit) {
+    protected override void OnRightHitStay(RaycastHit2D hit) {
         if (velocity.x > 0) velocity.x = 0;
     }
 
-    public void OnLeftHitStay(RaycastHit2D hit)
+    protected override void OnLeftHitStay(RaycastHit2D hit)
     {
         if (velocity.x < 0) velocity.x = 0;
     }

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Gravity : MonoBehaviour, IHitEvent
+public class Gravity : BaseExRbHit
 {
     [SerializeField] float speed = 1;
     [SerializeField] float masSpeed = 10;
@@ -10,27 +10,10 @@ public class Gravity : MonoBehaviour, IHitEvent
 
     public Vector2 CurrentVelocity => Vector2.down * currentSpeed;
 
-    Rigidbody2D rb = default;
-    
-    private void Awake()
+    protected override void Awake()
     {
-        rb = GetComponent<Rigidbody2D>();
+       base.Awake();
     }
-
-    //private void OnEnable()
-    //{
-    //    VelocityControll player = GetComponent<VelocityControll>();
-    //    if (player)
-    //    {
-    //        player.onHitBottomStay += OnBottomHit;
-    //    }
-    //}
-
-    //private void OnDisable()
-    //{
-    //    VelocityControll player = GetComponent<VelocityControll>();
-    //    if (player) player.onHitBottomStay -= OnBottomHit;
-    //}
 
     public Vector2 GetVelocity()
     {
@@ -40,7 +23,7 @@ public class Gravity : MonoBehaviour, IHitEvent
         return Vector2.down * currentSpeed;
     }
 
-    public void OnBottomHitStay(RaycastHit2D hit)
+    protected override void OnBottomHitStay(RaycastHit2D hit)
     {
         float angle = Vector2.Angle(Vector2.up, hit.normal);
         if (angle < canStopSlope)

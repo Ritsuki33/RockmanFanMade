@@ -600,14 +600,30 @@ public class ExpandRigidBody : MonoBehaviour
     /// <param name="createVelocity"></param>
     public void AddOnHitEventCallback(IHitEvent createVelocity)
     {
-        onHitBottomStay += createVelocity.OnBottomHitStay;
-        onHitTopStay += createVelocity.OnTopHitStay;
-        onHitLeftStay += createVelocity.OnLeftHitStay;
-        onHitRightStay += createVelocity.OnRightHitStay;
-        onHitBottomExit += createVelocity.OnBottomHitExit;
-        onHitTopExit += createVelocity.OnTopHitExit;
-        onHitRightExit += createVelocity.OnRightHitExit;
-        onHitLeftExit += createVelocity.OnLeftHitExit;
+        onHitBottomStay += createVelocity.BottomHitStay;
+        onHitTopStay += createVelocity.TopHitStay;
+        onHitLeftStay += createVelocity.LeftHitStay;
+        onHitRightStay += createVelocity.RightHitStay;
+        onHitBottomExit += createVelocity.BottomHitExit;
+        onHitTopExit += createVelocity.TopHitExit;
+        onHitRightExit += createVelocity.RightHitExit;
+        onHitLeftExit += createVelocity.LeftHitExit;
+    }
+
+    /// <summary>
+    /// 上下左右ヒット時のコールバック削除
+    /// </summary>
+    /// <param name="createVelocity"></param>
+    public void RemoveOnHitEventCallback(IHitEvent createVelocity)
+    {
+        onHitBottomStay -= createVelocity.BottomHitStay;
+        onHitTopStay -= createVelocity.TopHitStay;
+        onHitLeftStay -= createVelocity.LeftHitStay;
+        onHitRightStay -= createVelocity.RightHitStay;
+        onHitBottomExit -= createVelocity.BottomHitExit;
+        onHitTopExit -= createVelocity.TopHitExit;
+        onHitRightExit -= createVelocity.RightHitExit;
+        onHitLeftExit -= createVelocity.LeftHitExit;
     }
 
     private void OnDrawGizmos()

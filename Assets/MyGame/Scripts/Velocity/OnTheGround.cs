@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class OnTheGround : MonoBehaviour,IHitEvent
+public class OnTheGround : BaseExRbHit
 {
     [SerializeField]float offset_y = 0.01f;
     [SerializeField]float check_y = 0.01f;
@@ -24,8 +24,9 @@ public class OnTheGround : MonoBehaviour,IHitEvent
 
     //public Vector2 MoveOnTheGround { get; set; }
 
-    private void Awake()
+    protected override void Awake()
     {
+        base.Awake();
         boxCollider=GetComponent<BoxCollider2D>();
     }
 
@@ -52,11 +53,11 @@ public class OnTheGround : MonoBehaviour,IHitEvent
         if (hit) Gizmos.DrawSphere(hit.point, 0.05f);
     }
 
-    public void OnBottomHitStay(RaycastHit2D hit)
+    protected override void OnBottomHitStay(RaycastHit2D hit)
     {
         bottomhit = true;
     }
-    public void OnBottomHitExit(RaycastHit2D hit)
+    protected override void OnBottomHitExit(RaycastHit2D hit)
     {
         bottomhit = false;
     }

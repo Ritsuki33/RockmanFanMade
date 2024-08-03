@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Jump : MonoBehaviour, IHitEvent
+public class Jump : BaseExRbHit
 {
     [SerializeField] float speed = 15;
     [SerializeField] float decrease = 1;
@@ -25,13 +25,13 @@ public class Jump : MonoBehaviour, IHitEvent
     }
 
 
-    public void OnBottomHitStay(RaycastHit2D hit)
+    protected override void OnBottomHitStay(RaycastHit2D hit)
     {
         if (!isBottomHit) currentSpeed = 0;
         isBottomHit = true;
     }
 
-    public void OnBottomHitExit(RaycastHit2D hit)
+    protected override void OnBottomHitExit(RaycastHit2D hit)
     {
         isBottomHit = false;
     }
