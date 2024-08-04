@@ -11,7 +11,7 @@ public partial class MettoruController
         int animationHash = 0;
         public Idle() { animationHash = Animator.StringToHash("Idle"); }
 
-        public override void Enter(int preId, MettoruController mettoru)
+        public override void Enter(MettoruController mettoru, int preId)
         {
             mettoru._animator.Play(animationHash);
         }

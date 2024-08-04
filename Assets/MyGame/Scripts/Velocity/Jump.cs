@@ -4,24 +4,30 @@ using UnityEngine;
 
 public class Jump : BaseExRbHit
 {
-    [SerializeField] float speed = 15;
-    [SerializeField] float decrease = 1;
+    [SerializeField] float maxSpeed = 15;
 
     float currentSpeed = 0;
 
     bool isBottomHit = false;
 
     public Vector2 CurrentVelocity => Vector2.up * currentSpeed;
+    public float CurrentSpeed => currentSpeed;
 
     public void Init()
     {
-        this.currentSpeed = speed;
+        this.currentSpeed = maxSpeed;
     }
+
     public void UpdateVelocity(float gravity)
     {
         currentSpeed -= gravity;
 
-        currentSpeed = Mathf.Clamp(currentSpeed, 0, speed);
+        currentSpeed = Mathf.Clamp(currentSpeed, 0, maxSpeed);
+    }
+
+    public void SetSpeed(float val)
+    {
+        this.currentSpeed = val;
     }
 
     public void Reset()
