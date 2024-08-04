@@ -18,7 +18,8 @@ public partial class MettoruController
 
         public override void FixedUpdate(MettoruController mettoru)
         {
-            mettoru.exRb.velocity = mettoru.gravity.GetVelocity();
+            mettoru.gravity.UpdateVelocity();
+            mettoru.exRb.velocity = mettoru.gravity.CurrentVelocity;
         }
 
         public override void Update(MettoruController mettoru)

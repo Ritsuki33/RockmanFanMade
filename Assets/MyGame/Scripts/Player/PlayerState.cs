@@ -18,7 +18,8 @@ public partial class Player
 
         public override void FixedUpdate(Player player)
         {
-            player.exRb.velocity = player.gravity.GetVelocity();
+            player.gravity.UpdateVelocity();
+            player.exRb.velocity = player.gravity.CurrentVelocity;
 
             var hitCheck = player.onTheGround.Check();
             if (!hitCheck)
@@ -80,7 +81,8 @@ public partial class Player
 
         public override void FixedUpdate(Player player)
         {
-            player.exRb.velocity = player.gravity.GetVelocity();
+            player.gravity.UpdateVelocity();
+            player.exRb.velocity = player.gravity.CurrentVelocity;
             Move.InputType type = default;
             if (player.inputInfo.left == true) type = Move.InputType.Left;
             else if (player.inputInfo.right == true) type = Move.InputType.Right;
@@ -133,7 +135,8 @@ public partial class Player
 
         public override void FixedUpdate(Player player)
         {
-            player.exRb.velocity += player.gravity.GetVelocity();
+            player.gravity.UpdateVelocity();
+            player.exRb.velocity += player.gravity.CurrentVelocity;
             Move.InputType type = default;
             if (player.inputInfo.left == true) type = Move.InputType.Left;
             else if (player.inputInfo.right == true) type = Move.InputType.Right;
@@ -184,12 +187,13 @@ public partial class Player
         public override void Enter(int preId, Player player)
         {
             player.animator.Play(animationHash);
-            if (preId != 10) player.jump.Init();
+            if (preId != (int)StateID.JumpingBuster) player.jump.Init();
             player.onTheGround.Reset();
         }
 
         public override void FixedUpdate(Player player)
         {
+            player.jump.UpdateVelocity(player.gravity.GravityScale);
             Move.InputType type = default;
             if (player.inputInfo.left == true) type = Move.InputType.Left;
             else if (player.inputInfo.right == true) type = Move.InputType.Right;
@@ -210,10 +214,9 @@ public partial class Player
                 player.transform.localScale = localScale;
             }
 
-            Vector2 jumpSpeed = player.jump.GetVelocity();
-            player.exRb.velocity += jumpSpeed;
+            player.exRb.velocity += player.jump.CurrentVelocity;
 
-            if (jumpSpeed.sqrMagnitude <= 0.001f)
+            if (player.jump.CurrentVelocity.sqrMagnitude <= 0.001f)
             {
                 player.stateMachine.TransitState((int)StateID.Float);
             }
@@ -267,8 +270,6 @@ public partial class Player
                 default:
                     break;
             }
-
-
         }
 
         public override void Update(Player player)
@@ -306,6 +307,11 @@ public partial class Player
             {
                 input = Dir.None;
                 player.animator.speed = 0;
+            }
+
+            if (player.inputInfo.jump)
+            {
+                player.stateMachine.TransitState((int)StateID.Float);
             }
         }
 
@@ -398,7 +404,8 @@ public partial class Player
 
         public override void FixedUpdate(Player player)
         {
-            player.exRb.velocity = player.gravity.GetVelocity();
+            player.gravity.UpdateVelocity();
+            player.exRb.velocity = player.gravity.CurrentVelocity;
 
             var hitCheck = player.onTheGround.Check();
             if (!hitCheck)
@@ -474,7 +481,6 @@ public partial class Player
         }
     }
 
-
     class FloatBuster : State<Player>
     {
         int animationHash = 0;
@@ -490,7 +496,8 @@ public partial class Player
 
         public override void FixedUpdate(Player player)
         {
-            player.exRb.velocity = player.gravity.GetVelocity();
+            player.gravity.UpdateVelocity();
+            player.exRb.velocity = player.gravity.CurrentVelocity;
             Move.InputType type = default;
             if (player.inputInfo.left == true) type = Move.InputType.Left;
             else if (player.inputInfo.right == true) type = Move.InputType.Right;
@@ -547,6 +554,7 @@ public partial class Player
 
         public override void FixedUpdate(Player player)
         {
+            player.jump.UpdateVelocity(player.gravity.GravityScale);
             Move.InputType type = default;
             if (player.inputInfo.left == true) type = Move.InputType.Left;
             else if (player.inputInfo.right == true) type = Move.InputType.Right;
@@ -567,10 +575,9 @@ public partial class Player
                 player.transform.localScale = localScale;
             }
 
-            Vector2 jumpSpeed = player.jump.GetVelocity();
-            player.exRb.velocity += jumpSpeed;
+            player.exRb.velocity += player.jump.CurrentVelocity;
 
-            if (jumpSpeed.sqrMagnitude <= 0.001f)
+            if (player.jump.CurrentVelocity.sqrMagnitude <= 0.001f)
             {
                 player.stateMachine.TransitState((int)StateID.FloatBuster);
             }

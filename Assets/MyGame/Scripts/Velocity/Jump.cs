@@ -10,20 +10,24 @@ public class Jump : BaseExRbHit
     float currentSpeed = 0;
 
     bool isBottomHit = false;
+
+    public Vector2 CurrentVelocity => Vector2.up * currentSpeed;
+
     public void Init()
     {
         this.currentSpeed = speed;
     }
-
-    public Vector2 GetVelocity()
+    public void UpdateVelocity(float gravity)
     {
-         currentSpeed -= decrease;
+        currentSpeed -= gravity;
 
         currentSpeed = Mathf.Clamp(currentSpeed, 0, speed);
-
-        return Vector2.up * currentSpeed;
     }
 
+    public void Reset()
+    {
+        this.currentSpeed = 0;
+    }
 
     protected override void OnBottomHitStay(RaycastHit2D hit)
     {
