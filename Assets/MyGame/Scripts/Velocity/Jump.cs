@@ -30,11 +30,6 @@ public class Jump : BaseExRbHit
         this.currentSpeed = val;
     }
 
-    public void Reset()
-    {
-        this.currentSpeed = 0;
-    }
-
     protected override void OnBottomHitStay(RaycastHit2D hit)
     {
         if (!isBottomHit) currentSpeed = 0;

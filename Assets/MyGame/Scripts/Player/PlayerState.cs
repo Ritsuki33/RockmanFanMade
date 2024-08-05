@@ -241,7 +241,7 @@ public partial class Player
 
         public override void Exit(Player player, int nextId)
         {
-            if (nextId != (int)StateID.JumpingBuster) player.jump.Reset(); 
+            if (nextId != (int)StateID.JumpingBuster) player.jump.SetSpeed(0); 
         }
     }
 
