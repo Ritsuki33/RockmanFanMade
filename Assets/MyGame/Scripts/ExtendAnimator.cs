@@ -4,7 +4,7 @@ using UnityEngine;
 
 static public class ExtendAnimator
 {
-    static public bool IsPlaying(this Animator _animator)
+    static public bool IsPlayingCurrentAnimation(this Animator _animator)
     {
         AnimatorStateInfo stateInfo = _animator.GetCurrentAnimatorStateInfo(0);
 

@@ -4,7 +4,6 @@ using UnityEngine;
 
 public partial class MettoruController 
 {
-    private bool invincible = false;
     class Idle : State<MettoruController>
     {
         int animationHash = 0;
@@ -23,12 +22,14 @@ public partial class MettoruController
 
         public override void Update(MettoruController mettoru)
         {
-            time += Time.deltaTime;
+            //time += Time.deltaTime;
 
-            if (time > 1f)
-            {
-                mettoru.stateMachine.TransitState((int)StateID.Hide);
-            }
+            //if (time > 1f)
+            //{
+            //    mettoru.stateMachine.TransitState((int)StateID.Hide);
+            //}
+
+            mettoru.TurnFace();
         }
 
         public override void Exit(MettoruController obj, int nextId)
@@ -55,7 +56,7 @@ public partial class MettoruController
 
         public override void Update(MettoruController mettoru)
         {
-            if (!mettoru._animator.IsPlaying())
+            if (!mettoru._animator.IsPlayingCurrentAnimation())
             {
                 mettoru.stateMachine.TransitState((int)StateID.Appear);
             }
@@ -80,7 +81,7 @@ public partial class MettoruController
 
         public override void Update(MettoruController mettoru)
         {
-            if (!mettoru._animator.IsPlaying())
+            if (!mettoru._animator.IsPlayingCurrentAnimation())
             {
                 mettoru.stateMachine.TransitState((int)StateID.Hide);
             }
