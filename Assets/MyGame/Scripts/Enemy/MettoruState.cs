@@ -1,3 +1,4 @@
+using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -22,13 +23,6 @@ public partial class MettoruController
 
         public override void Update(MettoruController mettoru)
         {
-            //time += Time.deltaTime;
-
-            //if (time > 1f)
-            //{
-            //    mettoru.stateMachine.TransitState((int)StateID.Hide);
-            //}
-
             mettoru.TurnFace();
         }
 
@@ -43,9 +37,12 @@ public partial class MettoruController
         int animationHash = 0;
         public Hide() { animationHash = Animator.StringToHash("Hide"); }
 
+        float time = 2;
         public override void Enter(MettoruController mettoru, int preId)
         {
+            time = 2;
             mettoru._animator.Play(animationHash);
+            mettoru.invincible = true;
         }
 
         public override void FixedUpdate(MettoruController mettoru)
@@ -57,6 +54,12 @@ public partial class MettoruController
         public override void Update(MettoruController mettoru)
         {
             if (!mettoru._animator.IsPlayingCurrentAnimation())
+            {
+                mettoru.TurnFace();
+            }
+
+            time -= Time.deltaTime;
+            if (time <0)
             {
                 mettoru.stateMachine.TransitState((int)StateID.Appear);
             }
@@ -66,11 +69,15 @@ public partial class MettoruController
     class Appear : State<MettoruController>
     {
         int animationHash = 0;
+        float time = 2;
         public Appear() { animationHash = Animator.StringToHash("Appear"); }
 
         public override void Enter(MettoruController mettoru, int preId)
         {
-            mettoru._animator.Play(animationHash); 
+            time = 2;
+            mettoru._animator.Play(animationHash);
+            mettoru.Fire();
+            mettoru.invincible = false;
         }
 
         public override void FixedUpdate(MettoruController mettoru)
@@ -83,8 +90,15 @@ public partial class MettoruController
         {
             if (!mettoru._animator.IsPlayingCurrentAnimation())
             {
+                mettoru.TurnFace();
+            }
+
+            time -= Time.deltaTime;
+            if (time < 0)
+            {
                 mettoru.stateMachine.TransitState((int)StateID.Hide);
             }
+           
         }
     }
 }

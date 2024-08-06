@@ -2777,7 +2777,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 570186311}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.04, y: -0.23, z: 0}
+  m_LocalPosition: {x: -1.04, y: -0.677, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -2859,7 +2859,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 428ca68a2d919f9499efa9b9d3e1b3f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  exRb: {fileID: 0}
   speed: 1
   maxSpeed: 10
   canStopSlope: 45
@@ -3540,7 +3539,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6428f17e52015684683e9c774633b242, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  prefab: {fileID: 0}
+  prefab: {fileID: 1078361096464978032, guid: 738101ea82959744ebc7803fc660f962, type: 3}
   defaultCapacity: 10
   maxSize: 10
 --- !u!1 &1144012518
@@ -4168,7 +4167,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 428ca68a2d919f9499efa9b9d3e1b3f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  exRb: {fileID: 0}
   speed: 1
   maxSpeed: 10
   canStopSlope: 45
@@ -4256,7 +4254,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e24a7cd47c14ba7458e97c388650a51c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  exRb: {fileID: 0}
   speed: 5
   interval_x: 1
   checkSize: {x: 0.05, y: 0.85}
@@ -4306,7 +4303,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 63807ad636ab6a5479a7b1c6aecc6c07, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  exRb: {fileID: 0}
   offset_y: -0.4
   check_y: 0.3
   physicalLayer:
@@ -4346,7 +4342,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 810d5c94a5f6d52498f22fb0ec9292e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  exRb: {fileID: 0}
   maxSpeed: 15
 --- !u!1 &1881766348
 GameObject:
@@ -4400,7 +4395,7 @@ MonoBehaviour:
   explodePool: {fileID: 181752605}
   explode2Pool: {fileID: 423814550}
   rockBusterPool: {fileID: 2133600924}
-  mettoruFirePool: {fileID: 0}
+  mettoruFirePool: {fileID: 1029157792}
   playerDeathEffect: {fileID: 2033599882}
 --- !u!1 &1943220354
 GameObject:
@@ -4981,7 +4976,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6428f17e52015684683e9c774633b242, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  prefab: {fileID: 9215056445613080431, guid: 3aa76ed7d8599b14d8ea3aac03793f44, type: 3}
+  prefab: {fileID: 2545916196248826908, guid: 3aa76ed7d8599b14d8ea3aac03793f44, type: 3}
   defaultCapacity: 10
   maxSize: 10
 --- !u!1 &2142786746

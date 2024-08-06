@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class BaseExRbHit : MonoBehaviour, IHitEvent
 {
-    [SerializeField] ExpandRigidBody exRb;
+    ExpandRigidBody exRb;
     protected virtual void Awake()
     {
         exRb = GetComponent<ExpandRigidBody>();

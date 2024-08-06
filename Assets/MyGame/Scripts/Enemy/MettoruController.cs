@@ -23,7 +23,8 @@ public partial class MettoruController : MonoBehaviour
 
     private Player Player => GameManager.Instance.Player;
     private BaseObjectPool ExplodePool => EffectManager.Instance.ExplodePool;
-    bool IsRight => this.transform.localScale.x > 0;
+    private BaseObjectPool MettoruFire => EffectManager.Instance.MettoruFirePool;
+    bool IsRight => this.transform.localScale.x < 0;
 
     bool defense = false;
     private void Awake()
@@ -35,7 +36,7 @@ public partial class MettoruController : MonoBehaviour
         stateMachine.AddState((int)StateID.Hide, new Hide());
         stateMachine.AddState((int)StateID.Appear, new Appear());
 
-        stateMachine.TransitState((int)StateID.Idle);
+        stateMachine.TransitState((int)StateID.Hide);
     }
 
 
@@ -75,13 +76,21 @@ public partial class MettoruController : MonoBehaviour
     }
 
     /// <summary>
+    /// ’e‚ð‚¤‚Â
+    /// </summary>
+    public void Fire()
+    {
+        var fire=MettoruFire.Pool.Get();
+
+        fire.GetComponent<Projectile>().Init((IsRight) ? Vector2.right : Vector2.left, this.transform.position, 0.01f);
+    }
+
+    /// <summary>
     /// Ž€–S
     /// </summary>
     /// <param name="collision"></param>
     private void Dead(Collider2D collision)
     {
-        Debug.Log("Dead");
-
         var rockBuster = collision.gameObject.GetComponent<Projectile>();
         rockBuster?.Delete();
 
