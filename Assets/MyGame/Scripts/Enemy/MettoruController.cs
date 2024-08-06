@@ -27,7 +27,7 @@ public partial class MettoruController : MonoBehaviour
         stateMachine.AddState((int)StateID.Hide, new Hide());
         stateMachine.AddState((int)StateID.Appear, new Appear());
 
-        stateMachine.TransitState((int)StateID.Appear);
+        stateMachine.TransitState((int)StateID.Hide);
     }
 
 
@@ -39,5 +39,13 @@ public partial class MettoruController : MonoBehaviour
     private void Update()
     {
         stateMachine.Update(this);
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("RockBuster"))
+        {
+            Debug.Log("Hit");
+        }
     }
 }

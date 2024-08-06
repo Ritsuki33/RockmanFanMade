@@ -41,7 +41,6 @@ public partial class MettoruController
     {
         int animationHash = 0;
         public Hide() { animationHash = Animator.StringToHash("Hide"); }
-        float time = 0f;
 
         public override void Enter(MettoruController mettoru, int preId)
         {
@@ -56,17 +55,10 @@ public partial class MettoruController
 
         public override void Update(MettoruController mettoru)
         {
-            time += Time.deltaTime;
-
-            if (time > 1f)
+            if (!mettoru._animator.IsPlaying())
             {
                 mettoru.stateMachine.TransitState((int)StateID.Appear);
             }
-        }
-
-        public override void Exit(MettoruController obj, int nextId)
-        {
-            time = 0;
         }
     }
 
@@ -74,7 +66,6 @@ public partial class MettoruController
     {
         int animationHash = 0;
         public Appear() { animationHash = Animator.StringToHash("Appear"); }
-        float time = 0f;
 
         public override void Enter(MettoruController mettoru, int preId)
         {
@@ -89,17 +80,10 @@ public partial class MettoruController
 
         public override void Update(MettoruController mettoru)
         {
-            time += Time.deltaTime;
-
-            if (time > 1f)
+            if (!mettoru._animator.IsPlaying())
             {
                 mettoru.stateMachine.TransitState((int)StateID.Hide);
             }
-        }
-
-        public override void Exit(MettoruController obj, int nextId)
-        {
-            time = 0;
         }
     }
 }

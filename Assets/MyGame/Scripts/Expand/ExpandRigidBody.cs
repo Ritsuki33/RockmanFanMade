@@ -26,6 +26,7 @@ public class ExpandRigidBody : MonoBehaviour
     }
     Rigidbody2D rb;
 
+    [SerializeField] BoxCollider2D boxCollider = null;
     [SerializeField] Vector2 physicalOffset = new Vector2(0.05f, 0.05f);
     [SerializeField] float physicalGap = 0.005f;
     [SerializeField] Priority priority = Priority.Vertical;
@@ -35,7 +36,6 @@ public class ExpandRigidBody : MonoBehaviour
     [SerializeField, Range(0, 1)] float ratio_y = 1.0f;
 
     [SerializeField] LayerMask throughFloorLayer = default;
-    BoxCollider2D boxCollider = null;
     LayerMask physicalLayer = default;
 
     private Vector2 currentVelocity;
