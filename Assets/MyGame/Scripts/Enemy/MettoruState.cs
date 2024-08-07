@@ -9,7 +9,6 @@ public partial class MettoruController
     {
         int animationHash = 0;
         public Idle() { animationHash = Animator.StringToHash("Idle"); }
-        float time = 0f;
         public override void Enter(MettoruController mettoru, int preId)
         {
             mettoru._animator.Play(animationHash);
@@ -26,10 +25,7 @@ public partial class MettoruController
             mettoru.TurnFace();
         }
 
-        public override void Exit(MettoruController obj, int nextId)
-        {
-            time = 0;
-        }
+    
     }
 
     class Hide : State<MettoruController>
@@ -58,8 +54,17 @@ public partial class MettoruController
                 mettoru.TurnFace();
             }
 
-            time -= Time.deltaTime;
-            if (time <0)
+
+            if (mettoru.defense)
+            {
+                time = 2;
+            }
+            else
+            {
+                time -= Time.deltaTime;
+            }
+
+            if (time < 0)
             {
                 mettoru.stateMachine.TransitState((int)StateID.Appear);
             }

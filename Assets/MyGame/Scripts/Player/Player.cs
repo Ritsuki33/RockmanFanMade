@@ -128,8 +128,8 @@ public partial class Player : MonoBehaviour
     public void LaunchBaster()
     {
         var rockBaster = RockBusterPool.Pool.Get();
-        
-        rockBaster.GetComponent<Projectile>().Init((IsRight) ? Vector2.right : Vector2.left, launcher.transform.position);
+
+        rockBaster.GetComponent<Projectile>().Init((IsRight) ? Vector2.right : Vector2.left, launcher.transform.position, 8);
     }
 
     public void Dead()

@@ -54,22 +54,28 @@ public partial class MettoruController : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("RockBuster"))
         {
+            var rockBuster = collision.gameObject.GetComponent<Projectile>();
+
             if (invincible)
             {
-                StartCoroutine(DefenseRockBuster());
+                StartCoroutine(DefenseRockBuster(rockBuster));
             }
             else
             {
-                Dead(collision);
+                Dead(rockBuster);
             }
         }
     }
 
-    IEnumerator DefenseRockBuster()
+    IEnumerator DefenseRockBuster(Projectile projectile)
     {
-        Debug.Log("Defense");
         defense = true;
-
+        projectile.DisableDamageDetection();
+        Vector2 reflection = projectile.Direction;
+        reflection.x *= -1;
+        reflection += Vector2.up;
+        reflection = reflection.normalized;
+        projectile.ChangeDirection(reflection);
         yield return new WaitForSeconds(2.0f);
 
         defense = false;
@@ -82,17 +88,16 @@ public partial class MettoruController : MonoBehaviour
     {
         var fire=MettoruFire.Pool.Get();
 
-        fire.GetComponent<Projectile>().Init((IsRight) ? Vector2.right : Vector2.left, this.transform.position, 0.01f);
+        fire.GetComponent<Projectile>().Init((IsRight) ? Vector2.right : Vector2.left, this.transform.position, 5);
     }
 
     /// <summary>
     /// Ž€–S
     /// </summary>
     /// <param name="collision"></param>
-    private void Dead(Collider2D collision)
+    private void Dead(Projectile projectile)
     {
-        var rockBuster = collision.gameObject.GetComponent<Projectile>();
-        rockBuster?.Delete();
+        projectile?.Delete();
 
         var explode = ExplodePool.Pool.Get();
         explode.transform.position = this.transform.position;
