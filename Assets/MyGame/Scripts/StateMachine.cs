@@ -16,13 +16,13 @@ public class State<T> where T: MonoBehaviour
         this.immediate = immediate;
     }
 
-    virtual public void Enter(int preId, T obj) { }
-    virtual public IEnumerator EnterCoroutine(T obj) { yield return null; }
+    virtual public void Enter(T obj, int preId) { }
+    virtual public IEnumerator EnterCoroutine(int preId, T obj) { yield return null; }
 
     virtual public void FixedUpdate(T obj) { }
     virtual public void Update(T obj) { }
 
-    virtual public void Exit(T obj) { }
+    virtual public void Exit(T obj, int nextId) { }
     virtual public IEnumerator ExitCoroutine(T obj) { yield return null; }
 }
 
@@ -82,11 +82,11 @@ public class StateMachine<T> where T : MonoBehaviour
             if (true||nextState.immediate)
             {
                 // oŒûˆ—
-                curState?.Exit(obj);
+                curState?.Exit(obj, curId);
                 curState = states[curId];
                 nextState = null;
                 // “üŒûˆ—
-                curState?.Enter(preId, obj);
+                curState?.Enter(obj, preId);
             }
             else
             {
@@ -116,7 +116,7 @@ public class StateMachine<T> where T : MonoBehaviour
         curState = states[requestId];
 
         // “üŒûˆ—
-        yield return curState.EnterCoroutine(obj);
+        yield return curState.EnterCoroutine(preId, obj);
 
         coroutine = null;
     }

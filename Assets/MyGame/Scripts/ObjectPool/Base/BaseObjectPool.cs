@@ -33,18 +33,17 @@ public class BaseObjectPool : MonoBehaviour
         return gameObject;
     }
 
-    void OnGetFromPool(ReusableObject gameObject)
+    void OnGetFromPool(IResuable obj)
     {
-        gameObject.gameObject.SetActive(true);
+        obj.OnGet();
     }
 
-    void OnRelaseToPool(ReusableObject gameObject)
+    void OnRelaseToPool(IResuable obj)
     {
-        gameObject.gameObject.SetActive(false);
+        obj.OnRelease();
     }
-    void OnDestroyFromPool(ReusableObject gameObject)
+    void OnDestroyFromPool(IResuable obj)
     {
-        Destroy(gameObject.gameObject);
+        obj.OnDispose();
     }
-
 }

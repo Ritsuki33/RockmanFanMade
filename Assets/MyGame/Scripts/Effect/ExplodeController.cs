@@ -4,8 +4,17 @@ using UnityEngine;
 
 public class ExplodeController : ReusableObject
 {
-    public void OnFinishedAnimation()
+    Animator animator;
+
+    private void Awake()
     {
-        Pool.Release(this);
+        animator = GetComponent<Animator>();
+    }
+    private void Update()
+    {
+        if (!animator.IsPlayingCurrentAnimation())
+        {
+            Pool.Release(this);
+        }
     }
 }
