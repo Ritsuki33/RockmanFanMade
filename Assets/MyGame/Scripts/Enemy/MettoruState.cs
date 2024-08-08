@@ -55,11 +55,7 @@ public partial class MettoruController
             }
 
 
-            if (mettoru.defense)
-            {
-                time = 2;
-            }
-            else
+            if (!mettoru.defense)
             {
                 time -= Time.deltaTime;
             }
@@ -96,6 +92,15 @@ public partial class MettoruController
             if (!mettoru._animator.IsPlayingCurrentAnimation())
             {
                 mettoru.TurnFace();
+
+                mettoru.raycastSensor.SearchForTargetEnter((mettoru.IsRight) ? Vector2.right : Vector2.left,
+                    (hit) =>
+                    {
+                        if (Probability.GetBoolean(0.35f))
+                        {
+                            mettoru.stateMachine.TransitState((int)StateID.Hide);
+                        }
+                    });
             }
 
             time -= Time.deltaTime;
