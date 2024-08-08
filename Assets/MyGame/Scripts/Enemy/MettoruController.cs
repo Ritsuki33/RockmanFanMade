@@ -9,6 +9,8 @@ public partial class MettoruController : MonoBehaviour
     [SerializeField] Gravity gravity;
     [SerializeField] OnTheGround onTheGround;
     [SerializeField] Move move;
+    [SerializeField] RaycastSensor raycastSensor;
+
     private ExpandRigidBody exRb;
     StateMachine<MettoruController> stateMachine;
 
@@ -76,7 +78,7 @@ public partial class MettoruController : MonoBehaviour
         reflection += Vector2.up;
         reflection = reflection.normalized;
         projectile.ChangeDirection(reflection);
-        yield return new WaitForSeconds(2.0f);
+        yield return new WaitForSeconds(0.5f);
 
         defense = false;
     }

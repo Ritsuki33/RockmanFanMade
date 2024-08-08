@@ -2762,6 +2762,7 @@ GameObject:
   - component: {fileID: 570186315}
   - component: {fileID: 570186317}
   - component: {fileID: 570186318}
+  - component: {fileID: 570186319}
   m_Layer: 16
   m_Name: Mettoru
   m_TagString: Untagged
@@ -2847,6 +2848,7 @@ MonoBehaviour:
   gravity: {fileID: 570186317}
   onTheGround: {fileID: 0}
   move: {fileID: 0}
+  raycastSensor: {fileID: 570186319}
 --- !u!114 &570186317
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2883,6 +2885,25 @@ MonoBehaviour:
   throughFloorLayer:
     serializedVersion: 2
     m_Bits: 1024
+--- !u!114 &570186319
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 570186311}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c3e9b6260e59b444aa2ec42f6b9d4730, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  coneAngle: 45
+  coneRange: 1
+  rayCount: 4
+  targetmask:
+    serializedVersion: 2
+    m_Bits: 32768
+  targetTag: RockBuster
 --- !u!1 &600882512
 GameObject:
   m_ObjectHideFlags: 0
