@@ -28,7 +28,7 @@ public partial class MettoruController : MonoBehaviour
     private BaseObjectPool MettoruFire => EffectManager.Instance.MettoruFirePool;
     bool IsRight => this.transform.localScale.x < 0;
 
-    bool defense = false;
+    Coroutine defense = null;
     private void Awake()
     {
         exRb = GetComponent<ExpandRigidBody>();
@@ -60,7 +60,8 @@ public partial class MettoruController : MonoBehaviour
 
             if (invincible)
             {
-                StartCoroutine(DefenseRockBuster(rockBuster));
+                if (defense != null) StopCoroutine(defense);
+                defense=StartCoroutine(DefenseRockBuster(rockBuster));
             }
             else
             {
@@ -71,16 +72,15 @@ public partial class MettoruController : MonoBehaviour
 
     IEnumerator DefenseRockBuster(Projectile projectile)
     {
-        defense = true;
         projectile.DisableDamageDetection();
         Vector2 reflection = projectile.Direction;
         reflection.x *= -1;
         reflection += Vector2.up;
         reflection = reflection.normalized;
         projectile.ChangeDirection(reflection);
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(1f);
 
-        defense = false;
+        defense = null;
     }
 
     /// <summary>
