@@ -31,14 +31,14 @@ public partial class MettoruController
     class Hide : State<MettoruController>
     {
         int animationHash = 0;
+        AmbiguousTimer timer=new AmbiguousTimer();
         public Hide() { animationHash = Animator.StringToHash("Hide"); }
 
-        float time = 2;
         public override void Enter(MettoruController mettoru, int preId)
         {
-            time = 2;
             mettoru._animator.Play(animationHash);
             mettoru.invincible = true;
+            timer.Start(1, 3);
         }
 
         public override void FixedUpdate(MettoruController mettoru)
@@ -54,15 +54,13 @@ public partial class MettoruController
                 mettoru.TurnFace();
             }
 
-
-            if (!mettoru.defense)
+            if (mettoru.defense == null)
             {
-                time -= Time.deltaTime;
-            }
-
-            if (time < 0)
-            {
-                mettoru.stateMachine.TransitState((int)StateID.Appear);
+                timer.MoveAheadTime(Time.deltaTime,
+                    () =>
+                    {
+                        mettoru.stateMachine.TransitState((int)StateID.Appear);
+                    });
             }
         }
     }
@@ -70,15 +68,15 @@ public partial class MettoruController
     class Appear : State<MettoruController>
     {
         int animationHash = 0;
-        float time = 2;
+        AmbiguousTimer timer=new AmbiguousTimer();
         public Appear() { animationHash = Animator.StringToHash("Appear"); }
 
         public override void Enter(MettoruController mettoru, int preId)
         {
-            time = 2;
             mettoru._animator.Play(animationHash);
             mettoru.Fire();
             mettoru.invincible = false;
+            timer.Start(1, 3);
         }
 
         public override void FixedUpdate(MettoruController mettoru)
@@ -103,11 +101,12 @@ public partial class MettoruController
                     });
             }
 
-            time -= Time.deltaTime;
-            if (time < 0)
-            {
-                mettoru.stateMachine.TransitState((int)StateID.Hide);
-            }
+            timer.MoveAheadTime(Time.deltaTime,
+                   () =>
+                   {
+                       mettoru.stateMachine.TransitState((int)StateID.Hide);
+                   });
+          
            
         }
     }
