@@ -18,7 +18,9 @@ public partial class MettoruController : MonoBehaviour
     {
         Idle = 0,
         Hide,
+        Hiding,
         Appear,
+        LookIn,
     }
 
     private bool invincible = false;
@@ -36,7 +38,9 @@ public partial class MettoruController : MonoBehaviour
 
         stateMachine.AddState((int)StateID.Idle, new Idle());
         stateMachine.AddState((int)StateID.Hide, new Hide());
+        stateMachine.AddState((int)StateID.Hiding, new Hiding());
         stateMachine.AddState((int)StateID.Appear, new Appear());
+        stateMachine.AddState((int)StateID.LookIn, new LookIn());
 
         stateMachine.TransitState((int)StateID.Hide);
     }
