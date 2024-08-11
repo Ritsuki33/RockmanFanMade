@@ -10,13 +10,16 @@ public partial class MettoruController : MonoBehaviour
     [SerializeField] OnTheGround onTheGround;
     [SerializeField] Move move;
     [SerializeField] RaycastSensor raycastSensor;
+    [SerializeField] GroundChecker groundChecker;
 
+    [SerializeField] bool walk = false;
     private ExpandRigidBody exRb;
     StateMachine<MettoruController> stateMachine;
 
     enum StateID
     {
         Idle = 0,
+        Walk,
         Hide,
         Hiding,
         Appear,
@@ -37,6 +40,7 @@ public partial class MettoruController : MonoBehaviour
         stateMachine = new StateMachine<MettoruController>();
 
         stateMachine.AddState((int)StateID.Idle, new Idle());
+        stateMachine.AddState((int)StateID.Walk, new Walk());
         stateMachine.AddState((int)StateID.Hide, new Hide());
         stateMachine.AddState((int)StateID.Hiding, new Hiding());
         stateMachine.AddState((int)StateID.Appear, new Appear());
@@ -114,9 +118,9 @@ public partial class MettoruController : MonoBehaviour
     /// <summary>
     /// キャラクターの振り向き
     /// </summary>
-    private void TurnFace()
+    private void TurnToTarget(Vector2 targetPos)
     {
-        if (transform.position.x > Player.transform.position.x)
+        if (transform.position.x > targetPos.x)
         {
             Vector3 localScale = transform.localScale;
             localScale.x = 1;
@@ -128,5 +132,12 @@ public partial class MettoruController : MonoBehaviour
             localScale.x = -1;
             transform.localScale = localScale;
         }
+    }
+
+    private void TurnFace()
+    {
+        Vector3 localScale = transform.localScale;
+        localScale.x *= -1;
+        transform.localScale = localScale;
     }
 }

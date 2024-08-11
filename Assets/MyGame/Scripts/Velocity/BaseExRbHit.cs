@@ -4,23 +4,32 @@ using UnityEngine;
 
 public class BaseExRbHit : MonoBehaviour, IHitEvent
 {
-    ExpandRigidBody exRb;
-    protected virtual void Awake()
+    protected internal interface IExRbCallbackSet
     {
-        exRb = GetComponent<ExpandRigidBody>();
+        void AddOnHitEventCallback(IHitEvent createVelocity);
+        void RemoveOnHitEventCallback(IHitEvent createVelocity);
     }
 
     protected virtual void OnEnable()
     {
-        exRb = GetComponent<ExpandRigidBody>();
-        exRb?.AddOnHitEventCallback(this);
+        ExpandRigidBody exRb = GetComponent<ExpandRigidBody>();
+        AddOnHitEventCallback(exRb);
     }
 
 
     protected virtual void OnDisable()
     {
-        exRb = GetComponent<ExpandRigidBody>();
-        exRb?.RemoveOnHitEventCallback(this);
+        ExpandRigidBody exRb = GetComponent<ExpandRigidBody>();
+        RemoveOnHitEventCallback(exRb);
+    }
+
+    void AddOnHitEventCallback(IExRbCallbackSet exRbCallbackSet)
+    {
+        exRbCallbackSet?.AddOnHitEventCallback(this);
+    }
+    void RemoveOnHitEventCallback(IExRbCallbackSet exRbCallbackSet)
+    {
+        exRbCallbackSet?.RemoveOnHitEventCallback(this);
     }
 
     void IHitEvent.BottomHitStay(RaycastHit2D hit) { OnBottomHitStay(hit); }
