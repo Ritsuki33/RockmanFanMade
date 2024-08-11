@@ -3,8 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ExpandRigidBody : MonoBehaviour
+
+public class ExpandRigidBody : MonoBehaviour, BaseExRbHit.IExRbCallbackSet
 {
+ 
+
     enum Priority
     {
         None,
@@ -173,10 +176,11 @@ public class ExpandRigidBody : MonoBehaviour
     }
 
     /// <summary>
-    /// 仮想サイズ
+    /// 各種辺の基準値から成るサイズ
     /// </summary>
-    public Vector2 VirtualSize => new Vector2(this.boxColliderSize.x * ratio_x, this.boxColliderSize.y * ratio_y);
+    public Vector2 VirtuaBaseSize => new Vector2(this.boxColliderSize.x * ratio_x, this.boxColliderSize.y * ratio_y);
 
+    public Vector2 PhysicalBoxSize => this.boxCollider.size + physicalOffset * 2;
     /// <summary>
     /// コライダー各4辺の中心
     /// </summary>
@@ -187,21 +191,21 @@ public class ExpandRigidBody : MonoBehaviour
         {
             if (priority == Priority.Left)
             {
-                float center_x = (Right + (BoxColliderCenter.x - VirtualSize.x / 2)) / 2;
-                float center_y = BoxColliderCenter.y + VirtualSize.y / 2;
+                float center_x = (Right + (BoxColliderCenter.x - VirtuaBaseSize.x / 2)) / 2;
+                float center_y = BoxColliderCenter.y + VirtuaBaseSize.y / 2;
 
                 return new Vector2(center_x, center_y);
             }
             else if (priority == Priority.Right)
             {
-                float center_x = (Left + (BoxColliderCenter.x + VirtualSize.x / 2)) / 2; 
-                float center_y = BoxColliderCenter.y + VirtualSize.y / 2;
+                float center_x = (Left + (BoxColliderCenter.x + VirtuaBaseSize.x / 2)) / 2; 
+                float center_y = BoxColliderCenter.y + VirtuaBaseSize.y / 2;
 
                 return new Vector2(center_x, center_y);
             }
             else
             {
-                return BoxColliderCenter + new Vector2(0, VirtualSize.y / 2);
+                return BoxColliderCenter + new Vector2(0, VirtuaBaseSize.y / 2);
             }
         }
     }
@@ -212,21 +216,21 @@ public class ExpandRigidBody : MonoBehaviour
         {
             if (priority == Priority.Left)
             {
-                float center_x = (Right + (BoxColliderCenter.x - VirtualSize.x / 2)) / 2;
-                float center_y = BoxColliderCenter.y - VirtualSize.y / 2;
+                float center_x = (Right + (BoxColliderCenter.x - VirtuaBaseSize.x / 2)) / 2;
+                float center_y = BoxColliderCenter.y - VirtuaBaseSize.y / 2;
 
                 return new Vector2(center_x, center_y);
             }
             else if (priority == Priority.Right)
             {
-                float center_x = (Left + (BoxColliderCenter.x + VirtualSize.x / 2)) / 2;
-                float center_y = BoxColliderCenter.y - VirtualSize.y / 2;
+                float center_x = (Left + (BoxColliderCenter.x + VirtuaBaseSize.x / 2)) / 2;
+                float center_y = BoxColliderCenter.y - VirtuaBaseSize.y / 2;
 
                 return new Vector2(center_x, center_y);
             }
             else
             {
-                return BoxColliderCenter - new Vector2(0, VirtualSize.y / 2);
+                return BoxColliderCenter - new Vector2(0, VirtuaBaseSize.y / 2);
             }
         }
     }
@@ -238,21 +242,21 @@ public class ExpandRigidBody : MonoBehaviour
         {
             if (priority == Priority.Bottom)
             {
-                float center_x = BoxColliderCenter.x + VirtualSize.x / 2;
-                float center_y = (Top + (BoxColliderCenter.y - VirtualSize.y / 2)) / 2;
+                float center_x = BoxColliderCenter.x + VirtuaBaseSize.x / 2;
+                float center_y = (Top + (BoxColliderCenter.y - VirtuaBaseSize.y / 2)) / 2;
 
                 return new Vector2(center_x, center_y);
             }
             else if (priority == Priority.Top)
             {
-                float center_x = BoxColliderCenter.x + VirtualSize.x / 2;
-                float center_y = (Bottom + (BoxColliderCenter.y + VirtualSize.y / 2)) / 2;
+                float center_x = BoxColliderCenter.x + VirtuaBaseSize.x / 2;
+                float center_y = (Bottom + (BoxColliderCenter.y + VirtuaBaseSize.y / 2)) / 2;
 
                 return new Vector2(center_x, center_y);
             }
             else
             {
-                return BoxColliderCenter + new Vector2(VirtualSize.x / 2, 0);
+                return BoxColliderCenter + new Vector2(VirtuaBaseSize.x / 2, 0);
             }
         }
     }
@@ -264,21 +268,21 @@ public class ExpandRigidBody : MonoBehaviour
         {
             if (priority == Priority.Bottom)
             {
-                float center_x = BoxColliderCenter.x - VirtualSize.x / 2;
-                float center_y = (Top + (BoxColliderCenter.y - VirtualSize.y / 2)) / 2;
+                float center_x = BoxColliderCenter.x - VirtuaBaseSize.x / 2;
+                float center_y = (Top + (BoxColliderCenter.y - VirtuaBaseSize.y / 2)) / 2;
 
                 return new Vector2(center_x, center_y);
             }
             else if (priority == Priority.Top)
             {
-                float center_x = BoxColliderCenter.x -  VirtualSize.x / 2;
-                float center_y = (Bottom + (BoxColliderCenter.y + VirtualSize.y / 2)) / 2;
+                float center_x = BoxColliderCenter.x -  VirtuaBaseSize.x / 2;
+                float center_y = (Bottom + (BoxColliderCenter.y + VirtuaBaseSize.y / 2)) / 2;
 
                 return new Vector2(center_x, center_y);
             }
             else
             {
-                return BoxColliderCenter - new Vector2(VirtualSize.x / 2, 0);
+                return BoxColliderCenter - new Vector2(VirtuaBaseSize.x / 2, 0);
             }
         }
     }
@@ -598,7 +602,7 @@ public class ExpandRigidBody : MonoBehaviour
     /// 上下左右ヒット時のコールバック登録
     /// </summary>
     /// <param name="createVelocity"></param>
-    public void AddOnHitEventCallback(IHitEvent createVelocity)
+     void BaseExRbHit.IExRbCallbackSet.AddOnHitEventCallback(IHitEvent createVelocity)
     {
         onHitBottomStay += createVelocity.BottomHitStay;
         onHitTopStay += createVelocity.TopHitStay;
@@ -614,7 +618,7 @@ public class ExpandRigidBody : MonoBehaviour
     /// 上下左右ヒット時のコールバック削除
     /// </summary>
     /// <param name="createVelocity"></param>
-    public void RemoveOnHitEventCallback(IHitEvent createVelocity)
+    void BaseExRbHit.IExRbCallbackSet.RemoveOnHitEventCallback(IHitEvent createVelocity)
     {
         onHitBottomStay -= createVelocity.BottomHitStay;
         onHitTopStay -= createVelocity.TopHitStay;
@@ -641,23 +645,23 @@ public class ExpandRigidBody : MonoBehaviour
         if (leftHit) { Gizmos.DrawSphere(leftHit.point, 0.05f); }
         Gizmos.color = Color.red;
 
-        Vector2 topCheckCenter = new Vector2(VirtualTopColliderCenter.x, BoxColliderCenter.y + VirtualSize.y / 2 + (Top - (BoxColliderCenter.y + VirtualSize.y / 2)) / 2 + ((CurrentMovement.y > 0) ? CurrentMovement.y / 2 : 0));
-        Vector2 topCheckSize = new Vector2(VerticalCheckHitTopSize.x, Top - (BoxColliderCenter.y + VirtualSize.y / 2) + ((CurrentMovement.y > 0) ? CurrentMovement.y : 0));
+        Vector2 topCheckCenter = new Vector2(VirtualTopColliderCenter.x, BoxColliderCenter.y + VirtuaBaseSize.y / 2 + (Top - (BoxColliderCenter.y + VirtuaBaseSize.y / 2)) / 2 + ((CurrentMovement.y > 0) ? CurrentMovement.y / 2 : 0));
+        Vector2 topCheckSize = new Vector2(VerticalCheckHitTopSize.x, Top - (BoxColliderCenter.y + VirtuaBaseSize.y / 2) + ((CurrentMovement.y > 0) ? CurrentMovement.y : 0));
         Gizmos.DrawWireCube(topCheckCenter, topCheckSize);
 
-        Vector2 bottomCheckCenter = new Vector2(VirtualBottomColliderCenter.x, BoxColliderCenter.y - VirtualSize.y / 2 + (Bottom - (BoxColliderCenter.y - VirtualSize.y / 2)) / 2 + ((CurrentMovement.y < 0) ? CurrentMovement.y / 2 : 0));
-        Vector2 bottomCheckSize = new Vector2(VerticalCheckHitBottomSize.x, Bottom - (BoxColliderCenter.y - VirtualSize.y / 2) + ((CurrentMovement.y < 0) ? CurrentMovement.y : 0));
+        Vector2 bottomCheckCenter = new Vector2(VirtualBottomColliderCenter.x, BoxColliderCenter.y - VirtuaBaseSize.y / 2 + (Bottom - (BoxColliderCenter.y - VirtuaBaseSize.y / 2)) / 2 + ((CurrentMovement.y < 0) ? CurrentMovement.y / 2 : 0));
+        Vector2 bottomCheckSize = new Vector2(VerticalCheckHitBottomSize.x, Bottom - (BoxColliderCenter.y - VirtuaBaseSize.y / 2) + ((CurrentMovement.y < 0) ? CurrentMovement.y : 0));
         Gizmos.DrawWireCube(bottomCheckCenter, bottomCheckSize);
 
 
         Gizmos.color = Color.blue;
 
-        Vector2 leftCheckCenter = new Vector2(BoxColliderCenter.x - VirtualSize.x / 2 + (Left - (BoxColliderCenter.x - VirtualSize.x / 2)) / 2 + ((CurrentMovement.x < 0) ? CurrentMovement.x / 2 : 0), VirtualLeftColliderCenter.y);
-        Vector2 leftCheckSize = new Vector2(Left - (BoxColliderCenter.x - VirtualSize.x / 2) + ((CurrentMovement.x < 0) ? CurrentMovement.x : 0), HorizenCheckHitLeftSize.y);
+        Vector2 leftCheckCenter = new Vector2(BoxColliderCenter.x - VirtuaBaseSize.x / 2 + (Left - (BoxColliderCenter.x - VirtuaBaseSize.x / 2)) / 2 + ((CurrentMovement.x < 0) ? CurrentMovement.x / 2 : 0), VirtualLeftColliderCenter.y);
+        Vector2 leftCheckSize = new Vector2(Left - (BoxColliderCenter.x - VirtuaBaseSize.x / 2) + ((CurrentMovement.x < 0) ? CurrentMovement.x : 0), HorizenCheckHitLeftSize.y);
         Gizmos.DrawWireCube(leftCheckCenter, leftCheckSize);
 
-        Vector2 rightCheckCenter = new Vector2(BoxColliderCenter.x + VirtualSize.x / 2 + (Right - (BoxColliderCenter.x + VirtualSize.x / 2)) / 2 + ((CurrentMovement.x < 0) ? CurrentMovement.x / 2 : 0), VirtualRightColliderCenter.y);
-        Vector2 rightCheckSize = new Vector2(Right - (BoxColliderCenter.x + VirtualSize.x / 2) + ((CurrentMovement.x > 0) ? CurrentMovement.x : 0), HorizenCheckHitRightSize.y);
+        Vector2 rightCheckCenter = new Vector2(BoxColliderCenter.x + VirtuaBaseSize.x / 2 + (Right - (BoxColliderCenter.x + VirtuaBaseSize.x / 2)) / 2 + ((CurrentMovement.x < 0) ? CurrentMovement.x / 2 : 0), VirtualRightColliderCenter.y);
+        Vector2 rightCheckSize = new Vector2(Right - (BoxColliderCenter.x + VirtuaBaseSize.x / 2) + ((CurrentMovement.x > 0) ? CurrentMovement.x : 0), HorizenCheckHitRightSize.y);
         Gizmos.DrawWireCube(rightCheckCenter, rightCheckSize);
     }
 }

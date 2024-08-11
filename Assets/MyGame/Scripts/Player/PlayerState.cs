@@ -86,8 +86,8 @@ public partial class Player
             Move.InputType type = default;
             if (player.inputInfo.left == true) type = Move.InputType.Left;
             else if (player.inputInfo.right == true) type = Move.InputType.Right;
-
-            Vector2 moveV = player.move.GetVelocity(Vector2.right, type);
+            player.move.UpdateVelocity(Vector2.right, type);
+            Vector2 moveV = player.move.CurrentVelocity;
             player.exRb.velocity += moveV;
 
             if (moveV.x > 0)
@@ -140,8 +140,8 @@ public partial class Player
             Move.InputType type = default;
             if (player.inputInfo.left == true) type = Move.InputType.Left;
             else if (player.inputInfo.right == true) type = Move.InputType.Right;
-
-            Vector2 moveV = player.move.GetVelocity(player.onTheGround.GroundHit.normal.Verticalize(), type);
+            player.move.UpdateVelocity(player.onTheGround.GroundHit.normal.Verticalize(), type);
+            Vector2 moveV = player.move.CurrentVelocity;
             player.exRb.velocity += moveV;
 
             if (moveV.x > 0)
@@ -176,6 +176,7 @@ public partial class Player
             {
                 player.stateMachine.TransitState((int)StateID.RunBuster);
             }
+
         }
     }
 
@@ -199,8 +200,8 @@ public partial class Player
             Move.InputType type = default;
             if (player.inputInfo.left == true) type = Move.InputType.Left;
             else if (player.inputInfo.right == true) type = Move.InputType.Right;
-
-            Vector2 moveV = player.move.GetVelocity(Vector2.right, type);
+            player.move.UpdateVelocity(Vector2.right, type);
+            Vector2 moveV = player.move.CurrentVelocity;
             player.exRb.velocity = moveV;
 
             if (moveV.x > 0)
@@ -448,8 +449,8 @@ public partial class Player
             Move.InputType type = default;
             if (player.inputInfo.left == true) type = Move.InputType.Left;
             else if (player.inputInfo.right == true) type = Move.InputType.Right;
-
-            Vector2 moveV = player.move.GetVelocity(player.onTheGround.GroundHit.normal.Verticalize(), type);
+            player.move.UpdateVelocity(player.onTheGround.GroundHit.normal.Verticalize(), type);
+            Vector2 moveV = player.move.CurrentVelocity;
             player.exRb.velocity = moveV;
 
             if (moveV.x > 0)
@@ -515,8 +516,8 @@ public partial class Player
             Move.InputType type = default;
             if (player.inputInfo.left == true) type = Move.InputType.Left;
             else if (player.inputInfo.right == true) type = Move.InputType.Right;
-
-            Vector2 moveV = player.move.GetVelocity(Vector2.right, type);
+            player.move.UpdateVelocity(Vector2.right, type);
+            Vector2 moveV = player.move.CurrentVelocity;
             player.exRb.velocity += moveV;
 
             if (moveV.x > 0)
@@ -573,7 +574,8 @@ public partial class Player
             if (player.inputInfo.left == true) type = Move.InputType.Left;
             else if (player.inputInfo.right == true) type = Move.InputType.Right;
 
-            Vector2 moveV = player.move.GetVelocity(Vector2.right, type);
+            player.move.UpdateVelocity(Vector2.right, type);
+            Vector2 moveV = player.move.CurrentVelocity;
             player.exRb.velocity = moveV;
 
             if (moveV.x > 0)

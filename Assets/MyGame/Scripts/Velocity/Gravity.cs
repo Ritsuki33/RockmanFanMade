@@ -11,10 +11,6 @@ public class Gravity : BaseExRbHit
     public Vector2 CurrentVelocity => Vector2.down * currentSpeed;
 
     public float GravityScale => speed;
-    protected override void Awake()
-    {
-       base.Awake();
-    }
 
     public void UpdateVelocity()
     {

@@ -48,10 +48,6 @@ public partial class Player : MonoBehaviour
         onTheGround = GetComponent<OnTheGround>();
         animator = GetComponent<Animator>();
         jump=GetComponent<Jump>();
-        exRb.AddOnHitEventCallback(gravity);
-        exRb.AddOnHitEventCallback(move);
-        exRb.AddOnHitEventCallback(jump);
-        exRb.AddOnHitEventCallback(onTheGround);
 
         stateMachine.AddState((int)StateID.Idle, new Idle());
         stateMachine.AddState((int)StateID.Float, new Float());

@@ -2180,6 +2180,55 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 3077438752260732575, guid: 50db6328845417f428e76f577eadc620, type: 3}
   m_PrefabInstance: {fileID: 396506535}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &300021606
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 300021607}
+  - component: {fileID: 300021608}
+  m_Layer: 16
+  m_Name: GroundChecker
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &300021607
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 300021606}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.408, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 570186313}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &300021608
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 300021606}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 14b744c88fa04b148bfe2ab028f9b8b7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  exRb: {fileID: 0}
+  length: 1
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 576
 --- !u!1001 &396506535
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2646,7 +2695,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 519420028}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -20.355, y: 6.394, z: -10}
+  m_LocalPosition: {x: 0, y: 1.77, z: -5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2763,6 +2812,8 @@ GameObject:
   - component: {fileID: 570186317}
   - component: {fileID: 570186318}
   - component: {fileID: 570186319}
+  - component: {fileID: 570186320}
+  - component: {fileID: 570186321}
   m_Layer: 16
   m_Name: Mettoru
   m_TagString: Untagged
@@ -2778,12 +2829,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 570186311}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 4.48, y: -0.65, z: 0}
+  m_LocalPosition: {x: -4.16, y: -0.701, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1182246511}
   - {fileID: 1144012519}
+  - {fileID: 300021607}
   m_Father: {fileID: 0}
   m_RootOrder: 14
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2847,8 +2899,10 @@ MonoBehaviour:
   _animator: {fileID: 1144012520}
   gravity: {fileID: 570186317}
   onTheGround: {fileID: 0}
-  move: {fileID: 0}
+  move: {fileID: 570186321}
   raycastSensor: {fileID: 570186319}
+  groundChecker: {fileID: 570186320}
+  walk: 1
 --- !u!114 &570186317
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2904,6 +2958,36 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 32768
   targetTag: RockBuster
+--- !u!114 &570186320
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 570186311}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 14b744c88fa04b148bfe2ab028f9b8b7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  exRb: {fileID: 570186318}
+  length: 0.01
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 576
+--- !u!114 &570186321
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 570186311}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e24a7cd47c14ba7458e97c388650a51c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 2
 --- !u!1 &600882512
 GameObject:
   m_ObjectHideFlags: 0
@@ -4263,8 +4347,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 5
-  interval_x: 1
-  checkSize: {x: 0.05, y: 0.85}
 --- !u!114 &1836540451
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5174,15 +5256,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4661674441792234916, guid: 50db6328845417f428e76f577eadc620, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -20.355
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4661674441792234916, guid: 50db6328845417f428e76f577eadc620, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 4.624
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4661674441792234916, guid: 50db6328845417f428e76f577eadc620, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5107075163451444145, guid: 50db6328845417f428e76f577eadc620, type: 3}
       propertyPath: m_Follow

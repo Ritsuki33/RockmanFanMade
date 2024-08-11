@@ -24,9 +24,8 @@ public class OnTheGround : BaseExRbHit
 
     //public Vector2 MoveOnTheGround { get; set; }
 
-    protected override void Awake()
+    protected  void Awake()
     {
-        base.Awake();
         boxCollider=GetComponent<BoxCollider2D>();
     }
 

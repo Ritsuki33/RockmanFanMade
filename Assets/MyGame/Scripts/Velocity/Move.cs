@@ -6,18 +6,6 @@ public class Move : BaseExRbHit
 {
     [SerializeField] float speed = 5.0f;
 
-    [Header("サイドチェック")]
-    [SerializeField] float interval_x = 1.0f;
-    [SerializeField] Vector2 checkSize = default;
-
-    LayerMask physicalLayer = default;
-
-    // left check
-    Vector2 leftCheckCenter => (Vector2)this.transform.position - new Vector2(interval_x / 2, 0);
-    Vector2 RightCheckCenter => (Vector2)this.transform.position + new Vector2(interval_x / 2, 0);
-
-    Rigidbody2D rb;
-
     Vector2 velocity;
 
     public enum InputType
@@ -27,87 +15,69 @@ public class Move : BaseExRbHit
         Right
     }
 
-    RaycastHit2D leftHit;
-    RaycastHit2D rightHit;
-    protected  override void Awake()
-    {
-        base.Awake();
-        rb = GetComponent<Rigidbody2D>();
-        physicalLayer = Physics2D.GetLayerCollisionMask(this.gameObject.layer);
-    }
+    bool leftHit;
+    bool rightHit;
 
-    public Vector2 GetVelocity(Vector2 dir,InputType input)
+    public bool Lefthit => leftHit;
+    public bool RightHit => rightHit;
+
+    public bool Hit => leftHit || rightHit;
+    public Vector2 CurrentVelocity => velocity;
+
+    public void UpdateVelocity(Vector2 dir, InputType input)
     {
         dir = (((dir.x > 0) ? 1 : -1) * dir);
-      
+
         switch (input)
         {
             case InputType.None:
                 velocity = Vector2.zero;
                 break;
             case InputType.Left:
-                if (!leftHit)
-                {
                     velocity = dir * -speed;
-                }
                 break;
             case InputType.Right:
-                if (!rightHit)
-                {
                     velocity = dir * speed;
-                }
                 break;
             default:
                 break;
         }
-      
-        CheckSide();
-        return velocity;
     }
 
-    //private void Update()
-    //{
-    //    if (Input.GetKey(KeyCode.LeftArrow))
-    //    {
-    //        input = InputType.Left;
-    //    }
-    //    else if (Input.GetKey(KeyCode.RightArrow))
-    //    {
-    //        input = InputType.Right;
-    //    }
-    //    else
-    //    {
-    //        input = InputType.None;
-    //    }
-    //}
 
-
-    protected override void OnRightHitStay(RaycastHit2D hit) {
-        if (velocity.x > 0) velocity.x = 0;
+    protected override void OnRightHitStay(RaycastHit2D hit)
+    {
+        if (velocity.x > 0)
+        {
+            velocity.x = 0;
+            rightHit = true;
+        }
+        else
+        {
+            rightHit = false;
+        }
     }
 
     protected override void OnLeftHitStay(RaycastHit2D hit)
     {
-        if (velocity.x < 0) velocity.x = 0;
+        if (velocity.x < 0)
+        {
+            velocity.x = 0;
+            leftHit = true;
+        }
+        else
+        {
+            leftHit = false;
+        }
     }
 
-    private void CheckSide()
+    protected override void OnRightHitExit(RaycastHit2D hit)
     {
-         leftHit = Physics2D.BoxCast(leftCheckCenter, new Vector2(0.001f, checkSize.y), 0, Vector2.left, checkSize.x, physicalLayer);
-         rightHit = Physics2D.BoxCast(RightCheckCenter, new Vector2(0.001f, checkSize.y), 0, Vector2.right, checkSize.x, physicalLayer);
+        rightHit = false;
     }
 
-    //private void OnDrawGizmos()
-    //{
-    //    Gizmos.color = Color.blue;
-
-    //    Vector2 leftCenter = new Vector2(this.transform.position.x - interval_x / 2 - checkSize.x / 2, this.transform.position.y);
-    //    Gizmos.DrawWireCube(leftCenter, checkSize);
-
-    //    Vector2 rightCenter = new Vector2(this.transform.position.x + interval_x / 2 + checkSize.x / 2, this.transform.position.y);
-    //    Gizmos.DrawWireCube(rightCenter, checkSize);
-
-    //    if (leftHit) Gizmos.DrawSphere(leftHit.point, 0.05f);
-    //    if (rightHit) Gizmos.DrawSphere(rightHit.point, 0.05f);
-    //}
+    protected override void OnLeftHitExit(RaycastHit2D hit)
+    {
+        leftHit = false;
+    }
 }
