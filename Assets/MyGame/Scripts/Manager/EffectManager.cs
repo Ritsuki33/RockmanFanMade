@@ -8,11 +8,13 @@ public class EffectManager : SingletonComponent<EffectManager>
     [SerializeField] BaseObjectPool explode2Pool = default;
     [SerializeField] BaseObjectPool rockBusterPool = default;
     [SerializeField] BaseObjectPool mettoruFirePool = default;
+    [SerializeField] BaseObjectPool cannonPool = default;
     [SerializeField] ParticleSystem playerDeathEffect = default;
 
     public BaseObjectPool ExplodePool => explodePool;
     public BaseObjectPool Explode2Pool => explode2Pool;
     public BaseObjectPool RockBusterPool => rockBusterPool;
     public BaseObjectPool MettoruFirePool => mettoruFirePool;
+    public BaseObjectPool CannonPool => cannonPool;
     public ParticleSystem PlayerDeathEffect => playerDeathEffect;
 }

@@ -2,12 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CannonballController : MonoBehaviour
+public class CannonballController : ReusableObject
 {
     private Rigidbody2D rb;
 
     private float gravity = 1.0f;
-    void Start()
+    void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
     }
@@ -19,6 +19,6 @@ public class CannonballController : MonoBehaviour
 
     void FixedUpdate()
     {
-        rb.velocity += Vector2.down* gravity;
+        rb.velocity += Vector2.down * gravity;
     }
 }

@@ -20,4 +20,5 @@ public class ReusableObject : MonoBehaviour, IResuable
     protected virtual void OnGet() { }
     protected virtual void OnRelease() { }
     protected virtual void OnDispose() { }
+
 }

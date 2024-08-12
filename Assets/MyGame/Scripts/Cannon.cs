@@ -4,6 +4,7 @@ public class Cannon : MonoBehaviour
 {
     public CannonballController cannonballPrefab; // –C’e‚ÌƒvƒŒƒnƒu
 
+    BaseObjectPool CannonPool => EffectManager.Instance.CannonPool;
 
     /// <summary>
     /// –C’e”­ŽË
@@ -35,8 +36,9 @@ public class Cannon : MonoBehaviour
             return;
         }
 
-        CannonballController cannonball = Instantiate(cannonballPrefab, transform.position, Quaternion.identity);
-        cannonball.Init(gravitySpeed);
+        var cannonball = CannonPool.Pool.Get();
+        cannonball.transform.position = transform.position;
+        cannonball.GetComponent<CannonballController>().Init(gravitySpeed);
         Rigidbody2D rb = cannonball.GetComponent<Rigidbody2D>();
 
         if (isRight)
