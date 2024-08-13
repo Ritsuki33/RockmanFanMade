@@ -11,8 +11,11 @@ public partial class MettoruController : MonoBehaviour
     [SerializeField] Move move;
     [SerializeField] RaycastSensor raycastSensor;
     [SerializeField] GroundChecker groundChecker;
-
+    [SerializeField] JumpOverThere jumpOverThere;
+    [SerializeField] Jump jump;
     [SerializeField] bool walk = false;
+
+    [SerializeField] Transform jumpTarget;
     private ExpandRigidBody exRb;
     StateMachine<MettoruController> stateMachine;
 
@@ -24,6 +27,8 @@ public partial class MettoruController : MonoBehaviour
         Hiding,
         Appear,
         LookIn,
+        Jump,
+        JumpFloating,
     }
 
     private bool invincible = false;
@@ -45,6 +50,8 @@ public partial class MettoruController : MonoBehaviour
         stateMachine.AddState((int)StateID.Hiding, new Hiding());
         stateMachine.AddState((int)StateID.Appear, new Appear());
         stateMachine.AddState((int)StateID.LookIn, new LookIn());
+        stateMachine.AddState((int)StateID.Jump, new Jumping());
+        stateMachine.AddState((int)StateID.JumpFloating, new JumpFloating());
 
         stateMachine.TransitState((int)StateID.Hide);
     }
