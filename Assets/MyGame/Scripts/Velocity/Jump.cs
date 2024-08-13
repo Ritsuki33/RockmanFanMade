@@ -9,11 +9,16 @@ public class Jump : BaseExRbHit
     float currentSpeed = 0;
 
     bool isBottomHit = false;
-
+    
     public Vector2 CurrentVelocity => Vector2.up * currentSpeed;
     public float CurrentSpeed => currentSpeed;
 
     public void Init()
+    {
+        this.currentSpeed = maxSpeed;
+    }
+
+    public void Init(int maxSpeed)
     {
         this.currentSpeed = maxSpeed;
     }

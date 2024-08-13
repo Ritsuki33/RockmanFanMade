@@ -41,14 +41,16 @@ public partial class MettoruController
             timer.MoveAheadTime(Time.deltaTime,
                    () =>
                    {
-                       if (mettoru.walk)
-                       {
-                           mettoru.stateMachine.TransitState((int)StateID.Walk);
-                       }
-                       else
-                       {
-                           mettoru.stateMachine.TransitState((int)StateID.Hide);
-                       }
+                       //if (mettoru.walk)
+                       //{
+                       //    mettoru.stateMachine.TransitState((int)StateID.Walk);
+                       //}
+                       //else
+                       //{
+                       //    mettoru.stateMachine.TransitState((int)StateID.Hide);
+                       //}
+                       mettoru.stateMachine.TransitState((int)StateID.Jump);
+
                    });
         }
     }
@@ -158,7 +160,7 @@ public partial class MettoruController
                                 mettoru.stateMachine.TransitState((int)StateID.Appear);
                             }
                         ),
-                            (20, () =>
+                            (0, () =>
                             {
                                 mettoru.stateMachine.TransitState((int)StateID.LookIn);
                             }
@@ -241,6 +243,61 @@ public partial class MettoruController
                    {
                        mettoru.stateMachine.TransitState((int)StateID.Hiding);
                    });
+        }
+    }
+
+    float move_x = 0;
+
+    class Jumping : State<MettoruController>
+    {
+        int animationHash = 0;
+        public Jumping() { animationHash = Animator.StringToHash("Jump"); }
+
+        public override void Enter(MettoruController mettoru, int preId)
+        {
+            mettoru._animator.Play(animationHash);
+            mettoru.gravity.Reset();
+            mettoru.jump.Init(15);
+            mettoru.move_x = ParabolaCalc.GetHorizonVelocity(mettoru.transform.position, mettoru.jumpTarget.position, 15, mettoru.gravity.GravityScale);
+            //mettoru.jumpOverThere.Jump(mettoru.jumpTarget.position, 88, mettoru.gravity.GravityScale, () => { Debug.Log("error jump"); });
+        }
+
+        public override void FixedUpdate(MettoruController mettoru)
+        {
+            mettoru.jump.UpdateVelocity(mettoru.gravity.GravityScale);
+            mettoru.exRb.velocity += mettoru.jump.CurrentVelocity;
+            mettoru.exRb.velocity += new Vector2(mettoru.move_x, 0);
+
+            if (mettoru.jump.CurrentSpeed == 0)
+            {
+                mettoru.stateMachine.TransitState((int)StateID.JumpFloating);
+            }
+        }
+    }
+
+    class JumpFloating : State<MettoruController>
+    {
+        int animationHash = 0;
+        public JumpFloating() { animationHash = Animator.StringToHash("Float"); }
+
+        public override void Enter(MettoruController mettoru, int preId)
+        {
+            mettoru._animator.Play(animationHash);
+            //mettoru.jumpOverThere.Jump(mettoru.jumpTarget.position, 88, mettoru.gravity.GravityScale, () => { Debug.Log("error jump"); });
+        }
+
+        public override void FixedUpdate(MettoruController mettoru)
+        {
+            if (mettoru.onTheGround.CheckBottomHit())
+            {
+                mettoru.stateMachine.TransitState((int)StateID.Idle);
+            }
+            else
+            {
+                mettoru.gravity.UpdateVelocity();
+                mettoru.exRb.velocity = mettoru.gravity.CurrentVelocity;
+                mettoru.exRb.velocity += new Vector2(mettoru.move_x, 0);
+            }
         }
     }
 }

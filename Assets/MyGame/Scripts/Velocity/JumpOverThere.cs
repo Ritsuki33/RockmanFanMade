@@ -8,11 +8,11 @@ public class JumpOverThere : BaseExRbHit
 {
 
     private Vector2 velocity;
-
-    private float angle = 45;
-
-    public Vector2 CurrentVelocity => velocity;
     bool isBottomHit = false;
+
+    bool onTheGround = false;
+    public Vector2 CurrentVelocity => velocity;
+    public bool OnTheGround => onTheGround;
 
     /// <summary>
     /// ターゲット位置にジャンプする
@@ -20,10 +20,9 @@ public class JumpOverThere : BaseExRbHit
     /// <param name="targetPosition"></param>
     /// <param name="gravityScale"></param>
     /// <param name="failed"></param>
-    public void Jump(Vector2 targetPosition, float gravityScale, Action failed)
+    public void Jump(Vector2 targetPosition, float angle,float gravityScale, Action failed)
     {
         bool isRight = targetPosition.x > transform.position.x;
-
         // 各種距離の算出
         float length_x = Mathf.Abs(targetPosition.x - transform.position.x);
         float length_y = targetPosition.y - transform.position.y;
@@ -37,7 +36,7 @@ public class JumpOverThere : BaseExRbHit
         // 角度から速度を計算
         float speed = Mathf.Sqrt(gravity * length_x * length_x / (2 * Mathf.Cos(radian) * Mathf.Cos(radian) * (length_x * Mathf.Tan(radian) - length_y)));
 
-        if (float.IsNaN(speed))
+        if (float.IsNaN(speed) || speed <= gravityScale)
         {
             failed?.Invoke();
             return;
@@ -57,16 +56,24 @@ public class JumpOverThere : BaseExRbHit
             Vector2 vec = speed * axis;
             velocity = vec;
         }
+
+
+        onTheGround = false;
+
     }
 
     public void UpdateVelocity(float gravityScale)
     {
-        velocity += Vector2.down * gravityScale;
+       velocity += Vector2.down * gravityScale;
     }
 
     protected override void OnBottomHitStay(RaycastHit2D hit)
     {
-        if (!isBottomHit) velocity = Vector2.zero;
+        if (!isBottomHit)
+        {
+            onTheGround = true;
+            velocity = Vector2.zero;
+        }
         isBottomHit = true;
     }
 
