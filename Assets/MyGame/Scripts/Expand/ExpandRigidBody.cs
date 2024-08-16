@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class ExpandRigidBody : MonoBehaviour, BaseExRbHit.IExRbCallbackSet
 {
- 
-
     enum Priority
     {
         None,
@@ -81,8 +79,6 @@ public class ExpandRigidBody : MonoBehaviour, BaseExRbHit.IExRbCallbackSet
     /// <summary>
     /// ボックスキャストの線化
     /// </summary>
-    //Vector2 VerticalCheckHitSize => new Vector2(CheckSize.x , 0.001f);
-    //Vector2 HorizenCheckHitSize => new Vector2(0.001f, CheckSize.y);
     Vector2 VerticalCheckHitTopSize
     {
         get
@@ -126,8 +122,6 @@ public class ExpandRigidBody : MonoBehaviour, BaseExRbHit.IExRbCallbackSet
             }
         }
     }
-
-    //Vector2 HorizenCheckHitSize => new Vector2(0.001f, CheckSize.y);
 
     Vector2 HorizenCheckHitRightSize
     {
@@ -182,7 +176,6 @@ public class ExpandRigidBody : MonoBehaviour, BaseExRbHit.IExRbCallbackSet
     /// <summary>
     /// コライダー各4辺の中心
     /// </summary>
-    //Vector2 VirtualTopColliderCenter => BoxColliderCenter + new Vector2(0, VirtualSize.y / 2);
     Vector2 VirtualTopColliderCenter
     {
         get
@@ -207,7 +200,7 @@ public class ExpandRigidBody : MonoBehaviour, BaseExRbHit.IExRbCallbackSet
             }
         }
     }
-    //Vector2 VirtualBottomColliderCenter => BoxColliderCenter + new Vector2(0, -VirtualSize.y / 2);
+
     Vector2 VirtualBottomColliderCenter
     {
         get
@@ -233,7 +226,6 @@ public class ExpandRigidBody : MonoBehaviour, BaseExRbHit.IExRbCallbackSet
         }
     }
 
-    //Vector2 VirtualRigthColliderCenter => BoxColliderCenter + new Vector2(VirtualSize.x / 2, 0);
     Vector2 VirtualRightColliderCenter
     {
         get
@@ -258,7 +250,6 @@ public class ExpandRigidBody : MonoBehaviour, BaseExRbHit.IExRbCallbackSet
             }
         }
     }
-    //Vector2 VirtualLeftColliderCenter => BoxColliderCenter + new Vector2(-VirtualSize.x / 2, 0);
 
     Vector2 VirtualLeftColliderCenter
     {
@@ -400,15 +391,6 @@ public class ExpandRigidBody : MonoBehaviour, BaseExRbHit.IExRbCallbackSet
     {
         BoxColliderCenter = pos;
     }
-
-    /// <summary>
-    /// リジッドボディへの速度付加
-    /// </summary>
-    /// <param name="velocity"></param>
-    //protected void AddVelocity(Vector2 velocity)
-    //{
-    //    rb.velocity += velocity;
-    //}
 
     private void PhysicalVelocityCorrect(Vector2 currentVelocity)
     {
