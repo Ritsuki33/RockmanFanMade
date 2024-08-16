@@ -11,12 +11,12 @@ public partial class Player
         int animationHash = 0;
         public Idle() { animationHash = Animator.StringToHash("Idle"); }
 
-        public override void Enter(Player player, int preId)
+        protected override void Enter(Player player, int preId)
         {
             player.animator.Play(animationHash);
         }
 
-        public override void FixedUpdate(Player player)
+        protected override void FixedUpdate(Player player)
         {
             player.gravity.UpdateVelocity();
             player.exRb.velocity = player.gravity.CurrentVelocity;
@@ -24,19 +24,19 @@ public partial class Player
             var hitCheck = player.onTheGround.Check();
             if (!hitCheck)
             {
-                player.stateMachine.TransitState((int)StateID.Float);
+                player.TransitReady((int)StateID.Float);
             }
         }
 
-        public override void Update(Player player)
+        protected override void Update(Player player)
         {
             if (player.inputInfo.left)
             {
-                player.stateMachine.TransitState((int)StateID.Run);
+                player.TransitReady((int)StateID.Run);
             }
             else if (player.inputInfo.right)
             {
-                player.stateMachine.TransitState((int)StateID.Run);
+                player.TransitReady((int)StateID.Run);
             }
 
             if (player.bodyLadder != null && player.inputInfo.up)
@@ -44,26 +44,26 @@ public partial class Player
                 Vector2 pos = player.exRb.position;
                 pos.y += 0.1f;
                 player.exRb.SetPosition(pos);
-                player.stateMachine.TransitState((int)StateID.Climb);
+                player.TransitReady((int)StateID.Climb);
             }
             else if (player.onTheGround.GroundHit && player.inputInfo.down)
             {
                 if (player.onTheGround.GroundHit.collider.gameObject.CompareTag("Ladder"))
                 {
                     player.bodyLadder = player.onTheGround.GroundHit.collider;
-                    player.stateMachine.TransitState((int)StateID.ClimbDown);
+                    player.TransitReady((int)StateID.ClimbDown);
                 }
             }
 
 
             if (player.inputInfo.jump)
             {
-                player.stateMachine.TransitState((int)StateID.Jumping);
+                player.TransitReady((int)StateID.Jumping);
             }
 
             if (player.inputInfo.fire)
             {
-                player.stateMachine.TransitState((int)StateID.IdleFire);
+                player.TransitReady((int)StateID.IdleFire);
             }
         }
     }
@@ -73,13 +73,13 @@ public partial class Player
         int animationHash = 0;
         public Float() { animationHash = Animator.StringToHash("Float"); }
 
-        public override void Enter(Player player, int preId)
+        protected override void Enter(Player player, int preId)
         {
             player.animator.Play(animationHash);
             player.onTheGround.Reset();
         }
 
-        public override void FixedUpdate(Player player)
+        protected override void FixedUpdate(Player player)
         {
             player.gravity.UpdateVelocity();
             player.exRb.velocity = player.gravity.CurrentVelocity;
@@ -104,21 +104,21 @@ public partial class Player
             }
             if (player.onTheGround.CheckBottomHit())
             {
-                player.stateMachine.TransitState((int)StateID.Idle);
+                player.TransitReady((int)StateID.Idle);
             }
 
             if (player.bodyLadder != null && player.inputInfo.up)
             {
-                player.stateMachine.TransitState((int)StateID.Climb);
+                player.TransitReady((int)StateID.Climb);
             }
 
         }
 
-        public override void Update(Player player)
+        protected override void Update(Player player)
         {
             if (player.inputInfo.fire)
             {
-                player.stateMachine.TransitState((int)StateID.FloatBuster);
+                player.TransitReady((int)StateID.FloatBuster);
             }
         }
     }
@@ -128,12 +128,12 @@ public partial class Player
         int animationHash = 0;
         public Run() { animationHash = Animator.StringToHash("Run"); }
 
-        public override void Enter(Player player, int preId)
+        protected override void Enter(Player player, int preId)
         {
             player.animator.Play(animationHash);
         }
 
-        public override void FixedUpdate(Player player)
+        protected override void FixedUpdate(Player player)
         {
             player.gravity.UpdateVelocity();
             player.exRb.velocity += player.gravity.CurrentVelocity;
@@ -158,23 +158,23 @@ public partial class Player
             }
             if (!player.onTheGround.Check())
             {
-                player.stateMachine.TransitState((int)StateID.Float);
+                player.TransitReady((int)StateID.Float);
             }
         }
 
-        public override void Update(Player player)
+        protected override void Update(Player player)
         {
             if (!player.inputInfo.left && !player.inputInfo.right)
             {
-                player.stateMachine.TransitState((int)StateID.Idle);
+                player.TransitReady((int)StateID.Idle);
             }
             else if (player.inputInfo.jump)
             {
-                player.stateMachine.TransitState((int)StateID.Jumping);
+                player.TransitReady((int)StateID.Jumping);
             }
             else if (player.inputInfo.fire)
             {
-                player.stateMachine.TransitState((int)StateID.RunBuster);
+                player.TransitReady((int)StateID.RunBuster);
             }
 
         }
@@ -186,7 +186,7 @@ public partial class Player
         bool isJumping = true;
         public Jumping() { animationHash = Animator.StringToHash("Float"); }
 
-        public override void Enter(Player player, int preId)
+        protected override void Enter(Player player, int preId)
         {
             player.animator.Play(animationHash);
             if (preId != (int)StateID.JumpingBuster) player.jump.Init();
@@ -194,7 +194,7 @@ public partial class Player
             isJumping = true;
         }
 
-        public override void FixedUpdate(Player player)
+        protected override void FixedUpdate(Player player)
         {
             player.jump.UpdateVelocity(player.gravity.GravityScale);
             Move.InputType type = default;
@@ -221,15 +221,15 @@ public partial class Player
 
             if (player.jump.CurrentVelocity.sqrMagnitude <= 0.001f)
             {
-                player.stateMachine.TransitState((int)StateID.Float);
+                player.TransitReady((int)StateID.Float);
             }
         }
 
-        public override void Update(Player player)
+        protected override void Update(Player player)
         {
             if (player.inputInfo.fire)
             {
-                player.stateMachine.TransitState((int)StateID.JumpingBuster);
+                player.TransitReady((int)StateID.JumpingBuster);
             }
 
 
@@ -240,7 +240,7 @@ public partial class Player
             }
         }
 
-        public override void Exit(Player player, int nextId)
+        protected override void Exit(Player player, int nextId)
         {
             if (nextId != (int)StateID.JumpingBuster) player.jump.SetSpeed(0); 
         }
@@ -258,7 +258,7 @@ public partial class Player
             None
         }
         Dir input = Dir.None;
-        public override void Enter(Player player, int preId)
+        protected override void Enter(Player player, int preId)
         {
             player.animator.Play(animationHash);
             player.animator.speed = 0;
@@ -270,7 +270,7 @@ public partial class Player
             player.gravity.Reset();
         }
 
-        public override void FixedUpdate(Player player)
+        protected override void FixedUpdate(Player player)
         {
             switch (input)
             {
@@ -287,25 +287,25 @@ public partial class Player
             }
         }
 
-        public override void Update(Player player)
+        protected override void Update(Player player)
         {
 
             if (player.bodyLadder == null)
             {
-                player.stateMachine.TransitState((int)StateID.Idle);
+                player.TransitReady((int)StateID.Idle);
                 return;
             }
 
             if (player.onTheGround.CheckBottomHit())
             {
-                player.stateMachine.TransitState((int)StateID.Idle);
+                player.TransitReady((int)StateID.Idle);
                 return;
             }
 
             player.isladderTop = player.transform.position.y > player.bodyLadder.bounds.max.y;
             if (player.isladderTop && player.inputInfo.up)
             {
-                player.stateMachine.TransitState((int)StateID.ClimbUp);
+                player.TransitReady((int)StateID.ClimbUp);
             }
             else if (player.inputInfo.down)
             {
@@ -326,11 +326,11 @@ public partial class Player
 
             if (player.inputInfo.jump)
             {
-                player.stateMachine.TransitState((int)StateID.Float);
+                player.TransitReady((int)StateID.Float);
             }
         }
 
-        public override void Exit(Player player,int nextId)
+        protected override void Exit(Player player,int nextId)
         {
             player.animator.speed = 1;
         }
@@ -342,18 +342,18 @@ public partial class Player
         public ClimbUp() { animationHash = Animator.StringToHash("ClimbUp"); }
 
         float time = 0;
-        public override void Enter(Player player, int preId)
+        protected override void Enter(Player player, int preId)
         {
             player.animator.Play(animationHash);
             time = 0;
         }
-        public override void FixedUpdate(Player player)
+        protected override void FixedUpdate(Player player)
         {
             time += Time.deltaTime;
             if (time > 0.1f)
             {
                 player.exRb.SetPosition(ExpandRigidBody.PostionSetType.Bottom, player.bodyLadder.bounds.max.y);
-                player.stateMachine.TransitState((int)StateID.Idle);
+                player.TransitReady((int)StateID.Idle);
             }
         }
     }
@@ -364,7 +364,7 @@ public partial class Player
         public ClimbDown() { animationHash = Animator.StringToHash("ClimbUp"); }
 
         float time = 0;
-        public override void Enter(Player player, int preId)
+        protected override void Enter(Player player, int preId)
         {
             player.animator.Play(animationHash);
             Vector2 nextPos = player.exRb.BoxColliderCenter;
@@ -373,12 +373,12 @@ public partial class Player
             player.exRb.SetPosition(nextPos);
             time = 0;
         }
-        public override void FixedUpdate(Player player)
+        protected override void FixedUpdate(Player player)
         {
             time += Time.deltaTime;
             if (time > 0.1f)
             {
-                player.stateMachine.TransitState((int)StateID.Climb);
+                player.TransitReady((int)StateID.Climb);
             }
         }
     }
@@ -390,7 +390,7 @@ public partial class Player
         public IdleFire() { animationHash = Animator.StringToHash("Fire"); }
 
         float time = 0.15f;
-        public override void Enter(Player player, int preId)
+        protected override void Enter(Player player, int preId)
         {
             player.animator.Play(animationHash);
             player.LaunchBaster();
@@ -398,16 +398,16 @@ public partial class Player
         }
 
 
-        public override void Update(Player player)
+        protected override void Update(Player player)
         {
             if (player.inputInfo.jump)
             {
-                player.stateMachine.TransitState((int)StateID.Jumping);
+                player.TransitReady((int)StateID.Jumping);
             }
 
             if (time < 0)
             {
-                player.stateMachine.TransitState((int)StateID.Idle);
+                player.TransitReady((int)StateID.Idle);
             }
             else if (player.inputInfo.fire)
             {
@@ -417,7 +417,7 @@ public partial class Player
             time -= Time.deltaTime;
         }
 
-        public override void FixedUpdate(Player player)
+        protected override void FixedUpdate(Player player)
         {
             player.gravity.UpdateVelocity();
             player.exRb.velocity = player.gravity.CurrentVelocity;
@@ -425,7 +425,7 @@ public partial class Player
             var hitCheck = player.onTheGround.Check();
             if (!hitCheck)
             {
-                player.stateMachine.TransitState((int)StateID.Float);
+                player.TransitReady((int)StateID.Float);
             }
         }
 
@@ -436,7 +436,7 @@ public partial class Player
         int animationHash = 0;
         public RunBuster() { animationHash = Animator.StringToHash("RunBuster"); }
         float time = 0.3f;
-        public override void Enter(Player player, int preId)
+        protected override void Enter(Player player, int preId)
         {
             time = 0.3f;
             player.animator.Play(animationHash);
@@ -444,7 +444,7 @@ public partial class Player
             player.LaunchBaster();
         }
 
-        public override void FixedUpdate(Player player)
+        protected override void FixedUpdate(Player player)
         {
             Move.InputType type = default;
             if (player.inputInfo.left == true) type = Move.InputType.Left;
@@ -468,24 +468,24 @@ public partial class Player
 
             if (!player.onTheGround.Check())
             {
-                player.stateMachine.TransitState((int)StateID.Float);
+                player.TransitReady((int)StateID.Float);
             }
         }
 
-        public override void Update(Player player)
+        protected override void Update(Player player)
         {
             if (!player.inputInfo.left && !player.inputInfo.right)
             {
-                player.stateMachine.TransitState((int)StateID.Idle);
+                player.TransitReady((int)StateID.Idle);
             }
             else if (player.inputInfo.jump)
             {
-                player.stateMachine.TransitState((int)StateID.Jumping);
+                player.TransitReady((int)StateID.Jumping);
             }
 
             if (time < 0)
             {
-                player.stateMachine.TransitState((int)StateID.Run);
+                player.TransitReady((int)StateID.Run);
             }
             else if (player.inputInfo.fire)
             {
@@ -501,7 +501,7 @@ public partial class Player
         int animationHash = 0;
         public FloatBuster() { animationHash = Animator.StringToHash("FloatBuster"); }
         float time = 0.15f;
-        public override void Enter(Player player, int preId)
+        protected override void Enter(Player player, int preId)
         {
             time = 0.15f;
             player.animator.Play(animationHash);
@@ -509,7 +509,7 @@ public partial class Player
             if (preId != 10) player.LaunchBaster();
         }
 
-        public override void FixedUpdate(Player player)
+        protected override void FixedUpdate(Player player)
         {
             player.gravity.UpdateVelocity();
             player.exRb.velocity = player.gravity.CurrentVelocity;
@@ -534,15 +534,15 @@ public partial class Player
             }
             if (player.onTheGround.CheckBottomHit())
             {
-                player.stateMachine.TransitState((int)StateID.Idle);
+                player.TransitReady((int)StateID.Idle);
             }
         }
 
-        public override void Update(Player player)
+        protected override void Update(Player player)
         {
             if (time < 0)
             {
-                player.stateMachine.TransitState((int)StateID.Float);
+                player.TransitReady((int)StateID.Float);
             }
             else if (player.inputInfo.fire)
             {
@@ -559,7 +559,7 @@ public partial class Player
         public JumpingBuster() { animationHash = Animator.StringToHash("FloatBuster"); }
         float time = 0.15f;
 
-        public override void Enter(Player player, int preId)
+        protected override void Enter(Player player, int preId)
         {
             player.animator.Play(animationHash);
             player.LaunchBaster();
@@ -567,7 +567,7 @@ public partial class Player
 
         }
 
-        public override void FixedUpdate(Player player)
+        protected override void FixedUpdate(Player player)
         {
             player.jump.UpdateVelocity(player.gravity.GravityScale);
             Move.InputType type = default;
@@ -595,15 +595,15 @@ public partial class Player
 
             if (player.jump.CurrentVelocity.sqrMagnitude <= 0.001f)
             {
-                player.stateMachine.TransitState((int)StateID.FloatBuster);
+                player.TransitReady((int)StateID.FloatBuster);
             }
         }
 
-        public override void Update(Player player)
+        protected override void Update(Player player)
         {
             if (time < 0)
             {
-                player.stateMachine.TransitState((int)StateID.Jumping);
+                player.TransitReady((int)StateID.Jumping);
             }
             else if (player.inputInfo.fire)
             {
@@ -616,7 +616,7 @@ public partial class Player
 
     class Death : State<Player>
     {
-        public override void Enter(Player player, int preId)
+        protected override void Enter(Player player, int preId)
         {
             player.gameObject.SetActive(false);
             EffectManager.Instance.PlayerDeathEffect.gameObject.transform.position = player.transform.position;
@@ -629,18 +629,18 @@ public partial class Player
         int animationHash = 0;
         public Transfer() { animationHash = Animator.StringToHash("Transfer"); }
 
-        public override void Enter(Player player, int preId)
+        protected override void Enter(Player player, int preId)
         {
             player.animator.Play(animationHash);
         }
 
-        public override void FixedUpdate(Player player)
+        protected override void FixedUpdate(Player player)
         {
             player.exRb.velocity = Vector2.down * 13;
 
             if (player.onTheGround.CheckBottomHit())
             {
-                player.stateMachine.TransitState((int)StateID.Transfered);
+                player.TransitReady((int)StateID.Transfered);
             }
         }
     }
@@ -650,7 +650,7 @@ public partial class Player
         int animationHash = 0;
         public Transfered() { animationHash = Animator.StringToHash("Transfered"); }
 
-        public override void Enter(Player player, int preId)
+        protected override void Enter(Player player, int preId)
         {
             player.animator.Play(animationHash);
         }
