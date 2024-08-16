@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public partial class MettoruController : MonoBehaviour
+public partial class MettoruController : StateMachine<MettoruController>
 {
     [SerializeField] Animator _animator;
     [SerializeField] Gravity gravity;
@@ -17,7 +17,6 @@ public partial class MettoruController : MonoBehaviour
 
     [SerializeField] Transform jumpTarget;
     private ExpandRigidBody exRb;
-    StateMachine<MettoruController> stateMachine;
 
     enum StateID
     {
@@ -42,29 +41,17 @@ public partial class MettoruController : MonoBehaviour
     private void Awake()
     {
         exRb = GetComponent<ExpandRigidBody>();
-        stateMachine = new StateMachine<MettoruController>();
 
-        stateMachine.AddState((int)StateID.Idle, new Idle());
-        stateMachine.AddState((int)StateID.Walk, new Walk());
-        stateMachine.AddState((int)StateID.Hide, new Hide());
-        stateMachine.AddState((int)StateID.Hiding, new Hiding());
-        stateMachine.AddState((int)StateID.Appear, new Appear());
-        stateMachine.AddState((int)StateID.LookIn, new LookIn());
-        stateMachine.AddState((int)StateID.Jump, new Jumping());
-        stateMachine.AddState((int)StateID.JumpFloating, new JumpFloating());
+        AddState((int)StateID.Idle, new Idle());
+        AddState((int)StateID.Walk, new Walk());
+        AddState((int)StateID.Hide, new Hide());
+        AddState((int)StateID.Hiding, new Hiding());
+        AddState((int)StateID.Appear, new Appear());
+        AddState((int)StateID.LookIn, new LookIn());
+        AddState((int)StateID.Jump, new Jumping());
+        AddState((int)StateID.JumpFloating, new JumpFloating());
 
-        stateMachine.TransitState((int)StateID.Hide);
-    }
-
-
-    private void FixedUpdate()
-    {
-        stateMachine.FixedUpdate(this);
-    }
-
-    private void Update()
-    {
-        stateMachine.Update(this);
+        TransitReady((int)StateID.Hide);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

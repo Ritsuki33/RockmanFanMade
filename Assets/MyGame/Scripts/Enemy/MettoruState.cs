@@ -10,19 +10,19 @@ public partial class MettoruController
         AmbiguousTimer timer = new AmbiguousTimer();
         int animationHash = 0;
         public Idle() { animationHash = Animator.StringToHash("Idle"); }
-        public override void Enter(MettoruController mettoru, int preId)
+        protected override void Enter(MettoruController mettoru, int preId)
         {
             mettoru._animator.Play(animationHash);
             timer.Start(0.5f, 2.0f);
         }
 
-        public override void FixedUpdate(MettoruController mettoru)
+        protected override void FixedUpdate(MettoruController mettoru)
         {
             mettoru.gravity.UpdateVelocity();
             mettoru.exRb.velocity = mettoru.gravity.CurrentVelocity;
         }
 
-        public override void Update(MettoruController mettoru)
+        protected override void Update(MettoruController mettoru)
         {
             if (!mettoru._animator.IsPlayingCurrentAnimation())
             {
@@ -33,7 +33,7 @@ public partial class MettoruController
                     {
                         if (Probability.GetBoolean(0.35f))
                         {
-                            mettoru.stateMachine.TransitState((int)StateID.Hide);
+                            mettoru.TransitReady((int)StateID.Hide);
                         }
                     });
             }
@@ -43,13 +43,13 @@ public partial class MettoruController
                    {
                        //if (mettoru.walk)
                        //{
-                       //    mettoru.stateMachine.TransitState((int)StateID.Walk);
+                       //    mettoru.TransitState((int)StateID.Walk);
                        //}
                        //else
                        //{
-                       //    mettoru.stateMachine.TransitState((int)StateID.Hide);
+                       //    mettoru.TransitState((int)StateID.Hide);
                        //}
-                       mettoru.stateMachine.TransitState((int)StateID.Jump);
+                       mettoru.TransitReady((int)StateID.Jump);
 
                    });
         }
@@ -60,14 +60,14 @@ public partial class MettoruController
         AmbiguousTimer timer = new AmbiguousTimer();
         int animationHash = 0;
         public Walk() { animationHash = Animator.StringToHash("Walk"); }
-        public override void Enter(MettoruController mettoru, int preId)
+        protected override void Enter(MettoruController mettoru, int preId)
         {
             mettoru._animator.Play(animationHash);
             mettoru.TurnToTarget(mettoru.Player.transform.position);
             timer.Start(0.5f, 2.0f);
         }
 
-        public override void FixedUpdate(MettoruController mettoru)
+        protected override void FixedUpdate(MettoruController mettoru)
         {
             mettoru.gravity.UpdateVelocity();
             mettoru.exRb.velocity = mettoru.gravity.CurrentVelocity;
@@ -82,21 +82,21 @@ public partial class MettoruController
             mettoru.exRb.velocity += mettoru.move.CurrentVelocity;
         }
 
-        public override void Update(MettoruController mettoru)
+        protected override void Update(MettoruController mettoru)
         {
             mettoru.raycastSensor.SearchForTargetEnter((mettoru.IsRight) ? Vector2.right : Vector2.left,
                     (hit) =>
                     {
                         if (Probability.GetBoolean(0.35f))
                         {
-                            mettoru.stateMachine.TransitState((int)StateID.Hide);
+                            mettoru.TransitReady((int)StateID.Hide);
                         }
                     });
 
             timer.MoveAheadTime(Time.deltaTime,
                   () =>
                   {
-                      mettoru.stateMachine.TransitState((int)StateID.Hide);
+                      mettoru.TransitReady((int)StateID.Hide);
                   });
         }
     }
@@ -106,23 +106,23 @@ public partial class MettoruController
         int animationHash = 0;
         public Hide() { animationHash = Animator.StringToHash("Hide"); }
 
-        public override void Enter(MettoruController mettoru, int preId)
+        protected override void Enter(MettoruController mettoru, int preId)
         {
             mettoru._animator.Play(animationHash);
             mettoru.invincible = true;
         }
 
-        public override void FixedUpdate(MettoruController mettoru)
+        protected override void FixedUpdate(MettoruController mettoru)
         {
             mettoru.gravity.UpdateVelocity();
             mettoru.exRb.velocity = mettoru.gravity.CurrentVelocity;
         }
 
-        public override void Update(MettoruController mettoru)
+        protected override void Update(MettoruController mettoru)
         {
             if (!mettoru._animator.IsPlayingCurrentAnimation())
             {
-                mettoru.stateMachine.TransitState((int)StateID.Hiding);
+                mettoru.TransitReady((int)StateID.Hiding);
             }
         }
     }
@@ -133,19 +133,19 @@ public partial class MettoruController
         AmbiguousTimer timer = new AmbiguousTimer();
         public Hiding() { animationHash = Animator.StringToHash("Hiding"); }
 
-        public override void Enter(MettoruController mettoru, int preId)
+        protected override void Enter(MettoruController mettoru, int preId)
         {
             mettoru._animator.Play(animationHash);
             timer.Start(1, 3);
         }
 
-        public override void FixedUpdate(MettoruController mettoru)
+        protected override void FixedUpdate(MettoruController mettoru)
         {
             mettoru.gravity.UpdateVelocity();
             mettoru.exRb.velocity = mettoru.gravity.CurrentVelocity;
         }
 
-        public override void Update(MettoruController mettoru)
+        protected override void Update(MettoruController mettoru)
         {
             mettoru.TurnToTarget(mettoru.Player.transform.position);
 
@@ -157,12 +157,12 @@ public partial class MettoruController
                         Probability.BranchMethods(
                             (50, () =>
                             {
-                                mettoru.stateMachine.TransitState((int)StateID.Appear);
+                                mettoru.TransitReady((int)StateID.Appear);
                             }
                         ),
                             (0, () =>
                             {
-                                mettoru.stateMachine.TransitState((int)StateID.LookIn);
+                                mettoru.TransitReady((int)StateID.LookIn);
                             }
                         ));
                     });
@@ -176,7 +176,7 @@ public partial class MettoruController
         AmbiguousTimer timer=new AmbiguousTimer();
         public Appear() { animationHash = Animator.StringToHash("Appear"); }
 
-        public override void Enter(MettoruController mettoru, int preId)
+        protected override void Enter(MettoruController mettoru, int preId)
         {
             mettoru._animator.Play(animationHash);
             mettoru.Fire();
@@ -184,23 +184,23 @@ public partial class MettoruController
             timer.Start(1, 3);
         }
 
-        public override void FixedUpdate(MettoruController mettoru)
+        protected override void FixedUpdate(MettoruController mettoru)
         {
             mettoru.gravity.UpdateVelocity();
             mettoru.exRb.velocity = mettoru.gravity.CurrentVelocity;
         }
 
-        public override void Update(MettoruController mettoru)
+        protected override void Update(MettoruController mettoru)
         {
             if (!mettoru._animator.IsPlayingCurrentAnimation())
             {
                 if (mettoru.walk)
                 {
-                    mettoru.stateMachine.TransitState((int)StateID.Walk);
+                    mettoru.TransitReady((int)StateID.Walk);
                 }
                 else
                 {
-                    mettoru.stateMachine.TransitState((int)StateID.Idle);
+                    mettoru.TransitReady((int)StateID.Idle);
                 }
             }
         }
@@ -212,20 +212,20 @@ public partial class MettoruController
         public LookIn() { animationHash = Animator.StringToHash("LookIn"); }
         AmbiguousTimer timer = new AmbiguousTimer();
 
-        public override void Enter(MettoruController mettoru, int preId)
+        protected override void Enter(MettoruController mettoru, int preId)
         {
             mettoru._animator.Play(animationHash);
             mettoru.Fire();
             timer.Start(0.5f, 2.0f);
         }
 
-        public override void FixedUpdate(MettoruController mettoru)
+        protected override void FixedUpdate(MettoruController mettoru)
         {
             mettoru.gravity.UpdateVelocity();
             mettoru.exRb.velocity = mettoru.gravity.CurrentVelocity;
         }
 
-        public override void Update(MettoruController mettoru)
+        protected override void Update(MettoruController mettoru)
         {
             if (!mettoru._animator.IsPlayingCurrentAnimation())
             {
@@ -234,14 +234,14 @@ public partial class MettoruController
                 mettoru.raycastSensor.SearchForTargetEnter((mettoru.IsRight) ? Vector2.right : Vector2.left,
                     (hit) =>
                     {
-                            mettoru.stateMachine.TransitState((int)StateID.Hiding);
+                            mettoru.TransitReady((int)StateID.Hiding);
                     });
             }
 
             timer.MoveAheadTime(Time.deltaTime,
                    () =>
                    {
-                       mettoru.stateMachine.TransitState((int)StateID.Hiding);
+                       mettoru.TransitReady((int)StateID.Hiding);
                    });
         }
     }
@@ -253,7 +253,7 @@ public partial class MettoruController
         int animationHash = 0;
         public Jumping() { animationHash = Animator.StringToHash("Jump"); }
 
-        public override void Enter(MettoruController mettoru, int preId)
+        protected override void Enter(MettoruController mettoru, int preId)
         {
             mettoru._animator.Play(animationHash);
             mettoru.gravity.Reset();
@@ -262,7 +262,7 @@ public partial class MettoruController
             //mettoru.jumpOverThere.Jump(mettoru.jumpTarget.position, 88, mettoru.gravity.GravityScale, () => { Debug.Log("error jump"); });
         }
 
-        public override void FixedUpdate(MettoruController mettoru)
+        protected override void FixedUpdate(MettoruController mettoru)
         {
             mettoru.jump.UpdateVelocity(mettoru.gravity.GravityScale);
             mettoru.exRb.velocity += mettoru.jump.CurrentVelocity;
@@ -270,7 +270,7 @@ public partial class MettoruController
 
             if (mettoru.jump.CurrentSpeed == 0)
             {
-                mettoru.stateMachine.TransitState((int)StateID.JumpFloating);
+                mettoru.TransitReady((int)StateID.JumpFloating);
             }
         }
     }
@@ -280,17 +280,17 @@ public partial class MettoruController
         int animationHash = 0;
         public JumpFloating() { animationHash = Animator.StringToHash("Float"); }
 
-        public override void Enter(MettoruController mettoru, int preId)
+        protected override void Enter(MettoruController mettoru, int preId)
         {
             mettoru._animator.Play(animationHash);
             //mettoru.jumpOverThere.Jump(mettoru.jumpTarget.position, 88, mettoru.gravity.GravityScale, () => { Debug.Log("error jump"); });
         }
 
-        public override void FixedUpdate(MettoruController mettoru)
+        protected override void FixedUpdate(MettoruController mettoru)
         {
             if (mettoru.onTheGround.CheckBottomHit())
             {
-                mettoru.stateMachine.TransitState((int)StateID.Idle);
+                mettoru.TransitReady((int)StateID.Idle);
             }
             else
             {

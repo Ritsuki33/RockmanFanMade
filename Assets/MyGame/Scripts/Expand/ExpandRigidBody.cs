@@ -1,6 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 
@@ -293,27 +291,6 @@ public class ExpandRigidBody : MonoBehaviour, BaseExRbHit.IExRbCallbackSet
     RaycastHit2D rightHit;
 
     RaycastHit2D throughFloorBottomHit;
-
-    /// <summary>
-    /// ŽÀŽ¿ƒTƒCƒY
-    /// </summary>
-    //public Vector2 CheckSize
-    //{
-    //    get
-    //    {
-    //        switch (priority)
-    //        {
-    //            case Priority.None:
-    //                return boxColliderSize;
-    //            case Priority.Vertical:
-    //                return new Vector2(boxColliderSize.x + physicalOffset.x * 2, boxColliderSize.y * ratio_y);
-    //            case Priority.Horizen:
-    //                return new Vector2(boxColliderSize.x * ratio_x, boxColliderSize.y + physicalOffset.y * 2);
-    //            default:
-    //                return boxColliderSize;
-    //        }
-    //    }
-    //}
 
     /// <summary>
     /// ŽÀŽ¿‚S•Ó

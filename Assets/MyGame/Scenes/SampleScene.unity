@@ -2901,7 +2901,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _animator: {fileID: 1144012520}
   gravity: {fileID: 570186317}
-  onTheGround: {fileID: 0}
+  onTheGround: {fileID: 570186324}
   move: {fileID: 570186321}
   raycastSensor: {fileID: 570186319}
   groundChecker: {fileID: 570186320}

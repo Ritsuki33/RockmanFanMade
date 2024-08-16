@@ -1,20 +1,21 @@
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 
-public partial class Player : MonoBehaviour
+public partial class Player : StateMachine<Player>
 {
     Gravity gravity;
     Move move;
     OnTheGround onTheGround;
     Animator animator;
     Jump jump;
-    StateMachine<Player> stateMachine = new StateMachine<Player>();
+    //StateMachine<Player> stateMachine = new StateMachine<Player>();
 
     Collider2D bodyLadder = null;
     bool isladderTop = false;
 
     InputInfo inputInfo;
-    bool isUpdate = true;
+
     private ExpandRigidBody exRb;
 
     [SerializeField] GameObject launcher;
@@ -49,30 +50,20 @@ public partial class Player : MonoBehaviour
         animator = GetComponent<Animator>();
         jump=GetComponent<Jump>();
 
-        stateMachine.AddState((int)StateID.Idle, new Idle());
-        stateMachine.AddState((int)StateID.Float, new Float());
-        stateMachine.AddState((int)StateID.Run, new Run());
-        stateMachine.AddState((int)StateID.Climb, new Climb());
-        stateMachine.AddState((int)StateID.Jumping, new Jumping());
-        stateMachine.AddState((int)StateID.ClimbUp, new ClimbUp());
-        stateMachine.AddState((int)StateID.ClimbDown, new ClimbDown());
-        stateMachine.AddState((int)StateID.IdleFire, new IdleFire());
-        stateMachine.AddState((int)StateID.RunBuster, new RunBuster());
-        stateMachine.AddState((int)StateID.FloatBuster, new FloatBuster());
-        stateMachine.AddState((int)StateID.JumpingBuster, new JumpingBuster());
-        stateMachine.AddState((int)StateID.Death, new Death());
-        stateMachine.AddState((int)StateID.Transfer, new Transfer());
-        stateMachine.AddState((int)StateID.Transfered, new Transfered());
-    }
-
-    private void FixedUpdate()
-    {
-        if(isUpdate) stateMachine.FixedUpdate(this);
-    }
-
-    private void Update()
-    {
-        if(isUpdate)stateMachine.Update(this);
+        AddState((int)StateID.Idle, new Idle());
+        AddState((int)StateID.Float, new Float());
+        AddState((int)StateID.Run, new Run());
+        AddState((int)StateID.Climb, new Climb());
+        AddState((int)StateID.Jumping, new Jumping());
+        AddState((int)StateID.ClimbUp, new ClimbUp());
+        AddState((int)StateID.ClimbDown, new ClimbDown());
+        AddState((int)StateID.IdleFire, new IdleFire());
+        AddState((int)StateID.RunBuster, new RunBuster());
+        AddState((int)StateID.FloatBuster, new FloatBuster());
+        AddState((int)StateID.JumpingBuster, new JumpingBuster());
+        AddState((int)StateID.Death, new Death());
+        AddState((int)StateID.Transfer, new Transfer());
+        AddState((int)StateID.Transfered, new Transfered());
     }
 
     public void UpdateInput(InputInfo input)
@@ -85,7 +76,7 @@ public partial class Player : MonoBehaviour
     /// </summary>
     public void PlayerPause()
     {
-        isUpdate = false;
+        this.enabled = false;
     }
 
     /// <summary>
@@ -93,7 +84,7 @@ public partial class Player : MonoBehaviour
     /// </summary>
     public void PlayerPuaseCancel()
     {
-        isUpdate = true;
+        this.enabled = true;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -130,13 +121,13 @@ public partial class Player : MonoBehaviour
 
     public void Dead()
     {
-        stateMachine.TransitState(11);
+        TransitReady(11);
         GameManager.Instance.DeathNotification();
     }
 
     public void TransferedAnimationEnd()
     {
-        stateMachine.TransitState((int)StateID.Idle);
+        TransitReady((int)StateID.Idle);
     }
 
     public void Prepare(Transform tranform)
@@ -148,6 +139,6 @@ public partial class Player : MonoBehaviour
     public void TransferPlayer()
     {
         this.gameObject.SetActive(true);
-        stateMachine.TransitState((int)StateID.Transfer);
+        TransitReady((int)StateID.Transfer);
     }
 }
