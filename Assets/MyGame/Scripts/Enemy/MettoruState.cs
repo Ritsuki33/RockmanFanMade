@@ -24,7 +24,7 @@ public partial class MettoruController
 
         protected override void Update(MettoruController mettoru)
         {
-            if (!mettoru._animator.IsPlayingCurrentAnimation())
+            if (!mettoru._animator.IsPlayingCurrentAnimation(animationHash))
             {
                 mettoru.TurnToTarget(mettoru.Player.transform.position);
 
@@ -41,15 +41,15 @@ public partial class MettoruController
             timer.MoveAheadTime(Time.deltaTime,
                    () =>
                    {
-                       //if (mettoru.walk)
-                       //{
-                       //    mettoru.TransitState((int)StateID.Walk);
-                       //}
-                       //else
-                       //{
-                       //    mettoru.TransitState((int)StateID.Hide);
-                       //}
-                       mettoru.TransitReady((int)StateID.Jump);
+                       if (mettoru.walk)
+                       {
+                           mettoru.TransitReady((int)StateID.Walk);
+                       }
+                       else
+                       {
+                           mettoru.TransitReady((int)StateID.Hide);
+                       }
+                       //mettoru.TransitReady((int)StateID.Jump);
 
                    });
         }
@@ -120,7 +120,7 @@ public partial class MettoruController
 
         protected override void Update(MettoruController mettoru)
         {
-            if (!mettoru._animator.IsPlayingCurrentAnimation())
+            if (!mettoru._animator.IsPlayingCurrentAnimation(animationHash))
             {
                 mettoru.TransitReady((int)StateID.Hiding);
             }
@@ -192,7 +192,7 @@ public partial class MettoruController
 
         protected override void Update(MettoruController mettoru)
         {
-            if (!mettoru._animator.IsPlayingCurrentAnimation())
+            if (!mettoru._animator.IsPlayingCurrentAnimation(animationHash))
             {
                 if (mettoru.walk)
                 {
@@ -227,7 +227,7 @@ public partial class MettoruController
 
         protected override void Update(MettoruController mettoru)
         {
-            if (!mettoru._animator.IsPlayingCurrentAnimation())
+            if (!mettoru._animator.IsPlayingCurrentAnimation(animationHash))
             {
                 mettoru.TurnToTarget(mettoru.Player.transform.position);
 
