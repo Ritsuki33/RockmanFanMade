@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -105,7 +105,7 @@ public class InputManager : SingletonComponent<InputManager>, IInput
     }
 
     /// <summary>
-    /// ƒrƒbƒg‚ğ‚P‚É‚·‚é
+    /// ãƒ“ãƒƒãƒˆã‚’ï¼‘ã«ã™ã‚‹
     /// </summary>
     /// <param name="type"></param>
     void OnInputBit(InputType type)
@@ -114,7 +114,7 @@ public class InputManager : SingletonComponent<InputManager>, IInput
     }
 
     /// <summary>
-    /// ƒrƒbƒg‚ğ‚O‚É‚·‚é
+    /// ãƒ“ãƒƒãƒˆã‚’ï¼ã«ã™ã‚‹
     /// </summary>
     /// <param name="type"></param>
     void OffInputBit(InputType type)

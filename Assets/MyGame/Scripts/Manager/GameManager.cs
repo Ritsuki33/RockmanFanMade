@@ -1,4 +1,4 @@
-using Cinemachine;
+ï»¿using Cinemachine;
 using System;
 using System.Collections;
 using UnityEngine;
@@ -29,7 +29,7 @@ public class GameManager : SingletonComponent<GameManager>
     public Player Player => player;
 
     /// <summary>
-    /// ƒRƒ“ƒgƒ[ƒ‰‚©‚ç‚Ì“ü—Í
+    /// ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ©ã‹ã‚‰ã®å…¥åŠ›
     /// </summary>
     private IInput InputController => InputManager.Instance;
 
@@ -59,9 +59,9 @@ public class GameManager : SingletonComponent<GameManager>
         if (nextVirtualCamera.gameObject == m_mainCameraControll.CinemachineBrain.ActiveVirtualCamera.VirtualCameraGameObject) yield break;
         m_mainCameraControll.CinemachineBrain.ActiveVirtualCamera.VirtualCameraGameObject.SetActive(false);
         nextVirtualCamera.gameObject.SetActive(true);
-        // ƒvƒŒƒCƒ„[‚Ì“®‚«‚ğ~‚ß‚é
+        // ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®å‹•ãã‚’æ­¢ã‚ã‚‹
         player.PlayerPause();
-        // ƒuƒŒƒ“ƒfƒBƒ“ƒO‚ğƒXƒ^[ƒg‚³‚¹‚é‚½‚ßAŸƒtƒŒ[ƒ€‚Ü‚Å‘Ò‚Â 
+        // ãƒ–ãƒ¬ãƒ³ãƒ‡ã‚£ãƒ³ã‚°ã‚’ã‚¹ã‚¿ãƒ¼ãƒˆã•ã›ã‚‹ãŸã‚ã€æ¬¡ãƒ•ãƒ¬ãƒ¼ãƒ ã¾ã§å¾…ã¤ 
         yield return null;
         Vector3 pre_cameraPos= m_mainCameraControll.CinemachineBrain.transform.position;
         while (m_mainCameraControll.CinemachineBrain.IsBlending)

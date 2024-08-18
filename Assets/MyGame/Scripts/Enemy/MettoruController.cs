@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -86,7 +86,7 @@ public partial class MettoruController : StateMachine<MettoruController>
     }
 
     /// <summary>
-    /// ’e‚ğ‚¤‚Â
+    /// å¼¾ã‚’ã†ã¤
     /// </summary>
     public void Fire()
     {
@@ -96,7 +96,7 @@ public partial class MettoruController : StateMachine<MettoruController>
     }
 
     /// <summary>
-    /// €–S
+    /// æ­»äº¡
     /// </summary>
     /// <param name="collision"></param>
     private void Dead(Projectile projectile)
@@ -110,7 +110,7 @@ public partial class MettoruController : StateMachine<MettoruController>
     }
 
     /// <summary>
-    /// ƒLƒƒƒ‰ƒNƒ^[‚ÌU‚èŒü‚«
+    /// ã‚­ãƒ£ãƒ©ã‚¯ã‚¿ãƒ¼ã®æŒ¯ã‚Šå‘ã
     /// </summary>
     private void TurnToTarget(Vector2 targetPos)
     {

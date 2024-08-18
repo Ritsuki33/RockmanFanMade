@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -17,7 +17,7 @@ public class AmbiguousTimer
     }
 
     /// <summary>
-    /// ŠÔ‚ği‚ß‚é
+    /// æ™‚é–“ã‚’é€²ã‚ã‚‹
     /// </summary>
     /// <param name="deltaTime"></param>
     /// <param name="callback"></param>

@@ -1,4 +1,4 @@
-using Cinemachine;
+ï»¿using Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -14,10 +14,10 @@ public class MainCameraControll : MonoBehaviour
 
     public bool CheckOutOfView(GameObject gameObject)
     {
-        // ’eŠÛ‚ÌˆÊ’u‚ğƒXƒNƒŠ[ƒ“À•W‚É•ÏŠ·
+        // å¼¾ä¸¸ã®ä½ç½®ã‚’ã‚¹ã‚¯ãƒªãƒ¼ãƒ³åº§æ¨™ã«å¤‰æ›
         Vector3 screenPoint = _camera.WorldToViewportPoint(gameObject.transform.position);
 
-        // ƒrƒ…[”ÍˆÍŠO‚©‚Ç‚¤‚©‚ğ”»’è
+        // ãƒ“ãƒ¥ãƒ¼ç¯„å›²å¤–ã‹ã©ã†ã‹ã‚’åˆ¤å®š
         bool isOutOfView = screenPoint.x + outOfViewOffset < 0 || screenPoint.x - outOfViewOffset > 1 || screenPoint.y + outOfViewOffset < 0 || screenPoint.y - outOfViewOffset > 1;
 
         return isOutOfView;

@@ -1,12 +1,12 @@
-using Cinemachine;
+ï»¿using Cinemachine;
 using UnityEngine;
 
 public class CinemachineLineLimit : CinemachineExtension
 {
-    // ’¼ü‚ª’Ê‚é“_
+    // ç›´ç·šãŒé€šã‚‹ç‚¹
     [SerializeField]private Vector3 _origin = Vector3.up;
 
-    // ’¼ü‚ÌŒü‚«
+    // ç›´ç·šã®å‘ã
     [SerializeField] private Vector3 _direction = Vector3.right;
 
     private float _scrollRange = 0;
@@ -25,7 +25,7 @@ public class CinemachineLineLimit : CinemachineExtension
 
     }
 
-    // ExtensionƒR[ƒ‹ƒoƒbƒN
+    // Extensionã‚³ãƒ¼ãƒ«ãƒãƒƒã‚¯
     protected override void PostPipelineStageCallback(
         CinemachineVirtualCameraBase vcam,
         CinemachineCore.Stage stage,
@@ -33,16 +33,16 @@ public class CinemachineLineLimit : CinemachineExtension
         float deltaTime
     )
     {
-        // ƒJƒƒ‰ˆÚ“®Œã‚Ì‚İˆ—‚ğÀs‚·‚é‚±‚Æ‚Æ‚·‚é
+        // ã‚«ãƒ¡ãƒ©ç§»å‹•å¾Œã®ã¿å‡¦ç†ã‚’å®Ÿè¡Œã™ã‚‹ã“ã¨ã¨ã™ã‚‹
         if (stage != CinemachineCore.Stage.Body)
             return;
 
-        // ƒŒƒC‚ğ’è‹`
+        // ãƒ¬ã‚¤ã‚’å®šç¾©
         var ray = new Ray(_controlArea.StartCameraCneter, _controlArea.Direction);
-        // ŒvZ‚³‚ê‚½ƒJƒƒ‰ˆÊ’u
+        // è¨ˆç®—ã•ã‚ŒãŸã‚«ãƒ¡ãƒ©ä½ç½®
         var point = state.RawPosition;
 
-        // ƒŒƒCã‚É“Š‰e‚µ‚½ƒJƒƒ‰ˆÊ’u‚ğŒvZ
+        // ãƒ¬ã‚¤ä¸Šã«æŠ•å½±ã—ãŸã‚«ãƒ¡ãƒ©ä½ç½®ã‚’è¨ˆç®—
         point -= ray.origin;
         point = Vector3.Project(point, ray.direction);
         point += ray.origin;
@@ -75,7 +75,7 @@ public class CinemachineLineLimit : CinemachineExtension
 
         point.x = Mathf.Clamp(point.x,min_x, max_x);
         point.y = Mathf.Clamp(point.y,min_y, max_y);
-        // “Š‰e“_‚ğƒJƒƒ‰ˆÊ’u‚É”½‰f
+        // æŠ•å½±ç‚¹ã‚’ã‚«ãƒ¡ãƒ©ä½ç½®ã«åæ˜ 
         state.RawPosition = point;
     }
 
@@ -83,7 +83,7 @@ public class CinemachineLineLimit : CinemachineExtension
 
     private const float GizmoLineLength = 1000;
 
-    // ˆÚ“®”ÍˆÍ‚ğƒGƒfƒBƒ^ã‚Å•\¦(Šm”F—p)
+    // ç§»å‹•ç¯„å›²ã‚’ã‚¨ãƒ‡ã‚£ã‚¿ä¸Šã§è¡¨ç¤º(ç¢ºèªç”¨)
     //private void OnDrawGizmos()
     //{
     //    if (!isActiveAndEnabled) return;

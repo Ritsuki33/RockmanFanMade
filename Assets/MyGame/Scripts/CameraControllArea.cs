@@ -1,4 +1,4 @@
-using Cinemachine;
+ï»¿using Cinemachine;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -10,7 +10,7 @@ public class CameraControllArea : MonoBehaviour
     }
 
     [SerializeField] DirType _dirType;
-    [SerializeField, Header("‰Â“®ˆæ")] float scrollRange = 1.0f;
+    [SerializeField, Header("å¯å‹•åŸŸ")] float scrollRange = 1.0f;
     [SerializeField] CinemachineVirtualCamera virtualCamera;
     [SerializeField] GameObject transitCameraAreaPrefab;
     [SerializeField] Transform transitCameraAreaRoot;
