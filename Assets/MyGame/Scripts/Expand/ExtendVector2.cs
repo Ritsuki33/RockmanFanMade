@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,26 +6,26 @@ using UnityEngine;
 static public class ExtendVector2
 {
     /// <summary>
-    /// xy²Œn‚ÌÀ•W‚©‚çradian‚¾‚¯‰ñ“]‚µ‚½x_dash-y_dash²ã‚Å‚ÌÀ•W‚É•ÏŠ·‚Å‚«‚éVector2
+    /// xyè»¸ç³»ã®åº§æ¨™ã‹ã‚‰radianã ã‘å›è»¢ã—ãŸx_dash-y_dashè»¸ä¸Šã§ã®åº§æ¨™ã«å¤‰æ›ã§ãã‚‹Vector2
     /// </summary>
     public static Vector2 AxisRotate(this Vector2 v,float angle)
     {
         float radian = Mathf.Deg2Rad * angle;
 
         Matrix4x4 matrix = new Matrix4x4();
-        matrix.m00 = Mathf.Cos(radian);  // 1s1—ñ–Ú‚Ì—v‘f
-        matrix.m01 = Mathf.Sin(radian); // 1s2—ñ–Ú‚Ì—v‘f
-        matrix.m10 = -Mathf.Sin(radian);  // 2s1—ñ–Ú‚Ì—v‘f
-        matrix.m11 = Mathf.Cos(radian); // 2s2—ñ–Ú‚Ì—v‘f
+        matrix.m00 = Mathf.Cos(radian);  // 1è¡Œ1åˆ—ç›®ã®è¦ç´ 
+        matrix.m01 = Mathf.Sin(radian); // 1è¡Œ2åˆ—ç›®ã®è¦ç´ 
+        matrix.m10 = -Mathf.Sin(radian);  // 2è¡Œ1åˆ—ç›®ã®è¦ç´ 
+        matrix.m11 = Mathf.Cos(radian); // 2è¡Œ2åˆ—ç›®ã®è¦ç´ 
 
-        // ===x_dash.y_dash²(xy²‚ğangle‚¾‚¯‰ñ“]‚³‚¹‚½²)==
+        // ===x_dash.y_dashè»¸(xyè»¸ã‚’angleã ã‘å›è»¢ã•ã›ãŸè»¸)==
         Vector2 v_dash = matrix * v;
 
         return v_dash;
     }
 
     /// <summary>
-    /// À•W(0,0)‚ğ’†S‚Æ‚µ‚Ä‰ñ“]Œã‚ÌÀ•W
+    /// åº§æ¨™(0,0)ã‚’ä¸­å¿ƒã¨ã—ã¦å›è»¢å¾Œã®åº§æ¨™
     /// </summary>
     /// <param name="v"></param>
     /// <param name="angle"></param>
@@ -35,15 +35,15 @@ static public class ExtendVector2
         float radian = Mathf.Deg2Rad * angle;
 
         Matrix4x4 matrix = new Matrix4x4();
-        matrix.m00 = Mathf.Cos(radian);  // 1s1—ñ–Ú‚Ì—v‘f
-        matrix.m01 = -Mathf.Sin(radian); // 1s2—ñ–Ú‚Ì—v‘f
-        matrix.m10 = Mathf.Sin(radian);  // 2s1—ñ–Ú‚Ì—v‘f
-        matrix.m11 = Mathf.Cos(radian); // 2s2—ñ–Ú‚Ì—v‘f
+        matrix.m00 = Mathf.Cos(radian);  // 1è¡Œ1åˆ—ç›®ã®è¦ç´ 
+        matrix.m01 = -Mathf.Sin(radian); // 1è¡Œ2åˆ—ç›®ã®è¦ç´ 
+        matrix.m10 = Mathf.Sin(radian);  // 2è¡Œ1åˆ—ç›®ã®è¦ç´ 
+        matrix.m11 = Mathf.Cos(radian); // 2è¡Œ2åˆ—ç›®ã®è¦ç´ 
 
         return matrix * v;
     }
     /// <summary>
-    /// ‚ ‚é“_‚ğ’†S‚Æ‚µ‚Ä‰ñ“]‚³‚¹‚½À•W
+    /// ã‚ã‚‹ç‚¹ã‚’ä¸­å¿ƒã¨ã—ã¦å›è»¢ã•ã›ãŸåº§æ¨™
     /// </summary>
     /// <param name="v"></param>
     /// <param name="center"></param>
@@ -51,7 +51,7 @@ static public class ExtendVector2
     /// <returns></returns>
     public static Vector2 PositionRotate(this Vector2 v,Vector2 center,float angle)
     {
-        // center‚ğ(0,0)‚É‚Á‚Ä‚«‚½‚Æ‚«‚Ìv_dash
+        // centerã‚’(0,0)ã«æŒã£ã¦ããŸã¨ãã®v_dash
         Vector2 v_dash = v - center;
 
         Vector2 v_dash_dash= v_dash.PositionRotate(angle);
@@ -60,7 +60,7 @@ static public class ExtendVector2
     }
 
     /// <summary>
-    /// ‚’¼‚ÈƒxƒNƒgƒ‹‚ğ‹‚ß‚éi’PˆÊƒxƒNƒgƒ‹j
+    /// å‚ç›´ãªãƒ™ã‚¯ãƒˆãƒ«ã‚’æ±‚ã‚ã‚‹ï¼ˆå˜ä½ãƒ™ã‚¯ãƒˆãƒ«ï¼‰
     /// </summary>
     /// <param name="v"></param>
     /// <param name="center"></param>

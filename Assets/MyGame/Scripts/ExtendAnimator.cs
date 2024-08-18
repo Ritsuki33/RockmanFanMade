@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
@@ -14,7 +14,7 @@ static public class ExtendAnimator
         }
         else
         {
-            // ƒnƒbƒVƒ…‚ªˆê’v‚µ‚Ä‚¢‚È‚¢(ƒAƒjƒ[ƒVƒ‡ƒ“‚ªˆÙ‚È‚é)ê‡‚Í‘JˆÚ’†‚Æ‚·‚é
+            // ãƒãƒƒã‚·ãƒ¥ãŒä¸€è‡´ã—ã¦ã„ãªã„(ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ãŒç•°ãªã‚‹)å ´åˆã¯é·ç§»ä¸­ã¨ã™ã‚‹
             bool isTranstion = stateInfo.shortNameHash != currentHash;
 
             return isTranstion || stateInfo.normalizedTime < 1;

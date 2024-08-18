@@ -1,4 +1,4 @@
-//using UnityEngine;
+ï»¿//using UnityEngine;
 //using UnityEditor;
 
 //[CustomEditor(typeof(VelocityControll))]
@@ -13,7 +13,7 @@
 //        GUI.enabled = false;
 //        EditorGUILayout.Vector2Field("Velocity", velocityControll.Velocity);
 //        EditorGUILayout.TextField("Physical LayerMask", LayerMaskToString(velocityControll.PhysicalLayer));
-//        GUI.enabled = true;   // ‚±‚±‚ÅGUI‚ğÄ‚Ñ—LŒø‰»‚·‚é
+//        GUI.enabled = true;   // ã“ã“ã§GUIã‚’å†ã³æœ‰åŠ¹åŒ–ã™ã‚‹
 //    }
 
 

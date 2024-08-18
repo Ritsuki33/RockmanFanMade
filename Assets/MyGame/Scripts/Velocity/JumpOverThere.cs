@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -15,7 +15,7 @@ public class JumpOverThere : BaseExRbHit
     public bool OnTheGround => onTheGround;
 
     /// <summary>
-    /// ƒ^[ƒQƒbƒgˆÊ’u‚ÉƒWƒƒƒ“ƒv‚·‚é
+    /// ã‚¿ãƒ¼ã‚²ãƒƒãƒˆä½ç½®ã«ã‚¸ãƒ£ãƒ³ãƒ—ã™ã‚‹
     /// </summary>
     /// <param name="targetPosition"></param>
     /// <param name="gravityScale"></param>
@@ -23,17 +23,17 @@ public class JumpOverThere : BaseExRbHit
     public void Jump(Vector2 targetPosition, float angle,float gravityScale, Action failed)
     {
         bool isRight = targetPosition.x > transform.position.x;
-        // Šeí‹——£‚ÌZo
+        // å„ç¨®è·é›¢ã®ç®—å‡º
         float length_x = Mathf.Abs(targetPosition.x - transform.position.x);
         float length_y = targetPosition.y - transform.position.y;
 
-        // ƒ‰ƒWƒAƒ“•ÏŠ·
+        // ãƒ©ã‚¸ã‚¢ãƒ³å¤‰æ›
         float radian = angle * Mathf.Deg2Rad;
 
-        // d—Í‰Á‘¬“x
+        // é‡åŠ›åŠ é€Ÿåº¦
         float gravity = gravityScale / Time.fixedDeltaTime;
 
-        // Šp“x‚©‚ç‘¬“x‚ğŒvZ
+        // è§’åº¦ã‹ã‚‰é€Ÿåº¦ã‚’è¨ˆç®—
         float speed = Mathf.Sqrt(gravity * length_x * length_x / (2 * Mathf.Cos(radian) * Mathf.Cos(radian) * (length_x * Mathf.Tan(radian) - length_y)));
 
         if (float.IsNaN(speed) || speed <= gravityScale)

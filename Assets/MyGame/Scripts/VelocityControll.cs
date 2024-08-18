@@ -1,11 +1,11 @@
-//using System;
+ï»¿//using System;
 //using System.Collections;
 //using System.Collections.Generic;
 //using System.ComponentModel;
 //using UnityEngine;
 
 ///// <summary>
-///// ‘¬“x§ŒäƒNƒ‰ƒX
+///// é€Ÿåº¦åˆ¶å¾¡ã‚¯ãƒ©ã‚¹
 ///// </summary>
 //public class VelocityControll
 //{
@@ -54,8 +54,8 @@
 //    public event Action<RaycastHit2D> onHitLeftExit;
 //    public event Action<RaycastHit2D> onHitRightExit;
 
-//    RaycastHit2D verticalHit; // ‚’¼•ûŒü‚Ìƒqƒbƒg
-//    RaycastHit2D horizonHit; // …•½•ûŒü‚Ìƒqƒbƒg
+//    RaycastHit2D verticalHit; // å‚ç›´æ–¹å‘ã®ãƒ’ãƒƒãƒˆ
+//    RaycastHit2D horizonHit; // æ°´å¹³æ–¹å‘ã®ãƒ’ãƒƒãƒˆ
 
 
 //    bool isCollideTop = false;
@@ -72,8 +72,8 @@
 //    }
 
 //    /// <summary>
-//    /// ‘¬“x‚É‚æ‚éÕ“ËŒŸo
-//    /// ‘¬“x‚ª‚È‚¯‚ê‚ÎŒŸo‚µ‚È‚¢
+//    /// é€Ÿåº¦ã«ã‚ˆã‚‹è¡çªæ¤œå‡º
+//    /// é€Ÿåº¦ãŒãªã‘ã‚Œã°æ¤œå‡ºã—ãªã„
 //    /// </summary>
 //    public Vector2 CorrectVelocity(Vector2 curVelocity)
 //    {

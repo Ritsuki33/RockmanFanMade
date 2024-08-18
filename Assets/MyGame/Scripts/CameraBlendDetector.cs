@@ -1,4 +1,4 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 using Cinemachine;
 
 public class CameraBlendDetector : MonoBehaviour
@@ -35,6 +35,6 @@ public class CameraBlendDetector : MonoBehaviour
         }
 
         Debug.Log("Camera blend completed!");
-        // ‚±‚±‚ÅƒuƒŒƒ“ƒhŠ®—¹Œã‚Ìˆ—‚ğs‚¤
+        // ã“ã“ã§ãƒ–ãƒ¬ãƒ³ãƒ‰å®Œäº†å¾Œã®å‡¦ç†ã‚’è¡Œã†
     }
 }

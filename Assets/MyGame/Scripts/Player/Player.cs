@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -72,7 +72,7 @@ public partial class Player : StateMachine<Player>
     }
 
     /// <summary>
-    /// ƒvƒŒƒCƒ„[‚Ìƒ|[ƒY
+    /// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®ãƒãƒ¼ã‚º
     /// </summary>
     public void PlayerPause()
     {
@@ -80,7 +80,7 @@ public partial class Player : StateMachine<Player>
     }
 
     /// <summary>
-    /// ƒvƒŒƒCƒ„[‚Ìƒ|[ƒYƒLƒƒƒ“ƒZƒ‹iˆê‚Â‘O‚Ìó‘Ô‚É–ß‚·j
+    /// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®ãƒãƒ¼ã‚ºã‚­ãƒ£ãƒ³ã‚»ãƒ«ï¼ˆä¸€ã¤å‰ã®çŠ¶æ…‹ã«æˆ»ã™ï¼‰
     /// </summary>
     public void PlayerPuaseCancel()
     {

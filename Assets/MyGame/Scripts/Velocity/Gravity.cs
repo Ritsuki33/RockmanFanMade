@@ -1,4 +1,4 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 
 public class Gravity : BaseExRbHit
 {
@@ -19,7 +19,7 @@ public class Gravity : BaseExRbHit
     }
 
     /// <summary>
-    /// ‘¬“x‚ğ•ÏX‚·‚é
+    /// é€Ÿåº¦ã‚’å¤‰æ›´ã™ã‚‹
     /// </summary>
     /// <param name="val"></param>
     public void Reset()

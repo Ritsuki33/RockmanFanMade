@@ -1,10 +1,10 @@
-using System.Linq;
+ï»¿using System.Linq;
 using UnityEngine;
 
 public static class Probability
 {
     /// <summary>
-    /// Šm—¦‚Åtrue‚ğ•Ô‚·
+    /// ç¢ºç‡ã§trueã‚’è¿”ã™
     /// </summary>
     /// <param name="probability"></param>
     /// <returns></returns>
@@ -12,13 +12,13 @@ public static class Probability
     {
         if (probability < 0)
         {
-            // í‚Éfalse
+            // å¸¸ã«false
             return false;
 
         }
         else if(probability > 1)
         {
-            // í‚Étrue
+            // å¸¸ã«true
             return true;
         }
 
@@ -26,12 +26,12 @@ public static class Probability
     }
 
     /// <summary>
-    /// Šm—¦‚Åƒƒ\ƒbƒh•ªŠò
+    /// ç¢ºç‡ã§ãƒ¡ã‚½ãƒƒãƒ‰åˆ†å²
     /// </summary>
     /// <param name="actions"></param>
     public static void BranchMethods(params (float, System.Action)[] actions)
     {
-        // d‚İ‚Ì‡Œv’l
+        // é‡ã¿ã®åˆè¨ˆå€¤
         float sumProbability = actions.Aggregate(0f, (acc, x) => acc + x.Item1); ;
 
         float randomValue = Random.value;

@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,11 +6,11 @@ using UnityEngine.TestTools;
 
 public class RaycastSensor : MonoBehaviour
 {
-    [SerializeField, Header("îŒ^‚ÌŠp“x")] public float coneAngle = 45f;
-    [SerializeField, Header("îŒ^‚Ì”ÍˆÍ")] public float coneRange = 10f;
-    [SerializeField, Header("”­Ë‚·‚éƒŒƒC‚Ì”")] public int rayCount = 10;
-    [SerializeField, Header("ƒ^[ƒQƒbƒgƒŒƒCƒ„[")] public LayerMask targetmask;
-    [SerializeField, Header("ƒ^[ƒQƒbƒgƒ^ƒO–¼")] public string targetTag;
+    [SerializeField, Header("æ‰‡å‹ã®è§’åº¦")] public float coneAngle = 45f;
+    [SerializeField, Header("æ‰‡å‹ã®ç¯„å›²")] public float coneRange = 10f;
+    [SerializeField, Header("ç™ºå°„ã™ã‚‹ãƒ¬ã‚¤ã®æ•°")] public int rayCount = 10;
+    [SerializeField, Header("ã‚¿ãƒ¼ã‚²ãƒƒãƒˆãƒ¬ã‚¤ãƒ¤ãƒ¼")] public LayerMask targetmask;
+    [SerializeField, Header("ã‚¿ãƒ¼ã‚²ãƒƒãƒˆã‚¿ã‚°å")] public string targetTag;
 
     RaycastHit2D hitted;
 
@@ -36,7 +36,7 @@ public class RaycastSensor : MonoBehaviour
             if (hit)
             {
                 if (hitted.collider == hit.collider) return;
-                // ƒqƒbƒg‚µ‚½ê‡‚Ìˆ—
+                // ãƒ’ãƒƒãƒˆã—ãŸå ´åˆã®å‡¦ç†
                 if (hit.collider.gameObject.CompareTag(targetTag))
                 {
                     onEnterCallback?.Invoke(hit);
@@ -67,12 +67,12 @@ public class RaycastSensor : MonoBehaviour
         RaycastHit2D hit = default;
         for (int i = 0; i < rayCount; i++)
         {
-            // ŠeƒŒƒC‚ÌŠp“x‚ğŒvZ
+            // å„ãƒ¬ã‚¤ã®è§’åº¦ã‚’è¨ˆç®—
             float angle = -halfAngle + (i * (coneAngle / (rayCount - 1)));
             Vector3 separateDirection = Quaternion.Euler(0, 0, angle) * direction;
             Debug.DrawRay(transform.position, separateDirection * coneRange, Color.red);
 
-            // ƒfƒoƒbƒO—p‚ÉƒŒƒC‚ğ•`‰æ
+            // ãƒ‡ãƒãƒƒã‚°ç”¨ã«ãƒ¬ã‚¤ã‚’æç”»
             hit = Physics2D.Raycast(transform.position, separateDirection, coneRange, targetmask);
 
             if (hit) break;

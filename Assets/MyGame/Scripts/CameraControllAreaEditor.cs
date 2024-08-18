@@ -1,4 +1,4 @@
-using UnityEditor;
+ï»¿using UnityEditor;
 using UnityEngine;
 
 [CustomEditor(typeof(CameraControllArea))]
@@ -9,7 +9,7 @@ public class CameraControllArea2Editor : Editor
         base.OnInspectorGUI();
 
         var cameraControllArea = target as CameraControllArea;
-        //ƒ{ƒ^ƒ“‚ð•\Ž¦
+        //ãƒœã‚¿ãƒ³ã‚’è¡¨ç¤º
         if (GUILayout.Button("Create TransitCameraArea"))
         {
             cameraControllArea.SendMessage("AddTransitCameraArea", null, SendMessageOptions.DontRequireReceiver);

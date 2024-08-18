@@ -1,15 +1,15 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using UnityEngine;
 
 /// <summary>
-/// •ú•¨ü‰^“®‚Ì‘¬“xŒvZƒNƒ‰ƒX
+/// æ”¾ç‰©ç·šé‹å‹•ã®é€Ÿåº¦è¨ˆç®—ã‚¯ãƒ©ã‚¹
 /// </summary>
 public static class ParabolaCalc
 {
     /// <summary>
-    /// ƒWƒƒƒ“ƒvAd—ÍA‘Šè‚Æ‚Ì‚‚³‚É‰‚¶‚Ä…•½•ûŒü‚ğ‘¬“x‚ğŒvZ
+    /// ã‚¸ãƒ£ãƒ³ãƒ—ã€é‡åŠ›ã€ç›¸æ‰‹ã¨ã®é«˜ã•ã«å¿œã˜ã¦æ°´å¹³æ–¹å‘ã‚’é€Ÿåº¦ã‚’è¨ˆç®—
     /// </summary>
     /// <param name="pos"></param>
     /// <param name="targetPos"></param>
@@ -18,8 +18,8 @@ public static class ParabolaCalc
     /// <returns></returns>
     public static float GetHorizonVelocity(Vector2 pos,Vector2 targetPos, float jumpSpeed, float gravityScale)
     {
-        // ‚‚³ = ‰‘¬ * ŠÔ - (d—Í‰Á‘¬“x*ŠÔ‚Ì‚Qæ) / 2 ‚ÅZo‰Â”\
-        // ‚±‚ê‚©‚çŠÔ‚É‚Â‚¢‚Ä‰ğ‚­
+        // é«˜ã• = åˆé€Ÿ * æ™‚é–“ - (é‡åŠ›åŠ é€Ÿåº¦*æ™‚é–“ã®ï¼’ä¹—) / 2 ã§ç®—å‡ºå¯èƒ½
+        // ã“ã‚Œã‹ã‚‰æ™‚é–“ã«ã¤ã„ã¦è§£ã
         float height = targetPos.y - pos.y;
         float v0 = jumpSpeed;
         float gravity = gravityScale / Time.fixedDeltaTime;
@@ -27,15 +27,15 @@ public static class ParabolaCalc
         float time = 0;
         if (D >= 0)
         {
-            // ‚‚³‚ªh‚É‚È‚é‚Ü‚Å‚ÌŠÔ(‰ğ‚Í‚Q‚Â‹‚Ü‚é‚ªA‚»‚Ì‚¤‚¿‚Ì‘å‚«‚¢‚Ù‚¤‚ğ‚Æ‚é)
+            // é«˜ã•ãŒhã«ãªã‚‹ã¾ã§ã®æ™‚é–“(è§£ã¯ï¼’ã¤æ±‚ã¾ã‚‹ãŒã€ãã®ã†ã¡ã®å¤§ãã„ã»ã†ã‚’ã¨ã‚‹)
             time = (v0 + Mathf.Sqrt(v0 * v0 - 2 * gravity * height)) / gravity;
         }
         else
         {
-            // ‚‚³‚Í0‚Æ‚µ‚Äl‚¦‚é
+            // é«˜ã•ã¯0ã¨ã—ã¦è€ƒãˆã‚‹
             time = 2 * v0 / gravityScale;
         }
-        // ‹‚ß‚½ŠÔ‚©‚ç…•½•ûŒü‚Ì‘¬“x‚ğ‹‚ß‚é
+        // æ±‚ã‚ãŸæ™‚é–“ã‹ã‚‰æ°´å¹³æ–¹å‘ã®é€Ÿåº¦ã‚’æ±‚ã‚ã‚‹
         float width = targetPos.x - pos.x;
         float v_x = width / time;
 
@@ -43,7 +43,7 @@ public static class ParabolaCalc
     }
 
     /// <summary>
-    /// ƒWƒƒƒ“ƒvAd—ÍA…•½•ûŒü‚ğ‘¬“x‚ğŒvZ
+    /// ã‚¸ãƒ£ãƒ³ãƒ—ã€é‡åŠ›ã€æ°´å¹³æ–¹å‘ã‚’é€Ÿåº¦ã‚’è¨ˆç®—
     /// </summary>
     /// <param name="pos"></param>
     /// <param name="targetPosX"></param>
@@ -52,12 +52,12 @@ public static class ParabolaCalc
     /// <returns></returns>
     public static float GetHorizonVelocity(Vector2 pos,float targetPosX, float jumpSpeed, float gravity)
     {
-        // ‚‚³=‰‘¬*ŠÔ-(d—Í‰Á‘¬“x*ŠÔ‚Ì‚Qæ)/2 ‚ÅZo‰Â”\
-        // ‚±‚ê‚©‚çŠÔ‚É‚Â‚¢‚Ä‰ğ‚­
+        // é«˜ã•=åˆé€Ÿ*æ™‚é–“-(é‡åŠ›åŠ é€Ÿåº¦*æ™‚é–“ã®ï¼’ä¹—)/2 ã§ç®—å‡ºå¯èƒ½
+        // ã“ã‚Œã‹ã‚‰æ™‚é–“ã«ã¤ã„ã¦è§£ã
         float v0 = jumpSpeed;
         float time = 2 * v0 / gravity;
        
-        // ‹‚ß‚½ŠÔ‚©‚ç…•½•ûŒü‚Ì‘¬“x‚ğ‹‚ß‚é
+        // æ±‚ã‚ãŸæ™‚é–“ã‹ã‚‰æ°´å¹³æ–¹å‘ã®é€Ÿåº¦ã‚’æ±‚ã‚ã‚‹
         float width = targetPosX - pos.x;
         float v_x = width / time;
 

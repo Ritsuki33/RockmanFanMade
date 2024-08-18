@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Pool;
@@ -12,7 +12,7 @@ public class BaseObjectPool : MonoBehaviour
 
     private void Awake()
     {
-        // ƒIƒuƒWƒFƒNƒgƒv[ƒ‹‚ğì¬‚µ‚Ü‚·
+        // ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆãƒ—ãƒ¼ãƒ«ã‚’ä½œæˆã—ã¾ã™
         Pool = new ObjectPool<ReusableObject>
         (
             createFunc: OnCreateToPool,

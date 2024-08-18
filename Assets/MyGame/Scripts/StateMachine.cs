@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -33,7 +33,7 @@ public interface IState<T> where T : MonoBehaviour
 }
 
 /// <summary>
-/// ó‘Ôƒm[ƒh
+/// çŠ¶æ…‹ãƒãƒ¼ãƒ‰
 /// </summary>
 /// <typeparam name="T"></typeparam>
 public class State<T> : IState<T> where T: MonoBehaviour
@@ -99,7 +99,7 @@ public class State<T> : IState<T> where T: MonoBehaviour
 }
 
 /// <summary>
-/// ƒXƒe[ƒgƒ}ƒVƒ“
+/// ã‚¹ãƒ†ãƒ¼ãƒˆãƒã‚·ãƒ³
 /// </summary>
 /// <typeparam name="T"></typeparam>
 public class StateMachine<T> : BaseExRbHit where T : StateMachine<T>
@@ -116,12 +116,12 @@ public class StateMachine<T> : BaseExRbHit where T : StateMachine<T>
     int curId = -1;
 
     /// <summary>
-    /// ‘OƒXƒe[ƒg‚ÌID
+    /// å‰ã‚¹ãƒ†ãƒ¼ãƒˆã®ID
     /// </summary>
     public int PreStateID => preId;
 
     /// <summary>
-    /// Œ»İƒXƒe[ƒg‚ÌID
+    /// ç¾åœ¨ã‚¹ãƒ†ãƒ¼ãƒˆã®ID
     /// </summary>
     public int CurrentStateID => curId;
 
@@ -170,11 +170,11 @@ public class StateMachine<T> : BaseExRbHit where T : StateMachine<T>
             requestId = -1;
             if (true || nextState.Immediate)
             {
-                // oŒûˆ—
+                // å‡ºå£å‡¦ç†
                 curState?.Exit(obj, curId);
                 curState = states[curId];
                 nextState = null;
-                // “üŒûˆ—
+                // å…¥å£å‡¦ç†
                 curState?.Enter(obj, preId);
             }
             else
@@ -190,12 +190,12 @@ public class StateMachine<T> : BaseExRbHit where T : StateMachine<T>
 
     IEnumerator TransitStateCoroutine(T obj, int requestId)
     {
-        // oŒûˆ—
+        // å‡ºå£å‡¦ç†
         if (curState != null) yield return curState.ExitCoroutine(obj, curId);
 
         curState = states[requestId];
 
-        // “üŒûˆ—
+        // å…¥å£å‡¦ç†
         yield return curState.EnterCoroutine(obj, preId);
 
         coroutine = null;

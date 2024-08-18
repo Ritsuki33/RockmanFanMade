@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using UnityEngine;
 
 
@@ -30,7 +30,7 @@ public class ExpandRigidBody : MonoBehaviour, BaseExRbHit.IExRbCallbackSet
     [SerializeField] float physicalGap = 0.005f;
     [SerializeField] Priority priority = Priority.Vertical;
 
-    [Header("•A‚‚³‚Ì”ä—¦")]
+    [Header("å¹…ã€é«˜ã•ã®æ¯”ç‡")]
     [SerializeField, Range(0, 1)] float ratio_x = 1.0f;
     [SerializeField, Range(0, 1)] float ratio_y = 1.0f;
 
@@ -39,7 +39,7 @@ public class ExpandRigidBody : MonoBehaviour, BaseExRbHit.IExRbCallbackSet
 
     private Vector2 currentVelocity;
     /// <summary>
-    /// ƒRƒ‰ƒCƒ_[‚Ì’†S‚ÆƒTƒCƒY
+    /// ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼ã®ä¸­å¿ƒã¨ã‚µã‚¤ã‚º
     /// </summary>
     public Vector2 BoxColliderCenter
     {
@@ -53,7 +53,7 @@ public class ExpandRigidBody : MonoBehaviour, BaseExRbHit.IExRbCallbackSet
     public Vector2 velocity { get { return currentVelocity; } set { currentVelocity = value; } }
 
     /// <summary>
-    /// ƒRƒ‰ƒCƒ_[Še4•Ó‚Ì’†S
+    /// ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼å„4è¾ºã®ä¸­å¿ƒ
     /// </summary>
     Vector2 TopColliderCenter
     {
@@ -77,7 +77,7 @@ public class ExpandRigidBody : MonoBehaviour, BaseExRbHit.IExRbCallbackSet
     }
 
     /// <summary>
-    /// ƒ{ƒbƒNƒXƒLƒƒƒXƒg‚Ìü‰»
+    /// ãƒœãƒƒã‚¯ã‚¹ã‚­ãƒ£ã‚¹ãƒˆã®ç·šåŒ–
     /// </summary>
     Vector2 VerticalCheckHitTopSize
     {
@@ -168,13 +168,13 @@ public class ExpandRigidBody : MonoBehaviour, BaseExRbHit.IExRbCallbackSet
     }
 
     /// <summary>
-    /// Šeí•Ó‚ÌŠî€’l‚©‚ç¬‚éƒTƒCƒY
+    /// å„ç¨®è¾ºã®åŸºæº–å€¤ã‹ã‚‰æˆã‚‹ã‚µã‚¤ã‚º
     /// </summary>
     public Vector2 VirtuaBaseSize => new Vector2(this.boxColliderSize.x * ratio_x, this.boxColliderSize.y * ratio_y);
 
     public Vector2 PhysicalBoxSize => this.boxCollider.size + physicalOffset * 2;
     /// <summary>
-    /// ƒRƒ‰ƒCƒ_[Še4•Ó‚Ì’†S
+    /// ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼å„4è¾ºã®ä¸­å¿ƒ
     /// </summary>
     Vector2 VirtualTopColliderCenter
     {
@@ -284,7 +284,7 @@ public class ExpandRigidBody : MonoBehaviour, BaseExRbHit.IExRbCallbackSet
     RaycastHit2D throughFloorBottomHit;
 
     /// <summary>
-    /// À¿‚S•Ó
+    /// å®Ÿè³ªï¼”è¾º
     /// </summary>
     float Bottom
     {
@@ -347,7 +347,7 @@ public class ExpandRigidBody : MonoBehaviour, BaseExRbHit.IExRbCallbackSet
     }
 
     /// <summary>
-    /// •Ó‚ÌˆÊ’u‚ğw’è
+    /// è¾ºã®ä½ç½®ã‚’æŒ‡å®š
     /// </summary>
     /// <param name="type"></param>
     /// <param name="position"></param>
@@ -558,7 +558,7 @@ public class ExpandRigidBody : MonoBehaviour, BaseExRbHit.IExRbCallbackSet
     }
 
     /// <summary>
-    /// ã‰º¶‰Eƒqƒbƒg‚ÌƒR[ƒ‹ƒoƒbƒN“o˜^
+    /// ä¸Šä¸‹å·¦å³ãƒ’ãƒƒãƒˆæ™‚ã®ã‚³ãƒ¼ãƒ«ãƒãƒƒã‚¯ç™»éŒ²
     /// </summary>
     /// <param name="createVelocity"></param>
      void BaseExRbHit.IExRbCallbackSet.AddOnHitEventCallback(IHitEvent createVelocity)
@@ -574,7 +574,7 @@ public class ExpandRigidBody : MonoBehaviour, BaseExRbHit.IExRbCallbackSet
     }
 
     /// <summary>
-    /// ã‰º¶‰Eƒqƒbƒg‚ÌƒR[ƒ‹ƒoƒbƒNíœ
+    /// ä¸Šä¸‹å·¦å³ãƒ’ãƒƒãƒˆæ™‚ã®ã‚³ãƒ¼ãƒ«ãƒãƒƒã‚¯å‰Šé™¤
     /// </summary>
     /// <param name="createVelocity"></param>
     void BaseExRbHit.IExRbCallbackSet.RemoveOnHitEventCallback(IHitEvent createVelocity)
