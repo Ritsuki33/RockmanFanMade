@@ -35,6 +35,8 @@ public class ExpandRigidBody : MonoBehaviour, BaseExRbHit.IExRbCallbackSet
     [SerializeField, Range(0, 1)] float ratio_y = 1.0f;
 
     [SerializeField] LayerMask throughFloorLayer = default;
+    [SerializeField]LayerMask triggerLayer = default;
+
     LayerMask physicalLayer = default;
 
     private Vector2 currentVelocity;
@@ -338,7 +340,7 @@ public class ExpandRigidBody : MonoBehaviour, BaseExRbHit.IExRbCallbackSet
     {
         boxCollider = GetComponent<BoxCollider2D>();
         physicalLayer = Physics2D.GetLayerCollisionMask(boxCollider.gameObject.layer);
-
+        physicalLayer |= triggerLayer;
 
         rb = GetComponent<Rigidbody2D>();
         if (!rb) rb = gameObject.AddComponent<Rigidbody2D>();

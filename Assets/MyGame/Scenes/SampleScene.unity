@@ -3008,6 +3008,9 @@ MonoBehaviour:
   throughFloorLayer:
     serializedVersion: 2
     m_Bits: 1024
+  triggerLayer:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!114 &570186319
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4564,6 +4567,9 @@ MonoBehaviour:
   throughFloorLayer:
     serializedVersion: 2
     m_Bits: 768
+  triggerLayer:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!114 &1836540455
 MonoBehaviour:
   m_ObjectHideFlags: 0
