@@ -53,6 +53,14 @@ public partial class MettoruController
 
                    });
         }
+
+        protected override void OnTriggerEnter2D(MettoruController mettoru, Collider2D collision)
+        {
+            if (collision.gameObject.CompareTag("RockBuster"))
+            {
+                mettoru.Dead(collision);
+            }
+        }
     }
 
     class Walk : State<MettoruController>
@@ -99,6 +107,14 @@ public partial class MettoruController
                       mettoru.TransitReady((int)StateID.Hide);
                   });
         }
+
+        protected override void OnTriggerEnter2D(MettoruController mettoru, Collider2D collision)
+        {
+            if (collision.gameObject.CompareTag("RockBuster"))
+            {
+                mettoru.Dead(collision);
+            }
+        }
     }
 
     class Hide : State<MettoruController>
@@ -123,6 +139,14 @@ public partial class MettoruController
             if (!mettoru._animator.IsPlayingCurrentAnimation(animationHash))
             {
                 mettoru.TransitReady((int)StateID.Hiding);
+            }
+        }
+
+        protected override void OnTriggerEnter2D(MettoruController mettoru, Collider2D collision)
+        {
+            if (collision.gameObject.CompareTag("RockBuster"))
+            {
+                mettoru.ReflectBuster(collision);
             }
         }
     }
@@ -168,6 +192,14 @@ public partial class MettoruController
                     });
             }
         }
+
+        protected override void OnTriggerEnter2D(MettoruController mettoru, Collider2D collision)
+        {
+            if (collision.gameObject.CompareTag("RockBuster"))
+            {
+                mettoru.ReflectBuster(collision);
+            }
+        }
     }
 
     class Appear : State<MettoruController>
@@ -202,6 +234,14 @@ public partial class MettoruController
                 {
                     mettoru.TransitReady((int)StateID.Idle);
                 }
+            }
+        }
+
+        protected override void OnTriggerEnter2D(MettoruController mettoru, Collider2D collision)
+        {
+            if (collision.gameObject.CompareTag("RockBuster"))
+            {
+                mettoru.Dead(collision);
             }
         }
     }
@@ -244,6 +284,14 @@ public partial class MettoruController
                        mettoru.TransitReady((int)StateID.Hiding);
                    });
         }
+
+        protected override void OnTriggerEnter2D(MettoruController mettoru, Collider2D collision)
+        {
+            if (collision.gameObject.CompareTag("RockBuster"))
+            {
+                mettoru.Dead(collision);
+            }
+        }
     }
 
     float move_x = 0;
@@ -273,6 +321,14 @@ public partial class MettoruController
                 mettoru.TransitReady((int)StateID.JumpFloating);
             }
         }
+
+        protected override void OnTriggerEnter2D(MettoruController mettoru, Collider2D collision)
+        {
+            if (collision.gameObject.CompareTag("RockBuster"))
+            {
+                mettoru.Dead(collision);
+            }
+        }
     }
 
     class JumpFloating : State<MettoruController>
@@ -296,6 +352,14 @@ public partial class MettoruController
         protected override void OnBottomHitStay(MettoruController mettoru, RaycastHit2D hit)
         {
                 mettoru.TransitReady((int)StateID.Idle);
+        }
+
+        protected override void OnTriggerEnter2D(MettoruController mettoru, Collider2D collision)
+        {
+            if (collision.gameObject.CompareTag("RockBuster"))
+            {
+                mettoru.Dead(collision);
+            }
         }
     }
 }
