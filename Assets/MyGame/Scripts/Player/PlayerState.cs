@@ -66,6 +66,11 @@ public partial class Player
                 player.TransitReady((int)StateID.IdleFire);
             }
         }
+
+        protected override void OnBottomHitStay(Player player, RaycastHit2D hit)
+        {
+            player.gravity.OnGround(hit.normal);
+        }
     }
 
     class Float : State<Player>
@@ -102,16 +107,11 @@ public partial class Player
                 localScale.x = -1;
                 player.transform.localScale = localScale;
             }
-            if (player.onTheGround.CheckBottomHit())
-            {
-                player.TransitReady((int)StateID.Idle);
-            }
 
             if (player.bodyLadder != null && player.inputInfo.up)
             {
                 player.TransitReady((int)StateID.Climb);
             }
-
         }
 
         protected override void Update(Player player)
@@ -120,6 +120,12 @@ public partial class Player
             {
                 player.TransitReady((int)StateID.FloatBuster);
             }
+        }
+
+        protected override void OnBottomHitStay(Player player, RaycastHit2D hit)
+        {
+            player.gravity.OnGround(hit.normal);
+            player.TransitReady((int)StateID.Idle);
         }
     }
 
@@ -177,6 +183,11 @@ public partial class Player
                 player.TransitReady((int)StateID.RunBuster);
             }
 
+        }
+
+        protected override void OnBottomHitStay(Player player, RaycastHit2D hit)
+        {
+            player.gravity.OnGround(hit.normal);
         }
     }
 
@@ -244,6 +255,16 @@ public partial class Player
         {
             if (nextId != (int)StateID.JumpingBuster) player.jump.SetSpeed(0); 
         }
+
+        protected override void OnTopHitStay(Player player, RaycastHit2D hit)
+        {
+            player.jump.SetSpeed(0);
+        }
+
+        protected override void OnBottomHitEnter(Player player, RaycastHit2D hit)
+        {
+            player.jump.SetSpeed(0);
+        }
     }
 
     class Climb : State<Player>
@@ -296,12 +317,6 @@ public partial class Player
                 return;
             }
 
-            if (player.onTheGround.CheckBottomHit())
-            {
-                player.TransitReady((int)StateID.Idle);
-                return;
-            }
-
             player.isladderTop = player.transform.position.y > player.bodyLadder.bounds.max.y;
             if (player.isladderTop && player.inputInfo.up)
             {
@@ -333,6 +348,11 @@ public partial class Player
         protected override void Exit(Player player,int nextId)
         {
             player.animator.speed = 1;
+        }
+
+        protected override void OnBottomHitStay(Player player, RaycastHit2D hit)
+        {
+            player.TransitReady((int)StateID.Idle);
         }
     }
 
@@ -397,6 +417,17 @@ public partial class Player
             time = 0.15f;
         }
 
+        protected override void FixedUpdate(Player player)
+        {
+            player.gravity.UpdateVelocity();
+            player.exRb.velocity = player.gravity.CurrentVelocity;
+
+            var hitCheck = player.onTheGround.Check();
+            if (!hitCheck)
+            {
+                player.TransitReady((int)StateID.Float);
+            }
+        }
 
         protected override void Update(Player player)
         {
@@ -417,18 +448,10 @@ public partial class Player
             time -= Time.deltaTime;
         }
 
-        protected override void FixedUpdate(Player player)
+        protected override void OnBottomHitStay(Player player, RaycastHit2D hit)
         {
-            player.gravity.UpdateVelocity();
-            player.exRb.velocity = player.gravity.CurrentVelocity;
-
-            var hitCheck = player.onTheGround.Check();
-            if (!hitCheck)
-            {
-                player.TransitReady((int)StateID.Float);
-            }
+            player.gravity.OnGround(hit.normal);
         }
-
     }
 
     class RunBuster : State<Player>
@@ -494,6 +517,11 @@ public partial class Player
             }
             time -= Time.deltaTime;
         }
+
+        protected override void OnBottomHitStay(Player player, RaycastHit2D hit)
+        {
+            player.gravity.OnGround(hit.normal);
+        }
     }
 
     class FloatBuster : State<Player>
@@ -532,10 +560,6 @@ public partial class Player
                 localScale.x = -1;
                 player.transform.localScale = localScale;
             }
-            if (player.onTheGround.CheckBottomHit())
-            {
-                player.TransitReady((int)StateID.Idle);
-            }
         }
 
         protected override void Update(Player player)
@@ -550,6 +574,12 @@ public partial class Player
                 player.LaunchBaster();
             }
             time -= Time.deltaTime;
+        }
+
+        protected override void OnBottomHitStay(Player player, RaycastHit2D hit)
+        {
+            player.gravity.OnGround(hit.normal);
+            player.TransitReady((int)StateID.Idle);
         }
     }
 
@@ -638,10 +668,11 @@ public partial class Player
         {
             player.exRb.velocity = Vector2.down * 13;
 
-            if (player.onTheGround.CheckBottomHit())
-            {
-                player.TransitReady((int)StateID.Transfered);
-            }
+        }
+
+        protected override void OnBottomHitStay(Player player, RaycastHit2D hit)
+        {
+            player.TransitReady((int)StateID.Transfered);
         }
     }
 

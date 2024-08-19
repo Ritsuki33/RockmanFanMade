@@ -288,16 +288,14 @@ public partial class MettoruController
 
         protected override void FixedUpdate(MettoruController mettoru)
         {
-            if (mettoru.onTheGround.CheckBottomHit())
-            {
+            mettoru.gravity.UpdateVelocity();
+            mettoru.exRb.velocity = mettoru.gravity.CurrentVelocity;
+            mettoru.exRb.velocity += new Vector2(mettoru.move_x, 0);
+        }
+
+        protected override void OnBottomHitStay(MettoruController mettoru, RaycastHit2D hit)
+        {
                 mettoru.TransitReady((int)StateID.Idle);
-            }
-            else
-            {
-                mettoru.gravity.UpdateVelocity();
-                mettoru.exRb.velocity = mettoru.gravity.CurrentVelocity;
-                mettoru.exRb.velocity += new Vector2(mettoru.move_x, 0);
-            }
         }
     }
 }

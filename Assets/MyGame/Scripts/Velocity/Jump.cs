@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Jump : BaseExRbHit
+public class Jump : MonoBehaviour
 {
     [SerializeField] float maxSpeed = 15;
 
     float currentSpeed = 0;
 
-    bool isBottomHit = false;
+    //bool isBottomHit = false;
     
     public Vector2 CurrentVelocity => Vector2.up * currentSpeed;
     public float CurrentSpeed => currentSpeed;
@@ -35,14 +35,14 @@ public class Jump : BaseExRbHit
         this.currentSpeed = val;
     }
 
-    protected override void OnBottomHitStay(RaycastHit2D hit)
-    {
-        if (!isBottomHit) currentSpeed = 0;
-        isBottomHit = true;
-    }
+    //protected override void OnBottomHitStay(RaycastHit2D hit)
+    //{
+    //    if (!isBottomHit) currentSpeed = 0;
+    //    isBottomHit = true;
+    //}
 
-    protected override void OnBottomHitExit(RaycastHit2D hit)
-    {
-        isBottomHit = false;
-    }
+    //protected override void OnBottomHitExit(RaycastHit2D hit)
+    //{
+    //    isBottomHit = false;
+    //}
 }
