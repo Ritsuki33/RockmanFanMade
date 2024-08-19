@@ -54,23 +54,6 @@ public partial class MettoruController : StateMachine<MettoruController>
         TransitReady((int)StateID.Hide);
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.gameObject.CompareTag("RockBuster"))
-        {
-            var rockBuster = collision.gameObject.GetComponent<Projectile>();
-
-            if (invincible)
-            {
-                if (defense != null) StopCoroutine(defense);
-                defense=StartCoroutine(DefenseRockBuster(rockBuster));
-            }
-            else
-            {
-                Dead(rockBuster);
-            }
-        }
-    }
 
     IEnumerator DefenseRockBuster(Projectile projectile)
     {
@@ -95,12 +78,22 @@ public partial class MettoruController : StateMachine<MettoruController>
         fire.GetComponent<Projectile>().Init((IsRight) ? Vector2.right : Vector2.left, this.transform.position, 5);
     }
 
+    public void ReflectBuster(Collider2D collision)
+    {
+        var rockBuster = collision.gameObject.GetComponent<Projectile>();
+
+        if (defense != null) StopCoroutine(defense);
+        defense = StartCoroutine(DefenseRockBuster(rockBuster));
+    }
+
     /// <summary>
     /// 死亡
     /// </summary>
     /// <param name="collision"></param>
-    private void Dead(Projectile projectile)
+    private void Dead(Collider2D collision)
     {
+        var projectile = collision.gameObject.GetComponent<Projectile>();
+
         projectile?.Delete();
 
         var explode = ExplodePool.Pool.Get();

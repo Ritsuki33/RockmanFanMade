@@ -16,7 +16,6 @@ public class BaseExRbHit : MonoBehaviour, IHitEvent
         AddOnHitEventCallback(exRb);
     }
 
-
     protected virtual void OnDisable()
     {
         ExpandRigidBody exRb = GetComponent<ExpandRigidBody>();
@@ -32,6 +31,10 @@ public class BaseExRbHit : MonoBehaviour, IHitEvent
         exRbCallbackSet?.RemoveOnHitEventCallback(this);
     }
 
+    void IHitEvent.BottomHitEnter(RaycastHit2D hit) { OnBottomHitEnter(hit); }
+    void IHitEvent.TopHitEnter(RaycastHit2D hit) { OnTopHitEnter(hit); }
+    void IHitEvent.LeftHitEnter(RaycastHit2D hit) { OnLeftHitEnter(hit); }
+    void IHitEvent.RightHitEnter(RaycastHit2D hit) { OnRightHitEnter(hit); }
     void IHitEvent.BottomHitStay(RaycastHit2D hit) { OnBottomHitStay(hit); }
     void IHitEvent.TopHitStay(RaycastHit2D hit) { OnTopHitStay(hit); }
     void IHitEvent.LeftHitStay(RaycastHit2D hit) { OnLeftHitStay(hit); }
@@ -41,6 +44,10 @@ public class BaseExRbHit : MonoBehaviour, IHitEvent
     void IHitEvent.LeftHitExit(RaycastHit2D hit) { OnLeftHitExit(hit); }
     void IHitEvent.RightHitExit(RaycastHit2D hit) { OnRightHitExit(hit); }
 
+    protected virtual void OnBottomHitEnter(RaycastHit2D hit) { }
+    protected virtual void OnTopHitEnter(RaycastHit2D hit) { }
+    protected virtual void OnLeftHitEnter(RaycastHit2D hit) { }
+    protected virtual void OnRightHitEnter(RaycastHit2D hit) { }
     protected virtual void OnBottomHitStay(RaycastHit2D hit) { }
     protected virtual void OnTopHitStay(RaycastHit2D hit) { }
     protected virtual void OnLeftHitStay(RaycastHit2D hit) { }

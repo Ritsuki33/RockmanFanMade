@@ -2,6 +2,10 @@
 
 public interface IHitEvent
 {
+    void BottomHitEnter(RaycastHit2D hit) { }
+    void TopHitEnter(RaycastHit2D hit) { }
+    void LeftHitEnter(RaycastHit2D hit) { }
+    void RightHitEnter(RaycastHit2D hit) { }
     void BottomHitStay(RaycastHit2D hit) { }
     void TopHitStay(RaycastHit2D hit) { }
     void LeftHitStay(RaycastHit2D hit) { }

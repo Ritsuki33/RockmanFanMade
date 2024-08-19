@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 
-public class Gravity : BaseExRbHit
+public class Gravity : MonoBehaviour
 {
-    [SerializeField] float speed = 1;
+    [SerializeField] float gravityScale = 1;
     [SerializeField] float maxSpeed = 10;
 
     [SerializeField] float canStopSlope = 45;
@@ -10,11 +10,11 @@ public class Gravity : BaseExRbHit
 
     public Vector2 CurrentVelocity => Vector2.down * currentSpeed;
 
-    public float GravityScale => speed;
+    public float GravityScale => gravityScale;
 
     public void UpdateVelocity()
     {
-        currentSpeed += speed;
+        currentSpeed += gravityScale;
         currentSpeed = Mathf.Clamp(currentSpeed, 0, maxSpeed);
     }
 
@@ -27,9 +27,9 @@ public class Gravity : BaseExRbHit
         currentSpeed = 0;
     }
 
-    protected override void OnBottomHitStay(RaycastHit2D hit)
+    public void OnGround(Vector2 normal)
     {
-        float angle = Vector2.Angle(Vector2.up, hit.normal);
+        float angle = Vector2.Angle(Vector2.up, normal);
         if (angle < canStopSlope)
         {
             currentSpeed = 0;

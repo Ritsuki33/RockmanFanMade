@@ -22,6 +22,10 @@ public interface IState<T> where T : MonoBehaviour
     void OnTriggerStay2D(T obj, Collider2D collision) ;
     void OnTriggerExit2D(T obj, Collider2D collision) ;
 
+    void OnBottomHitEnter(T obj, RaycastHit2D hit);
+    void OnTopHitEnter(T obj, RaycastHit2D hit);
+    void OnLeftHitEnter(T obj, RaycastHit2D hit);
+    void OnRightHitEnter(T obj, RaycastHit2D hit);
     void OnBottomHitStay(T obj, RaycastHit2D hit) ;
     void OnTopHitStay(T obj, RaycastHit2D hit) ;
     void OnLeftHitStay(T obj, RaycastHit2D hit) ;
@@ -60,7 +64,11 @@ public class State<T> : IState<T> where T: MonoBehaviour
     virtual protected void OnTriggerEnter2D(T obj, Collider2D collision) { }
     virtual protected void OnTriggerStay2D(T obj, Collider2D collision) { }
     virtual protected void OnTriggerExit2D(T obj, Collider2D collision) { }
-                        
+
+    virtual protected void OnBottomHitEnter(T obj, RaycastHit2D hit) { }
+    virtual protected void OnTopHitEnter(T obj, RaycastHit2D hit) { }
+    virtual protected void OnLeftHitEnter(T obj, RaycastHit2D hit) { }
+    virtual protected void OnRightHitEnter(T obj, RaycastHit2D hit) { }
     virtual protected void OnBottomHitStay(T obj,RaycastHit2D hit) { }
     virtual protected void OnTopHitStay(T obj, RaycastHit2D hit) { }
     virtual protected void OnLeftHitStay(T obj, RaycastHit2D hit) { }
@@ -88,6 +96,10 @@ public class State<T> : IState<T> where T: MonoBehaviour
     void IState<T>.OnTriggerStay2D(T obj, Collider2D collision) { OnTriggerStay2D(obj, collision); }
     void IState<T>.OnTriggerExit2D(T obj, Collider2D collision) { OnTriggerExit2D(obj, collision); }
 
+    void IState<T>.OnBottomHitEnter(T obj, RaycastHit2D hit) { OnBottomHitEnter(obj, hit); }
+    void IState<T>.OnTopHitEnter(T obj, RaycastHit2D hit) { OnTopHitEnter(obj, hit); }
+    void IState<T>.OnLeftHitEnter(T obj, RaycastHit2D hit) { OnLeftHitEnter(obj, hit); }
+    void IState<T>.OnRightHitEnter(T obj, RaycastHit2D hit) { OnRightHitEnter(obj, hit); }
     void IState<T>.OnBottomHitStay(T obj, RaycastHit2D hit) { OnBottomHitStay(obj, hit); }
     void IState<T>.OnTopHitStay(T obj, RaycastHit2D hit) { OnTopHitStay(obj, hit); }
     void IState<T>.OnLeftHitStay(T obj, RaycastHit2D hit) { OnLeftHitStay(obj, hit); }
@@ -208,6 +220,10 @@ public class StateMachine<T> : BaseExRbHit where T : StateMachine<T>
     void OnTriggerStay2D(Collider2D collision) => curState?.OnTriggerStay2D((T)this, collision);
     void OnTriggerExit2D(Collider2D collision) => curState?.OnTriggerExit2D((T)this, collision);
 
+    protected override void OnBottomHitEnter(RaycastHit2D hit) => curState?.OnBottomHitEnter((T)this, hit);
+    protected override void OnTopHitEnter(RaycastHit2D hit) => curState?.OnTopHitEnter((T)this, hit);
+    protected override void OnLeftHitEnter(RaycastHit2D hit) => curState?.OnLeftHitEnter((T)this, hit);
+    protected override void OnRightHitEnter(RaycastHit2D hit) => curState?.OnRightHitEnter((T)this, hit);
     protected override void OnBottomHitStay(RaycastHit2D hit) => curState?.OnBottomHitStay((T)this, hit);
     protected override void OnTopHitStay(RaycastHit2D hit) => curState?.OnTopHitStay((T)this, hit);
     protected override void OnLeftHitStay(RaycastHit2D hit) => curState?.OnLeftHitStay((T)this, hit);
