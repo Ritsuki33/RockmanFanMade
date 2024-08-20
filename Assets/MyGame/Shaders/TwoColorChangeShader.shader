@@ -7,10 +7,7 @@ Shader "Custom/ColorChangeShader"
         _TargetColor("TragetColor",Color)=(1,1,1,1)
         _Threshold("threshold", Range(0,1))=0.1
         _ChangeColor("ChangeColor",Color)=(1,1,1,1)
-        [Space]
-        _TargetColor2("TragetColor",Color)=(1,1,1,1)
-        _Threshold2("threshold", Range(0,1))=0.1
-        _ChangeColor2("ChangeColor",Color)=(1,1,1,1)
+
         _MyFloatArray ("My Float Array", Float) = 0
     }
     SubShader
@@ -45,10 +42,7 @@ Shader "Custom/ColorChangeShader"
             uniform float4 _TargetColor;
             uniform float4 _ChangeColor;
             uniform float _Threshold;
-
-            uniform float4 _TargetColor2;
-            uniform float4 _ChangeColor2;
-            uniform float _Threshold2;
+            float _MyFloatArray[10]; // —á‚¦‚Î10—v‘f‚Ì”z—ñ
             v2f vert (appdata v)
             {
                 v2f o;
@@ -63,14 +57,10 @@ Shader "Custom/ColorChangeShader"
                 float4 newCol = col;
 
                 float3 diff=col.rbg-_TargetColor.rbg;
-                float3 diff2=col.rbg-_TargetColor2.rbg;
                 if(dot(diff, diff)/3<=_Threshold){
                     newCol.rgb=_ChangeColor.rbg;
                 }
-                else if(dot(diff2, diff2)/3<=_Threshold2){
-                    newCol.rgb=_ChangeColor2.rbg;
-                }
-                
+               // float4 newCol = lerp(col, float4(1,1,1,col.a), _IsFadeWhite);
                 return newCol;
             }
             ENDCG
