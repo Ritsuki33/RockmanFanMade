@@ -7,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: WhiteSilhouetteMaterial
-  m_Shader: {fileID: 4800000, guid: f4bddfc622bb4a848b9b264697d269f9, type: 3}
+  m_Name: FlashMaterial
+  m_Shader: {fileID: 4800000, guid: 983920c49861d6849b5f1a97673edbaf, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
@@ -68,7 +68,7 @@ Material:
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
-    - _IsFadeWhite: 0
+    - _IsFadeWhite: 0.6
     - _Metallic: 0
     - _Mode: 0
     - _OcclusionStrength: 1
