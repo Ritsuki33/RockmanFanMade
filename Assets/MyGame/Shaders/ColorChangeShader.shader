@@ -8,10 +8,9 @@ Shader "Custom/ColorChangeShader"
         _Threshold("threshold", Range(0,1))=0.1
         _ChangeColor("ChangeColor",Color)=(1,1,1,1)
         [Space]
-        _TargetColor2("TragetColor",Color)=(1,1,1,1)
-        _Threshold2("threshold", Range(0,1))=0.1
-        _ChangeColor2("ChangeColor",Color)=(1,1,1,1)
-        _MyFloatArray ("My Float Array", Float) = 0
+        _TargetColor2("TragetColor2",Color)=(1,1,1,1)
+        _Threshold2("threshold2", Range(0,1))=0.1
+        _ChangeColor2("ChangeColor2",Color)=(1,1,1,1)
     }
     SubShader
     {
