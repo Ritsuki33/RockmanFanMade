@@ -2757,7 +2757,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 519420028}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.77, z: -5}
+  m_LocalPosition: {x: -20.355, y: 6.394, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2972,6 +2972,7 @@ MonoBehaviour:
   jump: {fileID: 570186323}
   walk: 0
   jumpTarget: {fileID: 1093692579}
+  materialController: {fileID: 1144012522}
 --- !u!114 &570186317
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3791,6 +3792,7 @@ GameObject:
   - component: {fileID: 1144012519}
   - component: {fileID: 1144012521}
   - component: {fileID: 1144012520}
+  - component: {fileID: 1144012522}
   m_Layer: 16
   m_Name: Sprite
   m_TagString: Untagged
@@ -3854,7 +3856,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 0c2b2fdd58a3bc94a8fd7909d72539e5, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -3886,6 +3888,18 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &1144012522
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1144012518}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 95f3fb9c1d596fa408a4ab5e0dfe8a0c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1182246510
 GameObject:
   m_ObjectHideFlags: 0
@@ -5455,15 +5469,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4661674441792234916, guid: 50db6328845417f428e76f577eadc620, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -20.355
       objectReference: {fileID: 0}
     - target: {fileID: 4661674441792234916, guid: 50db6328845417f428e76f577eadc620, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 4.624
       objectReference: {fileID: 0}
     - target: {fileID: 4661674441792234916, guid: 50db6328845417f428e76f577eadc620, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: -5
       objectReference: {fileID: 0}
     - target: {fileID: 5107075163451444145, guid: 50db6328845417f428e76f577eadc620, type: 3}
       propertyPath: m_Follow
