@@ -3,7 +3,7 @@ Shader "Custom/FlashShader"
     Properties
     {
         _MainTex ("Texture", 2D) = "white" {}
-
+        _FadeColor("FadeColor",Color)=(1,1,1,1)
         _IsFadeWhite("IsFadeWhite",Range(0,1)) = 0
     }
     SubShader
@@ -35,6 +35,7 @@ Shader "Custom/FlashShader"
             sampler2D _MainTex;
             float4 _MainTex_ST;
 
+            uniform float4 _FadeColor;
             uniform float _IsFadeWhite;
             v2f vert (appdata v)
             {
@@ -51,10 +52,10 @@ Shader "Custom/FlashShader"
                 float bright= 0.2126 * col.r + 0.7152 * col.b + 0.0722 * col.g;
                 float4 newCol=col;
                 if(bright>0.2){
-                    newCol = lerp(col, float4(1,1,1,col.a), _IsFadeWhite);
+                    newCol = lerp(col, float4(_FadeColor.rgb,col.a), _IsFadeWhite);
                 }
                 else{
-                 newCol = lerp(col, float4(1,1,1,col.a), _IsFadeWhite/4);
+                 newCol = lerp(col, float4(_FadeColor.rgb,col.a), _IsFadeWhite/4);
                 }
                 return newCol;
             }
