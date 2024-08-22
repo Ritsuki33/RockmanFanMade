@@ -16,6 +16,7 @@ public partial class MettoruController : StateMachine<MettoruController>
     [SerializeField] bool walk = false;
 
     [SerializeField] Transform jumpTarget;
+    [SerializeField] MaterialController materialController;
     private ExpandRigidBody exRb;
 
     enum StateID
@@ -38,6 +39,9 @@ public partial class MettoruController : StateMachine<MettoruController>
     bool IsRight => this.transform.localScale.x < 0;
 
     Coroutine defense = null;
+
+
+    int isFadeColorID = Shader.PropertyToID("_IsFadeColor");
     private void Awake()
     {
         exRb = GetComponent<ExpandRigidBody>();
@@ -84,6 +88,31 @@ public partial class MettoruController : StateMachine<MettoruController>
 
         if (defense != null) StopCoroutine(defense);
         defense = StartCoroutine(DefenseRockBuster(rockBuster));
+    }
+
+    public void Damaged(Collider2D collision)
+    {
+        StartCoroutine(DamagedCo(collision));
+
+        IEnumerator DamagedCo(Collider2D collision)
+        {
+            var projectile = collision.gameObject.GetComponent<Projectile>();
+
+            projectile?.Delete();
+            int count = 5;
+
+            for (int i = 0; i < count; i++)
+            {
+                materialController.SetFloat(isFadeColorID, 1);
+
+                yield return new WaitForSeconds(0.05f);
+
+                materialController.SetFloat(isFadeColorID, 0);
+
+                yield return new WaitForSeconds(0.05f);
+            }
+            yield return null;
+        }
     }
 
     /// <summary>

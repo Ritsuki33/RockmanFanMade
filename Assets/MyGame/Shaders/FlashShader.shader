@@ -4,12 +4,13 @@ Shader "Custom/FlashShader"
     {
         _MainTex ("Texture", 2D) = "white" {}
         _FadeColor("FadeColor",Color)=(1,1,1,1)
-        _IsFadeWhite("IsFadeWhite",Range(0,1)) = 0
+        _IsFadeColor("IsFadeColor",Range(0,1)) = 0
     }
     SubShader
     {
         Tags { "RenderType" = "Transparent"  "Queue"="Transparent"}
         Blend SrcAlpha OneMinusSrcAlpha
+        Cull Off
 
         Pass
         {
@@ -36,7 +37,7 @@ Shader "Custom/FlashShader"
             float4 _MainTex_ST;
 
             uniform float4 _FadeColor;
-            uniform float _IsFadeWhite;
+            uniform float _IsFadeColor;
             v2f vert (appdata v)
             {
                 v2f o;
@@ -52,10 +53,10 @@ Shader "Custom/FlashShader"
                 float bright= 0.2126 * col.r + 0.7152 * col.b + 0.0722 * col.g;
                 float4 newCol=col;
                 if(bright>0.2){
-                    newCol = lerp(col, float4(_FadeColor.rgb,col.a), _IsFadeWhite);
+                    newCol = lerp(col, float4(_FadeColor.rgb,col.a), _IsFadeColor);
                 }
                 else{
-                 newCol = lerp(col, float4(_FadeColor.rgb,col.a), _IsFadeWhite/4);
+                 newCol = lerp(col, float4(_FadeColor.rgb,col.a), _IsFadeColor/4);
                 }
                 return newCol;
             }

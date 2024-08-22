@@ -10,6 +10,7 @@ Shader "Custom/WhiteSilhouetteShader"
     {
         Tags { "RenderType" = "Transparent"  "Queue"="Transparent"}
         Blend SrcAlpha OneMinusSrcAlpha
+        Cull Off
 
         Pass
         {
