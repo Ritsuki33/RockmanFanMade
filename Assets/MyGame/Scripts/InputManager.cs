@@ -63,6 +63,28 @@ public class InputManager : SingletonComponent<InputManager>, IInput
         return (inputBitFlag & (int)type) != 0;
     }
 
+
+    public bool GetDownInput(InputType type)
+    {
+        bool input = GetInput(type);
+
+        if (!input)
+        {
+            inputDownBitFlag &= ~(int)type;
+            return false;
+        }
+
+        if ((inputDownBitFlag & (int)type) != 0)
+        {
+            return false;
+        }
+        else
+        {
+            inputDownBitFlag |= (int)type;
+            return true;
+        }
+    }
+
     void OnMove(InputAction.CallbackContext context)
     {
         var vector = context.ReadValue<Vector2>();
@@ -122,25 +144,5 @@ public class InputManager : SingletonComponent<InputManager>, IInput
         inputBitFlag &= ~(int)type;
     }
 
-    public bool GetDownInput(InputType type)
-    {
-        bool input = GetInput(type);
-
-        if (!input)
-        {
-            inputDownBitFlag &= ~(int)type;
-            return false;
-        }
-
-;        if((inputDownBitFlag & (int)type) != 0)
-        {
-            return false;
-        }
-        else
-        {
-            inputDownBitFlag |= (int)type;
-            return true;
-        }
-    }
 
 }
