@@ -1,8 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.InputSystem.Interactions;
 
 public enum InputType
 {
@@ -24,22 +21,14 @@ public interface IInput
     bool GetDownInput(InputType type);
 }
 
-//public class DummyInput: IInput
-//{
-//    public bool GetInput(InputType type)
-//    {
-//        return false;
-//    }
-//}
-
 public class InputManager : SingletonComponent<InputManager>, IInput
 {
     PlayerInput playerInput;
 
     int inputBitFlag = 0;
-    int inputDownBitFlag = 0;
-
-    public int InputBitFlag { get; set; }
+    int preInputbitFlag = 0;
+    int inputDownBitFlag = 0;   // 入力の瞬間を管理するビット群
+    int inputUpBitFlag = 0;     // 入力が離れる瞬間を管理するビット群
 
     protected override void Awake()
     {
@@ -56,33 +45,52 @@ public class InputManager : SingletonComponent<InputManager>, IInput
         playerInput.Player.Decide.performed += OnDecide;
         playerInput.Player.Decide.canceled += OffDecide;
         playerInput.Player.Decide.Enable();
+
     }
 
+    private void Update()
+    {
+        // 各種桁 0→1になる瞬間だけ1になる
+        // 0,0→0 0,1→1 1,0→0 1,1→0
+        inputDownBitFlag = ~preInputbitFlag & inputBitFlag;
+
+
+        // 各種桁 1→0になる瞬間だけ1になる
+        // 0,0→0 0,1→0 1,0→1 1,1→0
+        inputUpBitFlag = preInputbitFlag & ~inputBitFlag;
+
+
+        preInputbitFlag = inputBitFlag;
+    }
+
+    /// <summary>
+    /// 入力状態を取得
+    /// </summary>
+    /// <param name="type"></param>
+    /// <returns></returns>
     public bool GetInput(InputType type)
     {
         return (inputBitFlag & (int)type) != 0;
     }
 
-
+    /// <summary>
+    /// 入力の瞬間を取得
+    /// </summary>
+    /// <param name="type"></param>
+    /// <returns></returns>
     public bool GetDownInput(InputType type)
     {
-        bool input = GetInput(type);
+        return (inputDownBitFlag & (int)type) != 0;
+    }
 
-        if (!input)
-        {
-            inputDownBitFlag &= ~(int)type;
-            return false;
-        }
-
-        if ((inputDownBitFlag & (int)type) != 0)
-        {
-            return false;
-        }
-        else
-        {
-            inputDownBitFlag |= (int)type;
-            return true;
-        }
+    /// <summary>
+    /// 入力を離した瞬間を取得
+    /// </summary>
+    /// <param name="type"></param>
+    /// <returns></returns>
+    public bool GetUpInput(InputType type)
+    {
+        return (inputUpBitFlag & (int)type) != 0;
     }
 
     void OnMove(InputAction.CallbackContext context)
