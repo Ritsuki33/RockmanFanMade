@@ -51,16 +51,22 @@ public class BaseState<T> : IBaseState<T> where T : MonoBehaviour
 
 }
 
-/// <summary>
-/// ステートマシン
-/// </summary>
-/// <typeparam name="T"></typeparam>
-public class BaseStateMachine<T> : MonoBehaviour where T : BaseStateMachine<T>
-{
-    Dictionary<int, IBaseState<T>> states = new Dictionary<int, IBaseState<T>>();
 
-    IBaseState<T> curState = default;
-    IBaseState<T> nextState = default;
+public interface IBaseStateMachine<T, S> where T : MonoBehaviour where S : class, IBaseState<T>
+{
+    void FixedUpdate(T obj);
+    void Update(T obj);
+    void AddState(int id, S state);
+    void RemoveState(int id);
+    void TransitReady(int id, bool reset = false);
+}
+
+public class GenericBaseStateMachine<T, S> : IBaseStateMachine<T, S> where T : MonoBehaviour where S : class, IBaseState<T>
+{
+    Dictionary<int, S> states = new Dictionary<int, S>();
+
+    protected S curState = default;
+    S nextState = default;
 
     bool reset = false;
     Coroutine coroutine;
@@ -68,43 +74,33 @@ public class BaseStateMachine<T> : MonoBehaviour where T : BaseStateMachine<T>
     int preId = -1;
     int curId = -1;
 
-    /// <summary>
-    /// 前ステートのID
-    /// </summary>
-    public int PreStateID => preId;
+    int requestId = -1;
 
-    /// <summary>
-    /// 現在ステートのID
-    /// </summary>
-    public int CurrentStateID => curId;
-
-    public int requestId = -1;
-
-    void FixedUpdate()
+    void IBaseStateMachine<T, S>.FixedUpdate(T obj)
     {
-        TransitState((T)this);
+        TransitState(obj);
 
-        if (coroutine == null) curState?.FixedUpdate((T)this);
+        if (coroutine == null) curState?.FixedUpdate(obj);
     }
 
-    void Update()
+    void IBaseStateMachine<T, S>.Update(T obj)
     {
-        TransitState((T)this);
+        TransitState(obj);
 
-        if (coroutine == null) curState?.Update((T)this);
+        if (coroutine == null) curState?.Update(obj);
     }
 
-    public void AddState(int id, IBaseState<T> state)
+    void IBaseStateMachine<T, S>.AddState(int id, S state)
     {
         states.Add(id, state);
     }
 
-    public void RemoveState(int id)
+    void IBaseStateMachine<T, S>.RemoveState(int id)
     {
         states.Remove(id);
     }
 
-    public void TransitReady(int id, bool reset = false)
+    void IBaseStateMachine<T, S>.TransitReady(int id, bool reset = false)
     {
         if (states.ContainsKey(id))
         {
@@ -113,7 +109,7 @@ public class BaseStateMachine<T> : MonoBehaviour where T : BaseStateMachine<T>
         this.reset = reset;
     }
 
-    private void TransitState(T obj)
+    void TransitState(T obj)
     {
         if (requestId != -1 && (reset || curId != requestId))
         {
@@ -153,4 +149,26 @@ public class BaseStateMachine<T> : MonoBehaviour where T : BaseStateMachine<T>
 
         coroutine = null;
     }
+}
+
+/// <summary>
+/// ステートマシン
+/// </summary>
+/// <typeparam name="T"></typeparam>
+public class BaseStateMachine<T> : MonoBehaviour where T : BaseStateMachine<T>
+{
+    IBaseStateMachine<T, IBaseState<T>> baseStateMachine = new GenericBaseStateMachine<T, IBaseState<T>>();
+
+    Dictionary<int, IBaseState<T>> states = new Dictionary<int, IBaseState<T>>();
+
+    void FixedUpdate() => baseStateMachine.FixedUpdate((T)this);
+
+    void Update() => baseStateMachine.Update((T)this);
+
+
+    public void AddState(int id, IBaseState<T> state) => baseStateMachine.AddState(id, state);
+
+    public void RemoveState(int id) => baseStateMachine.RemoveState(id);
+
+    public void TransitReady(int id, bool reset = false) => baseStateMachine.TransitReady(id, reset);
 }

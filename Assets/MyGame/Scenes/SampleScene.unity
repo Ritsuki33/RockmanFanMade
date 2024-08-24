@@ -2961,7 +2961,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 87c33d0581089574697a241281f422c1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  requestId: -1
   _animator: {fileID: 1144012520}
   gravity: {fileID: 570186317}
   onTheGround: {fileID: 570186324}
@@ -4626,7 +4625,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e9389d2952f07143863749bbd49ce0c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  requestId: -1
   launcher: {fileID: 193906506}
 --- !u!95 &1836540452
 Animator:

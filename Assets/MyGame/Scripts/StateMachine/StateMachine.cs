@@ -2,19 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public interface IState<T> where T : MonoBehaviour
+public interface IState<T>:IBaseState<T> where T : MonoBehaviour
 {
-    bool Immediate { get;}
-
-    void Enter(T obj, int preId);
-    IEnumerator EnterCoroutine(T obj, int preId);
-
-    void FixedUpdate(T obj);
-    void Update(T obj);
-
-    void Exit(T obj, int nextId);
-    IEnumerator ExitCoroutine(T obj, int nextId);
-
     void OnCollisionEnter2D(T obj, Collision2D collision) ;
     void OnCollisionStay2D(T obj, Collision2D collision) ;
     void OnCollisionExit2D(T obj, Collision2D collision) ;
@@ -40,22 +29,9 @@ public interface IState<T> where T : MonoBehaviour
 /// 状態ノード
 /// </summary>
 /// <typeparam name="T"></typeparam>
-public class State<T> : IState<T> where T: MonoBehaviour
+public class State<T> : BaseState<T>, IState<T> where T: MonoBehaviour
 {
-    public bool immediate { get; private set; }
-    public State(bool immediate = true)
-    {
-        this.immediate = immediate;
-    }
-
-    virtual protected void Enter(T obj, int preId) { }
-    virtual protected IEnumerator EnterCoroutine(T obj, int preId) { yield return null; }
-
-    virtual protected void FixedUpdate(T obj) { }
-    virtual protected void Update(T obj) { }
-
-    virtual protected void Exit(T obj, int nextId) { }
-    virtual protected IEnumerator ExitCoroutine(T obj, int nextId) { yield return null; }
+    public State(bool immediate = true) : base(immediate) { }
 
     virtual protected void OnCollisionEnter2D(T obj, Collision2D collision) { }
     virtual protected void OnCollisionStay2D(T obj, Collision2D collision) { }
@@ -77,16 +53,6 @@ public class State<T> : IState<T> where T: MonoBehaviour
     virtual protected void OnTopHitExit(T obj, RaycastHit2D hit) { }
     virtual protected void OnLeftHitExit(T obj, RaycastHit2D hit) { }
     virtual protected void OnRightHitExit(T obj, RaycastHit2D hit) { }
-
-    bool IState<T>.Immediate => immediate;
-    void IState<T>.Enter(T obj, int preId) { Enter(obj, preId); }
-    IEnumerator IState<T>.EnterCoroutine(T obj, int preId) { yield return EnterCoroutine(obj, preId); }
-
-    void IState<T>.FixedUpdate(T obj) { FixedUpdate(obj); }
-    void IState<T>.Update(T obj) { Update(obj); }
-
-    void IState<T>.Exit(T obj, int nextId) { Exit(obj, nextId); }
-    IEnumerator IState<T>.ExitCoroutine(T obj, int nextId) { yield return ExitCoroutine(obj, nextId); }
 
     void IState<T>.OnCollisionEnter2D(T obj, Collision2D collision) { OnCollisionEnter2D(obj, collision); }
     void IState<T>.OnCollisionStay2D(T obj, Collision2D collision) { OnCollisionStay2D(obj, collision); }
@@ -110,126 +76,88 @@ public class State<T> : IState<T> where T: MonoBehaviour
     void IState<T>.OnRightHitExit(T obj, RaycastHit2D hit) { OnRightHitExit(obj, hit); }
 }
 
+public interface IStateMachine<T, S> : IBaseStateMachine<T, S> where T : MonoBehaviour where S : class, IBaseState<T>
+{
+
+    void OnCollisionEnter2D(T obj, Collision2D collision);
+    void OnCollisionStay2D(T obj, Collision2D collision);
+    void OnCollisionExit2D(T obj, Collision2D collision);
+
+    void OnTriggerEnter2D(T obj, Collider2D collision);
+    void OnTriggerStay2D(T obj, Collider2D collision);
+    void OnTriggerExit2D(T obj, Collider2D collision);
+
+    void OnBottomHitEnter(T obj, RaycastHit2D hit);
+    void OnTopHitEnter(T obj, RaycastHit2D hit);
+    void OnLeftHitEnter(T obj, RaycastHit2D hit);
+    void OnRightHitEnter(T obj, RaycastHit2D hit);
+    void OnBottomHitStay(T obj, RaycastHit2D hit);
+    void OnTopHitStay(T obj, RaycastHit2D hit);
+    void OnLeftHitStay(T obj, RaycastHit2D hit);
+    void OnRightHitStay(T obj, RaycastHit2D hit); 
+    void OnBottomHitExit(T obj, RaycastHit2D hit);
+    void OnTopHitExit(T obj, RaycastHit2D hit);
+    void OnLeftHitExit(T obj, RaycastHit2D hit);
+    void OnRightHitExit(T obj, RaycastHit2D hit); 
+}
+public class GenericStateMachine<T, S> : GenericBaseStateMachine<T, S>, IStateMachine<T, S> where T : MonoBehaviour where S : class, IState<T>
+{
+    public void OnCollisionEnter2D(T obj, Collision2D collision) => curState?.OnCollisionEnter2D(obj, collision);
+    public void OnCollisionStay2D(T obj, Collision2D collision) => curState?.OnCollisionStay2D(obj, collision);
+    public void OnCollisionExit2D(T obj, Collision2D collision) => curState?.OnCollisionExit2D(obj, collision);
+
+    public void OnTriggerEnter2D(T obj, Collider2D collision) => curState?.OnTriggerEnter2D(obj, collision);
+    public void OnTriggerStay2D(T obj, Collider2D collision) => curState?.OnTriggerStay2D(obj, collision);
+    public void OnTriggerExit2D(T obj, Collider2D collision) => curState?.OnTriggerExit2D(obj, collision);
+
+    public void OnBottomHitEnter(T obj, RaycastHit2D hit) => curState?.OnBottomHitEnter(obj, hit);
+    public void OnTopHitEnter(T obj, RaycastHit2D hit) => curState?.OnTopHitEnter(obj, hit);
+    public void OnLeftHitEnter(T obj, RaycastHit2D hit) => curState?.OnLeftHitEnter(obj, hit);
+    public void OnRightHitEnter(T obj, RaycastHit2D hit) => curState?.OnRightHitEnter(obj, hit);
+    public void OnBottomHitStay(T obj, RaycastHit2D hit) => curState?.OnBottomHitStay(obj, hit);
+    public void OnTopHitStay(T obj, RaycastHit2D hit) => curState?.OnTopHitStay(obj, hit);
+    public void OnLeftHitStay(T obj, RaycastHit2D hit) => curState?.OnLeftHitStay(obj, hit);
+    public void OnRightHitStay(T obj, RaycastHit2D hit) => curState?.OnRightHitStay(obj, hit);
+    public void OnBottomHitExit(T obj, RaycastHit2D hit) => curState?.OnBottomHitExit(obj, hit);
+    public void OnTopHitExit(T obj, RaycastHit2D hit) => curState?.OnTopHitExit(obj, hit);
+    public void OnLeftHitExit(T obj, RaycastHit2D hit) => curState?.OnLeftHitExit(obj, hit);
+    public void OnRightHitExit(T obj, RaycastHit2D hit) => curState?.OnRightHitExit(obj, hit);
+}
 /// <summary>
 /// ステートマシン
 /// </summary>
 /// <typeparam name="T"></typeparam>
 public class StateMachine<T> : BaseExRbHit where T : StateMachine<T>
 {
-    Dictionary<int, IState<T>> states = new Dictionary<int, IState<T>>();
+    IStateMachine<T, IState<T>> stateMachine = new GenericStateMachine<T, IState<T>>();
 
-    IState<T> curState = default;
-    IState<T> nextState = default;
+    void FixedUpdate() => stateMachine.FixedUpdate((T)this);
 
-    bool reset = false;
-    Coroutine coroutine;
+    void Update() => stateMachine.Update((T)this);
 
-    int preId = -1;
-    int curId = -1;
+    public void AddState(int id, IState<T> state) => stateMachine.AddState(id, state);
 
-    /// <summary>
-    /// 前ステートのID
-    /// </summary>
-    public int PreStateID => preId;
+    public void RemoveState(int id) => stateMachine.RemoveState(id);
 
-    /// <summary>
-    /// 現在ステートのID
-    /// </summary>
-    public int CurrentStateID => curId;
+    public void TransitReady(int id, bool reset = false) => stateMachine.TransitReady(id, reset);
 
-    public int requestId = -1;
+    void OnCollisionEnter2D(Collision2D collision) => stateMachine.OnCollisionEnter2D((T)this, collision);
+    void OnCollisionStay2D(Collision2D collision) => stateMachine.OnCollisionStay2D((T)this, collision);
+    void OnCollisionExit2D(Collision2D collision) => stateMachine.OnCollisionExit2D((T)this, collision);
+    void OnTriggerEnter2D(Collider2D collision) => stateMachine.OnTriggerEnter2D((T)this, collision);
+    void OnTriggerStay2D(Collider2D collision) => stateMachine.OnTriggerStay2D((T)this, collision);
+    void OnTriggerExit2D(Collider2D collision) => stateMachine.OnTriggerExit2D((T)this, collision);
 
-    void FixedUpdate()
-    {
-        TransitState((T)this);
-
-        if (coroutine == null) curState?.FixedUpdate((T)this);
-    }
-
-    void Update()
-    {
-        TransitState((T)this);
-
-        if (coroutine == null) curState?.Update((T)this);
-    }
-
-    public void AddState(int id, IState<T> state)
-    {
-        states.Add(id, state);
-    }
-
-    public void RemoveState(int id)
-    {
-        states.Remove(id);
-    }
-
-    public void TransitReady(int id, bool reset = false)
-    {
-        if (states.ContainsKey(id))
-        {
-            requestId = id;
-        }
-        this.reset = reset;
-    }
-
-    private void TransitState(T obj)
-    {
-        if (requestId != -1 && (reset || curId != requestId))
-        {
-            preId = curId;
-
-            curId = requestId;
-            requestId = -1;
-            if (true || nextState.Immediate)
-            {
-                // 出口処理
-                curState?.Exit(obj, curId);
-                curState = states[curId];
-                nextState = null;
-                // 入口処理
-                curState?.Enter(obj, preId);
-            }
-            else
-            {
-                if (coroutine != null)
-                {
-                    obj.StopCoroutine(coroutine);
-                }
-                coroutine = obj.StartCoroutine(TransitStateCoroutine(obj, curId));
-            }
-        }
-    }
-
-    IEnumerator TransitStateCoroutine(T obj, int requestId)
-    {
-        // 出口処理
-        if (curState != null) yield return curState.ExitCoroutine(obj, curId);
-
-        curState = states[requestId];
-
-        // 入口処理
-        yield return curState.EnterCoroutine(obj, preId);
-
-        coroutine = null;
-    }
-
-    void OnCollisionEnter2D(Collision2D collision) => curState?.OnCollisionEnter2D((T)this, collision);
-    void OnCollisionStay2D(Collision2D collision) => curState?.OnCollisionEnter2D((T)this, collision);
-    void OnCollisionExit2D(Collision2D collision) => curState?.OnCollisionEnter2D((T)this, collision);
-    void OnTriggerEnter2D(Collider2D collision) => curState?.OnTriggerEnter2D((T)this, collision);
-    void OnTriggerStay2D(Collider2D collision) => curState?.OnTriggerStay2D((T)this, collision);
-    void OnTriggerExit2D(Collider2D collision) => curState?.OnTriggerExit2D((T)this, collision);
-
-    protected override void OnBottomHitEnter(RaycastHit2D hit) => curState?.OnBottomHitEnter((T)this, hit);
-    protected override void OnTopHitEnter(RaycastHit2D hit) => curState?.OnTopHitEnter((T)this, hit);
-    protected override void OnLeftHitEnter(RaycastHit2D hit) => curState?.OnLeftHitEnter((T)this, hit);
-    protected override void OnRightHitEnter(RaycastHit2D hit) => curState?.OnRightHitEnter((T)this, hit);
-    protected override void OnBottomHitStay(RaycastHit2D hit) => curState?.OnBottomHitStay((T)this, hit);
-    protected override void OnTopHitStay(RaycastHit2D hit) => curState?.OnTopHitStay((T)this, hit);
-    protected override void OnLeftHitStay(RaycastHit2D hit) => curState?.OnLeftHitStay((T)this, hit);
-    protected override void OnRightHitStay(RaycastHit2D hit) => curState?.OnRightHitStay((T)this, hit);
-    protected override void OnBottomHitExit(RaycastHit2D hit) => curState?.OnBottomHitExit((T)this, hit);
-    protected override void OnTopHitExit(RaycastHit2D hit) => curState?.OnTopHitExit((T)this, hit);
-    protected override void OnLeftHitExit(RaycastHit2D hit) => curState?.OnLeftHitExit((T)this, hit);
-    protected override void OnRightHitExit(RaycastHit2D hit) => curState?.OnRightHitExit((T)this, hit);
+    protected override void OnBottomHitEnter(RaycastHit2D hit) => stateMachine.OnBottomHitEnter((T)this, hit);
+    protected override void OnTopHitEnter(RaycastHit2D hit) => stateMachine.OnTopHitEnter((T)this, hit);
+    protected override void OnLeftHitEnter(RaycastHit2D hit) => stateMachine.OnLeftHitEnter((T)this, hit);
+    protected override void OnRightHitEnter(RaycastHit2D hit) => stateMachine.OnRightHitEnter((T)this, hit);
+    protected override void OnBottomHitStay(RaycastHit2D hit) => stateMachine.OnBottomHitStay((T)this, hit);
+    protected override void OnTopHitStay(RaycastHit2D hit) => stateMachine.OnTopHitStay((T)this, hit);
+    protected override void OnLeftHitStay(RaycastHit2D hit) => stateMachine.OnLeftHitStay((T)this, hit);
+    protected override void OnRightHitStay(RaycastHit2D hit) => stateMachine.OnRightHitStay((T)this, hit);
+    protected override void OnBottomHitExit(RaycastHit2D hit) => stateMachine.OnBottomHitExit((T)this, hit);
+    protected override void OnTopHitExit(RaycastHit2D hit) => stateMachine.OnTopHitExit((T)this, hit);
+    protected override void OnLeftHitExit(RaycastHit2D hit) => stateMachine.OnLeftHitExit((T)this, hit);
+    protected override void OnRightHitExit(RaycastHit2D hit) => stateMachine.OnRightHitExit((T)this, hit);
 }
