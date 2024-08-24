@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public interface IState<T>:IBaseState<T> where T : MonoBehaviour
 {
@@ -127,7 +125,7 @@ public class GenericStateMachine<T, S> : GenericBaseStateMachine<T, S>, IStateMa
 /// ステートマシン
 /// </summary>
 /// <typeparam name="T"></typeparam>
-public class StateMachine<T> : BaseExRbHit where T : StateMachine<T>
+public class ExRbStateMachine<T> : BaseExRbHit where T : ExRbStateMachine<T>
 {
     IStateMachine<T, IState<T>> stateMachine = new GenericStateMachine<T, IState<T>>();
 
