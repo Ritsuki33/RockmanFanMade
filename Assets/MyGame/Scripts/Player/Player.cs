@@ -2,7 +2,7 @@
 using Unity.VisualScripting;
 using UnityEngine;
 
-public partial class Player : StateMachine<Player>
+public partial class Player : ExRbStateMachine<Player>
 {
     Gravity gravity;
     Move move;

@@ -6,7 +6,7 @@ using UnityEngine;
 
 public partial class Player
 {
-    class Idle : State<Player>
+    class Idle : ExRbState<Player>
     {
         int animationHash = 0;
         public Idle() { animationHash = Animator.StringToHash("Idle"); }
@@ -73,7 +73,7 @@ public partial class Player
         }
     }
 
-    class Float : State<Player>
+    class Float : ExRbState<Player>
     {
         int animationHash = 0;
         public Float() { animationHash = Animator.StringToHash("Float"); }
@@ -129,7 +129,7 @@ public partial class Player
         }
     }
 
-    class Run : State<Player>
+    class Run : ExRbState<Player>
     {
         int animationHash = 0;
         public Run() { animationHash = Animator.StringToHash("Run"); }
@@ -191,7 +191,7 @@ public partial class Player
         }
     }
 
-    class Jumping : State<Player>
+    class Jumping : ExRbState<Player>
     {
         int animationHash = 0;
         bool isJumping = true;
@@ -267,7 +267,7 @@ public partial class Player
         }
     }
 
-    class Climb : State<Player>
+    class Climb : ExRbState<Player>
     {
         int animationHash = 0;
         public Climb() { animationHash = Animator.StringToHash("Climb"); }
@@ -356,7 +356,7 @@ public partial class Player
         }
     }
 
-    class ClimbUp : State<Player>
+    class ClimbUp : ExRbState<Player>
     {
         int animationHash = 0;
         public ClimbUp() { animationHash = Animator.StringToHash("ClimbUp"); }
@@ -378,7 +378,7 @@ public partial class Player
         }
     }
 
-    class ClimbDown : State<Player>
+    class ClimbDown : ExRbState<Player>
     {
         int animationHash = 0;
         public ClimbDown() { animationHash = Animator.StringToHash("ClimbUp"); }
@@ -403,7 +403,7 @@ public partial class Player
         }
     }
 
-    class IdleFire : State<Player>
+    class IdleFire : ExRbState<Player>
     {
 
         int animationHash = 0;
@@ -454,7 +454,7 @@ public partial class Player
         }
     }
 
-    class RunBuster : State<Player>
+    class RunBuster : ExRbState<Player>
     {
         int animationHash = 0;
         public RunBuster() { animationHash = Animator.StringToHash("RunBuster"); }
@@ -524,7 +524,7 @@ public partial class Player
         }
     }
 
-    class FloatBuster : State<Player>
+    class FloatBuster : ExRbState<Player>
     {
         int animationHash = 0;
         public FloatBuster() { animationHash = Animator.StringToHash("FloatBuster"); }
@@ -583,7 +583,7 @@ public partial class Player
         }
     }
 
-    class JumpingBuster : State<Player>
+    class JumpingBuster : ExRbState<Player>
     {
         int animationHash = 0;
         public JumpingBuster() { animationHash = Animator.StringToHash("FloatBuster"); }
@@ -644,7 +644,7 @@ public partial class Player
         }
     }
 
-    class Death : State<Player>
+    class Death : ExRbState<Player>
     {
         protected override void Enter(Player player, int preId)
         {
@@ -654,7 +654,7 @@ public partial class Player
         }
     }
 
-    class Transfer : State<Player>
+    class Transfer : ExRbState<Player>
     {
         int animationHash = 0;
         public Transfer() { animationHash = Animator.StringToHash("Transfer"); }
@@ -676,7 +676,7 @@ public partial class Player
         }
     }
 
-    class Transfered : State<Player>
+    class Transfered : ExRbState<Player>
     {
         int animationHash = 0;
         public Transfered() { animationHash = Animator.StringToHash("Transfered"); }

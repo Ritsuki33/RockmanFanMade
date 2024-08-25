@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Move : BaseExRbHit
+public class Move : MonoBehaviour
 {
     [SerializeField] float speed = 5.0f;
 
@@ -45,39 +45,39 @@ public class Move : BaseExRbHit
     }
 
 
-    protected override void OnRightHitStay(RaycastHit2D hit)
-    {
-        if (velocity.x > 0)
-        {
-            velocity.x = 0;
-            rightHit = true;
-        }
-        else
-        {
-            rightHit = false;
-        }
-    }
+    //protected override void OnRightHitStay(RaycastHit2D hit)
+    //{
+    //    if (velocity.x > 0)
+    //    {
+    //        velocity.x = 0;
+    //        rightHit = true;
+    //    }
+    //    else
+    //    {
+    //        rightHit = false;
+    //    }
+    //}
 
-    protected override void OnLeftHitStay(RaycastHit2D hit)
-    {
-        if (velocity.x < 0)
-        {
-            velocity.x = 0;
-            leftHit = true;
-        }
-        else
-        {
-            leftHit = false;
-        }
-    }
+    //protected override void OnLeftHitStay(RaycastHit2D hit)
+    //{
+    //    if (velocity.x < 0)
+    //    {
+    //        velocity.x = 0;
+    //        leftHit = true;
+    //    }
+    //    else
+    //    {
+    //        leftHit = false;
+    //    }
+    //}
 
-    protected override void OnRightHitExit(RaycastHit2D hit)
-    {
-        rightHit = false;
-    }
+    //protected override void OnRightHitExit(RaycastHit2D hit)
+    //{
+    //    rightHit = false;
+    //}
 
-    protected override void OnLeftHitExit(RaycastHit2D hit)
-    {
-        leftHit = false;
-    }
+    //protected override void OnLeftHitExit(RaycastHit2D hit)
+    //{
+    //    leftHit = false;
+    //}
 }

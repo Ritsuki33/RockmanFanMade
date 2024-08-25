@@ -5,7 +5,7 @@ using UnityEngine;
 
 public partial class MettoruController 
 {
-    class Idle : State<MettoruController>
+    class Idle : ExRbState<MettoruController>
     {
         AmbiguousTimer timer = new AmbiguousTimer();
         int animationHash = 0;
@@ -64,7 +64,7 @@ public partial class MettoruController
         }
     }
 
-    class Walk : State<MettoruController>
+    class Walk : ExRbState<MettoruController>
     {
         AmbiguousTimer timer = new AmbiguousTimer();
         int animationHash = 0;
@@ -118,7 +118,7 @@ public partial class MettoruController
         }
     }
 
-    class Hide : State<MettoruController>
+    class Hide : ExRbState<MettoruController>
     {
         int animationHash = 0;
         public Hide() { animationHash = Animator.StringToHash("Hide"); }
@@ -126,7 +126,6 @@ public partial class MettoruController
         protected override void Enter(MettoruController mettoru, int preId)
         {
             mettoru._animator.Play(animationHash);
-            mettoru.invincible = true;
         }
 
         protected override void FixedUpdate(MettoruController mettoru)
@@ -152,7 +151,7 @@ public partial class MettoruController
         }
     }
 
-    class Hiding : State<MettoruController>
+    class Hiding : ExRbState<MettoruController>
     {
         int animationHash = 0;
         AmbiguousTimer timer = new AmbiguousTimer();
@@ -203,7 +202,7 @@ public partial class MettoruController
         }
     }
 
-    class Appear : State<MettoruController>
+    class Appear : ExRbState<MettoruController>
     {
         int animationHash = 0;
         AmbiguousTimer timer=new AmbiguousTimer();
@@ -213,7 +212,6 @@ public partial class MettoruController
         {
             mettoru._animator.Play(animationHash);
             mettoru.Fire();
-            mettoru.invincible = false;
             timer.Start(1, 3);
         }
 
@@ -248,7 +246,7 @@ public partial class MettoruController
         }
     }
 
-    class LookIn : State<MettoruController>
+    class LookIn : ExRbState<MettoruController>
     {
         int animationHash = 0;
         public LookIn() { animationHash = Animator.StringToHash("LookIn"); }
@@ -298,7 +296,7 @@ public partial class MettoruController
 
     float move_x = 0;
 
-    class Jumping : State<MettoruController>
+    class Jumping : ExRbState<MettoruController>
     {
         int animationHash = 0;
         public Jumping() { animationHash = Animator.StringToHash("Jump"); }
@@ -333,7 +331,7 @@ public partial class MettoruController
         }
     }
 
-    class JumpFloating : State<MettoruController>
+    class JumpFloating : ExRbState<MettoruController>
     {
         int animationHash = 0;
         public JumpFloating() { animationHash = Animator.StringToHash("Float"); }

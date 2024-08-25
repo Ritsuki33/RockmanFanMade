@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public partial class MettoruController : StateMachine<MettoruController>
+public partial class MettoruController : ExRbStateMachine<MettoruController>
 {
     [SerializeField] Animator _animator;
     [SerializeField] Gravity gravity;
@@ -31,7 +31,7 @@ public partial class MettoruController : StateMachine<MettoruController>
         JumpFloating,
     }
 
-    private bool invincible = false;
+    //private bool invincible = false;
 
     private Player Player => GameManager.Instance.Player;
     private BaseObjectPool ExplodePool => EffectManager.Instance.ExplodePool;
