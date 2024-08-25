@@ -58,7 +58,7 @@ public interface IBaseStateMachine<T, S> where T : MonoBehaviour where S : class
     void Update(T obj);
     void AddState(int id, S state);
     void RemoveState(int id);
-    void TransitReady(int id, bool reset = false);
+    void TransitReady(int id, bool reset);
 }
 
 public class GenericBaseStateMachine<T, S> : IBaseStateMachine<T, S> where T : MonoBehaviour where S : class, IBaseState<T>
@@ -100,7 +100,7 @@ public class GenericBaseStateMachine<T, S> : IBaseStateMachine<T, S> where T : M
         states.Remove(id);
     }
 
-    void IBaseStateMachine<T, S>.TransitReady(int id, bool reset = false)
+    void IBaseStateMachine<T, S>.TransitReady(int id, bool reset)
     {
         if (states.ContainsKey(id))
         {
@@ -155,20 +155,28 @@ public class GenericBaseStateMachine<T, S> : IBaseStateMachine<T, S> where T : M
 /// ステートマシン
 /// </summary>
 /// <typeparam name="T"></typeparam>
-public class BaseStateMachine<T> : MonoBehaviour where T : BaseStateMachine<T>
+public class BaseStateMachine<T, S, SM, G>
+    : MonoBehaviour
+    where T : BaseStateMachine<T, S, SM, G>
+    where S : class, IBaseState<T>
+    where SM: IBaseStateMachine<T, S>
+    where G: SM, new()
 {
-    IBaseStateMachine<T, IBaseState<T>> baseStateMachine = new GenericBaseStateMachine<T, IBaseState<T>>();
+    protected SM stateMachine = new G();
 
-    Dictionary<int, IBaseState<T>> states = new Dictionary<int, IBaseState<T>>();
+    void FixedUpdate() => stateMachine.FixedUpdate((T)this);
 
-    void FixedUpdate() => baseStateMachine.FixedUpdate((T)this);
+    void Update() => stateMachine.Update((T)this);
 
-    void Update() => baseStateMachine.Update((T)this);
+    public void AddState(int id, S state) => stateMachine.AddState(id, state);
 
+    public void RemoveState(int id) => stateMachine.RemoveState(id);
 
-    public void AddState(int id, IBaseState<T> state) => baseStateMachine.AddState(id, state);
-
-    public void RemoveState(int id) => baseStateMachine.RemoveState(id);
-
-    public void TransitReady(int id, bool reset = false) => baseStateMachine.TransitReady(id, reset);
+    public void TransitReady(int id, bool reset = false) => stateMachine.TransitReady(id, reset);
 }
+
+
+public class StateMachine<T>
+    : BaseStateMachine<T, IBaseState<T>, IBaseStateMachine<T, IBaseState<T>>, GenericBaseStateMachine<T, IBaseState<T>>>
+    where T : StateMachine<T>
+{}

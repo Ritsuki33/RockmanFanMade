@@ -31,7 +31,7 @@ public partial class MettoruController : ExRbStateMachine<MettoruController>
         JumpFloating,
     }
 
-    private bool invincible = false;
+    //private bool invincible = false;
 
     private Player Player => GameManager.Instance.Player;
     private BaseObjectPool ExplodePool => EffectManager.Instance.ExplodePool;

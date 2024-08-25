@@ -2,7 +2,7 @@
 using UnityEngine;
 
 
-public class ExpandRigidBody : MonoBehaviour, BaseExRbHit.IExRbCallbackSet
+public class ExpandRigidBody : MonoBehaviour, IBaseExRbHit.IExRbCallbackSet
 {
     enum Priority
     {
@@ -577,7 +577,7 @@ public class ExpandRigidBody : MonoBehaviour, BaseExRbHit.IExRbCallbackSet
     /// 上下左右ヒット時のコールバック登録
     /// </summary>
     /// <param name="hitEvent"></param>
-     void BaseExRbHit.IExRbCallbackSet.AddOnHitEventCallback(IHitEvent hitEvent)
+     void IBaseExRbHit.IExRbCallbackSet.AddOnHitEventCallback(IHitEvent hitEvent)
     {
         onHitBottomEnter += hitEvent.BottomHitEnter;
         onHitTopEnter += hitEvent.TopHitEnter;
@@ -597,7 +597,7 @@ public class ExpandRigidBody : MonoBehaviour, BaseExRbHit.IExRbCallbackSet
     /// 上下左右ヒット時のコールバック削除
     /// </summary>
     /// <param name="hitEvent"></param>
-    void BaseExRbHit.IExRbCallbackSet.RemoveOnHitEventCallback(IHitEvent hitEvent)
+    void IBaseExRbHit.IExRbCallbackSet.RemoveOnHitEventCallback(IHitEvent hitEvent)
     {
         onHitBottomEnter -= hitEvent.BottomHitEnter;
         onHitTopEnter -= hitEvent.TopHitEnter;

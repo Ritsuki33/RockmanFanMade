@@ -4,11 +4,11 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-public class JumpOverThere : BaseExRbHit
+public class JumpOverThere : MonoBehaviour
 {
 
     private Vector2 velocity;
-    bool isBottomHit = false;
+    //bool isBottomHit = false;
 
     bool onTheGround = false;
     public Vector2 CurrentVelocity => velocity;
@@ -67,18 +67,18 @@ public class JumpOverThere : BaseExRbHit
        velocity += Vector2.down * gravityScale;
     }
 
-    protected override void OnBottomHitStay(RaycastHit2D hit)
-    {
-        if (!isBottomHit)
-        {
-            onTheGround = true;
-            velocity = Vector2.zero;
-        }
-        isBottomHit = true;
-    }
+    //protected override void OnBottomHitStay(RaycastHit2D hit)
+    //{
+    //    if (!isBottomHit)
+    //    {
+    //        onTheGround = true;
+    //        velocity = Vector2.zero;
+    //    }
+    //    isBottomHit = true;
+    //}
 
-    protected override void OnBottomHitExit(RaycastHit2D hit)
-    {
-        isBottomHit = false;
-    }
+    //protected override void OnBottomHitExit(RaycastHit2D hit)
+    //{
+    //    isBottomHit = false;
+    //}
 }
