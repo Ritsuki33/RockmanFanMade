@@ -17,7 +17,7 @@ public interface IRbState<T> : IBaseState<T> where T : MonoBehaviour
 /// 状態ノード
 /// </summary>
 /// <typeparam name="T"></typeparam>
-public class RbState<T> : BaseState<T>, IRbState<T> where T : MonoBehaviour
+public class RbState<T> : State<T>, IRbState<T> where T : MonoBehaviour
 {
     public RbState(bool immediate = true) : base(immediate) { }
 

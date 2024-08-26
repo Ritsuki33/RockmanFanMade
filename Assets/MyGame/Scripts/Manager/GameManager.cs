@@ -14,7 +14,7 @@ public struct InputInfo
         down = input.GetInput(InputType.Down);
         jump = input.GetDownInput(InputType.Cancel);
         jumping = input.GetInput(InputType.Cancel);
-        fire = input.GetDownInput(InputType.Decide);
+        fire = input.GetInput(InputType.Decide);
     }
 }
 

@@ -4,6 +4,9 @@ using UnityEngine;
 
 public partial class Player : ExRbStateMachine<Player>
 {
+    [SerializeField] LauncherController launcherController;
+    [SerializeReference] MaterialController materialController;
+
     Gravity gravity;
     Move move;
     OnTheGround onTheGround;
@@ -18,12 +21,9 @@ public partial class Player : ExRbStateMachine<Player>
 
     private ExpandRigidBody exRb;
 
-    [SerializeField] GameObject launcher;
+    public bool IsRight => this.transform.localScale.x > 0;
 
-    [SerializeField] BaseObjectPool RockBusterPool => EffectManager.Instance.RockBusterPool;
-
-    bool IsRight => this.transform.localScale.x > 0;
-
+    public MaterialController MaterialController => materialController;
     enum StateID
     {
         Idle=0,
@@ -41,6 +41,9 @@ public partial class Player : ExRbStateMachine<Player>
         Transfer,
         Transfered,
     }
+
+
+
     private void Awake()
     {
         exRb = GetComponent<ExpandRigidBody>();
@@ -112,16 +115,9 @@ public partial class Player : ExRbStateMachine<Player>
         }
     }
 
-    public void LaunchBaster()
-    {
-        var rockBaster = RockBusterPool.Pool.Get();
-
-        rockBaster.GetComponent<Projectile>().Init((IsRight) ? Vector2.right : Vector2.left, launcher.transform.position, 8);
-    }
-
     public void Dead()
     {
-        TransitReady(11);
+        TransitReady((int)StateID.Death);
         GameManager.Instance.DeathNotification();
     }
 

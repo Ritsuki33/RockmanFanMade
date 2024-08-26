@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 
@@ -22,10 +23,10 @@ public interface IBaseState<T> where T : MonoBehaviour
 /// 状態ノード
 /// </summary>
 /// <typeparam name="T"></typeparam>
-public class BaseState<T> : IBaseState<T> where T : MonoBehaviour
+public class State<T> : IBaseState<T> where T : MonoBehaviour
 {
     public bool immediate { get; private set; }
-    public BaseState(bool immediate = true)
+    public State(bool immediate = true)
     {
         this.immediate = immediate;
     }
@@ -54,11 +55,12 @@ public class BaseState<T> : IBaseState<T> where T : MonoBehaviour
 
 public interface IBaseStateMachine<T, S> where T : MonoBehaviour where S : class, IBaseState<T>
 {
+    int CurId { get; }
     void FixedUpdate(T obj);
     void Update(T obj);
     void AddState(int id, S state);
     void RemoveState(int id);
-    void TransitReady(int id, bool reset);
+    void TransitReady(int id, bool reset=false);
 }
 
 public class GenericBaseStateMachine<T, S> : IBaseStateMachine<T, S> where T : MonoBehaviour where S : class, IBaseState<T>
@@ -75,6 +77,8 @@ public class GenericBaseStateMachine<T, S> : IBaseStateMachine<T, S> where T : M
     int curId = -1;
 
     int requestId = -1;
+
+    int IBaseStateMachine<T, S>.CurId => curId;
 
     void IBaseStateMachine<T, S>.FixedUpdate(T obj)
     {
@@ -164,15 +168,31 @@ public class BaseStateMachine<T, S, SM, G>
 {
     protected SM stateMachine = new G();
 
-    void FixedUpdate() => stateMachine.FixedUpdate((T)this);
+    void FixedUpdate()
+    {
+        StartFixedUpdate();
+        stateMachine.FixedUpdate((T)this);
+        EndtFixedUpdate();
+    }
 
-    void Update() => stateMachine.Update((T)this);
+    void Update()
+    {
+        StartUpdate();
+        stateMachine.Update((T)this);
+        EndtUpdate();
+    }
 
     public void AddState(int id, S state) => stateMachine.AddState(id, state);
 
     public void RemoveState(int id) => stateMachine.RemoveState(id);
 
     public void TransitReady(int id, bool reset = false) => stateMachine.TransitReady(id, reset);
+
+    protected virtual void StartFixedUpdate() { }
+    protected virtual void EndtFixedUpdate() { }
+
+    protected virtual void StartUpdate() { }
+    protected virtual void EndtUpdate() { }
 }
 
 
