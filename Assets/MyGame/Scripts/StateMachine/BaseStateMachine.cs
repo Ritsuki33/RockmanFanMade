@@ -31,7 +31,7 @@ public class BaseState<T, S, SM, G> : IBaseState<T>
 {
     public bool immediate { get; private set; }
 
-    SM subStateMachine = null;
+    protected SM subStateMachine = null;
     public BaseState(bool immediate = true)
     {
         this.immediate = immediate;

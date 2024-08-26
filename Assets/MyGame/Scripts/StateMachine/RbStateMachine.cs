@@ -14,7 +14,7 @@ public interface IRbState<T> : IBaseState<T> where T : MonoBehaviour
 /// 状態ノード
 /// </summary>
 /// <typeparam name="T"></typeparam>
-public class BaseRbState<T,S, SM, G> : BaseState<T,S, SM, G>, IRbState<T>
+public class BaseRbState<T, S, SM, G> : BaseState<T, S, SM, G>, IRbState<T>
     where T : MonoBehaviour
     where S : class, IRbState<T>
     where SM : class, IRbStateMachine<T, S>
@@ -30,14 +30,41 @@ public class BaseRbState<T,S, SM, G> : BaseState<T,S, SM, G>, IRbState<T>
     virtual protected void OnTriggerStay2D(T obj, Collider2D collision) { }
     virtual protected void OnTriggerExit2D(T obj, Collider2D collision) { }
 
-    void IRbState<T>.OnCollisionEnter2D(T obj, Collision2D collision) { OnCollisionEnter2D(obj, collision); }
-    void IRbState<T>.OnCollisionStay2D(T obj, Collision2D collision) { OnCollisionStay2D(obj, collision); }
-    void IRbState<T>.OnCollisionExit2D(T obj, Collision2D collision) { OnCollisionExit2D(obj, collision); }
+    void IRbState<T>.OnCollisionEnter2D(T obj, Collision2D collision)
+    {
+        OnCollisionEnter2D(obj, collision);
+        subStateMachine?.OnCollisionEnter2D(obj, collision);
+    }
 
-    void IRbState<T>.OnTriggerEnter2D(T obj, Collider2D collision) { OnTriggerEnter2D(obj, collision); }
-    void IRbState<T>.OnTriggerStay2D(T obj, Collider2D collision) { OnTriggerStay2D(obj, collision); }
-    void IRbState<T>.OnTriggerExit2D(T obj, Collider2D collision) { OnTriggerExit2D(obj, collision); }
+    void IRbState<T>.OnCollisionStay2D(T obj, Collision2D collision)
+    {
+        OnCollisionStay2D(obj, collision);
+        subStateMachine?.OnCollisionStay2D(obj, collision);
+    }
 
+    void IRbState<T>.OnCollisionExit2D(T obj, Collision2D collision)
+    {
+        OnCollisionExit2D(obj, collision);
+        subStateMachine?.OnCollisionExit2D(obj, collision);
+    }
+
+    void IRbState<T>.OnTriggerEnter2D(T obj, Collider2D collision)
+    {
+        OnTriggerEnter2D(obj, collision);
+        subStateMachine?.OnTriggerEnter2D(obj, collision);
+    }
+
+    void IRbState<T>.OnTriggerStay2D(T obj, Collider2D collision)
+    {
+        OnTriggerStay2D(obj, collision);
+        subStateMachine?.OnTriggerStay2D(obj, collision);
+    }
+
+    void IRbState<T>.OnTriggerExit2D(T obj, Collider2D collision)
+    {
+        OnTriggerExit2D(obj, collision);
+        subStateMachine?.OnTriggerExit2D(obj, collision);
+    }
 }
 
 /// <summary>
