@@ -1,7 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
-using UnityEngine;
+﻿using UnityEngine;
 
 public interface IRbState<T> : IBaseState<T> where T : MonoBehaviour
 {
@@ -60,15 +57,13 @@ public class GenericRbStateMachine<T, S> : GenericBaseStateMachine<T, S>, IRbSta
     void IRbStateMachine<T, S>.OnTriggerExit2D(T obj, Collider2D collision) => curState?.OnTriggerExit2D(obj, collision);
 }
 
-/// <summary>
-/// ステートマシン
-/// </summary>
-/// <typeparam name="T"></typeparam>
-public class RbStateMachine<T> : 
-    BaseStateMachine<T,IRbState<T>, IRbStateMachine<T, IRbState<T>>, GenericRbStateMachine<T, IRbState<T>>> 
-    where T : RbStateMachine<T>
+public class BaseRbStateMachine<T, S, SM, G>
+    : BaseStateMachine<T, S, SM, G>
+    where T : BaseRbStateMachine<T, S, SM, G>
+    where S : class, IRbState<T>
+    where SM : IRbStateMachine<T, S>
+    where G : SM, new()
 {
-
     void OnCollisionEnter2D(Collision2D collision) => stateMachine.OnCollisionEnter2D((T)this, collision);
     void OnCollisionStay2D(Collision2D collision) => stateMachine.OnCollisionStay2D((T)this, collision);
     void OnCollisionExit2D(Collision2D collision) => stateMachine.OnCollisionExit2D((T)this, collision);
@@ -76,3 +71,12 @@ public class RbStateMachine<T> :
     void OnTriggerStay2D(Collider2D collision) => stateMachine.OnTriggerStay2D((T)this, collision);
     void OnTriggerExit2D(Collider2D collision) => stateMachine.OnTriggerExit2D((T)this, collision);
 }
+
+/// <summary>
+ /// ステートマシン
+ /// </summary>
+ /// <typeparam name="T"></typeparam>
+public class RbStateMachine<T> :
+    BaseRbStateMachine<T,IRbState<T>, IRbStateMachine<T, IRbState<T>>, GenericRbStateMachine<T, IRbState<T>>> 
+    where T : RbStateMachine<T>
+{}

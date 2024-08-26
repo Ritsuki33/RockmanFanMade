@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public interface IExRbState<T>: IRbState<T> where T : MonoBehaviour
 {
@@ -89,7 +88,7 @@ public class GenericExRbStateMachine<T, S> : GenericRbStateMachine<T, S>, IExRbS
 /// </summary>
 /// <typeparam name="T"></typeparam>
 public class ExRbStateMachine<T> 
-    : BaseStateMachine<T, IExRbState<T>, IExRbStateMachine<T, IExRbState<T>>, GenericExRbStateMachine<T, IExRbState<T>>>, IBaseExRbHit 
+    : BaseRbStateMachine<T, IExRbState<T>, IExRbStateMachine<T, IExRbState<T>>, GenericExRbStateMachine<T, IExRbState<T>>>, IBaseExRbHit 
     where T : ExRbStateMachine<T>
 {
     private void OnEnable()
