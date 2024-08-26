@@ -16,9 +16,12 @@ public class Projectile : ReusableObject
         boxCollider = GetComponent<BoxCollider2D>();
     }
 
-    public void Init(Vector2 direction,Vector2 position,float speed=-1)
+    public void Init(Vector2 direction, Vector2 position, float speed = -1)
     {
         this.direction = direction;
+        var localScale = this.transform.localScale;
+        localScale.x = (direction.x > 0) ? 1 : -1;
+        this.transform.localScale = localScale;
         this.transform.position = position;
 
         if (speed > 0) speedRatio = speed;
@@ -43,7 +46,6 @@ public class Projectile : ReusableObject
     {
         Pool.Release(this);
     }
-
 
     public void DisableDamageDetection()
     {
