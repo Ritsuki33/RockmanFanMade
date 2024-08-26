@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 2569209746247142054}
   - component: {fileID: 1078361096464978032}
   - component: {fileID: 7040818047976691357}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: MettoruFire
   m_TagString: Untagged
   m_Icon: {fileID: 0}
