@@ -15,7 +15,7 @@
 
               // キャラクターのエッジの発行
         [Space] 
-         _LightColor("LightColor",Color) = (1,1,1,1)
+         _RimLightColor("RimLightColor",Color) = (1,1,1,1)
         _FadeLight("FadeLight",Range(0,1)) = 0
 
         // キャラクターの発行（全体）
@@ -70,7 +70,7 @@
             uniform float _BrightThreshold;
             uniform float _DarkBrightPower;
 
-            uniform float4 _LightColor;
+            uniform float4 _RimLightColor;
             float _FadeLight;
 
             // キャラクターのカラー変更
@@ -94,7 +94,7 @@
             {
                 fixed4 newCol = col;
                 fixed2 offset[4] = {fixed2(0, 1), fixed2(-1,  0),fixed2(1,  0),fixed2(0,  -1)};
-                fixed3 changeCol = lerp(col.rgb,_LightColor.rgb,_FadeLight);
+                fixed3 changeCol = lerp(col.rgb,_RimLightColor.rgb,_FadeLight);
                 if(col.a != 0){
                     for(int j = 0; j < 4; j++){
                         fixed2 sample_uv=uv + offset[j] * _MainTex_TexelSize.xy;

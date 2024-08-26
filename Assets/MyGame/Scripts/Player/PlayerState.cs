@@ -1,8 +1,4 @@
-﻿using Cinemachine;
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
-using UnityEngine;
+﻿using UnityEngine;
 
 public partial class Player
 {
@@ -61,10 +57,12 @@ public partial class Player
                 player.TransitReady((int)StateID.Jumping);
             }
 
-            if (player.inputInfo.fire)
-            {
-                player.TransitReady((int)StateID.IdleFire);
-            }
+            player.launcherController.LaunchTrigger(player.inputInfo.fire, () => { player.TransitReady((int)StateID.IdleFire); });
+            //if (player.launcherController.IsLaunch)
+            //{
+            //    Debug.Log("IdleFire");
+            //    player.TransitReady((int)StateID.IdleFire);
+            //}
         }
 
         protected override void OnBottomHitStay(Player player, RaycastHit2D hit)
@@ -116,10 +114,11 @@ public partial class Player
 
         protected override void Update(Player player)
         {
-            if (player.inputInfo.fire)
-            {
-                player.TransitReady((int)StateID.FloatBuster);
-            }
+            player.launcherController.LaunchTrigger(player.inputInfo.fire, () => { player.TransitReady((int)StateID.FloatBuster); });
+            //if (player.inputInfo.fire)
+            //{
+            //    player.TransitReady((int)StateID.FloatBuster);
+            //}
         }
 
         protected override void OnBottomHitStay(Player player, RaycastHit2D hit)
@@ -178,10 +177,11 @@ public partial class Player
             {
                 player.TransitReady((int)StateID.Jumping);
             }
-            else if (player.inputInfo.fire)
-            {
-                player.TransitReady((int)StateID.RunBuster);
-            }
+            //else if (player.inputInfo.fire)
+            //{
+            //    player.TransitReady((int)StateID.RunBuster);
+            //}
+            player.launcherController.LaunchTrigger(player.inputInfo.fire, () => { player.TransitReady((int)StateID.RunBuster); });
 
         }
 
@@ -238,10 +238,11 @@ public partial class Player
 
         protected override void Update(Player player)
         {
-            if (player.inputInfo.fire)
-            {
-                player.TransitReady((int)StateID.JumpingBuster);
-            }
+            //if (player.inputInfo.fire)
+            //{
+            //    player.TransitReady((int)StateID.JumpingBuster);
+            //}
+            player.launcherController.LaunchTrigger(player.inputInfo.fire, () => { player.TransitReady((int)StateID.JumpingBuster); });
 
 
             if (isJumping && !player.inputInfo.jumping)
@@ -409,12 +410,11 @@ public partial class Player
         int animationHash = 0;
         public IdleFire() { animationHash = Animator.StringToHash("Fire"); }
 
-        float time = 0.15f;
+        float time = 0.3f;
         protected override void Enter(Player player, int preId)
         {
             player.animator.Play(animationHash);
-            player.LaunchBaster();
-            time = 0.15f;
+            time = 0.3f;
         }
 
         protected override void FixedUpdate(Player player)
@@ -440,11 +440,8 @@ public partial class Player
             {
                 player.TransitReady((int)StateID.Idle);
             }
-            else if (player.inputInfo.fire)
-            {
-                time = 0.15f;
-                player.LaunchBaster();
-            }
+
+            player.launcherController.LaunchTrigger(player.inputInfo.fire, () => { time = 0.3f; });
             time -= Time.deltaTime;
         }
 
@@ -463,8 +460,6 @@ public partial class Player
         {
             time = 0.3f;
             player.animator.Play(animationHash);
-
-            player.LaunchBaster();
         }
 
         protected override void FixedUpdate(Player player)
@@ -510,11 +505,8 @@ public partial class Player
             {
                 player.TransitReady((int)StateID.Run);
             }
-            else if (player.inputInfo.fire)
-            {
-                time = 0.3f;
-                player.LaunchBaster();
-            }
+           
+            player.launcherController.LaunchTrigger(player.inputInfo.fire, () => { time = 0.3f; });
             time -= Time.deltaTime;
         }
 
@@ -534,7 +526,7 @@ public partial class Player
             time = 0.15f;
             player.animator.Play(animationHash);
 
-            if (preId != 10) player.LaunchBaster();
+            //if (preId != 10) player.LaunchBaster();
         }
 
         protected override void FixedUpdate(Player player)
@@ -571,7 +563,6 @@ public partial class Player
             else if (player.inputInfo.fire)
             {
                 time = 0.15f;
-                player.LaunchBaster();
             }
             time -= Time.deltaTime;
         }
@@ -587,14 +578,12 @@ public partial class Player
     {
         int animationHash = 0;
         public JumpingBuster() { animationHash = Animator.StringToHash("FloatBuster"); }
-        float time = 0.15f;
+        float time = 0.3f;
 
         protected override void Enter(Player player, int preId)
         {
             player.animator.Play(animationHash);
-            player.LaunchBaster();
-            time = 0.15f;
-
+            time = 0.3f;
         }
 
         protected override void FixedUpdate(Player player)
@@ -637,8 +626,8 @@ public partial class Player
             }
             else if (player.inputInfo.fire)
             {
-                time = 0.15f;
-                player.LaunchBaster();
+                time = 0.3f;
+                //player.LaunchBaster();
             }
             time -= Time.deltaTime;
         }

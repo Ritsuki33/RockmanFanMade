@@ -2139,6 +2139,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 193906507}
+  - component: {fileID: 193906508}
   m_Layer: 7
   m_Name: Launcher
   m_TagString: Untagged
@@ -2161,6 +2162,21 @@ Transform:
   m_Father: {fileID: 1836540445}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &193906508
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 193906506}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1192d861629927e4ba8db6d2a8bb87db, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_charge_animator: {fileID: 793583489}
+  launcher: {fileID: 193906506}
+  player: {fileID: 1836540451}
 --- !u!1 &223025946
 GameObject:
   m_ObjectHideFlags: 0
@@ -2670,6 +2686,53 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &517991896
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 517991897}
+  - component: {fileID: 517991898}
+  m_Layer: 0
+  m_Name: RockBusterMiddlePool
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &517991897
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 517991896}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 739595865}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &517991898
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 517991896}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6428f17e52015684683e9c774633b242, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  prefab: {fileID: 1134197257692239509, guid: 8e07ca485353f2c40ace185dce97eb94, type: 3}
+  defaultCapacity: 10
+  maxSize: 10
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -3281,6 +3344,40 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ready: {fileID: 600882514}
+--- !u!1 &739595864
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 739595865}
+  m_Layer: 0
+  m_Name: RockBuster
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &739595865
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 739595864}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 2133600923}
+  - {fileID: 517991897}
+  - {fileID: 1635768205}
+  m_Father: {fileID: 1881766349}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &743065202
 GameObject:
   m_ObjectHideFlags: 0
@@ -3390,7 +3487,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &793583488
 Transform:
   m_ObjectHideFlags: 0
@@ -4406,6 +4503,53 @@ MonoBehaviour:
   _origin: {x: 0, y: 0, z: 0}
   _direction: {x: 1, y: 0, z: 0}
   _controlArea: {fileID: 877684652}
+--- !u!1 &1635768204
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1635768205}
+  - component: {fileID: 1635768206}
+  m_Layer: 0
+  m_Name: RockBusterBigPool
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1635768205
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1635768204}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 739595865}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1635768206
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1635768204}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6428f17e52015684683e9c774633b242, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  prefab: {fileID: 2594373853667636395, guid: 92ffe6b60fa07f1439296c5360805848, type: 3}
+  defaultCapacity: 10
+  maxSize: 10
 --- !u!114 &1826720013 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5107075163451444145, guid: 50db6328845417f428e76f577eadc620, type: 3}
@@ -4436,6 +4580,7 @@ GameObject:
   - component: {fileID: 1836540453}
   - component: {fileID: 1836540454}
   - component: {fileID: 1836540455}
+  - component: {fileID: 1836540456}
   m_Layer: 7
   m_Name: Player
   m_TagString: Untagged
@@ -4625,7 +4770,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e9389d2952f07143863749bbd49ce0c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  launcher: {fileID: 193906506}
+  launcherController: {fileID: 193906508}
+  materialController: {fileID: 1836540456}
 --- !u!95 &1836540452
 Animator:
   serializedVersion: 5
@@ -4702,6 +4848,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxSpeed: 15
+--- !u!114 &1836540456
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1836540443}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 95f3fb9c1d596fa408a4ab5e0dfe8a0c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1881766348
 GameObject:
   m_ObjectHideFlags: 0
@@ -4733,7 +4891,7 @@ Transform:
   m_Children:
   - {fileID: 181752604}
   - {fileID: 423814549}
-  - {fileID: 2133600923}
+  - {fileID: 739595865}
   - {fileID: 2033599883}
   - {fileID: 1029157791}
   - {fileID: 2045156586}
@@ -4755,6 +4913,8 @@ MonoBehaviour:
   explodePool: {fileID: 181752605}
   explode2Pool: {fileID: 423814550}
   rockBusterPool: {fileID: 2133600924}
+  rockBusterMiddlePool: {fileID: 517991898}
+  rockBusterBigPool: {fileID: 1635768206}
   mettoruFirePool: {fileID: 1029157792}
   cannonPool: {fileID: 0}
   playerDeathEffect: {fileID: 2033599882}
@@ -5364,12 +5524,12 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2133600922}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1881766349}
+  m_Father: {fileID: 739595865}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2133600924

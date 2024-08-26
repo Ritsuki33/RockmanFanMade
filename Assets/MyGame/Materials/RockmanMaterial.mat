@@ -90,6 +90,7 @@ Material:
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _FadeColor: {r: 1, g: 1, b: 1, a: 1}
     - _LightColor: {r: 1, g: 0.033018887, b: 0.033018887, a: 1}
+    - _RimLightColor: {r: 0.504717, g: 0.76304114, b: 1, a: 1}
     - _TargetColor: {r: 0, g: 0.454902, b: 0.9607844, a: 1}
     - _TargetColor2: {r: 0.26125845, g: 0.9716981, b: 0.9716981, a: 1}
   m_BuildTextureStacks: []
