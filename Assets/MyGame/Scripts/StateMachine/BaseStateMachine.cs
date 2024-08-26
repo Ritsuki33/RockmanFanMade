@@ -31,10 +31,30 @@ public class BaseState<T, S, SM, G> : IBaseState<T>
 {
     public bool immediate { get; private set; }
 
-    protected SM subStateMachine = null;
+    SM subStateMachine = null;
     public BaseState(bool immediate = true)
     {
         this.immediate = immediate;
+    }
+
+    /// <summary>
+    /// サブステートの登録
+    /// </summary>
+    /// <param name="stateId"></param>
+    /// <param name="state"></param>
+    protected void AddSubState(int stateId,S state)
+    {
+        if (subStateMachine == null) subStateMachine = new G();
+        subStateMachine.AddState(stateId, state);
+    }
+
+    /// <summary>
+    /// サブステートの削除
+    /// </summary>
+    /// <param name="stateId"></param>
+    protected void RemoveSubState(int stateId)
+    {
+        subStateMachine?.RemoveState(stateId);
     }
 
     virtual protected void Enter(T obj, int preId) { }
