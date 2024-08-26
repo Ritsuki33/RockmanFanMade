@@ -20,15 +20,19 @@ public interface IExRbState<T>: IRbState<T> where T : MonoBehaviour
 /// 状態ノード
 /// </summary>
 /// <typeparam name="T"></typeparam>
-public class ExRbState<T> : RbState<T>, IExRbState<T> where T: MonoBehaviour
+public class BaseExRbState<T, S, SM, G> : BaseRbState<T, S, SM, G>, IExRbState<T>
+    where T : MonoBehaviour
+    where S : class, IExRbState<T>
+    where SM : class, IExRbStateMachine<T, S>
+    where G : SM, new()
 {
-    public ExRbState(bool immediate = true) : base(immediate) { }
+    public BaseExRbState(bool immediate = true) : base(immediate) { }
 
     virtual protected void OnBottomHitEnter(T obj, RaycastHit2D hit) { }
     virtual protected void OnTopHitEnter(T obj, RaycastHit2D hit) { }
     virtual protected void OnLeftHitEnter(T obj, RaycastHit2D hit) { }
     virtual protected void OnRightHitEnter(T obj, RaycastHit2D hit) { }
-    virtual protected void OnBottomHitStay(T obj,RaycastHit2D hit) { }
+    virtual protected void OnBottomHitStay(T obj, RaycastHit2D hit) { }
     virtual protected void OnTopHitStay(T obj, RaycastHit2D hit) { }
     virtual protected void OnLeftHitStay(T obj, RaycastHit2D hit) { }
     virtual protected void OnRightHitStay(T obj, RaycastHit2D hit) { }
@@ -50,6 +54,14 @@ public class ExRbState<T> : RbState<T>, IExRbState<T> where T: MonoBehaviour
     void IExRbState<T>.OnLeftHitExit(T obj, RaycastHit2D hit) { OnLeftHitExit(obj, hit); }
     void IExRbState<T>.OnRightHitExit(T obj, RaycastHit2D hit) { OnRightHitExit(obj, hit); }
 }
+
+/// <summary>
+/// 状態ノード
+/// </summary>
+/// <typeparam name="T"></typeparam>
+public class ExRbState<T>
+    : BaseExRbState<T, IExRbState<T>, IExRbStateMachine<T, IExRbState<T>>, GenericExRbStateMachine<T, IExRbState<T>>> where T : MonoBehaviour
+{ }
 
 public interface IExRbStateMachine<T, S> : IRbStateMachine<T, S> where T : MonoBehaviour where S : class, IBaseState<T>
 {

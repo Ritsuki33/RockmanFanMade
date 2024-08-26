@@ -14,9 +14,13 @@ public interface IRbState<T> : IBaseState<T> where T : MonoBehaviour
 /// 状態ノード
 /// </summary>
 /// <typeparam name="T"></typeparam>
-public class RbState<T> : State<T>, IRbState<T> where T : MonoBehaviour
+public class BaseRbState<T,S, SM, G> : BaseState<T,S, SM, G>, IRbState<T>
+    where T : MonoBehaviour
+    where S : class, IRbState<T>
+    where SM : class, IRbStateMachine<T, S>
+    where G : SM, new()
 {
-    public RbState(bool immediate = true) : base(immediate) { }
+    public BaseRbState(bool immediate = true) : base(immediate) { }
 
     virtual protected void OnCollisionEnter2D(T obj, Collision2D collision) { }
     virtual protected void OnCollisionStay2D(T obj, Collision2D collision) { }
@@ -33,7 +37,17 @@ public class RbState<T> : State<T>, IRbState<T> where T : MonoBehaviour
     void IRbState<T>.OnTriggerEnter2D(T obj, Collider2D collision) { OnTriggerEnter2D(obj, collision); }
     void IRbState<T>.OnTriggerStay2D(T obj, Collider2D collision) { OnTriggerStay2D(obj, collision); }
     void IRbState<T>.OnTriggerExit2D(T obj, Collider2D collision) { OnTriggerExit2D(obj, collision); }
+
 }
+
+/// <summary>
+/// 状態ノード
+/// </summary>
+/// <typeparam name="T"></typeparam>
+public class RbState<T>
+    : BaseRbState<T, IRbState<T>, IRbStateMachine<T, IRbState<T>>, GenericRbStateMachine<T, IRbState<T>>>
+    where T : MonoBehaviour
+{ }
 
 public interface IRbStateMachine<T, S> : IBaseStateMachine<T, S> where T : MonoBehaviour where S : class, IBaseState<T>
 {

@@ -18,16 +18,43 @@ public interface IBaseState<T> where T : MonoBehaviour
 }
 
 
+
 /// <summary>
 /// 状態ノード
 /// </summary>
 /// <typeparam name="T"></typeparam>
-public class State<T> : IBaseState<T> where T : MonoBehaviour
+public class BaseState<T, S, SM, G> : IBaseState<T>
+    where T : MonoBehaviour
+    where S : class, IBaseState<T>
+    where SM : class, IBaseStateMachine<T, S>
+    where G : SM, new()
 {
     public bool immediate { get; private set; }
-    public State(bool immediate = true)
+
+    SM subStateMachine = null;
+    public BaseState(bool immediate = true)
     {
         this.immediate = immediate;
+    }
+
+    /// <summary>
+    /// サブステートの登録
+    /// </summary>
+    /// <param name="stateId"></param>
+    /// <param name="state"></param>
+    protected void AddSubState(int stateId,S state)
+    {
+        if (subStateMachine == null) subStateMachine = new G();
+        subStateMachine.AddState(stateId, state);
+    }
+
+    /// <summary>
+    /// サブステートの削除
+    /// </summary>
+    /// <param name="stateId"></param>
+    protected void RemoveSubState(int stateId)
+    {
+        subStateMachine?.RemoveState(stateId);
     }
 
     virtual protected void Enter(T obj, int preId) { }
@@ -43,14 +70,26 @@ public class State<T> : IBaseState<T> where T : MonoBehaviour
     void IBaseState<T>.Enter(T obj, int preId) { Enter(obj, preId); }
     IEnumerator IBaseState<T>.EnterCoroutine(T obj, int preId) { yield return EnterCoroutine(obj, preId); }
 
-    void IBaseState<T>.FixedUpdate(T obj) { FixedUpdate(obj); }
-    void IBaseState<T>.Update(T obj) { Update(obj); }
+    void IBaseState<T>.FixedUpdate(T obj)
+    {
+        FixedUpdate(obj);
+        subStateMachine?.FixedUpdate(obj);
+    }
+
+    void IBaseState<T>.Update(T obj)
+    {
+        Update(obj);
+        subStateMachine?.Update(obj);
+    }
 
     void IBaseState<T>.Exit(T obj, int nextId) { Exit(obj, nextId); }
     IEnumerator IBaseState<T>.ExitCoroutine(T obj, int nextId) { yield return ExitCoroutine(obj, nextId); }
-
 }
 
+public class State<T>
+    : BaseState<T, IBaseState<T>, IBaseStateMachine<T, IBaseState<T>>, GenericBaseStateMachine<T, IBaseState<T>>>
+    where T : MonoBehaviour
+{ }
 
 public interface IBaseStateMachine<T, S> where T : MonoBehaviour where S : class, IBaseState<T>
 {
