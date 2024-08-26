@@ -3226,7 +3226,7 @@ GameObject:
   m_Component:
   - component: {fileID: 640147765}
   - component: {fileID: 640147764}
-  m_Layer: 16
+  m_Layer: 18
   m_Name: DeadZone
   m_TagString: DeadZone
   m_Icon: {fileID: 0}
