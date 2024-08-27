@@ -10,20 +10,23 @@ public interface IBaseState<T> where T : MonoBehaviour
     void Enter(T obj, int preId);
     IEnumerator EnterCoroutine(T obj, int preId);
 
-    void FixedUpdate(T obj);
-    void Update(T obj);
+    void FixedUpdate(T obj, IParentState parent);
+    void Update(T obj, IParentState parent);
 
     void Exit(T obj, int nextId);
     IEnumerator ExitCoroutine(T obj, int nextId);
 }
 
-
+public interface IParentState
+{
+    void TransitSubReady(int id, bool reset = false);
+}
 
 /// <summary>
 /// 状態ノード
 /// </summary>
 /// <typeparam name="T"></typeparam>
-public class BaseState<T, S, SM, G> : IBaseState<T>
+public class BaseState<T, S, SM, G> : IBaseState<T>, IParentState
     where T : MonoBehaviour
     where S : class, IBaseState<T>
     where SM : class, IBaseStateMachine<T, S>
@@ -57,21 +60,26 @@ public class BaseState<T, S, SM, G> : IBaseState<T>
         subStateMachine?.RemoveState(stateId);
     }
 
+    protected void TransitSubReady(int id, bool reset = false)
+    {
+        subStateMachine.TransitReady(id,reset);
+    }
+
     /// <summary>
     /// サブステートの遷移準備
     /// </summary>
     /// <param name="id"></param>
     /// <param name="reset"></param>
-    protected void TransitReady(int id, bool reset = false)
+    void IParentState.TransitSubReady(int id, bool reset = false)
     {
-        subStateMachine.TransitReady(id,reset);
+        TransitSubReady(id, reset);
     }
 
     virtual protected void Enter(T obj, int preId) { }
     virtual protected IEnumerator EnterCoroutine(T obj, int preId) { yield return null; }
 
-    virtual protected void FixedUpdate(T obj) { }
-    virtual protected void Update(T obj) { }
+    virtual protected void FixedUpdate(T obj, IParentState parent) { }
+    virtual protected void Update(T obj, IParentState parent) { }
 
     virtual protected void Exit(T obj, int nextId) { }
     virtual protected IEnumerator ExitCoroutine(T obj, int nextId) { yield return null; }
@@ -80,19 +88,22 @@ public class BaseState<T, S, SM, G> : IBaseState<T>
     void IBaseState<T>.Enter(T obj, int preId) { Enter(obj, preId); }
     IEnumerator IBaseState<T>.EnterCoroutine(T obj, int preId) { yield return EnterCoroutine(obj, preId); }
 
-    void IBaseState<T>.FixedUpdate(T obj)
+    void IBaseState<T>.FixedUpdate(T obj, IParentState parent)
     {
-        FixedUpdate(obj);
-        subStateMachine?.FixedUpdate(obj);
+        FixedUpdate(obj, parent);
+        subStateMachine?.FixedUpdate(obj, this);
     }
 
-    void IBaseState<T>.Update(T obj)
+    void IBaseState<T>.Update(T obj, IParentState parent)
     {
-        Update(obj);
-        subStateMachine?.Update(obj);
+        Update(obj, parent);
+        subStateMachine?.Update(obj, this);
     }
 
-    void IBaseState<T>.Exit(T obj, int nextId) { Exit(obj, nextId); }
+    void IBaseState<T>.Exit(T obj, int nextId) {
+        subStateMachine?.EndState(obj);
+        Exit(obj, nextId);
+    }
     IEnumerator IBaseState<T>.ExitCoroutine(T obj, int nextId) { yield return ExitCoroutine(obj, nextId); }
 }
 
@@ -104,11 +115,13 @@ public class State<T>
 public interface IBaseStateMachine<T, S> where T : MonoBehaviour where S : class, IBaseState<T>
 {
     int CurId { get; }
-    void FixedUpdate(T obj);
-    void Update(T obj);
+    void FixedUpdate(T obj, IParentState parent);
+    void Update(T obj, IParentState parent);
     void AddState(int id, S state);
     void RemoveState(int id);
     void TransitReady(int id, bool reset=false);
+
+    void EndState(T obj);
 }
 
 public class GenericBaseStateMachine<T, S> : IBaseStateMachine<T, S> where T : MonoBehaviour where S : class, IBaseState<T>
@@ -128,18 +141,18 @@ public class GenericBaseStateMachine<T, S> : IBaseStateMachine<T, S> where T : M
 
     int IBaseStateMachine<T, S>.CurId => curId;
 
-    void IBaseStateMachine<T, S>.FixedUpdate(T obj)
+    void IBaseStateMachine<T, S>.FixedUpdate(T obj, IParentState parent)
     {
         TransitState(obj);
 
-        if (coroutine == null) curState?.FixedUpdate(obj);
+        if (coroutine == null) curState?.FixedUpdate(obj, parent);
     }
 
-    void IBaseStateMachine<T, S>.Update(T obj)
+    void IBaseStateMachine<T, S>.Update(T obj, IParentState parent)
     {
         TransitState(obj);
 
-        if (coroutine == null) curState?.Update(obj);
+        if (coroutine == null) curState?.Update(obj, parent);
     }
 
     void IBaseStateMachine<T, S>.AddState(int id, S state)
@@ -161,6 +174,13 @@ public class GenericBaseStateMachine<T, S> : IBaseStateMachine<T, S> where T : M
         this.reset = reset;
     }
 
+    void IBaseStateMachine<T, S>.EndState(T obj)
+    {
+        curState?.Exit(obj, -1);
+        curState = null;
+        curId = -1;
+    }
+
     void TransitState(T obj)
     {
         if (requestId != -1 && (reset || curId != requestId))
@@ -169,12 +189,11 @@ public class GenericBaseStateMachine<T, S> : IBaseStateMachine<T, S> where T : M
 
             curId = requestId;
             requestId = -1;
-            if (true || nextState.Immediate)
+            if (states[curId].Immediate)
             {
                 // 出口処理
                 curState?.Exit(obj, curId);
                 curState = states[curId];
-                nextState = null;
                 // 入口処理
                 curState?.Enter(obj, preId);
             }
@@ -219,14 +238,14 @@ public class BaseStateMachine<T, S, SM, G>
     void FixedUpdate()
     {
         StartFixedUpdate();
-        stateMachine.FixedUpdate((T)this);
+        stateMachine.FixedUpdate((T)this,null);
         EndtFixedUpdate();
     }
 
     void Update()
     {
         StartUpdate();
-        stateMachine.Update((T)this);
+        stateMachine.Update((T)this, null);
         EndtUpdate();
     }
 

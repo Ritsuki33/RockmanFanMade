@@ -48,7 +48,7 @@ public class LauncherController : StateMachine<LauncherController>
             launcher.StopRimLight();
             launcher.m_charge_animator.gameObject.SetActive(false);
         }
-        protected override void Update(LauncherController launcher)
+        protected override void Update(LauncherController launcher, IParentState parent)
         {
             if (launcher.isLaunchTrigger)
             {
@@ -65,7 +65,7 @@ public class LauncherController : StateMachine<LauncherController>
             chargeStartTime = 1.0f;
         }
 
-        protected override void Update(LauncherController launcher)
+        protected override void Update(LauncherController launcher, IParentState parent)
         {
             if (launcher.isLaunchTrigger)
             {
@@ -97,7 +97,7 @@ public class LauncherController : StateMachine<LauncherController>
             chargeStartTime = 1.0f;
         }
 
-        protected override void Update(LauncherController launcher)
+        protected override void Update(LauncherController launcher, IParentState parent)
         {
             if (launcher.isLaunchTrigger)
             {
@@ -126,7 +126,7 @@ public class LauncherController : StateMachine<LauncherController>
             launcher.m_charge_animator.Play(animationHash);
         }
 
-        protected override void Update(LauncherController launcher)
+        protected override void Update(LauncherController launcher, IParentState parent)
         {
             if (!launcher.isLaunchTrigger)
             {

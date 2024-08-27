@@ -16,13 +16,13 @@ public partial class MettoruController
             timer.Start(0.5f, 2.0f);
         }
 
-        protected override void FixedUpdate(MettoruController mettoru)
+        protected override void FixedUpdate(MettoruController mettoru, IParentState parent)
         {
             mettoru.gravity.UpdateVelocity();
             mettoru.exRb.velocity = mettoru.gravity.CurrentVelocity;
         }
 
-        protected override void Update(MettoruController mettoru)
+        protected override void Update(MettoruController mettoru, IParentState parent)
         {
             if (!mettoru._animator.IsPlayingCurrentAnimation(animationHash))
             {
@@ -54,7 +54,7 @@ public partial class MettoruController
                    });
         }
 
-        protected override void OnTriggerEnter2D(MettoruController mettoru, Collider2D collision)
+        protected override void OnTriggerEnter2D(MettoruController mettoru, Collider2D collision, IParentState parent)
         {
             if (collision.gameObject.CompareTag("RockBuster"))
             {
@@ -76,7 +76,7 @@ public partial class MettoruController
             timer.Start(0.5f, 2.0f);
         }
 
-        protected override void FixedUpdate(MettoruController mettoru)
+        protected override void FixedUpdate(MettoruController mettoru, IParentState parent)
         {
             mettoru.gravity.UpdateVelocity();
             mettoru.exRb.velocity = mettoru.gravity.CurrentVelocity;
@@ -91,7 +91,7 @@ public partial class MettoruController
             mettoru.exRb.velocity += mettoru.move.CurrentVelocity;
         }
 
-        protected override void Update(MettoruController mettoru)
+        protected override void Update(MettoruController mettoru, IParentState parent)
         {
             mettoru.raycastSensor.SearchForTargetEnter((mettoru.IsRight) ? Vector2.right : Vector2.left,
                     (hit) =>
@@ -109,7 +109,7 @@ public partial class MettoruController
                   });
         }
 
-        protected override void OnTriggerEnter2D(MettoruController mettoru, Collider2D collision)
+        protected override void OnTriggerEnter2D(MettoruController mettoru, Collider2D collision, IParentState parent)
         {
             if (collision.gameObject.CompareTag("RockBuster"))
             {
@@ -128,13 +128,13 @@ public partial class MettoruController
             mettoru._animator.Play(animationHash);
         }
 
-        protected override void FixedUpdate(MettoruController mettoru)
+        protected override void FixedUpdate(MettoruController mettoru, IParentState parent)
         {
             mettoru.gravity.UpdateVelocity();
             mettoru.exRb.velocity = mettoru.gravity.CurrentVelocity;
         }
 
-        protected override void Update(MettoruController mettoru)
+        protected override void Update(MettoruController mettoru, IParentState parent)
         {
             if (!mettoru._animator.IsPlayingCurrentAnimation(animationHash))
             {
@@ -142,7 +142,7 @@ public partial class MettoruController
             }
         }
 
-        protected override void OnTriggerEnter2D(MettoruController mettoru, Collider2D collision)
+        protected override void OnTriggerEnter2D(MettoruController mettoru, Collider2D collision, IParentState parent)
         {
             if (collision.gameObject.CompareTag("RockBuster"))
             {
@@ -163,13 +163,13 @@ public partial class MettoruController
             timer.Start(1, 3);
         }
 
-        protected override void FixedUpdate(MettoruController mettoru)
+        protected override void FixedUpdate(MettoruController mettoru, IParentState parent)
         {
             mettoru.gravity.UpdateVelocity();
             mettoru.exRb.velocity = mettoru.gravity.CurrentVelocity;
         }
 
-        protected override void Update(MettoruController mettoru)
+        protected override void Update(MettoruController mettoru, IParentState parent)
         {
             mettoru.TurnToTarget(mettoru.Player.transform.position);
 
@@ -193,7 +193,7 @@ public partial class MettoruController
             }
         }
 
-        protected override void OnTriggerEnter2D(MettoruController mettoru, Collider2D collision)
+        protected override void OnTriggerEnter2D(MettoruController mettoru, Collider2D collision, IParentState parent)
         {
             if (collision.gameObject.CompareTag("RockBuster"))
             {
@@ -215,13 +215,13 @@ public partial class MettoruController
             timer.Start(1, 3);
         }
 
-        protected override void FixedUpdate(MettoruController mettoru)
+        protected override void FixedUpdate(MettoruController mettoru, IParentState parent)
         {
             mettoru.gravity.UpdateVelocity();
             mettoru.exRb.velocity = mettoru.gravity.CurrentVelocity;
         }
 
-        protected override void Update(MettoruController mettoru)
+        protected override void Update(MettoruController mettoru, IParentState parent)
         {
             if (!mettoru._animator.IsPlayingCurrentAnimation(animationHash))
             {
@@ -236,7 +236,7 @@ public partial class MettoruController
             }
         }
 
-        protected override void OnTriggerEnter2D(MettoruController mettoru, Collider2D collision)
+        protected override void OnTriggerEnter2D(MettoruController mettoru, Collider2D collision, IParentState parent)
         {
             if (collision.gameObject.CompareTag("RockBuster"))
             {
@@ -259,13 +259,13 @@ public partial class MettoruController
             timer.Start(0.5f, 2.0f);
         }
 
-        protected override void FixedUpdate(MettoruController mettoru)
+        protected override void FixedUpdate(MettoruController mettoru, IParentState parent)
         {
             mettoru.gravity.UpdateVelocity();
             mettoru.exRb.velocity = mettoru.gravity.CurrentVelocity;
         }
 
-        protected override void Update(MettoruController mettoru)
+        protected override void Update(MettoruController mettoru, IParentState parent)
         {
             if (!mettoru._animator.IsPlayingCurrentAnimation(animationHash))
             {
@@ -285,7 +285,7 @@ public partial class MettoruController
                    });
         }
 
-        protected override void OnTriggerEnter2D(MettoruController mettoru, Collider2D collision)
+        protected override void OnTriggerEnter2D(MettoruController mettoru, Collider2D collision, IParentState parent)
         {
             if (collision.gameObject.CompareTag("RockBuster"))
             {
@@ -310,7 +310,7 @@ public partial class MettoruController
             //mettoru.jumpOverThere.Jump(mettoru.jumpTarget.position, 88, mettoru.gravity.GravityScale, () => { Debug.Log("error jump"); });
         }
 
-        protected override void FixedUpdate(MettoruController mettoru)
+        protected override void FixedUpdate(MettoruController mettoru, IParentState parent)
         {
             mettoru.jump.UpdateVelocity(mettoru.gravity.GravityScale);
             mettoru.exRb.velocity += mettoru.jump.CurrentVelocity;
@@ -322,7 +322,7 @@ public partial class MettoruController
             }
         }
 
-        protected override void OnTriggerEnter2D(MettoruController mettoru, Collider2D collision)
+        protected override void OnTriggerEnter2D(MettoruController mettoru, Collider2D collision, IParentState parent)
         {
             if (collision.gameObject.CompareTag("RockBuster"))
             {
@@ -342,19 +342,19 @@ public partial class MettoruController
             //mettoru.jumpOverThere.Jump(mettoru.jumpTarget.position, 88, mettoru.gravity.GravityScale, () => { Debug.Log("error jump"); });
         }
 
-        protected override void FixedUpdate(MettoruController mettoru)
+        protected override void FixedUpdate(MettoruController mettoru, IParentState parent)
         {
             mettoru.gravity.UpdateVelocity();
             mettoru.exRb.velocity = mettoru.gravity.CurrentVelocity;
             mettoru.exRb.velocity += new Vector2(mettoru.move_x, 0);
         }
 
-        protected override void OnBottomHitStay(MettoruController mettoru, RaycastHit2D hit)
+        protected override void OnBottomHitStay(MettoruController mettoru, RaycastHit2D hit, IParentState parent)
         {
                 mettoru.TransitReady((int)StateID.Idle);
         }
 
-        protected override void OnTriggerEnter2D(MettoruController mettoru, Collider2D collision)
+        protected override void OnTriggerEnter2D(MettoruController mettoru, Collider2D collision, IParentState parent)
         {
             if (collision.gameObject.CompareTag("RockBuster"))
             {

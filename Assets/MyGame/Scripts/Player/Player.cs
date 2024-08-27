@@ -26,14 +26,14 @@ public partial class Player : ExRbStateMachine<Player>
     public MaterialController MaterialController => materialController;
     enum StateID
     {
-        Idle=0,
+        Standing=0,
         Float,
         Run,
         Climb,
         Jumping,
         ClimbUp,
         ClimbDown,
-        IdleFire,
+        //IdleFire,
         RunBuster,
         FloatBuster,
         JumpingBuster,
@@ -53,14 +53,14 @@ public partial class Player : ExRbStateMachine<Player>
         animator = GetComponent<Animator>();
         jump=GetComponent<Jump>();
 
-        AddState((int)StateID.Idle, new Idle());
+        AddState((int)StateID.Standing, new Standing());
         AddState((int)StateID.Float, new Float());
         AddState((int)StateID.Run, new Run());
         AddState((int)StateID.Climb, new Climb());
         AddState((int)StateID.Jumping, new Jumping());
         AddState((int)StateID.ClimbUp, new ClimbUp());
         AddState((int)StateID.ClimbDown, new ClimbDown());
-        AddState((int)StateID.IdleFire, new IdleFire());
+        //AddState((int)StateID.IdleFire, new IdleFire());
         AddState((int)StateID.RunBuster, new RunBuster());
         AddState((int)StateID.FloatBuster, new FloatBuster());
         AddState((int)StateID.JumpingBuster, new JumpingBuster());
@@ -123,7 +123,7 @@ public partial class Player : ExRbStateMachine<Player>
 
     public void TransferedAnimationEnd()
     {
-        TransitReady((int)StateID.Idle);
+        TransitReady((int)StateID.Standing);
     }
 
     public void Prepare(Transform tranform)
