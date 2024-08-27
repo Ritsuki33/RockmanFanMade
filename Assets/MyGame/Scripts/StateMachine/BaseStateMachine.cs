@@ -57,6 +57,16 @@ public class BaseState<T, S, SM, G> : IBaseState<T>
         subStateMachine?.RemoveState(stateId);
     }
 
+    /// <summary>
+    /// サブステートの遷移準備
+    /// </summary>
+    /// <param name="id"></param>
+    /// <param name="reset"></param>
+    protected void TransitReady(int id, bool reset = false)
+    {
+        subStateMachine.TransitReady(id,reset);
+    }
+
     virtual protected void Enter(T obj, int preId) { }
     virtual protected IEnumerator EnterCoroutine(T obj, int preId) { yield return null; }
 
