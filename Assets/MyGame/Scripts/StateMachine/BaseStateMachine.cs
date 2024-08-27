@@ -65,12 +65,16 @@ public class BaseState<T, S, SM, G> : IBaseState<T>, IParentState
         subStateMachine.TransitReady(id,reset);
     }
 
+    protected void CloseState(T obj)
+    {
+        subStateMachine.CloseState(obj);
+    }
     /// <summary>
     /// サブステートの遷移準備
     /// </summary>
     /// <param name="id"></param>
     /// <param name="reset"></param>
-    void IParentState.TransitSubReady(int id, bool reset = false)
+    void IParentState.TransitSubReady(int id, bool reset)
     {
         TransitSubReady(id, reset);
     }
@@ -101,7 +105,7 @@ public class BaseState<T, S, SM, G> : IBaseState<T>, IParentState
     }
 
     void IBaseState<T>.Exit(T obj, int nextId) {
-        subStateMachine?.EndState(obj);
+        subStateMachine?.CloseState(obj);
         Exit(obj, nextId);
     }
     IEnumerator IBaseState<T>.ExitCoroutine(T obj, int nextId) { yield return ExitCoroutine(obj, nextId); }
@@ -121,7 +125,7 @@ public interface IBaseStateMachine<T, S> where T : MonoBehaviour where S : class
     void RemoveState(int id);
     void TransitReady(int id, bool reset=false);
 
-    void EndState(T obj);
+    void CloseState(T obj);
 }
 
 public class GenericBaseStateMachine<T, S> : IBaseStateMachine<T, S> where T : MonoBehaviour where S : class, IBaseState<T>
@@ -129,7 +133,6 @@ public class GenericBaseStateMachine<T, S> : IBaseStateMachine<T, S> where T : M
     Dictionary<int, S> states = new Dictionary<int, S>();
 
     protected S curState = default;
-    S nextState = default;
 
     bool reset = false;
     Coroutine coroutine;
@@ -139,7 +142,19 @@ public class GenericBaseStateMachine<T, S> : IBaseStateMachine<T, S> where T : M
 
     int requestId = -1;
 
+    bool closeState = false;
     int IBaseStateMachine<T, S>.CurId => curId;
+
+    void Init()
+    {
+        preId = -1;
+        curId = -1;
+
+        requestId = -1;
+        closeState = false;
+        reset = false;
+        curState = null;
+    }
 
     void IBaseStateMachine<T, S>.FixedUpdate(T obj, IParentState parent)
     {
@@ -174,11 +189,12 @@ public class GenericBaseStateMachine<T, S> : IBaseStateMachine<T, S> where T : M
         this.reset = reset;
     }
 
-    void IBaseStateMachine<T, S>.EndState(T obj)
+    void IBaseStateMachine<T, S>.CloseState(T obj)
     {
-        curState?.Exit(obj, -1);
+        curState?.Exit(obj, curId);
+        requestId = -1;
+        curId= -1;
         curState = null;
-        curId = -1;
     }
 
     void TransitState(T obj)

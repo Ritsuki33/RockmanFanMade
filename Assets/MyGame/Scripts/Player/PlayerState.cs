@@ -37,11 +37,11 @@ public partial class Player
         {
             if (player.inputInfo.left)
             {
-                player.TransitReady((int)StateID.Run);
+                player.TransitReady((int)StateID.Running);
             }
             else if (player.inputInfo.right)
             {
-                player.TransitReady((int)StateID.Run);
+                player.TransitReady((int)StateID.Running);
             }
 
             if (player.bodyLadder != null && player.inputInfo.up)
@@ -115,8 +115,111 @@ public partial class Player
         // ==========================================
     }
 
+    class Running: ExRbState<Player>
+    {
+        enum SubStateID{
+            Run,
+            Shoot,
+        }
+        public Running()
+        {
+            AddSubState((int)SubStateID.Run, new Run());
+            AddSubState((int)SubStateID.Shoot, new Shoot());
+        }
 
+        protected override void Enter(Player player, int preId)
+        {
+            TransitSubReady((int)SubStateID.Run);
+        }
 
+        protected override void FixedUpdate(Player player, IParentState parent)
+        {
+            player.gravity.UpdateVelocity();
+            player.exRb.velocity += player.gravity.CurrentVelocity;
+            Move.InputType type = default;
+            if (player.inputInfo.left == true) type = Move.InputType.Left;
+            else if (player.inputInfo.right == true) type = Move.InputType.Right;
+            player.move.UpdateVelocity(player.onTheGround.GroundHit.normal.Verticalize(), type);
+            Vector2 moveV = player.move.CurrentVelocity;
+            player.exRb.velocity += moveV;
+
+            if (moveV.x > 0)
+            {
+                Vector3 localScale = player.transform.localScale;
+                localScale.x = 1;
+                player.transform.localScale = localScale;
+            }
+            else if (moveV.x < 0)
+            {
+                Vector3 localScale = player.transform.localScale;
+                localScale.x = -1;
+                player.transform.localScale = localScale;
+            }
+            if (!player.onTheGround.Check())
+            {
+                player.TransitReady((int)StateID.Float);
+            }
+        }
+
+        protected override void Update(Player player, IParentState parent)
+        {
+            if (!player.inputInfo.left && !player.inputInfo.right)
+            {
+                player.TransitReady((int)StateID.Standing);
+            }
+            else if (player.inputInfo.jump)
+            {
+                player.TransitReady((int)StateID.Jumping);
+            }
+        }
+
+        protected override void OnBottomHitStay(Player player, RaycastHit2D hit, IParentState parent)
+        {
+            player.gravity.OnGround(hit.normal);
+        }
+        // ============================================================
+        class Run : ExRbState<Player>
+        {
+            int animationHash = 0;
+            public Run() { animationHash = Animator.StringToHash("Run"); }
+
+            protected override void Enter(Player player, int preId)
+            {
+                player.animator.Play(animationHash);
+            }
+
+            protected override void Update(Player player, IParentState parent)
+            {
+                player.launcherController.LaunchTrigger(player.inputInfo.fire, () => { parent.TransitSubReady((int)SubStateID.Shoot); });
+
+            }
+        }
+
+        class Shoot : ExRbState<Player>
+        {
+            int animationHash = 0;
+            public Shoot() { animationHash = Animator.StringToHash("RunBuster"); }
+            float time = 0.3f;
+            protected override void Enter(Player player, int preId)
+            {
+                time = 0.3f;
+                player.animator.Play(animationHash);
+            }
+
+            protected override void Update(Player player, IParentState parent)
+            {
+
+                if (time < 0)
+                {
+                    parent.TransitSubReady((int)SubStateID.Run);
+                }
+
+                player.launcherController.LaunchTrigger(player.inputInfo.fire, () => { time = 0.3f; });
+                time -= Time.deltaTime;
+            }
+        }
+    }
+    
     class Float : ExRbState<Player>
     {
         int animationHash = 0;
@@ -172,70 +275,11 @@ public partial class Player
             player.gravity.OnGround(hit.normal);
             player.TransitReady((int)StateID.Standing);
         }
+
+        
     }
 
-    class Run : ExRbState<Player>
-    {
-        int animationHash = 0;
-        public Run() { animationHash = Animator.StringToHash("Run"); }
-
-        protected override void Enter(Player player, int preId)
-        {
-            player.animator.Play(animationHash);
-        }
-
-        protected override void FixedUpdate(Player player, IParentState parent)
-        {
-            player.gravity.UpdateVelocity();
-            player.exRb.velocity += player.gravity.CurrentVelocity;
-            Move.InputType type = default;
-            if (player.inputInfo.left == true) type = Move.InputType.Left;
-            else if (player.inputInfo.right == true) type = Move.InputType.Right;
-            player.move.UpdateVelocity(player.onTheGround.GroundHit.normal.Verticalize(), type);
-            Vector2 moveV = player.move.CurrentVelocity;
-            player.exRb.velocity += moveV;
-
-            if (moveV.x > 0)
-            {
-                Vector3 localScale = player.transform.localScale;
-                localScale.x = 1;
-                player.transform.localScale = localScale;
-            }
-            else if (moveV.x < 0)
-            {
-                Vector3 localScale = player.transform.localScale;
-                localScale.x = -1;
-                player.transform.localScale = localScale;
-            }
-            if (!player.onTheGround.Check())
-            {
-                player.TransitReady((int)StateID.Float);
-            }
-        }
-
-        protected override void Update(Player player, IParentState parent)
-        {
-            if (!player.inputInfo.left && !player.inputInfo.right)
-            {
-                player.TransitReady((int)StateID.Standing);
-            }
-            else if (player.inputInfo.jump)
-            {
-                player.TransitReady((int)StateID.Jumping);
-            }
-            //else if (player.inputInfo.fire)
-            //{
-            //    player.TransitReady((int)StateID.RunBuster);
-            //}
-            player.launcherController.LaunchTrigger(player.inputInfo.fire, () => { player.TransitReady((int)StateID.RunBuster); });
-
-        }
-
-        protected override void OnBottomHitStay(Player player, RaycastHit2D hit, IParentState parent)
-        {
-            player.gravity.OnGround(hit.normal);
-        }
-    }
+   
 
     class Jumping : ExRbState<Player>
     {
@@ -452,70 +496,6 @@ public partial class Player
 
     
 
-    class RunBuster : ExRbState<Player>
-    {
-        int animationHash = 0;
-        public RunBuster() { animationHash = Animator.StringToHash("RunBuster"); }
-        float time = 0.3f;
-        protected override void Enter(Player player, int preId)
-        {
-            time = 0.3f;
-            player.animator.Play(animationHash);
-        }
-
-        protected override void FixedUpdate(Player player, IParentState parent)
-        {
-            Move.InputType type = default;
-            if (player.inputInfo.left == true) type = Move.InputType.Left;
-            else if (player.inputInfo.right == true) type = Move.InputType.Right;
-            player.move.UpdateVelocity(player.onTheGround.GroundHit.normal.Verticalize(), type);
-            Vector2 moveV = player.move.CurrentVelocity;
-            player.exRb.velocity = moveV;
-
-            if (moveV.x > 0)
-            {
-                Vector3 localScale = player.transform.localScale;
-                localScale.x = 1;
-                player.transform.localScale = localScale;
-            }
-            else if (moveV.x < 0)
-            {
-                Vector3 localScale = player.transform.localScale;
-                localScale.x = -1;
-                player.transform.localScale = localScale;
-            }
-
-            if (!player.onTheGround.Check())
-            {
-                player.TransitReady((int)StateID.Float);
-            }
-        }
-
-        protected override void Update(Player player, IParentState parent)
-        {
-            if (!player.inputInfo.left && !player.inputInfo.right)
-            {
-                player.TransitReady((int)StateID.Standing);
-            }
-            else if (player.inputInfo.jump)
-            {
-                player.TransitReady((int)StateID.Jumping);
-            }
-
-            if (time < 0)
-            {
-                player.TransitReady((int)StateID.Run);
-            }
-           
-            player.launcherController.LaunchTrigger(player.inputInfo.fire, () => { time = 0.3f; });
-            time -= Time.deltaTime;
-        }
-
-        protected override void OnBottomHitStay(Player player, RaycastHit2D hit, IParentState parent)
-        {
-            player.gravity.OnGround(hit.normal);
-        }
-    }
 
     class FloatBuster : ExRbState<Player>
     {
