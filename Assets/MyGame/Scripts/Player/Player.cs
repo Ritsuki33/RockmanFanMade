@@ -26,17 +26,17 @@ public partial class Player : ExRbStateMachine<Player>
     public MaterialController MaterialController => materialController;
     enum StateID
     {
-        Idle=0,
-        Float,
-        Run,
+        Standing=0,
+        Floating,
+        Running,
         Climb,
         Jumping,
         ClimbUp,
         ClimbDown,
-        IdleFire,
-        RunBuster,
-        FloatBuster,
-        JumpingBuster,
+        //IdleFire,
+        //RunBuster,
+        //FloatBuster,
+        //JumpingBuster,
         Death,
         Transfer,
         Transfered,
@@ -53,17 +53,17 @@ public partial class Player : ExRbStateMachine<Player>
         animator = GetComponent<Animator>();
         jump=GetComponent<Jump>();
 
-        AddState((int)StateID.Idle, new Idle());
-        AddState((int)StateID.Float, new Float());
-        AddState((int)StateID.Run, new Run());
+        AddState((int)StateID.Standing, new Standing());
+        AddState((int)StateID.Floating, new Floating());
+        AddState((int)StateID.Running, new Running());
         AddState((int)StateID.Climb, new Climb());
         AddState((int)StateID.Jumping, new Jumping());
         AddState((int)StateID.ClimbUp, new ClimbUp());
         AddState((int)StateID.ClimbDown, new ClimbDown());
-        AddState((int)StateID.IdleFire, new IdleFire());
-        AddState((int)StateID.RunBuster, new RunBuster());
-        AddState((int)StateID.FloatBuster, new FloatBuster());
-        AddState((int)StateID.JumpingBuster, new JumpingBuster());
+        //AddState((int)StateID.IdleFire, new IdleFire());
+        //AddState((int)StateID.RunBuster, new RunBuster());
+        //AddState((int)StateID.FloatBuster, new FloatBuster());
+        //AddState((int)StateID.JumpingBuster, new JumpingBuster());
         AddState((int)StateID.Death, new Death());
         AddState((int)StateID.Transfer, new Transfer());
         AddState((int)StateID.Transfered, new Transfered());
@@ -123,7 +123,7 @@ public partial class Player : ExRbStateMachine<Player>
 
     public void TransferedAnimationEnd()
     {
-        TransitReady((int)StateID.Idle);
+        TransitReady((int)StateID.Standing);
     }
 
     public void Prepare(Transform tranform)

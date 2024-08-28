@@ -1,19 +1,19 @@
 ﻿using UnityEngine;
 
-public interface IExRbState<T>: IRbState<T> where T : MonoBehaviour
+public interface IExRbState<T> : IRbState<T> where T : MonoBehaviour
 {
-    void OnBottomHitEnter(T obj, RaycastHit2D hit);
-    void OnTopHitEnter(T obj, RaycastHit2D hit);
-    void OnLeftHitEnter(T obj, RaycastHit2D hit);
-    void OnRightHitEnter(T obj, RaycastHit2D hit);
-    void OnBottomHitStay(T obj, RaycastHit2D hit) ;
-    void OnTopHitStay(T obj, RaycastHit2D hit) ;
-    void OnLeftHitStay(T obj, RaycastHit2D hit) ;
-    void OnRightHitStay(T obj, RaycastHit2D hit) ;
-    void OnBottomHitExit(T obj, RaycastHit2D hit) ;
-    void OnTopHitExit(T obj, RaycastHit2D hit) ;
-    void OnLeftHitExit(T obj, RaycastHit2D hit) ;
-    void OnRightHitExit(T obj, RaycastHit2D hit) ;
+    void OnBottomHitEnter(T obj, RaycastHit2D hit,  IParentState parent);
+    void OnTopHitEnter(T obj, RaycastHit2D hit,  IParentState parent);
+    void OnLeftHitEnter(T obj, RaycastHit2D hit,  IParentState parent);
+    void OnRightHitEnter(T obj, RaycastHit2D hit,  IParentState parent);
+    void OnBottomHitStay(T obj, RaycastHit2D hit,  IParentState parent);
+    void OnTopHitStay(T obj, RaycastHit2D hit,  IParentState parent);
+    void OnLeftHitStay(T obj, RaycastHit2D hit,  IParentState parent);
+    void OnRightHitStay(T obj, RaycastHit2D hit,  IParentState parent);
+    void OnBottomHitExit(T obj, RaycastHit2D hit,  IParentState parent);
+    void OnTopHitExit(T obj, RaycastHit2D hit,  IParentState parent);
+    void OnLeftHitExit(T obj, RaycastHit2D hit,  IParentState parent);
+    void OnRightHitExit(T obj, RaycastHit2D hit,  IParentState parent);
 }
 
 /// <summary>
@@ -28,31 +28,79 @@ public class BaseExRbState<T, S, SM, G> : BaseRbState<T, S, SM, G>, IExRbState<T
 {
     public BaseExRbState(bool immediate = true) : base(immediate) { }
 
-    virtual protected void OnBottomHitEnter(T obj, RaycastHit2D hit) { }
-    virtual protected void OnTopHitEnter(T obj, RaycastHit2D hit) { }
-    virtual protected void OnLeftHitEnter(T obj, RaycastHit2D hit) { }
-    virtual protected void OnRightHitEnter(T obj, RaycastHit2D hit) { }
-    virtual protected void OnBottomHitStay(T obj, RaycastHit2D hit) { }
-    virtual protected void OnTopHitStay(T obj, RaycastHit2D hit) { }
-    virtual protected void OnLeftHitStay(T obj, RaycastHit2D hit) { }
-    virtual protected void OnRightHitStay(T obj, RaycastHit2D hit) { }
-    virtual protected void OnBottomHitExit(T obj, RaycastHit2D hit) { }
-    virtual protected void OnTopHitExit(T obj, RaycastHit2D hit) { }
-    virtual protected void OnLeftHitExit(T obj, RaycastHit2D hit) { }
-    virtual protected void OnRightHitExit(T obj, RaycastHit2D hit) { }
+    virtual protected void OnBottomHitEnter(T obj, RaycastHit2D hit,  IParentState parent) { }
+    virtual protected void OnTopHitEnter(T obj, RaycastHit2D hit,  IParentState parent) { }
+    virtual protected void OnLeftHitEnter(T obj, RaycastHit2D hit,  IParentState parent) { }
+    virtual protected void OnRightHitEnter(T obj, RaycastHit2D hit,  IParentState parent) { }
+    virtual protected void OnBottomHitStay(T obj, RaycastHit2D hit,  IParentState parent) { }
+    virtual protected void OnTopHitStay(T obj, RaycastHit2D hit,  IParentState parent) { }
+    virtual protected void OnLeftHitStay(T obj, RaycastHit2D hit,  IParentState parent) { }
+    virtual protected void OnRightHitStay(T obj, RaycastHit2D hit,  IParentState parent) { }
+    virtual protected void OnBottomHitExit(T obj, RaycastHit2D hit,  IParentState parent) { }
+    virtual protected void OnTopHitExit(T obj, RaycastHit2D hit,  IParentState parent) { }
+    virtual protected void OnLeftHitExit(T obj, RaycastHit2D hit,  IParentState parent) { }
+    virtual protected void OnRightHitExit(T obj, RaycastHit2D hit,  IParentState parent) { }
 
-    void IExRbState<T>.OnBottomHitEnter(T obj, RaycastHit2D hit) { OnBottomHitEnter(obj, hit); }
-    void IExRbState<T>.OnTopHitEnter(T obj, RaycastHit2D hit) { OnTopHitEnter(obj, hit); }
-    void IExRbState<T>.OnLeftHitEnter(T obj, RaycastHit2D hit) { OnLeftHitEnter(obj, hit); }
-    void IExRbState<T>.OnRightHitEnter(T obj, RaycastHit2D hit) { OnRightHitEnter(obj, hit); }
-    void IExRbState<T>.OnBottomHitStay(T obj, RaycastHit2D hit) { OnBottomHitStay(obj, hit); }
-    void IExRbState<T>.OnTopHitStay(T obj, RaycastHit2D hit) { OnTopHitStay(obj, hit); }
-    void IExRbState<T>.OnLeftHitStay(T obj, RaycastHit2D hit) { OnLeftHitStay(obj, hit); }
-    void IExRbState<T>.OnRightHitStay(T obj, RaycastHit2D hit) { OnRightHitStay(obj, hit); }
-    void IExRbState<T>.OnBottomHitExit(T obj, RaycastHit2D hit) { OnBottomHitExit(obj, hit); }
-    void IExRbState<T>.OnTopHitExit(T obj, RaycastHit2D hit) { OnTopHitExit(obj, hit); }
-    void IExRbState<T>.OnLeftHitExit(T obj, RaycastHit2D hit) { OnLeftHitExit(obj, hit); }
-    void IExRbState<T>.OnRightHitExit(T obj, RaycastHit2D hit) { OnRightHitExit(obj, hit); }
+    void IExRbState<T>.OnBottomHitEnter(T obj, RaycastHit2D hit,  IParentState parent)
+    {
+        OnBottomHitEnter(obj, hit, parent);
+        subStateMachine?.OnBottomHitEnter(obj, hit, this);
+    }
+    void IExRbState<T>.OnTopHitEnter(T obj, RaycastHit2D hit,  IParentState parent)
+    {
+        OnTopHitEnter(obj, hit, parent);
+        subStateMachine?.OnTopHitEnter(obj, hit, this);
+    }
+    void IExRbState<T>.OnLeftHitEnter(T obj, RaycastHit2D hit,  IParentState parent)
+    {
+        OnLeftHitEnter(obj, hit, parent);
+        subStateMachine?.OnLeftHitEnter(obj, hit, this);
+    }
+    void IExRbState<T>.OnRightHitEnter(T obj, RaycastHit2D hit,  IParentState parent)
+    {
+        OnRightHitEnter(obj, hit, parent);
+        subStateMachine?.OnRightHitEnter(obj, hit, this);
+    }
+    void IExRbState<T>.OnBottomHitStay(T obj, RaycastHit2D hit,  IParentState parent)
+    {
+        OnBottomHitStay(obj, hit, parent);
+        subStateMachine?.OnBottomHitStay(obj, hit, this);
+    }
+    void IExRbState<T>.OnTopHitStay(T obj, RaycastHit2D hit,  IParentState parent)
+    {
+        OnTopHitStay(obj, hit, parent);
+        subStateMachine?.OnTopHitStay(obj, hit, this);
+    }
+    void IExRbState<T>.OnLeftHitStay(T obj, RaycastHit2D hit,  IParentState parent)
+    {
+        OnLeftHitStay(obj, hit, parent);
+        subStateMachine?.OnLeftHitStay(obj, hit, this);
+    }
+    void IExRbState<T>.OnRightHitStay(T obj, RaycastHit2D hit,  IParentState parent)
+    {
+        OnRightHitStay(obj, hit, parent);
+        subStateMachine?.OnRightHitStay(obj, hit, this);
+    }
+    void IExRbState<T>.OnBottomHitExit(T obj, RaycastHit2D hit,  IParentState parent)
+    {
+        OnBottomHitExit(obj, hit, parent);
+        subStateMachine?.OnBottomHitExit(obj, hit, this);
+    }
+    void IExRbState<T>.OnTopHitExit(T obj, RaycastHit2D hit,  IParentState parent)
+    {
+        OnTopHitExit(obj, hit, parent);
+        subStateMachine?.OnTopHitExit(obj, hit, this);
+    }
+    void IExRbState<T>.OnLeftHitExit(T obj, RaycastHit2D hit,  IParentState parent)
+    {
+        OnLeftHitExit(obj, hit, parent);
+        subStateMachine?.OnLeftHitExit(obj, hit, this);
+    }
+    void IExRbState<T>.OnRightHitExit(T obj, RaycastHit2D hit,  IParentState parent)
+    {
+        OnRightHitExit(obj, hit, parent);
+        subStateMachine?.OnRightHitExit(obj, hit, this);
+    }
 }
 
 /// <summary>
@@ -65,42 +113,42 @@ public class ExRbState<T>
 
 public interface IExRbStateMachine<T, S> : IRbStateMachine<T, S> where T : MonoBehaviour where S : class, IBaseState<T>
 {
-    void OnBottomHitEnter(T obj, RaycastHit2D hit);
-    void OnTopHitEnter(T obj, RaycastHit2D hit);
-    void OnLeftHitEnter(T obj, RaycastHit2D hit);
-    void OnRightHitEnter(T obj, RaycastHit2D hit);
-    void OnBottomHitStay(T obj, RaycastHit2D hit);
-    void OnTopHitStay(T obj, RaycastHit2D hit);
-    void OnLeftHitStay(T obj, RaycastHit2D hit);
-    void OnRightHitStay(T obj, RaycastHit2D hit); 
-    void OnBottomHitExit(T obj, RaycastHit2D hit);
-    void OnTopHitExit(T obj, RaycastHit2D hit);
-    void OnLeftHitExit(T obj, RaycastHit2D hit);
-    void OnRightHitExit(T obj, RaycastHit2D hit); 
+    void OnBottomHitEnter(T obj, RaycastHit2D hit,  IParentState parent);
+    void OnTopHitEnter(T obj, RaycastHit2D hit,  IParentState parent);
+    void OnLeftHitEnter(T obj, RaycastHit2D hit,  IParentState parent);
+    void OnRightHitEnter(T obj, RaycastHit2D hit,  IParentState parent);
+    void OnBottomHitStay(T obj, RaycastHit2D hit,  IParentState parent);
+    void OnTopHitStay(T obj, RaycastHit2D hit,  IParentState parent);
+    void OnLeftHitStay(T obj, RaycastHit2D hit,  IParentState parent);
+    void OnRightHitStay(T obj, RaycastHit2D hit,  IParentState parent); 
+    void OnBottomHitExit(T obj, RaycastHit2D hit,  IParentState parent);
+    void OnTopHitExit(T obj, RaycastHit2D hit,  IParentState parent);
+    void OnLeftHitExit(T obj, RaycastHit2D hit,  IParentState parent);
+    void OnRightHitExit(T obj, RaycastHit2D hit,  IParentState parent); 
 }
 
 public class GenericExRbStateMachine<T, S> : GenericRbStateMachine<T, S>, IExRbStateMachine<T, S> where T : MonoBehaviour where S : class, IExRbState<T>
 {
-    public void OnBottomHitEnter(T obj, RaycastHit2D hit) => curState?.OnBottomHitEnter(obj, hit);
-    public void OnTopHitEnter(T obj, RaycastHit2D hit) => curState?.OnTopHitEnter(obj, hit);
-    public void OnLeftHitEnter(T obj, RaycastHit2D hit) => curState?.OnLeftHitEnter(obj, hit);
-    public void OnRightHitEnter(T obj, RaycastHit2D hit) => curState?.OnRightHitEnter(obj, hit);
-    public void OnBottomHitStay(T obj, RaycastHit2D hit) => curState?.OnBottomHitStay(obj, hit);
-    public void OnTopHitStay(T obj, RaycastHit2D hit) => curState?.OnTopHitStay(obj, hit);
-    public void OnLeftHitStay(T obj, RaycastHit2D hit) => curState?.OnLeftHitStay(obj, hit);
-    public void OnRightHitStay(T obj, RaycastHit2D hit) => curState?.OnRightHitStay(obj, hit);
-    public void OnBottomHitExit(T obj, RaycastHit2D hit) => curState?.OnBottomHitExit(obj, hit);
-    public void OnTopHitExit(T obj, RaycastHit2D hit) => curState?.OnTopHitExit(obj, hit);
-    public void OnLeftHitExit(T obj, RaycastHit2D hit) => curState?.OnLeftHitExit(obj, hit);
-    public void OnRightHitExit(T obj, RaycastHit2D hit) => curState?.OnRightHitExit(obj, hit);
+    public void OnBottomHitEnter(T obj, RaycastHit2D hit,  IParentState parent) => curState?.OnBottomHitEnter(obj, hit, parent);
+    public void OnTopHitEnter(T obj, RaycastHit2D hit,  IParentState parent) => curState?.OnTopHitEnter(obj, hit, parent);
+    public void OnLeftHitEnter(T obj, RaycastHit2D hit,  IParentState parent) => curState?.OnLeftHitEnter(obj, hit, parent);
+    public void OnRightHitEnter(T obj, RaycastHit2D hit,  IParentState parent) => curState?.OnRightHitEnter(obj, hit, parent);
+    public void OnBottomHitStay(T obj, RaycastHit2D hit,  IParentState parent) => curState?.OnBottomHitStay(obj, hit, parent);
+    public void OnTopHitStay(T obj, RaycastHit2D hit,  IParentState parent) => curState?.OnTopHitStay(obj, hit, parent);
+    public void OnLeftHitStay(T obj, RaycastHit2D hit,  IParentState parent) => curState?.OnLeftHitStay(obj, hit, parent);
+    public void OnRightHitStay(T obj, RaycastHit2D hit,  IParentState parent) => curState?.OnRightHitStay(obj, hit, parent);
+    public void OnBottomHitExit(T obj, RaycastHit2D hit,  IParentState parent) => curState?.OnBottomHitExit(obj, hit, parent);
+    public void OnTopHitExit(T obj, RaycastHit2D hit,  IParentState parent) => curState?.OnTopHitExit(obj, hit, parent);
+    public void OnLeftHitExit(T obj, RaycastHit2D hit,  IParentState parent) => curState?.OnLeftHitExit(obj, hit, parent);
+    public void OnRightHitExit(T obj, RaycastHit2D hit,  IParentState parent) => curState?.OnRightHitExit(obj, hit, parent);
 }
 
 /// <summary>
 /// ステートマシン
 /// </summary>
 /// <typeparam name="T"></typeparam>
-public class ExRbStateMachine<T> 
-    : BaseRbStateMachine<T, IExRbState<T>, IExRbStateMachine<T, IExRbState<T>>, GenericExRbStateMachine<T, IExRbState<T>>>, IBaseExRbHit 
+public class ExRbStateMachine<T>
+    : BaseRbStateMachine<T, IExRbState<T>, IExRbStateMachine<T, IExRbState<T>>, GenericExRbStateMachine<T, IExRbState<T>>>, IBaseExRbHit
     where T : ExRbStateMachine<T>
 {
     private void OnEnable()
@@ -112,16 +160,16 @@ public class ExRbStateMachine<T>
         ((IBaseExRbHit)this).OnDisable(this.gameObject);
     }
 
-    void IBaseExRbHit.OnBottomHitEnter(RaycastHit2D hit) => stateMachine.OnBottomHitEnter((T)this, hit);
-    void IBaseExRbHit.OnTopHitEnter(RaycastHit2D hit) => stateMachine.OnTopHitEnter((T)this, hit);
-    void IBaseExRbHit.OnLeftHitEnter(RaycastHit2D hit) => stateMachine.OnLeftHitEnter((T)this, hit);
-    void IBaseExRbHit.OnRightHitEnter(RaycastHit2D hit) => stateMachine.OnRightHitEnter((T)this, hit);
-    void IBaseExRbHit.OnBottomHitStay(RaycastHit2D hit) => stateMachine.OnBottomHitStay((T)this, hit);
-    void IBaseExRbHit.OnTopHitStay(RaycastHit2D hit) => stateMachine.OnTopHitStay((T)this, hit);
-    void IBaseExRbHit.OnLeftHitStay(RaycastHit2D hit) => stateMachine.OnLeftHitStay((T)this, hit);
-    void IBaseExRbHit.OnRightHitStay(RaycastHit2D hit) => stateMachine.OnRightHitStay((T)this, hit);
-    void IBaseExRbHit.OnBottomHitExit(RaycastHit2D hit) => stateMachine.OnBottomHitExit((T)this, hit);
-    void IBaseExRbHit.OnTopHitExit(RaycastHit2D hit) => stateMachine.OnTopHitExit((T)this, hit);
-    void IBaseExRbHit.OnLeftHitExit(RaycastHit2D hit) => stateMachine.OnLeftHitExit((T)this, hit);
-    void IBaseExRbHit.OnRightHitExit(RaycastHit2D hit) => stateMachine.OnRightHitExit((T)this, hit);
+    void IBaseExRbHit.OnBottomHitEnter(RaycastHit2D hit) => stateMachine.OnBottomHitEnter((T)this, hit, null);
+    void IBaseExRbHit.OnTopHitEnter(RaycastHit2D hit) => stateMachine.OnTopHitEnter((T)this, hit, null);
+    void IBaseExRbHit.OnLeftHitEnter(RaycastHit2D hit) => stateMachine.OnLeftHitEnter((T)this, hit, null);
+    void IBaseExRbHit.OnRightHitEnter(RaycastHit2D hit) => stateMachine.OnRightHitEnter((T)this, hit, null);
+    void IBaseExRbHit.OnBottomHitStay(RaycastHit2D hit) => stateMachine.OnBottomHitStay((T)this, hit, null);
+    void IBaseExRbHit.OnTopHitStay(RaycastHit2D hit) => stateMachine.OnTopHitStay((T)this, hit, null);
+    void IBaseExRbHit.OnLeftHitStay(RaycastHit2D hit) => stateMachine.OnLeftHitStay((T)this, hit, null);
+    void IBaseExRbHit.OnRightHitStay(RaycastHit2D hit) => stateMachine.OnRightHitStay((T)this, hit, null);
+    void IBaseExRbHit.OnBottomHitExit(RaycastHit2D hit) => stateMachine.OnBottomHitExit((T)this, hit, null);
+    void IBaseExRbHit.OnTopHitExit(RaycastHit2D hit) => stateMachine.OnTopHitExit((T)this, hit, null);
+    void IBaseExRbHit.OnLeftHitExit(RaycastHit2D hit) => stateMachine.OnLeftHitExit((T)this, hit, null);
+    void IBaseExRbHit.OnRightHitExit(RaycastHit2D hit) => stateMachine.OnRightHitExit((T)this, hit, null);
 }
