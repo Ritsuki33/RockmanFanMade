@@ -6,19 +6,19 @@ public partial class Player
     {
         enum SubStateID
         {
-            Idle,
-            IdleFire
+            Basic,
+            Shoot
         }
 
         public Standing()
         {
-            AddSubState((int)SubStateID.Idle, new Idle());
-            AddSubState((int)SubStateID.IdleFire, new IdleFire());
+            AddSubState((int)SubStateID.Basic, new Basic());
+            AddSubState((int)SubStateID.Shoot, new Shoot());
         }
 
         protected override void Enter(Player obj, int preId)
         {
-            TransitSubReady((int)SubStateID.Idle);
+            TransitSubReady((int)SubStateID.Basic);
         }
 
         protected override void FixedUpdate(Player player, IParentState parent)
@@ -73,10 +73,10 @@ public partial class Player
 
 
         // ==========================================
-        class Idle : ExRbState<Player>
+        class Basic : ExRbState<Player>
         {
             int animationHash = 0;
-            public Idle() { animationHash = Animator.StringToHash("Idle"); }
+            public Basic() { animationHash = Animator.StringToHash("Idle"); }
 
             protected override void Enter(Player player, int preId)
             {
@@ -85,14 +85,14 @@ public partial class Player
 
             protected override void Update(Player player, IParentState parent)
             {
-                player.launcherController.LaunchTrigger(player.inputInfo.fire, () => { parent.TransitSubReady((int)SubStateID.IdleFire); });
+                player.launcherController.LaunchTrigger(player.inputInfo.fire, () => { parent.TransitSubReady((int)SubStateID.Shoot); });
             }
         }
-        class IdleFire : ExRbState<Player>
+        class Shoot : ExRbState<Player>
         {
 
             int animationHash = 0;
-            public IdleFire() { animationHash = Animator.StringToHash("Fire"); }
+            public Shoot() { animationHash = Animator.StringToHash("Fire"); }
 
             float time = 0.3f;
             protected override void Enter(Player player, int preId)
@@ -105,7 +105,7 @@ public partial class Player
             {
                 if (time < 0)
                 {
-                    parent.TransitSubReady((int)SubStateID.Idle);
+                    parent.TransitSubReady((int)SubStateID.Basic);
                 }
 
                 player.launcherController.LaunchTrigger(player.inputInfo.fire, () => { time = 0.3f; });
