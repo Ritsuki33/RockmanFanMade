@@ -29,7 +29,7 @@ public partial class Player
             var hitCheck = player.onTheGround.Check();
             if (!hitCheck)
             {
-                player.TransitReady((int)StateID.Float);
+                player.TransitReady((int)StateID.Floating);
             }
         }
 
@@ -157,7 +157,7 @@ public partial class Player
             }
             if (!player.onTheGround.Check())
             {
-                player.TransitReady((int)StateID.Float);
+                player.TransitReady((int)StateID.Floating);
             }
         }
 
@@ -219,16 +219,24 @@ public partial class Player
             }
         }
     }
-    
-    class Float : ExRbState<Player>
-    {
-        int animationHash = 0;
-        public Float() { animationHash = Animator.StringToHash("Float"); }
 
+    class Floating : ExRbState<Player>
+    {
+        enum SubStateID
+        {
+            Basic,
+            Shoot
+        }
+
+        public Floating()
+        {
+            AddSubState((int)SubStateID.Basic, new Basic());
+            AddSubState((int)SubStateID.Shoot, new Shoot());
+        }
         protected override void Enter(Player player, int preId)
         {
-            player.animator.Play(animationHash);
             player.onTheGround.Reset();
+            TransitSubReady((int)SubStateID.Basic);
         }
 
         protected override void FixedUpdate(Player player, IParentState parent)
@@ -261,37 +269,74 @@ public partial class Player
             }
         }
 
-        protected override void Update(Player player, IParentState parent)
-        {
-            player.launcherController.LaunchTrigger(player.inputInfo.fire, () => { player.TransitReady((int)StateID.FloatBuster); });
-            //if (player.inputInfo.fire)
-            //{
-            //    player.TransitReady((int)StateID.FloatBuster);
-            //}
-        }
-
         protected override void OnBottomHitStay(Player player, RaycastHit2D hit, IParentState parent)
         {
             player.gravity.OnGround(hit.normal);
             player.TransitReady((int)StateID.Standing);
         }
 
-        
-    }
+        class Basic: ExRbState<Player>
+        {
+            int animationHash = 0;
+            public Basic() { animationHash = Animator.StringToHash("Float"); }
 
-   
+            protected override void Enter(Player player, int preId)
+            {
+                player.animator.Play(animationHash);
+            }
+
+            protected override void Update(Player player, IParentState parent)
+            {
+                player.launcherController.LaunchTrigger(player.inputInfo.fire, () => { parent.TransitSubReady((int)SubStateID.Shoot); });
+            }
+        }
+
+        class Shoot: ExRbState<Player>
+        {
+            int animationHash = 0;
+            public Shoot() { animationHash = Animator.StringToHash("FloatBuster"); }
+            float time = 0.3f;
+            protected override void Enter(Player player, int preId)
+            {
+                time = 0.3f;
+                player.animator.Play(animationHash);
+            }
+
+            protected override void Update(Player player, IParentState parent)
+            {
+                if (time < 0)
+                {
+                    player.TransitReady((int)SubStateID.Shoot);
+                }
+
+                player.launcherController.LaunchTrigger(player.inputInfo.fire, () => { time = 0.15f; });
+               
+                time -= Time.deltaTime;
+            }
+        }
+    }
 
     class Jumping : ExRbState<Player>
     {
-        int animationHash = 0;
         bool isJumping = true;
-        public Jumping() { animationHash = Animator.StringToHash("Float"); }
+
+        enum SubStateID
+        {
+            Basic,
+            Shoot,
+        }
+
+        public Jumping()
+        {
+            AddSubState((int)SubStateID.Basic, new Basic());
+            AddSubState((int)SubStateID.Shoot, new Shoot());
+        }
 
         protected override void Enter(Player player, int preId)
         {
-            player.animator.Play(animationHash);
-            if (preId != (int)StateID.JumpingBuster) player.jump.Init();
+            TransitSubReady((int)SubStateID.Basic);
             player.onTheGround.Reset();
+            player.jump.Init();
             isJumping = true;
         }
 
@@ -322,29 +367,17 @@ public partial class Player
 
             if (player.jump.CurrentVelocity.sqrMagnitude <= 0.001f)
             {
-                player.TransitReady((int)StateID.Float);
+                player.TransitReady((int)StateID.Floating);
             }
         }
 
         protected override void Update(Player player, IParentState parent)
         {
-            //if (player.inputInfo.fire)
-            //{
-            //    player.TransitReady((int)StateID.JumpingBuster);
-            //}
-            player.launcherController.LaunchTrigger(player.inputInfo.fire, () => { player.TransitReady((int)StateID.JumpingBuster); });
-
-
             if (isJumping && !player.inputInfo.jumping)
             {
                 player.jump.SetSpeed(player.jump.CurrentSpeed / 2);
                 isJumping = false;
             }
-        }
-
-        protected override void Exit(Player player, int nextId)
-        {
-            if (nextId != (int)StateID.JumpingBuster) player.jump.SetSpeed(0); 
         }
 
         protected override void OnTopHitStay(Player player, RaycastHit2D hit, IParentState parent)
@@ -355,6 +388,45 @@ public partial class Player
         protected override void OnBottomHitEnter(Player player, RaycastHit2D hit, IParentState parent)
         {
             player.jump.SetSpeed(0);
+        }
+
+        class Basic: ExRbState<Player>
+        {
+            int animationHash = 0;
+            public Basic() { animationHash = Animator.StringToHash("Float"); }
+
+            protected override void Enter(Player player, int preId)
+            {
+                player.animator.Play(animationHash);
+            }
+            protected override void Update(Player player, IParentState parent)
+            {
+                player.launcherController.LaunchTrigger(player.inputInfo.fire, () => { parent.TransitSubReady((int)SubStateID.Shoot); });
+            }
+        }
+
+        class Shoot : ExRbState<Player>
+        {
+            int animationHash = 0;
+            public Shoot() { animationHash = Animator.StringToHash("FloatBuster"); }
+            float time = 0.3f;
+
+            protected override void Enter(Player player, int preId)
+            {
+                player.animator.Play(animationHash);
+                time = 0.3f;
+            }
+            protected override void Update(Player player, IParentState parent)
+            {
+                if (time < 0)
+                {
+                    parent.TransitSubReady((int)SubStateID.Basic);
+                }
+
+                player.launcherController.LaunchTrigger(player.inputInfo.fire, () => { time = 0.3f; });
+
+                time -= Time.deltaTime;
+            }
         }
     }
 
@@ -432,7 +504,7 @@ public partial class Player
 
             if (player.inputInfo.jump)
             {
-                player.TransitReady((int)StateID.Float);
+                player.TransitReady((int)StateID.Floating);
             }
         }
 
@@ -491,126 +563,6 @@ public partial class Player
             {
                 player.TransitReady((int)StateID.Climb);
             }
-        }
-    }
-
-    
-
-
-    class FloatBuster : ExRbState<Player>
-    {
-        int animationHash = 0;
-        public FloatBuster() { animationHash = Animator.StringToHash("FloatBuster"); }
-        float time = 0.15f;
-        protected override void Enter(Player player, int preId)
-        {
-            time = 0.15f;
-            player.animator.Play(animationHash);
-
-            //if (preId != 10) player.LaunchBaster();
-        }
-
-        protected override void FixedUpdate(Player player, IParentState parent)
-        {
-            player.gravity.UpdateVelocity();
-            player.exRb.velocity = player.gravity.CurrentVelocity;
-            Move.InputType type = default;
-            if (player.inputInfo.left == true) type = Move.InputType.Left;
-            else if (player.inputInfo.right == true) type = Move.InputType.Right;
-            player.move.UpdateVelocity(Vector2.right, type);
-            Vector2 moveV = player.move.CurrentVelocity;
-            player.exRb.velocity += moveV;
-
-            if (moveV.x > 0)
-            {
-                Vector3 localScale = player.transform.localScale;
-                localScale.x = 1;
-                player.transform.localScale = localScale;
-            }
-            else if (moveV.x < 0)
-            {
-                Vector3 localScale = player.transform.localScale;
-                localScale.x = -1;
-                player.transform.localScale = localScale;
-            }
-        }
-
-        protected override void Update(Player player, IParentState parent)
-        {
-            if (time < 0)
-            {
-                player.TransitReady((int)StateID.Float);
-            }
-            else if (player.inputInfo.fire)
-            {
-                time = 0.15f;
-            }
-            time -= Time.deltaTime;
-        }
-
-        protected override void OnBottomHitStay(Player player, RaycastHit2D hit, IParentState parent)
-        {
-            player.gravity.OnGround(hit.normal);
-            player.TransitReady((int)StateID.Standing);
-        }
-    }
-
-    class JumpingBuster : ExRbState<Player>
-    {
-        int animationHash = 0;
-        public JumpingBuster() { animationHash = Animator.StringToHash("FloatBuster"); }
-        float time = 0.3f;
-
-        protected override void Enter(Player player, int preId)
-        {
-            player.animator.Play(animationHash);
-            time = 0.3f;
-        }
-
-        protected override void FixedUpdate(Player player, IParentState parent)
-        {
-            player.jump.UpdateVelocity(player.gravity.GravityScale);
-            Move.InputType type = default;
-            if (player.inputInfo.left == true) type = Move.InputType.Left;
-            else if (player.inputInfo.right == true) type = Move.InputType.Right;
-
-            player.move.UpdateVelocity(Vector2.right, type);
-            Vector2 moveV = player.move.CurrentVelocity;
-            player.exRb.velocity = moveV;
-
-            if (moveV.x > 0)
-            {
-                Vector3 localScale = player.transform.localScale;
-                localScale.x = 1;
-                player.transform.localScale = localScale;
-            }
-            else if (moveV.x < 0)
-            {
-                Vector3 localScale = player.transform.localScale;
-                localScale.x = -1;
-                player.transform.localScale = localScale;
-            }
-
-            player.exRb.velocity += player.jump.CurrentVelocity;
-
-            if (player.jump.CurrentVelocity.sqrMagnitude <= 0.001f)
-            {
-                player.TransitReady((int)StateID.FloatBuster);
-            }
-        }
-
-        protected override void Update(Player player, IParentState parent)
-        {
-            if (time < 0)
-            {
-                player.TransitReady((int)StateID.Jumping);
-            }
-            else if (player.inputInfo.fire)
-            {
-                time = 0.3f;
-                //player.LaunchBaster();
-            }
-            time -= Time.deltaTime;
         }
     }
 

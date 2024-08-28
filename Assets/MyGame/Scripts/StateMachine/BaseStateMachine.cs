@@ -69,6 +69,7 @@ public class BaseState<T, S, SM, G> : IBaseState<T>, IParentState
     {
         subStateMachine.CloseState(obj);
     }
+
     /// <summary>
     /// サブステートの遷移準備
     /// </summary>

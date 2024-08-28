@@ -27,7 +27,7 @@ public partial class Player : ExRbStateMachine<Player>
     enum StateID
     {
         Standing=0,
-        Float,
+        Floating,
         Running,
         Climb,
         Jumping,
@@ -35,8 +35,8 @@ public partial class Player : ExRbStateMachine<Player>
         ClimbDown,
         //IdleFire,
         //RunBuster,
-        FloatBuster,
-        JumpingBuster,
+        //FloatBuster,
+        //JumpingBuster,
         Death,
         Transfer,
         Transfered,
@@ -54,7 +54,7 @@ public partial class Player : ExRbStateMachine<Player>
         jump=GetComponent<Jump>();
 
         AddState((int)StateID.Standing, new Standing());
-        AddState((int)StateID.Float, new Float());
+        AddState((int)StateID.Floating, new Floating());
         AddState((int)StateID.Running, new Running());
         AddState((int)StateID.Climb, new Climb());
         AddState((int)StateID.Jumping, new Jumping());
@@ -62,8 +62,8 @@ public partial class Player : ExRbStateMachine<Player>
         AddState((int)StateID.ClimbDown, new ClimbDown());
         //AddState((int)StateID.IdleFire, new IdleFire());
         //AddState((int)StateID.RunBuster, new RunBuster());
-        AddState((int)StateID.FloatBuster, new FloatBuster());
-        AddState((int)StateID.JumpingBuster, new JumpingBuster());
+        //AddState((int)StateID.FloatBuster, new FloatBuster());
+        //AddState((int)StateID.JumpingBuster, new JumpingBuster());
         AddState((int)StateID.Death, new Death());
         AddState((int)StateID.Transfer, new Transfer());
         AddState((int)StateID.Transfered, new Transfered());
