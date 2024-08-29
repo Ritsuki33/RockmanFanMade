@@ -143,7 +143,6 @@ public class GenericBaseStateMachine<T, S> : IBaseStateMachine<T, S> where T : M
 
     int requestId = -1;
 
-    bool closeState = false;
     int IBaseStateMachine<T, S>.CurId => curId;
 
     void Init()
@@ -152,7 +151,6 @@ public class GenericBaseStateMachine<T, S> : IBaseStateMachine<T, S> where T : M
         curId = -1;
 
         requestId = -1;
-        closeState = false;
         reset = false;
         curState = null;
     }
