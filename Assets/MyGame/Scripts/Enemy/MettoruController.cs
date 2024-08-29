@@ -5,6 +5,7 @@ using UnityEngine;
 
 public partial class MettoruController : ExRbStateMachine<MettoruController>
 {
+    [SerializeField] Mettoru mettrou;
     [SerializeField] Animator _animator;
     [SerializeField] Gravity gravity;
     [SerializeField] OnTheGround onTheGround;
@@ -70,6 +71,11 @@ public partial class MettoruController : ExRbStateMachine<MettoruController>
         yield return new WaitForSeconds(1f);
 
         defense = null;
+    }
+
+    public void Init()
+    {
+        TransitReady((int)StateID.Hide);
     }
 
     /// <summary>

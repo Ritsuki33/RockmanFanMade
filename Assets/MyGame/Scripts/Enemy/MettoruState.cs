@@ -58,8 +58,8 @@ public partial class MettoruController
         {
             if (collision.gameObject.CompareTag("RockBuster"))
             {
-                //mettoru.Dead(collision);
-                mettoru.Damaged(collision);
+                mettoru.Dead(collision);
+                //mettoru.Damaged(collision);
             }
         }
     }
