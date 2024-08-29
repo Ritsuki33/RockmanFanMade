@@ -21,12 +21,12 @@ public struct InputInfo
 public class GameManager : SingletonComponent<GameManager>
 {
     [SerializeField] MainCameraControll m_mainCameraControll = default;
-    [SerializeField] Player player = default;
+    [SerializeField] PlayerController player = default;
     [SerializeField] Transform StartPos = default;
 
     public MainCameraControll MainCameraControll => m_mainCameraControll;
 
-    public Player Player => player;
+    public PlayerController Player => player;
 
     /// <summary>
     /// コントローラからの入力

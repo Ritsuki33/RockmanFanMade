@@ -13,7 +13,7 @@ public class LauncherController : StateMachine<LauncherController>
     [SerializeField] BaseObjectPool RockBusterMiddlePool => EffectManager.Instance.RockBusterMiddlePool;
     [SerializeField] BaseObjectPool RockBusterBigPool => EffectManager.Instance.RockBusterBigPool;
 
-    [SerializeField] Player player;
+    [SerializeField] PlayerController player;
 
     public MaterialController MaterialController => player.MaterialController;
 

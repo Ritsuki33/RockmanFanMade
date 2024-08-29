@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 
-public partial class Player
+public partial class PlayerController
 {
-    class Standing : ExRbState<Player>
+    class Standing : ExRbState<PlayerController>
     {
         enum SubStateID
         {
@@ -16,12 +16,12 @@ public partial class Player
             AddSubState((int)SubStateID.Shoot, new Shoot());
         }
 
-        protected override void Enter(Player obj, int preId)
+        protected override void Enter(PlayerController obj, int preId)
         {
             TransitSubReady((int)SubStateID.Basic);
         }
 
-        protected override void FixedUpdate(Player player, IParentState parent)
+        protected override void FixedUpdate(PlayerController player, IParentState parent)
         {
             player.gravity.UpdateVelocity();
             player.exRb.velocity = player.gravity.CurrentVelocity;
@@ -33,7 +33,7 @@ public partial class Player
             }
         }
 
-        protected override void Update(Player player, IParentState parent)
+        protected override void Update(PlayerController player, IParentState parent)
         {
             if (player.inputInfo.left)
             {
@@ -66,42 +66,42 @@ public partial class Player
             }
         }
 
-        protected override void OnBottomHitStay(Player player, RaycastHit2D hit, IParentState parent)
+        protected override void OnBottomHitStay(PlayerController player, RaycastHit2D hit, IParentState parent)
         {
             player.gravity.OnGround(hit.normal);
         }
 
 
         // ==========================================
-        class Basic : ExRbState<Player>
+        class Basic : ExRbState<PlayerController>
         {
             int animationHash = 0;
             public Basic() { animationHash = Animator.StringToHash("Idle"); }
 
-            protected override void Enter(Player player, int preId)
+            protected override void Enter(PlayerController player, int preId)
             {
                 player.animator.Play(animationHash);
             }
 
-            protected override void Update(Player player, IParentState parent)
+            protected override void Update(PlayerController player, IParentState parent)
             {
                 player.launcherController.LaunchTrigger(player.inputInfo.fire, () => { parent.TransitSubReady((int)SubStateID.Shoot); });
             }
         }
-        class Shoot : ExRbState<Player>
+        class Shoot : ExRbState<PlayerController>
         {
 
             int animationHash = 0;
             public Shoot() { animationHash = Animator.StringToHash("Fire"); }
 
             float time = 0.3f;
-            protected override void Enter(Player player, int preId)
+            protected override void Enter(PlayerController player, int preId)
             {
                 player.animator.Play(animationHash);
                 time = 0.3f;
             }
 
-            protected override void Update(Player player, IParentState parent)
+            protected override void Update(PlayerController player, IParentState parent)
             {
                 if (time < 0)
                 {
@@ -115,7 +115,7 @@ public partial class Player
         // ==========================================
     }
 
-    class Running: ExRbState<Player>
+    class Running: ExRbState<PlayerController>
     {
         enum SubStateID{
             Run,
@@ -127,12 +127,12 @@ public partial class Player
             AddSubState((int)SubStateID.Shoot, new Shoot());
         }
 
-        protected override void Enter(Player player, int preId)
+        protected override void Enter(PlayerController player, int preId)
         {
             TransitSubReady((int)SubStateID.Run);
         }
 
-        protected override void FixedUpdate(Player player, IParentState parent)
+        protected override void FixedUpdate(PlayerController player, IParentState parent)
         {
             player.gravity.UpdateVelocity();
             player.exRb.velocity += player.gravity.CurrentVelocity;
@@ -161,7 +161,7 @@ public partial class Player
             }
         }
 
-        protected override void Update(Player player, IParentState parent)
+        protected override void Update(PlayerController player, IParentState parent)
         {
             if (!player.inputInfo.left && !player.inputInfo.right)
             {
@@ -173,40 +173,40 @@ public partial class Player
             }
         }
 
-        protected override void OnBottomHitStay(Player player, RaycastHit2D hit, IParentState parent)
+        protected override void OnBottomHitStay(PlayerController player, RaycastHit2D hit, IParentState parent)
         {
             player.gravity.OnGround(hit.normal);
         }
         // ============================================================
-        class Run : ExRbState<Player>
+        class Run : ExRbState<PlayerController>
         {
             int animationHash = 0;
             public Run() { animationHash = Animator.StringToHash("Run"); }
 
-            protected override void Enter(Player player, int preId)
+            protected override void Enter(PlayerController player, int preId)
             {
                 player.animator.Play(animationHash);
             }
 
-            protected override void Update(Player player, IParentState parent)
+            protected override void Update(PlayerController player, IParentState parent)
             {
                 player.launcherController.LaunchTrigger(player.inputInfo.fire, () => { parent.TransitSubReady((int)SubStateID.Shoot); });
 
             }
         }
 
-        class Shoot : ExRbState<Player>
+        class Shoot : ExRbState<PlayerController>
         {
             int animationHash = 0;
             public Shoot() { animationHash = Animator.StringToHash("RunBuster"); }
             float time = 0.3f;
-            protected override void Enter(Player player, int preId)
+            protected override void Enter(PlayerController player, int preId)
             {
                 time = 0.3f;
                 player.animator.Play(animationHash);
             }
 
-            protected override void Update(Player player, IParentState parent)
+            protected override void Update(PlayerController player, IParentState parent)
             {
 
                 if (time < 0)
@@ -220,7 +220,7 @@ public partial class Player
         }
     }
 
-    class Floating : ExRbState<Player>
+    class Floating : ExRbState<PlayerController>
     {
         enum SubStateID
         {
@@ -233,13 +233,13 @@ public partial class Player
             AddSubState((int)SubStateID.Basic, new Basic());
             AddSubState((int)SubStateID.Shoot, new Shoot());
         }
-        protected override void Enter(Player player, int preId)
+        protected override void Enter(PlayerController player, int preId)
         {
             player.onTheGround.Reset();
             TransitSubReady((int)SubStateID.Basic);
         }
 
-        protected override void FixedUpdate(Player player, IParentState parent)
+        protected override void FixedUpdate(PlayerController player, IParentState parent)
         {
             player.gravity.UpdateVelocity();
             player.exRb.velocity = player.gravity.CurrentVelocity;
@@ -269,40 +269,40 @@ public partial class Player
             }
         }
 
-        protected override void OnBottomHitStay(Player player, RaycastHit2D hit, IParentState parent)
+        protected override void OnBottomHitStay(PlayerController player, RaycastHit2D hit, IParentState parent)
         {
             player.gravity.OnGround(hit.normal);
             player.TransitReady((int)StateID.Standing);
         }
 
-        class Basic: ExRbState<Player>
+        class Basic: ExRbState<PlayerController>
         {
             int animationHash = 0;
             public Basic() { animationHash = Animator.StringToHash("Float"); }
 
-            protected override void Enter(Player player, int preId)
+            protected override void Enter(PlayerController player, int preId)
             {
                 player.animator.Play(animationHash);
             }
 
-            protected override void Update(Player player, IParentState parent)
+            protected override void Update(PlayerController player, IParentState parent)
             {
                 player.launcherController.LaunchTrigger(player.inputInfo.fire, () => { parent.TransitSubReady((int)SubStateID.Shoot); });
             }
         }
 
-        class Shoot: ExRbState<Player>
+        class Shoot: ExRbState<PlayerController>
         {
             int animationHash = 0;
             public Shoot() { animationHash = Animator.StringToHash("FloatBuster"); }
             float time = 0.3f;
-            protected override void Enter(Player player, int preId)
+            protected override void Enter(PlayerController player, int preId)
             {
                 time = 0.3f;
                 player.animator.Play(animationHash);
             }
 
-            protected override void Update(Player player, IParentState parent)
+            protected override void Update(PlayerController player, IParentState parent)
             {
                 if (time < 0)
                 {
@@ -316,7 +316,7 @@ public partial class Player
         }
     }
 
-    class Jumping : ExRbState<Player>
+    class Jumping : ExRbState<PlayerController>
     {
         bool isJumping = true;
 
@@ -332,7 +332,7 @@ public partial class Player
             AddSubState((int)SubStateID.Shoot, new Shoot());
         }
 
-        protected override void Enter(Player player, int preId)
+        protected override void Enter(PlayerController player, int preId)
         {
             TransitSubReady((int)SubStateID.Basic);
             player.onTheGround.Reset();
@@ -340,7 +340,7 @@ public partial class Player
             isJumping = true;
         }
 
-        protected override void FixedUpdate(Player player, IParentState parent)
+        protected override void FixedUpdate(PlayerController player, IParentState parent)
         {
             player.jump.UpdateVelocity(player.gravity.GravityScale);
             Move.InputType type = default;
@@ -371,7 +371,7 @@ public partial class Player
             }
         }
 
-        protected override void Update(Player player, IParentState parent)
+        protected override void Update(PlayerController player, IParentState parent)
         {
             if (isJumping && !player.inputInfo.jumping)
             {
@@ -380,43 +380,43 @@ public partial class Player
             }
         }
 
-        protected override void OnTopHitStay(Player player, RaycastHit2D hit, IParentState parent)
+        protected override void OnTopHitStay(PlayerController player, RaycastHit2D hit, IParentState parent)
         {
             player.jump.SetSpeed(0);
         }
 
-        protected override void OnBottomHitEnter(Player player, RaycastHit2D hit, IParentState parent)
+        protected override void OnBottomHitEnter(PlayerController player, RaycastHit2D hit, IParentState parent)
         {
             player.jump.SetSpeed(0);
         }
 
-        class Basic: ExRbState<Player>
+        class Basic: ExRbState<PlayerController>
         {
             int animationHash = 0;
             public Basic() { animationHash = Animator.StringToHash("Float"); }
 
-            protected override void Enter(Player player, int preId)
+            protected override void Enter(PlayerController player, int preId)
             {
                 player.animator.Play(animationHash);
             }
-            protected override void Update(Player player, IParentState parent)
+            protected override void Update(PlayerController player, IParentState parent)
             {
                 player.launcherController.LaunchTrigger(player.inputInfo.fire, () => { parent.TransitSubReady((int)SubStateID.Shoot); });
             }
         }
 
-        class Shoot : ExRbState<Player>
+        class Shoot : ExRbState<PlayerController>
         {
             int animationHash = 0;
             public Shoot() { animationHash = Animator.StringToHash("FloatBuster"); }
             float time = 0.3f;
 
-            protected override void Enter(Player player, int preId)
+            protected override void Enter(PlayerController player, int preId)
             {
                 player.animator.Play(animationHash);
                 time = 0.3f;
             }
-            protected override void Update(Player player, IParentState parent)
+            protected override void Update(PlayerController player, IParentState parent)
             {
                 if (time < 0)
                 {
@@ -430,7 +430,7 @@ public partial class Player
         }
     }
 
-    class Climb : ExRbState<Player>
+    class Climb : ExRbState<PlayerController>
     {
         int animationHash = 0;
         public Climb() { animationHash = Animator.StringToHash("Climb"); }
@@ -442,7 +442,7 @@ public partial class Player
             None
         }
         Dir input = Dir.None;
-        protected override void Enter(Player player, int preId)
+        protected override void Enter(PlayerController player, int preId)
         {
             player.animator.Play(animationHash);
             player.animator.speed = 0;
@@ -454,7 +454,7 @@ public partial class Player
             player.gravity.Reset();
         }
 
-        protected override void FixedUpdate(Player player, IParentState parent)
+        protected override void FixedUpdate(PlayerController player, IParentState parent)
         {
             switch (input)
             {
@@ -471,7 +471,7 @@ public partial class Player
             }
         }
 
-        protected override void Update(Player player, IParentState parent)
+        protected override void Update(PlayerController player, IParentState parent)
         {
 
             if (player.bodyLadder == null)
@@ -508,29 +508,29 @@ public partial class Player
             }
         }
 
-        protected override void Exit(Player player,int nextId)
+        protected override void Exit(PlayerController player,int nextId)
         {
             player.animator.speed = 1;
         }
 
-        protected override void OnBottomHitStay(Player player, RaycastHit2D hit, IParentState parent)
+        protected override void OnBottomHitStay(PlayerController player, RaycastHit2D hit, IParentState parent)
         {
             player.TransitReady((int)StateID.Standing);
         }
     }
 
-    class ClimbUp : ExRbState<Player>
+    class ClimbUp : ExRbState<PlayerController>
     {
         int animationHash = 0;
         public ClimbUp() { animationHash = Animator.StringToHash("ClimbUp"); }
 
         float time = 0;
-        protected override void Enter(Player player, int preId)
+        protected override void Enter(PlayerController player, int preId)
         {
             player.animator.Play(animationHash);
             time = 0;
         }
-        protected override void FixedUpdate(Player player, IParentState parent)
+        protected override void FixedUpdate(PlayerController player, IParentState parent)
         {
             time += Time.deltaTime;
             if (time > 0.1f)
@@ -541,13 +541,13 @@ public partial class Player
         }
     }
 
-    class ClimbDown : ExRbState<Player>
+    class ClimbDown : ExRbState<PlayerController>
     {
         int animationHash = 0;
         public ClimbDown() { animationHash = Animator.StringToHash("ClimbUp"); }
 
         float time = 0;
-        protected override void Enter(Player player, int preId)
+        protected override void Enter(PlayerController player, int preId)
         {
             player.animator.Play(animationHash);
             Vector2 nextPos = player.exRb.BoxColliderCenter;
@@ -556,7 +556,7 @@ public partial class Player
             player.exRb.SetPosition(nextPos);
             time = 0;
         }
-        protected override void FixedUpdate(Player player, IParentState parent)
+        protected override void FixedUpdate(PlayerController player, IParentState parent)
         {
             time += Time.deltaTime;
             if (time > 0.1f)
@@ -566,9 +566,9 @@ public partial class Player
         }
     }
 
-    class Death : ExRbState<Player>
+    class Death : ExRbState<PlayerController>
     {
-        protected override void Enter(Player player, int preId)
+        protected override void Enter(PlayerController player, int preId)
         {
             player.gameObject.SetActive(false);
             EffectManager.Instance.PlayerDeathEffect.gameObject.transform.position = player.transform.position;
@@ -576,32 +576,32 @@ public partial class Player
         }
     }
 
-    class Transfer : ExRbState<Player>
+    class Transfer : ExRbState<PlayerController>
     {
         int animationHash = 0;
         public Transfer() { animationHash = Animator.StringToHash("Transfer"); }
 
-        protected override void Enter(Player player, int preId)
+        protected override void Enter(PlayerController player, int preId)
         {
             player.animator.Play(animationHash);
         }
 
-        protected override void FixedUpdate(Player player, IParentState parent)
+        protected override void FixedUpdate(PlayerController player, IParentState parent)
         {
             player.exRb.velocity = Vector2.down * 13;
         }
-        protected override void OnBottomHitStay(Player player, RaycastHit2D hit, IParentState parent)
+        protected override void OnBottomHitStay(PlayerController player, RaycastHit2D hit, IParentState parent)
         {
             player.TransitReady((int)StateID.Transfered);
         }
     }
 
-    class Transfered : ExRbState<Player>
+    class Transfered : ExRbState<PlayerController>
     {
         int animationHash = 0;
         public Transfered() { animationHash = Animator.StringToHash("Transfered"); }
 
-        protected override void Enter(Player player, int preId)
+        protected override void Enter(PlayerController player, int preId)
         {
             player.animator.Play(animationHash);
         }

@@ -1,8 +1,6 @@
-﻿using System.Collections;
-using Unity.VisualScripting;
-using UnityEngine;
+﻿using UnityEngine;
 
-public partial class Player : ExRbStateMachine<Player>
+public partial class PlayerController : ExRbStateMachine<PlayerController>
 {
     [SerializeField] LauncherController launcherController;
     [SerializeReference] MaterialController materialController;
@@ -12,7 +10,6 @@ public partial class Player : ExRbStateMachine<Player>
     OnTheGround onTheGround;
     Animator animator;
     Jump jump;
-    //StateMachine<Player> stateMachine = new StateMachine<Player>();
 
     Collider2D bodyLadder = null;
     bool isladderTop = false;
@@ -33,10 +30,6 @@ public partial class Player : ExRbStateMachine<Player>
         Jumping,
         ClimbUp,
         ClimbDown,
-        //IdleFire,
-        //RunBuster,
-        //FloatBuster,
-        //JumpingBuster,
         Death,
         Transfer,
         Transfered,
@@ -60,10 +53,6 @@ public partial class Player : ExRbStateMachine<Player>
         AddState((int)StateID.Jumping, new Jumping());
         AddState((int)StateID.ClimbUp, new ClimbUp());
         AddState((int)StateID.ClimbDown, new ClimbDown());
-        //AddState((int)StateID.IdleFire, new IdleFire());
-        //AddState((int)StateID.RunBuster, new RunBuster());
-        //AddState((int)StateID.FloatBuster, new FloatBuster());
-        //AddState((int)StateID.JumpingBuster, new JumpingBuster());
         AddState((int)StateID.Death, new Death());
         AddState((int)StateID.Transfer, new Transfer());
         AddState((int)StateID.Transfered, new Transfered());

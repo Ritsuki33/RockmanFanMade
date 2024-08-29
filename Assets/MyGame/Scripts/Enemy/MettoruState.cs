@@ -56,11 +56,7 @@ public partial class MettoruController
 
         protected override void OnTriggerEnter2D(MettoruController mettoru, Collider2D collision, IParentState parent)
         {
-            if (collision.gameObject.CompareTag("RockBuster"))
-            {
-                //mettoru.Dead(collision);
-                mettoru.Damaged(collision);
-            }
+            mettoru.Dead(collision);
         }
     }
 
@@ -111,10 +107,7 @@ public partial class MettoruController
 
         protected override void OnTriggerEnter2D(MettoruController mettoru, Collider2D collision, IParentState parent)
         {
-            if (collision.gameObject.CompareTag("RockBuster"))
-            {
-                mettoru.Dead(collision);
-            }
+            mettoru.Dead(collision);
         }
     }
 
@@ -144,10 +137,7 @@ public partial class MettoruController
 
         protected override void OnTriggerEnter2D(MettoruController mettoru, Collider2D collision, IParentState parent)
         {
-            if (collision.gameObject.CompareTag("RockBuster"))
-            {
-                mettoru.ReflectBuster(collision);
-            }
+            mettoru.Defense(collision);
         }
     }
 
@@ -195,10 +185,7 @@ public partial class MettoruController
 
         protected override void OnTriggerEnter2D(MettoruController mettoru, Collider2D collision, IParentState parent)
         {
-            if (collision.gameObject.CompareTag("RockBuster"))
-            {
-                mettoru.ReflectBuster(collision);
-            }
+            mettoru.Defense(collision);
         }
     }
 
@@ -238,11 +225,7 @@ public partial class MettoruController
 
         protected override void OnTriggerEnter2D(MettoruController mettoru, Collider2D collision, IParentState parent)
         {
-            if (collision.gameObject.CompareTag("RockBuster"))
-            {
-                //mettoru.Dead(collision);
-                mettoru.Damaged(collision);
-            }
+            mettoru.Dead(collision);
         }
     }
 
@@ -287,10 +270,7 @@ public partial class MettoruController
 
         protected override void OnTriggerEnter2D(MettoruController mettoru, Collider2D collision, IParentState parent)
         {
-            if (collision.gameObject.CompareTag("RockBuster"))
-            {
-                mettoru.Dead(collision);
-            }
+            mettoru.Dead(collision);
         }
     }
 
@@ -324,10 +304,7 @@ public partial class MettoruController
 
         protected override void OnTriggerEnter2D(MettoruController mettoru, Collider2D collision, IParentState parent)
         {
-            if (collision.gameObject.CompareTag("RockBuster"))
-            {
-                mettoru.Dead(collision);
-            }
+            mettoru.Dead(collision);
         }
     }
 
@@ -356,10 +333,7 @@ public partial class MettoruController
 
         protected override void OnTriggerEnter2D(MettoruController mettoru, Collider2D collision, IParentState parent)
         {
-            if (collision.gameObject.CompareTag("RockBuster"))
-            {
-                mettoru.Dead(collision);
-            }
+            mettoru.Dead(collision);
         }
     }
 }

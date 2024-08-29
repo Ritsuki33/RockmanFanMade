@@ -7,6 +7,7 @@ TagManager:
   - Ladder
   - RockBuster
   - DeadZone
+  - ChargeShot
   layers:
   - Default
   - TransparentFX

@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 9119104975939463189}
   m_Layer: 15
   m_Name: ChargeShotSmall
-  m_TagString: RockBuster
+  m_TagString: ChargeShot
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
