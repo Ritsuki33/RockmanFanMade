@@ -75,7 +75,7 @@ public partial class MettoruController : ExRbStateMachine<MettoruController>
 
     public void Init()
     {
-        TransitReady((int)StateID.Hide);
+        TransitReady((int)StateID.Hide,true);
     }
 
     /// <summary>

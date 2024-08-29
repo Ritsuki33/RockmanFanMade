@@ -18,7 +18,7 @@ public class MettoruStageController : StateMachine<MettoruStageController>
         AddState((int)StateID.Appering, new Appering());
         AddState((int)StateID.Deading, new Deading());
 
-        TransitReady((int)StateID.OutOfCamera);
+        TransitReady((int)StateID.OutOfCamera, true);
     }
 
     /// <summary>
