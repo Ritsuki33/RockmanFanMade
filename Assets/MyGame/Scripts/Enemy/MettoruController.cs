@@ -76,6 +76,8 @@ public partial class MettoruController : ExRbStateMachine<MettoruController>
     public void Init()
     {
         TransitReady((int)StateID.Hide,true);
+
+        materialController.SetFloat(isFadeColorID, 0);
     }
 
     /// <summary>
@@ -87,6 +89,20 @@ public partial class MettoruController : ExRbStateMachine<MettoruController>
 
         fire.GetComponent<Projectile>().Init((IsRight) ? Vector2.right : Vector2.left, this.transform.position, 5);
     }
+
+    public void Defense(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("RockBuster"))
+        {
+            ReflectBuster(collision);
+        }
+        else if (collision.gameObject.CompareTag("ChargeShot"))
+        {
+            var rockBuster = collision.gameObject.GetComponent<Projectile>();
+            rockBuster.Delete();
+        }
+    }
+
 
     public void ReflectBuster(Collider2D collision)
     {
@@ -127,14 +143,17 @@ public partial class MettoruController : ExRbStateMachine<MettoruController>
     /// <param name="collision"></param>
     private void Dead(Collider2D collision)
     {
-        var projectile = collision.gameObject.GetComponent<Projectile>();
+        if (collision.gameObject.CompareTag("RockBuster") || collision.gameObject.CompareTag("ChargeShot"))
+        {
+            var projectile = collision.gameObject.GetComponent<Projectile>();
 
-        projectile?.Delete();
+            projectile?.Delete();
 
-        var explode = ExplodePool.Pool.Get();
-        explode.transform.position = this.transform.position;
+            var explode = ExplodePool.Pool.Get();
+            explode.transform.position = this.transform.position;
 
-        this.gameObject.SetActive(false);
+            this.gameObject.SetActive(false);
+        }
     }
 
     /// <summary>
