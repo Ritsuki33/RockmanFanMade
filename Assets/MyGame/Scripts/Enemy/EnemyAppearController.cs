@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MettoruStageController : StateMachine<MettoruStageController>
+public class EnemyAppearController : StateMachine<EnemyAppearController>
 {
-    [SerializeField] Mettoru mettoru = default;
+    [SerializeField] EnemyObject enemy = default;
+
+    public bool IsDeath => !enemy.gameObject.activeSelf;
 
     enum StateID
     {
@@ -24,15 +26,15 @@ public class MettoruStageController : StateMachine<MettoruStageController>
     /// <summary>
     /// カメラ外
     /// </summary>
-    class OutOfCamera : State<MettoruStageController>
+    class OutOfCamera : State<EnemyAppearController>
     {
-        protected override void Enter(MettoruStageController mettoruStageController, int preId)
+        protected override void Enter(EnemyAppearController mettoruStageController, int preId)
         {
-            mettoruStageController.mettoru.Init();
-            mettoruStageController.mettoru.transform.position = mettoruStageController.transform.position;
-            mettoruStageController.mettoru.gameObject.SetActive(false);
+            mettoruStageController.enemy.Init();
+            mettoruStageController.enemy.transform.position = mettoruStageController.transform.position;
+            mettoruStageController.enemy.gameObject.SetActive(false);
         }
-        protected override void Update(MettoruStageController mettoruStageController, IParentState parent)
+        protected override void Update(EnemyAppearController mettoruStageController, IParentState parent)
         {
             if (!GameManager.Instance.MainCameraControll.CheckOutOfView(mettoruStageController.gameObject))
             {
@@ -44,20 +46,20 @@ public class MettoruStageController : StateMachine<MettoruStageController>
     /// <summary>
     /// 敵が見えている状態
     /// </summary>
-    class Appering: State<MettoruStageController>
+    class Appering: State<EnemyAppearController>
     {
-        protected override void Enter(MettoruStageController mettoruStageController, int preId)
+        protected override void Enter(EnemyAppearController mettoruStageController, int preId)
         {
-            mettoruStageController.mettoru.gameObject.SetActive(true);
+            mettoruStageController.enemy.gameObject.SetActive(true);
         }
 
-        protected override void Update(MettoruStageController mettoruStageController, IParentState parent)
+        protected override void Update(EnemyAppearController mettoruStageController, IParentState parent)
         {
-            if (mettoruStageController.mettoru.IsDeath)
+            if (mettoruStageController.IsDeath)
             {
                 mettoruStageController.TransitReady((int)StateID.Deading);
             }
-            else if (GameManager.Instance.MainCameraControll.CheckOutOfView(mettoruStageController.mettoru.gameObject))
+            else if (GameManager.Instance.MainCameraControll.CheckOutOfView(mettoruStageController.enemy.gameObject))
             {
                 mettoruStageController.TransitReady((int)StateID.OutOfCamera);
             }
@@ -67,9 +69,9 @@ public class MettoruStageController : StateMachine<MettoruStageController>
     /// <summary>
     /// 敵が死んだ状態
     /// </summary>
-    class Deading : State<MettoruStageController>
+    class Deading : State<EnemyAppearController>
     {
-        protected override void Update(MettoruStageController mettoruStageController, IParentState parent)
+        protected override void Update(EnemyAppearController mettoruStageController, IParentState parent)
         {
             if (GameManager.Instance.MainCameraControll.CheckOutOfView(mettoruStageController.gameObject))
             {
