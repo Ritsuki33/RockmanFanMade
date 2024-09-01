@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Collections;
 using System.Threading;
 using UnityEngine;
 
 public class GreenManController : ExRbStateMachine<GreenManController>
 {
     [SerializeField] Animator _animator = default;
+    [SerializeField] Transform launcher = default;
     enum StateId
     {
         Idle,
@@ -18,6 +20,13 @@ public class GreenManController : ExRbStateMachine<GreenManController>
     Jump jump = default;
     ExpandRigidBody exRb = default;
     AmbiguousTimer timer = new AmbiguousTimer();
+
+    BaseObjectPool Buster => EffectManager.Instance.MettoruFirePool;
+    private PlayerController Player => GameManager.Instance.Player;
+    private BaseObjectPool ExplodePool => EffectManager.Instance.ExplodePool;
+    Coroutine defense = null;
+
+    public bool IsRight => this.transform.localScale.x < 0;
     private void Awake()
     {
         gravity = GetComponent<Gravity>();
@@ -49,6 +58,7 @@ public class GreenManController : ExRbStateMachine<GreenManController>
 
         protected override void Update(GreenManController greenMan, IParentState parent)
         {
+            greenMan.TurnToTarget(greenMan.Player.transform.position);
             greenMan.timer.MoveAheadTime(Time.deltaTime, () =>
             {
                 Probability.BranchMethods(
@@ -57,7 +67,7 @@ public class GreenManController : ExRbStateMachine<GreenManController>
                                   greenMan.TransitReady((int)StateId.Shoot);
                               }
                 ),
-                              (50, () =>
+                              (25, () =>
                               {
                                   greenMan.TransitReady((int)StateId.Jump);
                               }
@@ -65,6 +75,11 @@ public class GreenManController : ExRbStateMachine<GreenManController>
             });
         }
 
+        protected override void OnTriggerEnter2D(GreenManController greenMan, Collider2D collision, IParentState parent)
+        {
+            greenMan.Defense(collision);
+        }
+      
         protected override void OnBottomHitStay(GreenManController greenMan, RaycastHit2D hit, IParentState parent)
         {
             greenMan.gravity.Reset();
@@ -87,6 +102,11 @@ public class GreenManController : ExRbStateMachine<GreenManController>
         {
             greenMan.gravity.UpdateVelocity();
             greenMan.exRb.velocity = greenMan.gravity.CurrentVelocity;
+        }
+
+        protected override void OnTriggerEnter2D(GreenManController greenMan, Collider2D collision, IParentState parent)
+        {
+            greenMan.Defense(collision);
         }
 
         protected override void OnBottomHitEnter(GreenManController greenMan, RaycastHit2D hit, IParentState parent)
@@ -116,6 +136,11 @@ public class GreenManController : ExRbStateMachine<GreenManController>
             }
         }
 
+        protected override void OnTriggerEnter2D(GreenManController greenMan, Collider2D collision, IParentState parent)
+        {
+            greenMan.Dead(collision);
+        }
+
         protected override void OnBottomHitStay(GreenManController greenMan, RaycastHit2D hit, IParentState parent)
         {
             greenMan.gravity.Reset();
@@ -134,6 +159,7 @@ public class GreenManController : ExRbStateMachine<GreenManController>
         {
             greenMan._animator.Play(animationHash);
             greenMan.timer.Start(1, 2);
+            greenMan.Atack();
         }
 
         protected override void FixedUpdate(GreenManController greenMan, IParentState parent)
@@ -152,11 +178,17 @@ public class GreenManController : ExRbStateMachine<GreenManController>
                                   greenMan.TransitReady((int)StateId.Idle);
                               }
                 ),
-                              (0, () =>
+                              (25, () =>
                               {
+                                  greenMan.TransitReady((int)StateId.Shooting, true);
                               }
                 ));
             });
+        }
+
+        protected override void OnTriggerEnter2D(GreenManController greenMan, Collider2D collision, IParentState parent)
+        {
+            greenMan.Dead(collision);
         }
 
         protected override void OnBottomHitStay(GreenManController greenMan, RaycastHit2D hit, IParentState parent)
@@ -190,6 +222,11 @@ public class GreenManController : ExRbStateMachine<GreenManController>
             }
         }
 
+        protected override void OnTriggerEnter2D(GreenManController greenMan, Collider2D collision, IParentState parent)
+        {
+            greenMan.Defense(collision);
+        }
+
         protected override void OnTopHitEnter(GreenManController greenMan, RaycastHit2D hit, IParentState parent)
         {
             greenMan.jump.SetSpeed(0);
@@ -200,4 +237,83 @@ public class GreenManController : ExRbStateMachine<GreenManController>
             greenMan.TransitReady((int)StateId.Idle);
         }
     }
+
+    public void Defense(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("RockBuster"))
+        {
+            ReflectBuster(collision);
+        }
+        else if (collision.gameObject.CompareTag("ChargeShot"))
+        {
+            var rockBuster = collision.gameObject.GetComponent<Projectile>();
+            rockBuster.Delete();
+        }
+    }
+    public void Dead(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("RockBuster") || collision.gameObject.CompareTag("ChargeShot"))
+        {
+            var projectile = collision.gameObject.GetComponent<Projectile>();
+
+            projectile?.Delete();
+
+            var explode = ExplodePool.Pool.Get();
+            explode.transform.position = this.transform.position;
+
+            this.gameObject.SetActive(false);
+        }
+    }
+
+
+    public void ReflectBuster(Collider2D collision)
+    {
+        var rockBuster = collision.gameObject.GetComponent<Projectile>();
+
+        if (defense != null) StopCoroutine(defense);
+        defense = StartCoroutine(DefenseRockBuster(rockBuster));
+    }
+
+    IEnumerator DefenseRockBuster(Projectile projectile)
+    {
+        projectile.DisableDamageDetection();
+        Vector2 reflection = projectile.Direction;
+        reflection.x *= -1;
+        reflection += Vector2.up;
+        reflection = reflection.normalized;
+        projectile.ChangeDirection(reflection);
+        yield return new WaitForSeconds(1f);
+
+        defense = null;
+    }
+
+    void Atack()
+    {
+        var buster = Buster.Pool.Get();
+
+        var projectile=buster.GetComponent<Projectile>();
+
+        projectile.Init((IsRight) ? Vector2.right : Vector2.left, launcher.position, 5);
+    }
+
+
+    /// <summary>
+    /// キャラクターの振り向き
+    /// </summary>
+    private void TurnToTarget(Vector2 targetPos)
+    {
+        if (transform.position.x > targetPos.x)
+        {
+            Vector3 localScale = transform.localScale;
+            localScale.x = 1;
+            transform.localScale = localScale;
+        }
+        else
+        {
+            Vector3 localScale = transform.localScale;
+            localScale.x = -1;
+            transform.localScale = localScale;
+        }
+    }
+
 }
