@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class EnemyAppearController : StateMachine<EnemyAppearController>
 {
@@ -12,15 +10,17 @@ public class EnemyAppearController : StateMachine<EnemyAppearController>
     {
         OutOfCamera,
         Appering,
-        Deading
+        Disappearing
     }
     private void Awake()
     {
         AddState((int)StateID.OutOfCamera, new OutOfCamera());
         AddState((int)StateID.Appering, new Appering());
-        AddState((int)StateID.Deading, new Deading());
+        AddState((int)StateID.Disappearing, new Disappearing());
 
         TransitReady((int)StateID.OutOfCamera, true);
+
+        enemy.gameObject.SetActive(false);
     }
 
     /// <summary>
@@ -55,28 +55,27 @@ public class EnemyAppearController : StateMachine<EnemyAppearController>
 
         protected override void Update(EnemyAppearController enemyAppearController, IParentState parent)
         {
-            if (enemyAppearController.IsDeath)
+            if (enemyAppearController.IsDeath|| GameManager.Instance.MainCameraControll.CheckOutOfView(enemyAppearController.enemy.gameObject))
             {
-                enemyAppearController.TransitReady((int)StateID.Deading);
-            }
-            else if (GameManager.Instance.MainCameraControll.CheckOutOfView(enemyAppearController.enemy.gameObject))
-            {
-                enemyAppearController.TransitReady((int)StateID.OutOfCamera);
+                enemyAppearController.TransitReady((int)StateID.Disappearing);
             }
         }
     }
 
     /// <summary>
-    /// 敵が死んだ状態
+    /// 消えている状態
     /// </summary>
-    class Deading : State<EnemyAppearController>
+    class Disappearing : State<EnemyAppearController>
     {
+        protected override void Enter(EnemyAppearController enemyAppearController, int preId)
+        {
+            enemyAppearController.enemy.gameObject.SetActive(false);
+        }
         protected override void Update(EnemyAppearController enemyAppearController, IParentState parent)
         {
             if (GameManager.Instance.MainCameraControll.CheckOutOfView(enemyAppearController.gameObject))
             {
                 enemyAppearController.TransitReady((int)StateID.OutOfCamera);
-
             }
         }
     }

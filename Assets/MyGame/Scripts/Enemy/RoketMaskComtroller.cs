@@ -26,13 +26,13 @@ public class RoketMaskComtroller : RbStateMachine<RoketMaskComtroller>
 
         AddState((int)StateID.Move, new Move());
         AddState((int)StateID.Turn, new Turn());
-
         animationEnvetController.animationEvents.Add(0, rocketMask.TurnFace);
         Init();
     }
 
     public void Init()
     {
+        rocketMask.TurnTo(false);
         TransitReady((int)StateID.Move, true);
     }
 

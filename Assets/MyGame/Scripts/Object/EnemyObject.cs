@@ -54,6 +54,22 @@ public class EnemyObject : StageObject
         this.gameObject.SetActive(false);
     }
 
+    public void TurnTo(bool isRight)
+    {
+        if (isRight)
+        {
+            Vector3 localScale = transform.localScale;
+            localScale.x = -1;
+            transform.localScale = localScale;
+        }
+        else
+        {
+            Vector3 localScale = transform.localScale;
+            localScale.x = 1;
+            transform.localScale = localScale;
+        }
+    }
+
     /// <summary>
     /// キャラクターの振り向き
     /// </summary>
