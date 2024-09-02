@@ -28,17 +28,17 @@ public class EnemyAppearController : StateMachine<EnemyAppearController>
     /// </summary>
     class OutOfCamera : State<EnemyAppearController>
     {
-        protected override void Enter(EnemyAppearController mettoruStageController, int preId)
+        protected override void Enter(EnemyAppearController enemyAppearController, int preId)
         {
-            mettoruStageController.enemy.Init();
-            mettoruStageController.enemy.transform.position = mettoruStageController.transform.position;
-            mettoruStageController.enemy.gameObject.SetActive(false);
+            enemyAppearController.enemy.Init();
+            enemyAppearController.enemy.transform.position = enemyAppearController.transform.position;
+            enemyAppearController.enemy.gameObject.SetActive(false);
         }
-        protected override void Update(EnemyAppearController mettoruStageController, IParentState parent)
+        protected override void Update(EnemyAppearController enemyAppearController, IParentState parent)
         {
-            if (!GameManager.Instance.MainCameraControll.CheckOutOfView(mettoruStageController.gameObject))
+            if (!GameManager.Instance.MainCameraControll.CheckOutOfView(enemyAppearController.gameObject))
             {
-                mettoruStageController.TransitReady((int)StateID.Appering);
+                enemyAppearController.TransitReady((int)StateID.Appering);
             }
         }
     }
@@ -48,20 +48,20 @@ public class EnemyAppearController : StateMachine<EnemyAppearController>
     /// </summary>
     class Appering: State<EnemyAppearController>
     {
-        protected override void Enter(EnemyAppearController mettoruStageController, int preId)
+        protected override void Enter(EnemyAppearController enemyAppearController, int preId)
         {
-            mettoruStageController.enemy.gameObject.SetActive(true);
+            enemyAppearController.enemy.gameObject.SetActive(true);
         }
 
-        protected override void Update(EnemyAppearController mettoruStageController, IParentState parent)
+        protected override void Update(EnemyAppearController enemyAppearController, IParentState parent)
         {
-            if (mettoruStageController.IsDeath)
+            if (enemyAppearController.IsDeath)
             {
-                mettoruStageController.TransitReady((int)StateID.Deading);
+                enemyAppearController.TransitReady((int)StateID.Deading);
             }
-            else if (GameManager.Instance.MainCameraControll.CheckOutOfView(mettoruStageController.enemy.gameObject))
+            else if (GameManager.Instance.MainCameraControll.CheckOutOfView(enemyAppearController.enemy.gameObject))
             {
-                mettoruStageController.TransitReady((int)StateID.OutOfCamera);
+                enemyAppearController.TransitReady((int)StateID.OutOfCamera);
             }
         }
     }
@@ -71,11 +71,11 @@ public class EnemyAppearController : StateMachine<EnemyAppearController>
     /// </summary>
     class Deading : State<EnemyAppearController>
     {
-        protected override void Update(EnemyAppearController mettoruStageController, IParentState parent)
+        protected override void Update(EnemyAppearController enemyAppearController, IParentState parent)
         {
-            if (GameManager.Instance.MainCameraControll.CheckOutOfView(mettoruStageController.gameObject))
+            if (GameManager.Instance.MainCameraControll.CheckOutOfView(enemyAppearController.gameObject))
             {
-                mettoruStageController.TransitReady((int)StateID.OutOfCamera);
+                enemyAppearController.TransitReady((int)StateID.OutOfCamera);
 
             }
         }

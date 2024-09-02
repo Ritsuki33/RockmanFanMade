@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class RoketMaskComtroller : RbStateMachine<RoketMaskComtroller>
 {
+    [SerializeField] RocketMask rocketMask = default;
     [SerializeField] Animator _animator;
     [SerializeField] float distance = 5.0f;
     [SerializeField] float speed = 2.0f;
@@ -26,9 +27,13 @@ public class RoketMaskComtroller : RbStateMachine<RoketMaskComtroller>
         AddState((int)StateID.Move, new Move());
         AddState((int)StateID.Turn, new Turn());
 
-        TransitReady((int)StateID.Move);
+        animationEnvetController.animationEvents.Add(0, rocketMask.TurnFace);
+        Init();
+    }
 
-        animationEnvetController.animationEvents.Add(0, TurnFace);
+    public void Init()
+    {
+        TransitReady((int)StateID.Move, true);
     }
 
     class Move : RbState<RoketMaskComtroller>
@@ -67,7 +72,7 @@ public class RoketMaskComtroller : RbStateMachine<RoketMaskComtroller>
 
         protected override void OnTriggerEnter2D(RoketMaskComtroller rocketMask, Collider2D collision, IParentState parent)
         {
-            rocketMask.Atacked(collision);
+            rocketMask.rocketMask.Attacked(collision);
         }
     }
 
@@ -90,20 +95,7 @@ public class RoketMaskComtroller : RbStateMachine<RoketMaskComtroller>
 
         protected override void OnTriggerEnter2D(RoketMaskComtroller rocketMask, Collider2D collision, IParentState parent)
         {
-            rocketMask.Atacked(collision);
-        }
-    }
-
-    public void Atacked(Collider2D collision)
-    {
-        if ((!isRight && (this.transform.position.x > collision.transform.position.x))
-            || (isRight && (this.transform.position.x < collision.transform.position.x)))
-        {
-            Defense(collision);
-        }
-        else
-        {
-            Dead(collision);
+            rocketMask.rocketMask.Attacked(collision);
         }
     }
 
@@ -119,21 +111,6 @@ public class RoketMaskComtroller : RbStateMachine<RoketMaskComtroller>
             rockBuster.Delete();
         }
     }
-    public void Dead(Collider2D collision)
-    {
-        if (collision.gameObject.CompareTag("RockBuster") || collision.gameObject.CompareTag("ChargeShot"))
-        {
-            var projectile = collision.gameObject.GetComponent<Projectile>();
-
-            projectile?.Delete();
-
-            var explode = ExplodePool.Pool.Get();
-            explode.transform.position = this.transform.position;
-
-            this.gameObject.SetActive(false);
-        }
-    }
-
 
     public void ReflectBuster(Collider2D collision)
     {
@@ -154,12 +131,5 @@ public class RoketMaskComtroller : RbStateMachine<RoketMaskComtroller>
         yield return new WaitForSeconds(1f);
 
         defense = null;
-    }
-
-    public void TurnFace()
-    {
-        Vector3 scale = transform.localScale;
-        scale.x *= -1;
-        transform.localScale = scale;
     }
 }
