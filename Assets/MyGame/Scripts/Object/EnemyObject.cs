@@ -22,7 +22,7 @@ public class EnemyObject : StageObject
         {
             var projectile = collision.gameObject.GetComponent<Projectile>();
             hp -= projectile.AttackPower;
-            if (hp==0)
+            if (hp<=0)
             {
                 Dead(projectile);
             }
@@ -39,7 +39,7 @@ public class EnemyObject : StageObject
     public void Dead(Projectile projectile)
     {
 
-        projectile?.Delete();
+        if (projectile.AttackPower < 3) projectile?.Delete();
 
         var explode = ExplodePool.Pool.Get();
         explode.transform.position = this.transform.position;
