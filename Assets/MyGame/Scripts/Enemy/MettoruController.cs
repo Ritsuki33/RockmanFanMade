@@ -75,7 +75,7 @@ public partial class MettoruController : ExRbStateMachine<MettoruController>
 
     public void Init()
     {
-        TransitReady((int)StateID.Hide,true);
+        TransitReady((int)StateID.Idle, true);
 
         materialController.SetFloat(isFadeColorID, 0);
     }
@@ -85,7 +85,7 @@ public partial class MettoruController : ExRbStateMachine<MettoruController>
     /// </summary>
     public void Fire()
     {
-        var fire=MettoruFire.Pool.Get();
+        var fire = MettoruFire.Pool.Get();
 
         fire.GetComponent<Projectile>().Init((IsRight) ? Vector2.right : Vector2.left, this.transform.position, 5);
     }
@@ -112,73 +112,20 @@ public partial class MettoruController : ExRbStateMachine<MettoruController>
         defense = StartCoroutine(DefenseRockBuster(rockBuster));
     }
 
-    public void Damaged(Collider2D collision)
-    {
-        StartCoroutine(DamagedCo(collision));
-
-        IEnumerator DamagedCo(Collider2D collision)
-        {
-            var projectile = collision.gameObject.GetComponent<Projectile>();
-
-            projectile?.Delete();
-            int count = 5;
-
-            for (int i = 0; i < count; i++)
-            {
-                materialController.SetFloat(isFadeColorID, 1);
-
-                yield return new WaitForSeconds(0.05f);
-
-                materialController.SetFloat(isFadeColorID, 0);
-
-                yield return new WaitForSeconds(0.05f);
-            }
-            yield return null;
-        }
-    }
-
     /// <summary>
     /// 死亡
     /// </summary>
     /// <param name="collision"></param>
-    private void Dead(Collider2D collision)
-    {
-        if (collision.gameObject.CompareTag("RockBuster") || collision.gameObject.CompareTag("ChargeShot"))
-        {
-            var projectile = collision.gameObject.GetComponent<Projectile>();
-
-            projectile?.Delete();
-
-            var explode = ExplodePool.Pool.Get();
-            explode.transform.position = this.transform.position;
-
-            this.gameObject.SetActive(false);
-        }
-    }
+    private void Attacked(Collider2D collision) => mettrou.Attacked(collision);
 
     /// <summary>
-    /// キャラクターの振り向き
+    /// ターゲットに振り向き
     /// </summary>
-    private void TurnToTarget(Vector2 targetPos)
-    {
-        if (transform.position.x > targetPos.x)
-        {
-            Vector3 localScale = transform.localScale;
-            localScale.x = 1;
-            transform.localScale = localScale;
-        }
-        else
-        {
-            Vector3 localScale = transform.localScale;
-            localScale.x = -1;
-            transform.localScale = localScale;
-        }
-    }
+    private void TurnToTarget(Vector2 targetPos) => mettrou.TurnToTarget(targetPos);
 
-    private void TurnFace()
-    {
-        Vector3 localScale = transform.localScale;
-        localScale.x *= -1;
-        transform.localScale = localScale;
-    }
+    /// <summary>
+    /// 振り向き
+    /// </summary>
+    private void TurnFace() => mettrou.TurnFace();
+
 }

@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class GreenManController : ExRbStateMachine<GreenManController>
 {
+    [SerializeField] GreenMan greenMan = default;
     [SerializeField] Animator _animator = default;
     [SerializeField] Transform launcher = default;
     enum StateId
@@ -38,6 +39,14 @@ public class GreenManController : ExRbStateMachine<GreenManController>
         AddState((int)StateId.Shoot, new Shoot());
         AddState((int)StateId.Shooting, new Shooting());
         AddState((int)StateId.Jump, new Jumping());
+
+        Init();
+    }
+
+    public void Init()
+    {
+        gravity.Reset();
+        jump.SetSpeed(0);
         TransitReady((int)StateId.Float);
     }
 
@@ -58,7 +67,7 @@ public class GreenManController : ExRbStateMachine<GreenManController>
 
         protected override void Update(GreenManController greenMan, IParentState parent)
         {
-            greenMan.TurnToTarget(greenMan.Player.transform.position);
+            greenMan.greenMan.TurnToTarget(greenMan.Player.transform.position);
             greenMan.timer.MoveAheadTime(Time.deltaTime, () =>
             {
                 Probability.BranchMethods(
@@ -138,7 +147,7 @@ public class GreenManController : ExRbStateMachine<GreenManController>
 
         protected override void OnTriggerEnter2D(GreenManController greenMan, Collider2D collision, IParentState parent)
         {
-            greenMan.Dead(collision);
+            greenMan.greenMan.Attacked(collision);
         }
 
         protected override void OnBottomHitStay(GreenManController greenMan, RaycastHit2D hit, IParentState parent)
@@ -188,7 +197,7 @@ public class GreenManController : ExRbStateMachine<GreenManController>
 
         protected override void OnTriggerEnter2D(GreenManController greenMan, Collider2D collision, IParentState parent)
         {
-            greenMan.Dead(collision);
+            greenMan.greenMan.Attacked(collision);
         }
 
         protected override void OnBottomHitStay(GreenManController greenMan, RaycastHit2D hit, IParentState parent)
@@ -250,21 +259,6 @@ public class GreenManController : ExRbStateMachine<GreenManController>
             rockBuster.Delete();
         }
     }
-    public void Dead(Collider2D collision)
-    {
-        if (collision.gameObject.CompareTag("RockBuster") || collision.gameObject.CompareTag("ChargeShot"))
-        {
-            var projectile = collision.gameObject.GetComponent<Projectile>();
-
-            projectile?.Delete();
-
-            var explode = ExplodePool.Pool.Get();
-            explode.transform.position = this.transform.position;
-
-            this.gameObject.SetActive(false);
-        }
-    }
-
 
     public void ReflectBuster(Collider2D collision)
     {
@@ -295,25 +289,4 @@ public class GreenManController : ExRbStateMachine<GreenManController>
 
         projectile.Init((IsRight) ? Vector2.right : Vector2.left, launcher.position, 5);
     }
-
-
-    /// <summary>
-    /// キャラクターの振り向き
-    /// </summary>
-    private void TurnToTarget(Vector2 targetPos)
-    {
-        if (transform.position.x > targetPos.x)
-        {
-            Vector3 localScale = transform.localScale;
-            localScale.x = 1;
-            transform.localScale = localScale;
-        }
-        else
-        {
-            Vector3 localScale = transform.localScale;
-            localScale.x = -1;
-            transform.localScale = localScale;
-        }
-    }
-
 }

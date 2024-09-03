@@ -56,7 +56,7 @@ public partial class MettoruController
 
         protected override void OnTriggerEnter2D(MettoruController mettoru, Collider2D collision, IParentState parent)
         {
-            mettoru.Dead(collision);
+            mettoru.Attacked(collision);
         }
     }
 
@@ -107,7 +107,7 @@ public partial class MettoruController
 
         protected override void OnTriggerEnter2D(MettoruController mettoru, Collider2D collision, IParentState parent)
         {
-            mettoru.Dead(collision);
+            mettoru.Attacked(collision);
         }
     }
 
@@ -225,7 +225,7 @@ public partial class MettoruController
 
         protected override void OnTriggerEnter2D(MettoruController mettoru, Collider2D collision, IParentState parent)
         {
-            mettoru.Dead(collision);
+            mettoru.Attacked(collision);
         }
     }
 
@@ -270,7 +270,7 @@ public partial class MettoruController
 
         protected override void OnTriggerEnter2D(MettoruController mettoru, Collider2D collision, IParentState parent)
         {
-            mettoru.Dead(collision);
+            mettoru.Attacked(collision);
         }
     }
 
@@ -304,7 +304,7 @@ public partial class MettoruController
 
         protected override void OnTriggerEnter2D(MettoruController mettoru, Collider2D collision, IParentState parent)
         {
-            mettoru.Dead(collision);
+            mettoru.Attacked(collision);
         }
     }
 
@@ -333,7 +333,7 @@ public partial class MettoruController
 
         protected override void OnTriggerEnter2D(MettoruController mettoru, Collider2D collision, IParentState parent)
         {
-            mettoru.Dead(collision);
+            mettoru.Attacked(collision);
         }
     }
 }

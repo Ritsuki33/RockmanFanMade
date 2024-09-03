@@ -4,12 +4,13 @@ using UnityEngine;
 
 public class MaterialController : MonoBehaviour
 {
+    [SerializeField] bool sharedMaterial = false;
     private Material material;
     private void Awake()
     {
         SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
 
-        material=spriteRenderer.material;
+        material = (sharedMaterial) ? spriteRenderer.sharedMaterial : spriteRenderer.material;
     }
 
     /// <summary>

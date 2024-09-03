@@ -5,18 +5,22 @@ using UnityEngine.Pool;
 
 public class Projectile : ReusableObject
 {
-    [SerializeField] protected float speedRatio = 5f;
+    float speed = 5f;
     protected Vector2 direction = default;
 
     private BoxCollider2D boxCollider;
 
     public Vector2 Direction => direction;
+
+    int attackPower = 1;
+
+    public int AttackPower => attackPower;
     private void Awake()
     {
         boxCollider = GetComponent<BoxCollider2D>();
     }
 
-    public void Init(Vector2 direction, Vector2 position, float speed = -1)
+    public void Init(Vector2 direction, Vector2 position, float speed = 5, int attackPower = 1)
     {
         this.direction = direction;
         var localScale = this.transform.localScale;
@@ -24,12 +28,14 @@ public class Projectile : ReusableObject
         this.transform.localScale = localScale;
         this.transform.position = position;
 
-        if (speed > 0) speedRatio = speed;
+        this.speed = speed;
+
+        this.attackPower = attackPower;
     }
 
     private void FixedUpdate()
     {
-        this.transform.position += (Vector3)direction * speedRatio * Time.fixedDeltaTime;
+        this.transform.position += (Vector3)direction * speed * Time.fixedDeltaTime;
 
         if (GameManager.Instance.MainCameraControll.CheckOutOfView(this.gameObject))
         {

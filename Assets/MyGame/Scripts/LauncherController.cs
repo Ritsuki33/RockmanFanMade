@@ -48,13 +48,6 @@ public class LauncherController : StateMachine<LauncherController>
             launcher.StopRimLight();
             launcher.m_charge_animator.gameObject.SetActive(false);
         }
-        protected override void Update(LauncherController launcher, IParentState parent)
-        {
-            if (launcher.isLaunchTrigger)
-            {
-                launcher.TransitReady((int)StateID.ChargeSmall);
-            }
-        }
     }
 
     class ChargeSmall : State<LauncherController>
@@ -145,6 +138,7 @@ public class LauncherController : StateMachine<LauncherController>
                 if (this.isLaunchTrigger)
                 {
                     LaunchMame(player.IsRight);
+                    TransitReady((int)StateID.ChargeSmall);
                     callbackAfterLaunch.Invoke();
                 }
                 break;
@@ -170,19 +164,19 @@ public class LauncherController : StateMachine<LauncherController>
     void LaunchMame(bool isRight)
     {
         var rockBaster = RockBusterPool.Pool.Get();
-        rockBaster.GetComponent<Projectile>().Init((isRight) ? Vector2.right : Vector2.left, launcher.transform.position, 8);
+        rockBaster.GetComponent<Projectile>().Init((isRight) ? Vector2.right : Vector2.left, launcher.transform.position, 8,1);
     }
 
     void LaunchMiddle(bool isRight)
     {
         var rockBaster = RockBusterMiddlePool.Pool.Get();
-        rockBaster.GetComponent<Projectile>().Init((isRight) ? Vector2.right : Vector2.left, launcher.transform.position, 8);
+        rockBaster.GetComponent<Projectile>().Init((isRight) ? Vector2.right : Vector2.left, launcher.transform.position, 8,2);
     }
 
     void LaunchBig(bool isRight)
     {
         var rockBaster = RockBusterBigPool.Pool.Get();
-        rockBaster.GetComponent<Projectile>().Init((isRight) ? Vector2.right : Vector2.left, launcher.transform.position, 12);
+        rockBaster.GetComponent<Projectile>().Init((isRight) ? Vector2.right : Vector2.left, launcher.transform.position, 12,3);
     }
 
     public void StopRimLight()
