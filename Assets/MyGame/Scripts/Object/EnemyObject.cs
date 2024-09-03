@@ -13,11 +13,6 @@ public class EnemyObject : StageObject
 
     int hp = 0;
 
-    private void Awake()
-    {
-        Init();
-    }
-
     public virtual void Init() {
         SetMaterialParam(ShaderPropertyId.IsFadeColorID, 0);
         hp = (enemyData != null) ? enemyData.Hp : 3;
@@ -39,6 +34,7 @@ public class EnemyObject : StageObject
             }
         }
     }
+
     /// <summary>
     /// 死亡
     /// </summary>

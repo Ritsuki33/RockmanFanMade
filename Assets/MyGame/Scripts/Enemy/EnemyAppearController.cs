@@ -20,6 +20,10 @@ public class EnemyAppearController : StateMachine<EnemyAppearController>
 
         TransitReady((int)StateID.OutOfCamera, true);
 
+    }
+
+    private void Start()
+    {
         enemy.gameObject.SetActive(false);
     }
 

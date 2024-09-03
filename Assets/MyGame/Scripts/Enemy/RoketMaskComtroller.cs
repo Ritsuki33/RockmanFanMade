@@ -72,7 +72,7 @@ public class RoketMaskComtroller : RbStateMachine<RoketMaskComtroller>
 
         protected override void OnTriggerEnter2D(RoketMaskComtroller rocketMask, Collider2D collision, IParentState parent)
         {
-            rocketMask.rocketMask.Attacked(collision);
+            rocketMask.Atacked(collision);
         }
     }
 
@@ -95,7 +95,20 @@ public class RoketMaskComtroller : RbStateMachine<RoketMaskComtroller>
 
         protected override void OnTriggerEnter2D(RoketMaskComtroller rocketMask, Collider2D collision, IParentState parent)
         {
-            rocketMask.rocketMask.Attacked(collision);
+            rocketMask.Atacked(collision);
+        }
+    }
+
+    public void Atacked(Collider2D collision)
+    {
+        if ((!isRight && (this.transform.position.x > collision.transform.position.x))
+           || (isRight && (this.transform.position.x < collision.transform.position.x)))
+        {
+            Defense(collision);
+        }
+        else
+        {
+            rocketMask.Attacked(collision);
         }
     }
 
