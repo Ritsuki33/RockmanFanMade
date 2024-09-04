@@ -336,6 +336,7 @@ public class ExpandRigidBody : MonoBehaviour, IBaseExRbHit.IExRbCallbackSet
 
     Vector2 CurrentMovement => velocity * Time.fixedDeltaTime;
 
+    
     private void Awake()
     {
         boxCollider = GetComponent<BoxCollider2D>();
@@ -381,17 +382,17 @@ public class ExpandRigidBody : MonoBehaviour, IBaseExRbHit.IExRbCallbackSet
 
     private void FixedUpdate()
     {
-        if (boxCollider.enabled) CorrectVelocity();
+        CorrectVelocity((boxCollider == null) ? false : (!(boxCollider.enabled) ? false : (boxCollider.isTrigger) ? false : true));
 
         rb.velocity = currentVelocity;
         currentVelocity = Vector2.zero;
     }
 
 
-    public void CorrectVelocity()
+    public void CorrectVelocity(bool isCorrect)
     {
-        PhysicalVelocityCorrect(currentVelocity);
-        ThroughFloorVelocityCorrect(currentVelocity);
+        PhysicalVelocityCorrect(currentVelocity, isCorrect);
+        ThroughFloorVelocityCorrect(currentVelocity, isCorrect);
     }
 
     public void SetPosition(Vector2 pos)
@@ -399,7 +400,7 @@ public class ExpandRigidBody : MonoBehaviour, IBaseExRbHit.IExRbCallbackSet
         BoxColliderCenter = pos;
     }
 
-    private void PhysicalVelocityCorrect(Vector2 currentVelocity)
+    private void PhysicalVelocityCorrect(Vector2 currentVelocity,bool isCorrect)
     {
         topHit = Physics2D.BoxCast(
             VirtualTopColliderCenter
@@ -439,7 +440,7 @@ public class ExpandRigidBody : MonoBehaviour, IBaseExRbHit.IExRbCallbackSet
 
         if (topHit)
         {
-            if (!bottomHit)
+            if (isCorrect&&!bottomHit)
             {
                 float correct = (topHit.point.y - Top - physicalGap) / Time.fixedDeltaTime;
                 if (currentVelocity.y >= 0) currentVelocity.y = correct;
@@ -460,7 +461,7 @@ public class ExpandRigidBody : MonoBehaviour, IBaseExRbHit.IExRbCallbackSet
 
         if (bottomHit)
         {
-            if (!topHit)
+            if (isCorrect && !topHit)
             {
                 float correct = (bottomHit.point.y - Bottom + physicalGap) / Time.fixedDeltaTime;
                 if (currentVelocity.y <= 0) currentVelocity.y = correct;
@@ -482,10 +483,12 @@ public class ExpandRigidBody : MonoBehaviour, IBaseExRbHit.IExRbCallbackSet
 
         if (leftHit)
         {
-            float correct = (leftHit.point.x - Left + physicalGap) / Time.fixedDeltaTime;
-            if (currentVelocity.x <= 0) currentVelocity.x = correct;
-            else currentVelocity.x += correct;
-
+            if (isCorrect)
+            {
+                float correct = (leftHit.point.x - Left + physicalGap) / Time.fixedDeltaTime;
+                if (currentVelocity.x <= 0) currentVelocity.x = correct;
+                else currentVelocity.x += correct;
+            }
             if (!isCollideLeft) onHitLeftEnter?.Invoke(leftHit);
             onHitLeftStay?.Invoke(leftHit);
             isCollideLeft = true;
@@ -499,10 +502,12 @@ public class ExpandRigidBody : MonoBehaviour, IBaseExRbHit.IExRbCallbackSet
 
         if (rightHit)
         {
-            float correct = (rightHit.point.x - Right - physicalGap) / Time.fixedDeltaTime;
-            if (currentVelocity.x >= 0) currentVelocity.x = correct;
-            else currentVelocity.x += correct;
-
+            if (isCorrect)
+            {
+                float correct = (rightHit.point.x - Right - physicalGap) / Time.fixedDeltaTime;
+                if (currentVelocity.x >= 0) currentVelocity.x = correct;
+                else currentVelocity.x += correct;
+            }
             if (!isCollideRight) onHitRightEnter?.Invoke(rightHit);
             onHitRightStay?.Invoke(rightHit);
             isCollideRight = true;
@@ -518,7 +523,7 @@ public class ExpandRigidBody : MonoBehaviour, IBaseExRbHit.IExRbCallbackSet
     }
 
 
-    private void ThroughFloorVelocityCorrect(Vector2 currentVelocity)
+    private void ThroughFloorVelocityCorrect(Vector2 currentVelocity,bool isCorrect)
     {
         throughFloorBottomHit = Physics2D.BoxCast(
            VirtualBottomColliderCenter
@@ -537,7 +542,7 @@ public class ExpandRigidBody : MonoBehaviour, IBaseExRbHit.IExRbCallbackSet
 
             if (currentVelocity.y - target_vel.y < 0)
             {
-                if (!topHit)
+                if (isCorrect && !topHit)
                 {
                     float correct = (throughFloorBottomHit.point.y - Bottom + physicalGap) / Time.fixedDeltaTime;
                     if (currentVelocity.y <= 0) currentVelocity.y = correct;
