@@ -135,12 +135,19 @@ public class RoketMaskComtroller : RbStateMachine<RoketMaskComtroller>
 
     IEnumerator DefenseRockBuster(Projectile projectile)
     {
-        projectile.DisableDamageDetection();
-        Vector2 reflection = projectile.Direction;
+        Vector2 reflection = projectile.CurVelocity;
+        float speed = projectile.CurSpeed;
         reflection.x *= -1;
+        reflection = new Vector2(reflection.x, 0).normalized;
         reflection += Vector2.up;
         reflection = reflection.normalized;
-        projectile.ChangeDirection(reflection);
+        projectile.Init(
+            0,
+            (rb) =>
+            {
+                rb.velocity = reflection * speed;
+            }
+            );
         yield return new WaitForSeconds(1f);
 
         defense = null;
