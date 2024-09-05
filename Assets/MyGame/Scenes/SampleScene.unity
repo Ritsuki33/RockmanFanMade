@@ -2322,6 +2322,7 @@ GameObject:
   - component: {fileID: 168951337}
   - component: {fileID: 168951339}
   - component: {fileID: 168951338}
+  - component: {fileID: 168951340}
   m_Layer: 16
   m_Name: Sprite
   m_TagString: Untagged
@@ -2385,7 +2386,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 0c2b2fdd58a3bc94a8fd7909d72539e5, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -2417,6 +2418,19 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &168951340
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 168951336}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 95f3fb9c1d596fa408a4ab5e0dfe8a0c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sharedMaterial: 0
 --- !u!1 &181752603
 GameObject:
   m_ObjectHideFlags: 0
@@ -3736,6 +3750,7 @@ GameObject:
   - component: {fileID: 656370848}
   - component: {fileID: 656370847}
   - component: {fileID: 656370849}
+  - component: {fileID: 656370850}
   m_Layer: 16
   m_Name: Batman
   m_TagString: Untagged
@@ -3750,15 +3765,15 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 656370841}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.908, y: 4.79, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 148265473}
   - {fileID: 168951337}
-  m_Father: {fileID: 0}
-  m_RootOrder: 18
+  m_Father: {fileID: 933766464}
+  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &656370845
 MonoBehaviour:
@@ -3772,6 +3787,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 373c69e130ddfb541b5b602a35f91a4e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  batman: {fileID: 656370850}
   _animator: {fileID: 168951338}
 --- !u!114 &656370846
 MonoBehaviour:
@@ -3888,6 +3904,21 @@ MonoBehaviour:
   triggerLayer:
     serializedVersion: 2
     m_Bits: 0
+--- !u!114 &656370850
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 656370841}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: feb06d398bc157f46999f7596ae3576d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  materialController: {fileID: 168951340}
+  enemyData: {fileID: 0}
+  batmanController: {fileID: 656370845}
 --- !u!1 &739595864
 GameObject:
   m_ObjectHideFlags: 0
@@ -4493,6 +4524,52 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac0b09e7857660247b1477e93731de29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &933766462
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 933766464}
+  - component: {fileID: 933766463}
+  m_Layer: 0
+  m_Name: BatmanAppearController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &933766463
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 933766462}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 87e51f73871949e498c0e257df9c35e2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemy: {fileID: 656370850}
+--- !u!4 &933766464
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 933766462}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.908, y: 4.79, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 656370844}
+  m_Father: {fileID: 0}
+  m_RootOrder: 18
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &967685725
 GameObject:
   m_ObjectHideFlags: 0

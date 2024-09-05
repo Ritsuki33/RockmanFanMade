@@ -47,7 +47,7 @@ public class GreenManController : ExRbStateMachine<GreenManController>
     {
         gravity.Reset();
         jump.SetSpeed(0);
-        TransitReady((int)StateId.Float);
+        TransitReady((int)StateId.Idle);
     }
 
     class Idle: ExRbState<GreenManController> {

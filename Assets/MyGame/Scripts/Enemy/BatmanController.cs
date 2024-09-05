@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class BatmanController : ExRbStateMachine<BatmanController>
 {
-    [SerializeField]Animator _animator;
+    [SerializeField] Batman batman;
+    [SerializeField] Animator _animator;
     ExpandRigidBody exRb;
 
     RaycastSensor sensor;
@@ -37,7 +38,7 @@ public class BatmanController : ExRbStateMachine<BatmanController>
     class Idle : ExRbState<BatmanController>
     {
         static int anmationHash = Animator.StringToHash("Idle");
-        AmbiguousTimer timer=new AmbiguousTimer();
+        AmbiguousTimer timer = new AmbiguousTimer();
         protected override void Enter(BatmanController batmanController, int preId)
         {
             batmanController._animator.Play(anmationHash);
@@ -54,6 +55,14 @@ public class BatmanController : ExRbStateMachine<BatmanController>
                 });
             }
             , true);
+        }
+
+        protected override void OnTriggerEnter2D(BatmanController batmanController, Collider2D collision, IParentState parent)
+        {
+            if (collision.gameObject.CompareTag("RockBuster"))
+            {
+                batmanController.batman.Attacked(collision);
+            }
         }
     }
 
@@ -77,6 +86,11 @@ public class BatmanController : ExRbStateMachine<BatmanController>
                 batmanController.TransitReady((int)StateID.Move);
             }
         }
+
+        protected override void OnTriggerEnter2D(BatmanController batmanController, Collider2D collision, IParentState parent)
+        {
+            batmanController.batman.Attacked(collision);
+        }
     }
 
     class Move : ExRbState<BatmanController>
@@ -98,7 +112,15 @@ public class BatmanController : ExRbStateMachine<BatmanController>
 
         protected override void OnTriggerEnter2D(BatmanController batmanController, Collider2D collision, IParentState parent)
         {
-            batmanController.TransitReady((int)StateID.ToIdle);
+            if (collision.gameObject.CompareTag("Player"))
+            {
+                batmanController.TransitReady((int)StateID.ToIdle);
+
+            }
+            else
+            {
+                batmanController.batman.Attacked(collision);
+            }
         }
     }
 
@@ -117,12 +139,17 @@ public class BatmanController : ExRbStateMachine<BatmanController>
         {
             batmanController.exRb.velocity = speed * Vector2.up;
 
-            if (speed < 10) speed+=0.5f;
+            if (speed < 10) speed += 0.5f;
         }
 
         protected override void OnTopHitEnter(BatmanController batmanController, RaycastHit2D hit, IParentState parent)
         {
             batmanController.TransitReady((int)StateID.Idle);
+        }
+
+        protected override void OnTriggerEnter2D(BatmanController batmanController, Collider2D collision, IParentState parent)
+        {
+            batmanController.batman.Attacked(collision);
         }
     }
 }
