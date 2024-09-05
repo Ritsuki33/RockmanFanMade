@@ -20,14 +20,14 @@ public class AmbiguousTimer
     /// 時間を進める
     /// </summary>
     /// <param name="deltaTime"></param>
-    /// <param name="callback"></param>
-    public void MoveAheadTime(float deltaTime, System.Action callback)
+    /// <param name="callbackAfterTime"></param>
+    public void MoveAheadTime(float deltaTime, System.Action callbackAfterTime,bool loop=false)
     {
         time += deltaTime;
 
-        if (!done && time > limit)
+        if ((loop||!done) && time > limit)
         {
-            callback();
+            callbackAfterTime();
             done = true;
         }
     }
