@@ -69,10 +69,6 @@ public class LauncherController : StateMachine<LauncherController>
 
                 chargeStartTime -= Time.deltaTime;
             }
-            else
-            {
-                launcher.TransitReady((int)StateID.None);
-            }
         }
     }
 
@@ -101,10 +97,7 @@ public class LauncherController : StateMachine<LauncherController>
 
                 chargeStartTime -= Time.deltaTime;
             }
-            else
-            {
-                launcher.TransitReady((int)StateID.None);
-            }
+            
         }
     }
 
@@ -148,6 +141,7 @@ public class LauncherController : StateMachine<LauncherController>
                 if (!this.isLaunchTrigger)
                 {
                     LaunchMiddle(player.IsRight);
+                    TransitReady((int)StateID.None);
                     callbackAfterLaunch.Invoke();
                 }
                 break;
@@ -155,6 +149,7 @@ public class LauncherController : StateMachine<LauncherController>
                 if (!this.isLaunchTrigger)
                 {
                     LaunchBig(player.IsRight);
+                    TransitReady((int)StateID.None);
                     callbackAfterLaunch.Invoke();
                 }
                 break;
@@ -164,19 +159,58 @@ public class LauncherController : StateMachine<LauncherController>
     void LaunchMame(bool isRight)
     {
         var rockBaster = RockBusterPool.Pool.Get();
-        rockBaster.GetComponent<Projectile>().Init((isRight) ? Vector2.right : Vector2.left, launcher.transform.position, 8,1);
+        var projectile = rockBaster.GetComponent<Projectile>();
+        Vector2 direction = (isRight) ? Vector2.right : Vector2.left;
+        float speed = 8;
+        projectile.Init(
+            1,
+            (rb) =>
+            {
+                rb.velocity = direction * speed;
+            }
+            );
+        projectile.transform.position = launcher.transform.position;
     }
 
     void LaunchMiddle(bool isRight)
     {
         var rockBaster = RockBusterMiddlePool.Pool.Get();
-        rockBaster.GetComponent<Projectile>().Init((isRight) ? Vector2.right : Vector2.left, launcher.transform.position, 8,2);
+        //rockBaster.GetComponent<Projectile>().Init((isRight) ? Vector2.right : Vector2.left, launcher.transform.position, 8,2);
+        var projectile = rockBaster.GetComponent<Projectile>();
+        Vector2 direction = (isRight) ? Vector2.right : Vector2.left;
+        Vector2 localScale = projectile.transform.localScale;
+        localScale.x = (isRight) ? 1 : -1;
+        projectile.transform.localScale = localScale;
+        float speed = 8;
+        projectile.Init(
+            2,
+            (rb) =>
+            {
+                rb.velocity = direction * speed;
+            }
+            );
+        projectile.transform.position = launcher.transform.position;
     }
 
     void LaunchBig(bool isRight)
     {
         var rockBaster = RockBusterBigPool.Pool.Get();
-        rockBaster.GetComponent<Projectile>().Init((isRight) ? Vector2.right : Vector2.left, launcher.transform.position, 12,3);
+        //rockBaster.GetComponent<Projectile>().Init((isRight) ? Vector2.right : Vector2.left, launcher.transform.position, 12,3);
+
+        var projectile = rockBaster.GetComponent<Projectile>();
+        Vector2 direction = (isRight) ? Vector2.right : Vector2.left;
+        Vector2 localScale = projectile.transform.localScale;
+        localScale.x = (isRight) ? 1 : -1;
+        projectile.transform.localScale = localScale;
+        float speed = 12;
+        projectile.Init(
+            3,
+            (rb) =>
+            {
+                rb.velocity = direction * speed;
+            }
+            );
+        projectile.transform.position = launcher.transform.position;
     }
 
     public void StopRimLight()
