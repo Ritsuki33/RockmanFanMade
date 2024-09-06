@@ -5,15 +5,17 @@ using UnityEngine;
 
 public class LauncherController : StateMachine<LauncherController>
 {
+    [SerializeField] PlayerController player;
     [SerializeField] Animator m_charge_animator;
 
     [SerializeField] GameObject launcher;
 
-    [SerializeField] BaseObjectPool RockBusterPool => EffectManager.Instance.RockBusterPool;
-    [SerializeField] BaseObjectPool RockBusterMiddlePool => EffectManager.Instance.RockBusterMiddlePool;
-    [SerializeField] BaseObjectPool RockBusterBigPool => EffectManager.Instance.RockBusterBigPool;
+    [SerializeField] int mameMax = 3;
 
-    [SerializeField] PlayerController player;
+    BaseObjectPool RockBusterPool => EffectManager.Instance.RockBusterPool;
+    BaseObjectPool RockBusterMiddlePool => EffectManager.Instance.RockBusterMiddlePool;
+    BaseObjectPool RockBusterBigPool => EffectManager.Instance.RockBusterBigPool;
+
 
     public MaterialController MaterialController => player.MaterialController;
 
@@ -22,6 +24,9 @@ public class LauncherController : StateMachine<LauncherController>
     int FadeLightId = Shader.PropertyToID("_FadeLight");
 
     Coroutine chargingCo = default;
+
+    // 豆バスターの数
+    int curMameNum = 0;
     enum StateID
     {
         None,
@@ -128,7 +133,7 @@ public class LauncherController : StateMachine<LauncherController>
         switch ((StateID)stateMachine.CurId)
         {
             case StateID.None:
-                if (this.isLaunchTrigger)
+                if (this.isLaunchTrigger && curMameNum < mameMax)
                 {
                     LaunchMame(player.IsRight);
                     TransitReady((int)StateID.ChargeSmall);
@@ -136,6 +141,10 @@ public class LauncherController : StateMachine<LauncherController>
                 }
                 break;
             case StateID.ChargeSmall:
+                if (!this.isLaunchTrigger)
+                {
+                    TransitReady((int)StateID.None);
+                }
                 break;
             case StateID.ChargeMiddle:
                 if (!this.isLaunchTrigger)
@@ -167,9 +176,15 @@ public class LauncherController : StateMachine<LauncherController>
             (rb) =>
             {
                 rb.velocity = direction * speed;
+            },
+            () =>
+            {
+                if (curMameNum > 0) curMameNum--;
             }
             );
         projectile.transform.position = launcher.transform.position;
+
+        curMameNum++;
     }
 
     void LaunchMiddle(bool isRight)

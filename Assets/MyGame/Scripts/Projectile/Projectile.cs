@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Pool;
 
 public class Projectile : ReusableObject
 {
@@ -13,7 +10,7 @@ public class Projectile : ReusableObject
     private Rigidbody2D rb;
     public Vector2 Direction => direction;
     Action<Rigidbody2D> moveAction;
-
+    Action deleteCallback;
     int attackPower = 1;
 
     public int AttackPower => attackPower;
@@ -26,23 +23,16 @@ public class Projectile : ReusableObject
         rb = GetComponent<Rigidbody2D>();
     }
 
-    //public void Init(Vector2 direction, Vector2 position, float speed = 5, int attackPower = 1)
-    //{
-    //    this.direction = direction;
-    //    var localScale = this.transform.localScale;
-    //    localScale.x = (direction.x > 0) ? 1 : -1;
-    //    this.transform.localScale = localScale;
-    //    this.transform.position = position;
-
-    //    this.speed = speed;
-
-    //    this.attackPower = attackPower;
-    //}
-
     public void Init(int attackPower, Action<Rigidbody2D> action)
     {
         this.attackPower = attackPower;
         moveAction = action;
+    }
+
+    public void Init(int attackPower, Action<Rigidbody2D> action,Action deleteCallback)
+    {
+        Init(attackPower, action);
+        this.deleteCallback = deleteCallback;
     }
 
     private void FixedUpdate()
@@ -64,5 +54,6 @@ public class Projectile : ReusableObject
     public void Delete()
     {
         Pool.Release(this);
+        this.deleteCallback?.Invoke();
     }
 }
