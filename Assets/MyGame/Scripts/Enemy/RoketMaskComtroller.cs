@@ -143,11 +143,12 @@ public class RoketMaskComtroller : RbStateMachine<RoketMaskComtroller>
         reflection = reflection.normalized;
         projectile.Init(
             0,
+            null
+,
             (rb) =>
             {
                 rb.velocity = reflection * speed;
-            }
-            );
+            });
         yield return new WaitForSeconds(1f);
 
         defense = null;

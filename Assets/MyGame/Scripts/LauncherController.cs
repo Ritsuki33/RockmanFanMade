@@ -173,6 +173,7 @@ public class LauncherController : StateMachine<LauncherController>
         float speed = 16;
         projectile.Init(
             1,
+            null,
             (rb) =>
             {
                 rb.velocity = direction * speed;
@@ -199,11 +200,12 @@ public class LauncherController : StateMachine<LauncherController>
         float speed = 16;
         projectile.Init(
             2,
+            null
+,
             (rb) =>
             {
                 rb.velocity = direction * speed;
-            }
-            );
+            });
         projectile.transform.position = launcher.transform.position;
     }
 
@@ -220,11 +222,12 @@ public class LauncherController : StateMachine<LauncherController>
         float speed = 24;
         projectile.Init(
             3,
+            null
+,
             (rb) =>
             {
                 rb.velocity = direction * speed;
-            }
-            );
+            });
         projectile.transform.position = launcher.transform.position;
     }
 

@@ -23,7 +23,7 @@ public static class ParabolaCalc
         float height = targetPos.y - pos.y;
         float v0 = jumpSpeed;
         float gravity = gravityScale / Time.fixedDeltaTime;
-        float D = v0 * v0 - 2 * gravityScale * height;
+        float D = v0 * v0 - 2 * gravityScale * height; // 判別式
         float time = 0;
         if (D >= 0)
         {

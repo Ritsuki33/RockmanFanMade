@@ -231,7 +231,7 @@ MonoBehaviour:
   rockBusterMiddlePool: {fileID: 6057268701559385183}
   rockBusterBigPool: {fileID: 9091857834151796337}
   mettoruFirePool: {fileID: 7095692933095081184}
-  cannonPool: {fileID: 0}
+  bomPool: {fileID: 4494838383190542071}
   playerDeathEffect: {fileID: 4265145672475137195}
 --- !u!1 &4643818298210295590
 GameObject:
@@ -244,7 +244,7 @@ GameObject:
   - component: {fileID: 3530698389485073417}
   - component: {fileID: 4494838383190542071}
   m_Layer: 0
-  m_Name: CannonPool
+  m_Name: BomPool
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -277,7 +277,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6428f17e52015684683e9c774633b242, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  prefab: {fileID: 1656790397697836210, guid: 6b6d7aff2d417894b81bcd9ca91f76fe, type: 3}
+  prefab: {fileID: 4609798344657420940, guid: 8b59b79d95cbf8a4cafe3d136260d47b, type: 3}
   defaultCapacity: 10
   maxSize: 10
 --- !u!1 &4738967264483430567
@@ -498,7 +498,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8828237479478849529}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -2.72, y: 6.47, z: -11}
+  m_LocalPosition: {x: 2.85, y: 19.25, z: -11.027209}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

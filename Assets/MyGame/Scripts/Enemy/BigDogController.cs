@@ -1,13 +1,20 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.ConstrainedExecution;
+using UnityEditor.Tilemaps;
 using UnityEngine;
 
 public class BigDogController : RbStateMachine<BigDogController>
 {
     [SerializeField] Animator _animator;
+    [SerializeField] Transform _mouth;
+    [SerializeField] Transform _tale;
+    [SerializeField] Transform _target;
     AmbiguousTimer timer = new AmbiguousTimer();
 
+
+    BaseObjectPool BomPool=>EffectManager.Instance.BomPool;
+    BaseObjectPool ExplodePool=>EffectManager.Instance.ExplodePool;
     enum StateId
     {
         Idle,
@@ -43,7 +50,7 @@ public class BigDogController : RbStateMachine<BigDogController>
                 () =>
                 {
                     Probability.BranchMethods(
-                              (50, () =>
+                              (0, () =>
                               {
                                   ctr.TransitReady((int)StateId.Fire);
                               }
@@ -114,6 +121,23 @@ public class BigDogController : RbStateMachine<BigDogController>
         {
             protected override void Enter(BigDogController ctr, int preId)
             {
+                var bom = ctr.BomPool.Pool.Get() as Projectile;
+                var explode = ctr.ExplodePool.Pool.Get();
+                bom.transform.position = new Vector3(ctr._tale.position.x, ctr._tale.position.y, -1);
+                explode.transform.position = new Vector3(ctr._tale.position.x, ctr._tale.position.y, -1);
+                float gravityScale = 1;
+                bom.Init(
+                    3,
+                    (rb) =>
+                    {
+                        Vector2 startVec = ParabolicBehavior.Init(ctr._target.position, ctr._tale.position, 60, gravityScale, () => { Debug.Log("発射失敗"); });
+                        rb.velocity = startVec;
+                    },
+                    (rb) =>
+                    {
+                        ParabolicBehavior.FixedUpdate(rb, gravityScale);
+                    }
+                    );
                 ctr.timer.Start(1, 1);
             }
 
