@@ -170,7 +170,7 @@ public class LauncherController : StateMachine<LauncherController>
         var rockBaster = RockBusterPool.Pool.Get();
         var projectile = rockBaster.GetComponent<Projectile>();
         Vector2 direction = (isRight) ? Vector2.right : Vector2.left;
-        float speed = 8;
+        float speed = 16;
         projectile.Init(
             1,
             (rb) =>
@@ -196,7 +196,7 @@ public class LauncherController : StateMachine<LauncherController>
         Vector2 localScale = projectile.transform.localScale;
         localScale.x = (isRight) ? 1 : -1;
         projectile.transform.localScale = localScale;
-        float speed = 8;
+        float speed = 16;
         projectile.Init(
             2,
             (rb) =>
@@ -217,7 +217,7 @@ public class LauncherController : StateMachine<LauncherController>
         Vector2 localScale = projectile.transform.localScale;
         localScale.x = (isRight) ? 1 : -1;
         projectile.transform.localScale = localScale;
-        float speed = 12;
+        float speed = 24;
         projectile.Init(
             3,
             (rb) =>

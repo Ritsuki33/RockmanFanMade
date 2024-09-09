@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: d8abea3ddd84e964b8dc4527d24c3b52
+guid: a1c1eff49d0ac85458c1c4ba5fdc7172
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -69,7 +69,7 @@ TextureImporter:
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
-    maxTextureSize: 256
+    maxTextureSize: 512
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 0
@@ -110,13 +110,55 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: charging_Yellow_0
+      name: MiniBoss1-Sheet_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 160
+        width: 160
+        height: 160
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bd319deb704b7e5448f71cb2bb93923b
+      internalID: 390433463
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MiniBoss1-Sheet_1
+      rect:
+        serializedVersion: 2
+        x: 160
+        y: 160
+        width: 160
+        height: 160
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1c6c1d2c65cb8a44082938d50822b82a
+      internalID: -642119213
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MiniBoss1-Sheet_2
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 32
-        height: 32
+        width: 160
+        height: 160
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -124,20 +166,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 65d42d7de135b0a4db85861cf9fc83c8
-      internalID: 86283206
+      spriteID: f5e68ddb114046a45a07abbd2f20a3d3
+      internalID: -2088117119
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: charging_Yellow_1
+      name: MiniBoss1-Sheet_3
       rect:
         serializedVersion: 2
-        x: 32
+        x: 160
         y: 0
-        width: 32
-        height: 32
+        width: 160
+        height: 160
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -145,29 +187,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 559bca6b63133684b840f1c3bcab3fa1
-      internalID: 1066043707
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: charging_Yellow_2
-      rect:
-        serializedVersion: 2
-        x: 64
-        y: 0
-        width: 32
-        height: 32
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: ead23e19717f5d945aab9ae91c834ca7
-      internalID: 1940183305
+      spriteID: e6f5a3795087db24f8d045648fd0096f
+      internalID: 1804026592
       vertices: []
       indices: 
       edges: []
@@ -183,9 +204,10 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      charging_Yellow_0: 86283206
-      charging_Yellow_1: 1066043707
-      charging_Yellow_2: 1940183305
+      MiniBoss1-Sheet_0: 390433463
+      MiniBoss1-Sheet_1: -642119213
+      MiniBoss1-Sheet_2: -2088117119
+      MiniBoss1-Sheet_3: 1804026592
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

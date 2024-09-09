@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: d8abea3ddd84e964b8dc4527d24c3b52
+guid: c2d4d8d371439174f8e171ae8b2a5827
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -69,7 +69,7 @@ TextureImporter:
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
-    maxTextureSize: 256
+    maxTextureSize: 64
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 0
@@ -110,7 +110,49 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: charging_Yellow_0
+      name: fire-bom_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 32
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9bb01fe80555e6847b87c1b37ac5a54c
+      internalID: 1644817897
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fire-bom_1
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 32
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1fcf58f04e973b04b8a6ddbe09e79a4b
+      internalID: -1426572634
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fire-bom_2
       rect:
         serializedVersion: 2
         x: 0
@@ -124,14 +166,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 65d42d7de135b0a4db85861cf9fc83c8
-      internalID: 86283206
+      spriteID: 22b6ea84b922c8f4cb049a26df89d4d0
+      internalID: 640874528
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: charging_Yellow_1
+      name: fire-bom_3
       rect:
         serializedVersion: 2
         x: 32
@@ -145,29 +187,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 559bca6b63133684b840f1c3bcab3fa1
-      internalID: 1066043707
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: charging_Yellow_2
-      rect:
-        serializedVersion: 2
-        x: 64
-        y: 0
-        width: 32
-        height: 32
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: ead23e19717f5d945aab9ae91c834ca7
-      internalID: 1940183305
+      spriteID: d7772153b11e7b54183f2788f5f60862
+      internalID: -1126747072
       vertices: []
       indices: 
       edges: []
@@ -183,9 +204,10 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      charging_Yellow_0: 86283206
-      charging_Yellow_1: 1066043707
-      charging_Yellow_2: 1940183305
+      fire-bom_0: 1644817897
+      fire-bom_1: -1426572634
+      fire-bom_2: 640874528
+      fire-bom_3: -1126747072
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
