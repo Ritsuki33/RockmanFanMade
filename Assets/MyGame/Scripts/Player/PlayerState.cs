@@ -588,7 +588,7 @@ public partial class PlayerController
 
         protected override void FixedUpdate(PlayerController player, IParentState parent)
         {
-            player.exRb.velocity = Vector2.down * 13;
+            player.exRb.velocity = Vector2.down * 26;
         }
         protected override void OnBottomHitStay(PlayerController player, RaycastHit2D hit, IParentState parent)
         {

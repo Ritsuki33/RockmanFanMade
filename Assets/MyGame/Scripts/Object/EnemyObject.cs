@@ -13,6 +13,11 @@ public class EnemyObject : StageObject
 
     int hp = 0;
 
+    void Start()
+    {
+        Init();
+    }
+
     public virtual void Init() {
         SetMaterialParam(ShaderPropertyId.IsFadeColorID, 0);
         hp = (enemyData != null) ? enemyData.Hp : 3;

@@ -3,7 +3,6 @@ using UnityEngine;
 
 public class Projectile : ReusableObject
 {
-    float speed = 5f;
     protected Vector2 direction = default;
 
     private BoxCollider2D boxCollider;
@@ -23,22 +22,22 @@ public class Projectile : ReusableObject
         rb = GetComponent<Rigidbody2D>();
     }
 
-    public void Init(int attackPower, Action<Rigidbody2D> action)
+    public void Init(int attackPower, Action<Rigidbody2D> start, Action<Rigidbody2D> fixedUpdate)
     {
+        start?.Invoke(rb); 
         this.attackPower = attackPower;
-        moveAction = action;
+        moveAction = fixedUpdate;
     }
 
-    public void Init(int attackPower, Action<Rigidbody2D> action,Action deleteCallback)
+    public void Init(int attackPower, Action<Rigidbody2D> start, Action<Rigidbody2D> fixedUpdate, Action deleteCallback = null)
     {
-        Init(attackPower, action);
+        Init(attackPower, start, fixedUpdate);
         this.deleteCallback = deleteCallback;
     }
 
     private void FixedUpdate()
     {
         moveAction?.Invoke(this.rb);
-        //this.rb.velocity += direction * speed;
 
         if (GameManager.Instance.MainCameraControll.CheckOutOfView(this.gameObject))
         {

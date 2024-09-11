@@ -278,11 +278,12 @@ public class GreenManController : ExRbStateMachine<GreenManController>
         reflection = reflection.normalized;
         projectile.Init(
             0,
+            null
+,
             (rb) =>
             {
                 rb.velocity = reflection * speed;
-            }
-            );
+            });
         yield return new WaitForSeconds(1f);
 
         defense = null;
@@ -298,6 +299,7 @@ public class GreenManController : ExRbStateMachine<GreenManController>
         float speed = 5;
         projectile.transform.position = launcher.transform.position;
         projectile.GetComponent<Projectile>().Init(1,
+            null,
             (rb) =>
             {
                 rb.velocity = direction * speed;

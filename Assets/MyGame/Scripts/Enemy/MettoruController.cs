@@ -71,11 +71,12 @@ public partial class MettoruController : ExRbStateMachine<MettoruController>
         reflection = reflection.normalized;
         projectile.Init(
             0,
+            null
+,
             (rb) =>
             {
                 rb.velocity = reflection * speed;
-            }
-            );
+            });
         yield return new WaitForSeconds(1f);
 
         defense = null;
@@ -98,7 +99,9 @@ public partial class MettoruController : ExRbStateMachine<MettoruController>
         Vector2 direction= IsRight ? Vector2.right : Vector2.left;
         float speed = 5;
         fire.transform.position = this.transform.position;
-        fire.GetComponent<Projectile>().Init(1,
+        fire.GetComponent<Projectile>().Init(
+            1,
+            null,
             (rb) =>
             {
                 rb.velocity = direction * speed;
