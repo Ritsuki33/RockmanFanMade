@@ -183,7 +183,7 @@ public class LauncherController : StateMachine<LauncherController>
                 if (curMameNum > 0) curMameNum--;
             }
             );
-        projectile.transform.position = launcher.transform.position;
+        projectile.transform.position = new Vector3(launcher.transform.position.x, launcher.transform.position.y, -2);
 
         curMameNum++;
     }
@@ -191,7 +191,6 @@ public class LauncherController : StateMachine<LauncherController>
     void LaunchMiddle(bool isRight)
     {
         var rockBaster = RockBusterMiddlePool.Pool.Get();
-        //rockBaster.GetComponent<Projectile>().Init((isRight) ? Vector2.right : Vector2.left, launcher.transform.position, 8,2);
         var projectile = rockBaster.GetComponent<Projectile>();
         Vector2 direction = (isRight) ? Vector2.right : Vector2.left;
         Vector2 localScale = projectile.transform.localScale;
@@ -206,13 +205,12 @@ public class LauncherController : StateMachine<LauncherController>
             {
                 rb.velocity = direction * speed;
             });
-        projectile.transform.position = launcher.transform.position;
+        projectile.transform.position = new Vector3(launcher.transform.position.x, launcher.transform.position.y, -2);
     }
 
     void LaunchBig(bool isRight)
     {
         var rockBaster = RockBusterBigPool.Pool.Get();
-        //rockBaster.GetComponent<Projectile>().Init((isRight) ? Vector2.right : Vector2.left, launcher.transform.position, 12,3);
 
         var projectile = rockBaster.GetComponent<Projectile>();
         Vector2 direction = (isRight) ? Vector2.right : Vector2.left;
@@ -228,7 +226,7 @@ public class LauncherController : StateMachine<LauncherController>
             {
                 rb.velocity = direction * speed;
             });
-        projectile.transform.position = launcher.transform.position;
+        projectile.transform.position = new Vector3(launcher.transform.position.x, launcher.transform.position.y, -2);
     }
 
     public void StopRimLight()

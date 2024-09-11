@@ -6,6 +6,7 @@ using UnityEngine;
 
 public class BigDogController : RbStateMachine<BigDogController>
 {
+    [SerializeField] BigDog bigDog;
     [SerializeField] Animator _animator;
     [SerializeField] Transform _mouth;
 
@@ -72,6 +73,11 @@ public class BigDogController : RbStateMachine<BigDogController>
                 }
                 );
         }
+
+        protected override void OnTriggerEnter2D(BigDogController ctr, Collider2D collision, IParentState parent)
+        {
+            ctr.bigDog.Attacked(collision);
+        }
     }
 
     class Fire : RbState<BigDogController>
@@ -124,7 +130,10 @@ public class BigDogController : RbStateMachine<BigDogController>
             }
         }
 
-        
+        protected override void OnTriggerEnter2D(BigDogController ctr, Collider2D collision, IParentState parent)
+        {
+            ctr.bigDog.Attacked(collision);
+        }
     }
 
 
@@ -193,6 +202,11 @@ public class BigDogController : RbStateMachine<BigDogController>
                 }
                 );
             }
+        }
+
+        protected override void OnTriggerEnter2D(BigDogController ctr, Collider2D collision, IParentState parent)
+        {
+            ctr.bigDog.Attacked(collision);
         }
     }
 }

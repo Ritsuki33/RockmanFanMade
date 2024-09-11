@@ -19,7 +19,6 @@ public class EnemyAppearController : StateMachine<EnemyAppearController>
         AddState((int)StateID.Disappearing, new Disappearing());
 
         TransitReady((int)StateID.OutOfCamera, true);
-
     }
 
     private void Start()
