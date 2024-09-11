@@ -8,13 +8,22 @@ public class BigDogController : RbStateMachine<BigDogController>
 {
     [SerializeField] Animator _animator;
     [SerializeField] Transform _mouth;
+
+    [Header("しっぽ攻撃")]
     [SerializeField] Transform _tale;
-    [SerializeField] Transform _target;
+
+    [Header("ファイア攻撃")]
+    [SerializeField] Transform pointA;
+    [SerializeField] Transform pointB;
+
     AmbiguousTimer timer = new AmbiguousTimer();
 
 
     BaseObjectPool BomPool=>EffectManager.Instance.BomPool;
+    BaseObjectPool FirePool=>EffectManager.Instance.FirePool;
     BaseObjectPool ExplodePool=>EffectManager.Instance.ExplodePool;
+
+    PlayerController Player => GameManager.Instance.Player;
     enum StateId
     {
         Idle,
@@ -50,7 +59,7 @@ public class BigDogController : RbStateMachine<BigDogController>
                 () =>
                 {
                     Probability.BranchMethods(
-                              (0, () =>
+                              (50, () =>
                               {
                                   ctr.TransitReady((int)StateId.Fire);
                               }
@@ -68,22 +77,56 @@ public class BigDogController : RbStateMachine<BigDogController>
     class Fire : RbState<BigDogController>
     {
         static int animationHash = Animator.StringToHash("Fire");
+
+        bool finished = false;
         protected override void Enter(BigDogController ctr, int preId)
         {
             ctr._animator.Play(animationHash);
             ctr.timer.Start(1, 1);
+            finished = false;
+
+            ctr.StartCoroutine(StartFire());
+
+            IEnumerator StartFire()
+            {
+                int count = 0;
+                while (count < 7)
+                {
+                    var fire = ctr.FirePool.Pool.Get() as Projectile;
+                    fire.transform.position = new Vector3(ctr._mouth.position.x, ctr._mouth.position.y, -1);
+                    float time = 0;
+                    fire.Init(3, null,
+                        (rb) =>
+                        {
+                            rb.velocity = BezierCurveBehevior.GetVelocity(fire.transform.position, time, 1, ctr._mouth, ctr.pointA, ctr.pointB);
+                            time += Time.fixedDeltaTime;
+                        }
+                        );
+
+                    yield return new WaitForSeconds(0.07f);
+                    count++;
+                }
+
+                finished = true;
+            }
         }
 
         protected override void Update(BigDogController ctr, IParentState parent)
         {
-            ctr.timer.MoveAheadTime(Time.deltaTime,
-                () =>
-                {
-                    ctr.TransitReady((int)StateId.Idle);
-                }
-                );
+            if (finished)
+            {
+                ctr.timer.MoveAheadTime(Time.deltaTime,
+                    () =>
+                    {
+                        ctr.TransitReady((int)StateId.Idle);
+                    }
+                    );
+            }
         }
+
+        
     }
+
 
     class TailFire : RbState<BigDogController>
     {
@@ -130,7 +173,7 @@ public class BigDogController : RbStateMachine<BigDogController>
                     3,
                     (rb) =>
                     {
-                        Vector2 startVec = ParabolicBehavior.Init(ctr._target.position, ctr._tale.position, 60, gravityScale, () => { Debug.Log("発射失敗"); });
+                        Vector2 startVec = ParabolicBehavior.Init(ctr.Player.transform.position, ctr._tale.position, 60, gravityScale, () => { Debug.Log("発射失敗"); });
                         rb.velocity = startVec;
                     },
                     (rb) =>

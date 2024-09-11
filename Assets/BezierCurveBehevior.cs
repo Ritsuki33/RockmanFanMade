@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-public static class BezierCurveMovement
+public static class BezierCurveBehevior
 {
 
     public static Vector2 GetVelocity(Vector2 curPos, float timeElapsed, float duration, Transform a, Transform b, Transform c, Action callback = null)

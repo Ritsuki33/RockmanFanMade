@@ -210,6 +210,7 @@ Transform:
   - {fileID: 4672179370972423991}
   - {fileID: 3741596294789784244}
   - {fileID: 3530698389485073417}
+  - {fileID: 9059818862791041863}
   m_Father: {fileID: 8783223942164981467}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -232,6 +233,7 @@ MonoBehaviour:
   rockBusterBigPool: {fileID: 9091857834151796337}
   mettoruFirePool: {fileID: 7095692933095081184}
   bomPool: {fileID: 4494838383190542071}
+  firePool: {fileID: 1452499750541281219}
   playerDeathEffect: {fileID: 4265145672475137195}
 --- !u!1 &4643818298210295590
 GameObject:
@@ -423,6 +425,53 @@ MonoBehaviour:
   prefab: {fileID: 1078361096464978032, guid: 738101ea82959744ebc7803fc660f962, type: 3}
   defaultCapacity: 10
   maxSize: 10
+--- !u!1 &6442662058938028398
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 9059818862791041863}
+  - component: {fileID: 1452499750541281219}
+  m_Layer: 0
+  m_Name: FirePool
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &9059818862791041863
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6442662058938028398}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8214183983391218674}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1452499750541281219
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6442662058938028398}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6428f17e52015684683e9c774633b242, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  prefab: {fileID: 6015589148712709786, guid: 32cff727000d20a4ba82288462a1ad98, type: 3}
+  defaultCapacity: 10
+  maxSize: 10
 --- !u!1 &8534195141636084250
 GameObject:
   m_ObjectHideFlags: 0
@@ -498,7 +547,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8828237479478849529}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 2.85, y: 19.25, z: -11.027209}
+  m_LocalPosition: {x: 14.25, y: 8, z: -5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
