@@ -3,7 +3,6 @@ using UnityEngine;
 
 public class Projectile : ReusableObject
 {
-    float speed = 5f;
     protected Vector2 direction = default;
 
     private BoxCollider2D boxCollider;
