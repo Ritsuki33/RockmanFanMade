@@ -8,7 +8,7 @@ public class EnemyObject : StageObject
 
     private BaseObjectPool ExplodePool => EffectManager.Instance.ExplodePool;
 
-    bool IsRight => this.transform.localScale.x < 0;
+    public bool IsRight => this.transform.localScale.x < 0;
     private Material material;
 
     int hp = 0;

@@ -2,8 +2,8 @@
 
 public partial class PlayerController : ExRbStateMachine<PlayerController>
 {
+    [SerializeField] Player player;
     [SerializeField] LauncherController launcherController;
-    [SerializeReference] MaterialController materialController;
 
     Gravity gravity;
     Move move;
@@ -18,9 +18,8 @@ public partial class PlayerController : ExRbStateMachine<PlayerController>
 
     private ExpandRigidBody exRb;
 
-    public bool IsRight => this.transform.localScale.x > 0;
+    public bool IsRight => player.IsRight;
 
-    public MaterialController MaterialController => materialController;
     enum StateID
     {
         Standing=0,
@@ -61,22 +60,6 @@ public partial class PlayerController : ExRbStateMachine<PlayerController>
     public void UpdateInput(InputInfo input)
     {
         inputInfo = input;
-    }
-
-    /// <summary>
-    /// プレイヤーのポーズ
-    /// </summary>
-    public void PlayerPause()
-    {
-        this.enabled = false;
-    }
-
-    /// <summary>
-    /// プレイヤーのポーズキャンセル（一つ前の状態に戻す）
-    /// </summary>
-    public void PlayerPuaseCancel()
-    {
-        this.enabled = true;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

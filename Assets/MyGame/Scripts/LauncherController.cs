@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class LauncherController : StateMachine<LauncherController>
 {
-    [SerializeField] PlayerController player;
+    [SerializeField] Player player;
     [SerializeField] Animator m_charge_animator;
 
     [SerializeField] GameObject launcher;
@@ -15,9 +15,6 @@ public class LauncherController : StateMachine<LauncherController>
     BaseObjectPool RockBusterPool => EffectManager.Instance.RockBusterPool;
     BaseObjectPool RockBusterMiddlePool => EffectManager.Instance.RockBusterMiddlePool;
     BaseObjectPool RockBusterBigPool => EffectManager.Instance.RockBusterBigPool;
-
-
-    public MaterialController MaterialController => player.MaterialController;
 
     bool isLaunchTrigger = false;
     int rimLightColorId = Shader.PropertyToID("_RimLightColor");
@@ -232,7 +229,7 @@ public class LauncherController : StateMachine<LauncherController>
     public void StopRimLight()
     {
         if (chargingCo != null) StopCoroutine(chargingCo);
-        MaterialController.SetFloat(FadeLightId, 0);
+        player.SetMaterialParam(FadeLightId, 0);
         chargingCo = null;
     }
 
@@ -246,15 +243,15 @@ public class LauncherController : StateMachine<LauncherController>
             if (ColorUtility.TryParseHtmlString("#81C3FF", out Color color))
             {
 
-                MaterialController.SetColor(rimLightColorId, color);
+                player.SetMaterialParam(rimLightColorId, color);
 
                 while (true)
                 {
-                    MaterialController.SetFloat(FadeLightId, 1);
+                    player.SetMaterialParam(FadeLightId, 1);
 
                     yield return new WaitForSeconds(0.05f);
 
-                    MaterialController.SetFloat(FadeLightId, 0);
+                    player.SetMaterialParam(FadeLightId, 0);
 
                     yield return new WaitForSeconds(0.05f);
                 }

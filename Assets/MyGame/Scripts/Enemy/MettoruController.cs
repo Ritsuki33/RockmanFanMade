@@ -38,7 +38,7 @@ public partial class MettoruController : ExRbStateMachine<MettoruController>
     private PlayerController Player => GameManager.Instance.Player;
     private BaseObjectPool ExplodePool => EffectManager.Instance.ExplodePool;
     private BaseObjectPool MettoruFire => EffectManager.Instance.MettoruFirePool;
-    bool IsRight => this.transform.localScale.x < 0;
+    bool IsRight => mettrou.IsRight;
 
     Coroutine defense = null;
 

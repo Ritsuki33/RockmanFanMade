@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 5492504918457634560}
   - component: {fileID: 8702880162454419263}
   - component: {fileID: 8844416400681651829}
+  - component: {fileID: 8193433818486469091}
   - component: {fileID: 7713921221825195418}
   - component: {fileID: 5479312749157072935}
   - component: {fileID: 8800740584444139847}
@@ -169,6 +170,20 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.8, y: 1.4}
   m_EdgeRadius: 0
+--- !u!114 &8193433818486469091
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1557988498668573356}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 057921abc419075458a2eba9abb02507, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  materialController: {fileID: 8094217357087564609}
+  playerController: {fileID: 7713921221825195418}
 --- !u!114 &7713921221825195418
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -181,8 +196,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e9389d2952f07143863749bbd49ce0c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  player: {fileID: 8193433818486469091}
   launcherController: {fileID: 5595084998609655866}
-  materialController: {fileID: 8094217357087564609}
 --- !u!114 &5479312749157072935
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -210,7 +225,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e24a7cd47c14ba7458e97c388650a51c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 5
+  speed: 10
 --- !u!95 &8952024346000347886
 Animator:
   serializedVersion: 5
@@ -264,7 +279,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   boxCollider: {fileID: 8844416400681651829}
   physicalOffset: {x: 0.02, y: 0.03}
-  physicalGap: 0
+  physicalGap: 0.005
   priority: 4
   ratio_x: 1
   ratio_y: 1
@@ -421,7 +436,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1192d861629927e4ba8db6d2a8bb87db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 7713921221825195418}
+  player: {fileID: 8193433818486469091}
   m_charge_animator: {fileID: 490895303943728102}
   launcher: {fileID: 6287628425935475164}
   mameMax: 3

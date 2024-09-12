@@ -18,6 +18,7 @@ public struct InputInfo
     }
 }
 
+[DefaultExecutionOrder(-100)]
 public class GameManager : SingletonComponent<GameManager>
 {
     [SerializeField] MainCameraControll m_mainCameraControll = default;
@@ -50,17 +51,18 @@ public class GameManager : SingletonComponent<GameManager>
 
     public void ChangeCamera(CinemachineVirtualCamera nextVirtualCamera)
     {
-
         StartCoroutine(ChangeCameraCo(nextVirtualCamera));
     }
 
     IEnumerator ChangeCameraCo(CinemachineVirtualCamera nextVirtualCamera)
     {
         if (nextVirtualCamera.gameObject == m_mainCameraControll.CinemachineBrain.ActiveVirtualCamera.VirtualCameraGameObject) yield break;
+
+        // 通知する
+        EventTriggerManager.Instance.Notify(EventType.ChangeCameraStart);
+        
         m_mainCameraControll.CinemachineBrain.ActiveVirtualCamera.VirtualCameraGameObject.SetActive(false);
         nextVirtualCamera.gameObject.SetActive(true);
-        // プレイヤーの動きを止める
-        player.PlayerPause();
         // ブレンディングをスタートさせるため、次フレームまで待つ 
         yield return null;
         Vector3 pre_cameraPos= m_mainCameraControll.CinemachineBrain.transform.position;
@@ -71,7 +73,9 @@ public class GameManager : SingletonComponent<GameManager>
             pre_cameraPos = m_mainCameraControll.CinemachineBrain.transform.position;
             yield return null;
         }
-        player.PlayerPuaseCancel();
+
+        // 通知する
+        EventTriggerManager.Instance.Notify(EventType.ChangeCameraEnd);
     }
    
     public void StageStart()
