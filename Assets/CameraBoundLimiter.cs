@@ -10,12 +10,12 @@ public class CameraBoundLimiter : MonoBehaviour
     public enum BoundType
     {
         Right = 1 << 0,  // 1
-        Left= 1 << 1,  // 2
+        Left = 1 << 1,  // 2
         Top = 1 << 2,  // 4
-        Bottom= 1 << 3,  // 8
+        Bottom = 1 << 3,  // 8
     }
 
-    public BoundType boundType;
+    [SerializeField]private BoundType boundType;
 
     private BoxCollider2D boxCollider;
     private Vector3 minScreenBounds;
@@ -26,7 +26,7 @@ public class CameraBoundLimiter : MonoBehaviour
 
     bool CheckBoudType(BoundType type) => (boundType & type) == type;
 
-    void Start()
+    void Awake()
     {
         boxCollider = GetComponent<BoxCollider2D>();
     }
@@ -48,4 +48,8 @@ public class CameraBoundLimiter : MonoBehaviour
         transform.position = characterPosition;
     }
 
+    public void ChangeBoundType(BoundType boundType)
+    {
+        this.boundType = boundType;
+    }
 }
