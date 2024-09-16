@@ -8,7 +8,7 @@ public class EnemyObject : StageObject
 
     private BaseObjectPool ExplodePool => EffectManager.Instance.ExplodePool;
 
-    bool IsRight => this.transform.localScale.x < 0;
+    public bool IsRight => this.transform.localScale.x < 0;
     private Material material;
 
     int hp = 0;
@@ -53,6 +53,8 @@ public class EnemyObject : StageObject
         explode.transform.position = this.transform.position;
 
         this.gameObject.SetActive(false);
+
+        EventTriggerManager.Instance.Notify(EventType.EnemyDefeated);
     }
 
     public void TurnTo(bool isRight)

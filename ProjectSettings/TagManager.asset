@@ -8,6 +8,7 @@ TagManager:
   - RockBuster
   - DeadZone
   - ChargeShot
+  - Door
   layers:
   - Default
   - TransparentFX

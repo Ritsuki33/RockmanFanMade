@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
+[DefaultExecutionOrder(-100)]
 public class FadeInManager : SingletonComponent<FadeInManager>
 {
     [SerializeField] CanvasGroup blackOut = default;

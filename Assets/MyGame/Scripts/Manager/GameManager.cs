@@ -18,12 +18,14 @@ public struct InputInfo
     }
 }
 
+[DefaultExecutionOrder(-100)]
 public class GameManager : SingletonComponent<GameManager>
 {
     [SerializeField] MainCameraControll m_mainCameraControll = default;
     [SerializeField] PlayerController player = default;
     [SerializeField] Transform StartPos = default;
 
+    [SerializeField] CameraControllArea defaultCameraControllArea;
     public MainCameraControll MainCameraControll => m_mainCameraControll;
 
     public PlayerController Player => player;
@@ -33,10 +35,12 @@ public class GameManager : SingletonComponent<GameManager>
     /// </summary>
     private IInput InputController => InputManager.Instance;
 
+    private CameraControllArea currentCameraControllArea;
     protected override void Awake()
     {
         base.Awake();
         StageStart();
+        InitArea(defaultCameraControllArea);
     }
 
     private void Update()
@@ -48,32 +52,58 @@ public class GameManager : SingletonComponent<GameManager>
 
     }
 
-    public void ChangeCamera(CinemachineVirtualCamera nextVirtualCamera)
+    private void InitArea(CameraControllArea nextControllArea)
     {
 
-        StartCoroutine(ChangeCameraCo(nextVirtualCamera));
+        m_mainCameraControll.CinemachineBrain.ActiveVirtualCamera?.VirtualCameraGameObject.SetActive(false);
+        currentCameraControllArea?.AreaManager?.gameObject.SetActive(false);
+
+        // コントロールエリアの更新
+        currentCameraControllArea = nextControllArea;
+        currentCameraControllArea.VirtualCamera.gameObject.SetActive(true);
+        currentCameraControllArea.AreaManager?.gameObject.SetActive(true);
+
     }
 
-    IEnumerator ChangeCameraCo(CinemachineVirtualCamera nextVirtualCamera)
+    public void ChangeCamera(CameraControllArea nextControllArea, IEnumerator start = null, IEnumerator end =null)
     {
-        if (nextVirtualCamera.gameObject == m_mainCameraControll.CinemachineBrain.ActiveVirtualCamera.VirtualCameraGameObject) yield break;
-        m_mainCameraControll.CinemachineBrain.ActiveVirtualCamera.VirtualCameraGameObject.SetActive(false);
-        nextVirtualCamera.gameObject.SetActive(true);
-        // プレイヤーの動きを止める
-        player.PlayerPause();
-        // ブレンディングをスタートさせるため、次フレームまで待つ 
-        yield return null;
-        Vector3 pre_cameraPos= m_mainCameraControll.CinemachineBrain.transform.position;
-        while (m_mainCameraControll.CinemachineBrain.IsBlending)
+        StartCoroutine(ChangeCameraCo(nextControllArea, start, end));
+
+        IEnumerator ChangeCameraCo(CameraControllArea nextControllArea, IEnumerator start, IEnumerator end)
         {
-            Vector3 delta = m_mainCameraControll.CinemachineBrain.transform.position - pre_cameraPos;
-            player.transform.position += delta * 0.08f;
-            pre_cameraPos = m_mainCameraControll.CinemachineBrain.transform.position;
+            if (nextControllArea == null || nextControllArea.VirtualCamera.gameObject == m_mainCameraControll.CinemachineBrain.ActiveVirtualCamera.VirtualCameraGameObject) yield break;
+
+            // 通知する
+            EventTriggerManager.Instance.Notify(EventType.ChangeCameraStart);
+            EventTriggerManager.Instance.Notify(EventType.ExitArea);
+
+            yield return start;
+
+            InitArea(nextControllArea);
+
+            // ブレンディングをスタートさせるため、次フレームまで待つ 
             yield return null;
+
+            Vector3 pre_cameraPos = m_mainCameraControll.CinemachineBrain.transform.position;
+            while (m_mainCameraControll.CinemachineBrain.IsBlending)
+            {
+                Vector3 delta = m_mainCameraControll.CinemachineBrain.transform.position - pre_cameraPos;
+                player.transform.position += delta * 0.08f;
+                pre_cameraPos = m_mainCameraControll.CinemachineBrain.transform.position;
+                yield return null;
+            }
+
+            yield return end;
+
+            // 通知する
+            EventTriggerManager.Instance.Notify(EventType.ChangeCameraEnd);
+
+            EventTriggerManager.Instance.Notify(EventType.EnterArea);
+
         }
-        player.PlayerPuaseCancel();
     }
-   
+
+
     public void StageStart()
     {
         StartCoroutine(StageStartCo());

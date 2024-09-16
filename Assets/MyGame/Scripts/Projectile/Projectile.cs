@@ -22,6 +22,16 @@ public class Projectile : ReusableObject
         rb = GetComponent<Rigidbody2D>();
     }
 
+    private void OnEnable()
+    {
+        EventTriggerManager.Instance.Subscribe(EventType.ChangeCameraStart, Delete);
+    }
+
+    private void OnDisable()
+    {
+        EventTriggerManager.Instance.Unsubscribe(EventType.ChangeCameraStart, Delete);
+    }
+
     public void Init(int attackPower, Action<Rigidbody2D> start, Action<Rigidbody2D> fixedUpdate)
     {
         start?.Invoke(rb); 

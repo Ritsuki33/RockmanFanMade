@@ -21,6 +21,7 @@ public interface IInput
     bool GetDownInput(InputType type);
 }
 
+[DefaultExecutionOrder(-100)]
 public class InputManager : SingletonComponent<InputManager>, IInput
 {
     PlayerInput playerInput;

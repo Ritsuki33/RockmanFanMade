@@ -8,12 +8,14 @@ public class EnemyAppearController : StateMachine<EnemyAppearController>
 
     enum StateID
     {
+        None,
         OutOfCamera,
         Appering,
         Disappearing
     }
     private void Awake()
     {
+        AddState((int)StateID.None, new None());
         AddState((int)StateID.OutOfCamera, new OutOfCamera());
         AddState((int)StateID.Appering, new Appering());
         AddState((int)StateID.Disappearing, new Disappearing());
@@ -24,6 +26,37 @@ public class EnemyAppearController : StateMachine<EnemyAppearController>
     private void Start()
     {
         enemy.gameObject.SetActive(false);
+    }
+
+    private void OnEnable()
+    {
+        EventTriggerManager.Instance.Subscribe(EventType.ChangeCameraStart, Disabled);
+        EventTriggerManager.Instance.Subscribe(EventType.ChangeCameraEnd, Enabled);
+    }
+
+    private void OnDisable()
+    {
+        EventTriggerManager.Instance.Unsubscribe(EventType.ChangeCameraStart, Disabled);
+        EventTriggerManager.Instance.Unsubscribe(EventType.ChangeCameraEnd, Enabled);
+    }
+
+    public void Enabled()
+    {
+        TransitReady((int)StateID.OutOfCamera);
+    }
+
+    public void Disabled()
+    {
+        enemy.gameObject.SetActive(false);
+        TransitReady((int)StateID.None);
+    }
+
+    class None : State<EnemyAppearController>
+    {
+        protected override void Enter(EnemyAppearController enemyAppearController, int preId)
+        {
+            enemyAppearController.enemy.gameObject.SetActive(false);
+        }
     }
 
     /// <summary>

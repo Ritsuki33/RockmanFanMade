@@ -12,7 +12,7 @@ public class SingletonComponent<T> : MonoBehaviour where T : Component
     {
         if (_instance == null)
         {
-            _instance = GetComponent<T>();
+            _instance = this as T;
         }
         else
         {

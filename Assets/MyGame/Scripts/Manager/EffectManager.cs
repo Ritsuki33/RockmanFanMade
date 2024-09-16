@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[DefaultExecutionOrder(-100)]
 public class EffectManager : SingletonComponent<EffectManager>
 {
     [SerializeField] BaseObjectPool explodePool = default;
