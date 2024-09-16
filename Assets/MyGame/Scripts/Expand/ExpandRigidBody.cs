@@ -312,16 +312,19 @@ public class ExpandRigidBody : MonoBehaviour, IBaseExRbHit.IExRbCallbackSet
         set { RigthColliderCenter = new Vector2(value - physicalOffset.x, RigthColliderCenter.y); }
     }
 
+    public event Action<RaycastHit2D> onHitEnter;
     public event Action<RaycastHit2D> onHitBottomEnter;
     public event Action<RaycastHit2D> onHitTopEnter;
     public event Action<RaycastHit2D> onHitLeftEnter;
     public event Action<RaycastHit2D> onHitRightEnter;
 
+    public event Action<RaycastHit2D> onHitStay;
     public event Action<RaycastHit2D> onHitBottomStay;
     public event Action<RaycastHit2D> onHitTopStay;
     public event Action<RaycastHit2D> onHitLeftStay;
     public event Action<RaycastHit2D> onHitRightStay;
 
+    public event Action<RaycastHit2D> onHitExit;
     public event Action<RaycastHit2D> onHitBottomExit;
     public event Action<RaycastHit2D> onHitTopExit;
     public event Action<RaycastHit2D> onHitLeftExit;
@@ -447,14 +450,23 @@ public class ExpandRigidBody : MonoBehaviour, IBaseExRbHit.IExRbCallbackSet
                 else currentVelocity.y += correct;
             }
 
-            if (!isCollideTop) onHitTopEnter?.Invoke(topHit);
-
+            if (!isCollideTop)
+            {
+                onHitTopEnter?.Invoke(topHit);
+                onHitEnter?.Invoke(topHit);
+            }
             onHitTopStay?.Invoke(topHit);
+            onHitStay?.Invoke(topHit);
             isCollideTop = true;
         }
         else
         {
-            if (isCollideTop) onHitTopExit?.Invoke(topHit);
+            if (isCollideTop)
+            {
+                onHitTopExit?.Invoke(topHit);
+                onHitExit?.Invoke(topHit);
+            }
+
             isCollideTop = false;
         }
 
@@ -470,14 +482,22 @@ public class ExpandRigidBody : MonoBehaviour, IBaseExRbHit.IExRbCallbackSet
                 if (bottomHit.rigidbody) currentVelocity += bottomHit.rigidbody.velocity;
             }
 
-            if (!isCollideBottom) onHitBottomEnter?.Invoke(bottomHit);
-
+            if (!isCollideBottom)
+            {
+                onHitBottomEnter?.Invoke(bottomHit);
+                onHitEnter?.Invoke(bottomHit);
+            }
             onHitBottomStay?.Invoke(bottomHit);
+            onHitStay?.Invoke(bottomHit);
             isCollideBottom = true;
         }
         else
         {
-            if (isCollideBottom) onHitBottomExit?.Invoke(bottomHit);
+            if (isCollideBottom)
+            {
+                onHitBottomExit?.Invoke(bottomHit);
+                onHitExit?.Invoke(bottomHit);
+            }
             isCollideBottom = false;
         }
 
@@ -489,13 +509,22 @@ public class ExpandRigidBody : MonoBehaviour, IBaseExRbHit.IExRbCallbackSet
                 if (currentVelocity.x <= 0) currentVelocity.x = correct;
                 else currentVelocity.x += correct;
             }
-            if (!isCollideLeft) onHitLeftEnter?.Invoke(leftHit);
+            if (!isCollideLeft)
+            {
+                onHitLeftEnter?.Invoke(leftHit);
+                onHitEnter?.Invoke(leftHit);
+            }
             onHitLeftStay?.Invoke(leftHit);
+            onHitStay?.Invoke(leftHit);
             isCollideLeft = true;
         }
         else
         {
-            if (isCollideLeft) onHitLeftExit?.Invoke(leftHit);
+            if (isCollideLeft)
+            {
+                onHitLeftExit?.Invoke(leftHit);
+                onHitExit?.Invoke(leftHit);
+            }
             isCollideLeft = false;
         }
 
@@ -508,13 +537,22 @@ public class ExpandRigidBody : MonoBehaviour, IBaseExRbHit.IExRbCallbackSet
                 if (currentVelocity.x >= 0) currentVelocity.x = correct;
                 else currentVelocity.x += correct;
             }
-            if (!isCollideRight) onHitRightEnter?.Invoke(rightHit);
+            if (!isCollideRight)
+            {
+                onHitRightEnter?.Invoke(rightHit);
+                onHitEnter?.Invoke(rightHit);
+            }
             onHitRightStay?.Invoke(rightHit);
+            onHitStay?.Invoke(rightHit);
             isCollideRight = true;
         }
         else
         {
-            if (isCollideRight) onHitRightExit?.Invoke(rightHit);
+            if (isCollideRight)
+            {
+                onHitRightExit?.Invoke(rightHit);
+                onHitExit?.Invoke(rightHit);
+            }
             isCollideRight = false;
         }
 
@@ -551,15 +589,23 @@ public class ExpandRigidBody : MonoBehaviour, IBaseExRbHit.IExRbCallbackSet
                     if (throughFloorBottomHit.rigidbody) currentVelocity += throughFloorBottomHit.rigidbody.velocity;
                 }
 
-                if (!isCollideBottom) onHitBottomEnter?.Invoke(bottomHit);
-
+                if (!isCollideBottom)
+                {
+                    onHitBottomEnter?.Invoke(throughFloorBottomHit);
+                    onHitEnter?.Invoke(throughFloorBottomHit);
+                }
                 onHitBottomStay?.Invoke(throughFloorBottomHit);
+                onHitStay?.Invoke(throughFloorBottomHit);
                 isCollideThroughFloorBottom = true;
             }
         }
         else
         {
-            if (isCollideThroughFloorBottom) onHitBottomExit?.Invoke(bottomHit);
+            if (isCollideThroughFloorBottom)
+            {
+                onHitBottomExit?.Invoke(throughFloorBottomHit);
+                onHitExit?.Invoke(throughFloorBottomHit);
+            }
             isCollideThroughFloorBottom = false;
         }
 
@@ -584,14 +630,17 @@ public class ExpandRigidBody : MonoBehaviour, IBaseExRbHit.IExRbCallbackSet
     /// <param name="hitEvent"></param>
      void IBaseExRbHit.IExRbCallbackSet.AddOnHitEventCallback(IHitEvent hitEvent)
     {
+        onHitEnter += hitEvent.HitEnter;
         onHitBottomEnter += hitEvent.BottomHitEnter;
         onHitTopEnter += hitEvent.TopHitEnter;
         onHitLeftEnter += hitEvent.LeftHitEnter;
         onHitRightEnter += hitEvent.RightHitEnter;
+        onHitStay += hitEvent.HitStay;
         onHitBottomStay += hitEvent.BottomHitStay;
         onHitTopStay += hitEvent.TopHitStay;
         onHitLeftStay += hitEvent.LeftHitStay;
         onHitRightStay += hitEvent.RightHitStay;
+        onHitExit += hitEvent.HitExit;
         onHitBottomExit += hitEvent.BottomHitExit;
         onHitTopExit += hitEvent.TopHitExit;
         onHitRightExit += hitEvent.RightHitExit;
@@ -604,14 +653,17 @@ public class ExpandRigidBody : MonoBehaviour, IBaseExRbHit.IExRbCallbackSet
     /// <param name="hitEvent"></param>
     void IBaseExRbHit.IExRbCallbackSet.RemoveOnHitEventCallback(IHitEvent hitEvent)
     {
+        onHitEnter -= hitEvent.HitEnter;
         onHitBottomEnter -= hitEvent.BottomHitEnter;
         onHitTopEnter -= hitEvent.TopHitEnter;
         onHitLeftEnter -= hitEvent.LeftHitEnter;
         onHitRightEnter -= hitEvent.RightHitEnter;
+        onHitStay -= hitEvent.HitStay;
         onHitBottomStay -= hitEvent.BottomHitStay;
         onHitTopStay -= hitEvent.TopHitStay;
         onHitLeftStay -= hitEvent.LeftHitStay;
         onHitRightStay -= hitEvent.RightHitStay;
+        onHitExit -= hitEvent.HitExit;
         onHitBottomExit -= hitEvent.BottomHitExit;
         onHitTopExit -= hitEvent.TopHitExit;
         onHitRightExit -= hitEvent.RightHitExit;

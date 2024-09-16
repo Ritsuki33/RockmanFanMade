@@ -7,6 +7,9 @@ public enum EventType
 {
     ChangeCameraStart,
     ChangeCameraEnd,
+    EnterArea,
+    ExitArea,
+    EnemyDefeated,
 }
 
 [DefaultExecutionOrder(-100)]
@@ -22,6 +25,9 @@ public class EventTriggerManager : SingletonComponent<EventTriggerManager>
 
         eventTriggers.Add(EventType.ChangeCameraStart, null);
         eventTriggers.Add(EventType.ChangeCameraEnd, null);
+        eventTriggers.Add(EventType.EnemyDefeated, null);
+        eventTriggers.Add(EventType.EnterArea, null);
+        eventTriggers.Add(EventType.ExitArea, null);
     }
     
     public void Subscribe(EventType eventType, Action action)

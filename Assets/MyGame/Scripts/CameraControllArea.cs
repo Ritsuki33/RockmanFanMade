@@ -1,5 +1,6 @@
 ﻿using Cinemachine;
 using System.Collections.Generic;
+using System.Globalization;
 using UnityEngine;
 
 public class CameraControllArea : MonoBehaviour
@@ -12,12 +13,16 @@ public class CameraControllArea : MonoBehaviour
     [SerializeField] DirType _dirType;
     [SerializeField, Header("可動域")] float scrollRange = 1.0f;
     [SerializeField] CinemachineVirtualCamera virtualCamera;
+    [SerializeField] AreaManager areaManager;
     [SerializeField] GameObject transitCameraAreaPrefab;
     [SerializeField] Transform transitCameraAreaRoot;
     [SerializeField] List<TransitCameraArea> transitCameraAreas;
 
     private Camera _camera;
     CinemachineLineLimit _limit;
+
+    public CinemachineVirtualCamera VirtualCamera => virtualCamera;
+    public AreaManager AreaManager => areaManager;
 
     public Vector3 Direction
     {
@@ -45,6 +50,7 @@ public class CameraControllArea : MonoBehaviour
 
     private void AddTransitCameraArea()
     {
+        var obj = Instantiate(transitCameraAreaPrefab, transitCameraAreaRoot).GetComponent<TransitCameraArea>();
         transitCameraAreas.Add(Instantiate(transitCameraAreaPrefab, transitCameraAreaRoot).GetComponent<TransitCameraArea>());
     }
 
@@ -86,7 +92,7 @@ public class CameraControllArea : MonoBehaviour
 
         foreach (var transitCameraArea in transitCameraAreas)
         {
-            
+            if (!transitCameraArea.gameObject.activeSelf) continue;
             Vector2 center = (Vector2)transitCameraArea.TransitArea.gameObject.transform.position + transitCameraArea.TransitArea.offset;
             Vector2 size = (Vector2)transitCameraArea.TransitArea.size;
 

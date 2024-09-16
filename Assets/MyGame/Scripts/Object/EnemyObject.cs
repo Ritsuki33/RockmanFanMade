@@ -53,6 +53,8 @@ public class EnemyObject : StageObject
         explode.transform.position = this.transform.position;
 
         this.gameObject.SetActive(false);
+
+        EventTriggerManager.Instance.Notify(EventType.EnemyDefeated);
     }
 
     public void TurnTo(bool isRight)
