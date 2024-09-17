@@ -2,17 +2,17 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AreaManager : MonoBehaviour
+public class MiniBossArea : BaseArea
 {
     [SerializeField] TransitCameraArea transitCameraArea;
 
-    public void OnEnable()
+    private void OnEnable()
     {
         EventTriggerManager.Instance.Subscribe(EventType.EnterArea, ClosedArea);
         EventTriggerManager.Instance.Subscribe(EventType.EnemyDefeated, OpenArea);
     }
 
-    public void OnDisable()
+    private void OnDisable()
     {
         EventTriggerManager.Instance.Unsubscribe(EventType.EnterArea, ClosedArea);
         EventTriggerManager.Instance.Unsubscribe(EventType.EnemyDefeated, OpenArea);
@@ -20,7 +20,7 @@ public class AreaManager : MonoBehaviour
 
     private void ClosedArea()
     {
-        transitCameraArea.gameObject.SetActive(false); 
+        transitCameraArea.gameObject.SetActive(false);
     }
 
     private void OpenArea()
