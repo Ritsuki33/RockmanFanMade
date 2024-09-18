@@ -18,6 +18,7 @@ public partial class PlayerController : ExRbStateMachine<PlayerController>
 
     private ExpandRigidBody exRb;
 
+    Transform bamili = null;
     public bool IsRight => player.IsRight;
 
     enum StateID
@@ -32,9 +33,8 @@ public partial class PlayerController : ExRbStateMachine<PlayerController>
         Death,
         Transfer,
         Transfered,
+        AutoMove,
     }
-
-
 
     private void Awake()
     {
@@ -55,6 +55,7 @@ public partial class PlayerController : ExRbStateMachine<PlayerController>
         AddState((int)StateID.Death, new Death());
         AddState((int)StateID.Transfer, new Transfer());
         AddState((int)StateID.Transfered, new Transfered());
+        AddState((int)StateID.AutoMove, new AutoMove());
     }
 
     public void UpdateInput(InputInfo input)
@@ -108,5 +109,16 @@ public partial class PlayerController : ExRbStateMachine<PlayerController>
     {
         this.gameObject.SetActive(true);
         TransitReady((int)StateID.Transfer);
+    }
+
+    public void AutoMoveTowards(Transform bamili)
+    {
+        this.bamili = bamili;
+        this.TransitReady((int)StateID.AutoMove);
+    }
+
+    public void InputPermission()
+    {
+        this.TransitReady((int)StateID.Standing);
     }
 }

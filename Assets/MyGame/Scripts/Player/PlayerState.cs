@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Runtime.ConstrainedExecution;
+using UnityEngine;
 
 public partial class PlayerController
 {
@@ -18,7 +19,7 @@ public partial class PlayerController
 
         protected override void Enter(PlayerController obj, int preId)
         {
-            TransitSubReady((int)SubStateID.Basic);
+            TransitSubReady((int)SubStateID.Basic, preId);
         }
 
         protected override void FixedUpdate(PlayerController player, IParentState parent)
@@ -130,7 +131,7 @@ public partial class PlayerController
 
         protected override void Enter(PlayerController player, int preId)
         {
-            TransitSubReady((int)SubStateID.Run);
+            TransitSubReady((int)SubStateID.Run, preId);
         }
 
         protected override void FixedUpdate(PlayerController player, IParentState parent)
@@ -237,7 +238,7 @@ public partial class PlayerController
         protected override void Enter(PlayerController player, int preId)
         {
             player.onTheGround.Reset();
-            TransitSubReady((int)SubStateID.Basic);
+            TransitSubReady((int)SubStateID.Basic, preId);
         }
 
         protected override void FixedUpdate(PlayerController player, IParentState parent)
@@ -335,7 +336,7 @@ public partial class PlayerController
 
         protected override void Enter(PlayerController player, int preId)
         {
-            TransitSubReady((int)SubStateID.Basic);
+            TransitSubReady((int)SubStateID.Basic, preId);
             player.onTheGround.Reset();
             player.jump.Init();
             isJumping = true;
@@ -605,6 +606,137 @@ public partial class PlayerController
         protected override void Enter(PlayerController player, int preId)
         {
             player.animator.Play(animationHash);
+        }
+    }
+
+
+    class AutoMove : ExRbState<PlayerController>
+    {
+        enum SubStateId
+        {
+            Float,
+            Run,
+            Finished
+        }
+
+        public AutoMove()
+        {
+            AddSubState((int)SubStateId.Float, new Float());
+            AddSubState((int)SubStateId.Run, new Run());
+            AddSubState((int)SubStateId.Finished, new Finished());
+        }
+        protected override void Enter(PlayerController player, int preId)
+        {
+            player.onTheGround.Reset();
+
+            var preStateId=(StateID)preId;
+           
+            if (preStateId == StateID.Standing || preStateId == StateID.Running)
+            {
+                this.TransitSubReady((int)SubStateId.Run, preId);
+            }
+            else
+            {
+                this.TransitSubReady((int)SubStateId.Float, preId);
+            }
+        }
+
+        protected override void FixedUpdate(PlayerController player, IParentState parent)
+        {
+            player.gravity.UpdateVelocity();
+            player.exRb.velocity = player.gravity.CurrentVelocity;
+        }
+
+
+        class Float : ExRbState<PlayerController>
+        {
+            int animationHash = Animator.StringToHash("Float"); 
+            protected override void Enter(PlayerController player, int preId)
+            {
+                player.animator.Play(animationHash);
+            }
+
+            protected override void OnBottomHitStay(PlayerController player, RaycastHit2D hit, IParentState parent)
+            {
+                parent.TransitSubReady((int)SubStateId.Run);
+            }
+        }
+
+        class Run : ExRbState<PlayerController>
+        {
+            float bamili_x; // x軸だけ利用
+            int animationHash = Animator.StringToHash("Run");
+
+            float preViousX = 0;
+            protected override void Enter(PlayerController player, int preId)
+            {
+                if (player.bamili)
+                {
+                    bamili_x = player.bamili.position.x;
+                }
+                preViousX = player.transform.position.x;
+
+                player.animator.Play(animationHash);
+            }
+
+            protected override void OnBottomHitExit(PlayerController player, RaycastHit2D hit, IParentState parent)
+            {
+                parent.TransitSubReady((int)SubStateId.Float);
+            }
+
+            protected override void FixedUpdate(PlayerController player, IParentState parent)
+            {
+                player.gravity.UpdateVelocity();
+                player.exRb.velocity = player.gravity.CurrentVelocity;
+
+
+                if ((preViousX < bamili_x && player.transform.position.x >= bamili_x)|| (preViousX > bamili_x && player.transform.position.x <= bamili_x))
+                {
+                    parent.TransitSubReady((int)SubStateId.Finished);
+                }
+                else
+                {
+                    Move.InputType type = default;
+                    if (player.transform.position.x > bamili_x) type = Move.InputType.Left;
+                    else if (player.transform.position.x < bamili_x) type = Move.InputType.Right;
+                    player.move.UpdateVelocity(player.onTheGround.GroundHit.normal.Verticalize(), type);
+                    Vector2 moveV = player.move.CurrentVelocity;
+                    player.exRb.velocity += moveV;
+
+                    if (moveV.x > 0)
+                    {
+                        Vector3 localScale = player.transform.localScale;
+                        localScale.x = 1;
+                        player.transform.localScale = localScale;
+                    }
+                    else if (moveV.x < 0)
+                    {
+                        Vector3 localScale = player.transform.localScale;
+                        localScale.x = -1;
+                        player.transform.localScale = localScale;
+                    }
+
+                    if (!player.onTheGround.Check())
+                    {
+                        parent.TransitSubReady((int)SubStateId.Float);
+                    }
+
+                    preViousX = player.transform.position.x;
+                }
+            }
+        }
+
+        class Finished : ExRbState<PlayerController> { 
+            int animationHash = Animator.StringToHash("Idle");
+            protected override void Enter(PlayerController player, int preId)
+            {
+                // 通知する
+                EventTriggerManager.Instance.Notify(EventType.PlayerMoveEnd);
+                player.bamili = null;
+
+                player.animator.Play(animationHash);
+            }
+
         }
     }
 }

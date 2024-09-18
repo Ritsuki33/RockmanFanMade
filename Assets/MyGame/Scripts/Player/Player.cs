@@ -36,4 +36,13 @@ public class Player : StageObject
         playerController.enabled = true;
     }
 
+    public void AutoMoveTowards(Transform bamili)
+    {
+        playerController.AutoMoveTowards(bamili);
+    }
+
+    public void InputPermission()
+    {
+        playerController.InputPermission();
+    }
 }

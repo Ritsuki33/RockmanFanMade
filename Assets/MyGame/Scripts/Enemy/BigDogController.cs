@@ -154,7 +154,7 @@ public class BigDogController : RbStateMachine<BigDogController>
 
         protected override void Enter(BigDogController ctr, int preId)
         {
-            TransitSubReady((int)SubStateId.Stance);
+            TransitSubReady((int)SubStateId.Stance, preId);
             ctr._animator.Play(animationHash);
         }
 
