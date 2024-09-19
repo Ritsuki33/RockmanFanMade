@@ -10,6 +10,9 @@ public enum EventType
     EnterArea,
     ExitArea,
     EnemyDefeated,
+    EnemyPauseEnd,
+    PlayerMoveEnd,
+    HpBarSetEnd,
 }
 
 [DefaultExecutionOrder(-100)]
@@ -28,6 +31,9 @@ public class EventTriggerManager : SingletonComponent<EventTriggerManager>
         eventTriggers.Add(EventType.EnemyDefeated, null);
         eventTriggers.Add(EventType.EnterArea, null);
         eventTriggers.Add(EventType.ExitArea, null);
+        eventTriggers.Add(EventType.EnemyPauseEnd, null);
+        eventTriggers.Add(EventType.PlayerMoveEnd, null);
+        eventTriggers.Add(EventType.HpBarSetEnd, null);
     }
     
     public void Subscribe(EventType eventType, Action action)
