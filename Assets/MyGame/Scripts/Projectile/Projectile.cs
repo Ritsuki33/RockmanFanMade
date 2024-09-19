@@ -1,15 +1,19 @@
 ﻿using System;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Projectile : ReusableObject
 {
     protected Vector2 direction = default;
 
-    private BoxCollider2D boxCollider;
+    [SerializeField] private BoxCollider2D boxTrigger;
+    [SerializeField] private BoxCollider2D boxCollider;
     private Rigidbody2D rb;
     public Vector2 Direction => direction;
     Action<Rigidbody2D> moveAction;
     Action deleteCallback;
+
+    Action<Projectile> onCollision;
     int attackPower = 1;
 
     public int AttackPower => attackPower;
@@ -18,7 +22,6 @@ public class Projectile : ReusableObject
 
     private void Awake()
     {
-        boxCollider = GetComponent<BoxCollider2D>();
         rb = GetComponent<Rigidbody2D>();
     }
 
@@ -39,10 +42,11 @@ public class Projectile : ReusableObject
         moveAction = fixedUpdate;
     }
 
-    public void Init(int attackPower, Action<Rigidbody2D> start, Action<Rigidbody2D> fixedUpdate, Action deleteCallback = null)
+    public void Init(int attackPower, Action<Rigidbody2D> start, Action<Rigidbody2D> fixedUpdate,Action<Projectile> onTriggerEnter =null, Action deleteCallback = null)
     {
         Init(attackPower, start, fixedUpdate);
         this.deleteCallback = deleteCallback;
+        this.onCollision = onTriggerEnter;
     }
 
     private void FixedUpdate()
@@ -57,12 +61,24 @@ public class Projectile : ReusableObject
 
     protected override void OnGet()
     {
-        boxCollider.enabled = true;
+        if(boxCollider) boxCollider.enabled = true;
+        if(boxTrigger) boxTrigger.enabled = true;
     }
 
     public void Delete()
     {
         Pool.Release(this);
         this.deleteCallback?.Invoke();
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        this.onCollision?.Invoke(this);
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        this.onCollision?.Invoke(this);
+
     }
 }

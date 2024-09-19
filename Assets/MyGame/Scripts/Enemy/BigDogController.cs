@@ -188,6 +188,12 @@ public class BigDogController : RbStateMachine<BigDogController>
                     (rb) =>
                     {
                         ParabolicBehavior.FixedUpdate(rb, gravityScale);
+                    },
+                    (projectile) =>
+                    {
+                        projectile.Delete();
+                        var explode = ctr.ExplodePool.Pool.Get();
+                        explode.transform.position= projectile.transform.position;
                     }
                     );
                 ctr.timer.Start(1, 1);
