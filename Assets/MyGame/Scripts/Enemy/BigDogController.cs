@@ -191,9 +191,27 @@ public class BigDogController : RbStateMachine<BigDogController>
                     },
                     (projectile) =>
                     {
-                        projectile.Delete();
-                        var explode = ctr.ExplodePool.Pool.Get();
-                        explode.transform.position= projectile.transform.position;
+
+                        bom.Delete();
+                        ctr.StartCoroutine(ExplodeCo());
+                        IEnumerator ExplodeCo()
+                        {
+                            var explode = ctr.ExplodePool.Pool.Get() as ExplodeController;
+                            explode.transform.position = projectile.transform.position;
+
+                            yield return new WaitForSeconds(0.1f);
+                            explode = ctr.ExplodePool.Pool.Get() as ExplodeController;
+                            explode.transform.position = projectile.transform.position + Vector3.up;
+
+                            explode = ctr.ExplodePool.Pool.Get() as ExplodeController;
+                            explode.transform.position = projectile.transform.position + Vector3.down;
+
+                            explode = ctr.ExplodePool.Pool.Get() as ExplodeController;
+                            explode.transform.position = projectile.transform.position + Vector3.right;
+
+                            explode = ctr.ExplodePool.Pool.Get() as ExplodeController;
+                            explode.transform.position = projectile.transform.position + Vector3.left;
+                        }
                     }
                     );
                 ctr.timer.Start(1, 1);
