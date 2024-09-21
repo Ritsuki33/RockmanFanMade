@@ -26,7 +26,7 @@ public class HpBar : MonoBehaviour
     }
 
     /// <summary>
-    /// パラメータの更新
+    /// パラメータの更新(アニメーションなし)
     /// </summary>
     /// <param name="val">0～1の範囲</param>
     public void SetParam(float val)
@@ -43,6 +43,16 @@ public class HpBar : MonoBehaviour
 
         currentHp = val;
     }
+
+    public void SetParamAnimation(float val)
+    {
+        gameObject.SetActive(true);
+        SetParam(0.0f);
+        UiManager.Instance.HpBar.ParamChangeAnimation(val, () => {
+            EventTriggerManager.Instance.Notify(EventType.HpBarSetEnd);
+        });
+    }
+
 
     /// <summary>
     /// パラメータの更新アニメーション
