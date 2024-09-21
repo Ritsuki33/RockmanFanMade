@@ -73455,38 +73455,38 @@ MonoBehaviour:
   element:
     _event: 1
     gameEvent:
-      rid: 3424537198980235273
+      rid: 3424537198980235278
   references:
     version: 2
     RefIds:
     - rid: -2
       type: {class: , ns: , asm: }
-    - rid: 3424537198980235273
-      type: {class: EventControll/PlayerMoveEvent, ns: , asm: Assembly-CSharp}
+    - rid: 3424537198980235278
+      type: {class: EventControll/PlayerMoveAction, ns: , asm: Assembly-CSharp}
       data:
         _bamili: {fileID: 311468352}
         _next:
           _event: 2
           gameEvent:
-            rid: 3424537198980235274
-    - rid: 3424537198980235274
-      type: {class: EventControll/BosePauseEvent, ns: , asm: Assembly-CSharp}
+            rid: 3424537203537084416
+    - rid: 3424537203537084416
+      type: {class: EventControll/BosePauseAction, ns: , asm: Assembly-CSharp}
       data:
         ctr: {fileID: 1648211530}
         _next:
           _event: 3
           gameEvent:
-            rid: 3424537198980235275
-    - rid: 3424537198980235275
-      type: {class: EventControll/BossHpBarSetEvent, ns: , asm: Assembly-CSharp}
+            rid: 3424537203537084417
+    - rid: 3424537203537084417
+      type: {class: EventControll/BossHpBarSetAction, ns: , asm: Assembly-CSharp}
       data:
         ctr: {fileID: 1648211530}
         _next:
           _event: 4
           gameEvent:
-            rid: 3424537198980235277
-    - rid: 3424537198980235277
-      type: {class: EventControll/BattleStartEvent, ns: , asm: Assembly-CSharp}
+            rid: 3424537203537084418
+    - rid: 3424537203537084418
+      type: {class: EventControll/BattleStartAction, ns: , asm: Assembly-CSharp}
       data:
         ctr: {fileID: 0}
         _next:

@@ -1,6 +1,7 @@
 ﻿using System;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class EventControll : MonoBehaviour
 {
@@ -10,18 +11,19 @@ public class EventControll : MonoBehaviour
         BossPause,
         BossHpBarSet,
         BattleStart,
+        ExternalCall,
     }
 
     [Serializable]
     class Element
     {
         public Event _event;
-        [SerializeReference]public BaseEvent gameEvent;
+        [SerializeReference]public BaseAction gameEvent;
     }
 
 
     [Serializable]
-    abstract class BaseEvent
+    abstract class BaseAction
     {
         [NonSerialized] public Element prev;
         abstract public void Execute();
@@ -44,7 +46,7 @@ public class EventControll : MonoBehaviour
     }
 
     [Serializable]
-    class PlayerMoveEvent : BaseEvent
+    class PlayerMoveAction : BaseAction
     {
         [SerializeField] Transform _bamili;
         [SerializeField] public Element _next;
@@ -65,7 +67,7 @@ public class EventControll : MonoBehaviour
     }
 
     [Serializable]
-    class BosePauseEvent : BaseEvent
+    class BosePauseAction : BaseAction
     {
         [SerializeField] BossController ctr;
         [SerializeField] public Element _next;
@@ -84,7 +86,7 @@ public class EventControll : MonoBehaviour
     }
 
     [Serializable]
-    class BossHpBarSetEvent : BaseEvent
+    class BossHpBarSetAction : BaseAction
     {
         [SerializeField] BossController ctr;
         [SerializeField] public Element _next;
@@ -109,9 +111,8 @@ public class EventControll : MonoBehaviour
     }
 
     [Serializable]
-    class BattleStartEvent : BaseEvent
+    class BattleStartAction : BaseAction
     {
-        [SerializeField] BossController ctr;
         [SerializeField] public Element _next;
 
         override public Element Next => _next;
@@ -121,7 +122,19 @@ public class EventControll : MonoBehaviour
             GameManager.Instance.Player.InputPermission();
         }
     }
+    [Serializable]
+    class ExternalCallAction : BaseAction
+    {
+        [SerializeField] UnityEvent action;
+        [SerializeField] public Element _next;
 
+        override public Element Next => _next;
+        override public void Execute()
+        {
+            prev.gameEvent.Unsubscrive();
+            action?.Invoke();
+        }
+    }
     [SerializeField] Element element;
 
     private void OnValidate()
@@ -144,28 +157,34 @@ public class EventControll : MonoBehaviour
                 element.gameEvent = null;
                 break;
             case Event.PlayerMove:
-                if (element.gameEvent is not PlayerMoveEvent)
+                if (element.gameEvent is not PlayerMoveAction)
                 {
-                    element.gameEvent = new PlayerMoveEvent();
+                    element.gameEvent = new PlayerMoveAction();
                 }
                 break;
             case Event.BossPause:
-                if (element.gameEvent is not BosePauseEvent)
+                if (element.gameEvent is not BosePauseAction)
                 {
-                    element.gameEvent = new BosePauseEvent();
+                    element.gameEvent = new BosePauseAction();
                 }
                 break;
             case Event.BossHpBarSet:
-                if (element.gameEvent is not BossHpBarSetEvent)
+                if (element.gameEvent is not BossHpBarSetAction)
                 {
-                    element.gameEvent = new BossHpBarSetEvent();
+                    element.gameEvent = new BossHpBarSetAction();
                 }
                 break;
 
             case Event.BattleStart:
-                if (element.gameEvent is not BattleStartEvent)
+                if (element.gameEvent is not BattleStartAction)
                 {
-                    element.gameEvent = new BattleStartEvent();
+                    element.gameEvent = new BattleStartAction();
+                }
+                break;
+            case Event.ExternalCall:
+                if (element.gameEvent is not ExternalCallAction)
+                {
+                    element.gameEvent = new ExternalCallAction();
                 }
                 break;
         }
