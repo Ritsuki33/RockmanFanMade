@@ -27,7 +27,7 @@ public class EnemyObject : StageObject
     {
         if (collision.gameObject.CompareTag("RockBuster") || collision.gameObject.CompareTag("ChargeShot"))
         {
-            var projectile = collision.gameObject.GetComponent<Projectile>();
+            var projectile = collision.gameObject.transform.parent.GetComponent<Projectile>();
             hp -= projectile.AttackPower;
             if (hp<=0)
             {

@@ -56,13 +56,16 @@ public class GameManager : SingletonComponent<GameManager>
     {
 
         m_mainCameraControll.CinemachineBrain.ActiveVirtualCamera?.VirtualCameraGameObject.SetActive(false);
-        currentCameraControllArea?.AreaManager?.gameObject.SetActive(false);
+        currentCameraControllArea?.Area?.Exit();
+
+        currentCameraControllArea?.Area?.gameObject.SetActive(false);
 
         // コントロールエリアの更新
         currentCameraControllArea = nextControllArea;
         currentCameraControllArea.VirtualCamera.gameObject.SetActive(true);
-        currentCameraControllArea.AreaManager?.gameObject.SetActive(true);
+        currentCameraControllArea.Area?.gameObject.SetActive(true);
 
+        currentCameraControllArea?.Area?.Enter();
     }
 
     public void ChangeCamera(CameraControllArea nextControllArea, IEnumerator start = null, IEnumerator end =null)
@@ -75,7 +78,6 @@ public class GameManager : SingletonComponent<GameManager>
 
             // 通知する
             EventTriggerManager.Instance.Notify(EventType.ChangeCameraStart);
-            EventTriggerManager.Instance.Notify(EventType.ExitArea);
 
             yield return start;
 
@@ -97,9 +99,6 @@ public class GameManager : SingletonComponent<GameManager>
 
             // 通知する
             EventTriggerManager.Instance.Notify(EventType.ChangeCameraEnd);
-
-            EventTriggerManager.Instance.Notify(EventType.EnterArea);
-
         }
     }
 

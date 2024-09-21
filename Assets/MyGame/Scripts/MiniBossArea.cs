@@ -6,15 +6,14 @@ public class MiniBossArea : BaseArea
 {
     [SerializeField] TransitCameraArea transitCameraArea;
 
-    private void OnEnable()
+    public override void Enter()
     {
-        EventTriggerManager.Instance.Subscribe(EventType.EnterArea, ClosedArea);
+        ClosedArea();
         EventTriggerManager.Instance.Subscribe(EventType.EnemyDefeated, OpenArea);
     }
 
-    private void OnDisable()
+    public override void Exit()
     {
-        EventTriggerManager.Instance.Unsubscribe(EventType.EnterArea, ClosedArea);
         EventTriggerManager.Instance.Unsubscribe(EventType.EnemyDefeated, OpenArea);
     }
 

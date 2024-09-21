@@ -7,8 +7,6 @@ public enum EventType
 {
     ChangeCameraStart,
     ChangeCameraEnd,
-    EnterArea,
-    ExitArea,
     EnemyDefeated,
     EnemyPauseEnd,
     PlayerMoveEnd,
@@ -29,8 +27,6 @@ public class EventTriggerManager : SingletonComponent<EventTriggerManager>
         eventTriggers.Add(EventType.ChangeCameraStart, null);
         eventTriggers.Add(EventType.ChangeCameraEnd, null);
         eventTriggers.Add(EventType.EnemyDefeated, null);
-        eventTriggers.Add(EventType.EnterArea, null);
-        eventTriggers.Add(EventType.ExitArea, null);
         eventTriggers.Add(EventType.EnemyPauseEnd, null);
         eventTriggers.Add(EventType.PlayerMoveEnd, null);
         eventTriggers.Add(EventType.HpBarSetEnd, null);

@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BaseArea : MonoBehaviour
+public abstract class BaseArea : MonoBehaviour
 {
+    virtual public void Enter() { }
+    
+    virtual public void Exit() { }
 }

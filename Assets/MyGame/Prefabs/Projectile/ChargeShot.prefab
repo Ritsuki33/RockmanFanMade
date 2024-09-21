@@ -89,7 +89,7 @@ GameObject:
   - component: {fileID: 5998792146544469334}
   m_Layer: 15
   m_Name: TriggerBody
-  m_TagString: Untagged
+  m_TagString: ChargeShot
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

@@ -7,13 +7,9 @@ public class BossArea : BaseArea
     [SerializeField] BossController boss = default;
     [SerializeField] Transform bamili = default;
     [SerializeField] EventControll eventControll = default;
-    private void OnEnable()
-    {
-        EventTriggerManager.Instance.Subscribe(EventType.EnterArea, eventControll.StartEvent);
-    }
 
-    private void OnDisable()
+    public override void Enter()
     {
-        EventTriggerManager.Instance.Unsubscribe(EventType.EnterArea, eventControll.StartEvent);
+        eventControll.StartEvent();
     }
 }
