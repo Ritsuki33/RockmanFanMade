@@ -222,7 +222,7 @@ Transform:
   m_GameObject: {fileID: 215260542}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.7, y: 17.5, z: -1}
+  m_LocalPosition: {x: 201.4, y: -4.8, z: -1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -72557,17 +72557,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 6030183582163095795, guid: 50db6328845417f428e76f577eadc620, type: 3}
   m_PrefabInstance: {fileID: 1028768570}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1028768572 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 3773642662828391238, guid: 50db6328845417f428e76f577eadc620, type: 3}
-  m_PrefabInstance: {fileID: 1028768570}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 09607b6be470f5d4ba9bc860ae6dd828, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1126004239
 GameObject:
   m_ObjectHideFlags: 0
@@ -73413,6 +73402,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2009314782}
   - component: {fileID: 2009314783}
+  - component: {fileID: 2009314784}
   m_Layer: 0
   m_Name: BossArea
   m_TagString: Untagged
@@ -73449,6 +73439,60 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   boss: {fileID: 1648211530}
   bamili: {fileID: 311468352}
+  eventControll: {fileID: 2009314784}
+--- !u!114 &2009314784
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2009314781}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a835de2be0a929b4d939c6d227c8060a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  element:
+    _event: 1
+    gameEvent:
+      rid: 3424537198980235273
+  references:
+    version: 2
+    RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }
+    - rid: 3424537198980235273
+      type: {class: EventControll/PlayerMoveEvent, ns: , asm: Assembly-CSharp}
+      data:
+        _bamili: {fileID: 311468352}
+        _next:
+          _event: 2
+          gameEvent:
+            rid: 3424537198980235274
+    - rid: 3424537198980235274
+      type: {class: EventControll/BosePauseEvent, ns: , asm: Assembly-CSharp}
+      data:
+        ctr: {fileID: 1648211530}
+        _next:
+          _event: 3
+          gameEvent:
+            rid: 3424537198980235275
+    - rid: 3424537198980235275
+      type: {class: EventControll/BossHpBarSetEvent, ns: , asm: Assembly-CSharp}
+      data:
+        ctr: {fileID: 1648211530}
+        _next:
+          _event: 4
+          gameEvent:
+            rid: 3424537198980235277
+    - rid: 3424537198980235277
+      type: {class: EventControll/BattleStartEvent, ns: , asm: Assembly-CSharp}
+      data:
+        ctr: {fileID: 0}
+        _next:
+          _event: 0
+          gameEvent:
+            rid: -2
 --- !u!1001 &1043789265166649770
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -74708,7 +74752,7 @@ PrefabInstance:
     - target: {fileID: 3834347178621813222, guid: 2d01bd91de6524046b299eda0c554985, type: 3}
       propertyPath: defaultCameraControllArea
       value: 
-      objectReference: {fileID: 1028768572}
+      objectReference: {fileID: 256509133}
     - target: {fileID: 4977058497809260009, guid: 2d01bd91de6524046b299eda0c554985, type: 3}
       propertyPath: m_Name
       value: GameManager
