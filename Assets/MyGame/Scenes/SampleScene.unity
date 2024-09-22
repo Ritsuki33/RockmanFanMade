@@ -222,7 +222,7 @@ Transform:
   m_GameObject: {fileID: 215260542}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.95, y: 18.2, z: -1}
+  m_LocalPosition: {x: 201.1, y: -3.9, z: -1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -72561,17 +72561,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 6030183582163095795, guid: 50db6328845417f428e76f577eadc620, type: 3}
   m_PrefabInstance: {fileID: 1028768570}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1028768572 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 3773642662828391238, guid: 50db6328845417f428e76f577eadc620, type: 3}
-  m_PrefabInstance: {fileID: 1028768570}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 09607b6be470f5d4ba9bc860ae6dd828, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1126004239
 GameObject:
   m_ObjectHideFlags: 0
@@ -73456,44 +73445,62 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   element:
     _event: 1
-    gameEvent:
-      rid: 3424537198980235278
+    _gameAction:
+      rid: 3424537218706571288
+    _next:
+      rid: 3424537218706571280
   references:
     version: 2
     RefIds:
     - rid: -2
       type: {class: , ns: , asm: }
-    - rid: 3424537198980235278
+    - rid: 3424537218706571280
+      type: {class: EventControll/Element, ns: , asm: Assembly-CSharp}
+      data:
+        _event: 2
+        _gameAction:
+          rid: 3424537218706571289
+        _next:
+          rid: 3424537218706571282
+    - rid: 3424537218706571282
+      type: {class: EventControll/Element, ns: , asm: Assembly-CSharp}
+      data:
+        _event: 3
+        _gameAction:
+          rid: 3424537218706571290
+        _next:
+          rid: 3424537218706571285
+    - rid: 3424537218706571285
+      type: {class: EventControll/Element, ns: , asm: Assembly-CSharp}
+      data:
+        _event: 4
+        _gameAction:
+          rid: 3424537218706571291
+        _next:
+          rid: 3424537218706571287
+    - rid: 3424537218706571287
+      type: {class: EventControll/Element, ns: , asm: Assembly-CSharp}
+      data:
+        _event: 0
+        _gameAction:
+          rid: -2
+        _next:
+          rid: -2
+    - rid: 3424537218706571288
       type: {class: EventControll/PlayerMoveAction, ns: , asm: Assembly-CSharp}
       data:
         _bamili: {fileID: 311468352}
-        _next:
-          _event: 2
-          gameEvent:
-            rid: 3424537203537084416
-    - rid: 3424537203537084416
+    - rid: 3424537218706571289
       type: {class: EventControll/BosePauseAction, ns: , asm: Assembly-CSharp}
       data:
         ctr: {fileID: 1648211530}
-        _next:
-          _event: 3
-          gameEvent:
-            rid: 3424537203537084417
-    - rid: 3424537203537084417
+    - rid: 3424537218706571290
       type: {class: EventControll/BossHpBarSetAction, ns: , asm: Assembly-CSharp}
       data:
         ctr: {fileID: 1648211530}
-        _next:
-          _event: 4
-          gameEvent:
-            rid: 3424537203537084418
-    - rid: 3424537203537084418
+    - rid: 3424537218706571291
       type: {class: EventControll/BattleStartAction, ns: , asm: Assembly-CSharp}
-      data:
-        _next:
-          _event: 0
-          gameEvent:
-            rid: -2
+      data: 
 --- !u!1001 &1043789265166649770
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -74746,7 +74753,7 @@ PrefabInstance:
     - target: {fileID: 3834347178621813222, guid: 2d01bd91de6524046b299eda0c554985, type: 3}
       propertyPath: defaultCameraControllArea
       value: 
-      objectReference: {fileID: 1028768572}
+      objectReference: {fileID: 256509133}
     - target: {fileID: 4977058497809260009, guid: 2d01bd91de6524046b299eda0c554985, type: 3}
       propertyPath: m_Name
       value: GameManager

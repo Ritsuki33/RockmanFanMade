@@ -15,54 +15,65 @@ public class EventControll : MonoBehaviour
     }
 
     [Serializable]
-    class Element
+    abstract class AElement
     {
-        public Event _event;
-        [SerializeReference]public BaseAction gameEvent;
+        abstract public BaseAction GameAction { get; }
+        abstract public void Execute();
     }
 
-
     [Serializable]
-    abstract class BaseAction
+    class Element: AElement
     {
-        [NonSerialized] public Element prev;
-        abstract public void Execute();
-        abstract public Element Next { get; }
+        public Event _event;
+        [NonSerialized] public Element _prev;
+        [SerializeReference] public BaseAction _gameAction;
+        [SerializeReference] public AElement _next;         // Element型だとシリアライズ化が永久ループするため抽象クラスを準備
+
+        public override BaseAction GameAction => _gameAction;
+
+        private EventType _type;
+
+        override public void Execute()
+        {
+            _gameAction.Execute(this);
+        }
 
         public void SetSubscribeEvent(EventType type)
         {
             // 前のイベントは削除
-            if (prev != null)
+            if (_prev != null)
             {
-                prev.gameEvent.Unsubscrive();
+                _prev.Unsubscrive();
             }
 
-            if (Next.gameEvent != null)
+            if (_next!= null)
             {
-                EventTriggerManager.Instance.Subscribe(type, Next.gameEvent.Execute);
+                _type = type;
+                EventTriggerManager.Instance.Subscribe(_type, _next.Execute);
             }
         }
-        virtual public void Unsubscrive() { }
+
+        public void Unsubscrive()
+        {
+            EventTriggerManager.Instance.Unsubscribe(_type, _next.Execute);
+        }
+    }
+
+    [Serializable]
+    abstract class BaseAction
+    {
+        abstract public void Execute(Element element);
     }
 
     [Serializable]
     class PlayerMoveAction : BaseAction
     {
         [SerializeField] Transform _bamili;
-        [SerializeField] public Element _next;
 
-        override public Element Next => _next;
-
-
-        override public void Execute()
+        override public void Execute(Element element)
         {
-            SetSubscribeEvent(EventType.PlayerMoveEnd);
+            element.SetSubscribeEvent(EventType.PlayerMoveEnd);
             GameManager.Instance.Player.AutoMoveTowards(_bamili);
-        }
-
-        override public void Unsubscrive()
-        {
-            EventTriggerManager.Instance.Unsubscribe(EventType.PlayerMoveEnd, Next.gameEvent.Execute);
         }
     }
 
@@ -70,18 +81,11 @@ public class EventControll : MonoBehaviour
     class BosePauseAction : BaseAction
     {
         [SerializeField] BossController ctr;
-        [SerializeField] public Element _next;
 
-        override public Element Next => _next;
-        override public void Execute()
+        override public void Execute(Element element)
         {
-            SetSubscribeEvent(EventType.EnemyPauseEnd);
+            element.SetSubscribeEvent(EventType.EnemyPauseEnd);
             ctr.Appeare();
-        }
-
-        override public void Unsubscrive()
-        {
-            EventTriggerManager.Instance.Unsubscribe(EventType.EnemyPauseEnd, Next.gameEvent.Execute);
         }
     }
 
@@ -89,12 +93,10 @@ public class EventControll : MonoBehaviour
     class BossHpBarSetAction : BaseAction
     {
         [SerializeField] BossController ctr;
-        [SerializeField] public Element _next;
 
-        override public Element Next => _next;
-        override public void Execute()
+        override public void Execute(Element element)
         {
-            SetSubscribeEvent(EventType.HpBarSetEnd);
+            element.SetSubscribeEvent(EventType.HpBarSetEnd);
 
             UiManager.Instance.HpBar.gameObject.SetActive(true);
             UiManager.Instance.HpBar.SetParam(0.0f);
@@ -103,96 +105,90 @@ public class EventControll : MonoBehaviour
                 EventTriggerManager.Instance.Notify(EventType.HpBarSetEnd);
             });
         }
-
-        override public void Unsubscrive()
-        {
-            EventTriggerManager.Instance.Unsubscribe(EventType.HpBarSetEnd, Next.gameEvent.Execute);
-        }
     }
 
     [Serializable]
     class BattleStartAction : BaseAction
     {
-        [SerializeField] public Element _next;
-
-        override public Element Next => _next;
-        override public void Execute()
+        override public void Execute(Element element)
         {
-            prev.gameEvent.Unsubscrive();
             GameManager.Instance.Player.InputPermission();
         }
     }
+
     [Serializable]
     class ExternalCallAction : BaseAction
     {
         [SerializeField] UnityEvent action;
-        [SerializeField] public Element _next;
 
-        override public Element Next => _next;
-        override public void Execute()
+        override public void Execute(Element element)
         {
-            prev.gameEvent.Unsubscrive();
             action?.Invoke();
         }
     }
+
+
     [SerializeField] Element element;
 
     private void OnValidate()
     {
-        Onvalidate(element);
+        OnValidateElement(element);
     }
 
     public void StartEvent()
     {
-        element.gameEvent.Execute();
+        element.Execute();
     }
 
-    void Onvalidate(Element element, Element prev=null)
+    void OnValidateElement(Element element, Element prev=null)
     {
         if (element == null) return;
 
         switch (element._event)
         {
             case Event.None:
-                element.gameEvent = null;
+                element._gameAction = null;
+                element._next = null;
                 break;
             case Event.PlayerMove:
-                if (element.gameEvent is not PlayerMoveAction)
+                if (element._gameAction is not PlayerMoveAction)
                 {
-                    element.gameEvent = new PlayerMoveAction();
+                    element._gameAction = new PlayerMoveAction();
                 }
                 break;
             case Event.BossPause:
-                if (element.gameEvent is not BosePauseAction)
+                if (element._gameAction is not BosePauseAction)
                 {
-                    element.gameEvent = new BosePauseAction();
+                    element._gameAction = new BosePauseAction();
                 }
                 break;
             case Event.BossHpBarSet:
-                if (element.gameEvent is not BossHpBarSetAction)
+                if (element._gameAction is not BossHpBarSetAction)
                 {
-                    element.gameEvent = new BossHpBarSetAction();
+                    element._gameAction = new BossHpBarSetAction();
                 }
                 break;
 
             case Event.BattleStart:
-                if (element.gameEvent is not BattleStartAction)
+                if (element._gameAction is not BattleStartAction)
                 {
-                    element.gameEvent = new BattleStartAction();
+                    element._gameAction = new BattleStartAction();
                 }
                 break;
             case Event.ExternalCall:
-                if (element.gameEvent is not ExternalCallAction)
+                if (element._gameAction is not ExternalCallAction)
                 {
-                    element.gameEvent = new ExternalCallAction();
+                    element._gameAction = new ExternalCallAction();
                 }
                 break;
         }
 
-        if (element.gameEvent is not null)
+        if (element._gameAction is not null)
         {
-            element.gameEvent.prev = prev;
-            Onvalidate(element.gameEvent.Next, element);
+            if (element._next is null) element._next = new Element();
+
+            element._prev = prev;
+            OnValidateElement(element._next as Element, element);
         }
     }
 }
