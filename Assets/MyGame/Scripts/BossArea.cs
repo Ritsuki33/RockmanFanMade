@@ -7,7 +7,7 @@ public class BossArea : BaseArea
 {
     [SerializeField] BossController boss = default;
     [SerializeField] Transform bamili = default;
-    [SerializeField] EventControll3 eventControll = default;
+    [SerializeField] EventController eventControll = default;
 
     public override void Enter()
     {

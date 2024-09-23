@@ -4,9 +4,9 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class EventControll3 : MonoBehaviour
+public class EventController : MonoBehaviour
 {
-    Action<EventControll3> actionFinishCallback = default;
+    Action<EventController> actionFinishCallback = default;
 
     enum ActionType
     {
@@ -18,7 +18,7 @@ public class EventControll3 : MonoBehaviour
 
     [Serializable]
     abstract class AElement {
-        abstract public void Execute(EventControll3 eventControll);
+        abstract public void Execute(EventController eventControll);
         abstract public List<ActionElement> Actions { get; }
     }
 
@@ -30,11 +30,11 @@ public class EventControll3 : MonoBehaviour
 
         override public List<ActionElement> Actions => actions;
 
-        override public void Execute(EventControll3 eventControll)
+        override public void Execute(EventController eventControll)
         {
             eventControll.StartCoroutine(ActionExecuteCo(eventControll));
 
-            IEnumerator ActionExecuteCo(EventControll3 eventControll)
+            IEnumerator ActionExecuteCo(EventController eventControll)
             {
                 if (actions == null || actions.Count == 0) yield break;
 
