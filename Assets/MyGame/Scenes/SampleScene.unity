@@ -73393,7 +73393,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2009314782}
   - component: {fileID: 2009314783}
-  - component: {fileID: 2009314785}
+  - component: {fileID: 2009314784}
   m_Layer: 0
   m_Name: BossArea
   m_TagString: Untagged
@@ -73430,8 +73430,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   boss: {fileID: 1648211530}
   bamili: {fileID: 311468352}
-  eventControll: {fileID: 2009314785}
---- !u!114 &2009314785
+  eventControll: {fileID: 0}
+--- !u!114 &2009314784
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -73440,63 +73440,51 @@ MonoBehaviour:
   m_GameObject: {fileID: 2009314781}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 41ef2231a2892d4498aa584c31294ef9, type: 3}
+  m_Script: {fileID: 11500000, guid: f5e676c01ac35744dbd6282f9459d76d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   element:
     actions:
     - type: 0
       action:
-        rid: 3424537244704440380
+        rid: 3424537244704440389
     - type: 1
       action:
-        rid: 3424537244704440381
+        rid: 3424537244704440391
     _next:
-      rid: 3424537244704440382
+      rid: 3424537244704440390
   references:
     version: 2
     RefIds:
     - rid: -2
       type: {class: , ns: , asm: }
-    - rid: 3424537244704440380
-      type: {class: EventControll/PlayerMoveAction, ns: , asm: Assembly-CSharp}
+    - rid: 3424537244704440389
+      type: {class: EventController/PlayerMoveAction, ns: , asm: Assembly-CSharp}
       data:
         _bamili: {fileID: 311468352}
-    - rid: 3424537244704440381
-      type: {class: EventControll/BosePauseAction, ns: , asm: Assembly-CSharp}
-      data:
-        ctr: {fileID: 1648211530}
-    - rid: 3424537244704440382
-      type: {class: EventControll/Element, ns: , asm: Assembly-CSharp}
+    - rid: 3424537244704440390
+      type: {class: EventController/Element, ns: , asm: Assembly-CSharp}
       data:
         actions:
         - type: 2
           action:
-            rid: 3424537244704440385
+            rid: 3424537244704440395
         _next:
-          rid: 3424537244704440384
-    - rid: 3424537244704440384
-      type: {class: EventControll/Element, ns: , asm: Assembly-CSharp}
-      data:
-        actions:
-        - type: 3
-          action:
-            rid: 3424537244704440388
-        _next:
-          rid: 3424537244704440387
-    - rid: 3424537244704440385
-      type: {class: EventControll/BossHpBarSetAction, ns: , asm: Assembly-CSharp}
+          rid: 3424537244704440393
+    - rid: 3424537244704440391
+      type: {class: EventController/BosePauseAction, ns: , asm: Assembly-CSharp}
       data:
         ctr: {fileID: 1648211530}
-    - rid: 3424537244704440387
-      type: {class: EventControll/Element, ns: , asm: Assembly-CSharp}
+    - rid: 3424537244704440393
+      type: {class: EventController/Element, ns: , asm: Assembly-CSharp}
       data:
         actions: []
         _next:
           rid: -2
-    - rid: 3424537244704440388
-      type: {class: EventControll/BattleStartAction, ns: , asm: Assembly-CSharp}
-      data: 
+    - rid: 3424537244704440395
+      type: {class: EventController/BossHpBarSetAction, ns: , asm: Assembly-CSharp}
+      data:
+        ctr: {fileID: 1648211530}
 --- !u!1001 &1043789265166649770
 PrefabInstance:
   m_ObjectHideFlags: 0
