@@ -11,7 +11,6 @@ public class EventControll : MonoBehaviour
         BossPause,
         BossHpBarSet,
         BattleStart,
-        ExternalCall,
     }
 
     [Serializable]
@@ -73,7 +72,11 @@ public class EventControll : MonoBehaviour
         override public void Execute(Element element)
         {
             element.SetSubscribeEvent(EventType.PlayerMoveEnd);
-            GameManager.Instance.Player.AutoMoveTowards(_bamili);
+            GameManager.Instance.Player.AutoMoveTowards(_bamili, () =>
+            {
+                EventTriggerManager.Instance.Notify(EventType.PlayerMoveEnd);
+            }
+            );
         }
     }
 
@@ -85,7 +88,7 @@ public class EventControll : MonoBehaviour
         override public void Execute(Element element)
         {
             element.SetSubscribeEvent(EventType.EnemyPauseEnd);
-            ctr.Appeare();
+            ctr.Appeare(() => { EventTriggerManager.Instance.Notify(EventType.EnemyPauseEnd); });
         }
     }
 
@@ -116,16 +119,21 @@ public class EventControll : MonoBehaviour
         }
     }
 
-    [Serializable]
-    class ExternalCallAction : BaseAction
-    {
-        [SerializeField] UnityEvent action;
+    //[Serializable]
+    //class ExternalCallAction : BaseAction
+    //{
+    //    [SerializeField] UnityEvent<Action> action;
 
-        override public void Execute(Element element)
-        {
-            action?.Invoke();
-        }
-    }
+    //    override public void Execute(Element element)
+    //    {
+    //        int methodCount = action.GetPersistentEventCount();
+    //        int completeCount = 0;
+    //        action.Invoke(() =>
+    //        {
+    //            completeCount++;
+    //        });
+    //    }
+    //}
 
 
     [SerializeField] Element element;
@@ -173,12 +181,6 @@ public class EventControll : MonoBehaviour
                 if (element._gameAction is not BattleStartAction)
                 {
                     element._gameAction = new BattleStartAction();
-                }
-                break;
-            case Event.ExternalCall:
-                if (element._gameAction is not ExternalCallAction)
-                {
-                    element._gameAction = new ExternalCallAction();
                 }
                 break;
         }

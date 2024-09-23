@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public class BossController : ExRbStateMachine<BossController>
 {
@@ -6,6 +7,7 @@ public class BossController : ExRbStateMachine<BossController>
     private Gravity _gravity;
     private ExpandRigidBody _exRb;
 
+    private Action finishActionCallback;
     enum StateId
     {
         Idle,
@@ -90,7 +92,7 @@ public class BossController : ExRbStateMachine<BossController>
             protected override void Exit(BossController ctr, int nextId)
             {
                 // 通知を飛ばす
-                EventTriggerManager.Instance.Notify(EventType.EnemyPauseEnd);
+                ctr.finishActionCallback?.Invoke();
             }
         }
 
@@ -120,9 +122,10 @@ public class BossController : ExRbStateMachine<BossController>
     }
 
 
-    public void Appeare()
+    public void Appeare(Action finishCallback)
     {
         gameObject.SetActive(true);
+        finishActionCallback = finishCallback;
         this.TransitReady((int)StateId.Appearance);
     }
 }
