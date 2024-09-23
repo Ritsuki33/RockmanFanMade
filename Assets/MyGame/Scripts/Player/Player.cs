@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -36,9 +37,9 @@ public class Player : StageObject
         playerController.enabled = true;
     }
 
-    public void AutoMoveTowards(Transform bamili)
+    public void AutoMoveTowards(Transform bamili,Action actionFinishCallback)
     {
-        playerController.AutoMoveTowards(bamili);
+        playerController.AutoMoveTowards(bamili, actionFinishCallback);
     }
 
     public void InputPermission()

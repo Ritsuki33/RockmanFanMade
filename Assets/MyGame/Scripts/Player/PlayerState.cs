@@ -731,6 +731,8 @@ public partial class PlayerController
             protected override void Enter(PlayerController player, int preId)
             {
                 // 通知する
+                player.actionFinishCallback.Invoke();
+                player.actionFinishCallback = null;
                 EventTriggerManager.Instance.Notify(EventType.PlayerMoveEnd);
                 player.bamili = null;
 

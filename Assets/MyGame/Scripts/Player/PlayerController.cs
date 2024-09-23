@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public partial class PlayerController : ExRbStateMachine<PlayerController>
 {
@@ -21,6 +22,7 @@ public partial class PlayerController : ExRbStateMachine<PlayerController>
     Transform bamili = null;
     public bool IsRight => player.IsRight;
 
+    Action actionFinishCallback = null;
     enum StateID
     {
         Standing=0,
@@ -111,9 +113,10 @@ public partial class PlayerController : ExRbStateMachine<PlayerController>
         TransitReady((int)StateID.Transfer);
     }
 
-    public void AutoMoveTowards(Transform bamili)
+    public void AutoMoveTowards(Transform bamili,Action actionFinishCallback)
     {
         this.bamili = bamili;
+        this.actionFinishCallback = actionFinishCallback;
         this.TransitReady((int)StateID.AutoMove);
     }
 
