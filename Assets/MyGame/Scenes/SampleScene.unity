@@ -73430,7 +73430,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   boss: {fileID: 1648211530}
   bamili: {fileID: 311468352}
-  eventControll: {fileID: 0}
+  eventControll: {fileID: 2009314784}
 --- !u!114 &2009314784
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -73478,13 +73478,25 @@ MonoBehaviour:
     - rid: 3424537244704440393
       type: {class: EventController/Element, ns: , asm: Assembly-CSharp}
       data:
-        actions: []
+        actions:
+        - type: 3
+          action:
+            rid: 3424537250813706251
         _next:
-          rid: -2
+          rid: 3424537250813706244
     - rid: 3424537244704440395
       type: {class: EventController/BossHpBarSetAction, ns: , asm: Assembly-CSharp}
       data:
         ctr: {fileID: 1648211530}
+    - rid: 3424537250813706244
+      type: {class: EventController/Element, ns: , asm: Assembly-CSharp}
+      data:
+        actions: []
+        _next:
+          rid: -2
+    - rid: 3424537250813706251
+      type: {class: EventController/BattleStartAction, ns: , asm: Assembly-CSharp}
+      data: 
 --- !u!1001 &1043789265166649770
 PrefabInstance:
   m_ObjectHideFlags: 0

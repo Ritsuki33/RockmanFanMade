@@ -2,17 +2,20 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class EventController : MonoBehaviour
 {
     Action<EventController> actionFinishCallback = default;
 
+    Action eventFinishCallback = default;
     enum ActionType
     {
         PlayerMove,
         EnemyPause,
         BossHpBarSet,
         BattleStart,
+        External,
     }
 
     [Serializable]
@@ -53,8 +56,14 @@ public class EventController : MonoBehaviour
 
                 while (completed != actionNum) yield return null;
 
-                // イベント終了の通知
-                eventControll.actionFinishCallback?.Invoke(eventControll);
+                // アクション終了の通知
+                if (eventControll.actionFinishCallback != null) eventControll.actionFinishCallback.Invoke(eventControll);
+                else
+                {
+                    // イベント終了の通知
+                    eventControll.eventFinishCallback?.Invoke();
+                    eventControll.eventFinishCallback = null;
+                }
             }
         }
     }
@@ -119,7 +128,35 @@ public class EventController : MonoBehaviour
         }
     }
 
+    [Serializable]
+    class ExternalAction:BaseAction
+    {
+        [SerializeField] UnityEvent<Action> action;
 
+        private EventController eventController;
+
+        public ExternalAction(EventController eventController)
+        {
+            this.eventController = eventController;
+        }
+
+        public override void Execute(Action finishCallback)
+        {
+            eventController.StartCoroutine(ExecuteCo(finishCallback));
+            IEnumerator ExecuteCo(Action finishCallback)
+            {
+                int methodNum = action.GetPersistentEventCount();
+                int completed = 0;
+
+                action.Invoke(() =>{
+                    completed++;
+                });
+
+                while (completed != methodNum) yield return null;
+                finishCallback.Invoke();
+            }
+        }
+    }
     [SerializeField] Element element;
 
     private void OnValidate()
@@ -129,7 +166,7 @@ public class EventController : MonoBehaviour
 
     void OnvalidateElement(Element element)
     {
-        if (element.actions == null) return;
+        if (element == null || element.actions == null) return;
 
         foreach (var ae in element.actions)
         {
@@ -159,6 +196,12 @@ public class EventController : MonoBehaviour
                         ae.action = new BattleStartAction();
                     }
                     break;
+                case ActionType.External:
+                    if (ae.action is not ExternalAction)
+                    {
+                        ae.action = new ExternalAction(this);
+                    }
+                    break;
                 default:
                     break;
             }
@@ -175,8 +218,9 @@ public class EventController : MonoBehaviour
         }
     }
 
-    public void StartEvent()
+    public void StartEvent(Action finishCallback=null)
     {
+        eventFinishCallback = finishCallback;
         element.Execute(this);
     }
 }
