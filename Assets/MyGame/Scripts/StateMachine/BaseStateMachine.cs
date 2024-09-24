@@ -60,9 +60,14 @@ public class BaseState<T, S, SM, G> : IBaseState<T>, IParentState
         subStateMachine?.RemoveState(stateId);
     }
 
+    protected void TransitSubReady(int id,bool reset = false)
+    {
+        subStateMachine.TransitReady(id, reset);
+    }
+
     protected void TransitSubReady(int id, int subId, bool reset = false)
     {
-        subStateMachine.TransitReady(id,reset);
+        subStateMachine.TransitReady(id, reset, subId);
     }
 
     protected void CloseState(T obj)
@@ -81,7 +86,7 @@ public class BaseState<T, S, SM, G> : IBaseState<T>, IParentState
         TransitSubReady(id, subId, reset);
     }
 
-    virtual protected void Enter(T obj, int preId) { }
+    virtual protected void Enter(T obj, int preId, int subId) { }
     virtual protected IEnumerator EnterCoroutine(T obj, int preId) { yield return null; }
 
     virtual protected void FixedUpdate(T obj, IParentState parent) { }
@@ -91,7 +96,7 @@ public class BaseState<T, S, SM, G> : IBaseState<T>, IParentState
     virtual protected IEnumerator ExitCoroutine(T obj, int nextId) { yield return null; }
 
     bool IBaseState<T>.Immediate => immediate;
-    void IBaseState<T>.Enter(T obj, int preId, int subId) { Enter(obj, preId); }
+    void IBaseState<T>.Enter(T obj, int preId, int subId) { Enter(obj, preId, subId); }
     IEnumerator IBaseState<T>.EnterCoroutine(T obj, int preId) { yield return EnterCoroutine(obj, preId); }
 
     void IBaseState<T>.FixedUpdate(T obj, IParentState parent)

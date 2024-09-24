@@ -72844,6 +72844,8 @@ GameObject:
   - component: {fileID: 1648211533}
   - component: {fileID: 1648211532}
   - component: {fileID: 1648211531}
+  - component: {fileID: 1648211535}
+  - component: {fileID: 1648211536}
   m_Layer: 16
   m_Name: Boss
   m_TagString: Untagged
@@ -72879,6 +72881,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a9d667a727b3b43bc7c23c44326abc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  boss: {fileID: 1648211535}
   _animator: {fileID: 1836396428}
 --- !u!50 &1648211531
 Rigidbody2D:
@@ -72991,6 +72994,33 @@ MonoBehaviour:
   gravityScale: 1
   maxSpeed: 20
   canStopSlope: 45
+--- !u!114 &1648211535
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1648211528}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a3072e5eaf6a8124a974f7c806d84a00, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  materialController: {fileID: 1836396431}
+  enemyData: {fileID: 0}
+--- !u!114 &1648211536
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1648211528}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e24a7cd47c14ba7458e97c388650a51c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 20
 --- !u!1 &1655765201
 GameObject:
   m_ObjectHideFlags: 0
@@ -73500,7 +73530,8 @@ MonoBehaviour:
           rid: -2
     - rid: 3424537250813706251
       type: {class: EventController/BattleStartAction, ns: , asm: Assembly-CSharp}
-      data: 
+      data:
+        ctr: {fileID: 1648211530}
 --- !u!1001 &1043789265166649770
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -53,7 +53,7 @@ public class EnemyAppearController : StateMachine<EnemyAppearController>
 
     class None : State<EnemyAppearController>
     {
-        protected override void Enter(EnemyAppearController enemyAppearController, int preId)
+        protected override void Enter(EnemyAppearController enemyAppearController, int preId, int subId)
         {
             enemyAppearController.enemy.gameObject.SetActive(false);
         }
@@ -64,7 +64,7 @@ public class EnemyAppearController : StateMachine<EnemyAppearController>
     /// </summary>
     class OutOfCamera : State<EnemyAppearController>
     {
-        protected override void Enter(EnemyAppearController enemyAppearController, int preId)
+        protected override void Enter(EnemyAppearController enemyAppearController, int preId, int subId)
         {
             enemyAppearController.enemy.Init();
             enemyAppearController.enemy.transform.position = enemyAppearController.transform.position;
@@ -84,7 +84,7 @@ public class EnemyAppearController : StateMachine<EnemyAppearController>
     /// </summary>
     class Appering: State<EnemyAppearController>
     {
-        protected override void Enter(EnemyAppearController enemyAppearController, int preId)
+        protected override void Enter(EnemyAppearController enemyAppearController, int preId, int subId)
         {
             enemyAppearController.enemy.gameObject.SetActive(true);
         }
@@ -103,7 +103,7 @@ public class EnemyAppearController : StateMachine<EnemyAppearController>
     /// </summary>
     class Disappearing : State<EnemyAppearController>
     {
-        protected override void Enter(EnemyAppearController enemyAppearController, int preId)
+        protected override void Enter(EnemyAppearController enemyAppearController, int preId, int subId)
         {
             enemyAppearController.enemy.gameObject.SetActive(false);
         }

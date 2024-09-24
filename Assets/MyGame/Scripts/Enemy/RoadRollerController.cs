@@ -44,7 +44,7 @@ public class RoadRollerController : ExRbStateMachine<RoadRollerController>
 
     class Float : ExRbState<RoadRollerController>
     {
-        protected override void Enter(RoadRollerController roller, int preId)
+        protected override void Enter(RoadRollerController roller, int preId, int subId)
         {
             roller._animator.Play(Moving.animationHash);
         }
@@ -69,7 +69,7 @@ public class RoadRollerController : ExRbStateMachine<RoadRollerController>
     class Moving : ExRbState<RoadRollerController>
     {
         public static int animationHash = Animator.StringToHash("Move");
-        protected override void Enter(RoadRollerController roller, int preId)
+        protected override void Enter(RoadRollerController roller, int preId, int subId)
         {
             roller._animator.Play(animationHash);
         }
@@ -105,7 +105,7 @@ public class RoadRollerController : ExRbStateMachine<RoadRollerController>
     class Turn : ExRbState<RoadRollerController>
     {
         static int animationHash = Animator.StringToHash("Turn");
-        protected override void Enter(RoadRollerController roller, int preId)
+        protected override void Enter(RoadRollerController roller, int preId, int subId)
         {
             roller._animator.Play(animationHash);
         }

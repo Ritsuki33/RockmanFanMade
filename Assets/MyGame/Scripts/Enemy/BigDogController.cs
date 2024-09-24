@@ -48,7 +48,7 @@ public class BigDogController : RbStateMachine<BigDogController>
     class Idle :RbState<BigDogController>
     {
         static int animationHash = Animator.StringToHash("Idle");
-        protected override void Enter(BigDogController ctr, int preId)
+        protected override void Enter(BigDogController ctr, int preId, int subId)
         {
             ctr._animator.Play(animationHash);
             ctr.timer.Start(1, 3);
@@ -85,7 +85,7 @@ public class BigDogController : RbStateMachine<BigDogController>
         static int animationHash = Animator.StringToHash("Fire");
 
         bool finished = false;
-        protected override void Enter(BigDogController ctr, int preId)
+        protected override void Enter(BigDogController ctr, int preId, int subId)
         {
             ctr._animator.Play(animationHash);
             ctr.timer.Start(1, 1);
@@ -152,7 +152,7 @@ public class BigDogController : RbStateMachine<BigDogController>
             AddSubState((int)SubStateId.Fire, new Fire());
         }
 
-        protected override void Enter(BigDogController ctr, int preId)
+        protected override void Enter(BigDogController ctr, int preId, int subId)
         {
             TransitSubReady((int)SubStateId.Stance, preId);
             ctr._animator.Play(animationHash);
@@ -171,7 +171,7 @@ public class BigDogController : RbStateMachine<BigDogController>
 
         class Fire : RbState<BigDogController>
         {
-            protected override void Enter(BigDogController ctr, int preId)
+            protected override void Enter(BigDogController ctr, int preId, int subId)
             {
                 var bom = ctr.BomPool.Pool.Get() as Projectile;
                 var explode = ctr.ExplodePool.Pool.Get();

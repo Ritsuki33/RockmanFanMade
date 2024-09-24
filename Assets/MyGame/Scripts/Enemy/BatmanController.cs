@@ -39,7 +39,7 @@ public class BatmanController : ExRbStateMachine<BatmanController>
     {
         static int anmationHash = Animator.StringToHash("Idle");
         AmbiguousTimer timer = new AmbiguousTimer();
-        protected override void Enter(BatmanController batmanController, int preId)
+        protected override void Enter(BatmanController batmanController, int preId, int subId)
         {
             batmanController._animator.Play(anmationHash);
             timer.Start(1, 2);
@@ -69,7 +69,7 @@ public class BatmanController : ExRbStateMachine<BatmanController>
     class ToMove : ExRbState<BatmanController>
     {
         static int anmationHash = Animator.StringToHash("ToMove");
-        protected override void Enter(BatmanController batmanController, int preId)
+        protected override void Enter(BatmanController batmanController, int preId, int subId)
         {
             batmanController._animator.Play(anmationHash);
         }
@@ -99,7 +99,7 @@ public class BatmanController : ExRbStateMachine<BatmanController>
         float speed = 1;
 
         Transform PlayerPos => GameManager.Instance.Player.transform;
-        protected override void Enter(BatmanController batmanController, int preId)
+        protected override void Enter(BatmanController batmanController, int preId, int subId)
         {
             batmanController._animator.Play(anmationHash);
         }
@@ -129,7 +129,7 @@ public class BatmanController : ExRbStateMachine<BatmanController>
         static int anmationHash = Animator.StringToHash("ToIdle");
         float speed = 0f;
 
-        protected override void Enter(BatmanController batmanController, int preId)
+        protected override void Enter(BatmanController batmanController, int preId, int subId)
         {
             batmanController._animator.Play(anmationHash);
             speed = 0f;
