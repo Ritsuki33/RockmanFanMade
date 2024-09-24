@@ -73444,6 +73444,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   element:
+    delayTime: 0
     actions:
     - type: 0
       action:
@@ -73465,6 +73466,7 @@ MonoBehaviour:
     - rid: 3424537244704440390
       type: {class: EventController/Element, ns: , asm: Assembly-CSharp}
       data:
+        delayTime: 0
         actions:
         - type: 2
           action:
@@ -73478,6 +73480,7 @@ MonoBehaviour:
     - rid: 3424537244704440393
       type: {class: EventController/Element, ns: , asm: Assembly-CSharp}
       data:
+        delayTime: 0
         actions:
         - type: 3
           action:
@@ -73491,6 +73494,7 @@ MonoBehaviour:
     - rid: 3424537250813706244
       type: {class: EventController/Element, ns: , asm: Assembly-CSharp}
       data:
+        delayTime: 0
         actions: []
         _next:
           rid: -2
