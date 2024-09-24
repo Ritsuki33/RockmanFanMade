@@ -18,9 +18,10 @@ public class Jump : MonoBehaviour
         this.currentSpeed = maxSpeed;
     }
 
-    public void Init(int maxSpeed)
+    public void Init(float maxSpeed)
     {
         this.currentSpeed = maxSpeed;
+        this.maxSpeed = maxSpeed;
     }
 
     public void UpdateVelocity(float gravity)
