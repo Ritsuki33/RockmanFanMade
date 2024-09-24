@@ -27,6 +27,7 @@ public class EventController : MonoBehaviour
     [Serializable]
     class Element : AElement
     {
+        [SerializeField] float delayTime = 0.0f;
         [SerializeField] public List<ActionElement> actions;
         [SerializeReference] public AElement _next;
 
@@ -39,6 +40,8 @@ public class EventController : MonoBehaviour
             IEnumerator ActionExecuteCo(EventController eventControll)
             {
                 if (actions == null || actions.Count == 0) yield break;
+
+                if (delayTime > 0) yield return new WaitForSeconds(delayTime);
 
                 // 次イベント登録
                 eventControll.actionFinishCallback = (_next != null && _next.Actions != null && _next.Actions.Count != 0) ? _next.Execute : null;
