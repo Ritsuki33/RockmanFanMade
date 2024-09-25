@@ -14,6 +14,7 @@ public class EffectManager : SingletonComponent<EffectManager>
     [SerializeField] BaseObjectPool bomPool = default;
     [SerializeField] BaseObjectPool firePool = default;
     [SerializeField] ParticleSystem playerDeathEffect = default;
+    [SerializeField] BaseObjectPool placedBombPool = default;
 
     public BaseObjectPool ExplodePool => explodePool;
     public BaseObjectPool Explode2Pool => explode2Pool;
@@ -24,4 +25,5 @@ public class EffectManager : SingletonComponent<EffectManager>
     public BaseObjectPool BomPool => bomPool;
     public BaseObjectPool FirePool => firePool;
     public ParticleSystem PlayerDeathEffect => playerDeathEffect;
+    public BaseObjectPool PlacedBombPool => placedBombPool;
 }

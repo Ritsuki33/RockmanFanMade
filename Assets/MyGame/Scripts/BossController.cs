@@ -16,11 +16,14 @@ public class BossController : ExRbStateMachine<BossController>
 
     bool IsRight => boss.IsRight;
 
+    bool existBomb = false;
+    [SerializeField] Transform[] placeBombPosArray = null;
     enum StateId
     {
         Idle,
         Run,
         Jump,
+        PlaceBomb,
         Appearance,
     }
 
@@ -35,6 +38,7 @@ public class BossController : ExRbStateMachine<BossController>
         AddState((int)StateId.Idle, new Idle());
         AddState((int)StateId.Run, new Run());
         AddState((int)StateId.Jump, new Jumping());
+        AddState((int)StateId.PlaceBomb, new PlaceBomb());
         //AddState((int)StateId.Float, new Float());
         AddState((int)StateId.Appearance, new Appearance());
 
@@ -141,9 +145,21 @@ public class BossController : ExRbStateMachine<BossController>
                         ctr.TransitReady((int)StateId.Run);
                     }
                 ),
-                   (50, () =>
+                   (30, () =>
                    {
                        ctr.TransitReady((int)StateId.Jump);
+                   }
+                ),
+                   (25, () =>
+                   {
+                       if (!ctr.existBomb)
+                       {
+                           ctr.TransitReady((int)StateId.PlaceBomb);
+                       }
+                       else
+                       {
+                           ctr.TransitReady((int)StateId.Jump);
+                       }
                    }
                 )
                 );
@@ -202,18 +218,91 @@ public class BossController : ExRbStateMachine<BossController>
             ctr._exRb.velocity += new Vector2(vel_x, 0);
         }
 
+        protected override void OnBottomHitStay(BossController ctr, RaycastHit2D hit, IParentState parent)
+        {
+            ctr.TransitReady((int)StateId.Idle);
+        }
+    }
+
+    class PlaceBomb : ExRbState<BossController>
+    {
+        float jump_vel = 30f;
+        float vel_x;
+        int layerMask = LayerMask.GetMask("Ground");
+        int animationHash = Animator.StringToHash("PlaceBomb");
+        bool isFire = false;
+
+        BaseObjectPool PlacedBombPool => EffectManager.Instance.PlacedBombPool;
+        protected override void Enter(BossController ctr, int preId, int subId)
+        {
+            ctr.boss.TurnToTarget(GameManager.Instance.Player.transform.position);
+            ctr._animator.Play(animationHash);
+
+            ctr.jump.Init(jump_vel);
+
+            RaycastHit2D left = Physics2D.Raycast(ctr.transform.position, Vector2.left, Mathf.Infinity, layerMask);
+            RaycastHit2D right = Physics2D.Raycast(ctr.transform.position, Vector2.right, Mathf.Infinity, layerMask);
+
+
+            vel_x = ParabolaCalc.GetHorizonVelocity(ctr.transform.position.x, GameManager.Instance.Player.transform.position.x, jump_vel, ctr._gravity.GravityScale);
+            isFire = false;
+        }
+
+        protected override void FixedUpdate(BossController ctr, IParentState parent)
+        {
+            if (ctr.jump.CurrentSpeed > 0)
+            {
+                ctr.jump.UpdateVelocity(ctr._gravity.GravityScale);
+                ctr._exRb.velocity += ctr.jump.CurrentVelocity;
+            }
+            else
+            {
+                ctr._gravity.UpdateVelocity();
+                ctr._exRb.velocity += ctr._gravity.CurrentVelocity;
+            }
+
+            ctr._exRb.velocity += new Vector2(vel_x, 0);
+        }
+
         protected override void Update(BossController ctr, IParentState parent)
         {
-            ctr._timer.MoveAheadTime(Time.deltaTime, () =>
+            if (!isFire&&!ctr._animator.IsPlayingCurrentAnimation(animationHash))
             {
-                ctr.TransitReady((int)StateId.Run);
-            });
+                isFire = true;
+                ctr.existBomb = true;
+
+                bool isFirst = false;
+                foreach (var t in ctr.placeBombPosArray)
+                {
+                    var bomb = PlacedBombPool.Pool.Get().GetComponent<PlacedBombController>();
+                    bomb.transform.position = new Vector3(ctr.transform.position.x, ctr.transform.position.y, -2);
+                    Vector2 dir = t.position - ctr.transform.position;
+                    dir = dir.normalized;
+                    bomb.Init(
+                        (exRb) =>
+                        {
+                            exRb.velocity += dir * 20;
+                        },
+                        (collision) =>
+                        {
+
+                        },
+                        ()=>{ 
+                            ctr.existBomb = false;
+                        }
+                        );
+
+                    isFirst = true;
+                }
+            }
         }
 
         protected override void OnBottomHitStay(BossController ctr, RaycastHit2D hit, IParentState parent)
         {
             ctr.TransitReady((int)StateId.Idle);
         }
+
+
     }
 
     class Run : ExRbState<BossController>

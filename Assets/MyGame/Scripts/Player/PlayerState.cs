@@ -537,7 +537,7 @@ public partial class PlayerController
             time += Time.deltaTime;
             if (time > 0.1f)
             {
-                player.exRb.SetPosition(ExpandRigidBody.PostionSetType.Bottom, player.bodyLadder.bounds.max.y);
+                player.exRb.Bottom = player.bodyLadder.bounds.max.y;
                 player.TransitReady((int)StateID.Standing);
             }
         }

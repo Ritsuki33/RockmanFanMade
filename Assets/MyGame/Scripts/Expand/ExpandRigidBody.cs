@@ -15,14 +15,6 @@ public class ExpandRigidBody : MonoBehaviour, IBaseExRbHit.IExRbCallbackSet
         Left,
     }
 
-    public enum PostionSetType
-    {
-        Top,
-        Bottom,
-        Left,
-        Right,
-        Center
-    }
     Rigidbody2D rb;
 
     [SerializeField] BoxCollider2D boxCollider = null;
@@ -43,10 +35,10 @@ public class ExpandRigidBody : MonoBehaviour, IBaseExRbHit.IExRbCallbackSet
     /// <summary>
     /// コライダーの中心とサイズ
     /// </summary>
-    public Vector2 BoxColliderCenter
+    public Vector3 BoxColliderCenter
     {
-        get { return (Vector2)this.transform.position + ((boxCollider != null) ? boxCollider.offset : Vector2.zero); }
-        set { this.transform.position = value - ((boxCollider != null) ? boxCollider.offset : Vector2.zero); }
+        get { return this.transform.position + ((boxCollider != null) ? boxCollider.offset : Vector3.zero); }
+        set { this.transform.position = value - ((boxCollider != null) ? boxCollider.offset : Vector3.zero); }
     }
     Vector2 boxColliderSize => ((boxCollider != null) ? boxCollider.size : Vector2.zero);
 
@@ -57,25 +49,25 @@ public class ExpandRigidBody : MonoBehaviour, IBaseExRbHit.IExRbCallbackSet
     /// <summary>
     /// コライダー各4辺の中心
     /// </summary>
-    Vector2 TopColliderCenter
+    Vector3 TopColliderCenter
     {
-        get { return BoxColliderCenter + new Vector2(0, boxColliderSize.y / 2); }
-        set { BoxColliderCenter = value - new Vector2(0, boxColliderSize.y / 2); }
+        get { return BoxColliderCenter + new Vector3(0, boxColliderSize.y / 2); }
+        set { BoxColliderCenter = value - new Vector3(0, boxColliderSize.y / 2,0); }
     }
-    Vector2 BottomColliderCenter
+    Vector3 BottomColliderCenter
     {
-        get { return BoxColliderCenter + new Vector2(0, -boxColliderSize.y / 2); }
-        set { BoxColliderCenter = value - new Vector2(0, -boxColliderSize.y / 2); }
+        get { return BoxColliderCenter + new Vector3(0, -boxColliderSize.y / 2,0); }
+        set { BoxColliderCenter = value - new Vector3(0, -boxColliderSize.y / 2,0); }
     }
-    Vector2 RigthColliderCenter
+    Vector3 RigthColliderCenter
     {
-        get { return BoxColliderCenter + new Vector2(boxColliderSize.x / 2, 0); }
-        set { BoxColliderCenter = value - new Vector2(boxColliderSize.x / 2, 0); }
+        get { return BoxColliderCenter + new Vector3(boxColliderSize.x / 2, 0); }
+        set { BoxColliderCenter = value - new Vector3(boxColliderSize.x / 2, 0); }
     }
-    Vector2 LeftColliderCenter
+    Vector3 LeftColliderCenter
     {
-        get { return BoxColliderCenter + new Vector2(-boxColliderSize.x / 2, 0); }
-        set { BoxColliderCenter = value - new Vector2(-boxColliderSize.x / 2, 0); }
+        get { return BoxColliderCenter + new Vector3(-boxColliderSize.x / 2, 0); }
+        set { BoxColliderCenter = value - new Vector3(-boxColliderSize.x / 2, 0); }
     }
 
     /// <summary>
@@ -198,7 +190,7 @@ public class ExpandRigidBody : MonoBehaviour, IBaseExRbHit.IExRbCallbackSet
             }
             else
             {
-                return BoxColliderCenter + new Vector2(0, VirtuaBaseSize.y / 2);
+                return BoxColliderCenter + new Vector3(0, VirtuaBaseSize.y / 2,0);
             }
         }
     }
@@ -223,7 +215,7 @@ public class ExpandRigidBody : MonoBehaviour, IBaseExRbHit.IExRbCallbackSet
             }
             else
             {
-                return BoxColliderCenter - new Vector2(0, VirtuaBaseSize.y / 2);
+                return BoxColliderCenter - new Vector3(0, VirtuaBaseSize.y / 2,0);
             }
         }
     }
@@ -248,7 +240,7 @@ public class ExpandRigidBody : MonoBehaviour, IBaseExRbHit.IExRbCallbackSet
             }
             else
             {
-                return BoxColliderCenter + new Vector2(VirtuaBaseSize.x / 2, 0);
+                return BoxColliderCenter + new Vector3(VirtuaBaseSize.x / 2, 0,0);
             }
         }
     }
@@ -273,7 +265,7 @@ public class ExpandRigidBody : MonoBehaviour, IBaseExRbHit.IExRbCallbackSet
             }
             else
             {
-                return BoxColliderCenter - new Vector2(VirtuaBaseSize.x / 2, 0);
+                return BoxColliderCenter - new Vector3(VirtuaBaseSize.x / 2, 0, 0);
             }
         }
     }
@@ -288,28 +280,28 @@ public class ExpandRigidBody : MonoBehaviour, IBaseExRbHit.IExRbCallbackSet
     /// <summary>
     /// 実質４辺
     /// </summary>
-    float Bottom
+    public float Bottom
     {
         get { return BottomColliderCenter.y - physicalOffset.y; }
-        set { BottomColliderCenter = new Vector2(BottomColliderCenter.x, value + physicalOffset.y); }
+        set { BottomColliderCenter = new Vector3(BottomColliderCenter.x, value + physicalOffset.y, BottomColliderCenter.z); }
     }
 
-    float Top
+    public float Top
     {
         get { return TopColliderCenter.y + physicalOffset.y; }
-        set { TopColliderCenter = new Vector2(BottomColliderCenter.x, value - physicalOffset.y); }
+        set { TopColliderCenter = new Vector3(BottomColliderCenter.x, value - physicalOffset.y, BottomColliderCenter.z); }
     }
 
-    float Left
+    public float Left
     {
         get { return LeftColliderCenter.x - physicalOffset.x; }
-        set { LeftColliderCenter = new Vector2(value + physicalOffset.x, LeftColliderCenter.y); }
+        set { LeftColliderCenter = new Vector3(value + physicalOffset.x, LeftColliderCenter.y, BottomColliderCenter.z); }
     }
 
-    float Right
+    public float Right
     {
         get { return RigthColliderCenter.x + physicalOffset.x; }
-        set { RigthColliderCenter = new Vector2(value - physicalOffset.x, RigthColliderCenter.y); }
+        set { RigthColliderCenter = new Vector3(value - physicalOffset.x, RigthColliderCenter.y, BottomColliderCenter.z); }
     }
 
     public event Action<RaycastHit2D> onHitEnter;
@@ -355,32 +347,6 @@ public class ExpandRigidBody : MonoBehaviour, IBaseExRbHit.IExRbCallbackSet
         rb.gravityScale = 0;
         rb.angularDrag = 0;
         rb.constraints = RigidbodyConstraints2D.FreezeRotation;
-    }
-
-    /// <summary>
-    /// 辺の位置を指定
-    /// </summary>
-    /// <param name="type"></param>
-    /// <param name="position"></param>
-    public void SetPosition(PostionSetType type, float position)
-    {
-        switch (type)
-        {
-            case PostionSetType.Top:
-                Top = position;
-                break;
-            case PostionSetType.Bottom:
-                Bottom = position;
-                break;
-            case PostionSetType.Left:
-                Left = position;
-                break;
-            case PostionSetType.Right:
-                Left = position;
-                break;
-            default:
-                break;
-        }
     }
 
     private void FixedUpdate()
