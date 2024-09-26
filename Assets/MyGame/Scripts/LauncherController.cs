@@ -45,7 +45,7 @@ public class LauncherController : StateMachine<LauncherController>
 
     class None : State<LauncherController>
     {
-        protected override void Enter(LauncherController launcher, int preId)
+        protected override void Enter(LauncherController launcher, int preId, int subId)
         {
             launcher.StopRimLight();
             launcher.m_charge_animator.gameObject.SetActive(false);
@@ -55,7 +55,7 @@ public class LauncherController : StateMachine<LauncherController>
     class ChargeSmall : State<LauncherController>
     {
         float chargeStartTime = 1.0f;
-        protected override void Enter(LauncherController launcher, int preId)
+        protected override void Enter(LauncherController launcher, int preId, int subId)
         {
             chargeStartTime = 1.0f;
         }
@@ -80,7 +80,7 @@ public class LauncherController : StateMachine<LauncherController>
         float chargeStartTime = 1.0f;
         public ChargeMiddle() { animationHash = Animator.StringToHash("ChargingBlue"); }
 
-        protected override void Enter(LauncherController launcher, int preId)
+        protected override void Enter(LauncherController launcher, int preId, int subId)
         {
             launcher.m_charge_animator.gameObject.SetActive(true);
             launcher.m_charge_animator.Play(animationHash);
@@ -108,7 +108,7 @@ public class LauncherController : StateMachine<LauncherController>
         int animationHash = 0;
         public ChargeBig() { animationHash = Animator.StringToHash("ChargingYellow"); }
 
-        protected override void Enter(LauncherController launcher, int preId)
+        protected override void Enter(LauncherController launcher, int preId, int subId)
         {
             launcher.m_charge_animator.gameObject.SetActive(true);
             launcher.m_charge_animator.Play(animationHash);

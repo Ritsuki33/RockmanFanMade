@@ -50,16 +50,17 @@ public static class ParabolaCalc
     /// <param name="jumpSpeed"></param>
     /// <param name="gravity"></param>
     /// <returns></returns>
-    public static float GetHorizonVelocity(Vector2 pos,float targetPosX, float jumpSpeed, float gravity)
+    public static float GetHorizonVelocity(float pos,float targetPos, float jumpSpeed, float gravityScale)
     {
         // 高さ=初速*時間-(重力加速度*時間の２乗)/2 で算出可能
         // これから時間について解く
         float v0 = jumpSpeed;
+        float gravity = gravityScale / Time.fixedDeltaTime;
         float time = 2 * v0 / gravity;
        
         // 求めた時間から水平方向の速度を求める
-        float width = targetPosX - pos.x;
-        float v_x = width / time;
+        float distance = targetPos - pos;
+        float v_x = distance / time;
 
         return v_x;
     }

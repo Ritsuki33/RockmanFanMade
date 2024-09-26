@@ -10,7 +10,7 @@ public partial class MettoruController
         AmbiguousTimer timer = new AmbiguousTimer();
         int animationHash = 0;
         public Idle() { animationHash = Animator.StringToHash("Idle"); }
-        protected override void Enter(MettoruController mettoru, int preId)
+        protected override void Enter(MettoruController mettoru, int preId, int subId)
         {
             mettoru._animator.Play(animationHash);
             timer.Start(0.5f, 2.0f);
@@ -65,7 +65,7 @@ public partial class MettoruController
         AmbiguousTimer timer = new AmbiguousTimer();
         int animationHash = 0;
         public Walk() { animationHash = Animator.StringToHash("Walk"); }
-        protected override void Enter(MettoruController mettoru, int preId)
+        protected override void Enter(MettoruController mettoru, int preId, int subId)
         {
             mettoru._animator.Play(animationHash);
             mettoru.TurnToTarget(mettoru.Player.transform.position);
@@ -116,7 +116,7 @@ public partial class MettoruController
         int animationHash = 0;
         public Hide() { animationHash = Animator.StringToHash("Hide"); }
 
-        protected override void Enter(MettoruController mettoru, int preId)
+        protected override void Enter(MettoruController mettoru, int preId, int subId)
         {
             mettoru._animator.Play(animationHash);
         }
@@ -147,7 +147,7 @@ public partial class MettoruController
         AmbiguousTimer timer = new AmbiguousTimer();
         public Hiding() { animationHash = Animator.StringToHash("Hiding"); }
 
-        protected override void Enter(MettoruController mettoru, int preId)
+        protected override void Enter(MettoruController mettoru, int preId, int subId)
         {
             mettoru._animator.Play(animationHash);
             timer.Start(1, 3);
@@ -195,7 +195,7 @@ public partial class MettoruController
         AmbiguousTimer timer=new AmbiguousTimer();
         public Appear() { animationHash = Animator.StringToHash("Appear"); }
 
-        protected override void Enter(MettoruController mettoru, int preId)
+        protected override void Enter(MettoruController mettoru, int preId, int subId)
         {
             mettoru._animator.Play(animationHash);
             mettoru.Fire();
@@ -235,7 +235,7 @@ public partial class MettoruController
         public LookIn() { animationHash = Animator.StringToHash("LookIn"); }
         AmbiguousTimer timer = new AmbiguousTimer();
 
-        protected override void Enter(MettoruController mettoru, int preId)
+        protected override void Enter(MettoruController mettoru, int preId, int subId)
         {
             mettoru._animator.Play(animationHash);
             mettoru.Fire();
@@ -281,7 +281,7 @@ public partial class MettoruController
         int animationHash = 0;
         public Jumping() { animationHash = Animator.StringToHash("Jump"); }
 
-        protected override void Enter(MettoruController mettoru, int preId)
+        protected override void Enter(MettoruController mettoru, int preId, int subId)
         {
             mettoru._animator.Play(animationHash);
             mettoru.gravity.Reset();
@@ -313,7 +313,7 @@ public partial class MettoruController
         int animationHash = 0;
         public JumpFloating() { animationHash = Animator.StringToHash("Float"); }
 
-        protected override void Enter(MettoruController mettoru, int preId)
+        protected override void Enter(MettoruController mettoru, int preId, int subId)
         {
             mettoru._animator.Play(animationHash);
             //mettoru.jumpOverThere.Jump(mettoru.jumpTarget.position, 88, mettoru.gravity.GravityScale, () => { Debug.Log("error jump"); });

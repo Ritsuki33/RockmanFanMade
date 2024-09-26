@@ -4,12 +4,10 @@ using UnityEngine;
 
 public class Projectile : ReusableObject
 {
-    protected Vector2 direction = default;
 
     [SerializeField] private BoxCollider2D boxTrigger;
     [SerializeField] private BoxCollider2D boxCollider;
     private Rigidbody2D rb;
-    public Vector2 Direction => direction;
     Action<Rigidbody2D> moveAction;
     Action deleteCallback;
 

@@ -53,7 +53,7 @@ public class GreenManController : ExRbStateMachine<GreenManController>
     class Idle: ExRbState<GreenManController> {
         static int animationHash = Animator.StringToHash("Idle");
 
-        protected override void Enter(GreenManController greenMan, int preId)
+        protected override void Enter(GreenManController greenMan, int preId, int subId)
         {
             greenMan._animator.Play(animationHash);
             greenMan.timer.Start(1, 2);
@@ -102,7 +102,7 @@ public class GreenManController : ExRbStateMachine<GreenManController>
     class Float : ExRbState<GreenManController>
     {
         static int animationHash = Animator.StringToHash("Float");
-        protected override void Enter(GreenManController greenMan, int preId)
+        protected override void Enter(GreenManController greenMan, int preId, int subId)
         {
             greenMan._animator.Play(animationHash);
         }
@@ -127,7 +127,7 @@ public class GreenManController : ExRbStateMachine<GreenManController>
     class Shoot : ExRbState<GreenManController>
     {
         static int animationHash = Animator.StringToHash("Shoot");
-        protected override void Enter(GreenManController greenMan, int preId)
+        protected override void Enter(GreenManController greenMan, int preId, int subId)
         {
             greenMan._animator.Play(animationHash);
         }
@@ -164,7 +164,7 @@ public class GreenManController : ExRbStateMachine<GreenManController>
     {
         static int animationHash = Animator.StringToHash("Shooting");
 
-        protected override void Enter(GreenManController greenMan, int preId)
+        protected override void Enter(GreenManController greenMan, int preId, int subId)
         {
             greenMan._animator.Play(animationHash);
             greenMan.timer.Start(1, 2);
@@ -214,7 +214,7 @@ public class GreenManController : ExRbStateMachine<GreenManController>
     class Jumping : ExRbState<GreenManController>
     {
         static int animationHash = Animator.StringToHash("Float");
-        protected override void Enter(GreenManController greenMan, int preId)
+        protected override void Enter(GreenManController greenMan, int preId, int subId)
         {
             greenMan.jump.SetSpeed(15);
             greenMan._animator.Play(animationHash);

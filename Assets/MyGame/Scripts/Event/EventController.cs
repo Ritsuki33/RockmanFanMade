@@ -124,8 +124,10 @@ public class EventController : MonoBehaviour
     [Serializable]
     class BattleStartAction : BaseAction
     {
+        [SerializeField] BossController ctr;
         override public void Execute(Action finishCallback)
         {
+            ctr.ToBattleState();
             GameManager.Instance.Player.InputPermission();
             finishCallback.Invoke();
         }

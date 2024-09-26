@@ -44,7 +44,7 @@ public class RoketMaskComtroller : RbStateMachine<RoketMaskComtroller>
         Vector2 endPos = Vector2.zero;
 
         public Move() : base() { animationHash = Animator.StringToHash("Move"); }
-        protected override void Enter(RoketMaskComtroller rocketMask, int preId)
+        protected override void Enter(RoketMaskComtroller rocketMask, int preId, int subId)
         {
             rocketMask._animator.Play(animationHash);
             currentDistance = 0;
@@ -80,7 +80,7 @@ public class RoketMaskComtroller : RbStateMachine<RoketMaskComtroller>
     {
         int animationHash = 0;
         public Turn() : base() { animationHash = Animator.StringToHash("Turn"); }
-        protected override void Enter(RoketMaskComtroller rocketMask, int preId)
+        protected override void Enter(RoketMaskComtroller rocketMask, int preId, int subId)
         {
             rocketMask._animator.Play(animationHash);
         }
