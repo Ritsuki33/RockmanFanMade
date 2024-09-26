@@ -607,6 +607,15 @@ public partial class PlayerController
         {
             player.animator.Play(animationHash);
         }
+
+        protected override void Update(PlayerController player, IParentState parent)
+        {
+            if (!player.animator.IsPlayingCurrentAnimation(animationHash))
+            {
+                player.TransitReady((int)(StateID.Standing));
+                player.ActionFinishNotify();
+            }
+        }
     }
 
 
@@ -731,9 +740,9 @@ public partial class PlayerController
             protected override void Enter(PlayerController player, int preId, int subId)
             {
                 // 通知する
-                player.actionFinishCallback.Invoke();
-                player.actionFinishCallback = null;
-                EventTriggerManager.Instance.Notify(EventType.PlayerMoveEnd);
+                player.ActionFinishNotify();
+            
+                //EventTriggerManager.Instance.Notify(EventType.PlayerMoveEnd);
                 player.bamili = null;
 
                 player.animator.Play(animationHash);

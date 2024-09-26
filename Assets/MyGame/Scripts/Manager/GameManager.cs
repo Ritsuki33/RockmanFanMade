@@ -26,6 +26,8 @@ public class GameManager : SingletonComponent<GameManager>
     [SerializeField] Transform StartPos = default;
 
     [SerializeField] CameraControllArea defaultCameraControllArea;
+
+    [SerializeField] EventController startEvent = default;
     public MainCameraControll MainCameraControll => m_mainCameraControll;
 
     public PlayerController Player => player;
@@ -36,9 +38,9 @@ public class GameManager : SingletonComponent<GameManager>
     private IInput InputController => InputManager.Instance;
 
     private CameraControllArea currentCameraControllArea;
-    protected override void Awake()
+
+    private void Start()
     {
-        base.Awake();
         StageStart();
         InitArea(defaultCameraControllArea);
     }
@@ -105,14 +107,15 @@ public class GameManager : SingletonComponent<GameManager>
 
     public void StageStart()
     {
-        StartCoroutine(StageStartCo());
+        startEvent.StartEvent();
+        //StartCoroutine(StageStartCo());
     }
 
     IEnumerator StageStartCo()
     {
         yield return new WaitForSeconds(1);
         player.Prepare(StartPos);
-        UiManager.Instance.FadeInManager.FadeIn();
+        UiManager.Instance.FadeInManager.FadeIn(0.4f);
         while (UiManager.Instance.FadeInManager.IsFade) yield return null;
         UiManager.Instance.ReadyUi.Play();
         while(UiManager.Instance.ReadyUi.IsPlaying) yield return null;

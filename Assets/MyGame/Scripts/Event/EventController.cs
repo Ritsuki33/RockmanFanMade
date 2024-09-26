@@ -11,6 +11,12 @@ public class EventController : MonoBehaviour
     Action eventFinishCallback = default;
     enum ActionType
     {
+        ObjectActive,
+        ObjectMove,
+        FadeInScreen,
+        FadeOutScreen,
+        StartSign,
+        PlayerTransfer,
         PlayerMove,
         EnemyPause,
         BossHpBarSet,
@@ -87,7 +93,73 @@ public class EventController : MonoBehaviour
     }
 
     [Serializable]
-    class PlayerMoveAction : BaseAction
+    class ObjectActive : BaseAction
+    {
+
+        [SerializeField] GameObject obj;
+        [SerializeField] bool isActive = false;
+        public override void Execute(Action finishCallback)
+        {
+            obj.SetActive(isActive);
+            finishCallback();
+        }
+    }
+
+    [Serializable]
+    class ObjectMove : BaseAction
+    {
+        [SerializeField] Transform transform;
+        [SerializeField] Transform targetPosition;
+
+        public override void Execute(Action finishCallback)
+        {
+            transform.position = targetPosition.position;
+            finishCallback.Invoke();
+        }
+    }
+
+    [SerializeField]
+    class FadeInScreen : BaseAction
+    {
+        [SerializeField] float fadeTime = 0.4f;
+        [SerializeField] Color color = Color.black;
+        public override void Execute(Action finishCallback)
+        {
+            UiManager.Instance.FadeInManager.FadeIn(fadeTime, color, finishCallback);
+        }
+    }
+
+    [SerializeField]
+    class FadeOutScreen : BaseAction
+    {
+        [SerializeField] float fadeTime = 0.4f;
+        [SerializeField] Color color = Color.black;
+        public override void Execute(Action finishCallback)
+        {
+            UiManager.Instance.FadeInManager.FadeOut(fadeTime, color,finishCallback);
+        }
+    }
+
+    [SerializeField]
+    class StartSign : BaseAction
+    {
+        public override void Execute(Action finishCallback)
+        {
+            UiManager.Instance.ReadyUi.Play(finishCallback);
+        }
+    }
+
+    [SerializeField]
+    class PlayerTransfer : BaseAction
+    {
+        public override void Execute(Action finishCallback)
+        {
+            GameManager.Instance.Player.TransferPlayer(finishCallback);
+        }
+    }
+
+    [Serializable]
+    class PlayerWalkAction : BaseAction
     {
         [SerializeField] Transform _bamili;
 
@@ -177,10 +249,46 @@ public class EventController : MonoBehaviour
         {
             switch (ae.type)
             {
-                case ActionType.PlayerMove:
-                    if (ae.action is not PlayerMoveAction)
+                case ActionType.ObjectActive:
+                    if (ae.action is not ObjectActive)
                     {
-                        ae.action = new PlayerMoveAction();
+                        ae.action = new ObjectActive();
+                    }
+                    break;
+                case ActionType.ObjectMove:
+                    if (ae.action is not ObjectMove)
+                    {
+                        ae.action = new ObjectMove();
+                    }
+                    break;
+                case ActionType.FadeInScreen:
+                    if (ae.action is not FadeInScreen)
+                    {
+                        ae.action = new FadeInScreen();
+                    }
+                    break;
+                case ActionType.FadeOutScreen:
+                    if (ae.action is not FadeOutScreen)
+                    {
+                        ae.action = new FadeOutScreen();
+                    }
+                    break;
+                case ActionType.StartSign:
+                    if (ae.action is not StartSign)
+                    {
+                        ae.action = new StartSign();
+                    }
+                    break;
+                case ActionType.PlayerTransfer:
+                    if (ae.action is not PlayerTransfer)
+                    {
+                        ae.action = new PlayerTransfer();
+                    }
+                    break;
+                case ActionType.PlayerMove:
+                    if (ae.action is not PlayerWalkAction)
+                    {
+                        ae.action = new PlayerWalkAction();
                     }
                     break;
                 case ActionType.EnemyPause:
