@@ -8,8 +8,6 @@ public class EnemyObject : StageObject
 
     private BaseObjectPool ExplodePool => EffectManager.Instance.ExplodePool;
 
-    public bool IsRight => this.transform.localScale.x < 0;
-
     private Material material;
 
     int hp = 0;
@@ -56,51 +54,6 @@ public class EnemyObject : StageObject
         this.gameObject.SetActive(false);
 
         EventTriggerManager.Instance.Notify(EventType.EnemyDefeated);
-    }
-
-    public void TurnTo(bool isRight)
-    {
-        if (isRight)
-        {
-            Vector3 localScale = transform.localScale;
-            localScale.x = -1;
-            transform.localScale = localScale;
-        }
-        else
-        {
-            Vector3 localScale = transform.localScale;
-            localScale.x = 1;
-            transform.localScale = localScale;
-        }
-    }
-
-    /// <summary>
-    /// キャラクターの振り向き
-    /// </summary>
-    public  void TurnToTarget(Vector2 targetPos)
-    {
-        if (transform.position.x > targetPos.x)
-        {
-            Vector3 localScale = transform.localScale;
-            localScale.x = 1;
-            transform.localScale = localScale;
-        }
-        else
-        {
-            Vector3 localScale = transform.localScale;
-            localScale.x = -1;
-            transform.localScale = localScale;
-        }
-    }
-
-    /// <summary>
-    /// 振り返る
-    /// </summary>
-    public void TurnFace()
-    {
-        Vector3 localScale = transform.localScale;
-        localScale.x *= -1;
-        transform.localScale = localScale;
     }
 
     /// <summary>

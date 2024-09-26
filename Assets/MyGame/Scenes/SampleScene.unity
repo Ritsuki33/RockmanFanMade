@@ -298,6 +298,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   materialController: {fileID: 257428251}
+  forwardIsRight: 1
   enemyData: {fileID: 0}
   ctr: {fileID: 244315750}
 --- !u!61 &244315755
@@ -73233,6 +73234,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   materialController: {fileID: 1836396431}
+  forwardIsRight: 1
   enemyData: {fileID: 0}
 --- !u!114 &1648211536
 MonoBehaviour:
@@ -74119,6 +74121,10 @@ PrefabInstance:
     - target: {fileID: 1659857589686973031, guid: 97fd1097f2e6ac643807cdf881abe512, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8193433818486469091, guid: 97fd1097f2e6ac643807cdf881abe512, type: 3}
+      propertyPath: forwardIsRight
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
