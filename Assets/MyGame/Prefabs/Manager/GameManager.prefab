@@ -260,6 +260,7 @@ Transform:
   - {fileID: 3530698389485073417}
   - {fileID: 9059818862791041863}
   - {fileID: 643084055685691958}
+  - {fileID: 7882557091838278428}
   m_Father: {fileID: 8783223942164981467}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1691232584558227920
@@ -284,6 +285,7 @@ MonoBehaviour:
   firePool: {fileID: 1452499750541281219}
   playerDeathEffect: {fileID: 4265145672475137195}
   placedBombPool: {fileID: 706308442979923791}
+  crashBombPool: {fileID: 5301430790806442780}
 --- !u!1 &4643818298210295590
 GameObject:
   m_ObjectHideFlags: 0
@@ -376,6 +378,53 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   prefab: {fileID: 2594373853667636395, guid: 92ffe6b60fa07f1439296c5360805848, type: 3}
+  defaultCapacity: 10
+  maxSize: 10
+--- !u!1 &4849198926952861478
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7882557091838278428}
+  - component: {fileID: 5301430790806442780}
+  m_Layer: 0
+  m_Name: CrashBombPool
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7882557091838278428
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4849198926952861478}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8214183983391218674}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5301430790806442780
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4849198926952861478}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6428f17e52015684683e9c774633b242, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  prefab: {fileID: 925121075117786401, guid: 815c91568b93b2b4f98c3c7a9ecf15f7, type: 3}
   defaultCapacity: 10
   maxSize: 10
 --- !u!1 &4977058497809260009

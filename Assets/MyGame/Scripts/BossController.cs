@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Runtime.ConstrainedExecution;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class BossController : ExRbStateMachine<BossController>
 {
     [SerializeField] Boss boss;
+    [SerializeField] Transform buster;
     [SerializeField] private Animator _animator;
     private Gravity _gravity;
     private Move _move;
@@ -18,12 +20,14 @@ public class BossController : ExRbStateMachine<BossController>
 
     bool existBomb = false;
     [SerializeField] Transform[] placeBombPosArray = null;
+    BaseObjectPool ExplodePool=>EffectManager.Instance.ExplodePool;
     enum StateId
     {
         Idle,
         Run,
         Jump,
         PlaceBomb,
+        Shoot,
         Appearance,
     }
 
@@ -39,6 +43,7 @@ public class BossController : ExRbStateMachine<BossController>
         AddState((int)StateId.Run, new Run());
         AddState((int)StateId.Jump, new Jumping());
         AddState((int)StateId.PlaceBomb, new PlaceBomb());
+        AddState((int)StateId.Shoot, new Shoot());
         //AddState((int)StateId.Float, new Float());
         AddState((int)StateId.Appearance, new Appearance());
 
@@ -140,7 +145,7 @@ public class BossController : ExRbStateMachine<BossController>
             ctr._timer.MoveAheadTime(Time.deltaTime, () =>
             {
                 Probability.BranchMethods(
-                    (50, () =>
+                    (20, () =>
                     {
                         ctr.TransitReady((int)StateId.Run);
                     }
@@ -150,16 +155,14 @@ public class BossController : ExRbStateMachine<BossController>
                        ctr.TransitReady((int)StateId.Jump);
                    }
                 ),
+                   ((!ctr.existBomb) ? 40 : 0, () =>
+                   {
+                       ctr.TransitReady((int)StateId.PlaceBomb);
+                   }
+                ),
                    (25, () =>
                    {
-                       if (!ctr.existBomb)
-                       {
-                           ctr.TransitReady((int)StateId.PlaceBomb);
-                       }
-                       else
-                       {
-                           ctr.TransitReady((int)StateId.Jump);
-                       }
+                       ctr.TransitReady((int)StateId.Shoot);
                    }
                 )
                 );
@@ -393,6 +396,95 @@ public class BossController : ExRbStateMachine<BossController>
         }
     }
 
+    class Shoot : ExRbState<BossController>
+    {
+        public Shoot() {
+            this.AddSubState(0, new Hold());
+            this.AddSubState(1, new Fire());
+            this.AddSubState(2, new Stiffness());
+
+        }
+
+        protected override void Enter(BossController ctr, int preId, int subId)
+        {
+            this.TransitSubReady(0);
+            ctr.boss.TurnToTarget(GameManager.Instance.Player.transform.position);
+            ctr._animator.Play(AnimationNameHash.Shoot);
+        }
+
+
+        class Hold: ExRbState<BossController>
+        {
+            protected override void Enter(BossController ctr, int preId, int subId)
+            {
+                if (preId != 2) ctr._timer.Start(0.4f, 0.6f);
+                else ctr._timer.Start(0, 0);
+            }
+
+            protected override void Update(BossController ctr, IParentState parent)
+            {
+                ctr._timer.MoveAheadTime(Time.deltaTime, () =>
+                {
+                    parent.TransitSubReady(1);
+                });
+            }
+        }
+
+        class Fire: ExRbState<BossController>
+        {
+            protected override void Enter(BossController ctr, int preId, int subId)
+            {
+                var bomb = EffectManager.Instance.CrashBombPool.Pool.Get().GetComponent<Projectile>();
+                bomb.transform.position = new Vector3(ctr.buster.transform.position.x, ctr.buster.transform.position.y, -2);
+                Vector2 dir = (ctr.IsRight) ? Vector2.right : Vector2.left;
+                dir = dir.normalized;
+                bomb.Init(5, null,
+                    (exRb) =>
+                    {
+                        exRb.velocity = dir * 8f;
+                    },
+                    (collision) =>
+                    {
+                        bomb.Delete();
+                        var explode = ctr.ExplodePool.Pool.Get() as ExplodeController;
+                        explode.transform.position = bomb.transform.position;
+                    }
+                   );
+            }
+
+            protected override void Update(BossController ctr, IParentState parent)
+            {
+                parent.TransitSubReady(2);
+            }
+        }
+
+        class Stiffness : ExRbState<BossController>
+        {
+            protected override void Enter(BossController ctr, int preId, int subId)
+            {
+                ctr._timer.Start(0.5f, 0.5f);
+            }
+
+            protected override void Update(BossController ctr, IParentState parent)
+            {
+                ctr._timer.MoveAheadTime(Time.deltaTime, () =>
+                {
+                    Probability.BranchMethods(
+                        (50, () =>
+                        {
+                            parent.TransitSubReady(0);
+                        }
+                    ),
+                        (50, () =>
+                        {
+                            ctr.TransitReady((int)StateId.Idle);
+                        }
+                    )
+                    );
+                });
+            }
+        }
+    }
     public void Appeare(Action finishCallback)
     {
         gameObject.SetActive(true);
