@@ -107,9 +107,10 @@ public partial class PlayerController : ExRbStateMachine<PlayerController>
         this.transform.position = tranform.position;
     }
 
-    public void TransferPlayer()
+    public void TransferPlayer(Action actionFinishCallback=null)
     {
         this.gameObject.SetActive(true);
+        this.actionFinishCallback = actionFinishCallback;
         TransitReady((int)StateID.Transfer);
     }
 
@@ -123,5 +124,11 @@ public partial class PlayerController : ExRbStateMachine<PlayerController>
     public void InputPermission()
     {
         this.TransitReady((int)StateID.Standing);
+    }
+
+    public void ActionFinishNotify()
+    {
+        actionFinishCallback?.Invoke();
+        actionFinishCallback = null;
     }
 }

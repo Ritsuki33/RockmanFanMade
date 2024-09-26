@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using UnityEngine;
 
 public class ReadyUi : MonoBehaviour
@@ -18,12 +19,12 @@ public class ReadyUi : MonoBehaviour
         ready.alpha = 0;
     }
 
-    public void Play()
+    public void Play(Action action=null)
     {
-        coroutine = StartCoroutine(PlayCo());
+        coroutine = StartCoroutine(PlayCo(action));
     }
 
-    private IEnumerator PlayCo()
+    private IEnumerator PlayCo(Action action)
     {
         ready.alpha = 0;
 
@@ -44,5 +45,6 @@ public class ReadyUi : MonoBehaviour
         ready.alpha = 0;
 
         coroutine = null;
+        action?.Invoke();
     }
 }
