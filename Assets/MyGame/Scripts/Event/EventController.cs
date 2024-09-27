@@ -21,8 +21,10 @@ public class EventController : MonoBehaviour
         PlayerMove,
         EnemyPause,
         BossHpBarSet,
-        BattleStart,
+        BossBattleStart,
         External,
+        PlayerInputProhibit,
+        PlayerInputPermit,
     }
 
     [Serializable]
@@ -207,13 +209,12 @@ public class EventController : MonoBehaviour
     }
 
     [Serializable]
-    class BattleStartAction : BaseAction
+    class BossBattleStart : BaseAction
     {
         [SerializeField] BossController ctr;
         override public void Execute(Action finishCallback)
         {
             ctr.ToBattleState();
-            GameManager.Instance.Player.InputPermission();
             finishCallback.Invoke();
         }
     }
@@ -247,6 +248,26 @@ public class EventController : MonoBehaviour
             }
         }
     }
+
+    [Serializable]
+    class PlayerInputProhibit : BaseAction
+    {
+        override public void Execute(Action finishCallback)
+        {
+            GameManager.Instance.Player.InputProhibit(finishCallback);
+        }
+    }
+
+    [Serializable]
+    class PlayerInputPermit : BaseAction
+    {
+        override public void Execute(Action finishCallback)
+        {
+            GameManager.Instance.Player.InputPermission();
+            finishCallback.Invoke();
+        }
+    }
+
     [SerializeField] Element element;
 
     private void OnValidate()
@@ -322,16 +343,28 @@ public class EventController : MonoBehaviour
                         ae.action = new BossHpBarSetAction();
                     }
                     break;
-                case ActionType.BattleStart:
-                    if (ae.action is not BattleStartAction)
+                case ActionType.BossBattleStart:
+                    if (ae.action is not BossBattleStart)
                     {
-                        ae.action = new BattleStartAction();
+                        ae.action = new BossBattleStart();
                     }
                     break;
                 case ActionType.External:
                     if (ae.action is not ExternalAction)
                     {
                         ae.action = new ExternalAction(this);
+                    }
+                    break;
+                case ActionType.PlayerInputPermit:
+                    if (ae.action is not PlayerInputPermit)
+                    {
+                        ae.action = new PlayerInputPermit();
+                    }
+                    break;
+                case ActionType.PlayerInputProhibit:
+                    if (ae.action is not PlayerInputProhibit)
+                    {
+                        ae.action = new PlayerInputProhibit();
                     }
                     break;
                 default:

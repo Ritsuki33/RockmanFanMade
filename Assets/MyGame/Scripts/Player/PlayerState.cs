@@ -19,7 +19,7 @@ public partial class PlayerController
 
         protected override void Enter(PlayerController obj, int preId, int subId)
         {
-            TransitSubReady((int)SubStateID.Basic, preId);
+            TransitSubReady((int)SubStateID.Basic);
         }
 
         protected override void FixedUpdate(PlayerController player, IParentState parent)
@@ -131,7 +131,7 @@ public partial class PlayerController
 
         protected override void Enter(PlayerController player, int preId, int subId)
         {
-            TransitSubReady((int)SubStateID.Run, preId);
+            TransitSubReady((int)SubStateID.Run);
         }
 
         protected override void FixedUpdate(PlayerController player, IParentState parent)
@@ -236,7 +236,7 @@ public partial class PlayerController
         protected override void Enter(PlayerController player, int preId, int subId)
         {
             player.onTheGround.Reset();
-            TransitSubReady((int)SubStateID.Basic, preId);
+            TransitSubReady((int)SubStateID.Basic);
         }
 
         protected override void FixedUpdate(PlayerController player, IParentState parent)
@@ -330,7 +330,7 @@ public partial class PlayerController
 
         protected override void Enter(PlayerController player, int preId, int subId)
         {
-            TransitSubReady((int)SubStateID.Basic, preId);
+            TransitSubReady((int)SubStateID.Basic);
             player.onTheGround.Reset();
             player.jump.Init();
             isJumping = true;
@@ -611,32 +611,39 @@ public partial class PlayerController
 
     class AutoMove : ExRbState<PlayerController>
     {
-        enum SubStateId
+        public enum SubStateId
         {
             Float,
             Run,
-            Finished
+            Wait
         }
 
         public AutoMove()
         {
             AddSubState((int)SubStateId.Float, new Float());
             AddSubState((int)SubStateId.Run, new Run());
-            AddSubState((int)SubStateId.Finished, new Finished());
+            AddSubState((int)SubStateId.Wait, new Wait());
         }
         protected override void Enter(PlayerController player, int preId, int subId)
         {
             player.onTheGround.Reset();
 
-            var preStateId=(StateID)preId;
-           
-            if (preStateId == StateID.Standing || preStateId == StateID.Running)
+            if (subId >= 0)
             {
-                this.TransitSubReady((int)SubStateId.Run, preId);
+                this.TransitSubReady(subId);
             }
             else
             {
-                this.TransitSubReady((int)SubStateId.Float, preId);
+                var preStateId = (StateID)preId;
+
+                if (preStateId == StateID.Standing || preStateId == StateID.Running)
+                {
+                    this.TransitSubReady((int)SubStateId.Run);
+                }
+                else
+                {
+                    this.TransitSubReady((int)SubStateId.Float);
+                }
             }
         }
 
@@ -649,15 +656,28 @@ public partial class PlayerController
 
         class Float : ExRbState<PlayerController>
         {
-            int animationHash = Animator.StringToHash("Float"); 
+            int animationHash = Animator.StringToHash("Float");
+            bool isWait = false;
             protected override void Enter(PlayerController player, int preId, int subId)
             {
                 player.animator.Play(animationHash);
+                if (preId == (int)SubStateId.Wait)
+                {
+                    isWait = true;
+                }
             }
 
             protected override void OnBottomHitStay(PlayerController player, RaycastHit2D hit, IParentState parent)
             {
-                parent.TransitSubReady((int)SubStateId.Run);
+                if (isWait)
+                {
+                    parent.TransitSubReady((int)SubStateId.Wait);
+                }
+                else
+                {
+                    parent.TransitSubReady((int)SubStateId.Run);
+
+                }
             }
         }
 
@@ -691,7 +711,7 @@ public partial class PlayerController
 
                 if ((preViousX < bamili_x && player.transform.position.x >= bamili_x)|| (preViousX > bamili_x && player.transform.position.x <= bamili_x))
                 {
-                    parent.TransitSubReady((int)SubStateId.Finished);
+                    parent.TransitSubReady((int)SubStateId.Wait);
                 }
                 else
                 {
@@ -721,7 +741,7 @@ public partial class PlayerController
             }
         }
 
-        class Finished : ExRbState<PlayerController> { 
+        class Wait : ExRbState<PlayerController> { 
             int animationHash = Animator.StringToHash("Idle");
             protected override void Enter(PlayerController player, int preId, int subId)
             {
@@ -734,6 +754,10 @@ public partial class PlayerController
                 player.animator.Play(animationHash);
             }
 
+            protected override void OnBottomHitExit(PlayerController player, RaycastHit2D hit, IParentState parent)
+            {
+                parent.TransitSubReady((int)SubStateId.Float);
+            }
         }
     }
 }

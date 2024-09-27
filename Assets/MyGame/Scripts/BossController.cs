@@ -68,7 +68,7 @@ public class BossController : ExRbStateMachine<BossController>
 
         protected override void Enter(BossController ctr, int preId, int subId)
         {
-            this.TransitSubReady((int)SubStateId.Float, preId);
+            this.TransitSubReady((int)SubStateId.Float);
         }
 
         protected override void FixedUpdate(BossController ctr, IParentState parent)
