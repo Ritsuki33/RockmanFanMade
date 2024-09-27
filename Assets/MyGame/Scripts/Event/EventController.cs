@@ -13,6 +13,7 @@ public class EventController : MonoBehaviour
     {
         ObjectActive,
         ObjectMove,
+        StageObjectTurn,
         FadeInScreen,
         FadeOutScreen,
         StartSign,
@@ -115,6 +116,17 @@ public class EventController : MonoBehaviour
         {
             transform.position = targetPosition.position;
             finishCallback.Invoke();
+        }
+    }
+
+    [Serializable]
+    class StageObjectTurn:BaseAction
+    {
+        [SerializeField] StageObject obj;
+        [SerializeField] bool isRight = true;
+        public override void Execute(Action finishCallback)
+        {
+            obj.TurnTo(isRight);
         }
     }
 
@@ -259,6 +271,12 @@ public class EventController : MonoBehaviour
                     if (ae.action is not ObjectMove)
                     {
                         ae.action = new ObjectMove();
+                    }
+                    break;
+                case ActionType.StageObjectTurn:
+                    if (ae.action is not StageObjectTurn)
+                    {
+                        ae.action = new StageObjectTurn();
                     }
                     break;
                 case ActionType.FadeInScreen:
