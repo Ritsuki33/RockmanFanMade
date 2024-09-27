@@ -73234,7 +73234,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   materialController: {fileID: 1836396431}
-  forwardIsRight: 1
+  forwardIsRight: 0
   enemyData: {fileID: 0}
 --- !u!114 &1648211536
 MonoBehaviour:
@@ -73767,12 +73767,9 @@ MonoBehaviour:
   element:
     delayTime: 0
     actions:
-    - type: 0
+    - type: 7
       action:
-        rid: 3424537312967000066
-    - type: 1
-      action:
-        rid: 3424537330373361702
+        rid: 3424537330373361705
     _next:
       rid: 3424537244704440390
   references:
@@ -73785,9 +73782,9 @@ MonoBehaviour:
       data:
         delayTime: 0
         actions:
-        - type: 2
+        - type: 8
           action:
-            rid: 3424537330373361703
+            rid: 3424537330373361706
         _next:
           rid: 3424537244704440393
     - rid: 3424537244704440393
@@ -73795,38 +73792,44 @@ MonoBehaviour:
       data:
         delayTime: 0
         actions:
-        - type: 3
+        - type: 9
           action:
-            rid: 3424537330373361704
+            rid: 3424537330373361707
         _next:
           rid: 3424537250813706244
     - rid: 3424537250813706244
       type: {class: EventController/Element, ns: , asm: Assembly-CSharp}
       data:
         delayTime: 0
+        actions:
+        - type: 10
+          action:
+            rid: 3424537330373361710
+        _next:
+          rid: 3424537330373361709
+    - rid: 3424537330373361705
+      type: {class: EventController/PlayerWalkAction, ns: , asm: Assembly-CSharp}
+      data:
+        _bamili: {fileID: 311468352}
+    - rid: 3424537330373361706
+      type: {class: EventController/BosePauseAction, ns: , asm: Assembly-CSharp}
+      data:
+        ctr: {fileID: 1648211530}
+    - rid: 3424537330373361707
+      type: {class: EventController/BossHpBarSetAction, ns: , asm: Assembly-CSharp}
+      data:
+        ctr: {fileID: 1648211530}
+    - rid: 3424537330373361709
+      type: {class: EventController/Element, ns: , asm: Assembly-CSharp}
+      data:
+        delayTime: 0
         actions: []
         _next:
           rid: -2
-    - rid: 3424537312967000066
-      type: {class: EventController/ObjectActive, ns: , asm: Assembly-CSharp}
+    - rid: 3424537330373361710
+      type: {class: EventController/BattleStartAction, ns: , asm: Assembly-CSharp}
       data:
-        obj: {fileID: 0}
-        isActive: 0
-    - rid: 3424537330373361702
-      type: {class: EventController/ObjectMove, ns: , asm: Assembly-CSharp}
-      data:
-        transform: {fileID: 0}
-        targetPosition: {fileID: 0}
-    - rid: 3424537330373361703
-      type: {class: EventController/StageObjectTurn, ns: , asm: Assembly-CSharp}
-      data:
-        obj: {fileID: 0}
-        isRight: 1
-    - rid: 3424537330373361704
-      type: {class: EventController/FadeInScreen, ns: , asm: Assembly-CSharp}
-      data:
-        fadeTime: 0.4
-        color: {r: 0, g: 0, b: 0, a: 1}
+        ctr: {fileID: 1648211530}
 --- !u!1 &2064169958
 GameObject:
   m_ObjectHideFlags: 0
