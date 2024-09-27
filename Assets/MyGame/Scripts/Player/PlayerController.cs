@@ -58,6 +58,7 @@ public partial class PlayerController : ExRbStateMachine<PlayerController>
         AddState((int)StateID.Transfer, new Transfer());
         AddState((int)StateID.Transfered, new Transfered());
         AddState((int)StateID.AutoMove, new AutoMove());
+
     }
 
     public void UpdateInput(InputInfo input)
