@@ -7,7 +7,6 @@ public class Player : StageObject
 {
     [SerializeField] PlayerController playerController = default;
 
-    public bool IsRight => this.transform.localScale.x > 0;
 
     private void OnEnable()
     {

@@ -147,15 +147,13 @@ public partial class PlayerController
 
             if (moveV.x > 0)
             {
-                Vector3 localScale = player.transform.localScale;
-                localScale.x = 1;
-                player.transform.localScale = localScale;
+                player.player.TurnTo(true);
             }
             else if (moveV.x < 0)
             {
-                Vector3 localScale = player.transform.localScale;
-                localScale.x = -1;
-                player.transform.localScale = localScale;
+                player.player.TurnTo(false);
+
+               
             }
             if (!player.onTheGround.Check())
             {
@@ -254,15 +252,11 @@ public partial class PlayerController
 
             if (moveV.x > 0)
             {
-                Vector3 localScale = player.transform.localScale;
-                localScale.x = 1;
-                player.transform.localScale = localScale;
+                player.player.TurnTo(true);
             }
             else if (moveV.x < 0)
             {
-                Vector3 localScale = player.transform.localScale;
-                localScale.x = -1;
-                player.transform.localScale = localScale;
+                player.player.TurnTo(false);
             }
 
             if (player.bodyLadder != null && player.inputInfo.up)
@@ -354,15 +348,11 @@ public partial class PlayerController
 
             if (moveV.x > 0)
             {
-                Vector3 localScale = player.transform.localScale;
-                localScale.x = 1;
-                player.transform.localScale = localScale;
+                player.player.TurnTo(true);
             }
             else if (moveV.x < 0)
             {
-                Vector3 localScale = player.transform.localScale;
-                localScale.x = -1;
-                player.transform.localScale = localScale;
+                player.player.TurnTo(false);
             }
 
             player.exRb.velocity += player.jump.CurrentVelocity;
@@ -714,15 +704,11 @@ public partial class PlayerController
 
                     if (moveV.x > 0)
                     {
-                        Vector3 localScale = player.transform.localScale;
-                        localScale.x = 1;
-                        player.transform.localScale = localScale;
+                        player.player.TurnTo(true);
                     }
                     else if (moveV.x < 0)
                     {
-                        Vector3 localScale = player.transform.localScale;
-                        localScale.x = -1;
-                        player.transform.localScale = localScale;
+                        player.player.TurnTo(false);
                     }
 
                     if (!player.onTheGround.Check())
