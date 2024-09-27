@@ -40,7 +40,7 @@ public class LauncherController : StateMachine<LauncherController>
         stateMachine.AddState((int)StateID.ChargeMiddle, new ChargeMiddle());
         stateMachine.AddState((int)StateID.ChargeBig, new ChargeBig());
 
-        stateMachine.TransitReady((int)StateID.None);
+        TransitReady((int)StateID.None);
     }
 
     class None : State<LauncherController>

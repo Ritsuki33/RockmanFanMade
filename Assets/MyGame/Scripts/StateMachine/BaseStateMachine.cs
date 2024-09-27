@@ -130,8 +130,8 @@ public interface IBaseStateMachine<T, S> where T : MonoBehaviour where S : class
     void Update(T obj, IParentState parent);
     void AddState(int id, S state);
     void RemoveState(int id);
-    void TransitReady(int id, bool reset=false, int subId=-1);
-
+    void TransitReady(int id, bool reset = false, int subId = -1);
+    void TransitReady(int id, int subId) => TransitReady(id, false, subId);
     void CloseState(T obj);
 }
 
@@ -277,6 +277,7 @@ public class BaseStateMachine<T, S, SM, G>
     public void RemoveState(int id) => stateMachine.RemoveState(id);
 
     public void TransitReady(int id, bool reset = false, int subId = -1) => stateMachine.TransitReady(id, reset, subId);
+    public void TransitReady(int id, int subId) => stateMachine.TransitReady(id, subId);
 
     protected virtual void StartFixedUpdate() { }
     protected virtual void EndtFixedUpdate() { }
