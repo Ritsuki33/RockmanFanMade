@@ -118,9 +118,21 @@ public partial class PlayerController : ExRbStateMachine<PlayerController>
     {
         this.bamili = bamili;
         this.actionFinishCallback = actionFinishCallback;
-        this.TransitReady((int)StateID.AutoMove);
+        this.TransitReady((int)StateID.AutoMove, true);
     }
 
+    /// <summary>
+    /// 入力の禁止
+    /// </summary>
+    /// <param name="actionFinishCallback"></param>
+    public void InputProhibit(Action actionFinishCallback)
+    {
+        this.TransitReady((int)StateID.AutoMove, (int)AutoMove.SubStateId.Wait);
+    }
+
+    /// <summary>
+    /// 入力を許可
+    /// </summary>
     public void InputPermission()
     {
         this.TransitReady((int)StateID.Standing);
