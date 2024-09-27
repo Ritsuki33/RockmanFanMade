@@ -127,6 +127,7 @@ public class EventController : MonoBehaviour
         public override void Execute(Action finishCallback)
         {
             obj.TurnTo(isRight);
+            finishCallback.Invoke();
         }
     }
 
