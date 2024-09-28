@@ -277,6 +277,7 @@ public class BaseStateMachine<T, S, SM, G>
     public void RemoveState(int id) => stateMachine.RemoveState(id);
 
     public void TransitReady(int id, bool reset = false, int subId = -1) => stateMachine.TransitReady(id, reset, subId);
+    public void TransitReady(int id, int subId) => stateMachine.TransitReady(id, false, subId);
 
     protected virtual void StartFixedUpdate() { }
     protected virtual void EndtFixedUpdate() { }
