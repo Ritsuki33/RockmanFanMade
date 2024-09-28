@@ -73804,7 +73804,10 @@ MonoBehaviour:
         actions:
         - type: 10
           action:
-            rid: 3424537330373361722
+            rid: 3424537356080250882
+        - type: 13
+          action:
+            rid: 3424537356080250883
         _next:
           rid: 3424537330373361709
     - rid: 3424537330373361705
@@ -73826,10 +73829,13 @@ MonoBehaviour:
         actions: []
         _next:
           rid: -2
-    - rid: 3424537330373361722
+    - rid: 3424537356080250882
       type: {class: EventController/BossBattleStart, ns: , asm: Assembly-CSharp}
       data:
-        ctr: {fileID: 0}
+        ctr: {fileID: 1648211530}
+    - rid: 3424537356080250883
+      type: {class: EventController/PlayerInputPermit, ns: , asm: Assembly-CSharp}
+      data: 
 --- !u!1 &2064169958
 GameObject:
   m_ObjectHideFlags: 0
