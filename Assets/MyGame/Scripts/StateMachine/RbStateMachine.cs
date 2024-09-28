@@ -76,7 +76,7 @@ public class RbState<T>
     where T : MonoBehaviour
 { }
 
-public interface IRbStateMachine<T, S> : IBaseStateMachine<T, S> where T : MonoBehaviour where S : class, IBaseState<T>
+public interface IRbStateMachine<T, S> : IBaseStateMachine<T, S> where T : MonoBehaviour where S : class, IRbState<T>
 {
     void OnCollisionEnter2D(T obj, Collision2D collision,  IParentState parent);
     void OnCollisionStay2D(T obj, Collision2D collision,  IParentState parent);

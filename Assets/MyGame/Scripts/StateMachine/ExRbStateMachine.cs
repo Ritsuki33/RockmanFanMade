@@ -132,7 +132,7 @@ public class ExRbState<T>
     : BaseExRbState<T, IExRbState<T>, IExRbStateMachine<T, IExRbState<T>>, GenericExRbStateMachine<T, IExRbState<T>>> where T : MonoBehaviour
 { }
 
-public interface IExRbStateMachine<T, S> : IRbStateMachine<T, S> where T : MonoBehaviour where S : class, IBaseState<T>
+public interface IExRbStateMachine<T, S> : IRbStateMachine<T, S> where T : MonoBehaviour where S : class, IExRbState<T>
 {
     void OnHitEnter(T obj, RaycastHit2D hit,  IParentState parent);
     void OnBottomHitEnter(T obj, RaycastHit2D hit, IParentState parent);
