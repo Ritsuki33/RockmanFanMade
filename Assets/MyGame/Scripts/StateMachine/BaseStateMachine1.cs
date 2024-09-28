@@ -7,7 +7,7 @@ namespace Test
 {
     public interface IBaseCommonState<T> where T : MonoBehaviour { }
 
-    public interface IBaseState<T>: IBaseCommonState<T> where T : MonoBehaviour
+    public interface IBaseState<T> : IBaseCommonState<T> where T : MonoBehaviour
     {
         void Enter(T obj, int preId, int subId);
         void Exit(T obj, int nextId);
@@ -71,7 +71,7 @@ namespace Test
     /// <typeparam name="T"></typeparam>
     public class BaseState<T, S, SM, G, PS> : BaseCommonState<T, S, SM, G>, IBaseState<T>
         where T : MonoBehaviour
-        where S :class, IBaseSubState<T, IBaseState<T>>
+        where S : class, IBaseSubState<T, PS>
         where SM : class, IBaseSubStateMachine<T, S, PS>
         where G : SM, new()
         where PS : class, IBaseState<T>
@@ -102,12 +102,12 @@ namespace Test
         }
     }
 
-    public class BaseSubState<T, S, SM, G, PS> : BaseCommonState<T, S, SM, G>, IBaseSubState<T,PS>
+    public class BaseSubState<T, S, SM, G, PS> : BaseCommonState<T, S, SM, G>, IBaseSubState<T, PS>
        where T : MonoBehaviour
        where S : class, IBaseSubState<T, PS>
        where SM : class, IBaseSubStateMachine<T, S, PS>
        where G : SM, new()
-       where PS: class, IBaseCommonState<T>
+       where PS : class, IBaseCommonState<T>
     {
         virtual protected void FixedUpdate(T obj, PS parent) { }
         virtual protected void Update(T obj, PS parent) { }
@@ -137,9 +137,10 @@ namespace Test
         }
     }
 
-    public class State<T> : 
-        BaseState<T, IBaseSubState<T, IBaseState<T>>, IBaseSubStateMachine<T, IBaseSubState<T, IBaseState<T>>, IBaseState<T>>, GenericBaseSubStateMachine<T, IBaseSubState<T, IBaseState<T>>, IBaseState<T>>, IBaseState<T>> 
+    public class State<T, PS> :
+        BaseState<T, IBaseSubState<T, PS>, IBaseSubStateMachine<T, IBaseSubState<T, PS>, PS>, GenericBaseSubStateMachine<T, IBaseSubState<T, PS>, PS>, PS>
         where T : MonoBehaviour
+        where PS : class, IBaseState<T>
     { }
 
     public class SubState<T, PS> :
@@ -148,7 +149,7 @@ namespace Test
         where PS : class, IBaseCommonState<T>
     { }
 
-    public interface IBaseCommonStateMachine<T, S> where T : MonoBehaviour 
+    public interface IBaseCommonStateMachine<T, S> where T : MonoBehaviour
     {
         int CurId { get; }
         void AddState(int id, S state);
@@ -157,7 +158,7 @@ namespace Test
 
     }
 
-    public interface IBaseStateMachine<T, S>: IBaseCommonStateMachine<T, S> where T : MonoBehaviour where S : class, IBaseState<T>
+    public interface IBaseStateMachine<T, S> : IBaseCommonStateMachine<T, S> where T : MonoBehaviour where S : class, IBaseState<T>
     {
         void FixedUpdate(T obj);
         void Update(T obj);
@@ -165,7 +166,7 @@ namespace Test
     }
 
     public interface IBaseSubStateMachine<T, S, PS> : IBaseCommonStateMachine<T, S>
-        where T : MonoBehaviour 
+        where T : MonoBehaviour
     {
         void FixedUpdate(T obj, PS parent);
         void Update(T obj, PS parent);
@@ -260,15 +261,15 @@ namespace Test
         }
     }
 
-    public class GenericBaseSubStateMachine<T, S, PS> : GenericBaseCommonStateMachine<T, S>, IBaseSubStateMachine<T, S, PS> 
-        where T : MonoBehaviour 
-        where S : class, IBaseSubState<T,PS>
+    public class GenericBaseSubStateMachine<T, S, PS> : GenericBaseCommonStateMachine<T, S>, IBaseSubStateMachine<T, S, PS>
+        where T : MonoBehaviour
+        where S : class, IBaseSubState<T, PS>
     {
-        void IBaseSubStateMachine<T, S, PS>.FixedUpdate(T obj,PS parent)
+        void IBaseSubStateMachine<T, S, PS>.FixedUpdate(T obj, PS parent)
         {
             TransitState(obj, parent);
 
-            curState?.FixedUpdate(obj,parent);
+            curState?.FixedUpdate(obj, parent);
         }
 
         void IBaseSubStateMachine<T, S, PS>.Update(T obj, PS parent)
@@ -294,7 +295,7 @@ namespace Test
             }
         }
 
-        void IBaseSubStateMachine<T, S, PS>.CloseState(T obj,PS parent)
+        void IBaseSubStateMachine<T, S, PS>.CloseState(T obj, PS parent)
         {
             curState?.Exit(obj, parent, curId);
             requestId = -1;
@@ -348,4 +349,33 @@ namespace Test
         : BaseStateMachine<T, IBaseState<T>, IBaseStateMachine<T, IBaseState<T>>, GenericBaseStateMachine<T, IBaseState<T>>>
         where T : StateMachine<T>
     { }
+
+
+    public class Idle : State<PlayerController, Idle>
+    {
+        protected override void Enter(PlayerController obj, int preId, int subId)
+        {
+            base.Enter(obj, preId, subId);
+
+            AddSubState(0, new SubIdle());
+        }
+    }
+
+    class SubIdle : SubState<PlayerController, Idle>
+    {
+        protected override void Enter(PlayerController obj, Idle parent, int preId, int subId)
+        {
+            base.Enter(obj, parent, preId, subId);
+        }
+
+        protected override void Update(PlayerController obj, Idle parent)
+        {
+            base.Update(obj, parent);
+        }
+
+        protected override void FixedUpdate(PlayerController obj, Idle parent)
+        {
+            base.FixedUpdate(obj, parent);
+        }
+    }
 }
