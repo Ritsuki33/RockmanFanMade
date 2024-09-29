@@ -174,12 +174,12 @@ namespace Test
         void CloseState(T obj);
     }
 
-    public interface IBaseSubStateMachine<T, S, TS> : IBaseCommonStateMachine<T, S>
+    public interface IBaseSubStateMachine<T, S, PS> : IBaseCommonStateMachine<T, S>
         where T : MonoBehaviour
     {
-        void FixedUpdate(T obj, TS parent);
-        void Update(T obj, TS parent);
-        void CloseState(T obj, TS parent);
+        void FixedUpdate(T obj, PS parent);
+        void Update(T obj, PS parent);
+        void CloseState(T obj, PS parent);
     }
 
     public class GenericBaseCommonStateMachine<T, S> : IBaseCommonStateMachine<T, S> where T : MonoBehaviour where S : class, IBaseCommonState<T>
@@ -270,25 +270,25 @@ namespace Test
         }
     }
 
-    public class GenericBaseSubStateMachine<T, S, TS> : GenericBaseCommonStateMachine<T, S>, IBaseSubStateMachine<T, S, TS>
+    public class GenericBaseSubStateMachine<T, S, PS> : GenericBaseCommonStateMachine<T, S>, IBaseSubStateMachine<T, S, PS>
         where T : MonoBehaviour
-        where S : class, IBaseSubState<T, TS>
+        where S : class, IBaseSubState<T, PS>
     {
-        void IBaseSubStateMachine<T, S, TS>.FixedUpdate(T obj, TS parent)
+        void IBaseSubStateMachine<T, S, PS>.FixedUpdate(T obj, PS parent)
         {
             TransitState(obj, parent);
 
             curState?.FixedUpdate(obj, parent);
         }
 
-        void IBaseSubStateMachine<T, S, TS>.Update(T obj, TS parent)
+        void IBaseSubStateMachine<T, S, PS>.Update(T obj, PS parent)
         {
             TransitState(obj, parent);
 
             curState?.Update(obj, parent);
         }
 
-        void TransitState(T obj, TS parent)
+        void TransitState(T obj, PS parent)
         {
             if (requestId != -1 && (reset || curId != requestId))
             {
@@ -304,7 +304,7 @@ namespace Test
             }
         }
 
-        void IBaseSubStateMachine<T, S, TS>.CloseState(T obj, TS parent)
+        void IBaseSubStateMachine<T, S, PS>.CloseState(T obj, PS parent)
         {
             curState?.Exit(obj, parent, curId);
             requestId = -1;
@@ -358,32 +358,4 @@ namespace Test
         : BaseStateMachine<T, IBaseState<T>, IBaseStateMachine<T, IBaseState<T>>, GenericBaseStateMachine<T, IBaseState<T>>>
         where T : StateMachine<T>
     { }
-
-
-    public class Idle : State<PlayerController, Idle>
-    {
-        protected override void Enter(PlayerController obj, int preId, int subId)
-        {
-            base.Enter(obj, preId, subId);
-
-            AddSubState(0, new SubIdle());
-        }
-    }
-
-    class SubIdle : SubState<PlayerController, SubIdle, Idle>
-    {
-        protected override void Enter(PlayerController obj, Idle parent, int preId, int subId)
-        {
-            base.Enter(obj, parent, preId, subId);
-            AddSubState(0, new SubSubIdle());
-        }
-
-        class SubSubIdle : SubState<PlayerController, SubSubIdle, SubIdle>
-        {
-            protected override void Enter(PlayerController obj, SubIdle parent, int preId, int subId)
-            {
-                base.Enter(obj, parent, preId, subId);
-            }
-        }
-    }
 }
