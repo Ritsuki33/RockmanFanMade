@@ -142,16 +142,16 @@ namespace Test
     /// </summary>
     /// <typeparam name="T"></typeparam>
     public class RbState<T, TS> :
-    BaseRbState<T, TS, IRbSubState<T, TS>, IRbSubStateMachine<T, IRbSubState<T, TS>, TS>, GenericRbSubStateMachine<T, IRbSubState<T, TS>, TS>>
-    where T : MonoBehaviour
-    where TS : class, IRbState<T>
+        BaseRbState<T, TS, IRbSubState<T, TS>, IRbSubStateMachine<T, IRbSubState<T, TS>, TS>, GenericRbSubStateMachine<T, IRbSubState<T, TS>, TS>>
+        where T : MonoBehaviour
+        where TS : class, IRbState<T>
     { }
 
-    public class SubRbState<T, TS, PS> :
+    public class RbSubState<T, TS, PS> :
     BaseRbSubState<T, TS, IRbSubState<T, TS>, IRbSubStateMachine<T, IRbSubState<T, TS>, TS>, GenericRbSubStateMachine<T, IRbSubState<T, TS>, TS>, PS>
-    where T : MonoBehaviour
-    where TS : class, IRbSubState<T, PS>
-    where PS : class, IBaseCommonState<T>
+        where T : MonoBehaviour
+        where TS : class, IRbSubState<T, PS>
+        where PS : class, IBaseCommonState<T>
     { }
 
     public interface IRbStateMachine<T, S> : IBaseStateMachine<T, S> where T : MonoBehaviour where S : class, IRbState<T>
