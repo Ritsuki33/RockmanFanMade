@@ -32,7 +32,7 @@ public class PlacedBombController : ExRbStateMachine<PlacedBombController>
         this.TransitReady(0);
     }
 
-    class Orbit : ExRbState<PlacedBombController>
+    class Orbit : ExRbState<PlacedBombController, Orbit>
     {
         int animationHash = Animator.StringToHash("UnBoot");
         protected override void Enter(PlacedBombController ctr, int preId, int subId)
@@ -40,19 +40,19 @@ public class PlacedBombController : ExRbStateMachine<PlacedBombController>
             ctr._animator.Play(animationHash);
         }
 
-        protected override void FixedUpdate(PlacedBombController ctr, IParentState parent)
+        protected override void FixedUpdate(PlacedBombController ctr)
         {
             ctr.orbitfixedUpdate(ctr.exRb);
         }
 
-        protected override void OnBottomHitEnter(PlacedBombController ctr, RaycastHit2D hit, IParentState parent)
+        protected override void OnBottomHitEnter(PlacedBombController ctr, RaycastHit2D hit)
         {
             ctr.TransitReady(1);
             ctr.exRb.Bottom = hit.point.y;
         }
     }
 
-    class Boot : ExRbState<PlacedBombController>
+    class Boot : ExRbState<PlacedBombController, Boot>
     {
         int animationHash = Animator.StringToHash("Boot");
         protected override void Enter(PlacedBombController ctr, int preId, int subId)
@@ -61,7 +61,7 @@ public class PlacedBombController : ExRbStateMachine<PlacedBombController>
             ctr.timer.Start(3, 3);
         }
 
-        protected override void Update(PlacedBombController ctr, IParentState parent)
+        protected override void Update(PlacedBombController ctr)
         {
             ctr.timer.MoveAheadTime(Time.deltaTime, () =>
             {

@@ -45,7 +45,7 @@ public class BigDogController : RbStateMachine<BigDogController>
         TransitReady((int)StateId.Idle);
     }
 
-    class Idle :RbState<BigDogController>
+    class Idle :RbState<BigDogController, Idle>
     {
         static int animationHash = Animator.StringToHash("Idle");
         protected override void Enter(BigDogController ctr, int preId, int subId)
@@ -54,7 +54,7 @@ public class BigDogController : RbStateMachine<BigDogController>
             ctr.timer.Start(1, 3);
         }
 
-        protected override void Update(BigDogController ctr, IParentState parent)
+        protected override void Update(BigDogController ctr)
         {
             ctr.timer.MoveAheadTime(Time.deltaTime,
                 () =>
@@ -74,13 +74,13 @@ public class BigDogController : RbStateMachine<BigDogController>
                 );
         }
 
-        protected override void OnTriggerEnter2D(BigDogController ctr, Collider2D collision, IParentState parent)
+        protected override void OnTriggerEnter2D(BigDogController ctr, Collider2D collision)
         {
             ctr.bigDog.Attacked(collision);
         }
     }
 
-    class Fire : RbState<BigDogController>
+    class Fire : RbState<BigDogController, Fire>
     {
         static int animationHash = Animator.StringToHash("Fire");
 
@@ -117,7 +117,7 @@ public class BigDogController : RbStateMachine<BigDogController>
             }
         }
 
-        protected override void Update(BigDogController ctr, IParentState parent)
+        protected override void Update(BigDogController ctr)
         {
             if (finished)
             {
@@ -130,14 +130,14 @@ public class BigDogController : RbStateMachine<BigDogController>
             }
         }
 
-        protected override void OnTriggerEnter2D(BigDogController ctr, Collider2D collision, IParentState parent)
+        protected override void OnTriggerEnter2D(BigDogController ctr, Collider2D collision)
         {
             ctr.bigDog.Attacked(collision);
         }
     }
 
 
-    class TailFire : RbState<BigDogController>
+    class TailFire : RbState<BigDogController, TailFire>
     {
         static int animationHash = Animator.StringToHash("TailFire");
 
@@ -158,9 +158,9 @@ public class BigDogController : RbStateMachine<BigDogController>
             ctr._animator.Play(animationHash);
         }
 
-        class Stance : RbState<BigDogController>
+        class Stance : RbSubState<BigDogController, Stance, TailFire>
         {
-            protected override void Update(BigDogController ctr, IParentState parent)
+            protected override void Update(BigDogController ctr, TailFire parent)
             {
                 if (!ctr._animator.IsPlayingCurrentAnimation(animationHash))
                 {
@@ -169,9 +169,9 @@ public class BigDogController : RbStateMachine<BigDogController>
             }
         }
 
-        class Fire : RbState<BigDogController>
+        class Fire : RbSubState<BigDogController, Fire, TailFire>
         {
-            protected override void Enter(BigDogController ctr, int preId, int subId)
+            protected override void Enter(BigDogController ctr, TailFire parent, int preId, int subId)
             {
                 var bom = ctr.BomPool.Pool.Get() as Projectile;
                 var explode = ctr.ExplodePool.Pool.Get();
@@ -217,7 +217,7 @@ public class BigDogController : RbStateMachine<BigDogController>
                 ctr.timer.Start(1, 1);
             }
 
-            protected override void Update(BigDogController ctr, IParentState parent)
+            protected override void Update(BigDogController ctr, TailFire parent)
             {
                 ctr.timer.MoveAheadTime(Time.deltaTime,
                 () =>
@@ -226,9 +226,10 @@ public class BigDogController : RbStateMachine<BigDogController>
                 }
                 );
             }
+          
         }
 
-        protected override void OnTriggerEnter2D(BigDogController ctr, Collider2D collision, IParentState parent)
+        protected override void OnTriggerEnter2D(BigDogController ctr, Collider2D collision)
         {
             ctr.bigDog.Attacked(collision);
         }

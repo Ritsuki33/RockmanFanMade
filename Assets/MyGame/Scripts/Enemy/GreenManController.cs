@@ -50,7 +50,7 @@ public class GreenManController : ExRbStateMachine<GreenManController>
         TransitReady((int)StateId.Idle);
     }
 
-    class Idle: ExRbState<GreenManController> {
+    class Idle: ExRbState<GreenManController, Idle> {
         static int animationHash = Animator.StringToHash("Idle");
 
         protected override void Enter(GreenManController greenMan, int preId, int subId)
@@ -59,13 +59,13 @@ public class GreenManController : ExRbStateMachine<GreenManController>
             greenMan.timer.Start(1, 2);
         }
 
-        protected override void FixedUpdate(GreenManController greenMan, IParentState parent)
+        protected override void FixedUpdate(GreenManController greenMan)
         {
             greenMan.gravity.UpdateVelocity();
             greenMan.exRb.velocity = greenMan.gravity.CurrentVelocity;
         }
 
-        protected override void Update(GreenManController greenMan, IParentState parent)
+        protected override void Update(GreenManController greenMan)
         {
             greenMan.greenMan.TurnToTarget(greenMan.Player.transform.position);
             greenMan.timer.MoveAheadTime(Time.deltaTime, () =>
@@ -84,22 +84,22 @@ public class GreenManController : ExRbStateMachine<GreenManController>
             });
         }
 
-        protected override void OnTriggerEnter2D(GreenManController greenMan, Collider2D collision, IParentState parent)
+        protected override void OnTriggerEnter2D(GreenManController greenMan, Collider2D collision)
         {
             greenMan.Defense(collision);
         }
       
-        protected override void OnBottomHitStay(GreenManController greenMan, RaycastHit2D hit, IParentState parent)
+        protected override void OnBottomHitStay(GreenManController greenMan, RaycastHit2D hit)
         {
             greenMan.gravity.Reset();
         }
 
-        protected override void OnBottomHitExit(GreenManController greenMan, RaycastHit2D hit, IParentState parent)
+        protected override void OnBottomHitExit(GreenManController greenMan, RaycastHit2D hit)
         {
             greenMan.TransitReady((int)StateId.Float);
         }
     }
-    class Float : ExRbState<GreenManController>
+    class Float : ExRbState<GreenManController, Float>
     {
         static int animationHash = Animator.StringToHash("Float");
         protected override void Enter(GreenManController greenMan, int preId, int subId)
@@ -107,37 +107,37 @@ public class GreenManController : ExRbStateMachine<GreenManController>
             greenMan._animator.Play(animationHash);
         }
 
-        protected override void FixedUpdate(GreenManController greenMan, IParentState parent)
+        protected override void FixedUpdate(GreenManController greenMan)
         {
             greenMan.gravity.UpdateVelocity();
             greenMan.exRb.velocity = greenMan.gravity.CurrentVelocity;
         }
 
-        protected override void OnTriggerEnter2D(GreenManController greenMan, Collider2D collision, IParentState parent)
+        protected override void OnTriggerEnter2D(GreenManController greenMan, Collider2D collision)
         {
             greenMan.Defense(collision);
         }
 
-        protected override void OnBottomHitEnter(GreenManController greenMan, RaycastHit2D hit, IParentState parent)
+        protected override void OnBottomHitEnter(GreenManController greenMan, RaycastHit2D hit)
         {
             greenMan.TransitReady((int)StateId.Idle);
         }
     }
 
-    class Shoot : ExRbState<GreenManController>
+    class Shoot : ExRbState<GreenManController, Shoot>
     {
         static int animationHash = Animator.StringToHash("Shoot");
         protected override void Enter(GreenManController greenMan, int preId, int subId)
         {
             greenMan._animator.Play(animationHash);
         }
-        protected override void FixedUpdate(GreenManController greenMan, IParentState parent)
+        protected override void FixedUpdate(GreenManController greenMan)
         {
             greenMan.gravity.UpdateVelocity();
             greenMan.exRb.velocity = greenMan.gravity.CurrentVelocity;
         }
 
-        protected override void Update(GreenManController greenMan, IParentState parent)
+        protected override void Update(GreenManController greenMan)
         {
             if (!greenMan._animator.IsPlayingCurrentAnimation(animationHash))
             {
@@ -145,22 +145,22 @@ public class GreenManController : ExRbStateMachine<GreenManController>
             }
         }
 
-        protected override void OnTriggerEnter2D(GreenManController greenMan, Collider2D collision, IParentState parent)
+        protected override void OnTriggerEnter2D(GreenManController greenMan, Collider2D collision)
         {
             greenMan.greenMan.Attacked(collision);
         }
 
-        protected override void OnBottomHitStay(GreenManController greenMan, RaycastHit2D hit, IParentState parent)
+        protected override void OnBottomHitStay(GreenManController greenMan, RaycastHit2D hit)
         {
             greenMan.gravity.Reset();
         }
 
-        protected override void OnBottomHitExit(GreenManController greenMan, RaycastHit2D hit, IParentState parent)
+        protected override void OnBottomHitExit(GreenManController greenMan, RaycastHit2D hit)
         {
             greenMan.TransitReady((int)StateId.Float);
         }
     }
-    class Shooting : ExRbState<GreenManController>
+    class Shooting : ExRbState<GreenManController, Shooting>
     {
         static int animationHash = Animator.StringToHash("Shooting");
 
@@ -171,13 +171,13 @@ public class GreenManController : ExRbStateMachine<GreenManController>
             greenMan.Atack();
         }
 
-        protected override void FixedUpdate(GreenManController greenMan, IParentState parent)
+        protected override void FixedUpdate(GreenManController greenMan)
         {
             greenMan.gravity.UpdateVelocity();
             greenMan.exRb.velocity = greenMan.gravity.CurrentVelocity;
         }
 
-        protected override void Update(GreenManController greenMan, IParentState parent)
+        protected override void Update(GreenManController greenMan)
         {
             greenMan.timer.MoveAheadTime(Time.deltaTime, () =>
             {
@@ -195,23 +195,23 @@ public class GreenManController : ExRbStateMachine<GreenManController>
             });
         }
 
-        protected override void OnTriggerEnter2D(GreenManController greenMan, Collider2D collision, IParentState parent)
+        protected override void OnTriggerEnter2D(GreenManController greenMan, Collider2D collision)
         {
             greenMan.greenMan.Attacked(collision);
         }
 
-        protected override void OnBottomHitStay(GreenManController greenMan, RaycastHit2D hit, IParentState parent)
+        protected override void OnBottomHitStay(GreenManController greenMan, RaycastHit2D hit)
         {
             greenMan.gravity.Reset();
         }
 
-        protected override void OnBottomHitExit(GreenManController greenMan, RaycastHit2D hit, IParentState parent)
+        protected override void OnBottomHitExit(GreenManController greenMan, RaycastHit2D hit)
         {
             greenMan.TransitReady((int)StateId.Float);
         }
     }
 
-    class Jumping : ExRbState<GreenManController>
+    class Jumping : ExRbState<GreenManController, Jumping>
     {
         static int animationHash = Animator.StringToHash("Float");
         protected override void Enter(GreenManController greenMan, int preId, int subId)
@@ -220,7 +220,7 @@ public class GreenManController : ExRbStateMachine<GreenManController>
             greenMan._animator.Play(animationHash);
         }
 
-        protected override void FixedUpdate(GreenManController greenMan, IParentState parent)
+        protected override void FixedUpdate(GreenManController greenMan)
         {
             greenMan.jump.UpdateVelocity(greenMan.gravity.GravityScale);
             greenMan.exRb.velocity = greenMan.jump.CurrentVelocity;
@@ -231,17 +231,17 @@ public class GreenManController : ExRbStateMachine<GreenManController>
             }
         }
 
-        protected override void OnTriggerEnter2D(GreenManController greenMan, Collider2D collision, IParentState parent)
+        protected override void OnTriggerEnter2D(GreenManController greenMan, Collider2D collision)
         {
             greenMan.Defense(collision);
         }
 
-        protected override void OnTopHitEnter(GreenManController greenMan, RaycastHit2D hit, IParentState parent)
+        protected override void OnTopHitEnter(GreenManController greenMan, RaycastHit2D hit)
         {
             greenMan.jump.SetSpeed(0);
         }
 
-        protected override void OnBottomHitEnter(GreenManController greenMan, RaycastHit2D hit, IParentState parent)
+        protected override void OnBottomHitEnter(GreenManController greenMan, RaycastHit2D hit)
         {
             greenMan.TransitReady((int)StateId.Idle);
         }

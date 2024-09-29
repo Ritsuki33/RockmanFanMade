@@ -43,7 +43,7 @@ public class LauncherController : StateMachine<LauncherController>
         stateMachine.TransitReady((int)StateID.None);
     }
 
-    class None : State<LauncherController>
+    class None : State<LauncherController, None>
     {
         protected override void Enter(LauncherController launcher, int preId, int subId)
         {
@@ -52,7 +52,7 @@ public class LauncherController : StateMachine<LauncherController>
         }
     }
 
-    class ChargeSmall : State<LauncherController>
+    class ChargeSmall : State<LauncherController, ChargeSmall>
     {
         float chargeStartTime = 1.0f;
         protected override void Enter(LauncherController launcher, int preId, int subId)
@@ -60,7 +60,7 @@ public class LauncherController : StateMachine<LauncherController>
             chargeStartTime = 1.0f;
         }
 
-        protected override void Update(LauncherController launcher, IParentState parent)
+        protected override void Update(LauncherController launcher)
         {
             if (launcher.isLaunchTrigger)
             {
@@ -74,7 +74,7 @@ public class LauncherController : StateMachine<LauncherController>
         }
     }
 
-    class ChargeMiddle : State<LauncherController>
+    class ChargeMiddle : State<LauncherController, ChargeMiddle>
     {
         int animationHash = 0;
         float chargeStartTime = 1.0f;
@@ -88,7 +88,7 @@ public class LauncherController : StateMachine<LauncherController>
             chargeStartTime = 1.0f;
         }
 
-        protected override void Update(LauncherController launcher, IParentState parent)
+        protected override void Update(LauncherController launcher)
         {
             if (launcher.isLaunchTrigger)
             {
@@ -103,7 +103,7 @@ public class LauncherController : StateMachine<LauncherController>
         }
     }
 
-    class ChargeBig : State<LauncherController>
+    class ChargeBig : State<LauncherController, ChargeBig>
     {
         int animationHash = 0;
         public ChargeBig() { animationHash = Animator.StringToHash("ChargingYellow"); }
@@ -114,7 +114,7 @@ public class LauncherController : StateMachine<LauncherController>
             launcher.m_charge_animator.Play(animationHash);
         }
 
-        protected override void Update(LauncherController launcher, IParentState parent)
+        protected override void Update(LauncherController launcher)
         {
             if (!launcher.isLaunchTrigger)
             {

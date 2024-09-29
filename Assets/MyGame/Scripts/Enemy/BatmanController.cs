@@ -35,7 +35,7 @@ public class BatmanController : ExRbStateMachine<BatmanController>
         TransitReady((int)StateID.Idle);
     }
 
-    class Idle : ExRbState<BatmanController>
+    class Idle : ExRbState<BatmanController, Idle>
     {
         static int anmationHash = Animator.StringToHash("Idle");
         AmbiguousTimer timer = new AmbiguousTimer();
@@ -45,7 +45,7 @@ public class BatmanController : ExRbStateMachine<BatmanController>
             timer.Start(1, 2);
         }
 
-        protected override void Update(BatmanController batmanController, IParentState parent)
+        protected override void Update(BatmanController batmanController)
         {
             timer.MoveAheadTime(Time.deltaTime, () =>
             {
@@ -57,7 +57,7 @@ public class BatmanController : ExRbStateMachine<BatmanController>
             , true);
         }
 
-        protected override void OnTriggerEnter2D(BatmanController batmanController, Collider2D collision, IParentState parent)
+        protected override void OnTriggerEnter2D(BatmanController batmanController, Collider2D collision)
         {
             if (collision.gameObject.CompareTag("RockBuster"))
             {
@@ -66,7 +66,7 @@ public class BatmanController : ExRbStateMachine<BatmanController>
         }
     }
 
-    class ToMove : ExRbState<BatmanController>
+    class ToMove : ExRbState<BatmanController, ToMove>
     {
         static int anmationHash = Animator.StringToHash("ToMove");
         protected override void Enter(BatmanController batmanController, int preId, int subId)
@@ -74,12 +74,12 @@ public class BatmanController : ExRbStateMachine<BatmanController>
             batmanController._animator.Play(anmationHash);
         }
 
-        protected override void FixedUpdate(BatmanController batmanController, IParentState parent)
+        protected override void FixedUpdate(BatmanController batmanController)
         {
             batmanController.exRb.velocity = 1.0f * Vector2.down;
         }
 
-        protected override void Update(BatmanController batmanController, IParentState parent)
+        protected override void Update(BatmanController batmanController)
         {
             if (!batmanController._animator.IsPlayingCurrentAnimation(anmationHash))
             {
@@ -87,13 +87,13 @@ public class BatmanController : ExRbStateMachine<BatmanController>
             }
         }
 
-        protected override void OnTriggerEnter2D(BatmanController batmanController, Collider2D collision, IParentState parent)
+        protected override void OnTriggerEnter2D(BatmanController batmanController, Collider2D collision)
         {
             batmanController.batman.Attacked(collision);
         }
     }
 
-    class Move : ExRbState<BatmanController>
+    class Move : ExRbState<BatmanController, Move>
     {
         static int anmationHash = Animator.StringToHash("Move");
         float speed = 1;
@@ -104,13 +104,13 @@ public class BatmanController : ExRbStateMachine<BatmanController>
             batmanController._animator.Play(anmationHash);
         }
 
-        protected override void FixedUpdate(BatmanController batmanController, IParentState parent)
+        protected override void FixedUpdate(BatmanController batmanController)
         {
             Vector2 move = PlayerPos.position - batmanController.transform.position;
             batmanController.exRb.velocity = speed * move.normalized;
         }
 
-        protected override void OnTriggerEnter2D(BatmanController batmanController, Collider2D collision, IParentState parent)
+        protected override void OnTriggerEnter2D(BatmanController batmanController, Collider2D collision)
         {
             if (collision.gameObject.CompareTag("Player"))
             {
@@ -124,7 +124,7 @@ public class BatmanController : ExRbStateMachine<BatmanController>
         }
     }
 
-    class ToIdle : ExRbState<BatmanController>
+    class ToIdle : ExRbState<BatmanController, ToIdle>
     {
         static int anmationHash = Animator.StringToHash("ToIdle");
         float speed = 0f;
@@ -135,19 +135,19 @@ public class BatmanController : ExRbStateMachine<BatmanController>
             speed = 0f;
         }
 
-        protected override void FixedUpdate(BatmanController batmanController, IParentState parent)
+        protected override void FixedUpdate(BatmanController batmanController)
         {
             batmanController.exRb.velocity = speed * Vector2.up;
 
             if (speed < 10) speed += 0.5f;
         }
 
-        protected override void OnTopHitEnter(BatmanController batmanController, RaycastHit2D hit, IParentState parent)
+        protected override void OnTopHitEnter(BatmanController batmanController, RaycastHit2D hit)
         {
             batmanController.TransitReady((int)StateID.Idle);
         }
 
-        protected override void OnTriggerEnter2D(BatmanController batmanController, Collider2D collision, IParentState parent)
+        protected override void OnTriggerEnter2D(BatmanController batmanController, Collider2D collision)
         {
             batmanController.batman.Attacked(collision);
         }

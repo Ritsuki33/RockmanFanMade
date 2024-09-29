@@ -36,7 +36,7 @@ public class RoketMaskComtroller : RbStateMachine<RoketMaskComtroller>
         TransitReady((int)StateID.Move, true);
     }
 
-    class Move : RbState<RoketMaskComtroller>
+    class Move : RbState<RoketMaskComtroller, Move>
     {
         int animationHash = 0;
         float currentDistance = 0;
@@ -52,7 +52,7 @@ public class RoketMaskComtroller : RbStateMachine<RoketMaskComtroller>
             endPos = (Vector2)rocketMask.transform.position + ((rocketMask.isRight) ? Vector2.right : Vector2.left) * rocketMask.distance;
         }
 
-        protected override void FixedUpdate(RoketMaskComtroller rocketMask, IParentState parent)
+        protected override void FixedUpdate(RoketMaskComtroller rocketMask)
         {
             if(((Vector2)rocketMask.transform.position-endPos).sqrMagnitude<0.05f)
             {
@@ -70,13 +70,13 @@ public class RoketMaskComtroller : RbStateMachine<RoketMaskComtroller>
             }
         }
 
-        protected override void OnTriggerEnter2D(RoketMaskComtroller rocketMask, Collider2D collision, IParentState parent)
+        protected override void OnTriggerEnter2D(RoketMaskComtroller rocketMask, Collider2D collision)
         {
             rocketMask.Atacked(collision);
         }
     }
 
-    class Turn : RbState<RoketMaskComtroller>
+    class Turn : RbState<RoketMaskComtroller, Turn>
     {
         int animationHash = 0;
         public Turn() : base() { animationHash = Animator.StringToHash("Turn"); }
@@ -85,7 +85,7 @@ public class RoketMaskComtroller : RbStateMachine<RoketMaskComtroller>
             rocketMask._animator.Play(animationHash);
         }
 
-        protected override void Update(RoketMaskComtroller rocketMask, IParentState parent)
+        protected override void Update(RoketMaskComtroller rocketMask)
         {
             if (!rocketMask._animator.IsPlayingCurrentAnimation(animationHash))
             {
@@ -93,7 +93,7 @@ public class RoketMaskComtroller : RbStateMachine<RoketMaskComtroller>
             }
         }
 
-        protected override void OnTriggerEnter2D(RoketMaskComtroller rocketMask, Collider2D collision, IParentState parent)
+        protected override void OnTriggerEnter2D(RoketMaskComtroller rocketMask, Collider2D collision)
         {
             rocketMask.Atacked(collision);
         }
