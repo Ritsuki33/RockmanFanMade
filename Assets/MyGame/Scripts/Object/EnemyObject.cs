@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -10,7 +11,8 @@ public class EnemyObject : StageObject
 
     private Material material;
 
-    int hp = 0;
+    protected int maxHp=> (enemyData != null) ? enemyData.Hp : 3;
+    protected int currentHp = 0;
 
     void Start()
     {
@@ -19,43 +21,50 @@ public class EnemyObject : StageObject
 
     public virtual void Init() {
         SetMaterialParam(ShaderPropertyId.IsFadeColorID, 0);
-        hp = (enemyData != null) ? enemyData.Hp : 3;
+        currentHp = maxHp;
     }
 
     public void Attacked(Collider2D collision)
     {
         if (collision.gameObject.CompareTag("RockBuster") || collision.gameObject.CompareTag("ChargeShot"))
         {
-            var projectile = collision.gameObject.transform.parent.GetComponent<Projectile>();
-            hp -= projectile.AttackPower;
-            if (hp<=0)
-            {
-                Dead(projectile);
-            }
-            else
-            {
-                Damaged(projectile);
-            }
+            OnAttacked(collision);
         }
     }
 
+    public virtual void OnAttacked(Collider2D collision)
+    {
+        var projectile = collision.gameObject.transform.parent.GetComponent<Projectile>();
+        currentHp = Mathf.Clamp(currentHp - projectile.AttackPower, 0, maxHp);
+        if (currentHp <= 0)
+        {
+            Dead(projectile);
+        }
+        else
+        {
+            Damaged(projectile);
+        }
+    }
     /// <summary>
     /// 死亡
     /// </summary>
     /// <param name="collision"></param>
     public void Dead(Projectile projectile)
     {
-
         if (projectile.AttackPower < 3) projectile?.Delete();
 
-        var explode = ExplodePool.Pool.Get();
-        explode.transform.position = this.transform.position;
-
-        this.gameObject.SetActive(false);
+        OnDead();
 
         EventTriggerManager.Instance.Notify(EventType.EnemyDefeated);
     }
 
+    public virtual void OnDead()
+    {
+        var explode = ExplodePool.Pool.Get();
+        explode.transform.position = this.transform.position;
+
+        this.gameObject.SetActive(false);
+    }
     /// <summary>
     /// ダメージ演出
     /// </summary>

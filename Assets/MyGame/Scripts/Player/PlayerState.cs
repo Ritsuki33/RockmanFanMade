@@ -567,8 +567,10 @@ public partial class PlayerController
         protected override void Enter(PlayerController player, int preId, int subId)
         {
             player.gameObject.SetActive(false);
-            EffectManager.Instance.PlayerDeathEffect.gameObject.transform.position = player.transform.position;
-            EffectManager.Instance.PlayerDeathEffect.Play();
+            var deathEffect = EffectManager.Instance.DeathEffectPool.Pool.Get().GetComponent<ParticleSystem>();
+            deathEffect.gameObject.transform.position = player.transform.position;
+
+            deathEffect.Play();
         }
     }
 

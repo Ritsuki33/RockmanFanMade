@@ -1,5 +1,4 @@
 ﻿using System;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class Projectile : ReusableObject
@@ -11,7 +10,8 @@ public class Projectile : ReusableObject
     Action<Rigidbody2D> moveAction;
     Action deleteCallback;
 
-    Action<Projectile> onCollision;
+    Action<Projectile, Collision2D> onCollision;
+    Action<Projectile, Collider2D> onTrigger;
     int attackPower = 1;
 
     public int AttackPower => attackPower;
@@ -40,11 +40,12 @@ public class Projectile : ReusableObject
         moveAction = fixedUpdate;
     }
 
-    public void Init(int attackPower, Action<Rigidbody2D> start, Action<Rigidbody2D> fixedUpdate,Action<Projectile> onTriggerEnter =null, Action deleteCallback = null)
+    public void Init(int attackPower, Action<Rigidbody2D> start, Action<Rigidbody2D> fixedUpdate, Action<Projectile, Collision2D> onCollisionEnter = null, Action<Projectile,Collider2D> onTriggerEnter =null, Action deleteCallback = null)
     {
         Init(attackPower, start, fixedUpdate);
         this.deleteCallback = deleteCallback;
-        this.onCollision = onTriggerEnter;
+        this.onCollision = onCollisionEnter;
+        this.onTrigger = onTriggerEnter;
     }
 
     private void FixedUpdate()
@@ -71,12 +72,12 @@ public class Projectile : ReusableObject
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        this.onCollision?.Invoke(this);
+        this.onTrigger?.Invoke(this, collision);
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        this.onCollision?.Invoke(this);
+        this.onCollision?.Invoke(this, collision);
 
     }
 }

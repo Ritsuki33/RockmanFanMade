@@ -176,6 +176,7 @@ public class LauncherController : StateMachine<LauncherController>
                 rb.velocity = direction * speed;
             },
             null,
+            null,
             () =>
             {
                 if (curMameNum > 0) curMameNum--;
