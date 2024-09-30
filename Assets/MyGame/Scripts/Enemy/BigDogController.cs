@@ -189,7 +189,8 @@ public class BigDogController : RbStateMachine<BigDogController>
                     {
                         ParabolicBehavior.FixedUpdate(rb, gravityScale);
                     },
-                    (projectile) =>
+                    null,
+                    (projectile, collision) =>
                     {
 
                         bom.Delete();

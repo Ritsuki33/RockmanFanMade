@@ -168,6 +168,11 @@ public class BossController : ExRbStateMachine<BossController>
         {
             ctr._gravity.Reset();
         }
+
+        protected override void OnTriggerEnter2D(BossController ctr, Collider2D collision)
+        {
+            ctr.boss.Attacked(collision);
+        }
     }
 
     class Jumping : ExRbState<BossController, Jumping>
@@ -219,6 +224,11 @@ public class BossController : ExRbStateMachine<BossController>
         protected override void OnBottomHitStay(BossController ctr, RaycastHit2D hit)
         {
             ctr.TransitReady((int)StateId.Idle);
+        }
+
+        protected override void OnTriggerEnter2D(BossController ctr, Collider2D collision)
+        {
+            ctr.boss.Attacked(collision);
         }
     }
 
@@ -300,7 +310,10 @@ public class BossController : ExRbStateMachine<BossController>
             ctr.TransitReady((int)StateId.Idle);
         }
 
-
+        protected override void OnTriggerEnter2D(BossController ctr, Collider2D collision)
+        {
+            ctr.boss.Attacked(collision);
+        }
     }
 
     class Run : ExRbState<BossController, Run>
@@ -388,6 +401,11 @@ public class BossController : ExRbStateMachine<BossController>
                 ctr.TransitReady((int)StateId.Idle);
             }
         }
+
+        protected override void OnTriggerEnter2D(BossController ctr, Collider2D collision)
+        {
+            ctr.boss.Attacked(collision);
+        }
     }
 
     class Shoot : ExRbState<BossController, Shoot>
@@ -437,11 +455,21 @@ public class BossController : ExRbStateMachine<BossController>
                     {
                         exRb.velocity = dir * 8f;
                     },
-                    (collision) =>
+
+                    (projectile, collision) =>
                     {
-                        bomb.Delete();
-                        var explode = ctr.ExplodePool.Pool.Get() as ExplodeController;
-                        explode.transform.position = bomb.transform.position;
+                            bomb.Delete();
+                            var explode = ctr.ExplodePool.Pool.Get() as ExplodeController;
+                            explode.transform.position = bomb.transform.position;
+                    },
+                    (projectile,collision) =>
+                    {
+                        if (collision.gameObject.CompareTag("Player"))
+                        {
+                            bomb.Delete();
+                            var explode = ctr.ExplodePool.Pool.Get() as ExplodeController;
+                            explode.transform.position = bomb.transform.position;
+                        }
                     }
                    );
             }
@@ -477,6 +505,11 @@ public class BossController : ExRbStateMachine<BossController>
                     );
                 });
             }
+        }
+
+        protected override void OnTriggerEnter2D(BossController ctr, Collider2D collision)
+        {
+            ctr.boss.Attacked(collision);
         }
     }
 

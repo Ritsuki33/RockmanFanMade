@@ -32,8 +32,8 @@ public class HpBar : MonoBehaviour
     public void SetParam(float val)
     {
 
-        int start = (int)(Mathf.Min(currentHp, val) * list.Count);  // 開始位置は小さい方
-        int end = (int)(Mathf.Max(currentHp, val) * list.Count);    // 終了位置は大きい方
+        int start = (int)Mathf.Ceil((Mathf.Min(currentHp, val) * list.Count));  // 開始位置は小さい方
+        int end = (int)Mathf.Ceil((Mathf.Max(currentHp, val) * list.Count));    // 終了位置は大きい方
         bool isIncreasing = val > currentHp;    // 増減フラグ
 
         for (int i = start; i < end && i < list.Count; i++)

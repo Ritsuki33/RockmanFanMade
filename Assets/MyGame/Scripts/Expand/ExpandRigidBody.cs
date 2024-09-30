@@ -334,7 +334,7 @@ public class ExpandRigidBody : MonoBehaviour, IBaseExRbHit.IExRbCallbackSet
     
     private void Awake()
     {
-        boxCollider = GetComponent<BoxCollider2D>();
+        if (boxCollider == null) boxCollider = GetComponent<BoxCollider2D>();
         physicalLayer = Physics2D.GetLayerCollisionMask(boxCollider.gameObject.layer);
         physicalLayer |= triggerLayer;
 
