@@ -51,7 +51,7 @@ public class EnemyAppearController : StateMachine<EnemyAppearController>
         TransitReady((int)StateID.None);
     }
 
-    class None : State<EnemyAppearController>
+    class None : State<EnemyAppearController, None>
     {
         protected override void Enter(EnemyAppearController enemyAppearController, int preId, int subId)
         {
@@ -62,7 +62,7 @@ public class EnemyAppearController : StateMachine<EnemyAppearController>
     /// <summary>
     /// カメラ外
     /// </summary>
-    class OutOfCamera : State<EnemyAppearController>
+    class OutOfCamera : State<EnemyAppearController, OutOfCamera>
     {
         protected override void Enter(EnemyAppearController enemyAppearController, int preId, int subId)
         {
@@ -70,7 +70,7 @@ public class EnemyAppearController : StateMachine<EnemyAppearController>
             enemyAppearController.enemy.transform.position = enemyAppearController.transform.position;
             enemyAppearController.enemy.gameObject.SetActive(false);
         }
-        protected override void Update(EnemyAppearController enemyAppearController, IParentState parent)
+        protected override void Update(EnemyAppearController enemyAppearController)
         {
             if (!GameManager.Instance.MainCameraControll.CheckOutOfView(enemyAppearController.gameObject))
             {
@@ -82,14 +82,14 @@ public class EnemyAppearController : StateMachine<EnemyAppearController>
     /// <summary>
     /// 敵が見えている状態
     /// </summary>
-    class Appering: State<EnemyAppearController>
+    class Appering: State<EnemyAppearController, Appering>
     {
         protected override void Enter(EnemyAppearController enemyAppearController, int preId, int subId)
         {
             enemyAppearController.enemy.gameObject.SetActive(true);
         }
 
-        protected override void Update(EnemyAppearController enemyAppearController, IParentState parent)
+        protected override void Update(EnemyAppearController enemyAppearController)
         {
             if (enemyAppearController.IsDeath|| GameManager.Instance.MainCameraControll.CheckOutOfView(enemyAppearController.enemy.gameObject))
             {
@@ -101,13 +101,13 @@ public class EnemyAppearController : StateMachine<EnemyAppearController>
     /// <summary>
     /// 消えている状態
     /// </summary>
-    class Disappearing : State<EnemyAppearController>
+    class Disappearing : State<EnemyAppearController, Disappearing>
     {
         protected override void Enter(EnemyAppearController enemyAppearController, int preId, int subId)
         {
             enemyAppearController.enemy.gameObject.SetActive(false);
         }
-        protected override void Update(EnemyAppearController enemyAppearController, IParentState parent)
+        protected override void Update(EnemyAppearController enemyAppearController)
         {
             if (GameManager.Instance.MainCameraControll.CheckOutOfView(enemyAppearController.gameObject))
             {

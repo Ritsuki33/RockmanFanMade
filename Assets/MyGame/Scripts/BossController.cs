@@ -50,7 +50,7 @@ public class BossController : ExRbStateMachine<BossController>
         TransitReady((int)StateId.Appearance);
     }
 
-    class Appearance : ExRbState<BossController>
+    class Appearance : ExRbState<BossController, Appearance>
     {
         enum SubStateId
         {
@@ -71,43 +71,38 @@ public class BossController : ExRbStateMachine<BossController>
             this.TransitSubReady((int)SubStateId.Float);
         }
 
-        protected override void FixedUpdate(BossController ctr, IParentState parent)
+        protected override void FixedUpdate(BossController ctr)
         {
             ctr._gravity.UpdateVelocity();
             ctr._exRb.velocity = ctr._gravity.CurrentVelocity;
         }
 
-        protected override void OnBottomHitStay(BossController ctr, RaycastHit2D hit, IParentState parent)
+        protected override void OnBottomHitStay(BossController ctr, RaycastHit2D hit)
         {
             ctr._gravity.Reset();
         }
 
-        class Float : ExRbState<BossController>
+        class Float : ExRbSubState<BossController, Float, Appearance>
         {
-            protected override void Enter(BossController ctr, int preId, int subId)
+            protected override void Enter(BossController ctr, Appearance parent, int preId, int subId)
             {
                 ctr._animator.Play(AnimationNameHash.Float);
             }
 
-            protected override void OnBottomHitEnter(BossController ctr, RaycastHit2D hit, IParentState parent)
+            protected override void OnBottomHitEnter(BossController ctr, Appearance parent, RaycastHit2D hit)
             {
                 parent.TransitSubReady((int)SubStateId.Pause);
             }
         }
 
-        class Pause : ExRbState<BossController>
+        class Pause : ExRbSubState<BossController, Pause, Appearance>
         {
-            protected override void Enter(BossController ctr, int preId, int subId)
+            protected override void Enter(BossController ctr, Appearance parent, int preId, int subId)
             {
                 ctr._animator.Play(AnimationNameHash.Pause);
             }
 
-            protected override void OnBottomHitEnter(BossController ctr, RaycastHit2D hit, IParentState parent)
-            {
-                parent.TransitSubReady((int)SubStateId.Pause);
-            }
-
-            protected override void Update(BossController ctr, IParentState parent)
+            protected override void Update(BossController ctr, Appearance parent)
             {
                 if (!ctr._animator.IsPlayingCurrentAnimation(AnimationNameHash.Pause))
                 {
@@ -115,17 +110,17 @@ public class BossController : ExRbStateMachine<BossController>
                 }
             }
 
-            protected override void Exit(BossController ctr, int nextId)
+            protected override void Exit(BossController ctr, Appearance parent, int nextId)
             {
                 // 通知を飛ばす
                 ctr.finishActionCallback?.Invoke();
             }
         }
 
-        class Wait : ExRbState<BossController> { }
+        class Wait : ExRbSubState<BossController, Wait, Appearance> { }
     }
 
-    class Idle : ExRbState<BossController>
+    class Idle : ExRbState<BossController, Idle>
     {
         protected override void Enter(BossController ctr, int preId, int subId)
         {
@@ -133,14 +128,14 @@ public class BossController : ExRbStateMachine<BossController>
             ctr._timer.Start(0.2f, 0.5f);
         }
 
-        protected override void FixedUpdate(BossController ctr, IParentState parent)
+        protected override void FixedUpdate(BossController ctr)
         {
 
             ctr._gravity.UpdateVelocity();
             ctr._exRb.velocity += ctr._gravity.CurrentVelocity;
         }
 
-        protected override void Update(BossController ctr, IParentState parent)
+        protected override void Update(BossController ctr)
         {
             ctr._timer.MoveAheadTime(Time.deltaTime, () =>
             {
@@ -169,13 +164,13 @@ public class BossController : ExRbStateMachine<BossController>
             });
         }
 
-        protected override void OnBottomHitStay(BossController ctr, RaycastHit2D hit, IParentState parent)
+        protected override void OnBottomHitStay(BossController ctr, RaycastHit2D hit)
         {
             ctr._gravity.Reset();
         }
     }
 
-    class Jumping : ExRbState<BossController>
+    class Jumping : ExRbState<BossController, Jumping>
     {
         float jump_vel =30f;
         float vel_x;
@@ -205,7 +200,7 @@ public class BossController : ExRbStateMachine<BossController>
 
         }
 
-        protected override void FixedUpdate(BossController ctr, IParentState parent)
+        protected override void FixedUpdate(BossController ctr)
         {
             if (ctr.jump.CurrentSpeed > 0)
             {
@@ -221,13 +216,13 @@ public class BossController : ExRbStateMachine<BossController>
             ctr._exRb.velocity += new Vector2(vel_x, 0);
         }
 
-        protected override void OnBottomHitStay(BossController ctr, RaycastHit2D hit, IParentState parent)
+        protected override void OnBottomHitStay(BossController ctr, RaycastHit2D hit)
         {
             ctr.TransitReady((int)StateId.Idle);
         }
     }
 
-    class PlaceBomb : ExRbState<BossController>
+    class PlaceBomb : ExRbState<BossController, PlaceBomb>
     {
         float jump_vel = 30f;
         float vel_x;
@@ -251,7 +246,7 @@ public class BossController : ExRbStateMachine<BossController>
             isFire = false;
         }
 
-        protected override void FixedUpdate(BossController ctr, IParentState parent)
+        protected override void FixedUpdate(BossController ctr)
         {
             if (ctr.jump.CurrentSpeed > 0)
             {
@@ -267,7 +262,7 @@ public class BossController : ExRbStateMachine<BossController>
             ctr._exRb.velocity += new Vector2(vel_x, 0);
         }
 
-        protected override void Update(BossController ctr, IParentState parent)
+        protected override void Update(BossController ctr)
         {
             if (!isFire&&!ctr._animator.IsPlayingCurrentAnimation(animationHash))
             {
@@ -300,7 +295,7 @@ public class BossController : ExRbStateMachine<BossController>
             }
         }
 
-        protected override void OnBottomHitStay(BossController ctr, RaycastHit2D hit, IParentState parent)
+        protected override void OnBottomHitStay(BossController ctr, RaycastHit2D hit)
         {
             ctr.TransitReady((int)StateId.Idle);
         }
@@ -308,7 +303,7 @@ public class BossController : ExRbStateMachine<BossController>
 
     }
 
-    class Run : ExRbState<BossController>
+    class Run : ExRbState<BossController, Run>
     {
         public Run()
         {
@@ -321,27 +316,28 @@ public class BossController : ExRbStateMachine<BossController>
             this.TransitSubReady(0);
         }
 
-        protected override void FixedUpdate(BossController ctr, IParentState parent)
+        protected override void FixedUpdate(BossController ctr)
         {
             ctr._gravity.UpdateVelocity();
             ctr._exRb.velocity += ctr._gravity.CurrentVelocity;
         }
 
-        protected override void OnBottomHitStay(BossController ctr, RaycastHit2D hit, IParentState parent)
+        protected override void OnBottomHitStay(BossController ctr, RaycastHit2D hit)
         {
             ctr._gravity.Reset();
         }
 
-        class Start : ExRbState<BossController>
+        class Start : ExRbSubState<BossController, Start, Run>
         {
             int animationHash = Animator.StringToHash("RunStart");
-            protected override void Enter(BossController ctr, int preId, int subId)
+
+            protected override void Enter(BossController ctr, Run parent, int preId, int subId)
             {
                 ctr.boss.TurnToTarget(GameManager.Instance.Player.transform.position);
                 ctr._animator.Play(animationHash);
             }
 
-            protected override void Update(BossController ctr, IParentState parent)
+            protected override void Update(BossController ctr, Run parent)
             {
                 if (!ctr._animator.IsPlayingCurrentAnimation(animationHash))
                 {
@@ -351,21 +347,20 @@ public class BossController : ExRbStateMachine<BossController>
         }
 
 
-        class Running : ExRbState<BossController>
+        class Running : ExRbSubState<BossController, Running, Run>
         {
             bool move_Right = false;
             Vector2 targetPos = default;
             Vector2 prePos= default;
-            protected override void Enter(BossController ctr, int preId, int subId)
+
+            protected override void Enter(BossController ctr, Run parent, int preId, int subId)
             {
                 ctr._animator.Play(AnimationNameHash.Run);
                 targetPos = GameManager.Instance.Player.transform.position;
                 prePos = ctr.transform.position;
             }
-
-            protected override void FixedUpdate(BossController ctr, IParentState parent)
+            protected override void FixedUpdate(BossController ctr, Run parent)
             {
-
                 if (MoveAI.IsPassedParam(prePos.x, ctr.transform.position.x, targetPos.x))
                 {
                     ctr.TransitReady((int)StateId.Idle);
@@ -374,9 +369,9 @@ public class BossController : ExRbStateMachine<BossController>
 
                 ctr._move.UpdateVelocity(Vector2.right, (ctr.IsRight) ? Move.InputType.Right : Move.InputType.Left);
                 ctr._exRb.velocity += ctr._move.CurrentVelocity;
-
             }
-            protected override void Update(BossController ctr, IParentState parent)
+
+            protected override void Update(BossController ctr, Run parent)
             {
                 if (!ctr._animator.IsPlayingCurrentAnimation(AnimationNameHash.Run))
                 {
@@ -384,19 +379,18 @@ public class BossController : ExRbStateMachine<BossController>
                 }
             }
 
-            protected override void OnLeftHitStay(BossController ctr, RaycastHit2D hit, IParentState parent)
+            protected override void OnLeftHitStay(BossController ctr, Run parent, RaycastHit2D hit)
             {
                 ctr.TransitReady((int)StateId.Idle);
             }
-
-            protected override void OnRightHitStay(BossController ctr, RaycastHit2D hit, IParentState parent)
+            protected override void OnRightHitStay(BossController ctr, Run parent, RaycastHit2D hit)
             {
                 ctr.TransitReady((int)StateId.Idle);
             }
         }
     }
 
-    class Shoot : ExRbState<BossController>
+    class Shoot : ExRbState<BossController, Shoot>
     {
         public Shoot() {
             this.AddSubState(0, new Hold());
@@ -413,15 +407,15 @@ public class BossController : ExRbStateMachine<BossController>
         }
 
 
-        class Hold: ExRbState<BossController>
+        class Hold: ExRbSubState<BossController, Hold, Shoot>
         {
-            protected override void Enter(BossController ctr, int preId, int subId)
+            protected override void Enter(BossController ctr, Shoot parent, int preId, int subId)
             {
                 if (preId != 2) ctr._timer.Start(0.4f, 0.6f);
                 else ctr._timer.Start(0, 0);
             }
 
-            protected override void Update(BossController ctr, IParentState parent)
+            protected override void Update(BossController ctr, Shoot parent)
             {
                 ctr._timer.MoveAheadTime(Time.deltaTime, () =>
                 {
@@ -430,9 +424,9 @@ public class BossController : ExRbStateMachine<BossController>
             }
         }
 
-        class Fire: ExRbState<BossController>
+        class Fire: ExRbSubState<BossController, Fire, Shoot>
         {
-            protected override void Enter(BossController ctr, int preId, int subId)
+            protected override void Enter(BossController ctr, Shoot parent, int preId, int subId)
             {
                 var bomb = EffectManager.Instance.CrashBombPool.Pool.Get().GetComponent<Projectile>();
                 bomb.transform.position = new Vector3(ctr.buster.transform.position.x, ctr.buster.transform.position.y, -2);
@@ -452,20 +446,20 @@ public class BossController : ExRbStateMachine<BossController>
                    );
             }
 
-            protected override void Update(BossController ctr, IParentState parent)
+            protected override void Update(BossController octrbj, Shoot parent)
             {
                 parent.TransitSubReady(2);
             }
         }
 
-        class Stiffness : ExRbState<BossController>
+        class Stiffness : ExRbSubState<BossController, Stiffness, Shoot>
         {
-            protected override void Enter(BossController ctr, int preId, int subId)
+            protected override void Enter(BossController ctr, Shoot parent, int preId, int subId)
             {
                 ctr._timer.Start(0.5f, 0.5f);
             }
 
-            protected override void Update(BossController ctr, IParentState parent)
+            protected override void Update(BossController ctr, Shoot parent)
             {
                 ctr._timer.MoveAheadTime(Time.deltaTime, () =>
                 {
@@ -485,6 +479,7 @@ public class BossController : ExRbStateMachine<BossController>
             }
         }
     }
+
     public void Appeare(Action finishCallback)
     {
         gameObject.SetActive(true);

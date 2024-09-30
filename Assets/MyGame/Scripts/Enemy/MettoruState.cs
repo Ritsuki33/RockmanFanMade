@@ -5,7 +5,7 @@ using UnityEngine;
 
 public partial class MettoruController 
 {
-    class Idle : ExRbState<MettoruController>
+    class Idle : ExRbState<MettoruController, Idle>
     {
         AmbiguousTimer timer = new AmbiguousTimer();
         int animationHash = 0;
@@ -16,13 +16,13 @@ public partial class MettoruController
             timer.Start(0.5f, 2.0f);
         }
 
-        protected override void FixedUpdate(MettoruController mettoru, IParentState parent)
+        protected override void FixedUpdate(MettoruController mettoru)
         {
             mettoru.gravity.UpdateVelocity();
             mettoru.exRb.velocity = mettoru.gravity.CurrentVelocity;
         }
 
-        protected override void Update(MettoruController mettoru, IParentState parent)
+        protected override void Update(MettoruController mettoru)
         {
             if (!mettoru._animator.IsPlayingCurrentAnimation(animationHash))
             {
@@ -54,13 +54,13 @@ public partial class MettoruController
                    });
         }
 
-        protected override void OnTriggerEnter2D(MettoruController mettoru, Collider2D collision, IParentState parent)
+        protected override void OnTriggerEnter2D(MettoruController mettoru, Collider2D collision)
         {
             mettoru.Attacked(collision);
         }
     }
 
-    class Walk : ExRbState<MettoruController>
+    class Walk : ExRbState<MettoruController, Walk>
     {
         AmbiguousTimer timer = new AmbiguousTimer();
         int animationHash = 0;
@@ -72,7 +72,7 @@ public partial class MettoruController
             timer.Start(0.5f, 2.0f);
         }
 
-        protected override void FixedUpdate(MettoruController mettoru, IParentState parent)
+        protected override void FixedUpdate(MettoruController mettoru)
         {
             mettoru.gravity.UpdateVelocity();
             mettoru.exRb.velocity = mettoru.gravity.CurrentVelocity;
@@ -87,7 +87,7 @@ public partial class MettoruController
             mettoru.exRb.velocity += mettoru.move.CurrentVelocity;
         }
 
-        protected override void Update(MettoruController mettoru, IParentState parent)
+        protected override void Update(MettoruController mettoru)
         {
             mettoru.raycastSensor.SearchForTargetEnter((mettoru.IsRight) ? Vector2.right : Vector2.left,
                     (hit) =>
@@ -105,13 +105,13 @@ public partial class MettoruController
                   });
         }
 
-        protected override void OnTriggerEnter2D(MettoruController mettoru, Collider2D collision, IParentState parent)
+        protected override void OnTriggerEnter2D(MettoruController mettoru, Collider2D collision)
         {
             mettoru.Attacked(collision);
         }
     }
 
-    class Hide : ExRbState<MettoruController>
+    class Hide : ExRbState<MettoruController, Hide>
     {
         int animationHash = 0;
         public Hide() { animationHash = Animator.StringToHash("Hide"); }
@@ -121,13 +121,13 @@ public partial class MettoruController
             mettoru._animator.Play(animationHash);
         }
 
-        protected override void FixedUpdate(MettoruController mettoru, IParentState parent)
+        protected override void FixedUpdate(MettoruController mettoru)
         {
             mettoru.gravity.UpdateVelocity();
             mettoru.exRb.velocity = mettoru.gravity.CurrentVelocity;
         }
 
-        protected override void Update(MettoruController mettoru, IParentState parent)
+        protected override void Update(MettoruController mettoru)
         {
             if (!mettoru._animator.IsPlayingCurrentAnimation(animationHash))
             {
@@ -135,13 +135,13 @@ public partial class MettoruController
             }
         }
 
-        protected override void OnTriggerEnter2D(MettoruController mettoru, Collider2D collision, IParentState parent)
+        protected override void OnTriggerEnter2D(MettoruController mettoru, Collider2D collision)
         {
             mettoru.Defense(collision);
         }
     }
 
-    class Hiding : ExRbState<MettoruController>
+    class Hiding : ExRbState<MettoruController, Hiding>
     {
         int animationHash = 0;
         AmbiguousTimer timer = new AmbiguousTimer();
@@ -153,13 +153,13 @@ public partial class MettoruController
             timer.Start(1, 3);
         }
 
-        protected override void FixedUpdate(MettoruController mettoru, IParentState parent)
+        protected override void FixedUpdate(MettoruController mettoru)
         {
             mettoru.gravity.UpdateVelocity();
             mettoru.exRb.velocity = mettoru.gravity.CurrentVelocity;
         }
 
-        protected override void Update(MettoruController mettoru, IParentState parent)
+        protected override void Update(MettoruController mettoru)
         {
             mettoru.TurnToTarget(mettoru.Player.transform.position);
 
@@ -183,13 +183,13 @@ public partial class MettoruController
             }
         }
 
-        protected override void OnTriggerEnter2D(MettoruController mettoru, Collider2D collision, IParentState parent)
+        protected override void OnTriggerEnter2D(MettoruController mettoru, Collider2D collision)
         {
             mettoru.Defense(collision);
         }
     }
 
-    class Appear : ExRbState<MettoruController>
+    class Appear : ExRbState<MettoruController, Appear>
     {
         int animationHash = 0;
         AmbiguousTimer timer=new AmbiguousTimer();
@@ -202,13 +202,13 @@ public partial class MettoruController
             timer.Start(1, 3);
         }
 
-        protected override void FixedUpdate(MettoruController mettoru, IParentState parent)
+        protected override void FixedUpdate(MettoruController mettoru)
         {
             mettoru.gravity.UpdateVelocity();
             mettoru.exRb.velocity = mettoru.gravity.CurrentVelocity;
         }
 
-        protected override void Update(MettoruController mettoru, IParentState parent)
+        protected override void Update(MettoruController mettoru)
         {
             if (!mettoru._animator.IsPlayingCurrentAnimation(animationHash))
             {
@@ -223,13 +223,13 @@ public partial class MettoruController
             }
         }
 
-        protected override void OnTriggerEnter2D(MettoruController mettoru, Collider2D collision, IParentState parent)
+        protected override void OnTriggerEnter2D(MettoruController mettoru, Collider2D collision)
         {
             mettoru.Attacked(collision);
         }
     }
 
-    class LookIn : ExRbState<MettoruController>
+    class LookIn : ExRbState<MettoruController, LookIn>
     {
         int animationHash = 0;
         public LookIn() { animationHash = Animator.StringToHash("LookIn"); }
@@ -242,13 +242,13 @@ public partial class MettoruController
             timer.Start(0.5f, 2.0f);
         }
 
-        protected override void FixedUpdate(MettoruController mettoru, IParentState parent)
+        protected override void FixedUpdate(MettoruController mettoru)
         {
             mettoru.gravity.UpdateVelocity();
             mettoru.exRb.velocity = mettoru.gravity.CurrentVelocity;
         }
 
-        protected override void Update(MettoruController mettoru, IParentState parent)
+        protected override void Update(MettoruController mettoru)
         {
             if (!mettoru._animator.IsPlayingCurrentAnimation(animationHash))
             {
@@ -268,7 +268,7 @@ public partial class MettoruController
                    });
         }
 
-        protected override void OnTriggerEnter2D(MettoruController mettoru, Collider2D collision, IParentState parent)
+        protected override void OnTriggerEnter2D(MettoruController mettoru, Collider2D collision)
         {
             mettoru.Attacked(collision);
         }
@@ -276,7 +276,7 @@ public partial class MettoruController
 
     float move_x = 0;
 
-    class Jumping : ExRbState<MettoruController>
+    class Jumping : ExRbState<MettoruController, Jumping>
     {
         int animationHash = 0;
         public Jumping() { animationHash = Animator.StringToHash("Jump"); }
@@ -290,7 +290,7 @@ public partial class MettoruController
             //mettoru.jumpOverThere.Jump(mettoru.jumpTarget.position, 88, mettoru.gravity.GravityScale, () => { Debug.Log("error jump"); });
         }
 
-        protected override void FixedUpdate(MettoruController mettoru, IParentState parent)
+        protected override void FixedUpdate(MettoruController mettoru)
         {
             mettoru.jump.UpdateVelocity(mettoru.gravity.GravityScale);
             mettoru.exRb.velocity += mettoru.jump.CurrentVelocity;
@@ -302,13 +302,13 @@ public partial class MettoruController
             }
         }
 
-        protected override void OnTriggerEnter2D(MettoruController mettoru, Collider2D collision, IParentState parent)
+        protected override void OnTriggerEnter2D(MettoruController mettoru, Collider2D collision)
         {
             mettoru.Attacked(collision);
         }
     }
 
-    class JumpFloating : ExRbState<MettoruController>
+    class JumpFloating : ExRbState<MettoruController, JumpFloating>
     {
         int animationHash = 0;
         public JumpFloating() { animationHash = Animator.StringToHash("Float"); }
@@ -319,19 +319,19 @@ public partial class MettoruController
             //mettoru.jumpOverThere.Jump(mettoru.jumpTarget.position, 88, mettoru.gravity.GravityScale, () => { Debug.Log("error jump"); });
         }
 
-        protected override void FixedUpdate(MettoruController mettoru, IParentState parent)
+        protected override void FixedUpdate(MettoruController mettoru)
         {
             mettoru.gravity.UpdateVelocity();
             mettoru.exRb.velocity = mettoru.gravity.CurrentVelocity;
             mettoru.exRb.velocity += new Vector2(mettoru.move_x, 0);
         }
 
-        protected override void OnBottomHitStay(MettoruController mettoru, RaycastHit2D hit, IParentState parent)
+        protected override void OnBottomHitStay(MettoruController mettoru, RaycastHit2D hit)
         {
                 mettoru.TransitReady((int)StateID.Idle);
         }
 
-        protected override void OnTriggerEnter2D(MettoruController mettoru, Collider2D collision, IParentState parent)
+        protected override void OnTriggerEnter2D(MettoruController mettoru, Collider2D collision)
         {
             mettoru.Attacked(collision);
         }

@@ -42,31 +42,31 @@ public class RoadRollerController : ExRbStateMachine<RoadRollerController>
         TransitReady((int)StateId.Float);
     }
 
-    class Float : ExRbState<RoadRollerController>
+    class Float : ExRbState<RoadRollerController, Float>
     {
         protected override void Enter(RoadRollerController roller, int preId, int subId)
         {
             roller._animator.Play(Moving.animationHash);
         }
 
-        protected override void FixedUpdate(RoadRollerController roller, IParentState parent)
+        protected override void FixedUpdate(RoadRollerController roller)
         {
             roller.gravity.UpdateVelocity();
             roller.exRb.velocity = roller.gravity.CurrentVelocity;
         }
 
-        protected override void OnBottomHitEnter(RoadRollerController roller, RaycastHit2D hit, IParentState parent)
+        protected override void OnBottomHitEnter(RoadRollerController roller, RaycastHit2D hit)
         {
             roller.TransitReady((int)StateId.Move);
         }
 
-        protected override void OnTriggerEnter2D(RoadRollerController roller, Collider2D collision, IParentState parent)
+        protected override void OnTriggerEnter2D(RoadRollerController roller, Collider2D collision)
         {
             roller.roadRoller.Attacked(collision);
         }
     }
 
-    class Moving : ExRbState<RoadRollerController>
+    class Moving : ExRbState<RoadRollerController, Moving>
     {
         public static int animationHash = Animator.StringToHash("Move");
         protected override void Enter(RoadRollerController roller, int preId, int subId)
@@ -74,7 +74,7 @@ public class RoadRollerController : ExRbStateMachine<RoadRollerController>
             roller._animator.Play(animationHash);
         }
 
-        protected override void FixedUpdate(RoadRollerController roller, IParentState parent)
+        protected override void FixedUpdate(RoadRollerController roller)
         {
             roller.gravity.UpdateVelocity();
             roller.move.UpdateVelocity(Vector2.right, (roller.IsRight) ? Move.InputType.Right : Move.InputType.Left);
@@ -86,23 +86,23 @@ public class RoadRollerController : ExRbStateMachine<RoadRollerController>
                 roller.TransitReady((int)StateId.Turn);
             }
         }
-        protected override void OnRightHitStay(RoadRollerController roller, RaycastHit2D hit, IParentState parent)
+        protected override void OnRightHitStay(RoadRollerController roller, RaycastHit2D hit)
         {
             if (roller.IsRight) { roller.TransitReady((int)StateId.Turn); }
         }
 
-        protected override void OnLeftHitStay(RoadRollerController roller, RaycastHit2D hit, IParentState parent)
+        protected override void OnLeftHitStay(RoadRollerController roller, RaycastHit2D hit)
         {
             if (!roller.IsRight) { roller.TransitReady((int)StateId.Turn); }
         }
 
-        protected override void OnTriggerEnter2D(RoadRollerController roller, Collider2D collision, IParentState parent)
+        protected override void OnTriggerEnter2D(RoadRollerController roller, Collider2D collision)
         {
             roller.roadRoller.Attacked(collision);
         }
     }
 
-    class Turn : ExRbState<RoadRollerController>
+    class Turn : ExRbState<RoadRollerController, Turn>
     {
         static int animationHash = Animator.StringToHash("Turn");
         protected override void Enter(RoadRollerController roller, int preId, int subId)
@@ -110,7 +110,7 @@ public class RoadRollerController : ExRbStateMachine<RoadRollerController>
             roller._animator.Play(animationHash);
         }
 
-        protected override void Update(RoadRollerController roller, IParentState parent)
+        protected override void Update(RoadRollerController roller)
         {
             if (!roller._animator.IsPlayingCurrentAnimation(animationHash))
             {
@@ -118,7 +118,7 @@ public class RoadRollerController : ExRbStateMachine<RoadRollerController>
             }
         }
 
-        protected override void OnTriggerEnter2D(RoadRollerController roller, Collider2D collision, IParentState parent)
+        protected override void OnTriggerEnter2D(RoadRollerController roller, Collider2D collision)
         {
             roller.roadRoller.Attacked(collision);
         }
