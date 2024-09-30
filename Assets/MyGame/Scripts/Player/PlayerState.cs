@@ -581,6 +581,7 @@ public partial class PlayerController
 
         protected override void Enter(PlayerController player, int preId, int subId)
         {
+            player.boxPhysicalCollider.enabled = true;
             player.animator.Play(animationHash);
         }
 
@@ -622,13 +623,14 @@ public partial class PlayerController
             AddSubState(0, new Start());
             AddSubState(1, new Rise());
 
-            TransitSubReady(0);
         }
 
         protected override void Enter(PlayerController player, int preId, int subId)
         {
             player.boxPhysicalCollider.enabled = false;
             player.animator.Play(animationHash);
+
+            TransitSubReady(0);
         }
 
         class Start : ExRbSubState<PlayerController, Start, Repatriation>
@@ -644,10 +646,6 @@ public partial class PlayerController
 
         class Rise : ExRbSubState<PlayerController, Rise, Repatriation>
         {
-            protected override void Enter(PlayerController obj, Repatriation parent, int preId, int subId)
-            {
-                base.Enter(obj, parent, preId, subId);
-            }
             protected override void FixedUpdate(PlayerController player, Repatriation parent)
             {
                 player.exRb.velocity = Vector2.up * 26;
