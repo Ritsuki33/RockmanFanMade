@@ -73871,6 +73871,7 @@ GameObject:
   - component: {fileID: 2009314782}
   - component: {fileID: 2009314783}
   - component: {fileID: 2009314784}
+  - component: {fileID: 2009314785}
   m_Layer: 0
   m_Name: BossArea
   m_TagString: Untagged
@@ -73907,7 +73908,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   boss: {fileID: 1648211530}
   bamili: {fileID: 311468352}
-  eventControll: {fileID: 2009314784}
+  enterEvent: {fileID: 2009314784}
+  bossDefeatEvent: {fileID: 2009314785}
 --- !u!114 &2009314784
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -73992,6 +73994,56 @@ MonoBehaviour:
     - rid: 3424537356080250883
       type: {class: EventController/PlayerInputPermit, ns: , asm: Assembly-CSharp}
       data: 
+--- !u!114 &2009314785
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2009314781}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f5e676c01ac35744dbd6282f9459d76d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  element:
+    delayTime: 0
+    actions:
+    - type: 14
+      action:
+        rid: 3424537403001143301
+    _next:
+      rid: 3424537403001143300
+  references:
+    version: 2
+    RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }
+    - rid: 3424537403001143300
+      type: {class: EventController/Element, ns: , asm: Assembly-CSharp}
+      data:
+        delayTime: 0
+        actions:
+        - type: 4
+          action:
+            rid: 3424537403001143304
+        _next:
+          rid: 3424537403001143303
+    - rid: 3424537403001143301
+      type: {class: EventController/PlayerRepatriate, ns: , asm: Assembly-CSharp}
+      data: 
+    - rid: 3424537403001143303
+      type: {class: EventController/Element, ns: , asm: Assembly-CSharp}
+      data:
+        delayTime: 0
+        actions: []
+        _next:
+          rid: -2
+    - rid: 3424537403001143304
+      type: {class: EventController/FadeOutScreen, ns: , asm: Assembly-CSharp}
+      data:
+        fadeTime: 0.4
+        color: {r: 0, g: 0, b: 0, a: 1}
 --- !u!1 &2064169958
 GameObject:
   m_ObjectHideFlags: 0

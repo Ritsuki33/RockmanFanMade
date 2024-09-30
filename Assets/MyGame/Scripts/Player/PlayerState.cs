@@ -614,6 +614,55 @@ public partial class PlayerController
         }
     }
 
+    class Repatriation : ExRbState<PlayerController, Repatriation>
+    {
+        int animationHash = 0;
+        public Repatriation() {
+            animationHash = Animator.StringToHash("Repatriation");
+            AddSubState(0, new Start());
+            AddSubState(1, new Rise());
+
+            TransitSubReady(0);
+        }
+
+        protected override void Enter(PlayerController player, int preId, int subId)
+        {
+            player.boxPhysicalCollider.enabled = false;
+            player.animator.Play(animationHash);
+        }
+
+        class Start : ExRbSubState<PlayerController, Start, Repatriation>
+        {
+            protected override void Update(PlayerController player, Repatriation parent)
+            {
+                if (!player.animator.IsPlayingCurrentAnimation(parent.animationHash))
+                {
+                    parent.TransitSubReady(1);
+                }
+            }
+        }
+
+        class Rise : ExRbSubState<PlayerController, Rise, Repatriation>
+        {
+            protected override void Enter(PlayerController obj, Repatriation parent, int preId, int subId)
+            {
+                base.Enter(obj, parent, preId, subId);
+            }
+            protected override void FixedUpdate(PlayerController player, Repatriation parent)
+            {
+                player.exRb.velocity = Vector2.up * 26;
+
+                if (GameManager.Instance.MainCameraControll.CheckOutOfView(player.gameObject))
+                {
+                    player.gameObject.SetActive(false);
+
+                    // 通知する
+                    player.ActionFinishNotify();
+                }
+            }
+        }
+    }
+
 
     class AutoMove : ExRbState<PlayerController, AutoMove>
     {
@@ -757,7 +806,6 @@ public partial class PlayerController
                 // 通知する
                 player.ActionFinishNotify();
 
-                //EventTriggerManager.Instance.Notify(EventType.PlayerMoveEnd);
                 player.bamili = null;
 
                 player.animator.Play(animationHash);

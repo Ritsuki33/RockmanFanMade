@@ -25,6 +25,7 @@ public class EventController : MonoBehaviour
         External,
         PlayerInputProhibit,
         PlayerInputPermit,
+        PlayerRepatriate,
     }
 
     [Serializable]
@@ -268,6 +269,15 @@ public class EventController : MonoBehaviour
         }
     }
 
+    [SerializeField]
+    class PlayerRepatriate : BaseAction
+    {
+        public override void Execute(Action finishCallback)
+        {
+            GameManager.Instance.Player.RepatriatePlayer(finishCallback);
+        }
+    }
+
     [SerializeField] Element element;
 
     private void OnValidate()
@@ -365,6 +375,12 @@ public class EventController : MonoBehaviour
                     if (ae.action is not PlayerInputProhibit)
                     {
                         ae.action = new PlayerInputProhibit();
+                    }
+                    break;
+                case ActionType.PlayerRepatriate:
+                    if (ae.action is not PlayerRepatriate)
+                    {
+                        ae.action = new PlayerRepatriate();
                     }
                     break;
                 default:
