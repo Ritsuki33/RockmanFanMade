@@ -38,7 +38,7 @@ public class HpBar : MonoBehaviour
 
         for (int i = start; i < end && i < list.Count; i++)
         {
-            list[i].SetActive(isIncreasing);
+            if (i >= 0) list[i].SetActive(isIncreasing);
         }
 
         currentHp = val;

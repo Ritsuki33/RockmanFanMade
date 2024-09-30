@@ -81,6 +81,53 @@ Transform:
   - {fileID: 5456374880983423600}
   m_Father: {fileID: 8214183983391218674}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &2058998591935770032
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4355858983437397526}
+  - component: {fileID: 6468653285019100090}
+  m_Layer: 0
+  m_Name: DeathEffectPool
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4355858983437397526
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2058998591935770032}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8214183983391218674}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6468653285019100090
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2058998591935770032}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6428f17e52015684683e9c774633b242, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  prefab: {fileID: 6634398692980899408, guid: 53916ad1597b3d64592af5fdbb8d766f, type: 3}
+  defaultCapacity: 10
+  maxSize: 10
 --- !u!1 &2525911881925048134
 GameObject:
   m_ObjectHideFlags: 0
@@ -255,12 +302,12 @@ Transform:
   - {fileID: 6455167709306668473}
   - {fileID: 1645832796539787742}
   - {fileID: 9132710193196160678}
-  - {fileID: 4672179370972423991}
   - {fileID: 3741596294789784244}
   - {fileID: 3530698389485073417}
   - {fileID: 9059818862791041863}
   - {fileID: 643084055685691958}
   - {fileID: 7882557091838278428}
+  - {fileID: 4355858983437397526}
   m_Father: {fileID: 8783223942164981467}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1691232584558227920
@@ -283,7 +330,7 @@ MonoBehaviour:
   mettoruFirePool: {fileID: 7095692933095081184}
   bomPool: {fileID: 4494838383190542071}
   firePool: {fileID: 1452499750541281219}
-  playerDeathEffect: {fileID: 4265145672475137195}
+  deathEffectPool: {fileID: 6468653285019100090}
   placedBombPool: {fileID: 706308442979923791}
   crashBombPool: {fileID: 5301430790806442780}
 --- !u!1 &4643818298210295590
@@ -494,9 +541,9 @@ MonoBehaviour:
   element:
     delayTime: 0
     actions:
-    - type: 2
+    - type: 3
       action:
-        rid: 3424537312967000079
+        rid: 3424537330373361698
     - type: 0
       action:
         rid: 3424537312967000078
@@ -515,9 +562,9 @@ MonoBehaviour:
       data:
         delayTime: 0
         actions:
-        - type: 4
+        - type: 5
           action:
-            rid: 3424537312967000083
+            rid: 3424537330373361699
         _next:
           rid: 3424537312967000082
     - rid: 3424537312967000078
@@ -525,11 +572,6 @@ MonoBehaviour:
       data:
         obj: {fileID: 0}
         isActive: 0
-    - rid: 3424537312967000079
-      type: {class: EventController/FadeInScreen, ns: , asm: Assembly-CSharp}
-      data:
-        fadeTime: 0.4
-        color: {r: 0, g: 0, b: 0, a: 1}
     - rid: 3424537312967000080
       type: {class: EventController/ObjectMove, ns: , asm: Assembly-CSharp}
       data:
@@ -540,14 +582,14 @@ MonoBehaviour:
       data:
         delayTime: 0
         actions:
-        - type: 5
+        - type: 0
           action:
-            rid: 3424537312967000086
+            rid: 3424537312967000087
+        - type: 6
+          action:
+            rid: 3424537330373361700
         _next:
           rid: 3424537312967000085
-    - rid: 3424537312967000083
-      type: {class: EventController/StartSign, ns: , asm: Assembly-CSharp}
-      data: 
     - rid: 3424537312967000085
       type: {class: EventController/Element, ns: , asm: Assembly-CSharp}
       data:
@@ -555,7 +597,20 @@ MonoBehaviour:
         actions: []
         _next:
           rid: -2
-    - rid: 3424537312967000086
+    - rid: 3424537312967000087
+      type: {class: EventController/ObjectActive, ns: , asm: Assembly-CSharp}
+      data:
+        obj: {fileID: 0}
+        isActive: 1
+    - rid: 3424537330373361698
+      type: {class: EventController/FadeInScreen, ns: , asm: Assembly-CSharp}
+      data:
+        fadeTime: 0.4
+        color: {r: 0, g: 0, b: 0, a: 1}
+    - rid: 3424537330373361699
+      type: {class: EventController/StartSign, ns: , asm: Assembly-CSharp}
+      data: 
+    - rid: 3424537330373361700
       type: {class: EventController/PlayerTransfer, ns: , asm: Assembly-CSharp}
       data: 
 --- !u!1 &5399821858463117455
@@ -842,82 +897,3 @@ MonoBehaviour:
   _camera: {fileID: 9042148691526885}
   m_cinemachineBrain: {fileID: 5493679250231358065}
   outOfViewOffset: 0.13
---- !u!1001 &8252320887516947647
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 8214183983391218674}
-    m_Modifications:
-    - target: {fileID: 429411286089686553, guid: 53916ad1597b3d64592af5fdbb8d766f, type: 3}
-      propertyPath: m_Name
-      value: PlayerDeathEffect
-      objectReference: {fileID: 0}
-    - target: {fileID: 429411286089686553, guid: 53916ad1597b3d64592af5fdbb8d766f, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3625618142807704456, guid: 53916ad1597b3d64592af5fdbb8d766f, type: 3}
-      propertyPath: m_RootOrder
-      value: -1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3625618142807704456, guid: 53916ad1597b3d64592af5fdbb8d766f, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -0.28999996
-      objectReference: {fileID: 0}
-    - target: {fileID: 3625618142807704456, guid: 53916ad1597b3d64592af5fdbb8d766f, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 2.5499382
-      objectReference: {fileID: 0}
-    - target: {fileID: 3625618142807704456, guid: 53916ad1597b3d64592af5fdbb8d766f, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0.026521048
-      objectReference: {fileID: 0}
-    - target: {fileID: 3625618142807704456, guid: 53916ad1597b3d64592af5fdbb8d766f, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3625618142807704456, guid: 53916ad1597b3d64592af5fdbb8d766f, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3625618142807704456, guid: 53916ad1597b3d64592af5fdbb8d766f, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3625618142807704456, guid: 53916ad1597b3d64592af5fdbb8d766f, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3625618142807704456, guid: 53916ad1597b3d64592af5fdbb8d766f, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3625618142807704456, guid: 53916ad1597b3d64592af5fdbb8d766f, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3625618142807704456, guid: 53916ad1597b3d64592af5fdbb8d766f, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5311702722713956372, guid: 53916ad1597b3d64592af5fdbb8d766f, type: 3}
-      propertyPath: playOnAwake
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 53916ad1597b3d64592af5fdbb8d766f, type: 3}
---- !u!198 &4265145672475137195 stripped
-ParticleSystem:
-  m_CorrespondingSourceObject: {fileID: 5311702722713956372, guid: 53916ad1597b3d64592af5fdbb8d766f, type: 3}
-  m_PrefabInstance: {fileID: 8252320887516947647}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &4672179370972423991 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 3625618142807704456, guid: 53916ad1597b3d64592af5fdbb8d766f, type: 3}
-  m_PrefabInstance: {fileID: 8252320887516947647}
-  m_PrefabAsset: {fileID: 0}

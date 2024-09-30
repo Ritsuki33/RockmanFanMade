@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -34,7 +35,7 @@ public class EnemyObject : StageObject
     public virtual void OnAttacked(Collider2D collision)
     {
         var projectile = collision.gameObject.transform.parent.GetComponent<Projectile>();
-        currentHp -= projectile.AttackPower;
+        currentHp = Mathf.Clamp(currentHp - projectile.AttackPower, 0, maxHp);
         if (currentHp <= 0)
         {
             Dead(projectile);
@@ -50,17 +51,20 @@ public class EnemyObject : StageObject
     /// <param name="collision"></param>
     public void Dead(Projectile projectile)
     {
-
         if (projectile.AttackPower < 3) projectile?.Delete();
 
-        var explode = ExplodePool.Pool.Get();
-        explode.transform.position = this.transform.position;
-
-        this.gameObject.SetActive(false);
+        OnDead();
 
         EventTriggerManager.Instance.Notify(EventType.EnemyDefeated);
     }
 
+    public virtual void OnDead()
+    {
+        var explode = ExplodePool.Pool.Get();
+        explode.transform.position = this.transform.position;
+
+        this.gameObject.SetActive(false);
+    }
     /// <summary>
     /// ダメージ演出
     /// </summary>
