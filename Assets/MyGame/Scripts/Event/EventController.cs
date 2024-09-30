@@ -25,6 +25,7 @@ public class EventController : MonoBehaviour
         External,
         PlayerInputProhibit,
         PlayerInputPermit,
+        PlayerRepatriate,
     }
 
     [Serializable]
@@ -93,6 +94,7 @@ public class EventController : MonoBehaviour
     abstract class BaseAction
     {
         abstract public void Execute(Action finishCallback);
+        virtual public void OnValidate() { }
     }
 
     [Serializable]
@@ -222,29 +224,31 @@ public class EventController : MonoBehaviour
     [Serializable]
     class ExternalAction:BaseAction
     {
-        [SerializeField] UnityEvent<Action> action;
+        [SerializeField,Header("※メソッドの登録は１つだけ")] UnityEvent<Action> action;
 
-        private EventController eventController;
 
         public ExternalAction(EventController eventController)
         {
-            this.eventController = eventController;
         }
 
         public override void Execute(Action finishCallback)
         {
-            eventController.StartCoroutine(ExecuteCo(finishCallback));
-            IEnumerator ExecuteCo(Action finishCallback)
+            action?.Invoke(finishCallback);
+        }
+
+        public override void OnValidate()
+        {
+            int listenerCount = action.GetPersistentEventCount();
+
+            if (listenerCount > 1)
             {
-                int methodNum = action.GetPersistentEventCount();
-                int completed = 0;
+                Debug.LogWarning("複数のメソッドが登録されているため、最初のメソッド以外は削除されます。");
 
-                action.Invoke(() =>{
-                    completed++;
-                });
-
-                while (completed != methodNum) yield return null;
-                finishCallback.Invoke();
+                // 最初のリスナー以外を削除
+                for (int i = listenerCount - 1; i >= 1; i--)
+                {
+                    UnityEditor.Events.UnityEventTools.RemovePersistentListener(action,i);
+                }
             }
         }
     }
@@ -265,6 +269,15 @@ public class EventController : MonoBehaviour
         {
             GameManager.Instance.Player.InputPermission();
             finishCallback.Invoke();
+        }
+    }
+
+    [SerializeField]
+    class PlayerRepatriate : BaseAction
+    {
+        public override void Execute(Action finishCallback)
+        {
+            GameManager.Instance.Player.RepatriatePlayer(finishCallback);
         }
     }
 
@@ -354,6 +367,7 @@ public class EventController : MonoBehaviour
                     {
                         ae.action = new ExternalAction(this);
                     }
+                    ae.action.OnValidate();
                     break;
                 case ActionType.PlayerInputPermit:
                     if (ae.action is not PlayerInputPermit)
@@ -365,6 +379,12 @@ public class EventController : MonoBehaviour
                     if (ae.action is not PlayerInputProhibit)
                     {
                         ae.action = new PlayerInputProhibit();
+                    }
+                    break;
+                case ActionType.PlayerRepatriate:
+                    if (ae.action is not PlayerRepatriate)
+                    {
+                        ae.action = new PlayerRepatriate();
                     }
                     break;
                 default:

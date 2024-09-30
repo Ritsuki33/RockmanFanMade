@@ -52,7 +52,7 @@ public class FadeInManager : SingletonComponent<FadeInManager>
     {
         isFade = true;
         image.color = color;
-        blackOut.DOFade(0, fadeTime).OnComplete(() => callback?.Invoke());
+        blackOut.DOFade(1, fadeTime).OnComplete(() => callback?.Invoke());
     }
 
     public void FadeInImmediate()

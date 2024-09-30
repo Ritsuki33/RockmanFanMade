@@ -13,6 +13,8 @@ public partial class PlayerController : ExRbStateMachine<PlayerController>
     Jump jump;
 
     Collider2D bodyLadder = null;
+
+    BoxCollider2D boxPhysicalCollider = null;
     bool isladderTop = false;
 
     InputInfo inputInfo;
@@ -23,6 +25,7 @@ public partial class PlayerController : ExRbStateMachine<PlayerController>
     public bool IsRight => player.IsRight;
 
     Action actionFinishCallback = null;
+
     enum StateID
     {
         Standing=0,
@@ -36,6 +39,7 @@ public partial class PlayerController : ExRbStateMachine<PlayerController>
         Transfer,
         Transfered,
         AutoMove,
+        Repatriate,
     }
 
     private void Awake()
@@ -46,6 +50,7 @@ public partial class PlayerController : ExRbStateMachine<PlayerController>
         onTheGround = GetComponent<OnTheGround>();
         animator = GetComponent<Animator>();
         jump=GetComponent<Jump>();
+        boxPhysicalCollider=GetComponent<BoxCollider2D>();
 
         AddState((int)StateID.Standing, new Standing());
         AddState((int)StateID.Floating, new Floating());
@@ -58,6 +63,7 @@ public partial class PlayerController : ExRbStateMachine<PlayerController>
         AddState((int)StateID.Transfer, new Transfer());
         AddState((int)StateID.Transfered, new Transfered());
         AddState((int)StateID.AutoMove, new AutoMove());
+        AddState((int)StateID.Repatriate, new Repatriation());
     }
 
     public void UpdateInput(InputInfo input)
@@ -107,11 +113,17 @@ public partial class PlayerController : ExRbStateMachine<PlayerController>
         this.transform.position = tranform.position;
     }
 
-    public void TransferPlayer(Action actionFinishCallback=null)
+    public void TransferPlayer(Action actionFinishCallback = null)
     {
         this.gameObject.SetActive(true);
         this.actionFinishCallback = actionFinishCallback;
         TransitReady((int)StateID.Transfer);
+    }
+
+    public void RepatriatePlayer(Action actionFinishCallback = null)
+    {
+        this.actionFinishCallback = actionFinishCallback;
+        TransitReady((int)StateID.Repatriate);
     }
 
     public void AutoMoveTowards(Transform bamili,Action actionFinishCallback)
