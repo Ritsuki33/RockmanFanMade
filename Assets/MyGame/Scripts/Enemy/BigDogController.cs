@@ -24,7 +24,7 @@ public class BigDogController : RbStateMachine<BigDogController>
     BaseObjectPool FirePool=>EffectManager.Instance.FirePool;
     BaseObjectPool ExplodePool=>EffectManager.Instance.ExplodePool;
 
-    PlayerController Player => GameManager.Instance.Player;
+    PlayerController Player => GameManager.Instance.PlayerController;
     enum StateId
     {
         Idle,

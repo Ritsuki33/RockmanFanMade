@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using UnityEngine;
 
 public partial class PlayerController : ExRbStateMachine<PlayerController>
@@ -25,7 +26,7 @@ public partial class PlayerController : ExRbStateMachine<PlayerController>
     public bool IsRight => player.IsRight;
 
     Action actionFinishCallback = null;
-
+    bool isBlendingMove = false;
     enum StateID
     {
         Standing=0,
@@ -155,4 +156,36 @@ public partial class PlayerController : ExRbStateMachine<PlayerController>
         actionFinishCallback?.Invoke();
         actionFinishCallback = null;
     }
+
+    /// <summary>
+    /// カメラのブレンディングによる強制移動
+    /// </summary>
+    /// <param name="actionFinishCallback"></param>
+    public void PlayerForceMoveAccordingToCamera(Action actionFinishCallback)
+    {
+        StartCoroutine(PlayerForceMoveAccordingToCameraCo());
+
+        IEnumerator PlayerForceMoveAccordingToCameraCo()
+        {
+            this.enabled = false;
+            isBlendingMove = true;
+
+            while (isBlendingMove)
+            {
+                this.transform.position += GameManager.Instance.MainCameraControll.DeltaMove * 0.08f;
+                yield return null;
+            }
+        }
+    }
+
+    /// <summary>
+    /// カメラのブレンディングによる強制移動 終了
+    /// </summary>
+    /// <param name="actionFinishCallback"></param>
+    public void PlayerForceMoveAccordingToCameraEnd(Action actionFinishCallback)
+    {
+        isBlendingMove = false;
+        actionFinishCallback?.Invoke();
+    }
+
 }

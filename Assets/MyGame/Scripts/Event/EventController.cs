@@ -1,8 +1,10 @@
-﻿using System;
+﻿using Cinemachine;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using static Cinemachine.CinemachineBlendDefinition;
 
 public class EventController : MonoBehaviour
 {
@@ -26,6 +28,9 @@ public class EventController : MonoBehaviour
         PlayerInputProhibit,
         PlayerInputPermit,
         PlayerRepatriate,
+        CameraChange,
+        PlayerForceMoveAccordingToCamera,
+        PlayerForceMoveAccordingToCameraEnd,
     }
 
     [Serializable]
@@ -171,7 +176,7 @@ public class EventController : MonoBehaviour
     {
         public override void Execute(Action finishCallback)
         {
-            GameManager.Instance.Player.TransferPlayer(finishCallback);
+            GameManager.Instance.PlayerController.TransferPlayer(finishCallback);
         }
     }
 
@@ -182,7 +187,7 @@ public class EventController : MonoBehaviour
 
         override public void Execute(Action finishCallback)
         {
-            GameManager.Instance.Player.AutoMoveTowards(_bamili, finishCallback);
+            GameManager.Instance.PlayerController.AutoMoveTowards(_bamili, finishCallback);
         }
     }
 
@@ -226,11 +231,6 @@ public class EventController : MonoBehaviour
     {
         [SerializeField,Header("※メソッドの登録は１つだけ")] UnityEvent<Action> action;
 
-
-        public ExternalAction(EventController eventController)
-        {
-        }
-
         public override void Execute(Action finishCallback)
         {
             action?.Invoke(finishCallback);
@@ -258,7 +258,7 @@ public class EventController : MonoBehaviour
     {
         override public void Execute(Action finishCallback)
         {
-            GameManager.Instance.Player.InputProhibit(finishCallback);
+            GameManager.Instance.PlayerController.InputProhibit(finishCallback);
         }
     }
 
@@ -267,7 +267,7 @@ public class EventController : MonoBehaviour
     {
         override public void Execute(Action finishCallback)
         {
-            GameManager.Instance.Player.InputPermission();
+            GameManager.Instance.PlayerController.InputPermission();
             finishCallback.Invoke();
         }
     }
@@ -277,7 +277,39 @@ public class EventController : MonoBehaviour
     {
         public override void Execute(Action finishCallback)
         {
-            GameManager.Instance.Player.RepatriatePlayer(finishCallback);
+            GameManager.Instance.PlayerController.RepatriatePlayer(finishCallback);
+        }
+    }
+
+
+    [SerializeField]
+    class CameraChange : BaseAction
+    {
+        [SerializeField] CinemachineVirtualCamera nextControllArea;
+        [SerializeField] CinemachineBlendDefinition.Style style;
+        [SerializeField] float blendTime = 0.4f;
+
+        public override void Execute(Action finishCallback)
+        {
+            GameManager.Instance.MainCameraControll.ChangeCamera(nextControllArea, style, blendTime, finishCallback);
+        }
+    }
+
+    [SerializeField]
+    class PlayerForceMoveAccordingToCamera : BaseAction
+    {
+        public override void Execute(Action finishCallback)
+        {
+            GameManager.Instance.PlayerController.PlayerForceMoveAccordingToCamera(finishCallback);
+        }
+    }
+
+    [SerializeField]
+    class PlayerForceMoveAccordingToCameraEnd : BaseAction
+    {
+        public override void Execute(Action finishCallback)
+        {
+            GameManager.Instance.PlayerController.PlayerForceMoveAccordingToCameraEnd(finishCallback);
         }
     }
 
@@ -365,7 +397,7 @@ public class EventController : MonoBehaviour
                 case ActionType.External:
                     if (ae.action is not ExternalAction)
                     {
-                        ae.action = new ExternalAction(this);
+                        ae.action = new ExternalAction();
                     }
                     ae.action.OnValidate();
                     break;
@@ -385,6 +417,24 @@ public class EventController : MonoBehaviour
                     if (ae.action is not PlayerRepatriate)
                     {
                         ae.action = new PlayerRepatriate();
+                    }
+                    break;
+                case ActionType.CameraChange:
+                    if (ae.action is not CameraChange)
+                    {
+                        ae.action = new CameraChange();
+                    }
+                    break;
+                case ActionType.PlayerForceMoveAccordingToCamera:
+                    if (ae.action is not PlayerForceMoveAccordingToCamera)
+                    {
+                        ae.action = new PlayerForceMoveAccordingToCamera();
+                    }
+                    break;
+                case ActionType.PlayerForceMoveAccordingToCameraEnd:
+                    if (ae.action is not PlayerForceMoveAccordingToCameraEnd)
+                    {
+                        ae.action = new PlayerForceMoveAccordingToCameraEnd();
                     }
                     break;
                 default:

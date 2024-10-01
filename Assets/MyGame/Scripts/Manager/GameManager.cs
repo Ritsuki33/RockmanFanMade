@@ -22,7 +22,7 @@ public struct InputInfo
 public class GameManager : SingletonComponent<GameManager>
 {
     [SerializeField] MainCameraControll m_mainCameraControll = default;
-    [SerializeField] PlayerController player = default;
+    [SerializeField] PlayerController playerController = default;
     [SerializeField] Transform StartPos = default;
 
     [SerializeField] CameraControllArea defaultCameraControllArea;
@@ -30,7 +30,7 @@ public class GameManager : SingletonComponent<GameManager>
     [SerializeField] EventController startEvent = default;
     public MainCameraControll MainCameraControll => m_mainCameraControll;
 
-    public PlayerController Player => player;
+    public PlayerController PlayerController => playerController;
 
     /// <summary>
     /// コントローラからの入力
@@ -49,7 +49,7 @@ public class GameManager : SingletonComponent<GameManager>
         InputInfo inputInfo = default;
         //inputInfo.right = true;
         inputInfo.SetInput(InputController);
-        player.UpdateInput(inputInfo);
+        playerController.UpdateInput(inputInfo);
 
     }
 
@@ -77,9 +77,6 @@ public class GameManager : SingletonComponent<GameManager>
         {
             if (nextControllArea == null || nextControllArea.VirtualCamera.gameObject == m_mainCameraControll.CinemachineBrain.ActiveVirtualCamera.VirtualCameraGameObject) yield break;
 
-            // 通知する
-            EventTriggerManager.Instance.Notify(EventType.ChangeCameraStart);
-
             yield return start;
 
             InitArea(nextControllArea);
@@ -91,15 +88,12 @@ public class GameManager : SingletonComponent<GameManager>
             while (m_mainCameraControll.CinemachineBrain.IsBlending)
             {
                 Vector3 delta = m_mainCameraControll.CinemachineBrain.transform.position - pre_cameraPos;
-                player.transform.position += delta * 0.08f;
+                playerController.transform.position += delta * 0.08f;
                 pre_cameraPos = m_mainCameraControll.CinemachineBrain.transform.position;
                 yield return null;
             }
 
             yield return end;
-
-            // 通知する
-            EventTriggerManager.Instance.Notify(EventType.ChangeCameraEnd);
         }
     }
 

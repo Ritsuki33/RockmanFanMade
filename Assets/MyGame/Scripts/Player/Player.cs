@@ -7,7 +7,6 @@ public class Player : StageObject
 {
     [SerializeField] PlayerController playerController = default;
 
-
     private void OnEnable()
     {
         EventTriggerManager.Instance.Subscribe(EventType.ChangeCameraStart, PlayerPause);
