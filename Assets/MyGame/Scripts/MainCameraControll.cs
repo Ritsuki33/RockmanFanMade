@@ -36,7 +36,7 @@ public class MainCameraControll : MonoBehaviour
       
         IEnumerator ChangeCameraCo(CinemachineVirtualCamera nextVirtualCamera, CinemachineBlendDefinition.Style style, float blendTime, Action callback)
         {
-            if (nextVirtualCamera != null && nextVirtualCamera.gameObject != m_cinemachineBrain.ActiveVirtualCamera.VirtualCameraGameObject)
+            if (nextVirtualCamera != null && !Equal(nextVirtualCamera))
             {
                 m_cinemachineBrain.m_DefaultBlend.m_Style = style;
                 m_cinemachineBrain.m_DefaultBlend.m_Time = blendTime;
@@ -69,7 +69,7 @@ public class MainCameraControll : MonoBehaviour
         }
     }
 
-    public bool Equal(CinemachineVirtualCamera virtualCamera) => virtualCamera.gameObject == m_cinemachineBrain.ActiveVirtualCamera.VirtualCameraGameObject;
+    public bool Equal(CinemachineVirtualCamera virtualCamera) => (m_cinemachineBrain.ActiveVirtualCamera == null) ? false : virtualCamera.gameObject == m_cinemachineBrain.ActiveVirtualCamera.VirtualCameraGameObject;
 
     public bool CheckOutOfView(GameObject gameObject)
     {
