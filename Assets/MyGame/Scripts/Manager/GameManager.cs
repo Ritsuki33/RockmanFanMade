@@ -70,7 +70,7 @@ public class GameManager : SingletonComponent<GameManager>
 
     public void StageStart()
     {
-        InitArea(defaultCameraControllArea);
+        //InitArea(defaultCameraControllArea);
         startEvent.StartEvent();
         //StartCoroutine(StageStartCo());
     }

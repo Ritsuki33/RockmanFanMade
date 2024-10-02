@@ -73139,6 +73139,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 6030183582163095795, guid: 50db6328845417f428e76f577eadc620, type: 3}
   m_PrefabInstance: {fileID: 1028768570}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1028768572 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5107075163451444145, guid: 50db6328845417f428e76f577eadc620, type: 3}
+  m_PrefabInstance: {fileID: 1028768570}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 45e653bab7fb20e499bda25e1b646fea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1126004239
 GameObject:
   m_ObjectHideFlags: 0
@@ -75031,6 +75042,30 @@ PrefabInstance:
       value: -11.027209
       objectReference: {fileID: 0}
     - target: {fileID: 2773014775519756737, guid: 2d01bd91de6524046b299eda0c554985, type: 3}
+      propertyPath: element.actions.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 2773014775519756737, guid: 2d01bd91de6524046b299eda0c554985, type: 3}
+      propertyPath: element.actions.Array.data[3].type
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 2773014775519756737, guid: 2d01bd91de6524046b299eda0c554985, type: 3}
+      propertyPath: element.actions.Array.data[3].action
+      value: 115822610294767655
+      objectReference: {fileID: 0}
+    - target: {fileID: 2773014775519756737, guid: 2d01bd91de6524046b299eda0c554985, type: 3}
+      propertyPath: managedReferences[115822610294767653]
+      value: Assembly-CSharp EventController/ObjectActive
+      objectReference: {fileID: 0}
+    - target: {fileID: 2773014775519756737, guid: 2d01bd91de6524046b299eda0c554985, type: 3}
+      propertyPath: managedReferences[115822610294767654]
+      value: Assembly-CSharp EventController/FadeInScreen
+      objectReference: {fileID: 0}
+    - target: {fileID: 2773014775519756737, guid: 2d01bd91de6524046b299eda0c554985, type: 3}
+      propertyPath: managedReferences[115822610294767655]
+      value: Assembly-CSharp EventController/CameraChange
+      objectReference: {fileID: 0}
+    - target: {fileID: 2773014775519756737, guid: 2d01bd91de6524046b299eda0c554985, type: 3}
       propertyPath: managedReferences[3424537312967000078].obj
       value: 
       objectReference: {fileID: 5339920475407088929}
@@ -75039,13 +75074,53 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 5339920475407088929}
     - target: {fileID: 2773014775519756737, guid: 2d01bd91de6524046b299eda0c554985, type: 3}
+      propertyPath: managedReferences[115822610294767655].style
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2773014775519756737, guid: 2d01bd91de6524046b299eda0c554985, type: 3}
+      propertyPath: managedReferences[115822610294767654].color.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2773014775519756737, guid: 2d01bd91de6524046b299eda0c554985, type: 3}
+      propertyPath: managedReferences[115822610294767654].color.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2773014775519756737, guid: 2d01bd91de6524046b299eda0c554985, type: 3}
+      propertyPath: managedReferences[115822610294767654].color.g
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2773014775519756737, guid: 2d01bd91de6524046b299eda0c554985, type: 3}
+      propertyPath: managedReferences[115822610294767654].color.r
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2773014775519756737, guid: 2d01bd91de6524046b299eda0c554985, type: 3}
+      propertyPath: managedReferences[115822610294767653].isActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2773014775519756737, guid: 2d01bd91de6524046b299eda0c554985, type: 3}
+      propertyPath: managedReferences[115822610294767654].fadeTime
+      value: 0.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 2773014775519756737, guid: 2d01bd91de6524046b299eda0c554985, type: 3}
+      propertyPath: managedReferences[115822610294767655].blendTime
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2773014775519756737, guid: 2d01bd91de6524046b299eda0c554985, type: 3}
       propertyPath: managedReferences[3424537312967000080].transform
       value: 
       objectReference: {fileID: 1836540445}
     - target: {fileID: 2773014775519756737, guid: 2d01bd91de6524046b299eda0c554985, type: 3}
+      propertyPath: managedReferences[115822610294767653].objs.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2773014775519756737, guid: 2d01bd91de6524046b299eda0c554985, type: 3}
       propertyPath: managedReferences[3424537312967000080].targetPosition
       value: 
       objectReference: {fileID: 215260543}
+    - target: {fileID: 2773014775519756737, guid: 2d01bd91de6524046b299eda0c554985, type: 3}
+      propertyPath: managedReferences[115822610294767655].nextControllArea
+      value: 
+      objectReference: {fileID: 1028768572}
     - target: {fileID: 2773014775519756737, guid: 2d01bd91de6524046b299eda0c554985, type: 3}
       propertyPath: managedReferences[3424537312967000078].objs.Array.size
       value: 1
