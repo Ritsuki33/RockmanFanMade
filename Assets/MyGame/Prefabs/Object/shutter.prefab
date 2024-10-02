@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4222220231495031677}
   - component: {fileID: 4079882144380047238}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: shutter (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -94,7 +94,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4592141622441199592}
   - component: {fileID: 5029125134522662466}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: shutter (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -178,7 +178,7 @@ GameObject:
   m_Component:
   - component: {fileID: 891479725490647747}
   - component: {fileID: 3768468262891334710}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: shutter (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -262,7 +262,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5534790700813910527}
   - component: {fileID: 2159742875920037855}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: shutter
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -348,9 +348,10 @@ GameObject:
   - component: {fileID: 7417521202294565859}
   - component: {fileID: 554874212691544574}
   - component: {fileID: 7111795552541892940}
-  m_Layer: 0
+  - component: {fileID: 7554211713385443567}
+  m_Layer: 6
   m_Name: shutter
-  m_TagString: Untagged
+  m_TagString: Door
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -363,7 +364,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6306969309347809507}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0.07, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -387,6 +388,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _animator: {fileID: 554874212691544574}
+  nextCameraControllArea: {fileID: 0}
+  eventController: {fileID: 7554211713385443567}
 --- !u!95 &554874212691544574
 Animator:
   serializedVersion: 5
@@ -453,3 +456,116 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 4}
   m_EdgeRadius: 0
+--- !u!114 &7554211713385443567
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6306969309347809507}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f5e676c01ac35744dbd6282f9459d76d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  element:
+    delayTime: 0
+    actions:
+    - type: 11
+      action:
+        rid: 115822602073669656
+    - type: 16
+      action:
+        rid: 115822602073669657
+    _next:
+      rid: 115822602073669655
+  references:
+    version: 2
+    RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }
+    - rid: 115822602073669655
+      type: {class: EventController/Element, ns: , asm: Assembly-CSharp}
+      data:
+        delayTime: 0
+        actions:
+        - type: 15
+          action:
+            rid: 115822602073669660
+        _next:
+          rid: 115822602073669659
+    - rid: 115822602073669656
+      type: {class: EventController/ExternalAction, ns: , asm: Assembly-CSharp}
+      data:
+        action:
+          m_PersistentCalls:
+            m_Calls:
+            - m_Target: {fileID: 7417521202294565859}
+              m_TargetAssemblyTypeName: ShutterControll, Assembly-CSharp
+              m_MethodName: ShutterOpen
+              m_Mode: 0
+              m_Arguments:
+                m_ObjectArgument: {fileID: 0}
+                m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+                m_IntArgument: 0
+                m_FloatArgument: 0
+                m_StringArgument: 
+                m_BoolArgument: 0
+              m_CallState: 2
+    - rid: 115822602073669657
+      type: {class: EventController/PlayerForceMoveAccordingToCamera, ns: , asm: Assembly-CSharp}
+      data: 
+    - rid: 115822602073669659
+      type: {class: EventController/Element, ns: , asm: Assembly-CSharp}
+      data:
+        delayTime: 0
+        actions:
+        - type: 11
+          action:
+            rid: 115822602073669671
+        _next:
+          rid: 115822602073669670
+    - rid: 115822602073669660
+      type: {class: EventController/CameraChange, ns: , asm: Assembly-CSharp}
+      data:
+        nextControllArea: {fileID: 0}
+        style: 6
+        blendTime: 0.8
+    - rid: 115822602073669670
+      type: {class: EventController/Element, ns: , asm: Assembly-CSharp}
+      data:
+        delayTime: 0
+        actions:
+        - type: 17
+          action:
+            rid: 115822602073669675
+        _next:
+          rid: 115822602073669673
+    - rid: 115822602073669671
+      type: {class: EventController/ExternalAction, ns: , asm: Assembly-CSharp}
+      data:
+        action:
+          m_PersistentCalls:
+            m_Calls:
+            - m_Target: {fileID: 7417521202294565859}
+              m_TargetAssemblyTypeName: ShutterControll, Assembly-CSharp
+              m_MethodName: ShutterClose
+              m_Mode: 0
+              m_Arguments:
+                m_ObjectArgument: {fileID: 0}
+                m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+                m_IntArgument: 0
+                m_FloatArgument: 0
+                m_StringArgument: 
+                m_BoolArgument: 0
+              m_CallState: 2
+    - rid: 115822602073669673
+      type: {class: EventController/Element, ns: , asm: Assembly-CSharp}
+      data:
+        delayTime: 0
+        actions: []
+        _next:
+          rid: -2
+    - rid: 115822602073669675
+      type: {class: EventController/PlayerForceMoveAccordingToCameraEnd, ns: , asm: Assembly-CSharp}
+      data: 

@@ -44,15 +44,6 @@ public class HpBar : MonoBehaviour
         currentHp = val;
     }
 
-    public void SetParamAnimation(float val)
-    {
-        gameObject.SetActive(true);
-        SetParam(0.0f);
-        UiManager.Instance.HpBar.ParamChangeAnimation(val, () => {
-            EventTriggerManager.Instance.Notify(EventType.HpBarSetEnd);
-        });
-    }
-
 
     /// <summary>
     /// パラメータの更新アニメーション

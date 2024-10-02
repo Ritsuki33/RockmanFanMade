@@ -1,7 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
-using System.Runtime.ConstrainedExecution;
-using UnityEditor.Tilemaps;
 using UnityEngine;
 
 public class BigDogController : RbStateMachine<BigDogController>

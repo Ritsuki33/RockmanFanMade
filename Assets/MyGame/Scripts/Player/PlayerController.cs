@@ -26,7 +26,6 @@ public partial class PlayerController : ExRbStateMachine<PlayerController>
     public bool IsRight => player.IsRight;
 
     Action actionFinishCallback = null;
-    bool isBlendingMove = false;
     enum StateID
     {
         Standing=0,
@@ -164,13 +163,13 @@ public partial class PlayerController : ExRbStateMachine<PlayerController>
     public void PlayerForceMoveAccordingToCamera(Action actionFinishCallback)
     {
         StartCoroutine(PlayerForceMoveAccordingToCameraCo());
+        actionFinishCallback?.Invoke();
 
         IEnumerator PlayerForceMoveAccordingToCameraCo()
         {
             this.enabled = false;
-            isBlendingMove = true;
 
-            while (isBlendingMove)
+            while (!enabled)
             {
                 this.transform.position += GameManager.Instance.MainCameraControll.DeltaMove * 0.08f;
                 yield return null;
@@ -184,7 +183,7 @@ public partial class PlayerController : ExRbStateMachine<PlayerController>
     /// <param name="actionFinishCallback"></param>
     public void PlayerForceMoveAccordingToCameraEnd(Action actionFinishCallback)
     {
-        isBlendingMove = false;
+        this.enabled = true;
         actionFinishCallback?.Invoke();
     }
 

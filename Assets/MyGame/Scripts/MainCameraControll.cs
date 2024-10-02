@@ -1,7 +1,6 @@
 ﻿using Cinemachine;
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class MainCameraControll : MonoBehaviour
@@ -37,32 +36,34 @@ public class MainCameraControll : MonoBehaviour
       
         IEnumerator ChangeCameraCo(CinemachineVirtualCamera nextVirtualCamera, CinemachineBlendDefinition.Style style, float blendTime, Action callback)
         {
-            if (nextVirtualCamera == null || nextVirtualCamera.gameObject == m_cinemachineBrain.ActiveVirtualCamera.VirtualCameraGameObject) yield break;
-            m_cinemachineBrain.m_DefaultBlend.m_Style = style;
-            m_cinemachineBrain.m_DefaultBlend.m_Time = blendTime;
-
-            // カメラ変更開始を通知する
-            EventTriggerManager.Instance.Notify(EventType.ChangeCameraStart);
-
-            // アクティブによるオンオフによる切り替え
-            m_cinemachineBrain.ActiveVirtualCamera?.VirtualCameraGameObject.SetActive(false);
-            virtualCamera.VirtualCameraGameObject.SetActive(true);
-
-            // ブレンディングをスタートさせるため、次フレームまで待つ 
-            yield return null;
-
-            Vector3 pre_cameraPos = this.transform.position;
-            while (m_cinemachineBrain.IsBlending)
+            if (nextVirtualCamera != null && nextVirtualCamera.gameObject != m_cinemachineBrain.ActiveVirtualCamera.VirtualCameraGameObject)
             {
-                deltaMove = this.transform.position - pre_cameraPos;
-                pre_cameraPos = this.transform.position;
+                m_cinemachineBrain.m_DefaultBlend.m_Style = style;
+                m_cinemachineBrain.m_DefaultBlend.m_Time = blendTime;
+
+                // カメラ変更開始を通知する
+                EventTriggerManager.Instance.Notify(EventType.ChangeCameraStart);
+
+                // アクティブによるオンオフによる切り替え
+                m_cinemachineBrain.ActiveVirtualCamera?.VirtualCameraGameObject.SetActive(false);
+                virtualCamera.VirtualCameraGameObject.SetActive(true);
+
+                // ブレンディングをスタートさせるため、次フレームまで待つ 
                 yield return null;
+
+                Vector3 pre_cameraPos = this.transform.position;
+                while (m_cinemachineBrain.IsBlending)
+                {
+                    deltaMove = this.transform.position - pre_cameraPos;
+                    pre_cameraPos = this.transform.position;
+                    yield return null;
+                }
+
+                deltaMove = Vector3.zero;
+
+                // カメラ変更終了を通知する
+                EventTriggerManager.Instance.Notify(EventType.ChangeCameraEnd);
             }
-
-            deltaMove = Vector3.zero;
-
-            // カメラ変更終了を通知する
-            EventTriggerManager.Instance.Notify(EventType.ChangeCameraEnd);
 
             callback?.Invoke();
         }

@@ -10,22 +10,22 @@ public class BossArea : BaseArea
     [SerializeField] EventController enterEvent = default;
     [SerializeField] EventController bossDefeatEvent = default;
 
-    private void OnEnable()
-    {
-        EventTriggerManager.Instance.Subscribe(EventType.EnemyDefeated, DefeatBossEvent);
-    }
-    private void OnDisable()
-    {
-        EventTriggerManager.Instance.Unsubscribe(EventType.EnemyDefeated, DefeatBossEvent);
+    //private void OnEnable()
+    //{
+    //    EventTriggerManager.Instance.Subscribe(EventType.EnemyDefeated, DefeatBossEvent);
+    //}
+    //private void OnDisable()
+    //{
+    //    EventTriggerManager.Instance.Unsubscribe(EventType.EnemyDefeated, DefeatBossEvent);
 
-    }
-    public override void Enter()
-    {
-        enterEvent.StartEvent();
-    }
+    //}
+    //public override void Enter()
+    //{
+    //    enterEvent.StartEvent();
+    //}
 
-    public void DefeatBossEvent()
-    {
-        bossDefeatEvent.StartEvent();
-    }
+    //public void DefeatBossEvent()
+    //{
+    //    bossDefeatEvent.StartEvent();
+    //}
 }

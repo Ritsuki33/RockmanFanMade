@@ -1,6 +1,5 @@
 ﻿using Cinemachine;
 using System.Collections.Generic;
-using System.Globalization;
 using UnityEngine;
 
 public class CameraControllArea : MonoBehaviour

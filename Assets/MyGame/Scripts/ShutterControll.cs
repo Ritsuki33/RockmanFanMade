@@ -1,11 +1,12 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using UnityEngine;
 
 public class ShutterControll : MonoBehaviour
 {
     [SerializeField] Animator _animator;
     [SerializeField] CameraControllArea nextCameraControllArea;
-
+    [SerializeField] EventController eventController;
     static int animationOpenHash = Animator.StringToHash("Open");
     static int animationCloseHash = Animator.StringToHash("Close");
 
@@ -17,25 +18,40 @@ public class ShutterControll : MonoBehaviour
     }
     public void Enter()
     {
-        GameManager.Instance.ChangeCamera(nextCameraControllArea, ShutterOpen(), ShutterClose());
+        if (!GameManager.Instance.MainCameraControll.Equal(nextCameraControllArea.VirtualCamera)) eventController.StartEvent();
     }
 
-    IEnumerator ShutterOpen()
+    public void ShutterOpen(Action finishCallback)
     {
-        _animator.enabled = true;
-        _animator.Play(animationOpenHash);
+        StartCoroutine(ShutterOpenCo(finishCallback));
+        IEnumerator ShutterOpenCo(Action finishCallback)
+        {
+            _animator.enabled = true;
+            _animator.Play(animationOpenHash);
 
-        while (_animator.IsPlayingCurrentAnimation(animationOpenHash)) yield return null;
+            while (_animator.IsPlayingCurrentAnimation(animationOpenHash)) yield return null;
 
-        boxCollider.enabled = false;
+            boxCollider.enabled = false;
+
+            finishCallback?.Invoke();
+        }
     }
 
-    IEnumerator ShutterClose()
+    public void ShutterClose(Action finishCallback)
     {
-        _animator.Play(animationCloseHash);
+        StartCoroutine(ShutterCloseCo(finishCallback));
 
-        while (_animator.IsPlayingCurrentAnimation(animationCloseHash)) yield return null;
-        boxCollider.enabled = true;
-        _animator.enabled = false;
+        IEnumerator ShutterCloseCo(Action finishCallback)
+        {
+            _animator.Play(animationCloseHash);
+
+            while (_animator.IsPlayingCurrentAnimation(animationCloseHash)) yield return null;
+            boxCollider.enabled = true;
+
+            _animator.enabled = false;
+            finishCallback?.Invoke();
+        }
     }
+
+   
 }

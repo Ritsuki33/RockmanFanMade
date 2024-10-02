@@ -4,7 +4,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
-using static Cinemachine.CinemachineBlendDefinition;
 
 public class EventController : MonoBehaviour
 {
@@ -31,6 +30,8 @@ public class EventController : MonoBehaviour
         CameraChange,
         PlayerForceMoveAccordingToCamera,
         PlayerForceMoveAccordingToCameraEnd,
+        SubscribeAction,
+        UnSubscribeAction,
     }
 
     [Serializable]
@@ -105,12 +106,15 @@ public class EventController : MonoBehaviour
     [Serializable]
     class ObjectActive : BaseAction
     {
-
-        [SerializeField] GameObject obj;
+        [SerializeField] GameObject[] objs;
         [SerializeField] bool isActive = false;
         public override void Execute(Action finishCallback)
         {
-            obj.SetActive(isActive);
+            if (objs == null) Debug.Log("オブジェクトが設定されていません。");
+            foreach (var obj in objs)
+            {
+                obj.SetActive(isActive);
+            }
             finishCallback();
         }
     }
@@ -238,6 +242,7 @@ public class EventController : MonoBehaviour
 
         public override void OnValidate()
         {
+            if (action == null) return;
             int listenerCount = action.GetPersistentEventCount();
 
             if (listenerCount > 1)
@@ -310,6 +315,32 @@ public class EventController : MonoBehaviour
         public override void Execute(Action finishCallback)
         {
             GameManager.Instance.PlayerController.PlayerForceMoveAccordingToCameraEnd(finishCallback);
+        }
+    }
+
+    [SerializeField]
+    class SubscribeAction : BaseAction
+    {
+        [SerializeField] EventType type;
+        [SerializeField] UnityEvent action;
+
+        public override void Execute(Action finishCallback)
+        {
+            EventTriggerManager.Instance.Subscribe(type, action.Invoke);
+            finishCallback.Invoke();
+        }
+    }
+
+    [SerializeField]
+    class UnSubscribeAction : BaseAction
+    {
+        [SerializeField] EventType type;
+        [SerializeField] UnityEvent action;
+
+        public override void Execute(Action finishCallback)
+        {
+            EventTriggerManager.Instance.Unsubscribe(type, action.Invoke);
+            finishCallback.Invoke();
         }
     }
 
@@ -437,6 +468,18 @@ public class EventController : MonoBehaviour
                         ae.action = new PlayerForceMoveAccordingToCameraEnd();
                     }
                     break;
+                case ActionType.SubscribeAction:
+                    if (ae.action is not SubscribeAction)
+                    {
+                        ae.action = new SubscribeAction();
+                    }
+                    break;
+                case ActionType.UnSubscribeAction:
+                    if (ae.action is not UnSubscribeAction)
+                    {
+                        ae.action = new UnSubscribeAction();
+                    }
+                    break;
                 default:
                     break;
             }
@@ -453,9 +496,14 @@ public class EventController : MonoBehaviour
         }
     }
 
-    public void StartEvent(Action finishCallback=null)
+    public void StartEvent(Action finishCallback)
     {
         eventFinishCallback = finishCallback;
         element.Execute(this);
+    }
+
+    public void StartEvent()
+    {
+        StartEvent(null);
     }
 }
