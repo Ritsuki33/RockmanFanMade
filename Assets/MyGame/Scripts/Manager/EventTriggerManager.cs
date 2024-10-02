@@ -8,9 +8,6 @@ public enum EventType
     ChangeCameraStart,
     ChangeCameraEnd,
     EnemyDefeated,
-    EnemyPauseEnd,
-    PlayerMoveEnd,
-    HpBarSetEnd,
 }
 
 [DefaultExecutionOrder(-100)]
@@ -27,9 +24,6 @@ public class EventTriggerManager : SingletonComponent<EventTriggerManager>
         eventTriggers.Add(EventType.ChangeCameraStart, null);
         eventTriggers.Add(EventType.ChangeCameraEnd, null);
         eventTriggers.Add(EventType.EnemyDefeated, null);
-        eventTriggers.Add(EventType.EnemyPauseEnd, null);
-        eventTriggers.Add(EventType.PlayerMoveEnd, null);
-        eventTriggers.Add(EventType.HpBarSetEnd, null);
     }
     
     public void Subscribe(EventType eventType, Action action)

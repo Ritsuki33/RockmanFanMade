@@ -5,14 +5,17 @@ using UnityEngine;
 
 public class TransitCameraArea : MonoBehaviour
 {
-    [SerializeField] private CameraControllArea nextCameraControllArea = default;
     [SerializeField] private BoxCollider2D transitArea;
+    [SerializeField] CameraControllArea nextCameraControllArea;
 
-
+    [SerializeField]EventController eventController;
     public BoxCollider2D TransitArea => transitArea;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        GameManager.Instance.ChangeCamera(nextCameraControllArea);
+        if (!GameManager.Instance.MainCameraControll.Equal(nextCameraControllArea.VirtualCamera))
+        {
+            eventController?.StartEvent();
+        }
     }
 }

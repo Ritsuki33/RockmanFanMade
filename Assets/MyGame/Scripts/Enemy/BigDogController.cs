@@ -1,7 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
-using System.Runtime.ConstrainedExecution;
-using UnityEditor.Tilemaps;
 using UnityEngine;
 
 public class BigDogController : RbStateMachine<BigDogController>
@@ -24,7 +21,7 @@ public class BigDogController : RbStateMachine<BigDogController>
     BaseObjectPool FirePool=>EffectManager.Instance.FirePool;
     BaseObjectPool ExplodePool=>EffectManager.Instance.ExplodePool;
 
-    PlayerController Player => GameManager.Instance.Player;
+    PlayerController Player => GameManager.Instance.PlayerController;
     enum StateId
     {
         Idle,

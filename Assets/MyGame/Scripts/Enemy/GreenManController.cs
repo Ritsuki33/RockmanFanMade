@@ -23,7 +23,7 @@ public class GreenManController : ExRbStateMachine<GreenManController>
     AmbiguousTimer timer = new AmbiguousTimer();
 
     BaseObjectPool Buster => EffectManager.Instance.MettoruFirePool;
-    private PlayerController Player => GameManager.Instance.Player;
+    private PlayerController Player => GameManager.Instance.PlayerController;
     private BaseObjectPool ExplodePool => EffectManager.Instance.ExplodePool;
     Coroutine defense = null;
 

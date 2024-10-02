@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Cinemachine;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -26,6 +27,11 @@ public class EventController : MonoBehaviour
         PlayerInputProhibit,
         PlayerInputPermit,
         PlayerRepatriate,
+        CameraChange,
+        PlayerForceMoveAccordingToCamera,
+        PlayerForceMoveAccordingToCameraEnd,
+        SubscribeAction,
+        UnSubscribeAction,
     }
 
     [Serializable]
@@ -100,12 +106,15 @@ public class EventController : MonoBehaviour
     [Serializable]
     class ObjectActive : BaseAction
     {
-
-        [SerializeField] GameObject obj;
+        [SerializeField] GameObject[] objs;
         [SerializeField] bool isActive = false;
         public override void Execute(Action finishCallback)
         {
-            obj.SetActive(isActive);
+            if (objs == null) Debug.Log("オブジェクトが設定されていません。");
+            foreach (var obj in objs)
+            {
+                obj.SetActive(isActive);
+            }
             finishCallback();
         }
     }
@@ -171,7 +180,7 @@ public class EventController : MonoBehaviour
     {
         public override void Execute(Action finishCallback)
         {
-            GameManager.Instance.Player.TransferPlayer(finishCallback);
+            GameManager.Instance.PlayerController.TransferPlayer(finishCallback);
         }
     }
 
@@ -182,7 +191,7 @@ public class EventController : MonoBehaviour
 
         override public void Execute(Action finishCallback)
         {
-            GameManager.Instance.Player.AutoMoveTowards(_bamili, finishCallback);
+            GameManager.Instance.PlayerController.AutoMoveTowards(_bamili, finishCallback);
         }
     }
 
@@ -226,11 +235,6 @@ public class EventController : MonoBehaviour
     {
         [SerializeField,Header("※メソッドの登録は１つだけ")] UnityEvent<Action> action;
 
-
-        public ExternalAction(EventController eventController)
-        {
-        }
-
         public override void Execute(Action finishCallback)
         {
             action?.Invoke(finishCallback);
@@ -238,6 +242,7 @@ public class EventController : MonoBehaviour
 
         public override void OnValidate()
         {
+            if (action == null) return;
             int listenerCount = action.GetPersistentEventCount();
 
             if (listenerCount > 1)
@@ -258,7 +263,7 @@ public class EventController : MonoBehaviour
     {
         override public void Execute(Action finishCallback)
         {
-            GameManager.Instance.Player.InputProhibit(finishCallback);
+            GameManager.Instance.PlayerController.InputProhibit(finishCallback);
         }
     }
 
@@ -267,7 +272,7 @@ public class EventController : MonoBehaviour
     {
         override public void Execute(Action finishCallback)
         {
-            GameManager.Instance.Player.InputPermission();
+            GameManager.Instance.PlayerController.InputPermission();
             finishCallback.Invoke();
         }
     }
@@ -277,7 +282,65 @@ public class EventController : MonoBehaviour
     {
         public override void Execute(Action finishCallback)
         {
-            GameManager.Instance.Player.RepatriatePlayer(finishCallback);
+            GameManager.Instance.PlayerController.RepatriatePlayer(finishCallback);
+        }
+    }
+
+
+    [SerializeField]
+    class CameraChange : BaseAction
+    {
+        [SerializeField] CinemachineVirtualCamera nextControllArea;
+        [SerializeField] CinemachineBlendDefinition.Style style;
+        [SerializeField] float blendTime = 0.4f;
+
+        public override void Execute(Action finishCallback)
+        {
+            GameManager.Instance.MainCameraControll.ChangeCamera(nextControllArea, style, blendTime, finishCallback);
+        }
+    }
+
+    [SerializeField]
+    class PlayerForceMoveAccordingToCamera : BaseAction
+    {
+        public override void Execute(Action finishCallback)
+        {
+            GameManager.Instance.PlayerController.PlayerForceMoveAccordingToCamera(finishCallback);
+        }
+    }
+
+    [SerializeField]
+    class PlayerForceMoveAccordingToCameraEnd : BaseAction
+    {
+        public override void Execute(Action finishCallback)
+        {
+            GameManager.Instance.PlayerController.PlayerForceMoveAccordingToCameraEnd(finishCallback);
+        }
+    }
+
+    [SerializeField]
+    class SubscribeAction : BaseAction
+    {
+        [SerializeField] EventType type;
+        [SerializeField] UnityEvent action;
+
+        public override void Execute(Action finishCallback)
+        {
+            EventTriggerManager.Instance.Subscribe(type, action.Invoke);
+            finishCallback.Invoke();
+        }
+    }
+
+    [SerializeField]
+    class UnSubscribeAction : BaseAction
+    {
+        [SerializeField] EventType type;
+        [SerializeField] UnityEvent action;
+
+        public override void Execute(Action finishCallback)
+        {
+            EventTriggerManager.Instance.Unsubscribe(type, action.Invoke);
+            finishCallback.Invoke();
         }
     }
 
@@ -365,7 +428,7 @@ public class EventController : MonoBehaviour
                 case ActionType.External:
                     if (ae.action is not ExternalAction)
                     {
-                        ae.action = new ExternalAction(this);
+                        ae.action = new ExternalAction();
                     }
                     ae.action.OnValidate();
                     break;
@@ -387,6 +450,36 @@ public class EventController : MonoBehaviour
                         ae.action = new PlayerRepatriate();
                     }
                     break;
+                case ActionType.CameraChange:
+                    if (ae.action is not CameraChange)
+                    {
+                        ae.action = new CameraChange();
+                    }
+                    break;
+                case ActionType.PlayerForceMoveAccordingToCamera:
+                    if (ae.action is not PlayerForceMoveAccordingToCamera)
+                    {
+                        ae.action = new PlayerForceMoveAccordingToCamera();
+                    }
+                    break;
+                case ActionType.PlayerForceMoveAccordingToCameraEnd:
+                    if (ae.action is not PlayerForceMoveAccordingToCameraEnd)
+                    {
+                        ae.action = new PlayerForceMoveAccordingToCameraEnd();
+                    }
+                    break;
+                case ActionType.SubscribeAction:
+                    if (ae.action is not SubscribeAction)
+                    {
+                        ae.action = new SubscribeAction();
+                    }
+                    break;
+                case ActionType.UnSubscribeAction:
+                    if (ae.action is not UnSubscribeAction)
+                    {
+                        ae.action = new UnSubscribeAction();
+                    }
+                    break;
                 default:
                     break;
             }
@@ -403,9 +496,14 @@ public class EventController : MonoBehaviour
         }
     }
 
-    public void StartEvent(Action finishCallback=null)
+    public void StartEvent(Action finishCallback)
     {
         eventFinishCallback = finishCallback;
         element.Execute(this);
+    }
+
+    public void StartEvent()
+    {
+        StartEvent(null);
     }
 }
