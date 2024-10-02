@@ -91,6 +91,7 @@ public class EventController : MonoBehaviour
     class ActionElement
     {
         [SerializeField] public ActionType type;
+        [SerializeField, Header("備考")] private string remarks;
         [SerializeReference] public BaseAction action;
 
         public void Execute(Action finishCallback) => action.Execute(finishCallback);

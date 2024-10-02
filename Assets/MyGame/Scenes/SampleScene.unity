@@ -73587,9 +73587,11 @@ MonoBehaviour:
     delayTime: 0
     actions:
     - type: 0
+      remarks: 
       action:
         rid: 115822602073669650
     - type: 19
+      remarks: 
       action:
         rid: 115822602073669653
     _next:
@@ -74548,6 +74550,7 @@ MonoBehaviour:
     delayTime: 0
     actions:
     - type: 7
+      remarks: 
       action:
         rid: 3424537330373361705
     _next:
@@ -74582,9 +74585,11 @@ MonoBehaviour:
         delayTime: 0
         actions:
         - type: 1
+          remarks: 
           action:
             rid: 3424537412185620480
         - type: 8
+          remarks: 
           action:
             rid: 3424537330373361706
         _next:
@@ -74595,6 +74600,7 @@ MonoBehaviour:
         delayTime: 0
         actions:
         - type: 9
+          remarks: 
           action:
             rid: 3424537330373361707
         _next:
@@ -74605,12 +74611,15 @@ MonoBehaviour:
         delayTime: 0
         actions:
         - type: 10
+          remarks: 
           action:
             rid: 3424537356080250882
         - type: 13
+          remarks: 
           action:
             rid: 3424537356080250883
         - type: 18
+          remarks: 
           action:
             rid: 115822602073669681
         _next:
@@ -74662,6 +74671,7 @@ MonoBehaviour:
     delayTime: 0
     actions:
     - type: 14
+      remarks: 
       action:
         rid: 3424537403001143301
     _next:
@@ -74677,6 +74687,7 @@ MonoBehaviour:
         delayTime: 0
         actions:
         - type: 4
+          remarks: 
           action:
             rid: 3424537403001143304
         _next:
@@ -74690,6 +74701,7 @@ MonoBehaviour:
         delayTime: 0
         actions:
         - type: 11
+          remarks: 
           action:
             rid: 3424537410421915655
         _next:
@@ -75163,11 +75175,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5493679250231358065, guid: 2d01bd91de6524046b299eda0c554985, type: 3}
       propertyPath: m_DefaultBlend.m_Time
-      value: 0.8
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5493679250231358065, guid: 2d01bd91de6524046b299eda0c554985, type: 3}
       propertyPath: m_DefaultBlend.m_Style
-      value: 6
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5493679250231358065, guid: 2d01bd91de6524046b299eda0c554985, type: 3}
       propertyPath: m_CameraCutEvent.m_PersistentCalls.m_Calls.Array.size
