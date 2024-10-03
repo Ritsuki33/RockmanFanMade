@@ -512,6 +512,7 @@ public class BossController : ExRbStateMachine<BossController>
 
     public void Appeare(Action finishCallback)
     {
+        boss.Init();
         gameObject.SetActive(true);
         finishActionCallback = finishCallback;
         this.TransitReady((int)StateId.Appearance);

@@ -74504,7 +74504,7 @@ MonoBehaviour:
     - rid: 115822631400243265
       type: {class: ActionChainExecuter/ObjectMove, ns: , asm: Assembly-CSharp}
       data:
-        transform: {fileID: 311468352}
+        transform: {fileID: 1648211529}
         targetPosition: {fileID: 1172068112}
     - rid: 115822631400243267
       type: {class: ActionChainExecuter/Element, ns: , asm: Assembly-CSharp}
@@ -74594,14 +74594,43 @@ MonoBehaviour:
       type: {class: ActionChainExecuter/Element, ns: , asm: Assembly-CSharp}
       data:
         delayTime: 0
-        actions: []
+        actions:
+        - type: 11
+          remarks: 
+          action:
+            rid: 115822631400243289
         _next:
-          rid: -2
+          rid: 115822631400243287
     - rid: 115822631400243282
       type: {class: ActionChainExecuter/FadeOutScreen, ns: , asm: Assembly-CSharp}
       data:
         fadeTime: 0.4
         color: {r: 0, g: 0, b: 0, a: 1}
+    - rid: 115822631400243287
+      type: {class: ActionChainExecuter/Element, ns: , asm: Assembly-CSharp}
+      data:
+        delayTime: 0
+        actions: []
+        _next:
+          rid: -2
+    - rid: 115822631400243289
+      type: {class: ActionChainExecuter/ExternalAction, ns: , asm: Assembly-CSharp}
+      data:
+        action:
+          m_PersistentCalls:
+            m_Calls:
+            - m_Target: {fileID: 7688125627853884112}
+              m_TargetAssemblyTypeName: ActionChainExecuter, Assembly-CSharp
+              m_MethodName: StartEvent
+              m_Mode: 0
+              m_Arguments:
+                m_ObjectArgument: {fileID: 0}
+                m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+                m_IntArgument: 0
+                m_FloatArgument: 0
+                m_StringArgument: 
+                m_BoolArgument: 0
+              m_CallState: 2
 --- !u!1 &1795393538
 GameObject:
   m_ObjectHideFlags: 0
@@ -75302,11 +75331,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5493679250231358065, guid: 2d01bd91de6524046b299eda0c554985, type: 3}
       propertyPath: m_DefaultBlend.m_Time
-      value: 0.8
+      value: 0.4
       objectReference: {fileID: 0}
     - target: {fileID: 5493679250231358065, guid: 2d01bd91de6524046b299eda0c554985, type: 3}
       propertyPath: m_DefaultBlend.m_Style
-      value: 6
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8783223942164981467, guid: 2d01bd91de6524046b299eda0c554985, type: 3}
       propertyPath: m_LocalPosition.x
@@ -75353,6 +75382,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2d01bd91de6524046b299eda0c554985, type: 3}
+--- !u!114 &7688125627853884112 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3062578960012885591, guid: 2d01bd91de6524046b299eda0c554985, type: 3}
+  m_PrefabInstance: {fileID: 7688125627853884111}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f5e676c01ac35744dbd6282f9459d76d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
