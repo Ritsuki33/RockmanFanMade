@@ -279,7 +279,6 @@ public class BossController : ExRbStateMachine<BossController>
                 isFire = true;
                 ctr.existBomb = true;
 
-                bool isFirst = false;
                 foreach (var t in ctr.placeBombPosArray)
                 {
                     var bomb = PlacedBombPool.Pool.Get().GetComponent<PlacedBombController>();
@@ -300,7 +299,6 @@ public class BossController : ExRbStateMachine<BossController>
                         }
                         );
 
-                    isFirst = true;
                 }
             }
         }
@@ -362,7 +360,6 @@ public class BossController : ExRbStateMachine<BossController>
 
         class Running : ExRbSubState<BossController, Running, Run>
         {
-            bool move_Right = false;
             Vector2 targetPos = default;
             Vector2 prePos= default;
 
@@ -515,6 +512,7 @@ public class BossController : ExRbStateMachine<BossController>
 
     public void Appeare(Action finishCallback)
     {
+        boss.Init();
         gameObject.SetActive(true);
         finishActionCallback = finishCallback;
         this.TransitReady((int)StateId.Appearance);

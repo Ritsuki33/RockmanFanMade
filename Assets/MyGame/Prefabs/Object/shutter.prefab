@@ -348,7 +348,7 @@ GameObject:
   - component: {fileID: 7417521202294565859}
   - component: {fileID: 554874212691544574}
   - component: {fileID: 7111795552541892940}
-  - component: {fileID: 7554211713385443567}
+  - component: {fileID: 3589311649401534450}
   m_Layer: 6
   m_Name: shutter
   m_TagString: Door
@@ -389,7 +389,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _animator: {fileID: 554874212691544574}
   nextCameraControllArea: {fileID: 0}
-  eventController: {fileID: 7554211713385443567}
+  eventController: {fileID: 0}
 --- !u!95 &554874212691544574
 Animator:
   serializedVersion: 5
@@ -456,7 +456,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 4}
   m_EdgeRadius: 0
---- !u!114 &7554211713385443567
+--- !u!114 &3589311649401534450
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -472,30 +472,50 @@ MonoBehaviour:
     delayTime: 0
     actions:
     - type: 11
+      remarks: 
       action:
-        rid: 115822602073669656
+        rid: 115822631400243237
     - type: 16
+      remarks: 
       action:
-        rid: 115822602073669657
+        rid: 115822631400243238
     _next:
-      rid: 115822602073669655
+      rid: 115822631400243223
   references:
     version: 2
     RefIds:
     - rid: -2
       type: {class: , ns: , asm: }
-    - rid: 115822602073669655
-      type: {class: EventController/Element, ns: , asm: Assembly-CSharp}
+    - rid: 115822631400243223
+      type: {class: ActionChainExecuter/Element, ns: , asm: Assembly-CSharp}
       data:
         delayTime: 0
         actions:
         - type: 15
+          remarks: 
           action:
-            rid: 115822602073669660
+            rid: 115822631400243229
         _next:
-          rid: 115822602073669659
-    - rid: 115822602073669656
-      type: {class: EventController/ExternalAction, ns: , asm: Assembly-CSharp}
+          rid: 115822631400243230
+    - rid: 115822631400243229
+      type: {class: ActionChainExecuter/CameraChange, ns: , asm: Assembly-CSharp}
+      data:
+        nextControllArea: {fileID: 0}
+        style: 6
+        blendTime: 0.8
+    - rid: 115822631400243230
+      type: {class: ActionChainExecuter/Element, ns: , asm: Assembly-CSharp}
+      data:
+        delayTime: 0
+        actions:
+        - type: 11
+          remarks: 
+          action:
+            rid: 115822631400243241
+        _next:
+          rid: 115822631400243240
+    - rid: 115822631400243237
+      type: {class: ActionChainExecuter/ExternalAction, ns: , asm: Assembly-CSharp}
       data:
         action:
           m_PersistentCalls:
@@ -512,37 +532,22 @@ MonoBehaviour:
                 m_StringArgument: 
                 m_BoolArgument: 0
               m_CallState: 2
-    - rid: 115822602073669657
-      type: {class: EventController/PlayerForceMoveAccordingToCamera, ns: , asm: Assembly-CSharp}
+    - rid: 115822631400243238
+      type: {class: ActionChainExecuter/PlayerForceMoveAccordingToCamera, ns: , asm: Assembly-CSharp}
       data: 
-    - rid: 115822602073669659
-      type: {class: EventController/Element, ns: , asm: Assembly-CSharp}
-      data:
-        delayTime: 0
-        actions:
-        - type: 11
-          action:
-            rid: 115822602073669671
-        _next:
-          rid: 115822602073669670
-    - rid: 115822602073669660
-      type: {class: EventController/CameraChange, ns: , asm: Assembly-CSharp}
-      data:
-        nextControllArea: {fileID: 0}
-        style: 6
-        blendTime: 0.8
-    - rid: 115822602073669670
-      type: {class: EventController/Element, ns: , asm: Assembly-CSharp}
+    - rid: 115822631400243240
+      type: {class: ActionChainExecuter/Element, ns: , asm: Assembly-CSharp}
       data:
         delayTime: 0
         actions:
         - type: 17
+          remarks: 
           action:
-            rid: 115822602073669675
+            rid: 115822631400243245
         _next:
-          rid: 115822602073669673
-    - rid: 115822602073669671
-      type: {class: EventController/ExternalAction, ns: , asm: Assembly-CSharp}
+          rid: 115822631400243243
+    - rid: 115822631400243241
+      type: {class: ActionChainExecuter/ExternalAction, ns: , asm: Assembly-CSharp}
       data:
         action:
           m_PersistentCalls:
@@ -559,13 +564,13 @@ MonoBehaviour:
                 m_StringArgument: 
                 m_BoolArgument: 0
               m_CallState: 2
-    - rid: 115822602073669673
-      type: {class: EventController/Element, ns: , asm: Assembly-CSharp}
+    - rid: 115822631400243243
+      type: {class: ActionChainExecuter/Element, ns: , asm: Assembly-CSharp}
       data:
         delayTime: 0
         actions: []
         _next:
           rid: -2
-    - rid: 115822602073669675
-      type: {class: EventController/PlayerForceMoveAccordingToCameraEnd, ns: , asm: Assembly-CSharp}
+    - rid: 115822631400243245
+      type: {class: ActionChainExecuter/PlayerForceMoveAccordingToCameraEnd, ns: , asm: Assembly-CSharp}
       data: 

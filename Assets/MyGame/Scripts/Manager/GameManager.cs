@@ -22,11 +22,8 @@ public class GameManager : SingletonComponent<GameManager>
 {
     [SerializeField] MainCameraControll m_mainCameraControll = default;
     [SerializeField] PlayerController playerController = default;
-    [SerializeField] Transform StartPos = default;
 
-    [SerializeField] CameraControllArea defaultCameraControllArea;
-
-    [SerializeField] EventController startEvent = default;
+    [SerializeField] ActionChainExecuter startAction = default;
     public MainCameraControll MainCameraControll => m_mainCameraControll;
 
     public PlayerController PlayerController => playerController;
@@ -52,27 +49,9 @@ public class GameManager : SingletonComponent<GameManager>
 
     }
 
-    private void InitArea(CameraControllArea nextControllArea)
-    {
-
-        m_mainCameraControll.CinemachineBrain.ActiveVirtualCamera?.VirtualCameraGameObject.SetActive(false);
-        currentCameraControllArea?.Area?.Exit();
-
-        currentCameraControllArea?.Area?.gameObject.SetActive(false);
-
-        // コントロールエリアの更新
-        currentCameraControllArea = nextControllArea;
-        currentCameraControllArea.VirtualCamera.gameObject.SetActive(true);
-        currentCameraControllArea.Area?.gameObject.SetActive(true);
-
-        currentCameraControllArea?.Area?.Enter();
-    }
-
     public void StageStart()
     {
-        InitArea(defaultCameraControllArea);
-        startEvent.StartEvent();
-        //StartCoroutine(StageStartCo());
+        startAction.StartEvent();
     }
 
     public void DeathNotification()

@@ -5,11 +5,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class EventController : MonoBehaviour
+public class ActionChainExecuter : MonoBehaviour
 {
-    Action<EventController> actionFinishCallback = default;
-
     Action eventFinishCallback = default;
+
     enum ActionType
     {
         ObjectActive,
@@ -36,7 +35,7 @@ public class EventController : MonoBehaviour
 
     [Serializable]
     abstract class AElement {
-        abstract public void Execute(EventController eventControll);
+        abstract public void Execute(ActionChainExecuter eventControll);
         abstract public List<ActionElement> Actions { get; }
     }
 
@@ -49,18 +48,15 @@ public class EventController : MonoBehaviour
 
         override public List<ActionElement> Actions => actions;
 
-        override public void Execute(EventController eventControll)
+        override public void Execute(ActionChainExecuter eventControll)
         {
             eventControll.StartCoroutine(ActionExecuteCo(eventControll));
 
-            IEnumerator ActionExecuteCo(EventController eventControll)
+            IEnumerator ActionExecuteCo(ActionChainExecuter eventControll)
             {
                 if (actions == null || actions.Count == 0) yield break;
 
                 if (delayTime > 0) yield return new WaitForSeconds(delayTime);
-
-                // 次イベント登録
-                eventControll.actionFinishCallback = (_next != null && _next.Actions != null && _next.Actions.Count != 0) ? _next.Execute : null;
 
                 int actionNum = actions.Count;
                 int completed = 0;
@@ -75,8 +71,8 @@ public class EventController : MonoBehaviour
 
                 while (completed != actionNum) yield return null;
 
-                // アクション終了の通知
-                if (eventControll.actionFinishCallback != null) eventControll.actionFinishCallback.Invoke(eventControll);
+                // 次のアクション
+                if (_next != null && _next.Actions != null && _next.Actions.Count != 0) _next.Execute(eventControll);
                 else
                 {
                     // イベント終了の通知
@@ -91,6 +87,7 @@ public class EventController : MonoBehaviour
     class ActionElement
     {
         [SerializeField] public ActionType type;
+        [SerializeField, Header("備考")] private string remarks;
         [SerializeReference] public BaseAction action;
 
         public void Execute(Action finishCallback) => action.Execute(finishCallback);
@@ -292,7 +289,7 @@ public class EventController : MonoBehaviour
     {
         [SerializeField] CinemachineVirtualCamera nextControllArea;
         [SerializeField] CinemachineBlendDefinition.Style style;
-        [SerializeField] float blendTime = 0.4f;
+        [SerializeField] float blendTime = 0.8f;
 
         public override void Execute(Action finishCallback)
         {

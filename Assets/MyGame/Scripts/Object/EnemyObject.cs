@@ -14,11 +14,6 @@ public class EnemyObject : StageObject
     protected int maxHp=> (enemyData != null) ? enemyData.Hp : 3;
     protected int currentHp = 0;
 
-    void Start()
-    {
-        Init();
-    }
-
     public virtual void Init() {
         SetMaterialParam(ShaderPropertyId.IsFadeColorID, 0);
         currentHp = maxHp;

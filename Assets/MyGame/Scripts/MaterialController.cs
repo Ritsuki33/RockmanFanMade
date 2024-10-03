@@ -8,9 +8,12 @@ public class MaterialController : MonoBehaviour
     private Material material;
     private void Awake()
     {
-        SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
+        if (material == null)
+        {
+            SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
 
-        material = (sharedMaterial) ? spriteRenderer.sharedMaterial : spriteRenderer.material;
+            material = (sharedMaterial) ? spriteRenderer.sharedMaterial : spriteRenderer.material;
+        }
     }
 
     /// <summary>
@@ -20,6 +23,12 @@ public class MaterialController : MonoBehaviour
     /// <param name="val"></param>
     public void SetFloat(int propertyID, float val)
     {
+        if (material == null)
+        {
+            SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
+
+            material = (sharedMaterial) ? spriteRenderer.sharedMaterial : spriteRenderer.material;
+        }
         material.SetFloat(propertyID, val);
     }
 
@@ -30,6 +39,12 @@ public class MaterialController : MonoBehaviour
     /// <param name="color"></param>
     public void SetColor(int propertyID, Color color)
     {
+        if (material == null)
+        {
+            SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
+
+            material = (sharedMaterial) ? spriteRenderer.sharedMaterial : spriteRenderer.material;
+        }
         material.SetColor(propertyID, color);
     }
 }

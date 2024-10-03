@@ -484,7 +484,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8783223942164981467}
   - component: {fileID: 3834347178621813222}
-  - component: {fileID: 2773014775519756737}
+  - component: {fileID: 3062578960012885591}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -522,11 +522,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_mainCameraControll: {fileID: 164944000379437476}
-  player: {fileID: 0}
-  StartPos: {fileID: 0}
-  defaultCameraControllArea: {fileID: 0}
-  startEvent: {fileID: 2773014775519756737}
---- !u!114 &2773014775519756737
+  playerController: {fileID: 0}
+  startAction: {fileID: 3062578960012885591}
+--- !u!114 &3062578960012885591
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -541,78 +539,86 @@ MonoBehaviour:
   element:
     delayTime: 0
     actions:
-    - type: 3
-      action:
-        rid: 3424537330373361698
     - type: 0
+      remarks: 
       action:
-        rid: 3424537312967000078
+        rid: 115822631400243200
     - type: 1
+      remarks: 
       action:
-        rid: 3424537312967000080
+        rid: 115822631400243203
+    - type: 3
+      remarks: 
+      action:
+        rid: 115822631400243202
+    - type: 15
+      remarks: 
+      action:
+        rid: 115822631400243210
     _next:
-      rid: 3424537312967000076
+      rid: 115822631400243201
   references:
     version: 2
     RefIds:
     - rid: -2
       type: {class: , ns: , asm: }
-    - rid: 3424537312967000076
-      type: {class: EventController/Element, ns: , asm: Assembly-CSharp}
+    - rid: 115822631400243200
+      type: {class: ActionChainExecuter/ObjectActive, ns: , asm: Assembly-CSharp}
+      data:
+        objs:
+        - {fileID: 0}
+        isActive: 0
+    - rid: 115822631400243201
+      type: {class: ActionChainExecuter/Element, ns: , asm: Assembly-CSharp}
       data:
         delayTime: 0
         actions:
         - type: 5
+          remarks: 
           action:
-            rid: 3424537330373361699
+            rid: 115822631400243206
         _next:
-          rid: 3424537312967000082
-    - rid: 3424537312967000078
-      type: {class: EventController/ObjectActive, ns: , asm: Assembly-CSharp}
+          rid: 115822631400243205
+    - rid: 115822631400243202
+      type: {class: ActionChainExecuter/FadeInScreen, ns: , asm: Assembly-CSharp}
       data:
-        obj: {fileID: 0}
-        isActive: 0
-    - rid: 3424537312967000080
-      type: {class: EventController/ObjectMove, ns: , asm: Assembly-CSharp}
+        fadeTime: 0.4
+        color: {r: 0, g: 0, b: 0, a: 1}
+    - rid: 115822631400243203
+      type: {class: ActionChainExecuter/ObjectMove, ns: , asm: Assembly-CSharp}
       data:
         transform: {fileID: 0}
         targetPosition: {fileID: 0}
-    - rid: 3424537312967000082
-      type: {class: EventController/Element, ns: , asm: Assembly-CSharp}
+    - rid: 115822631400243205
+      type: {class: ActionChainExecuter/Element, ns: , asm: Assembly-CSharp}
       data:
         delayTime: 0
         actions:
-        - type: 0
-          action:
-            rid: 3424537312967000087
         - type: 6
+          remarks: 
           action:
-            rid: 3424537330373361700
+            rid: 115822631400243209
         _next:
-          rid: 3424537312967000085
-    - rid: 3424537312967000085
-      type: {class: EventController/Element, ns: , asm: Assembly-CSharp}
+          rid: 115822631400243208
+    - rid: 115822631400243206
+      type: {class: ActionChainExecuter/StartSign, ns: , asm: Assembly-CSharp}
+      data: 
+    - rid: 115822631400243208
+      type: {class: ActionChainExecuter/Element, ns: , asm: Assembly-CSharp}
       data:
         delayTime: 0
         actions: []
         _next:
           rid: -2
-    - rid: 3424537312967000087
-      type: {class: EventController/ObjectActive, ns: , asm: Assembly-CSharp}
-      data:
-        obj: {fileID: 0}
-        isActive: 1
-    - rid: 3424537330373361698
-      type: {class: EventController/FadeInScreen, ns: , asm: Assembly-CSharp}
-      data:
-        fadeTime: 0.4
-        color: {r: 0, g: 0, b: 0, a: 1}
-    - rid: 3424537330373361699
-      type: {class: EventController/StartSign, ns: , asm: Assembly-CSharp}
+    - rid: 115822631400243209
+      type: {class: ActionChainExecuter/PlayerTransfer, ns: , asm: Assembly-CSharp}
       data: 
-    - rid: 3424537330373361700
-      type: {class: EventController/PlayerTransfer, ns: , asm: Assembly-CSharp}
-      data: 
+    - rid: 115822631400243210
+      type: {class: ActionChainExecuter/CameraChange, ns: , asm: Assembly-CSharp}
+      data:
+        nextControllArea: {fileID: 0}
+        style: 0
+        blendTime: 0.4
 --- !u!1 &5399821858463117455
 GameObject:
   m_ObjectHideFlags: 0
@@ -783,7 +789,7 @@ Transform:
   m_GameObject: {fileID: 8828237479478849529}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 2.85, y: 19.25, z: -11.027209}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -867,8 +873,8 @@ MonoBehaviour:
   m_UpdateMethod: 2
   m_BlendUpdateMethod: 1
   m_DefaultBlend:
-    m_Style: 6
-    m_Time: 0.8
+    m_Style: 0
+    m_Time: 0.4
     m_CustomCurve:
       serializedVersion: 2
       m_Curve: []

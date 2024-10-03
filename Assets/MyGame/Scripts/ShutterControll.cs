@@ -6,7 +6,7 @@ public class ShutterControll : MonoBehaviour
 {
     [SerializeField] Animator _animator;
     [SerializeField] CameraControllArea nextCameraControllArea;
-    [SerializeField] EventController eventController;
+    [SerializeField] ActionChainExecuter eventController;
     static int animationOpenHash = Animator.StringToHash("Open");
     static int animationCloseHash = Animator.StringToHash("Close");
 
