@@ -244,7 +244,7 @@ Transform:
   m_GameObject: {fileID: 215260542}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 62.7, y: 11.2, z: -1}
+  m_LocalPosition: {x: 202.7, y: -6.3, z: -1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -72613,9 +72613,105 @@ PrefabInstance:
       value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 3589311649401534450, guid: f3a666b461389234cae67cd3ed06cc57, type: 3}
+      propertyPath: managedReferences[115822631400243253]
+      value: Assembly-CSharp ActionChainExecuter/ObjectActive
+      objectReference: {fileID: 0}
+    - target: {fileID: 3589311649401534450, guid: f3a666b461389234cae67cd3ed06cc57, type: 3}
+      propertyPath: managedReferences[115822631400243254]
+      value: Assembly-CSharp ActionChainExecuter/Element
+      objectReference: {fileID: 0}
+    - target: {fileID: 3589311649401534450, guid: f3a666b461389234cae67cd3ed06cc57, type: 3}
+      propertyPath: managedReferences[115822631400243255]
+      value: Assembly-CSharp ActionChainExecuter/ExternalAction
+      objectReference: {fileID: 0}
+    - target: {fileID: 3589311649401534450, guid: f3a666b461389234cae67cd3ed06cc57, type: 3}
+      propertyPath: managedReferences[115822631400243243]._next
+      value: 115822631400243254
+      objectReference: {fileID: 0}
+    - target: {fileID: 3589311649401534450, guid: f3a666b461389234cae67cd3ed06cc57, type: 3}
+      propertyPath: managedReferences[115822631400243254]._next
+      value: -2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3589311649401534450, guid: f3a666b461389234cae67cd3ed06cc57, type: 3}
+      propertyPath: managedReferences[115822631400243253].isActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3589311649401534450, guid: f3a666b461389234cae67cd3ed06cc57, type: 3}
+      propertyPath: managedReferences[115822631400243254].delayTime
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3589311649401534450, guid: f3a666b461389234cae67cd3ed06cc57, type: 3}
+      propertyPath: managedReferences[115822631400243253].objs.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3589311649401534450, guid: f3a666b461389234cae67cd3ed06cc57, type: 3}
       propertyPath: managedReferences[115822631400243229].nextControllArea
       value: 
       objectReference: {fileID: 206519885}
+    - target: {fileID: 3589311649401534450, guid: f3a666b461389234cae67cd3ed06cc57, type: 3}
+      propertyPath: managedReferences[115822631400243243].actions.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3589311649401534450, guid: f3a666b461389234cae67cd3ed06cc57, type: 3}
+      propertyPath: managedReferences[115822631400243254].actions.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3589311649401534450, guid: f3a666b461389234cae67cd3ed06cc57, type: 3}
+      propertyPath: managedReferences[115822631400243243].actions.Array.data[0].type
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 3589311649401534450, guid: f3a666b461389234cae67cd3ed06cc57, type: 3}
+      propertyPath: managedReferences[115822631400243243].actions.Array.data[0].action
+      value: 115822631400243255
+      objectReference: {fileID: 0}
+    - target: {fileID: 3589311649401534450, guid: f3a666b461389234cae67cd3ed06cc57, type: 3}
+      propertyPath: managedReferences[115822631400243255].action.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3589311649401534450, guid: f3a666b461389234cae67cd3ed06cc57, type: 3}
+      propertyPath: managedReferences[115822631400243255].action.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3589311649401534450, guid: f3a666b461389234cae67cd3ed06cc57, type: 3}
+      propertyPath: managedReferences[115822631400243255].action.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1772284221}
+    - target: {fileID: 3589311649401534450, guid: f3a666b461389234cae67cd3ed06cc57, type: 3}
+      propertyPath: managedReferences[115822631400243255].action.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3589311649401534450, guid: f3a666b461389234cae67cd3ed06cc57, type: 3}
+      propertyPath: managedReferences[115822631400243255].action.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: StartEvent
+      objectReference: {fileID: 0}
+    - target: {fileID: 3589311649401534450, guid: f3a666b461389234cae67cd3ed06cc57, type: 3}
+      propertyPath: managedReferences[115822631400243255].action.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: ActionChainExecuter, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 3589311649401534450, guid: f3a666b461389234cae67cd3ed06cc57, type: 3}
+      propertyPath: managedReferences[115822631400243255].action.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_IntArgument
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3589311649401534450, guid: f3a666b461389234cae67cd3ed06cc57, type: 3}
+      propertyPath: managedReferences[115822631400243255].action.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_BoolArgument
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3589311649401534450, guid: f3a666b461389234cae67cd3ed06cc57, type: 3}
+      propertyPath: managedReferences[115822631400243255].action.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_FloatArgument
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3589311649401534450, guid: f3a666b461389234cae67cd3ed06cc57, type: 3}
+      propertyPath: managedReferences[115822631400243255].action.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgument
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3589311649401534450, guid: f3a666b461389234cae67cd3ed06cc57, type: 3}
+      propertyPath: managedReferences[115822631400243255].action.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_StringArgument
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3589311649401534450, guid: f3a666b461389234cae67cd3ed06cc57, type: 3}
+      propertyPath: managedReferences[115822631400243255].action.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 4577959562392377243, guid: f3a666b461389234cae67cd3ed06cc57, type: 3}
       propertyPath: m_Layer
       value: 6
@@ -73372,17 +73468,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 6030183582163095795, guid: 50db6328845417f428e76f577eadc620, type: 3}
   m_PrefabInstance: {fileID: 1028768570}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1028768572 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 5107075163451444145, guid: 50db6328845417f428e76f577eadc620, type: 3}
-  m_PrefabInstance: {fileID: 1028768570}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 45e653bab7fb20e499bda25e1b646fea, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &1048301467 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5713485015685773154, guid: 50db6328845417f428e76f577eadc620, type: 3}
@@ -73815,6 +73900,11 @@ Grid:
   m_CellGap: {x: 0, y: 0, z: 0}
   m_CellLayout: 0
   m_CellSwizzle: 0
+--- !u!1 &1487079604 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6435443950505719767, guid: 50db6328845417f428e76f577eadc620, type: 3}
+  m_PrefabInstance: {fileID: 1772284218}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1555002135
 GameObject:
   m_ObjectHideFlags: 0
@@ -74308,7 +74398,13 @@ PrefabInstance:
     m_RemovedGameObjects:
     - {fileID: 8343007068587419393, guid: 50db6328845417f428e76f577eadc620, type: 3}
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 6435443950505719767, guid: 50db6328845417f428e76f577eadc620, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1772284221}
+    - targetCorrespondingSourceObject: {fileID: 6435443950505719767, guid: 50db6328845417f428e76f577eadc620, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1772284222}
   m_SourcePrefab: {fileID: 100100000, guid: 50db6328845417f428e76f577eadc620, type: 3}
 --- !u!4 &1772284219 stripped
 Transform:
@@ -74320,12 +74416,192 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3773642662828391238, guid: 50db6328845417f428e76f577eadc620, type: 3}
   m_PrefabInstance: {fileID: 1772284218}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 1487079604}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 09607b6be470f5d4ba9bc860ae6dd828, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1772284221
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1487079604}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f5e676c01ac35744dbd6282f9459d76d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  element:
+    delayTime: 0
+    actions:
+    - type: 7
+      remarks: 
+      action:
+        rid: 115822631400243258
+    _next:
+      rid: 115822631400243257
+  references:
+    version: 2
+    RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }
+    - rid: 115822631400243257
+      type: {class: ActionChainExecuter/Element, ns: , asm: Assembly-CSharp}
+      data:
+        delayTime: 0
+        actions:
+        - type: 1
+          remarks: 
+          action:
+            rid: 115822631400243265
+        - type: 8
+          remarks: 
+          action:
+            rid: 115822631400243261
+        _next:
+          rid: 115822631400243260
+    - rid: 115822631400243258
+      type: {class: ActionChainExecuter/PlayerWalkAction, ns: , asm: Assembly-CSharp}
+      data:
+        _bamili: {fileID: 311468352}
+    - rid: 115822631400243260
+      type: {class: ActionChainExecuter/Element, ns: , asm: Assembly-CSharp}
+      data:
+        delayTime: 0
+        actions:
+        - type: 9
+          remarks: 
+          action:
+            rid: 115822631400243264
+        _next:
+          rid: 115822631400243263
+    - rid: 115822631400243261
+      type: {class: ActionChainExecuter/BosePauseAction, ns: , asm: Assembly-CSharp}
+      data:
+        ctr: {fileID: 1648211530}
+    - rid: 115822631400243263
+      type: {class: ActionChainExecuter/Element, ns: , asm: Assembly-CSharp}
+      data:
+        delayTime: 0
+        actions:
+        - type: 13
+          remarks: 
+          action:
+            rid: 115822631400243271
+        - type: 10
+          remarks: 
+          action:
+            rid: 115822631400243269
+        _next:
+          rid: 115822631400243267
+    - rid: 115822631400243264
+      type: {class: ActionChainExecuter/BossHpBarSetAction, ns: , asm: Assembly-CSharp}
+      data:
+        ctr: {fileID: 1648211530}
+    - rid: 115822631400243265
+      type: {class: ActionChainExecuter/ObjectMove, ns: , asm: Assembly-CSharp}
+      data:
+        transform: {fileID: 311468352}
+        targetPosition: {fileID: 1172068112}
+    - rid: 115822631400243267
+      type: {class: ActionChainExecuter/Element, ns: , asm: Assembly-CSharp}
+      data:
+        delayTime: 0
+        actions:
+        - type: 18
+          remarks: 
+          action:
+            rid: 115822631400243285
+        _next:
+          rid: 115822631400243284
+    - rid: 115822631400243269
+      type: {class: ActionChainExecuter/BossBattleStart, ns: , asm: Assembly-CSharp}
+      data:
+        ctr: {fileID: 1648211530}
+    - rid: 115822631400243271
+      type: {class: ActionChainExecuter/PlayerInputPermit, ns: , asm: Assembly-CSharp}
+      data: 
+    - rid: 115822631400243284
+      type: {class: ActionChainExecuter/Element, ns: , asm: Assembly-CSharp}
+      data:
+        delayTime: 0
+        actions: []
+        _next:
+          rid: -2
+    - rid: 115822631400243285
+      type: {class: ActionChainExecuter/SubscribeAction, ns: , asm: Assembly-CSharp}
+      data:
+        type: 2
+        action:
+          m_PersistentCalls:
+            m_Calls:
+            - m_Target: {fileID: 1772284222}
+              m_TargetAssemblyTypeName: ActionChainExecuter, Assembly-CSharp
+              m_MethodName: StartEvent
+              m_Mode: 1
+              m_Arguments:
+                m_ObjectArgument: {fileID: 0}
+                m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+                m_IntArgument: 0
+                m_FloatArgument: 0
+                m_StringArgument: 
+                m_BoolArgument: 0
+              m_CallState: 2
+--- !u!114 &1772284222
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1487079604}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f5e676c01ac35744dbd6282f9459d76d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  element:
+    delayTime: 0
+    actions:
+    - type: 14
+      remarks: 
+      action:
+        rid: 115822631400243279
+    _next:
+      rid: 115822631400243276
+  references:
+    version: 2
+    RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }
+    - rid: 115822631400243276
+      type: {class: ActionChainExecuter/Element, ns: , asm: Assembly-CSharp}
+      data:
+        delayTime: 0
+        actions:
+        - type: 4
+          remarks: 
+          action:
+            rid: 115822631400243282
+        _next:
+          rid: 115822631400243281
+    - rid: 115822631400243279
+      type: {class: ActionChainExecuter/PlayerRepatriate, ns: , asm: Assembly-CSharp}
+      data: 
+    - rid: 115822631400243281
+      type: {class: ActionChainExecuter/Element, ns: , asm: Assembly-CSharp}
+      data:
+        delayTime: 0
+        actions: []
+        _next:
+          rid: -2
+    - rid: 115822631400243282
+      type: {class: ActionChainExecuter/FadeOutScreen, ns: , asm: Assembly-CSharp}
+      data:
+        fadeTime: 0.4
+        color: {r: 0, g: 0, b: 0, a: 1}
 --- !u!1 &1795393538
 GameObject:
   m_ObjectHideFlags: 0
@@ -74678,9 +74954,39 @@ MonoBehaviour:
       type: {class: ActionChainExecuter/Element, ns: , asm: Assembly-CSharp}
       data:
         delayTime: 0
+        actions:
+        - type: 19
+          remarks: 
+          action:
+            rid: 115822631400243274
+        _next:
+          rid: 115822631400243273
+    - rid: 115822631400243273
+      type: {class: ActionChainExecuter/Element, ns: , asm: Assembly-CSharp}
+      data:
+        delayTime: 0
         actions: []
         _next:
           rid: -2
+    - rid: 115822631400243274
+      type: {class: ActionChainExecuter/UnSubscribeAction, ns: , asm: Assembly-CSharp}
+      data:
+        type: 0
+        action:
+          m_PersistentCalls:
+            m_Calls:
+            - m_Target: {fileID: 2099475872}
+              m_TargetAssemblyTypeName: ActionChainExecuter, Assembly-CSharp
+              m_MethodName: StartEvent
+              m_Mode: 1
+              m_Arguments:
+                m_ObjectArgument: {fileID: 0}
+                m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+                m_IntArgument: 0
+                m_FloatArgument: 0
+                m_StringArgument: 
+                m_BoolArgument: 0
+              m_CallState: 2
 --- !u!1001 &1043789265166649770
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -74981,7 +75287,7 @@ PrefabInstance:
     - target: {fileID: 3062578960012885591, guid: 2d01bd91de6524046b299eda0c554985, type: 3}
       propertyPath: managedReferences[115822631400243210].nextControllArea
       value: 
-      objectReference: {fileID: 1028768572}
+      objectReference: {fileID: 202242201}
     - target: {fileID: 3062578960012885591, guid: 2d01bd91de6524046b299eda0c554985, type: 3}
       propertyPath: managedReferences[115822631400243200].objs.Array.data[0]
       value: 
