@@ -289,7 +289,7 @@ public class ActionChainExecuter : MonoBehaviour
     {
         [SerializeField] CinemachineVirtualCamera nextControllArea;
         [SerializeField] CinemachineBlendDefinition.Style style;
-        [SerializeField] float blendTime = 0.4f;
+        [SerializeField] float blendTime = 0.8f;
 
         public override void Execute(Action finishCallback)
         {
