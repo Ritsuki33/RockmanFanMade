@@ -25,7 +25,7 @@ public class GameManager : SingletonComponent<GameManager>
 
     [SerializeField] CameraControllArea defaultCameraControllArea;
 
-    [SerializeField] EventController startEvent = default;
+    [SerializeField] ActionChainExecuter startAction = default;
     public MainCameraControll MainCameraControll => m_mainCameraControll;
 
     public PlayerController PlayerController => playerController;
@@ -53,7 +53,7 @@ public class GameManager : SingletonComponent<GameManager>
 
     public void StageStart()
     {
-        startEvent.StartEvent();
+        startAction.StartEvent();
     }
 
     public void DeathNotification()

@@ -8,7 +8,7 @@ public class TransitCameraArea : MonoBehaviour
     [SerializeField] private BoxCollider2D transitArea;
     [SerializeField] CameraControllArea nextCameraControllArea;
 
-    [SerializeField]EventController eventController;
+    [SerializeField]ActionChainExecuter eventController;
     public BoxCollider2D TransitArea => transitArea;
 
     private void OnTriggerEnter2D(Collider2D collision)

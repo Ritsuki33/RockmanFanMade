@@ -122,17 +122,6 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!114 &49803226 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 2060196788455957593, guid: 50db6328845417f428e76f577eadc620, type: 3}
-  m_PrefabInstance: {fileID: 1028768570}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f5e676c01ac35744dbd6282f9459d76d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &84051589
 GameObject:
   m_ObjectHideFlags: 0
@@ -700,7 +689,7 @@ PrefabInstance:
     - target: {fileID: 8081639669372966534, guid: 50db6328845417f428e76f577eadc620, type: 3}
       propertyPath: eventController
       value: 
-      objectReference: {fileID: 1330301377}
+      objectReference: {fileID: 0}
     - target: {fileID: 8081639669372966534, guid: 50db6328845417f428e76f577eadc620, type: 3}
       propertyPath: nextCameraControllArea
       value: 
@@ -72193,7 +72182,7 @@ PrefabInstance:
     - target: {fileID: 8081639669372966534, guid: 50db6328845417f428e76f577eadc620, type: 3}
       propertyPath: eventController
       value: 
-      objectReference: {fileID: 1164012545}
+      objectReference: {fileID: 0}
     - target: {fileID: 8081639669372966534, guid: 50db6328845417f428e76f577eadc620, type: 3}
       propertyPath: nextCameraControllArea
       value: 
@@ -72202,7 +72191,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: VirtualCamera2
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 2060196788455957593, guid: 50db6328845417f428e76f577eadc620, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 6030183582163095795, guid: 50db6328845417f428e76f577eadc620, type: 3}
@@ -72558,6 +72548,10 @@ PrefabInstance:
       value: Door
       objectReference: {fileID: 0}
     - target: {fileID: 7417521202294565859, guid: f3a666b461389234cae67cd3ed06cc57, type: 3}
+      propertyPath: eventController
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 7417521202294565859, guid: f3a666b461389234cae67cd3ed06cc57, type: 3}
       propertyPath: nextCameraControllArea
       value: 
       objectReference: {fileID: 1772284220}
@@ -72636,7 +72630,7 @@ PrefabInstance:
     - target: {fileID: 7554211713385443567, guid: f3a666b461389234cae67cd3ed06cc57, type: 3}
       propertyPath: managedReferences[115822602073669679].action.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 2009314784}
+      objectReference: {fileID: 0}
     - target: {fileID: 7554211713385443567, guid: f3a666b461389234cae67cd3ed06cc57, type: 3}
       propertyPath: managedReferences[115822602073669679].action.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
       value: 2
@@ -72673,7 +72667,8 @@ PrefabInstance:
       propertyPath: managedReferences[115822602073669679].action.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 7554211713385443567, guid: f3a666b461389234cae67cd3ed06cc57, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
@@ -72952,7 +72947,7 @@ PrefabInstance:
     - target: {fileID: 2060196788455957593, guid: 50db6328845417f428e76f577eadc620, type: 3}
       propertyPath: managedReferences[115822602073669644].action.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 1316590932}
+      objectReference: {fileID: 0}
     - target: {fileID: 2060196788455957593, guid: 50db6328845417f428e76f577eadc620, type: 3}
       propertyPath: managedReferences[115822602073669643].action.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
       value: 2
@@ -73116,7 +73111,7 @@ PrefabInstance:
     - target: {fileID: 8081639669372966534, guid: 50db6328845417f428e76f577eadc620, type: 3}
       propertyPath: eventController
       value: 
-      objectReference: {fileID: 49803226}
+      objectReference: {fileID: 0}
     - target: {fileID: 8081639669372966534, guid: 50db6328845417f428e76f577eadc620, type: 3}
       propertyPath: m_nextVirtualCamera
       value: 
@@ -73129,7 +73124,8 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 2060196788455957593, guid: 50db6328845417f428e76f577eadc620, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
@@ -73192,17 +73188,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 8343007068587419393, guid: 50db6328845417f428e76f577eadc620, type: 3}
   m_PrefabInstance: {fileID: 402471235}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1164012545 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 2060196788455957593, guid: 50db6328845417f428e76f577eadc620, type: 3}
-  m_PrefabInstance: {fileID: 402471235}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1164012539}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f5e676c01ac35744dbd6282f9459d76d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1172068111
 GameObject:
   m_ObjectHideFlags: 0
@@ -73533,7 +73518,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1316590930}
-  - component: {fileID: 1316590932}
   m_Layer: 0
   m_Name: AreaManager
   m_TagString: Untagged
@@ -73556,79 +73540,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 402471236}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1316590932
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1316590929}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f5e676c01ac35744dbd6282f9459d76d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  element:
-    delayTime: 0
-    actions:
-    - type: 0
-      remarks: 
-      action:
-        rid: 115822602073669650
-    - type: 19
-      remarks: 
-      action:
-        rid: 115822602073669653
-    _next:
-      rid: 115822602073669651
-  references:
-    version: 2
-    RefIds:
-    - rid: -2
-      type: {class: , ns: , asm: }
-    - rid: 115822602073669650
-      type: {class: EventController/ObjectActive, ns: , asm: Assembly-CSharp}
-      data:
-        objs:
-        - {fileID: 1164012539}
-        isActive: 1
-    - rid: 115822602073669651
-      type: {class: EventController/Element, ns: , asm: Assembly-CSharp}
-      data:
-        delayTime: 0
-        actions: []
-        _next:
-          rid: -2
-    - rid: 115822602073669653
-      type: {class: EventController/UnSubscribeAction, ns: , asm: Assembly-CSharp}
-      data:
-        type: 2
-        action:
-          m_PersistentCalls:
-            m_Calls:
-            - m_Target: {fileID: 1316590932}
-              m_TargetAssemblyTypeName: EventController, Assembly-CSharp
-              m_MethodName: StartEvent
-              m_Mode: 1
-              m_Arguments:
-                m_ObjectArgument: {fileID: 0}
-                m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-                m_IntArgument: 0
-                m_FloatArgument: 0
-                m_StringArgument: 
-                m_BoolArgument: 0
-              m_CallState: 2
---- !u!114 &1330301377 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 2060196788455957593, guid: 50db6328845417f428e76f577eadc620, type: 3}
-  m_PrefabInstance: {fileID: 266010192}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f5e676c01ac35744dbd6282f9459d76d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1476564555
 GameObject:
   m_ObjectHideFlags: 0
@@ -74167,10 +74078,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects:
     - {fileID: 8343007068587419393, guid: 50db6328845417f428e76f577eadc620, type: 3}
-    m_AddedGameObjects:
-    - targetCorrespondingSourceObject: {fileID: 6030183582163095795, guid: 50db6328845417f428e76f577eadc620, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 2009314782}
+    m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 50db6328845417f428e76f577eadc620, type: 3}
 --- !u!4 &1772284219 stripped
@@ -74469,241 +74377,6 @@ Transform:
   - {fileID: 324299927}
   m_Father: {fileID: 874683811}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &2009314781
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 2009314782}
-  - component: {fileID: 2009314784}
-  - component: {fileID: 2009314785}
-  m_Layer: 0
-  m_Name: BossArea
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &2009314782
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2009314781}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1772284219}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2009314784
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2009314781}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f5e676c01ac35744dbd6282f9459d76d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  element:
-    delayTime: 0
-    actions:
-    - type: 7
-      remarks: 
-      action:
-        rid: 3424537330373361705
-    _next:
-      rid: 3424537244704440390
-  references:
-    version: 2
-    RefIds:
-    - rid: -2
-      type: {class: , ns: , asm: }
-    - rid: 115822602073669681
-      type: {class: EventController/SubscribeAction, ns: , asm: Assembly-CSharp}
-      data:
-        type: 2
-        action:
-          m_PersistentCalls:
-            m_Calls:
-            - m_Target: {fileID: 2009314785}
-              m_TargetAssemblyTypeName: EventController, Assembly-CSharp
-              m_MethodName: StartEvent
-              m_Mode: 1
-              m_Arguments:
-                m_ObjectArgument: {fileID: 0}
-                m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-                m_IntArgument: 0
-                m_FloatArgument: 0
-                m_StringArgument: 
-                m_BoolArgument: 0
-              m_CallState: 2
-    - rid: 3424537244704440390
-      type: {class: EventController/Element, ns: , asm: Assembly-CSharp}
-      data:
-        delayTime: 0
-        actions:
-        - type: 1
-          remarks: 
-          action:
-            rid: 3424537412185620480
-        - type: 8
-          remarks: 
-          action:
-            rid: 3424537330373361706
-        _next:
-          rid: 3424537244704440393
-    - rid: 3424537244704440393
-      type: {class: EventController/Element, ns: , asm: Assembly-CSharp}
-      data:
-        delayTime: 0
-        actions:
-        - type: 9
-          remarks: 
-          action:
-            rid: 3424537330373361707
-        _next:
-          rid: 3424537250813706244
-    - rid: 3424537250813706244
-      type: {class: EventController/Element, ns: , asm: Assembly-CSharp}
-      data:
-        delayTime: 0
-        actions:
-        - type: 10
-          remarks: 
-          action:
-            rid: 3424537356080250882
-        - type: 13
-          remarks: 
-          action:
-            rid: 3424537356080250883
-        - type: 18
-          remarks: 
-          action:
-            rid: 115822602073669681
-        _next:
-          rid: 3424537330373361709
-    - rid: 3424537330373361705
-      type: {class: EventController/PlayerWalkAction, ns: , asm: Assembly-CSharp}
-      data:
-        _bamili: {fileID: 311468352}
-    - rid: 3424537330373361706
-      type: {class: EventController/BosePauseAction, ns: , asm: Assembly-CSharp}
-      data:
-        ctr: {fileID: 1648211530}
-    - rid: 3424537330373361707
-      type: {class: EventController/BossHpBarSetAction, ns: , asm: Assembly-CSharp}
-      data:
-        ctr: {fileID: 1648211530}
-    - rid: 3424537330373361709
-      type: {class: EventController/Element, ns: , asm: Assembly-CSharp}
-      data:
-        delayTime: 0
-        actions: []
-        _next:
-          rid: -2
-    - rid: 3424537356080250882
-      type: {class: EventController/BossBattleStart, ns: , asm: Assembly-CSharp}
-      data:
-        ctr: {fileID: 1648211530}
-    - rid: 3424537356080250883
-      type: {class: EventController/PlayerInputPermit, ns: , asm: Assembly-CSharp}
-      data: 
-    - rid: 3424537412185620480
-      type: {class: EventController/ObjectMove, ns: , asm: Assembly-CSharp}
-      data:
-        transform: {fileID: 1648211529}
-        targetPosition: {fileID: 1172068112}
---- !u!114 &2009314785
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2009314781}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f5e676c01ac35744dbd6282f9459d76d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  element:
-    delayTime: 0
-    actions:
-    - type: 14
-      remarks: 
-      action:
-        rid: 3424537403001143301
-    _next:
-      rid: 3424537403001143300
-  references:
-    version: 2
-    RefIds:
-    - rid: -2
-      type: {class: , ns: , asm: }
-    - rid: 3424537403001143300
-      type: {class: EventController/Element, ns: , asm: Assembly-CSharp}
-      data:
-        delayTime: 0
-        actions:
-        - type: 4
-          remarks: 
-          action:
-            rid: 3424537403001143304
-        _next:
-          rid: 3424537403001143303
-    - rid: 3424537403001143301
-      type: {class: EventController/PlayerRepatriate, ns: , asm: Assembly-CSharp}
-      data: 
-    - rid: 3424537403001143303
-      type: {class: EventController/Element, ns: , asm: Assembly-CSharp}
-      data:
-        delayTime: 0
-        actions:
-        - type: 11
-          remarks: 
-          action:
-            rid: 3424537410421915655
-        _next:
-          rid: 3424537410421915654
-    - rid: 3424537403001143304
-      type: {class: EventController/FadeOutScreen, ns: , asm: Assembly-CSharp}
-      data:
-        fadeTime: 0.4
-        color: {r: 0, g: 0, b: 0, a: 1}
-    - rid: 3424537410421915654
-      type: {class: EventController/Element, ns: , asm: Assembly-CSharp}
-      data:
-        delayTime: 0
-        actions: []
-        _next:
-          rid: -2
-    - rid: 3424537410421915655
-      type: {class: EventController/ExternalAction, ns: , asm: Assembly-CSharp}
-      data:
-        action:
-          m_PersistentCalls:
-            m_Calls:
-            - m_Target: {fileID: 7688125627853884113}
-              m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
-              m_MethodName: StageStart
-              m_Mode: 1
-              m_Arguments:
-                m_ObjectArgument: {fileID: 0}
-                m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-                m_IntArgument: 0
-                m_FloatArgument: 0
-                m_StringArgument: 
-                m_BoolArgument: 0
-              m_CallState: 2
 --- !u!1 &2064169958
 GameObject:
   m_ObjectHideFlags: 0
@@ -74788,6 +74461,10 @@ PrefabInstance:
       value: shutter1
       objectReference: {fileID: 0}
     - target: {fileID: 7417521202294565859, guid: f3a666b461389234cae67cd3ed06cc57, type: 3}
+      propertyPath: eventController
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 7417521202294565859, guid: f3a666b461389234cae67cd3ed06cc57, type: 3}
       propertyPath: nextCameraControllArea
       value: 
       objectReference: {fileID: 330496766}
@@ -74795,7 +74472,8 @@ PrefabInstance:
       propertyPath: managedReferences[115822602073669660].nextControllArea
       value: 
       objectReference: {fileID: 1915592298}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 7554211713385443567, guid: f3a666b461389234cae67cd3ed06cc57, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
@@ -75031,7 +74709,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2773014775519756737, guid: 2d01bd91de6524046b299eda0c554985, type: 3}
       propertyPath: element.actions.Array.data[3].action
-      value: 115822610294767655
+      value: 115822625978843136
       objectReference: {fileID: 0}
     - target: {fileID: 2773014775519756737, guid: 2d01bd91de6524046b299eda0c554985, type: 3}
       propertyPath: managedReferences[115822610294767653]
@@ -75046,6 +74724,10 @@ PrefabInstance:
       value: Assembly-CSharp EventController/CameraChange
       objectReference: {fileID: 0}
     - target: {fileID: 2773014775519756737, guid: 2d01bd91de6524046b299eda0c554985, type: 3}
+      propertyPath: managedReferences[115822625978843136]
+      value: Assembly-CSharp ActionChainExecuter/CameraChange
+      objectReference: {fileID: 0}
+    - target: {fileID: 2773014775519756737, guid: 2d01bd91de6524046b299eda0c554985, type: 3}
       propertyPath: managedReferences[3424537312967000078].obj
       value: 
       objectReference: {fileID: 5339920475407088929}
@@ -75055,6 +74737,10 @@ PrefabInstance:
       objectReference: {fileID: 5339920475407088929}
     - target: {fileID: 2773014775519756737, guid: 2d01bd91de6524046b299eda0c554985, type: 3}
       propertyPath: managedReferences[115822610294767655].style
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2773014775519756737, guid: 2d01bd91de6524046b299eda0c554985, type: 3}
+      propertyPath: managedReferences[115822625978843136].style
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2773014775519756737, guid: 2d01bd91de6524046b299eda0c554985, type: 3}
@@ -75086,6 +74772,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2773014775519756737, guid: 2d01bd91de6524046b299eda0c554985, type: 3}
+      propertyPath: managedReferences[115822625978843136].blendTime
+      value: 0.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 2773014775519756737, guid: 2d01bd91de6524046b299eda0c554985, type: 3}
       propertyPath: managedReferences[3424537312967000080].transform
       value: 
       objectReference: {fileID: 1836540445}
@@ -75101,6 +74791,10 @@ PrefabInstance:
       propertyPath: managedReferences[115822610294767655].nextControllArea
       value: 
       objectReference: {fileID: 1028768572}
+    - target: {fileID: 2773014775519756737, guid: 2d01bd91de6524046b299eda0c554985, type: 3}
+      propertyPath: managedReferences[115822625978843136].nextControllArea
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 2773014775519756737, guid: 2d01bd91de6524046b299eda0c554985, type: 3}
       propertyPath: managedReferences[3424537312967000078].objs.Array.size
       value: 1
@@ -75126,6 +74820,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 215260543}
     - target: {fileID: 3834347178621813222, guid: 2d01bd91de6524046b299eda0c554985, type: 3}
+      propertyPath: startEvent
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3834347178621813222, guid: 2d01bd91de6524046b299eda0c554985, type: 3}
       propertyPath: playerController
       value: 
       objectReference: {fileID: 1836540451}
@@ -75143,11 +74841,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5493679250231358065, guid: 2d01bd91de6524046b299eda0c554985, type: 3}
       propertyPath: m_DefaultBlend.m_Time
-      value: 0
+      value: 0.8
       objectReference: {fileID: 0}
     - target: {fileID: 5493679250231358065, guid: 2d01bd91de6524046b299eda0c554985, type: 3}
       propertyPath: m_DefaultBlend.m_Style
-      value: 0
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 5493679250231358065, guid: 2d01bd91de6524046b299eda0c554985, type: 3}
       propertyPath: m_CameraCutEvent.m_PersistentCalls.m_Calls.Array.size
@@ -75201,22 +74899,12 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 2773014775519756737, guid: 2d01bd91de6524046b299eda0c554985, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2d01bd91de6524046b299eda0c554985, type: 3}
---- !u!114 &7688125627853884113 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 3834347178621813222, guid: 2d01bd91de6524046b299eda0c554985, type: 3}
-  m_PrefabInstance: {fileID: 7688125627853884111}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9bcac297dbe2f124c9615c787b90c5c8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

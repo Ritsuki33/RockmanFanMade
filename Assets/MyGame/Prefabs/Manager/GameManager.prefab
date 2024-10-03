@@ -484,7 +484,6 @@ GameObject:
   m_Component:
   - component: {fileID: 8783223942164981467}
   - component: {fileID: 3834347178621813222}
-  - component: {fileID: 2773014775519756737}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -522,97 +521,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_mainCameraControll: {fileID: 164944000379437476}
-  player: {fileID: 0}
-  StartPos: {fileID: 0}
+  playerController: {fileID: 0}
   defaultCameraControllArea: {fileID: 0}
-  startEvent: {fileID: 2773014775519756737}
---- !u!114 &2773014775519756737
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4977058497809260009}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f5e676c01ac35744dbd6282f9459d76d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  element:
-    delayTime: 0
-    actions:
-    - type: 3
-      action:
-        rid: 3424537330373361698
-    - type: 0
-      action:
-        rid: 3424537312967000078
-    - type: 1
-      action:
-        rid: 3424537312967000080
-    _next:
-      rid: 3424537312967000076
-  references:
-    version: 2
-    RefIds:
-    - rid: -2
-      type: {class: , ns: , asm: }
-    - rid: 3424537312967000076
-      type: {class: EventController/Element, ns: , asm: Assembly-CSharp}
-      data:
-        delayTime: 0
-        actions:
-        - type: 5
-          action:
-            rid: 3424537330373361699
-        _next:
-          rid: 3424537312967000082
-    - rid: 3424537312967000078
-      type: {class: EventController/ObjectActive, ns: , asm: Assembly-CSharp}
-      data:
-        obj: {fileID: 0}
-        isActive: 0
-    - rid: 3424537312967000080
-      type: {class: EventController/ObjectMove, ns: , asm: Assembly-CSharp}
-      data:
-        transform: {fileID: 0}
-        targetPosition: {fileID: 0}
-    - rid: 3424537312967000082
-      type: {class: EventController/Element, ns: , asm: Assembly-CSharp}
-      data:
-        delayTime: 0
-        actions:
-        - type: 0
-          action:
-            rid: 3424537312967000087
-        - type: 6
-          action:
-            rid: 3424537330373361700
-        _next:
-          rid: 3424537312967000085
-    - rid: 3424537312967000085
-      type: {class: EventController/Element, ns: , asm: Assembly-CSharp}
-      data:
-        delayTime: 0
-        actions: []
-        _next:
-          rid: -2
-    - rid: 3424537312967000087
-      type: {class: EventController/ObjectActive, ns: , asm: Assembly-CSharp}
-      data:
-        obj: {fileID: 0}
-        isActive: 1
-    - rid: 3424537330373361698
-      type: {class: EventController/FadeInScreen, ns: , asm: Assembly-CSharp}
-      data:
-        fadeTime: 0.4
-        color: {r: 0, g: 0, b: 0, a: 1}
-    - rid: 3424537330373361699
-      type: {class: EventController/StartSign, ns: , asm: Assembly-CSharp}
-      data: 
-    - rid: 3424537330373361700
-      type: {class: EventController/PlayerTransfer, ns: , asm: Assembly-CSharp}
-      data: 
+  startAction: {fileID: 0}
 --- !u!1 &5399821858463117455
 GameObject:
   m_ObjectHideFlags: 0

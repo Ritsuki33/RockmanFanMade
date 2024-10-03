@@ -180,7 +180,6 @@ MonoBehaviour:
   _dirType: 0
   scrollRange: 7.14
   virtualCamera: {fileID: 5107075163451444145}
-  area: {fileID: 0}
   transitCameraAreaPrefab: {fileID: 4025761332503542745, guid: 29f67331fb72afa48bad38b6a0d04184, type: 3}
   transitCameraAreaRoot: {fileID: 3077438752260732575}
   transitCameraAreas:
@@ -284,7 +283,6 @@ GameObject:
   - component: {fileID: 2284564059772792860}
   - component: {fileID: 6042918578945946218}
   - component: {fileID: 8081639669372966534}
-  - component: {fileID: 2060196788455957593}
   m_Layer: 13
   m_Name: TransitCameraArea(Clone)
   m_TagString: Untagged
@@ -365,61 +363,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   transitArea: {fileID: 6042918578945946218}
-  eventController: {fileID: 2060196788455957593}
---- !u!114 &2060196788455957593
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8343007068587419393}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f5e676c01ac35744dbd6282f9459d76d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  element:
-    delayTime: 0
-    actions:
-    - type: 16
-      action:
-        rid: 115822586222084107
-    - type: 15
-      action:
-        rid: 115822586222084118
-    _next:
-      rid: 115822586222084105
-  references:
-    version: 2
-    RefIds:
-    - rid: -2
-      type: {class: , ns: , asm: }
-    - rid: 115822586222084105
-      type: {class: EventController/Element, ns: , asm: Assembly-CSharp}
-      data:
-        delayTime: 0
-        actions:
-        - type: 17
-          action:
-            rid: 115822586222084114
-        _next:
-          rid: 115822586222084109
-    - rid: 115822586222084107
-      type: {class: EventController/PlayerForceMoveAccordingToCamera, ns: , asm: Assembly-CSharp}
-      data: 
-    - rid: 115822586222084109
-      type: {class: EventController/Element, ns: , asm: Assembly-CSharp}
-      data:
-        delayTime: 0
-        actions: []
-        _next:
-          rid: -2
-    - rid: 115822586222084114
-      type: {class: EventController/PlayerForceMoveAccordingToCameraEnd, ns: , asm: Assembly-CSharp}
-      data: 
-    - rid: 115822586222084118
-      type: {class: EventController/CameraChange, ns: , asm: Assembly-CSharp}
-      data:
-        nextControllArea: {fileID: 0}
-        style: 6
-        blendTime: 0.8
+  nextCameraControllArea: {fileID: 0}
+  eventController: {fileID: 0}

@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class EventController : MonoBehaviour
+public class ActionChainExecuter : MonoBehaviour
 {
     Action eventFinishCallback = default;
 
@@ -35,7 +35,7 @@ public class EventController : MonoBehaviour
 
     [Serializable]
     abstract class AElement {
-        abstract public void Execute(EventController eventControll);
+        abstract public void Execute(ActionChainExecuter eventControll);
         abstract public List<ActionElement> Actions { get; }
     }
 
@@ -48,11 +48,11 @@ public class EventController : MonoBehaviour
 
         override public List<ActionElement> Actions => actions;
 
-        override public void Execute(EventController eventControll)
+        override public void Execute(ActionChainExecuter eventControll)
         {
             eventControll.StartCoroutine(ActionExecuteCo(eventControll));
 
-            IEnumerator ActionExecuteCo(EventController eventControll)
+            IEnumerator ActionExecuteCo(ActionChainExecuter eventControll)
             {
                 if (actions == null || actions.Count == 0) yield break;
 
