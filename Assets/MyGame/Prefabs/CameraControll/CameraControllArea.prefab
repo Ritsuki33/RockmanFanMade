@@ -365,7 +365,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   transitArea: {fileID: 6042918578945946218}
   nextCameraControllArea: {fileID: 0}
-  eventController: {fileID: 0}
+  eventController: {fileID: 5713485015685773154}
 --- !u!114 &5713485015685773154
 MonoBehaviour:
   m_ObjectHideFlags: 0
