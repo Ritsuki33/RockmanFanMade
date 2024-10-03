@@ -22,7 +22,6 @@ public class GameManager : SingletonComponent<GameManager>
 {
     [SerializeField] MainCameraControll m_mainCameraControll = default;
     [SerializeField] PlayerController playerController = default;
-    [SerializeField] Transform StartPos = default;
 
     [SerializeField] CameraControllArea defaultCameraControllArea;
 

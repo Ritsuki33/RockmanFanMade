@@ -5,10 +5,10 @@ using UnityEngine;
 
 public class BossArea : BaseArea
 {
-    [SerializeField] BossController boss = default;
-    [SerializeField] Transform bamili = default;
-    [SerializeField] EventController enterEvent = default;
-    [SerializeField] EventController bossDefeatEvent = default;
+    //[SerializeField] BossController boss = default;
+    //[SerializeField] Transform bamili = default;
+    //[SerializeField] EventController enterEvent = default;
+    //[SerializeField] EventController bossDefeatEvent = default;
 
     //private void OnEnable()
     //{
