@@ -12,7 +12,6 @@ public class CameraControllArea : MonoBehaviour
     [SerializeField] DirType _dirType;
     [SerializeField, Header("可動域")] float scrollRange = 1.0f;
     [SerializeField] CinemachineVirtualCamera virtualCamera;
-    [SerializeField] BaseArea area;
     [SerializeField] GameObject transitCameraAreaPrefab;
     [SerializeField] Transform transitCameraAreaRoot;
     [SerializeField] List<TransitCameraArea> transitCameraAreas;
@@ -21,7 +20,6 @@ public class CameraControllArea : MonoBehaviour
     CinemachineLineLimit _limit;
 
     public CinemachineVirtualCamera VirtualCamera => virtualCamera;
-    public BaseArea Area => area;
 
     public Vector3 Direction
     {

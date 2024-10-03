@@ -51,27 +51,9 @@ public class GameManager : SingletonComponent<GameManager>
 
     }
 
-    private void InitArea(CameraControllArea nextControllArea)
-    {
-
-        m_mainCameraControll.CinemachineBrain.ActiveVirtualCamera?.VirtualCameraGameObject.SetActive(false);
-        currentCameraControllArea?.Area?.Exit();
-
-        currentCameraControllArea?.Area?.gameObject.SetActive(false);
-
-        // コントロールエリアの更新
-        currentCameraControllArea = nextControllArea;
-        currentCameraControllArea.VirtualCamera.gameObject.SetActive(true);
-        currentCameraControllArea.Area?.gameObject.SetActive(true);
-
-        currentCameraControllArea?.Area?.Enter();
-    }
-
     public void StageStart()
     {
-        //InitArea(defaultCameraControllArea);
         startEvent.StartEvent();
-        //StartCoroutine(StageStartCo());
     }
 
     public void DeathNotification()

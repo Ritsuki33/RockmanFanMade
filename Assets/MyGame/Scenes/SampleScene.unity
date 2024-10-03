@@ -72121,11 +72121,11 @@ PrefabInstance:
     - target: {fileID: 3773642662828391238, guid: 50db6328845417f428e76f577eadc620, type: 3}
       propertyPath: area
       value: 
-      objectReference: {fileID: 1316590931}
+      objectReference: {fileID: 0}
     - target: {fileID: 3773642662828391238, guid: 50db6328845417f428e76f577eadc620, type: 3}
       propertyPath: areaManager
       value: 
-      objectReference: {fileID: 1316590931}
+      objectReference: {fileID: 0}
     - target: {fileID: 3773642662828391238, guid: 50db6328845417f428e76f577eadc620, type: 3}
       propertyPath: scrollRange
       value: 0
@@ -73533,7 +73533,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1316590930}
-  - component: {fileID: 1316590931}
   - component: {fileID: 1316590932}
   m_Layer: 0
   m_Name: AreaManager
@@ -73557,20 +73556,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 402471236}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1316590931
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1316590929}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 811ba58fcb7d23e4ca9d0a96d7e06da8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  transitCameraArea: {fileID: 402471238}
-  enemyDefeatedEvent: {fileID: 0}
 --- !u!114 &1316590932
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -74106,11 +74091,11 @@ PrefabInstance:
     - target: {fileID: 3773642662828391238, guid: 50db6328845417f428e76f577eadc620, type: 3}
       propertyPath: area
       value: 
-      objectReference: {fileID: 2009314783}
+      objectReference: {fileID: 0}
     - target: {fileID: 3773642662828391238, guid: 50db6328845417f428e76f577eadc620, type: 3}
       propertyPath: areaManager
       value: 
-      objectReference: {fileID: 2009314783}
+      objectReference: {fileID: 0}
     - target: {fileID: 3773642662828391238, guid: 50db6328845417f428e76f577eadc620, type: 3}
       propertyPath: scrollRange
       value: 0
@@ -74493,7 +74478,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2009314782}
-  - component: {fileID: 2009314783}
   - component: {fileID: 2009314784}
   - component: {fileID: 2009314785}
   m_Layer: 0
@@ -74518,22 +74502,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1772284219}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2009314783
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2009314781}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 41a1aea830f9a3446bc605420367e312, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  boss: {fileID: 1648211530}
-  bamili: {fileID: 311468352}
-  enterEvent: {fileID: 2009314784}
-  bossDefeatEvent: {fileID: 2009314785}
 --- !u!114 &2009314784
 MonoBehaviour:
   m_ObjectHideFlags: 0
