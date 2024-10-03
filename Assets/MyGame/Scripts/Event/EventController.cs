@@ -7,9 +7,8 @@ using UnityEngine.Events;
 
 public class EventController : MonoBehaviour
 {
-    Action<EventController> actionFinishCallback = default;
-
     Action eventFinishCallback = default;
+
     enum ActionType
     {
         ObjectActive,
@@ -59,9 +58,6 @@ public class EventController : MonoBehaviour
 
                 if (delayTime > 0) yield return new WaitForSeconds(delayTime);
 
-                // 次イベント登録
-                eventControll.actionFinishCallback = (_next != null && _next.Actions != null && _next.Actions.Count != 0) ? _next.Execute : null;
-
                 int actionNum = actions.Count;
                 int completed = 0;
 
@@ -75,8 +71,8 @@ public class EventController : MonoBehaviour
 
                 while (completed != actionNum) yield return null;
 
-                // アクション終了の通知
-                if (eventControll.actionFinishCallback != null) eventControll.actionFinishCallback.Invoke(eventControll);
+                // 次のアクション
+                if (_next != null && _next.Actions != null && _next.Actions.Count != 0) _next.Execute(eventControll);
                 else
                 {
                     // イベント終了の通知
