@@ -45,6 +45,8 @@ public class ExpandRigidBody : MonoBehaviour, IBaseExRbHit.IExRbCallbackSet
 
     public Vector2 velocity { get { return currentVelocity; } set { currentVelocity = value; } }
 
+    public BoxCollider2D BoxCollider => boxCollider;
+
     /// <summary>
     /// コライダー各4辺の中心
     /// </summary>

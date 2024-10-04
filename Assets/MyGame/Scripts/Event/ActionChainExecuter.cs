@@ -19,7 +19,7 @@ public class ActionChainExecuter : MonoBehaviour
         StartSign,
         PlayerTransfer,
         PlayerMove,
-        EnemyPause,
+        EnemyAppear,
         BossHpBarSet,
         BossBattleStart,
         External,
@@ -201,12 +201,18 @@ public class ActionChainExecuter : MonoBehaviour
     }
 
     [Serializable]
-    class BosePauseAction : BaseAction
+    class BoseAppearAction : BaseAction
     {
         [SerializeField] BossController ctr;
-
+        [SerializeField] GameObject transferArea;
         override public void Execute(Action finishCallback)
         {
+            Vector3 appearPos = new Vector3(
+               transferArea.transform.position.x,
+               GameManager.Instance.MainCameraControll.OutOfViewTop,
+              ctr.transform.position.z
+               );
+            ctr.transform.position = appearPos;
             ctr.Appeare(finishCallback);
         }
     }
@@ -412,10 +418,10 @@ public class ActionChainExecuter : MonoBehaviour
                         ae.action = new PlayerWalkAction();
                     }
                     break;
-                case ActionType.EnemyPause:
-                    if (ae.action is not BosePauseAction)
+                case ActionType.EnemyAppear:
+                    if (ae.action is not BoseAppearAction)
                     {
-                        ae.action = new BosePauseAction();
+                        ae.action = new BoseAppearAction();
                     }
                     break;
                 case ActionType.BossHpBarSet:
