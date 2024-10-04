@@ -581,7 +581,7 @@ public partial class PlayerController
 
         protected override void Enter(PlayerController player, int preId, int subId)
         {
-            player.boxPhysicalCollider.enabled = true;
+            player.boxPhysicalCollider.enabled = false;
             player.animator.Play(animationHash);
         }
 
@@ -592,6 +592,11 @@ public partial class PlayerController
         protected override void OnBottomHitStay(PlayerController player, RaycastHit2D hit)
         {
             player.TransitReady((int)StateID.Transfered);
+        }
+
+        protected override void OnTriggerEnter2D(PlayerController player, Collider2D collision)
+        {
+            player.boxPhysicalCollider.enabled = true;
         }
     }
 

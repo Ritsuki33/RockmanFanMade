@@ -9,6 +9,7 @@ TagManager:
   - DeadZone
   - ChargeShot
   - Door
+  - TramsferArea
   layers:
   - Default
   - TransparentFX
