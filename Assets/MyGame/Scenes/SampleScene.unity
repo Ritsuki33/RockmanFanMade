@@ -72899,6 +72899,7 @@ GameObject:
   m_Component:
   - component: {fileID: 899179701}
   - component: {fileID: 899179702}
+  - component: {fileID: 899179703}
   m_Layer: 14
   m_Name: TansferArea
   m_TagString: Untagged
@@ -72966,6 +72967,18 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 6.04, y: 4.15}
   m_EdgeRadius: 0
+--- !u!114 &899179703
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 899179700}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3607a12dcdff33549ab9f72a5fba6cf5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &919634585
 GameObject:
   m_ObjectHideFlags: 0
@@ -75406,9 +75419,33 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 3062578960012885591, guid: 2d01bd91de6524046b299eda0c554985, type: 3}
+      propertyPath: element.actions.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3062578960012885591, guid: 2d01bd91de6524046b299eda0c554985, type: 3}
+      propertyPath: element.actions.Array.data[1].type
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3062578960012885591, guid: 2d01bd91de6524046b299eda0c554985, type: 3}
+      propertyPath: element.actions.Array.data[2].type
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 3062578960012885591, guid: 2d01bd91de6524046b299eda0c554985, type: 3}
+      propertyPath: element.actions.Array.data[1].action
+      value: 115822631400243202
+      objectReference: {fileID: 0}
+    - target: {fileID: 3062578960012885591, guid: 2d01bd91de6524046b299eda0c554985, type: 3}
+      propertyPath: element.actions.Array.data[2].action
+      value: 115822631400243210
+      objectReference: {fileID: 0}
+    - target: {fileID: 3062578960012885591, guid: 2d01bd91de6524046b299eda0c554985, type: 3}
       propertyPath: managedReferences[115822631400243203].transform
       value: 
       objectReference: {fileID: 1836540445}
+    - target: {fileID: 3062578960012885591, guid: 2d01bd91de6524046b299eda0c554985, type: 3}
+      propertyPath: managedReferences[115822631400243209].transferArea
+      value: 
+      objectReference: {fileID: 899179703}
     - target: {fileID: 3062578960012885591, guid: 2d01bd91de6524046b299eda0c554985, type: 3}
       propertyPath: managedReferences[115822631400243203].targetPosition
       value: 
@@ -75431,11 +75468,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5493679250231358065, guid: 2d01bd91de6524046b299eda0c554985, type: 3}
       propertyPath: m_DefaultBlend.m_Time
-      value: 0.8
+      value: 0.4
       objectReference: {fileID: 0}
     - target: {fileID: 5493679250231358065, guid: 2d01bd91de6524046b299eda0c554985, type: 3}
       propertyPath: m_DefaultBlend.m_Style
-      value: 6
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8783223942164981467, guid: 2d01bd91de6524046b299eda0c554985, type: 3}
       propertyPath: m_LocalPosition.x

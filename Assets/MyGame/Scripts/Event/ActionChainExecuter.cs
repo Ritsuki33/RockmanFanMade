@@ -175,8 +175,16 @@ public class ActionChainExecuter : MonoBehaviour
     [SerializeField]
     class PlayerTransfer : BaseAction
     {
+        [SerializeField] TransferArea transferArea;
+
         public override void Execute(Action finishCallback)
         {
+            Vector3 appearPos = new Vector3(
+                transferArea.transform.position.x, 
+                GameManager.Instance.MainCameraControll.OutOfViewTop, 
+                GameManager.Instance.PlayerController.transform.position.z
+                );
+            GameManager.Instance.PlayerController.transform.position = appearPos;
             GameManager.Instance.PlayerController.TransferPlayer(finishCallback);
         }
     }

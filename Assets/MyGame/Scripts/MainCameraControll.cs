@@ -23,6 +23,17 @@ public class MainCameraControll : MonoBehaviour
     /// </summary>
     public bool IsBlending => m_cinemachineBrain.IsBlending;
 
+    public float Height => _camera.orthographicSize * 2;
+    public float Width => Height * _camera.aspect;
+
+    public Vector3 OutOfViewSize => new Vector3(Width * (1 + outOfViewOffset * 2), Height * (1 + outOfViewOffset * 2));
+
+    public float OutOfViewLeft => transform.position.x - OutOfViewSize.x / 2;
+    public float OutOfViewRight => transform.position.x + OutOfViewSize.x / 2;
+
+    public float OutOfViewBottom => transform.position.y - OutOfViewSize.y / 2;
+    public float OutOfViewTop => transform.position.y + OutOfViewSize.y / 2;
+
     /// <summary>
     /// カメラの変更
     /// </summary>
@@ -73,7 +84,7 @@ public class MainCameraControll : MonoBehaviour
 
     public bool CheckOutOfView(GameObject gameObject)
     {
-        // 弾丸の位置をスクリーン座標に変換
+        // 物体の位置をスクリーン座標に変換
         Vector3 screenPoint = _camera.WorldToViewportPoint(gameObject.transform.position);
 
         // ビュー範囲外かどうかを判定
@@ -86,11 +97,7 @@ public class MainCameraControll : MonoBehaviour
     {
         Gizmos.color = Color.cyan;
 
-        float height = _camera.orthographicSize * 2;
-        float width = height * _camera.aspect;
-
-        Vector3 cameraSize = new Vector3(width * (1 + outOfViewOffset * 2), height * (1 + outOfViewOffset * 2));
-        Gizmos.DrawWireCube(this.transform.position, cameraSize);
+        Gizmos.DrawWireCube(this.transform.position, OutOfViewSize);
     }
 
 }
