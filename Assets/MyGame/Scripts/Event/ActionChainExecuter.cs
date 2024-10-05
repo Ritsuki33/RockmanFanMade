@@ -179,12 +179,11 @@ public class ActionChainExecuter : MonoBehaviour
 
         public override void Execute(Action finishCallback)
         {
-            Vector3 appearPos = new Vector3(
+            Vector2 appearPos = new Vector3(
                 transferArea.transform.position.x, 
-                GameManager.Instance.MainCameraControll.OutOfViewTop, 
-                GameManager.Instance.PlayerController.transform.position.z
+                GameManager.Instance.MainCameraControll.OutOfViewTop
                 );
-            GameManager.Instance.PlayerController.transform.position = appearPos;
+            GameManager.Instance.PlayerController.transform.position_xy( appearPos);
             GameManager.Instance.PlayerController.TransferPlayer(finishCallback);
         }
     }
@@ -207,12 +206,11 @@ public class ActionChainExecuter : MonoBehaviour
         [SerializeField] GameObject transferArea;
         override public void Execute(Action finishCallback)
         {
-            Vector3 appearPos = new Vector3(
+            Vector2 appearPos = new Vector3(
                transferArea.transform.position.x,
-               GameManager.Instance.MainCameraControll.OutOfViewTop,
-              ctr.transform.position.z
+               GameManager.Instance.MainCameraControll.OutOfViewTop
                );
-            ctr.transform.position = appearPos;
+            ctr.transform.position_xy(appearPos);
             ctr.Appeare(finishCallback);
         }
     }
