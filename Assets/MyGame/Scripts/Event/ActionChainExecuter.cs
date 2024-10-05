@@ -19,7 +19,7 @@ public class ActionChainExecuter : MonoBehaviour
         StartSign,
         PlayerTransfer,
         PlayerMove,
-        EnemyPause,
+        EnemyAppear,
         BossHpBarSet,
         BossBattleStart,
         External,
@@ -175,8 +175,15 @@ public class ActionChainExecuter : MonoBehaviour
     [SerializeField]
     class PlayerTransfer : BaseAction
     {
+        [SerializeField] TransferArea transferArea;
+
         public override void Execute(Action finishCallback)
         {
+            Vector2 appearPos = new Vector3(
+                transferArea.transform.position.x, 
+                GameManager.Instance.MainCameraControll.OutOfViewTop
+                );
+            GameManager.Instance.PlayerController.transform.position_xy( appearPos);
             GameManager.Instance.PlayerController.TransferPlayer(finishCallback);
         }
     }
@@ -193,12 +200,17 @@ public class ActionChainExecuter : MonoBehaviour
     }
 
     [Serializable]
-    class BosePauseAction : BaseAction
+    class BoseAppearAction : BaseAction
     {
         [SerializeField] BossController ctr;
-
+        [SerializeField] GameObject transferArea;
         override public void Execute(Action finishCallback)
         {
+            Vector2 appearPos = new Vector3(
+               transferArea.transform.position.x,
+               GameManager.Instance.MainCameraControll.OutOfViewTop
+               );
+            ctr.transform.position_xy(appearPos);
             ctr.Appeare(finishCallback);
         }
     }
@@ -404,10 +416,10 @@ public class ActionChainExecuter : MonoBehaviour
                         ae.action = new PlayerWalkAction();
                     }
                     break;
-                case ActionType.EnemyPause:
-                    if (ae.action is not BosePauseAction)
+                case ActionType.EnemyAppear:
+                    if (ae.action is not BoseAppearAction)
                     {
-                        ae.action = new BosePauseAction();
+                        ae.action = new BoseAppearAction();
                     }
                     break;
                 case ActionType.BossHpBarSet:

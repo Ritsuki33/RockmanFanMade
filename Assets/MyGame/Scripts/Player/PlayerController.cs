@@ -71,30 +71,30 @@ public partial class PlayerController : ExRbStateMachine<PlayerController>
         inputInfo = input;
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.gameObject.CompareTag("DeadZone"))
-        {
-            Dead();
-        }
-    }
+    //private void OnTriggerEnter2D(Collider2D collision)
+    //{
+    //    if (collision.gameObject.CompareTag("DeadZone"))
+    //    {
+    //        Dead();
+    //    }
+    //}
 
-    private void OnTriggerStay2D(Collider2D collision)
-    {
-        if (collision.gameObject.CompareTag("Ladder"))
-        {
+    //private void OnTriggerStay2D(Collider2D collision)
+    //{
+    //    if (collision.gameObject.CompareTag("Ladder"))
+    //    {
             
-            bodyLadder = collision;
-        }
-    }
+    //        bodyLadder = collision;
+    //    }
+    //}
 
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-        if (collision.gameObject.CompareTag("Ladder"))
-        {
-            bodyLadder = null;
-        }
-    }
+    //private void OnTriggerExit2D(Collider2D collision)
+    //{
+    //    if (collision.gameObject.CompareTag("Ladder"))
+    //    {
+    //        bodyLadder = null;
+    //    }
+    //}
 
     public void Dead()
     {

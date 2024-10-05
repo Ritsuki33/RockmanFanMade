@@ -68,6 +68,7 @@ public class BossController : ExRbStateMachine<BossController>
 
         protected override void Enter(BossController ctr, int preId, int subId)
         {
+            ctr._exRb.BoxCollider.enabled = false;
             this.TransitSubReady((int)SubStateId.Float);
         }
 
@@ -92,6 +93,11 @@ public class BossController : ExRbStateMachine<BossController>
             protected override void OnBottomHitEnter(BossController ctr, Appearance parent, RaycastHit2D hit)
             {
                 parent.TransitSubReady((int)SubStateId.Pause);
+            }
+
+            protected override void OnTriggerEnter2D(BossController ctr, Appearance parent, Collider2D collision)
+            {
+                ctr._exRb.BoxCollider.enabled = true;
             }
         }
 
