@@ -35,7 +35,7 @@ public partial class MettoruController : ExRbStateMachine<MettoruController>
 
     //private bool invincible = false;
 
-    private PlayerController Player => GameManager.Instance.PlayerController;
+    private PlayerController Player => WorldManager.Instance.PlayerController;
     private BaseObjectPool ExplodePool => EffectManager.Instance.ExplodePool;
     private BaseObjectPool MettoruFire => EffectManager.Instance.MettoruFirePool;
     bool IsRight => mettrou.IsRight;

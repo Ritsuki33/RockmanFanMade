@@ -98,7 +98,7 @@ public class BatmanController : ExRbStateMachine<BatmanController>
         static int anmationHash = Animator.StringToHash("Move");
         float speed = 1;
 
-        Transform PlayerPos => GameManager.Instance.PlayerController.transform;
+        Transform PlayerPos => WorldManager.Instance.PlayerController.transform;
         protected override void Enter(BatmanController batmanController, int preId, int subId)
         {
             batmanController._animator.Play(anmationHash);

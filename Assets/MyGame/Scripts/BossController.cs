@@ -188,7 +188,7 @@ public class BossController : ExRbStateMachine<BossController>
         int layerMask = LayerMask.GetMask("Ground");
         protected override void Enter(BossController ctr, int preId, int subId)
         {
-            ctr.boss.TurnToTarget(GameManager.Instance.PlayerController.transform.position);
+            ctr.boss.TurnToTarget(WorldManager.Instance.PlayerController.transform.position);
             ctr._animator.Play(AnimationNameHash.Float);
 
             ctr.jump.Init(jump_vel);
@@ -199,7 +199,7 @@ public class BossController : ExRbStateMachine<BossController>
 
             Probability.BranchMethods((50, () =>
             {
-                vel_x = ParabolaCalc.GetHorizonVelocity(ctr.transform.position.x, GameManager.Instance.PlayerController.transform.position.x, jump_vel, ctr._gravity.GravityScale);
+                vel_x = ParabolaCalc.GetHorizonVelocity(ctr.transform.position.x, WorldManager.Instance.PlayerController.transform.position.x, jump_vel, ctr._gravity.GravityScale);
             }
             ),
             (50, () =>
@@ -249,7 +249,7 @@ public class BossController : ExRbStateMachine<BossController>
         BaseObjectPool PlacedBombPool => EffectManager.Instance.PlacedBombPool;
         protected override void Enter(BossController ctr, int preId, int subId)
         {
-            ctr.boss.TurnToTarget(GameManager.Instance.PlayerController.transform.position);
+            ctr.boss.TurnToTarget(WorldManager.Instance.PlayerController.transform.position);
             ctr._animator.Play(animationHash);
 
             ctr.jump.Init(jump_vel);
@@ -258,7 +258,7 @@ public class BossController : ExRbStateMachine<BossController>
             RaycastHit2D right = Physics2D.Raycast(ctr.transform.position, Vector2.right, Mathf.Infinity, layerMask);
 
 
-            vel_x = ParabolaCalc.GetHorizonVelocity(ctr.transform.position.x, GameManager.Instance.PlayerController.transform.position.x, jump_vel, ctr._gravity.GravityScale);
+            vel_x = ParabolaCalc.GetHorizonVelocity(ctr.transform.position.x, WorldManager.Instance.PlayerController.transform.position.x, jump_vel, ctr._gravity.GravityScale);
             isFire = false;
         }
 
@@ -350,7 +350,7 @@ public class BossController : ExRbStateMachine<BossController>
 
             protected override void Enter(BossController ctr, Run parent, int preId, int subId)
             {
-                ctr.boss.TurnToTarget(GameManager.Instance.PlayerController.transform.position);
+                ctr.boss.TurnToTarget(WorldManager.Instance.PlayerController.transform.position);
                 ctr._animator.Play(animationHash);
             }
 
@@ -372,7 +372,7 @@ public class BossController : ExRbStateMachine<BossController>
             protected override void Enter(BossController ctr, Run parent, int preId, int subId)
             {
                 ctr._animator.Play(AnimationNameHash.Run);
-                targetPos = GameManager.Instance.PlayerController.transform.position;
+                targetPos = WorldManager.Instance.PlayerController.transform.position;
                 prePos = ctr.transform.position;
             }
             protected override void FixedUpdate(BossController ctr, Run parent)
@@ -423,7 +423,7 @@ public class BossController : ExRbStateMachine<BossController>
         protected override void Enter(BossController ctr, int preId, int subId)
         {
             this.TransitSubReady(0);
-            ctr.boss.TurnToTarget(GameManager.Instance.PlayerController.transform.position);
+            ctr.boss.TurnToTarget(WorldManager.Instance.PlayerController.transform.position);
             ctr._animator.Play(AnimationNameHash.Shoot);
         }
 

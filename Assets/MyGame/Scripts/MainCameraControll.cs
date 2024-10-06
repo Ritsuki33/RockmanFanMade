@@ -34,6 +34,8 @@ public class MainCameraControll : MonoBehaviour
     public float OutOfViewBottom => transform.position.y - OutOfViewSize.y / 2;
     public float OutOfViewTop => transform.position.y + OutOfViewSize.y / 2;
 
+    public CinemachineVirtualCamera CurrrentVirtualCamera => m_cinemachineBrain.ActiveVirtualCamera as CinemachineVirtualCamera;
+
     /// <summary>
     /// カメラの変更
     /// </summary>
