@@ -14,7 +14,7 @@ public class CheckPoint : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         CheckPointData data = new CheckPointData();
-        data.position = collision.transform.position;
+        data.position = this.transform.position;
         data.virtualCamera = GameManager.Instance.MainCameraControll.CurrrentVirtualCamera;
 
         // CheckPoint

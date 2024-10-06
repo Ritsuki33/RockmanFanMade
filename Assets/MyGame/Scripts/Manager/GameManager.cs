@@ -33,6 +33,7 @@ public class GameManager : SingletonComponent<GameManager>
 
     private void Start()
     {
+        WorldManager.Instance.Init();
         StageStart();
     }
 
@@ -46,7 +47,6 @@ public class GameManager : SingletonComponent<GameManager>
 
     public void StageStart()
     {
-        WorldManager.Instance.Init();
         WorldManager.Instance.StartStage();
     }
 
