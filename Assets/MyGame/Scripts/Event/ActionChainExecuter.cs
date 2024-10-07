@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using static Cinemachine.CinemachineBlendDefinition;
 
 public class ActionChainExecuter : MonoBehaviour
 {
@@ -31,6 +32,7 @@ public class ActionChainExecuter : MonoBehaviour
         PlayerForceMoveAccordingToCameraEnd,
         SubscribeAction,
         UnSubscribeAction,
+        SetupCheckPoint,
     }
 
     [Serializable]
@@ -175,16 +177,11 @@ public class ActionChainExecuter : MonoBehaviour
     [SerializeField]
     class PlayerTransfer : BaseAction
     {
-        [SerializeField] TransferArea transferArea;
-
         public override void Execute(Action finishCallback)
         {
-            Vector2 appearPos = new Vector3(
-                transferArea.transform.position.x, 
-                GameManager.Instance.MainCameraControll.OutOfViewTop
-                );
-            GameManager.Instance.PlayerController.transform.position_xy( appearPos);
-            GameManager.Instance.PlayerController.TransferPlayer(finishCallback);
+            Vector2 appearPos = WorldManager.Instance.GetPlayerTransferPostion();
+            WorldManager.Instance.PlayerController.transform.position_xy(appearPos);
+            WorldManager.Instance.PlayerController.TransferPlayer(finishCallback);
         }
     }
 
@@ -195,7 +192,7 @@ public class ActionChainExecuter : MonoBehaviour
 
         override public void Execute(Action finishCallback)
         {
-            GameManager.Instance.PlayerController.AutoMoveTowards(_bamili, finishCallback);
+            WorldManager.Instance.PlayerController.AutoMoveTowards(_bamili, finishCallback);
         }
     }
 
@@ -272,7 +269,7 @@ public class ActionChainExecuter : MonoBehaviour
     {
         override public void Execute(Action finishCallback)
         {
-            GameManager.Instance.PlayerController.InputProhibit(finishCallback);
+            WorldManager.Instance.PlayerController.InputProhibit(finishCallback);
         }
     }
 
@@ -281,22 +278,22 @@ public class ActionChainExecuter : MonoBehaviour
     {
         override public void Execute(Action finishCallback)
         {
-            GameManager.Instance.PlayerController.InputPermission();
+            WorldManager.Instance.PlayerController.InputPermission();
             finishCallback.Invoke();
         }
     }
 
-    [SerializeField]
+    [Serializable]
     class PlayerRepatriate : BaseAction
     {
         public override void Execute(Action finishCallback)
         {
-            GameManager.Instance.PlayerController.RepatriatePlayer(finishCallback);
+            WorldManager.Instance.PlayerController.RepatriatePlayer(finishCallback);
         }
     }
 
 
-    [SerializeField]
+    [Serializable]
     class CameraChange : BaseAction
     {
         [SerializeField] CinemachineVirtualCamera nextControllArea;
@@ -309,25 +306,25 @@ public class ActionChainExecuter : MonoBehaviour
         }
     }
 
-    [SerializeField]
+    [Serializable]
     class PlayerForceMoveAccordingToCamera : BaseAction
     {
         public override void Execute(Action finishCallback)
         {
-            GameManager.Instance.PlayerController.PlayerForceMoveAccordingToCamera(finishCallback);
+            WorldManager.Instance.PlayerController.PlayerForceMoveAccordingToCamera(finishCallback);
         }
     }
 
-    [SerializeField]
+    [Serializable]
     class PlayerForceMoveAccordingToCameraEnd : BaseAction
     {
         public override void Execute(Action finishCallback)
         {
-            GameManager.Instance.PlayerController.PlayerForceMoveAccordingToCameraEnd(finishCallback);
+            WorldManager.Instance.PlayerController.PlayerForceMoveAccordingToCameraEnd(finishCallback);
         }
     }
 
-    [SerializeField]
+    [Serializable]
     class SubscribeAction : BaseAction
     {
         [SerializeField] EventType type;
@@ -340,7 +337,7 @@ public class ActionChainExecuter : MonoBehaviour
         }
     }
 
-    [SerializeField]
+    [Serializable]
     class UnSubscribeAction : BaseAction
     {
         [SerializeField] EventType type;
@@ -350,6 +347,18 @@ public class ActionChainExecuter : MonoBehaviour
         {
             EventTriggerManager.Instance.Unsubscribe(type, action.Invoke);
             finishCallback.Invoke();
+        }
+    }
+
+    [Serializable]
+    class SetupCheckPoint : BaseAction
+    {
+        public override void Execute(Action finishCallback)
+        {
+            var checkPoint = WorldManager.Instance.CurrentCheckPointData;
+            var nextControllArea = checkPoint.virtualCamera;
+            WorldManager.Instance.PlayerTransferArea.transform.position_xy(checkPoint.position);
+            GameManager.Instance.MainCameraControll.ChangeCamera(nextControllArea, Style.Cut, 0, finishCallback);
         }
     }
 
@@ -487,6 +496,11 @@ public class ActionChainExecuter : MonoBehaviour
                     if (ae.action is not UnSubscribeAction)
                     {
                         ae.action = new UnSubscribeAction();
+                    }
+                    break;  case ActionType.SetupCheckPoint:
+                    if (ae.action is not SetupCheckPoint)
+                    {
+                        ae.action = new SetupCheckPoint();
                     }
                     break;
                 default:

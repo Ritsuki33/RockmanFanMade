@@ -1,4 +1,5 @@
 ﻿using System.Runtime.ConstrainedExecution;
+using Unity.VisualScripting.InputSystem;
 using UnityEngine;
 
 public partial class PlayerController
@@ -263,6 +264,17 @@ public partial class PlayerController
             if (player.bodyLadder != null && player.inputInfo.up)
             {
                 player.TransitReady((int)StateID.Climb);
+            }
+        }
+
+        protected override void Update(PlayerController ctr)
+        {
+            if(GameManager.Instance.MainCameraControll.CheckOutOfView(ctr.gameObject,out MainCameraControll.OutOfViewType outOfViewType))
+            {
+                if (outOfViewType == MainCameraControll.OutOfViewType.Bottom)
+                {
+                    ctr.Dead();
+                }
             }
         }
 

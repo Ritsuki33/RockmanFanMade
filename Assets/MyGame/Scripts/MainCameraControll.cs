@@ -34,6 +34,8 @@ public class MainCameraControll : MonoBehaviour
     public float OutOfViewBottom => transform.position.y - OutOfViewSize.y / 2;
     public float OutOfViewTop => transform.position.y + OutOfViewSize.y / 2;
 
+    public CinemachineVirtualCamera CurrrentVirtualCamera => m_cinemachineBrain.ActiveVirtualCamera as CinemachineVirtualCamera;
+
     /// <summary>
     /// カメラの変更
     /// </summary>
@@ -82,15 +84,40 @@ public class MainCameraControll : MonoBehaviour
 
     public bool Equal(CinemachineVirtualCamera virtualCamera) => (m_cinemachineBrain.ActiveVirtualCamera == null) ? false : virtualCamera.gameObject == m_cinemachineBrain.ActiveVirtualCamera.VirtualCameraGameObject;
 
+
+    public enum OutOfViewType
+    {
+        None,Top, Bottom,Left,Right
+    }
+
     public bool CheckOutOfView(GameObject gameObject)
     {
+        OutOfViewType outOfViewType = GetOutOfViewInfo(gameObject);
+        return outOfViewType != OutOfViewType.None;
+    }
+
+    public bool CheckOutOfView(GameObject gameObject, out OutOfViewType outOfViewType)
+    {
+        outOfViewType = GetOutOfViewInfo(gameObject);
+        return outOfViewType != OutOfViewType.None;
+    }
+
+    private OutOfViewType GetOutOfViewInfo(GameObject gameObject)
+    {
+        OutOfViewType outOfViewType = OutOfViewType.None;
+
         // 物体の位置をスクリーン座標に変換
         Vector3 screenPoint = _camera.WorldToViewportPoint(gameObject.transform.position);
 
         // ビュー範囲外かどうかを判定
         bool isOutOfView = screenPoint.x + outOfViewOffset < 0 || screenPoint.x - outOfViewOffset > 1 || screenPoint.y + outOfViewOffset < 0 || screenPoint.y - outOfViewOffset > 1;
 
-        return isOutOfView;
+        if (screenPoint.x + outOfViewOffset < 0) outOfViewType = OutOfViewType.Left;
+        else if (screenPoint.x - outOfViewOffset > 1) outOfViewType = OutOfViewType.Right;
+        else if(screenPoint.y + outOfViewOffset < 0) outOfViewType = OutOfViewType.Bottom;
+        else if(screenPoint.y - outOfViewOffset > 1) outOfViewType = OutOfViewType.Top;
+
+        return outOfViewType;
     }
 
     private void OnDrawGizmos()

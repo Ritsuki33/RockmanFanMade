@@ -1,8 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using static CameraBoundLimiter;
-using static Unity.IO.LowLevel.Unsafe.AsyncReadManagerMetrics;
+﻿using UnityEngine;
 
 public class CameraBoundLimiter : MonoBehaviour
 {

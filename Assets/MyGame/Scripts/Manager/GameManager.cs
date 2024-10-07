@@ -21,12 +21,8 @@ public struct InputInfo
 public class GameManager : SingletonComponent<GameManager>
 {
     [SerializeField] MainCameraControll m_mainCameraControll = default;
-    [SerializeField] PlayerController playerController = default;
 
-    [SerializeField] ActionChainExecuter startAction = default;
     public MainCameraControll MainCameraControll => m_mainCameraControll;
-
-    public PlayerController PlayerController => playerController;
 
     /// <summary>
     /// コントローラからの入力
@@ -37,6 +33,7 @@ public class GameManager : SingletonComponent<GameManager>
 
     private void Start()
     {
+        WorldManager.Instance.Init();
         StageStart();
     }
 
@@ -45,13 +42,12 @@ public class GameManager : SingletonComponent<GameManager>
         InputInfo inputInfo = default;
         //inputInfo.right = true;
         inputInfo.SetInput(InputController);
-        playerController.UpdateInput(inputInfo);
-
+        WorldManager.Instance.PlayerController.UpdateInput(inputInfo);
     }
 
     public void StageStart()
     {
-        startAction.StartEvent();
+        WorldManager.Instance.StartStage();
     }
 
     public void DeathNotification()
