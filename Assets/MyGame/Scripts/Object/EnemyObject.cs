@@ -40,6 +40,7 @@ public class EnemyObject : StageObject
             Damaged(projectile);
         }
     }
+
     /// <summary>
     /// 死亡
     /// </summary>

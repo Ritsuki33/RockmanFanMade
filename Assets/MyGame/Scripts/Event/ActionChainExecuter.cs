@@ -33,6 +33,7 @@ public class ActionChainExecuter : MonoBehaviour
         SubscribeAction,
         UnSubscribeAction,
         SetupCheckPoint,
+        SetPlayerHp,
     }
 
     [Serializable]
@@ -150,7 +151,7 @@ public class ActionChainExecuter : MonoBehaviour
         [SerializeField] Color color = Color.black;
         public override void Execute(Action finishCallback)
         {
-            UiManager.Instance.FadeInManager.FadeIn(fadeTime, color, finishCallback);
+            FadeInManager.Instance.FadeIn(fadeTime, color, finishCallback);
         }
     }
 
@@ -161,7 +162,7 @@ public class ActionChainExecuter : MonoBehaviour
         [SerializeField] Color color = Color.black;
         public override void Execute(Action finishCallback)
         {
-            UiManager.Instance.FadeInManager.FadeOut(fadeTime, color,finishCallback);
+            FadeInManager.Instance.FadeOut(fadeTime, color,finishCallback);
         }
     }
 
@@ -170,7 +171,7 @@ public class ActionChainExecuter : MonoBehaviour
     {
         public override void Execute(Action finishCallback)
         {
-            UiManager.Instance.ReadyUi.Play(finishCallback);
+            GameMainManager.Instance.ReadyUi.Play(finishCallback);
         }
     }
 
@@ -205,7 +206,7 @@ public class ActionChainExecuter : MonoBehaviour
         {
             Vector2 appearPos = new Vector3(
                transferArea.transform.position.x,
-               GameManager.Instance.MainCameraControll.OutOfViewTop
+               GameMainManager.Instance.MainCameraControll.OutOfViewTop
                );
             ctr.transform.position_xy(appearPos);
             ctr.Appeare(finishCallback);
@@ -219,9 +220,9 @@ public class ActionChainExecuter : MonoBehaviour
 
         override public void Execute(Action finishCallback)
         {
-            UiManager.Instance.HpBar.gameObject.SetActive(true);
-            UiManager.Instance.HpBar.SetParam(0.0f);
-            UiManager.Instance.HpBar.ParamChangeAnimation(1.0f, finishCallback);
+            GameMainManager.Instance.EmemyHpBar.gameObject.SetActive(true);
+            GameMainManager.Instance.EmemyHpBar.SetParam(0.0f);
+            GameMainManager.Instance.EmemyHpBar.ParamChangeAnimation(1.0f, finishCallback);
         }
     }
 
@@ -302,7 +303,7 @@ public class ActionChainExecuter : MonoBehaviour
 
         public override void Execute(Action finishCallback)
         {
-            GameManager.Instance.MainCameraControll.ChangeCamera(nextControllArea, style, blendTime, finishCallback);
+            GameMainManager.Instance.MainCameraControll.ChangeCamera(nextControllArea, style, blendTime, finishCallback);
         }
     }
 
@@ -358,7 +359,18 @@ public class ActionChainExecuter : MonoBehaviour
             var checkPoint = WorldManager.Instance.CurrentCheckPointData;
             var nextControllArea = checkPoint.virtualCamera;
             WorldManager.Instance.PlayerTransferArea.transform.position_xy(checkPoint.position);
-            GameManager.Instance.MainCameraControll.ChangeCamera(nextControllArea, Style.Cut, 0, finishCallback);
+            GameMainManager.Instance.MainCameraControll.ChangeCamera(nextControllArea, Style.Cut, 0, finishCallback);
+        }
+    }
+
+    [Serializable]
+    class SetPlayerHp : BaseAction
+    {
+        [SerializeField, Range(0, 27)] int val;
+        public override void Execute(Action finishCallback)
+        {
+            WorldManager.Instance.PlayerController.SetHp(val);
+            finishCallback();
         }
     }
 
@@ -497,10 +509,17 @@ public class ActionChainExecuter : MonoBehaviour
                     {
                         ae.action = new UnSubscribeAction();
                     }
-                    break;  case ActionType.SetupCheckPoint:
+                    break;
+                case ActionType.SetupCheckPoint:
                     if (ae.action is not SetupCheckPoint)
                     {
                         ae.action = new SetupCheckPoint();
+                    }
+                    break;
+                case ActionType.SetPlayerHp:
+                    if (ae.action is not SetPlayerHp)
+                    {
+                        ae.action = new SetPlayerHp();
                     }
                     break;
                 default:

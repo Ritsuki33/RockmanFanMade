@@ -16,11 +16,11 @@ public class FadeInManager : SingletonComponent<FadeInManager>
 
     public bool IsFade => isFade;
 
-    protected override void Awake()
-    {
-        base.Awake();
-        FadeOutImmediate();
-    }
+    //protected override void Awake()
+    //{
+    //    base.Awake();
+    //    FadeOutImmediate();
+    //}
 
     public void FadeIn(float fadeTime = 0.4f)
     {

@@ -269,7 +269,7 @@ public partial class PlayerController
 
         protected override void Update(PlayerController ctr)
         {
-            if(GameManager.Instance.MainCameraControll.CheckOutOfView(ctr.gameObject,out MainCameraControll.OutOfViewType outOfViewType))
+            if(GameMainManager.Instance.MainCameraControll.CheckOutOfView(ctr.gameObject,out MainCameraControll.OutOfViewType outOfViewType))
             {
                 if (outOfViewType == MainCameraControll.OutOfViewType.Bottom)
                 {
@@ -667,7 +667,7 @@ public partial class PlayerController
             {
                 player.exRb.velocity = Vector2.up * 26;
 
-                if (GameManager.Instance.MainCameraControll.CheckOutOfView(player.gameObject))
+                if (GameMainManager.Instance.MainCameraControll.CheckOutOfView(player.gameObject))
                 {
                     player.gameObject.SetActive(false);
 

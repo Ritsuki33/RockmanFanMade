@@ -13,7 +13,7 @@ public class TransitCameraArea : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (!GameManager.Instance.MainCameraControll.Equal(nextCameraControllArea.VirtualCamera))
+        if (!GameMainManager.Instance.MainCameraControll.Equal(nextCameraControllArea.VirtualCamera))
         {
             eventController?.StartEvent();
         }
