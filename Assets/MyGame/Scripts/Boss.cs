@@ -8,7 +8,7 @@ public class Boss : EnemyObject
     public override void OnAttacked(Collider2D collision)
     {
         base.OnAttacked(collision);
-        GameMainManager.Instance.HpBar.SetParam((float)currentHp / maxHp);
+        GameMainManager.Instance.EmemyHpBar.SetParam((float)currentHp / maxHp);
     }
 
     public override void OnDead()

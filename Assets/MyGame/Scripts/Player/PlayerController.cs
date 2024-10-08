@@ -187,4 +187,6 @@ public partial class PlayerController : ExRbStateMachine<PlayerController>
         actionFinishCallback?.Invoke();
     }
 
+
+    public void SetHp(int hp) => player.SetHp(hp);
 }

@@ -33,6 +33,7 @@ public class ActionChainExecuter : MonoBehaviour
         SubscribeAction,
         UnSubscribeAction,
         SetupCheckPoint,
+        SetPlayerHp,
     }
 
     [Serializable]
@@ -219,9 +220,9 @@ public class ActionChainExecuter : MonoBehaviour
 
         override public void Execute(Action finishCallback)
         {
-            GameMainManager.Instance.HpBar.gameObject.SetActive(true);
-            GameMainManager.Instance.HpBar.SetParam(0.0f);
-            GameMainManager.Instance.HpBar.ParamChangeAnimation(1.0f, finishCallback);
+            GameMainManager.Instance.EmemyHpBar.gameObject.SetActive(true);
+            GameMainManager.Instance.EmemyHpBar.SetParam(0.0f);
+            GameMainManager.Instance.EmemyHpBar.ParamChangeAnimation(1.0f, finishCallback);
         }
     }
 
@@ -362,6 +363,17 @@ public class ActionChainExecuter : MonoBehaviour
         }
     }
 
+    [Serializable]
+    class SetPlayerHp : BaseAction
+    {
+        [SerializeField, Range(0, 27)] int val;
+        public override void Execute(Action finishCallback)
+        {
+            WorldManager.Instance.PlayerController.SetHp(val);
+            finishCallback();
+        }
+    }
+
     [SerializeField] Element element;
 
     private void OnValidate()
@@ -497,10 +509,17 @@ public class ActionChainExecuter : MonoBehaviour
                     {
                         ae.action = new UnSubscribeAction();
                     }
-                    break;  case ActionType.SetupCheckPoint:
+                    break;
+                case ActionType.SetupCheckPoint:
                     if (ae.action is not SetupCheckPoint)
                     {
                         ae.action = new SetupCheckPoint();
+                    }
+                    break;
+                case ActionType.SetPlayerHp:
+                    if (ae.action is not SetPlayerHp)
+                    {
+                        ae.action = new SetPlayerHp();
                     }
                     break;
                 default:

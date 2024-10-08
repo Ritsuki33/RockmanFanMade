@@ -21,6 +21,7 @@ public class GameMainManager : BaseManager<GameMainManager>
 
     [SerializeField] MainCameraControll m_mainCameraControll = default;
     [SerializeField] ReadyUi readyUi = default;
+    [SerializeField] HpBar enemyHpBar = default;
     [SerializeField] HpBar hpBar = default;
 
     private IInput InputController => InputManager.Instance;
@@ -28,6 +29,7 @@ public class GameMainManager : BaseManager<GameMainManager>
     public MainCameraControll MainCameraControll => m_mainCameraControll;
 
     public ReadyUi ReadyUi => readyUi;
+    public HpBar EmemyHpBar => enemyHpBar;
     public HpBar HpBar => hpBar;
 
     protected override void Init()
