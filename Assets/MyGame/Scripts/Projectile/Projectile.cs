@@ -52,7 +52,7 @@ public class Projectile : ReusableObject
     {
         moveAction?.Invoke(this.rb);
 
-        if (GameManager.Instance.MainCameraControll.CheckOutOfView(this.gameObject))
+        if (GameMainManager.Instance.MainCameraControll.CheckOutOfView(this.gameObject))
         {
             Delete();
         }

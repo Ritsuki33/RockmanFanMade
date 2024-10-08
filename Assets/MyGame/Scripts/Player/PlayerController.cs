@@ -18,7 +18,7 @@ public partial class PlayerController : ExRbStateMachine<PlayerController>
     BoxCollider2D boxPhysicalCollider = null;
     bool isladderTop = false;
 
-    InputInfo inputInfo;
+    GameMainManager.InputInfo inputInfo;
 
     private ExpandRigidBody exRb;
 
@@ -66,7 +66,7 @@ public partial class PlayerController : ExRbStateMachine<PlayerController>
         AddState((int)StateID.Repatriate, new Repatriation());
     }
 
-    public void UpdateInput(InputInfo input)
+    public void UpdateInput(GameMainManager.InputInfo input)
     {
         inputInfo = input;
     }
@@ -99,7 +99,7 @@ public partial class PlayerController : ExRbStateMachine<PlayerController>
     public void Dead()
     {
         TransitReady((int)StateID.Death);
-        GameManager.Instance.DeathNotification();
+        GameMainManager.Instance.DeathNotification();
     }
 
     public void TransferedAnimationEnd()
@@ -171,7 +171,7 @@ public partial class PlayerController : ExRbStateMachine<PlayerController>
 
             while (!enabled)
             {
-                this.transform.position += GameManager.Instance.MainCameraControll.DeltaMove * 0.08f;
+                this.transform.position += GameMainManager.Instance.MainCameraControll.DeltaMove * 0.08f;
                 yield return null;
             }
         }

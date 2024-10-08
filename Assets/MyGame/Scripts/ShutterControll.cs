@@ -18,7 +18,7 @@ public class ShutterControll : MonoBehaviour
     }
     public void Enter()
     {
-        if (!GameManager.Instance.MainCameraControll.Equal(nextCameraControllArea.VirtualCamera)) eventController.StartEvent();
+        if (!GameMainManager.Instance.MainCameraControll.Equal(nextCameraControllArea.VirtualCamera)) eventController.StartEvent();
     }
 
     public void ShutterOpen(Action finishCallback)

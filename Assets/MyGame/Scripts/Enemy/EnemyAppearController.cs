@@ -72,7 +72,7 @@ public class EnemyAppearController : StateMachine<EnemyAppearController>
         }
         protected override void Update(EnemyAppearController enemyAppearController)
         {
-            if (!GameManager.Instance.MainCameraControll.CheckOutOfView(enemyAppearController.gameObject))
+            if (!GameMainManager.Instance.MainCameraControll.CheckOutOfView(enemyAppearController.gameObject))
             {
                 enemyAppearController.TransitReady((int)StateID.Appering);
             }
@@ -91,7 +91,7 @@ public class EnemyAppearController : StateMachine<EnemyAppearController>
 
         protected override void Update(EnemyAppearController enemyAppearController)
         {
-            if (enemyAppearController.IsDeath|| GameManager.Instance.MainCameraControll.CheckOutOfView(enemyAppearController.enemy.gameObject))
+            if (enemyAppearController.IsDeath|| GameMainManager.Instance.MainCameraControll.CheckOutOfView(enemyAppearController.enemy.gameObject))
             {
                 enemyAppearController.TransitReady((int)StateID.Disappearing);
             }
@@ -109,7 +109,7 @@ public class EnemyAppearController : StateMachine<EnemyAppearController>
         }
         protected override void Update(EnemyAppearController enemyAppearController)
         {
-            if (GameManager.Instance.MainCameraControll.CheckOutOfView(enemyAppearController.gameObject))
+            if (GameMainManager.Instance.MainCameraControll.CheckOutOfView(enemyAppearController.gameObject))
             {
                 enemyAppearController.TransitReady((int)StateID.OutOfCamera);
             }

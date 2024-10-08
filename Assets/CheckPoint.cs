@@ -15,7 +15,7 @@ public class CheckPoint : MonoBehaviour
     {
         CheckPointData data = new CheckPointData();
         data.position = this.transform.position;
-        data.virtualCamera = GameManager.Instance.MainCameraControll.CurrrentVirtualCamera;
+        data.virtualCamera = GameMainManager.Instance.MainCameraControll.CurrrentVirtualCamera;
 
         // CheckPoint
         WorldManager.Instance.SaveCheckPoint(data);

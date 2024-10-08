@@ -31,7 +31,6 @@ public class WorldManager : SingletonComponent<WorldManager>
         currentCheckPointData = checkPointData;
     }
 
-
     public void StartStage()
     {
         startAction.StartEvent();
@@ -41,7 +40,7 @@ public class WorldManager : SingletonComponent<WorldManager>
     {
         Vector2 appearPos = new Vector2(
                currentCheckPointData.position.x,
-               GameManager.Instance.MainCameraControll.OutOfViewTop
+               GameMainManager.Instance.MainCameraControll.OutOfViewTop
                );
 
         return appearPos;
