@@ -1,4 +1,5 @@
 ﻿using System.Runtime.ConstrainedExecution;
+using System.Threading;
 using Unity.VisualScripting.InputSystem;
 using UnityEngine;
 
@@ -73,7 +74,10 @@ public partial class PlayerController
             player.gravity.OnGround(hit.normal);
         }
 
-       
+        protected override void OnTriggerEnter2D(PlayerController player, Collider2D collision)
+        {
+            player.TakeDamage(collision);
+        }
 
         // ==========================================
         class Basic : ExRbSubState<PlayerController, Basic,Standing>
@@ -91,6 +95,7 @@ public partial class PlayerController
                 player.launcherController.LaunchTrigger(player.inputInfo.fire, () => { parent.TransitSubReady((int)SubStateID.Shoot); });
             }
         }
+
         class Shoot : ExRbSubState<PlayerController, Shoot, Standing>
         {
 
@@ -178,6 +183,11 @@ public partial class PlayerController
         protected override void OnBottomHitStay(PlayerController player, RaycastHit2D hit)
         {
             player.gravity.OnGround(hit.normal);
+        }
+
+        protected override void OnTriggerEnter2D(PlayerController player, Collider2D collision)
+        {
+            player.TakeDamage(collision);
         }
 
         // ============================================================
@@ -284,6 +294,11 @@ public partial class PlayerController
             player.TransitReady((int)StateID.Standing);
         }
 
+        protected override void OnTriggerEnter2D(PlayerController player, Collider2D collision)
+        {
+            player.TakeDamage(collision);
+
+        }
         class Basic: ExRbSubState<PlayerController, Basic, Floating>
         {
             int animationHash = 0;
@@ -394,6 +409,11 @@ public partial class PlayerController
         protected override void OnBottomHitEnter(PlayerController player, RaycastHit2D hit)
         {
             player.jump.SetSpeed(0);
+        }
+
+        protected override void OnTriggerEnter2D(PlayerController player, Collider2D collision)
+        {
+            player.TakeDamage(collision);
         }
 
         class Basic: ExRbSubState<PlayerController, Basic, Jumping>
@@ -830,6 +850,29 @@ public partial class PlayerController
             {
                 parent.TransitSubReady((int)SubStateId.Float);
             }
+        }
+    }
+    class DamagedState : ExRbState<PlayerController, DamagedState>
+    {
+        int animationHash = Animator.StringToHash("Damaged");
+
+        protected override void Enter(PlayerController player, int preId, int subId)
+        {
+            player.animator.Play(animationHash);
+            player.timer.Start(0.6f, 0.6f);
+        }
+
+        protected override void FixedUpdate(PlayerController player)
+        {
+            player.exRb.velocity = ((player.IsRight) ? Vector2.left : Vector2.right) * 2;
+        }
+
+        protected override void Update(PlayerController player)
+        {
+            player.timer.MoveAheadTime(Time.deltaTime, () =>
+            {
+                player.TransitReady((int)StateID.Standing);
+            });
         }
     }
 }

@@ -26,6 +26,8 @@ public partial class PlayerController : ExRbStateMachine<PlayerController>
     public bool IsRight => player.IsRight;
 
     Action actionFinishCallback = null;
+
+    AmbiguousTimer timer=new AmbiguousTimer();
     enum StateID
     {
         Standing=0,
@@ -40,6 +42,7 @@ public partial class PlayerController : ExRbStateMachine<PlayerController>
         Transfered,
         AutoMove,
         Repatriate,
+        Damaged,
     }
 
     private void Awake()
@@ -64,6 +67,7 @@ public partial class PlayerController : ExRbStateMachine<PlayerController>
         AddState((int)StateID.Transfered, new Transfered());
         AddState((int)StateID.AutoMove, new AutoMove());
         AddState((int)StateID.Repatriate, new Repatriation());
+        AddState((int)StateID.Damaged, new DamagedState());
     }
 
     public void UpdateInput(GameMainManager.InputInfo input)
@@ -189,4 +193,25 @@ public partial class PlayerController : ExRbStateMachine<PlayerController>
 
 
     public void SetHp(int hp) => player.SetHp(hp);
+
+    public void Damaged(int val)
+    {
+        SetHp(player.CurrentHp - val);
+
+        if (player.CurrentHp <= 0)
+        {
+            Dead();
+        }
+        else
+        {
+            TransitReady((int)StateID.Damaged);
+        }
+    }
+
+    public void TakeDamage(Collider2D collision)
+    {
+        var damage = collision.GetComponent<DamageBase>();
+
+        damage?.TakeDamage(this);
+    }
 }
