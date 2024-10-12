@@ -185,7 +185,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   materialController: {fileID: 8094217357087564609}
-  playerController: {fileID: 7713921221825195418}
+  forwardIsRight: 0
+  maxHp: 27
 --- !u!114 &7713921221825195418
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -200,6 +201,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 8193433818486469091}
   launcherController: {fileID: 5595084998609655866}
+  spriteRenderer: {fileID: 5492504918457634560}
 --- !u!114 &5479312749157072935
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -288,9 +290,6 @@ MonoBehaviour:
   throughFloorLayer:
     serializedVersion: 2
     m_Bits: 768
-  triggerLayer:
-    serializedVersion: 2
-    m_Bits: 0
 --- !u!114 &5950266417141565854
 MonoBehaviour:
   m_ObjectHideFlags: 0
