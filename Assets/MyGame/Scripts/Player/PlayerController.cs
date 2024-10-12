@@ -6,6 +6,7 @@ public partial class PlayerController : ExRbStateMachine<PlayerController>
 {
     [SerializeField] Player player;
     [SerializeField] LauncherController launcherController;
+    [SerializeField] SpriteRenderer spriteRenderer;
 
     Gravity gravity;
     Move move;
@@ -28,6 +29,9 @@ public partial class PlayerController : ExRbStateMachine<PlayerController>
     Action actionFinishCallback = null;
 
     AmbiguousTimer timer=new AmbiguousTimer();
+
+    bool invincible = false;
+
     enum StateID
     {
         Standing=0,
@@ -210,8 +214,35 @@ public partial class PlayerController : ExRbStateMachine<PlayerController>
 
     public void TakeDamage(Collider2D collision)
     {
+        if (invincible) return;
         var damage = collision.GetComponent<DamageBase>();
 
         damage?.TakeDamage(this);
+    }
+
+    public void InvincibleState()
+    {
+        StartCoroutine(InvincibleStateCo());
+
+        IEnumerator InvincibleStateCo()
+        {
+            invincible = true;
+            int count = 5;
+
+            for (int i = 0; i < count; i++)
+            {
+                spriteRenderer.enabled = false;
+
+                yield return new WaitForSeconds(0.05f);
+
+                spriteRenderer.enabled = true;
+
+                yield return new WaitForSeconds(0.05f);
+            }
+
+            invincible = false;
+
+            yield return null;
+        }
     }
 }

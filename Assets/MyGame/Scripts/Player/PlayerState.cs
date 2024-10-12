@@ -874,5 +874,10 @@ public partial class PlayerController
                 player.TransitReady((int)StateID.Standing);
             });
         }
+
+        protected override void Exit(PlayerController player, int nextId)
+        {
+            player.InvincibleState();
+        }
     }
 }
