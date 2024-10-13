@@ -3,7 +3,7 @@ using System.Collections;
 using System.Threading;
 using UnityEngine;
 
-public class GreenManController : ExRbStateMachine<GreenManController>
+public class GreenManController : ExRbStateMachine<GreenManController>,IDamageController
 {
     [SerializeField] GreenMan greenMan = default;
     [SerializeField] Animator _animator = default;
@@ -67,26 +67,28 @@ public class GreenManController : ExRbStateMachine<GreenManController>
 
         protected override void Update(GreenManController greenMan)
         {
-            greenMan.greenMan.TurnToTarget(greenMan.Player.transform.position);
-            greenMan.timer.MoveAheadTime(Time.deltaTime, () =>
-            {
-                Probability.BranchMethods(
-                              (50, () =>
-                              {
-                                  greenMan.TransitReady((int)StateId.Shoot);
-                              }
-                ),
-                              (25, () =>
-                              {
-                                  greenMan.TransitReady((int)StateId.Jump);
-                              }
-                ));
-            });
+            //greenMan.greenMan.TurnToTarget(greenMan.Player.transform.position);
+            //greenMan.timer.MoveAheadTime(Time.deltaTime, () =>
+            //{
+            //    Probability.BranchMethods(
+            //                  (50, () =>
+            //                  {
+            //                      greenMan.TransitReady((int)StateId.Shoot);
+            //                  }
+            //    ),
+            //                  (25, () =>
+            //                  {
+            //                      greenMan.TransitReady((int)StateId.Jump);
+            //                  }
+            //    ));
+            //});
         }
 
         protected override void OnTriggerEnter2D(GreenManController greenMan, Collider2D collision)
         {
-            greenMan.Defense(collision);
+            //greenMan.Defense(collision);
+            var damage = collision.GetComponent<DamageBase>();
+            damage?.Accept(greenMan);
         }
       
         protected override void OnBottomHitStay(GreenManController greenMan, RaycastHit2D hit)
@@ -304,5 +306,17 @@ public class GreenManController : ExRbStateMachine<GreenManController>
             {
                 rb.velocity = direction * speed;
             });
+    }
+
+    public void TakeDamage(DamageBase damage)
+    {
+        this.greenMan.Damaged(damage.baseDamageValue);
+    }
+
+    public void TakeDamage(RockBusterDamage damage)
+    {
+        this.greenMan.Damaged(damage.baseDamageValue);
+
+        if (damage.baseDamageValue == 1|| greenMan.CurrentHp > 0) damage.Delete();
     }
 }

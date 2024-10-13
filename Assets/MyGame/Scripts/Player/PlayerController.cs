@@ -242,5 +242,6 @@ public partial class PlayerController : ExRbStateMachine<PlayerController>,IDama
     {
         if (invincible == true) return;
         Damaged(damage.baseDamageValue);
+
     }
 }

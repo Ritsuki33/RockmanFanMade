@@ -14,6 +14,7 @@ public class EnemyObject : StageObject
     protected int maxHp=> (enemyData != null) ? enemyData.Hp : 3;
     protected int currentHp = 0;
 
+    public int CurrentHp => currentHp;
     public virtual void Init() {
         SetMaterialParam(ShaderPropertyId.IsFadeColorID, 0);
         currentHp = maxHp;
@@ -21,23 +22,22 @@ public class EnemyObject : StageObject
 
     public void Attacked(Collider2D collision)
     {
-        if (collision.gameObject.CompareTag("RockBuster") || collision.gameObject.CompareTag("ChargeShot"))
-        {
-            OnAttacked(collision);
-        }
+        //if (collision.gameObject.CompareTag("RockBuster") || collision.gameObject.CompareTag("ChargeShot"))
+        //{
+        //    Damaged(collision);
+        //}
     }
 
-    public virtual void OnAttacked(Collider2D collision)
+    public virtual void Damaged(int damageVal)
     {
-        var projectile = collision.gameObject.transform.parent.GetComponent<Projectile>();
-        currentHp = Mathf.Clamp(currentHp - projectile.AttackPower, 0, maxHp);
+        currentHp = Mathf.Clamp(currentHp - damageVal, 0, maxHp);
         if (currentHp <= 0)
         {
-            Dead(projectile);
+            Dead();
         }
         else
         {
-            Damaged(projectile);
+            DamagedEffect();
         }
     }
 
@@ -45,9 +45,9 @@ public class EnemyObject : StageObject
     /// 死亡
     /// </summary>
     /// <param name="collision"></param>
-    public void Dead(Projectile projectile)
+    public void Dead()
     {
-        if (projectile.AttackPower < 3) projectile?.Delete();
+        //if (projectile.AttackPower < 3) projectile?.Delete();
 
         OnDead();
 
@@ -61,17 +61,18 @@ public class EnemyObject : StageObject
 
         this.gameObject.SetActive(false);
     }
+
     /// <summary>
     /// ダメージ演出
     /// </summary>
     /// <param name="collision"></param>
-    public virtual void Damaged(Projectile projectile)
+    public virtual void DamagedEffect()
     {
-        StartCoroutine(DamagedCo(projectile));
+        StartCoroutine(DamagedEffectCo());
 
-        IEnumerator DamagedCo(Projectile projectile)
+        IEnumerator DamagedEffectCo()
         {
-            projectile?.Delete();
+            //projectile?.Delete();
             int count = 5;
 
             for (int i = 0; i < count; i++)
