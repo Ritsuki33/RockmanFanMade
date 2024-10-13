@@ -2,7 +2,7 @@
 using System.Collections;
 using UnityEngine;
 
-public partial class PlayerController : ExRbStateMachine<PlayerController>
+public partial class PlayerController : ExRbStateMachine<PlayerController>,IDamageController
 {
     [SerializeField] Player player;
     [SerializeField] LauncherController launcherController;
@@ -212,14 +212,6 @@ public partial class PlayerController : ExRbStateMachine<PlayerController>
         }
     }
 
-    public void TakeDamage(Collider2D collision)
-    {
-        if (invincible) return;
-        var damage = collision.GetComponent<DamageBase>();
-
-        damage?.TakeDamage(this);
-    }
-
     public void InvincibleState()
     {
         StartCoroutine(InvincibleStateCo());
@@ -244,5 +236,11 @@ public partial class PlayerController : ExRbStateMachine<PlayerController>
 
             yield return null;
         }
+    }
+
+    void IDamageController.TakeDamage(DamageBase damage)
+    {
+        if (invincible == true) return;
+        Damaged(damage.baseDamageValue);
     }
 }
