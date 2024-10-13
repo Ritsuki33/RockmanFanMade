@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 9207079288770869027}
   - component: {fileID: 1134197257692239509}
   - component: {fileID: 7653836454619443432}
-  m_Layer: 15
+  m_Layer: 19
   m_Name: ChargeShotSmall
   m_TagString: ChargeShot
   m_Icon: {fileID: 0}
@@ -161,7 +161,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4774041234754706059}
   - component: {fileID: 9164642648087310750}
-  m_Layer: 15
+  - component: {fileID: 4644833936413011520}
+  m_Layer: 19
   m_Name: TriggerBody
   m_TagString: ChargeShot
   m_Icon: {fileID: 0}
@@ -228,6 +229,20 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.35006213, y: 0.24955633}
   m_EdgeRadius: 0
+--- !u!114 &4644833936413011520
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2349547040294884484}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 14fb7cb58105d59489660e75b7e274a6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  baseDamageValue: 2
+  projectile: {fileID: 1134197257692239509}
 --- !u!1 &8005054857083094304
 GameObject:
   m_ObjectHideFlags: 0
@@ -238,7 +253,7 @@ GameObject:
   m_Component:
   - component: {fileID: 253235078888929183}
   - component: {fileID: 4889863036634415680}
-  m_Layer: 16
+  m_Layer: 19
   m_Name: CollisionBody
   m_TagString: Untagged
   m_Icon: {fileID: 0}

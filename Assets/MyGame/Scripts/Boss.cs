@@ -5,9 +5,9 @@ using UnityEngine;
 public class Boss : EnemyObject
 {
     BaseObjectPool DeathEffectPool => EffectManager.Instance.DeathEffectPool;
-    public override void OnAttacked(Collider2D collision)
+    public override void Damaged(int val)
     {
-        base.OnAttacked(collision);
+        base.Damaged(val);
         GameMainManager.Instance.EmemyHpBar.SetParam((float)currentHp / maxHp);
     }
 

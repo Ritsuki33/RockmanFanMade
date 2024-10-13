@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BatmanController : ExRbStateMachine<BatmanController>
+public class BatmanController : EnemyController<BatmanController,Batman>
 {
-    [SerializeField] Batman batman;
     [SerializeField] Animator _animator;
     ExpandRigidBody exRb;
 
@@ -59,10 +58,9 @@ public class BatmanController : ExRbStateMachine<BatmanController>
 
         protected override void OnTriggerEnter2D(BatmanController batmanController, Collider2D collision)
         {
-            if (collision.gameObject.CompareTag("RockBuster"))
-            {
-                batmanController.batman.Attacked(collision);
-            }
+            var damage = collision.GetComponent<DamageBase>();
+
+            damage?.Accept(batmanController);
         }
     }
 
@@ -89,7 +87,9 @@ public class BatmanController : ExRbStateMachine<BatmanController>
 
         protected override void OnTriggerEnter2D(BatmanController batmanController, Collider2D collision)
         {
-            batmanController.batman.Attacked(collision);
+            var damage = collision.GetComponent<DamageBase>();
+
+            damage?.Accept(batmanController);
         }
     }
 
@@ -115,12 +115,14 @@ public class BatmanController : ExRbStateMachine<BatmanController>
             if (collision.gameObject.CompareTag("Player"))
             {
                 batmanController.TransitReady((int)StateID.ToIdle);
-
             }
             else
             {
-                batmanController.batman.Attacked(collision);
+                var damage = collision.GetComponent<DamageBase>();
+
+                damage?.Accept(batmanController);
             }
+
         }
     }
 
@@ -149,7 +151,9 @@ public class BatmanController : ExRbStateMachine<BatmanController>
 
         protected override void OnTriggerEnter2D(BatmanController batmanController, Collider2D collision)
         {
-            batmanController.batman.Attacked(collision);
+            var damage = collision.GetComponent<DamageBase>();
+
+            damage?.Accept(batmanController);
         }
     }
 }

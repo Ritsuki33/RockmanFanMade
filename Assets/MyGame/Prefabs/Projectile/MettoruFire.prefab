@@ -10,8 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 6442114721497297017}
   - component: {fileID: 599299022976932114}
-  - component: {fileID: 6686645318386125568}
-  m_Layer: 15
+  - component: {fileID: 4216104729068767986}
+  m_Layer: 20
   m_Name: TriggerBody
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -78,7 +78,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.3, y: 0.3}
   m_EdgeRadius: 0
---- !u!114 &6686645318386125568
+--- !u!114 &4216104729068767986
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -87,9 +87,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 3244468624439307370}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7b9a0094f59db5a4aa278b9e51d06e21, type: 3}
+  m_Script: {fileID: 11500000, guid: a4758d776e32bd746946ac1c5adfe135, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  baseDamageValue: 3
 --- !u!1 &4829007528194801704
 GameObject:
   m_ObjectHideFlags: 0
@@ -100,7 +101,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2477207110749845692}
   - component: {fileID: 112198139898908581}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: PhysicalBody
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -180,7 +181,7 @@ GameObject:
   - component: {fileID: 2569209746247142054}
   - component: {fileID: 1078361096464978032}
   - component: {fileID: 5120203927495478303}
-  m_Layer: 15
+  m_Layer: 20
   m_Name: MettoruFire
   m_TagString: Untagged
   m_Icon: {fileID: 0}

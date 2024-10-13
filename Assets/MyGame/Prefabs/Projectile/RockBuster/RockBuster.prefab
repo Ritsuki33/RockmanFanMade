@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 7257622654100221239}
   - component: {fileID: 2545916196248826908}
   - component: {fileID: 1142704138804459108}
-  m_Layer: 15
+  m_Layer: 19
   m_Name: RockBuster
   m_TagString: RockBuster
   m_Icon: {fileID: 0}
@@ -139,7 +139,8 @@ GameObject:
   m_Component:
   - component: {fileID: 5346454817000598873}
   - component: {fileID: 5668405304741393353}
-  m_Layer: 15
+  - component: {fileID: 2545115774325132077}
+  m_Layer: 19
   m_Name: TriggerBody
   m_TagString: RockBuster
   m_Icon: {fileID: 0}
@@ -206,6 +207,20 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.25480732, y: 0.18339312}
   m_EdgeRadius: 0
+--- !u!114 &2545115774325132077
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4241689960504354653}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 14fb7cb58105d59489660e75b7e274a6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  baseDamageValue: 1
+  projectile: {fileID: 2545916196248826908}
 --- !u!1 &6614847156812643534
 GameObject:
   m_ObjectHideFlags: 0
@@ -216,7 +231,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7542727807531815559}
   - component: {fileID: 4703653614032859083}
-  m_Layer: 0
+  m_Layer: 19
   m_Name: PhysicalBody
   m_TagString: Untagged
   m_Icon: {fileID: 0}
