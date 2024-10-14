@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BatmanController : EnemyController<BatmanController,Batman>
+public class BatmanController : EnemyController<BatmanController,Batman>,ITriggerVisitor
 {
     [SerializeField] Animator _animator;
     ExpandRigidBody exRb;
@@ -58,7 +58,7 @@ public class BatmanController : EnemyController<BatmanController,Batman>
 
         protected override void OnTriggerEnter2D(BatmanController batmanController, Collider2D collision)
         {
-            var damage = collision.GetComponent<DamageBase>();
+            var damage = collision.GetComponent<ITriggerVisitable>();
 
             damage?.Accept(batmanController);
         }
@@ -87,7 +87,7 @@ public class BatmanController : EnemyController<BatmanController,Batman>
 
         protected override void OnTriggerEnter2D(BatmanController batmanController, Collider2D collision)
         {
-            var damage = collision.GetComponent<DamageBase>();
+            var damage = collision.GetComponent<ITriggerVisitable>();
 
             damage?.Accept(batmanController);
         }
@@ -112,17 +112,9 @@ public class BatmanController : EnemyController<BatmanController,Batman>
 
         protected override void OnTriggerEnter2D(BatmanController batmanController, Collider2D collision)
         {
-            if (collision.gameObject.CompareTag("Player"))
-            {
-                batmanController.TransitReady((int)StateID.ToIdle);
-            }
-            else
-            {
-                var damage = collision.GetComponent<DamageBase>();
+            var damage = collision.GetComponent<ITriggerVisitable>();
 
-                damage?.Accept(batmanController);
-            }
-
+            damage?.Accept(batmanController);
         }
     }
 
@@ -151,9 +143,17 @@ public class BatmanController : EnemyController<BatmanController,Batman>
 
         protected override void OnTriggerEnter2D(BatmanController batmanController, Collider2D collision)
         {
-            var damage = collision.GetComponent<DamageBase>();
+            var damage = collision.GetComponent<ITriggerVisitable>();
 
             damage?.Accept(batmanController);
+        }
+    }
+
+    void ITriggerVisitor.Take(PlayerTrigger damage)
+    {
+        if (stateMachine.CurId == (int)StateID.Move)
+        {
+            TransitReady((int)StateID.ToIdle);
         }
     }
 }

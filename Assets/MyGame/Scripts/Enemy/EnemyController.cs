@@ -1,24 +1,24 @@
 ﻿using UnityEngine;
 
-public class EnemyController<T,E> : ExRbStateMachine<T>, IDamageController where T: ExRbStateMachine<T> where E: EnemyObject
+public class EnemyController<T,E> : ExRbStateMachine<T>, ITriggerVisitor where T: ExRbStateMachine<T> where E: EnemyObject
 {
     [SerializeField] protected E enemy;
 
-    void IDamageController.TakeDamage(DamageBase damage)
+    void ITriggerVisitor.Take(DamageBase damage)
     {
         enemy.Damaged(damage.baseDamageValue);
     }
 
-    void IDamageController.TakeDamage(RockBusterDamage damage)
+    void ITriggerVisitor.Take(RockBusterDamage damage)
     {
-        TakeDamage(damage);
+        Take(damage);
     }
 
-    protected virtual void TakeDamage(DamageBase damage) {
+    protected virtual void Take(DamageBase damage) {
         enemy.Damaged(damage.baseDamageValue);
     }
 
-    protected virtual void TakeDamage(RockBusterDamage damage)
+    protected virtual void Take(RockBusterDamage damage)
     {
         enemy.Damaged(damage.baseDamageValue);
 

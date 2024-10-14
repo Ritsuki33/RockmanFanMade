@@ -3,7 +3,7 @@ using System.Collections;
 using System.Threading;
 using UnityEngine;
 
-public class GreenManController : EnemyController<GreenManController,GreenMan>,IDamageController
+public class GreenManController : EnemyController<GreenManController,GreenMan>, ITriggerVisitor
 {
     //[SerializeField] GreenMan greenMan = default;
     [SerializeField] Animator _animator = default;
@@ -310,11 +310,11 @@ public class GreenManController : EnemyController<GreenManController,GreenMan>,I
     }
 
 
-    protected override void TakeDamage(RockBusterDamage damage)
+    protected override void Take(RockBusterDamage damage)
     {
         if (stateMachine.CurId == (int)StateId.Shooting)
         {
-            base.TakeDamage(damage);
+            base.Take(damage);
         }
         else
         {

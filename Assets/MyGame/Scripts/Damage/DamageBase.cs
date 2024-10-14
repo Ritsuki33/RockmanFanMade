@@ -1,18 +1,11 @@
 ﻿using UnityEngine;
 
-public interface IDamageController
-{
-    void TakeDamage(DamageBase damage);
-    void TakeDamage(RockBusterDamage damage) { TakeDamage(damage as DamageBase); }
-}
-
-public class DamageBase : MonoBehaviour
+public class DamageBase : MonoBehaviour, ITriggerVisitable
 {
     [SerializeField] public int baseDamageValue = 3;
     
-    public virtual void Accept(IDamageController visitor)
+    public virtual void Accept(ITriggerVisitor visitor)
     {
-        visitor.TakeDamage(this);
+        visitor.Take(this);
     }
-
 }

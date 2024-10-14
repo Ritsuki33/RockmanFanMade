@@ -6,5 +6,5 @@ public class RockBusterDamage : DamageBase
 
     public void DeleteBuster() => projectile.Delete();
 
-    public override void Accept(IDamageController visitor)=> visitor.TakeDamage(this);
+    public override void Accept(ITriggerVisitor visitor)=> visitor.Take(this);
 }
