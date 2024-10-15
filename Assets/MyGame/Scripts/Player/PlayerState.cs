@@ -76,8 +76,8 @@ public partial class PlayerController
 
         protected override void OnTriggerEnter2D(PlayerController player, Collider2D collision)
         {
-            var damage = collision.GetComponent<DamageBase>();
-            damage?.Accept(player);
+            //var damage = collision.GetComponent<DamageBase>();
+            //damage?.AcceptOnTriggerEnter(player);
         }
 
         // ==========================================
@@ -188,8 +188,8 @@ public partial class PlayerController
 
         protected override void OnTriggerEnter2D(PlayerController player, Collider2D collision)
         {
-            var damage = collision.GetComponent<DamageBase>();
-            damage?.Accept(player);
+            //var damage = collision.GetComponent<DamageBase>();
+            //damage?.AcceptOnTriggerEnter(player);
         }
 
         // ============================================================
@@ -298,8 +298,8 @@ public partial class PlayerController
 
         protected override void OnTriggerEnter2D(PlayerController player, Collider2D collision)
         {
-            var damage = collision.GetComponent<DamageBase>();
-            damage?.Accept(player);
+            //var damage = collision.GetComponent<DamageBase>();
+            //damage?.AcceptOnTriggerEnter(player);
 
         }
         class Basic: ExRbSubState<PlayerController, Basic, Floating>
@@ -416,8 +416,8 @@ public partial class PlayerController
 
         protected override void OnTriggerEnter2D(PlayerController player, Collider2D collision)
         {
-            var damage = collision.GetComponent<DamageBase>();
-            damage?.Accept(player);
+            //var damage = collision.GetComponent<DamageBase>();
+            //damage?.AcceptOnTriggerEnter(player);
         }
 
         class Basic: ExRbSubState<PlayerController, Basic, Jumping>

@@ -3,9 +3,9 @@ using System.Collections;
 using System.Threading;
 using UnityEngine;
 
-public class GreenManController : EnemyController<GreenManController,GreenMan>, ITriggerVisitor
+public class GreenManController : ExRbStateMachine<GreenManController>
 {
-    //[SerializeField] GreenMan greenMan = default;
+    [SerializeField] GreenMan greenMan = default;
     [SerializeField] Animator _animator = default;
     [SerializeField] Transform launcher = default;
     enum StateId
@@ -67,7 +67,7 @@ public class GreenManController : EnemyController<GreenManController,GreenMan>, 
 
         protected override void Update(GreenManController greenMan)
         {
-            greenMan.enemy.TurnToTarget(greenMan.Player.transform.position);
+            greenMan.greenMan.TurnToTarget(greenMan.Player.transform.position);
             greenMan.timer.MoveAheadTime(Time.deltaTime, () =>
             {
                 Probability.BranchMethods(
@@ -86,8 +86,8 @@ public class GreenManController : EnemyController<GreenManController,GreenMan>, 
 
         protected override void OnTriggerEnter2D(GreenManController greenMan, Collider2D collision)
         {
-            var damage = collision.GetComponent<DamageBase>();
-            damage?.Accept(greenMan);
+            //var damage = collision.GetComponent<DamageBase>();
+            //damage?.AcceptOnTriggerEnter(greenMan);
         }
       
         protected override void OnBottomHitStay(GreenManController greenMan, RaycastHit2D hit)
@@ -116,8 +116,8 @@ public class GreenManController : EnemyController<GreenManController,GreenMan>, 
 
         protected override void OnTriggerEnter2D(GreenManController greenMan, Collider2D collision)
         {
-            var damage = collision.GetComponent<DamageBase>();
-            damage?.Accept(greenMan);
+            //var damage = collision.GetComponent<DamageBase>();
+            //damage?.AcceptOnTriggerEnter(greenMan);
         }
 
         protected override void OnBottomHitEnter(GreenManController greenMan, RaycastHit2D hit)
@@ -149,8 +149,8 @@ public class GreenManController : EnemyController<GreenManController,GreenMan>, 
 
         protected override void OnTriggerEnter2D(GreenManController greenMan, Collider2D collision)
         {
-            var damage = collision.GetComponent<DamageBase>();
-            damage?.Accept(greenMan);
+            //var damage = collision.GetComponent<DamageBase>();
+            //damage?.AcceptOnTriggerEnter(greenMan);
         }
 
         protected override void OnBottomHitStay(GreenManController greenMan, RaycastHit2D hit)
@@ -201,8 +201,8 @@ public class GreenManController : EnemyController<GreenManController,GreenMan>, 
         protected override void OnTriggerEnter2D(GreenManController greenMan, Collider2D collision)
         {
             //greenMan.enemy.Attacked(collision);
-            var damage = collision.GetComponent<DamageBase>();
-            damage?.Accept(greenMan);
+            //var damage = collision.GetComponent<DamageBase>();
+            //damage?.AcceptOnTriggerEnter(greenMan);
         }
 
         protected override void OnBottomHitStay(GreenManController greenMan, RaycastHit2D hit)
@@ -238,8 +238,8 @@ public class GreenManController : EnemyController<GreenManController,GreenMan>, 
 
         protected override void OnTriggerEnter2D(GreenManController greenMan, Collider2D collision)
         {
-            var damage = collision.GetComponent<DamageBase>();
-            damage?.Accept(greenMan);
+            //var damage = collision.GetComponent<DamageBase>();
+            //damage?.AcceptOnTriggerEnter(greenMan);
         }
 
         protected override void OnTopHitEnter(GreenManController greenMan, RaycastHit2D hit)
@@ -310,15 +310,15 @@ public class GreenManController : EnemyController<GreenManController,GreenMan>, 
     }
 
 
-    protected override void Take(RockBusterDamage damage)
-    {
-        if (stateMachine.CurId == (int)StateId.Shooting)
-        {
-            base.Take(damage);
-        }
-        else
-        {
-            Defense(damage);
-        }
-    }
+    //protected override void Take(RockBusterDamage damage)
+    //{
+    //    if (stateMachine.CurId == (int)StateId.Shooting)
+    //    {
+    //        base.Take(damage);
+    //    }
+    //    else
+    //    {
+    //        Defense(damage);
+    //    }
+    //}
 }

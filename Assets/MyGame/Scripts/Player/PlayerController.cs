@@ -2,7 +2,7 @@
 using System.Collections;
 using UnityEngine;
 
-public partial class PlayerController : ExRbStateMachine<PlayerController>, ITriggerVisitor
+public partial class PlayerController : ExRbStateMachine<PlayerController>
 {
     [SerializeField] Player player;
     [SerializeField] LauncherController launcherController;
@@ -236,11 +236,5 @@ public partial class PlayerController : ExRbStateMachine<PlayerController>, ITri
 
             yield return null;
         }
-    }
-
-    void ITriggerVisitor.Take(DamageBase damage)
-    {
-        if (invincible == true) return;
-        Damaged(damage.baseDamageValue);
     }
 }
