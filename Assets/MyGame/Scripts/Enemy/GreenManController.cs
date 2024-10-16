@@ -84,11 +84,11 @@ public class GreenManController : ExRbStateMachine<GreenManController>
             });
         }
 
-        protected override void OnTriggerEnter2D(GreenManController greenMan, Collider2D collision)
+        protected override void OnTriggerEnter(GreenManController greenMan, RockBusterDamage collision)
         {
-            //var damage = collision.GetComponent<DamageBase>();
-            //damage?.AcceptOnTriggerEnter(greenMan);
+            greenMan.Defense(collision);
         }
+       
       
         protected override void OnBottomHitStay(GreenManController greenMan, RaycastHit2D hit)
         {
@@ -114,10 +114,9 @@ public class GreenManController : ExRbStateMachine<GreenManController>
             greenMan.exRb.velocity = greenMan.gravity.CurrentVelocity;
         }
 
-        protected override void OnTriggerEnter2D(GreenManController greenMan, Collider2D collision)
+        protected override void OnTriggerEnter(GreenManController greenMan, RockBusterDamage collision)
         {
-            //var damage = collision.GetComponent<DamageBase>();
-            //damage?.AcceptOnTriggerEnter(greenMan);
+            greenMan.Defense(collision);
         }
 
         protected override void OnBottomHitEnter(GreenManController greenMan, RaycastHit2D hit)
@@ -147,10 +146,9 @@ public class GreenManController : ExRbStateMachine<GreenManController>
             }
         }
 
-        protected override void OnTriggerEnter2D(GreenManController greenMan, Collider2D collision)
+        protected override void OnTriggerEnter(GreenManController greenMan, RockBusterDamage collision)
         {
-            //var damage = collision.GetComponent<DamageBase>();
-            //damage?.AcceptOnTriggerEnter(greenMan);
+            greenMan.greenMan.Damaged(collision.baseDamageValue);
         }
 
         protected override void OnBottomHitStay(GreenManController greenMan, RaycastHit2D hit)
@@ -198,11 +196,9 @@ public class GreenManController : ExRbStateMachine<GreenManController>
             });
         }
 
-        protected override void OnTriggerEnter2D(GreenManController greenMan, Collider2D collision)
+        protected override void OnTriggerEnter(GreenManController greenMan, RockBusterDamage collision)
         {
-            //greenMan.enemy.Attacked(collision);
-            //var damage = collision.GetComponent<DamageBase>();
-            //damage?.AcceptOnTriggerEnter(greenMan);
+            greenMan.greenMan.Damaged(collision.baseDamageValue);
         }
 
         protected override void OnBottomHitStay(GreenManController greenMan, RaycastHit2D hit)
@@ -236,10 +232,9 @@ public class GreenManController : ExRbStateMachine<GreenManController>
             }
         }
 
-        protected override void OnTriggerEnter2D(GreenManController greenMan, Collider2D collision)
+        protected override void OnTriggerEnter(GreenManController greenMan, RockBusterDamage collision)
         {
-            //var damage = collision.GetComponent<DamageBase>();
-            //damage?.AcceptOnTriggerEnter(greenMan);
+            greenMan.Defense(collision);
         }
 
         protected override void OnTopHitEnter(GreenManController greenMan, RaycastHit2D hit)
@@ -309,16 +304,4 @@ public class GreenManController : ExRbStateMachine<GreenManController>
             });
     }
 
-
-    //protected override void Take(RockBusterDamage damage)
-    //{
-    //    if (stateMachine.CurId == (int)StateId.Shooting)
-    //    {
-    //        base.Take(damage);
-    //    }
-    //    else
-    //    {
-    //        Defense(damage);
-    //    }
-    //}
 }

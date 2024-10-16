@@ -20,14 +20,6 @@ public class EnemyObject : StageObject
         currentHp = maxHp;
     }
 
-    public void Attacked(Collider2D collision)
-    {
-        //if (collision.gameObject.CompareTag("RockBuster") || collision.gameObject.CompareTag("ChargeShot"))
-        //{
-        //    Damaged(collision);
-        //}
-    }
-
     public virtual void Damaged(int damageVal)
     {
         currentHp = Mathf.Clamp(currentHp - damageVal, 0, maxHp);

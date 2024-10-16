@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class BatmanController : ExRbStateMachine<BatmanController>
 {
+    [SerializeField] Batman batman;
     [SerializeField] Animator _animator;
     ExpandRigidBody exRb;
 
@@ -55,12 +56,9 @@ public class BatmanController : ExRbStateMachine<BatmanController>
             }
             , true);
         }
-
-        protected override void OnTriggerEnter2D(BatmanController batmanController, Collider2D collision)
+        protected override void OnTriggerEnter(BatmanController batmanController, RockBusterDamage collision)
         {
-            //var damage = collision.GetComponent<ITriggerVisitable>();
-
-            //damage?.AcceptOnTriggerEnter(batmanController);
+            batmanController.batman.Damaged(collision.baseDamageValue);
         }
     }
 
@@ -85,11 +83,9 @@ public class BatmanController : ExRbStateMachine<BatmanController>
             }
         }
 
-        protected override void OnTriggerEnter2D(BatmanController batmanController, Collider2D collision)
+        protected override void OnTriggerEnter(BatmanController batmanController, RockBusterDamage collision)
         {
-            //var damage = collision.GetComponent<ITriggerVisitable>();
-
-            //damage?.AcceptOnTriggerEnter(batmanController);
+            batmanController.batman.Damaged(collision.baseDamageValue);
         }
     }
 
@@ -110,11 +106,9 @@ public class BatmanController : ExRbStateMachine<BatmanController>
             batmanController.exRb.velocity = speed * move.normalized;
         }
 
-        protected override void OnTriggerEnter2D(BatmanController batmanController, Collider2D collision)
+        protected override void OnTriggerEnter(BatmanController batmanController, RockBusterDamage collision)
         {
-            //var damage = collision.GetComponent<ITriggerVisitable>();
-
-            //damage?.AcceptOnTriggerEnter(batmanController);
+            batmanController.batman.Damaged(collision.baseDamageValue);
         }
     }
 
@@ -141,11 +135,9 @@ public class BatmanController : ExRbStateMachine<BatmanController>
             batmanController.TransitReady((int)StateID.Idle);
         }
 
-        protected override void OnTriggerEnter2D(BatmanController batmanController, Collider2D collision)
+        protected override void OnTriggerEnter(BatmanController batmanController, RockBusterDamage collision)
         {
-            //var damage = collision.GetComponent<ITriggerVisitable>();
-
-            //damage?.AcceptOnTriggerEnter(batmanController);
+            batmanController.batman.Damaged(collision.baseDamageValue);
         }
     }
 }
