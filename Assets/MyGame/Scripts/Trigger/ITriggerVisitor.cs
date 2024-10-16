@@ -11,7 +11,7 @@ public interface ITriggerVisitor<T> where T: ITriggerVisitable
     void OnCollisionExit(T collision);
 }
 
-public interface ITriggerVisitor
+public partial interface ITriggerVisitor
     : ITriggerVisitor<PlayerTrigger>, ITriggerVisitor<DamageBase>, ITriggerVisitor<RockBusterDamage>
 { }
 
