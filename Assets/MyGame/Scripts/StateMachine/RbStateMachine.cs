@@ -15,9 +15,7 @@ public interface IStateTriggerVisitor<T, C> where C : ITriggerVisitable
 
 
 public partial interface IStateTriggerVisitor<T>
-     : IStateTriggerVisitor<T, PlayerTrigger>, IStateTriggerVisitor<T, RockBusterDamage>
-{
-}
+{}
 
 public interface IRbState<T> : IBaseState<T>, IStateTriggerVisitor<T> where T : MonoBehaviour
 {
@@ -42,7 +40,6 @@ public interface ISubStateTriggerVisitor<T, PS, C> where C : ITriggerVisitable
 }
 
 public partial interface ISubStateTriggerVisitor<T, PS>
-   : ISubStateTriggerVisitor<T, PS, PlayerTrigger>, ISubStateTriggerVisitor<T, PS, RockBusterDamage>
 { }
 
 public interface IRbSubState<T, PS> : IBaseSubState<T, PS>, ISubStateTriggerVisitor<T, PS> where T : MonoBehaviour
