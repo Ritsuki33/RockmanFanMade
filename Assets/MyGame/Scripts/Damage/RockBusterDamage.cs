@@ -19,6 +19,8 @@ public class RockBusterDamage : DamageBase
     public void DeleteBuster() => projectile.Delete();
 }
 
+public partial interface ITriggerVisitor : ITriggerVisitor<RockBusterDamage>
+{ }
 
 public partial interface IStateTriggerVisitor<T>
      : IStateTriggerVisitor<T, RockBusterDamage>

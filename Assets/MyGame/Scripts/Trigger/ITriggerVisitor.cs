@@ -12,7 +12,6 @@ public interface ITriggerVisitor<T> where T: ITriggerVisitable
 }
 
 public partial interface ITriggerVisitor
-    : ITriggerVisitor<PlayerTrigger>, ITriggerVisitor<DamageBase>, ITriggerVisitor<RockBusterDamage>
 { }
 
 public interface ITriggerVisitable

@@ -19,6 +19,8 @@ public class #SCRIPTNAME#  : MonoBehaviour, ITriggerVisitable
 
 }
 
+public partial interface ITriggerVisitor: ITriggerVisitor< #SCRIPTNAME# >
+{}
 
 public partial interface IStateTriggerVisitor<T>
         : IStateTriggerVisitor<T, #SCRIPTNAME# >

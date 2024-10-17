@@ -21,6 +21,8 @@ public class DamageBase : MonoBehaviour, ITriggerVisitable
 
 }
 
+public partial interface ITriggerVisitor : ITriggerVisitor<DamageBase>
+{ }
 
 public partial interface IStateTriggerVisitor<T>
      : IStateTriggerVisitor<T, DamageBase>

@@ -22,6 +22,9 @@ public class PlayerTrigger : MonoBehaviour, ITriggerVisitable
 }
 
 
+public partial interface ITriggerVisitor: ITriggerVisitor<PlayerTrigger>
+{}
+
 public partial interface IStateTriggerVisitor<T>
      : IStateTriggerVisitor<T, PlayerTrigger>
 { }
