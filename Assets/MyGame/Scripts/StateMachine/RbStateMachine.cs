@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.Animations;
 
 public interface IStateTriggerVisitor<T, C> where C : ITriggerVisitable
@@ -231,45 +232,118 @@ where S : class, IRbState<T>
 where SM : IRbStateMachine<T, S>
 where G : SM, new()
 {
+    Dictionary<Collider2D, ITriggerVisitable> cacheCollider2D = new Dictionary<Collider2D, ITriggerVisitable>();
+    Dictionary<Collision2D, ITriggerVisitable> cachCollision2D = new Dictionary<Collision2D, ITriggerVisitable>();
+
+    protected virtual void OnDisable()
+    {
+        cacheCollider2D.Clear();
+        cachCollision2D.Clear();
+    }
+
+    protected virtual void OnDestroy()
+    {
+        cacheCollider2D.Clear();
+        cachCollision2D.Clear();
+    }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         stateMachine.OnTriggerEnter((T)this, collision);
+
         var collide = collision.gameObject.GetComponent<ITriggerVisitable>();
+
+        // キャッシュ
+        if (collide != null && !cacheCollider2D.ContainsKey(collision)) cacheCollider2D.Add(collision, collide);
+
         collide?.AcceptOnTriggerEnter(this);
     }
     private void OnTriggerStay2D(Collider2D collision)
     {
         stateMachine.OnTriggerStay((T)this, collision);
-        var collide = collision.gameObject.GetComponent<ITriggerVisitable>();
+
+        ITriggerVisitable collide = null;
+
+        if (cacheCollider2D.ContainsKey(collision))
+        {
+            collide = cacheCollider2D[collision];
+        }
+        else
+        {
+            // キャッシュがない場合は改めて取得して再キャッシュ
+            collide = collision.gameObject.GetComponent<ITriggerVisitable>();
+            if (collide != null) cacheCollider2D.Add(collision, collide);
+        }
+
         collide?.AcceptOnTriggerStay(this);
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
         stateMachine.OnTriggerExit((T)this, collision);
-        var collide = collision.gameObject.GetComponent<ITriggerVisitable>();
+
+        ITriggerVisitable collide = null;
+
+        if (cacheCollider2D.ContainsKey(collision))
+        {
+            collide = cacheCollider2D[collision];
+        }
+        else
+        {
+            // キャッシュがない場合は改めて取得
+            collide = collision.gameObject.GetComponent<ITriggerVisitable>();
+        }
         collide?.AcceptOnTriggerExit(this);
+
+        // キャッシュの削除
+        if (cacheCollider2D.ContainsKey(collision)) cacheCollider2D.Remove(collision);
+
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
         stateMachine.OnCollisionEnter((T)this, collision);
         var collide = collision.gameObject.GetComponent<ITriggerVisitable>();
+        // キャッシュ
+        if (!cachCollision2D.ContainsKey(collision)) cachCollision2D.Add(collision, collide);
         collide?.AcceptOnCollisionEnter(this);
     }
 
     private void OnCollisionStay2D(Collision2D collision)
     {
         stateMachine.OnCollisionStay((T)this, collision);
-        var collide = collision.gameObject.GetComponent<ITriggerVisitable>();
+        ITriggerVisitable collide = null;
+
+        if (cachCollision2D.ContainsKey(collision))
+        {
+            collide = cachCollision2D[collision];
+        }
+        else
+        {
+            // キャッシュがない場合は改めて取得して再キャッシュ
+            collide = collision.gameObject.GetComponent<ITriggerVisitable>();
+            cachCollision2D.Add(collision, collide);
+        }
         collide?.AcceptOnCollisionStay(this);
     }
 
     private void OnCollisionExit2D(Collision2D collision)
     {
         stateMachine.OnCollisionExit((T)this, collision);
-        var collide = collision.gameObject.GetComponent<ITriggerVisitable>();
+        ITriggerVisitable collide = null;
+
+        if (cachCollision2D.ContainsKey(collision))
+        {
+            collide = cachCollision2D[collision];
+        }
+        else
+        {
+            // キャッシュがない場合は改めて取得
+            collide = collision.gameObject.GetComponent<ITriggerVisitable>();
+        }
         collide?.AcceptOnCollisionExit(this);
+
+        if (cachCollision2D.ContainsKey(collision)) cachCollision2D.Remove(collision);
     }
 }
 

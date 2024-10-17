@@ -317,16 +317,12 @@ public class BaseStateMachine<T, SS, SM, G>
 
     void FixedUpdate()
     {
-        StartFixedUpdate();
         stateMachine.FixedUpdate((T)this);
-        EndtFixedUpdate();
     }
 
     void Update()
     {
-        StartUpdate();
         stateMachine.Update((T)this);
-        EndtUpdate();
     }
 
     public void AddState(int id, SS state) => stateMachine.AddState(id, state);
@@ -336,11 +332,6 @@ public class BaseStateMachine<T, SS, SM, G>
     public void TransitReady(int id, bool reset = false, int subId = -1) => stateMachine.TransitReady(id, reset, subId);
     public void TransitReady(int id, int subId) => stateMachine.TransitReady(id, false, subId);
 
-    protected virtual void StartFixedUpdate() { }
-    protected virtual void EndtFixedUpdate() { }
-
-    protected virtual void StartUpdate() { }
-    protected virtual void EndtUpdate() { }
 }
 
 

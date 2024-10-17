@@ -351,8 +351,9 @@ public class ExRbStateMachine<T>
     {
         ((IBaseExRbHit)this).OnEnable(this.gameObject);
     }
-    private void OnDisable()
+    protected override void OnDisable()
     {
+        base.OnDisable();
         ((IBaseExRbHit)this).OnDisable(this.gameObject);
     }
 
