@@ -51,7 +51,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 373c69e130ddfb541b5b602a35f91a4e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemy: {fileID: 2728003768869186676}
+  batman: {fileID: 2728003768869186676}
   _animator: {fileID: 7417334609489879742}
 --- !u!114 &54479242450792280
 MonoBehaviour:

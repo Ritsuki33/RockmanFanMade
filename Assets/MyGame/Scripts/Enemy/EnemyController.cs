@@ -1,27 +1,27 @@
-﻿using UnityEngine;
+﻿//using UnityEngine;
 
-public class EnemyController<T,E> : ExRbStateMachine<T>, IDamageController where T: ExRbStateMachine<T> where E: EnemyObject
-{
-    [SerializeField] protected E enemy;
+//public class EnemyController<T,E> : ExRbStateMachine<T>, ITriggerVisitor where T: ExRbStateMachine<T> where E: EnemyObject
+//{
+//    [SerializeField] protected E enemy;
 
-    void IDamageController.TakeDamage(DamageBase damage)
-    {
-        enemy.Damaged(damage.baseDamageValue);
-    }
+//    void ITriggerVisitor<DamageBase>.OnTriggerEnter(DamageBase damage)
+//    {
+//        enemy.Damaged(damage.baseDamageValue);
+//    }
 
-    void IDamageController.TakeDamage(RockBusterDamage damage)
-    {
-        TakeDamage(damage);
-    }
+//    void ITriggerVisitor<RockBusterDamage>.OnTriggerEnter(RockBusterDamage damage)
+//    {
+//        Take(damage);
+//    }
 
-    protected virtual void TakeDamage(DamageBase damage) {
-        enemy.Damaged(damage.baseDamageValue);
-    }
+//    protected virtual void Take(DamageBase damage) {
+//        enemy.Damaged(damage.baseDamageValue);
+//    }
 
-    protected virtual void TakeDamage(RockBusterDamage damage)
-    {
-        enemy.Damaged(damage.baseDamageValue);
+//    protected virtual void Take(RockBusterDamage damage)
+//    {
+//        enemy.Damaged(damage.baseDamageValue);
 
-        if (damage.baseDamageValue == 1 || enemy.CurrentHp > 0) damage.DeleteBuster();
-    }
-}
+//        if (damage.baseDamageValue == 1 || enemy.CurrentHp > 0) damage.DeleteBuster();
+//    }
+//}

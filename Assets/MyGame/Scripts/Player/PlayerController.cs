@@ -2,7 +2,7 @@
 using System.Collections;
 using UnityEngine;
 
-public partial class PlayerController : ExRbStateMachine<PlayerController>,IDamageController
+public partial class PlayerController : ExRbStateMachine<PlayerController>
 {
     [SerializeField] Player player;
     [SerializeField] LauncherController launcherController;
@@ -236,12 +236,5 @@ public partial class PlayerController : ExRbStateMachine<PlayerController>,IDama
 
             yield return null;
         }
-    }
-
-    void IDamageController.TakeDamage(DamageBase damage)
-    {
-        if (invincible == true) return;
-        Damaged(damage.baseDamageValue);
-
     }
 }

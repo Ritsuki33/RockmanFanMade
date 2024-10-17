@@ -71,10 +71,11 @@ public class BigDogController : RbStateMachine<BigDogController>
                 );
         }
 
-        protected override void OnTriggerEnter2D(BigDogController ctr, Collider2D collision)
+        protected override void OnTriggerEnter(BigDogController ctr, RockBusterDamage collision)
         {
-            ctr.bigDog.Attacked(collision);
+            ctr.bigDog.Damaged(collision.baseDamageValue);
         }
+      
     }
 
     class Fire : RbState<BigDogController, Fire>
@@ -127,9 +128,9 @@ public class BigDogController : RbStateMachine<BigDogController>
             }
         }
 
-        protected override void OnTriggerEnter2D(BigDogController ctr, Collider2D collision)
+        protected override void OnTriggerEnter(BigDogController ctr, RockBusterDamage collision)
         {
-            ctr.bigDog.Attacked(collision);
+            ctr.bigDog.Damaged(collision.baseDamageValue);
         }
     }
 
@@ -227,9 +228,9 @@ public class BigDogController : RbStateMachine<BigDogController>
           
         }
 
-        protected override void OnTriggerEnter2D(BigDogController ctr, Collider2D collision)
+        protected override void OnTriggerEnter(BigDogController ctr, RockBusterDamage collision)
         {
-            ctr.bigDog.Attacked(collision);
+            ctr.bigDog.Damaged(collision.baseDamageValue);
         }
     }
 }

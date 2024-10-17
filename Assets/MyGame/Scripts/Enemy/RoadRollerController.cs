@@ -60,9 +60,9 @@ public class RoadRollerController : ExRbStateMachine<RoadRollerController>
             roller.TransitReady((int)StateId.Move);
         }
 
-        protected override void OnTriggerEnter2D(RoadRollerController roller, Collider2D collision)
+        protected override void OnTriggerEnter(RoadRollerController roller, RockBusterDamage collision)
         {
-            roller.roadRoller.Attacked(collision);
+            roller.roadRoller.Damaged(collision.baseDamageValue);
         }
     }
 
@@ -96,9 +96,9 @@ public class RoadRollerController : ExRbStateMachine<RoadRollerController>
             if (!roller.IsRight) { roller.TransitReady((int)StateId.Turn); }
         }
 
-        protected override void OnTriggerEnter2D(RoadRollerController roller, Collider2D collision)
+        protected override void OnTriggerEnter(RoadRollerController roller, RockBusterDamage collision)
         {
-            roller.roadRoller.Attacked(collision);
+            roller.roadRoller.Damaged(collision.baseDamageValue);
         }
     }
 
@@ -118,9 +118,9 @@ public class RoadRollerController : ExRbStateMachine<RoadRollerController>
             }
         }
 
-        protected override void OnTriggerEnter2D(RoadRollerController roller, Collider2D collision)
+        protected override void OnTriggerEnter(RoadRollerController roller, RockBusterDamage collision)
         {
-            roller.roadRoller.Attacked(collision);
+            roller.roadRoller.Damaged(collision.baseDamageValue);
         }
     }
 

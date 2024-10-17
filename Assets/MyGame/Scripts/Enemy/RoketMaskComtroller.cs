@@ -70,7 +70,7 @@ public class RoketMaskComtroller : RbStateMachine<RoketMaskComtroller>
             }
         }
 
-        protected override void OnTriggerEnter2D(RoketMaskComtroller rocketMask, Collider2D collision)
+        protected override void OnTriggerEnter(RoketMaskComtroller rocketMask, RockBusterDamage collision)
         {
             rocketMask.Atacked(collision);
         }
@@ -93,55 +93,52 @@ public class RoketMaskComtroller : RbStateMachine<RoketMaskComtroller>
             }
         }
 
-        protected override void OnTriggerEnter2D(RoketMaskComtroller rocketMask, Collider2D collision)
+        protected override void OnTriggerEnter(RoketMaskComtroller rocketMask, RockBusterDamage collision)
         {
             rocketMask.Atacked(collision);
         }
     }
 
-    public void Atacked(Collider2D collision)
+    public void Atacked(RockBusterDamage damage)
     {
-        if ((!isRight && (this.transform.position.x > collision.transform.position.x))
-           || (isRight && (this.transform.position.x < collision.transform.position.x)))
+        if ((!isRight && (this.transform.position.x > damage.transform.position.x))
+           || (isRight && (this.transform.position.x < damage.transform.position.x)))
         {
-            Defense(collision);
+            Defense(damage);
         }
         else
         {
-            rocketMask.Attacked(collision);
+            rocketMask.Damaged(damage.baseDamageValue);
         }
     }
 
-    public void Defense(Collider2D collision)
+    public void Defense(RockBusterDamage rockBuster)
     {
-        if (collision.gameObject.CompareTag("RockBuster"))
+        if (rockBuster.baseDamageValue == 1)
         {
-            ReflectBuster(collision);
+            ReflectBuster(rockBuster);
         }
-        else if (collision.gameObject.CompareTag("ChargeShot"))
+        else if (rockBuster.baseDamageValue > 1)
         {
-            var rockBuster = collision.gameObject.GetComponent<Projectile>();
-            rockBuster.Delete();
+            rockBuster.DeleteBuster();
         }
     }
 
-    public void ReflectBuster(Collider2D collision)
+    public void ReflectBuster(RockBusterDamage rockBuster)
     {
-        var rockBuster = collision.gameObject.GetComponent<Projectile>();
-
         if (defense != null) StopCoroutine(defense);
         defense = StartCoroutine(DefenseRockBuster(rockBuster));
     }
 
-    IEnumerator DefenseRockBuster(Projectile projectile)
+    IEnumerator DefenseRockBuster(RockBusterDamage rockBuster)
     {
-        Vector2 reflection = projectile.CurVelocity;
-        float speed = projectile.CurSpeed;
+        Vector2 reflection = rockBuster.projectile.CurVelocity;
+        float speed = rockBuster.projectile.CurSpeed;
         reflection.x *= -1;
         reflection = new Vector2(reflection.x, 0).normalized;
         reflection += Vector2.up;
         reflection = reflection.normalized;
-        projectile.Init(
+        rockBuster.projectile.Init(
             0,
             null
 ,

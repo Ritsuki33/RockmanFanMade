@@ -108,13 +108,13 @@ public partial class MettoruController : ExRbStateMachine<MettoruController>
             });
     }
 
-    public void Defense(Collider2D collision)
+    public void Defense(RockBusterDamage collision)
     {
-        if (collision.gameObject.CompareTag("RockBuster"))
+        if (collision.baseDamageValue==1)
         {
             ReflectBuster(collision);
         }
-        else if (collision.gameObject.CompareTag("ChargeShot"))
+        else if (collision.baseDamageValue > 1)
         {
             var rockBuster = collision.gameObject.GetComponent<Projectile>();
             rockBuster.Delete();
@@ -122,19 +122,17 @@ public partial class MettoruController : ExRbStateMachine<MettoruController>
     }
 
 
-    public void ReflectBuster(Collider2D collision)
+    public void ReflectBuster(RockBusterDamage collision)
     {
-        var rockBuster = collision.gameObject.GetComponent<Projectile>();
-
         if (defense != null) StopCoroutine(defense);
-        defense = StartCoroutine(DefenseRockBuster(rockBuster));
+        defense = StartCoroutine(DefenseRockBuster(collision.projectile));
     }
 
     /// <summary>
     /// 死亡
     /// </summary>
     /// <param name="collision"></param>
-    private void Attacked(Collider2D collision) => mettrou.Attacked(collision);
+    private void Damaged(int val) => mettrou.Damaged(val);
 
     /// <summary>
     /// ターゲットに振り向き

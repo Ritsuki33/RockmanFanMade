@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BatmanController : EnemyController<BatmanController,Batman>
+public class BatmanController : ExRbStateMachine<BatmanController>
 {
+    [SerializeField] Batman batman;
     [SerializeField] Animator _animator;
     ExpandRigidBody exRb;
 
@@ -55,12 +56,9 @@ public class BatmanController : EnemyController<BatmanController,Batman>
             }
             , true);
         }
-
-        protected override void OnTriggerEnter2D(BatmanController batmanController, Collider2D collision)
+        protected override void OnTriggerEnter(BatmanController batmanController, RockBusterDamage collision)
         {
-            var damage = collision.GetComponent<DamageBase>();
-
-            damage?.Accept(batmanController);
+            batmanController.batman.Damaged(collision.baseDamageValue);
         }
     }
 
@@ -85,11 +83,9 @@ public class BatmanController : EnemyController<BatmanController,Batman>
             }
         }
 
-        protected override void OnTriggerEnter2D(BatmanController batmanController, Collider2D collision)
+        protected override void OnTriggerEnter(BatmanController batmanController, RockBusterDamage collision)
         {
-            var damage = collision.GetComponent<DamageBase>();
-
-            damage?.Accept(batmanController);
+            batmanController.batman.Damaged(collision.baseDamageValue);
         }
     }
 
@@ -110,19 +106,14 @@ public class BatmanController : EnemyController<BatmanController,Batman>
             batmanController.exRb.velocity = speed * move.normalized;
         }
 
-        protected override void OnTriggerEnter2D(BatmanController batmanController, Collider2D collision)
+        protected override void OnTriggerEnter(BatmanController batmanController, RockBusterDamage collision)
         {
-            if (collision.gameObject.CompareTag("Player"))
-            {
-                batmanController.TransitReady((int)StateID.ToIdle);
-            }
-            else
-            {
-                var damage = collision.GetComponent<DamageBase>();
+            batmanController.batman.Damaged(collision.baseDamageValue);
+        }
 
-                damage?.Accept(batmanController);
-            }
-
+        protected override void OnTriggerEnter(BatmanController batmanController, PlayerTrigger collision)
+        {
+            batmanController.TransitReady((int)StateID.ToIdle);
         }
     }
 
@@ -149,11 +140,9 @@ public class BatmanController : EnemyController<BatmanController,Batman>
             batmanController.TransitReady((int)StateID.Idle);
         }
 
-        protected override void OnTriggerEnter2D(BatmanController batmanController, Collider2D collision)
+        protected override void OnTriggerEnter(BatmanController batmanController, RockBusterDamage collision)
         {
-            var damage = collision.GetComponent<DamageBase>();
-
-            damage?.Accept(batmanController);
+            batmanController.batman.Damaged(collision.baseDamageValue);
         }
     }
 }

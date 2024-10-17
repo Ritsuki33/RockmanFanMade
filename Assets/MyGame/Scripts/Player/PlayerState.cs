@@ -74,10 +74,9 @@ public partial class PlayerController
             player.gravity.OnGround(hit.normal);
         }
 
-        protected override void OnTriggerEnter2D(PlayerController player, Collider2D collision)
+        protected override void OnTriggerEnter(PlayerController player, DamageBase collision)
         {
-            var damage = collision.GetComponent<DamageBase>();
-            damage?.Accept(player);
+            if (!player.invincible) player.Damaged(collision.baseDamageValue);
         }
 
         // ==========================================
@@ -186,10 +185,9 @@ public partial class PlayerController
             player.gravity.OnGround(hit.normal);
         }
 
-        protected override void OnTriggerEnter2D(PlayerController player, Collider2D collision)
+        protected override void OnTriggerEnter(PlayerController player, DamageBase collision)
         {
-            var damage = collision.GetComponent<DamageBase>();
-            damage?.Accept(player);
+            if (!player.invincible) player.Damaged(collision.baseDamageValue);
         }
 
         // ============================================================
@@ -296,12 +294,11 @@ public partial class PlayerController
             player.TransitReady((int)StateID.Standing);
         }
 
-        protected override void OnTriggerEnter2D(PlayerController player, Collider2D collision)
+        protected override void OnTriggerEnter(PlayerController player, DamageBase collision)
         {
-            var damage = collision.GetComponent<DamageBase>();
-            damage?.Accept(player);
-
+            if (!player.invincible) player.Damaged(collision.baseDamageValue);
         }
+
         class Basic: ExRbSubState<PlayerController, Basic, Floating>
         {
             int animationHash = 0;
@@ -414,10 +411,9 @@ public partial class PlayerController
             player.jump.SetSpeed(0);
         }
 
-        protected override void OnTriggerEnter2D(PlayerController player, Collider2D collision)
+        protected override void OnTriggerEnter(PlayerController player, DamageBase collision)
         {
-            var damage = collision.GetComponent<DamageBase>();
-            damage?.Accept(player);
+            if (!player.invincible) player.Damaged(collision.baseDamageValue);
         }
 
         class Basic: ExRbSubState<PlayerController, Basic, Jumping>
@@ -630,7 +626,7 @@ public partial class PlayerController
             player.TransitReady((int)StateID.Transfered);
         }
 
-        protected override void OnTriggerEnter2D(PlayerController player, Collider2D collision)
+        protected override void OnTriggerEnter(PlayerController player, Collider2D collision)
         {
             player.boxPhysicalCollider.enabled = true;
         }

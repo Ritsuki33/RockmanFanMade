@@ -54,9 +54,9 @@ public partial class MettoruController
                    });
         }
 
-        protected override void OnTriggerEnter2D(MettoruController mettoru, Collider2D collision)
+        protected override void OnTriggerEnter(MettoruController mettoru, RockBusterDamage collision)
         {
-            mettoru.Attacked(collision);
+            mettoru.Damaged(collision.baseDamageValue);
         }
     }
 
@@ -105,9 +105,9 @@ public partial class MettoruController
                   });
         }
 
-        protected override void OnTriggerEnter2D(MettoruController mettoru, Collider2D collision)
+        protected override void OnTriggerEnter(MettoruController mettoru, RockBusterDamage collision)
         {
-            mettoru.Attacked(collision);
+            mettoru.Damaged(collision.baseDamageValue);
         }
     }
 
@@ -135,10 +135,11 @@ public partial class MettoruController
             }
         }
 
-        protected override void OnTriggerEnter2D(MettoruController mettoru, Collider2D collision)
+        protected override void OnTriggerEnter(MettoruController mettoru, RockBusterDamage collision)
         {
             mettoru.Defense(collision);
         }
+       
     }
 
     class Hiding : ExRbState<MettoruController, Hiding>
@@ -183,7 +184,7 @@ public partial class MettoruController
             }
         }
 
-        protected override void OnTriggerEnter2D(MettoruController mettoru, Collider2D collision)
+        protected override void OnTriggerEnter(MettoruController mettoru, RockBusterDamage collision)
         {
             mettoru.Defense(collision);
         }
@@ -223,9 +224,9 @@ public partial class MettoruController
             }
         }
 
-        protected override void OnTriggerEnter2D(MettoruController mettoru, Collider2D collision)
+        protected override void OnTriggerEnter(MettoruController mettoru, RockBusterDamage collision)
         {
-            mettoru.Attacked(collision);
+            mettoru.Damaged(collision.baseDamageValue);
         }
     }
 
@@ -268,9 +269,9 @@ public partial class MettoruController
                    });
         }
 
-        protected override void OnTriggerEnter2D(MettoruController mettoru, Collider2D collision)
+        protected override void OnTriggerEnter(MettoruController mettoru, RockBusterDamage collision)
         {
-            mettoru.Attacked(collision);
+            mettoru.Damaged(collision.baseDamageValue);
         }
     }
 
@@ -302,9 +303,9 @@ public partial class MettoruController
             }
         }
 
-        protected override void OnTriggerEnter2D(MettoruController mettoru, Collider2D collision)
+        protected override void OnTriggerEnter(MettoruController mettoru, RockBusterDamage collision)
         {
-            mettoru.Attacked(collision);
+            mettoru.Damaged(collision.baseDamageValue);
         }
     }
 
@@ -331,9 +332,9 @@ public partial class MettoruController
                 mettoru.TransitReady((int)StateID.Idle);
         }
 
-        protected override void OnTriggerEnter2D(MettoruController mettoru, Collider2D collision)
+        protected override void OnTriggerEnter(MettoruController mettoru, RockBusterDamage collision)
         {
-            mettoru.Attacked(collision);
+            mettoru.Damaged(collision.baseDamageValue);
         }
     }
 }

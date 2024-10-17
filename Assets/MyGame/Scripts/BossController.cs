@@ -95,10 +95,10 @@ public class BossController : ExRbStateMachine<BossController>
                 parent.TransitSubReady((int)SubStateId.Pause);
             }
 
-            protected override void OnTriggerEnter2D(BossController ctr, Appearance parent, Collider2D collision)
-            {
-                ctr._exRb.BoxCollider.enabled = true;
-            }
+            //protected override void OnTriggerEnter2D(BossController ctr, Appearance parent, Collider2D collision)
+            //{
+            //    ctr._exRb.BoxCollider.enabled = true;
+            //}
         }
 
         class Pause : ExRbSubState<BossController, Pause, Appearance>
@@ -175,9 +175,9 @@ public class BossController : ExRbStateMachine<BossController>
             ctr._gravity.Reset();
         }
 
-        protected override void OnTriggerEnter2D(BossController ctr, Collider2D collision)
+        protected override void OnTriggerEnter(BossController ctr, RockBusterDamage collision)
         {
-            ctr.boss.Attacked(collision);
+            ctr.boss.Damaged(collision.baseDamageValue);
         }
     }
 
@@ -232,9 +232,9 @@ public class BossController : ExRbStateMachine<BossController>
             ctr.TransitReady((int)StateId.Idle);
         }
 
-        protected override void OnTriggerEnter2D(BossController ctr, Collider2D collision)
+        protected override void OnTriggerEnter(BossController ctr, RockBusterDamage collision)
         {
-            ctr.boss.Attacked(collision);
+            ctr.boss.Damaged(collision.baseDamageValue);
         }
     }
 
@@ -314,9 +314,9 @@ public class BossController : ExRbStateMachine<BossController>
             ctr.TransitReady((int)StateId.Idle);
         }
 
-        protected override void OnTriggerEnter2D(BossController ctr, Collider2D collision)
+        protected override void OnTriggerEnter(BossController ctr, RockBusterDamage collision)
         {
-            ctr.boss.Attacked(collision);
+            ctr.boss.Damaged(collision.baseDamageValue);
         }
     }
 
@@ -405,9 +405,9 @@ public class BossController : ExRbStateMachine<BossController>
             }
         }
 
-        protected override void OnTriggerEnter2D(BossController ctr, Collider2D collision)
+        protected override void OnTriggerEnter(BossController ctr, RockBusterDamage collision)
         {
-            ctr.boss.Attacked(collision);
+            ctr.boss.Damaged(collision.baseDamageValue);
         }
     }
 
@@ -510,9 +510,9 @@ public class BossController : ExRbStateMachine<BossController>
             }
         }
 
-        protected override void OnTriggerEnter2D(BossController ctr, Collider2D collision)
+        protected override void OnTriggerEnter(BossController ctr, RockBusterDamage collision)
         {
-            ctr.boss.Attacked(collision);
+            ctr.boss.Damaged(collision.baseDamageValue);
         }
     }
 
