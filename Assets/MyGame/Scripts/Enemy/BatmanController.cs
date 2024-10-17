@@ -110,6 +110,11 @@ public class BatmanController : ExRbStateMachine<BatmanController>
         {
             batmanController.batman.Damaged(collision.baseDamageValue);
         }
+
+        protected override void OnTriggerEnter(BatmanController batmanController, PlayerTrigger collision)
+        {
+            batmanController.TransitReady((int)StateID.ToIdle);
+        }
     }
 
     class ToIdle : ExRbState<BatmanController, ToIdle>

@@ -76,7 +76,7 @@ public partial class PlayerController
 
         protected override void OnTriggerEnter(PlayerController player, DamageBase collision)
         {
-            if (player.invincible) player.Damaged(collision.baseDamageValue);
+            if (!player.invincible) player.Damaged(collision.baseDamageValue);
         }
 
         // ==========================================
@@ -187,7 +187,7 @@ public partial class PlayerController
 
         protected override void OnTriggerEnter(PlayerController player, DamageBase collision)
         {
-            if (player.invincible) player.Damaged(collision.baseDamageValue);
+            if (!player.invincible) player.Damaged(collision.baseDamageValue);
         }
 
         // ============================================================
@@ -296,7 +296,7 @@ public partial class PlayerController
 
         protected override void OnTriggerEnter(PlayerController player, DamageBase collision)
         {
-            if (player.invincible) player.Damaged(collision.baseDamageValue);
+            if (!player.invincible) player.Damaged(collision.baseDamageValue);
         }
 
         class Basic: ExRbSubState<PlayerController, Basic, Floating>
@@ -413,7 +413,7 @@ public partial class PlayerController
 
         protected override void OnTriggerEnter(PlayerController player, DamageBase collision)
         {
-            if (player.invincible) player.Damaged(collision.baseDamageValue);
+            if (!player.invincible) player.Damaged(collision.baseDamageValue);
         }
 
         class Basic: ExRbSubState<PlayerController, Basic, Jumping>
