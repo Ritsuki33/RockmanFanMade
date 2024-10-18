@@ -1,5 +1,29 @@
-﻿using UnityEngine;
-public interface IExRbState<T> : IRbState<T> where T : MonoBehaviour
+﻿using System.Collections.Generic;
+using UnityEngine;
+
+public interface IStateHitVisitor<T, C> where C : IHitVisitable
+{
+    void OnHitEnter(T obj, C hit);
+    void OnBottomHitEnter(T obj, C hit);
+    void OnTopHitEnter(T obj, C hit);
+    void OnLeftHitEnter(T obj, C hit);
+    void OnRightHitEnter(T obj, C hit);
+    void OnHitStay(T obj, C hit);
+    void OnBottomHitStay(T obj, C hit);
+    void OnTopHitStay(T obj, C hit);
+    void OnLeftHitStay(T obj, C hit);
+    void OnRightHitStay(T obj, C hit);
+    void OnHitExit(T obj, C hit);
+    void OnBottomHitExit(T obj, C hit);
+    void OnTopHitExit(T obj, C hit);
+    void OnLeftHitExit(T obj, C hit);
+    void OnRightHitExit(T obj, C hit);
+}
+
+public partial interface IStateHitVisitor<T>
+{ }
+
+public interface IExRbState<T> : IRbState<T>, IStateHitVisitor<T> where T : MonoBehaviour
 {
     void OnHitEnter(T obj, RaycastHit2D hit);
     void OnBottomHitEnter(T obj, RaycastHit2D hit);
@@ -18,7 +42,29 @@ public interface IExRbState<T> : IRbState<T> where T : MonoBehaviour
     void OnRightHitExit(T obj, RaycastHit2D hit);
 }
 
-public interface IExRbSubState<T, PS> : IRbSubState<T, PS> where T : MonoBehaviour
+public interface ISubStateHitVisitor<T, PS, C> where C : ITriggerVisitable
+{
+    void OnHitEnter(T obj, PS parent, C hit);
+    void OnBottomHitEnter(T obj, PS parent, C hit);
+    void OnTopHitEnter(T obj, PS parent, C hit);
+    void OnLeftHitEnter(T obj, PS parent, C hit);
+    void OnRightHitEnter(T obj, PS parent, C hit);
+    void OnHitStay(T obj, PS parent, C hit);
+    void OnBottomHitStay(T obj, PS parent, C hit);
+    void OnTopHitStay(T obj, PS parent, C hit);
+    void OnLeftHitStay(T obj, PS parent, C hit);
+    void OnRightHitStay(T obj, PS parent, C hit);
+    void OnHitExit(T obj, PS parent, C hit);
+    void OnBottomHitExit(T obj, PS parent, C hit);
+    void OnTopHitExit(T obj, PS parent, C hit);
+    void OnLeftHitExit(T obj, PS parent, C hit);
+    void OnRightHitExit(T obj, PS parent, C hit);
+}
+
+public partial interface ISubStateHitVisitor<T, PS>
+{ }
+
+public interface IExRbSubState<T, PS> : IRbSubState<T, PS>, ISubStateHitVisitor<T, PS> where T : MonoBehaviour
 {
     void OnHitEnter(T obj, PS parent, RaycastHit2D hit);
     void OnBottomHitEnter(T obj, PS parent, RaycastHit2D hit);
@@ -41,7 +87,7 @@ public interface IExRbSubState<T, PS> : IRbSubState<T, PS> where T : MonoBehavio
 /// 状態ノード
 /// </summary>
 /// <typeparam name="T"></typeparam>
-public class BaseExRbState<T, TS, SS, SM, G> : BaseRbState<T, TS, SS, SM, G>, IExRbState<T>
+public partial class BaseExRbState<T, TS, SS, SM, G> : BaseRbState<T, TS, SS, SM, G>, IExRbState<T>
     where T : MonoBehaviour
     where TS : class, IExRbState<T>
     where SS : class, IExRbSubState<T, TS>
@@ -139,13 +185,14 @@ public class BaseExRbState<T, TS, SS, SM, G> : BaseRbState<T, TS, SS, SM, G>, IE
         OnRightHitExit(obj, hit);
         subStateMachine?.OnRightHitExit(obj, this as TS, hit);
     }
+
 }
 
 /// <summary>
 /// 状態ノード
 /// </summary>
 /// <typeparam name="T"></typeparam>
-public class BaseExRbSubState<T, TS, SS, SM, G, PS> : BaseRbSubState<T, TS, SS, SM, G, PS>, IExRbSubState<T, PS>
+public partial class BaseExRbSubState<T, TS, SS, SM, G, PS> : BaseRbSubState<T, TS, SS, SM, G, PS>, IExRbSubState<T, PS>
     where T : MonoBehaviour
     where TS : class, IExRbSubState<T, PS>
     where SS : class, IExRbSubState<T, TS>
@@ -244,6 +291,7 @@ public class BaseExRbSubState<T, TS, SS, SM, G, PS> : BaseRbSubState<T, TS, SS, 
         OnRightHitExit(obj, parent, hit);
         subStateMachine?.OnRightHitExit(obj, this as TS, hit);
     }
+
 }
 
 /// <summary>
@@ -263,7 +311,7 @@ public class ExRbSubState<T, TS, PS> :
     where PS : class, IBaseCommonState<T>
 { }
 
-public interface IExRbStateMachine<T, S> : IRbStateMachine<T, S> where T : MonoBehaviour where S : class, IExRbState<T>
+public interface IExRbStateMachine<T, S> : IRbStateMachine<T, S>, IStateHitVisitor<T> where T : MonoBehaviour where S : class, IExRbState<T>
 {
     void OnHitEnter(T obj, RaycastHit2D hit);
     void OnBottomHitEnter(T obj, RaycastHit2D hit);
@@ -282,7 +330,7 @@ public interface IExRbStateMachine<T, S> : IRbStateMachine<T, S> where T : MonoB
     void OnRightHitExit(T obj, RaycastHit2D hit);
 }
 
-public interface IExRbSubStateMachine<T, S, PS> : IRbSubStateMachine<T, S, PS> where T : MonoBehaviour where S : class, IExRbSubState<T, PS>
+public interface IExRbSubStateMachine<T, S, PS> : IRbSubStateMachine<T, S, PS>, ISubStateHitVisitor<T, PS> where T : MonoBehaviour where S : class, IExRbSubState<T, PS>
 {
     void OnHitEnter(T obj, PS parent, RaycastHit2D hit);
     void OnBottomHitEnter(T obj, PS parent, RaycastHit2D hit);
@@ -301,7 +349,7 @@ public interface IExRbSubStateMachine<T, S, PS> : IRbSubStateMachine<T, S, PS> w
     void OnRightHitExit(T obj, PS parent, RaycastHit2D hit);
 }
 
-public class GenericExRbStateMachine<T, S> : GenericRbStateMachine<T, S>, IExRbStateMachine<T, S> where T : MonoBehaviour where S : class, IExRbState<T>
+public partial class GenericExRbStateMachine<T, S> : GenericRbStateMachine<T, S>, IExRbStateMachine<T, S> where T : MonoBehaviour where S : class, IExRbState<T>
 {
     void IExRbStateMachine<T, S>.OnHitEnter(T obj, RaycastHit2D hit) => curState?.OnHitEnter(obj, hit);
     void IExRbStateMachine<T, S>.OnBottomHitEnter(T obj, RaycastHit2D hit) => curState?.OnBottomHitEnter(obj, hit);
@@ -318,9 +366,10 @@ public class GenericExRbStateMachine<T, S> : GenericRbStateMachine<T, S>, IExRbS
     void IExRbStateMachine<T, S>.OnTopHitExit(T obj, RaycastHit2D hit) => curState?.OnTopHitExit(obj, hit);
     void IExRbStateMachine<T, S>.OnLeftHitExit(T obj, RaycastHit2D hit) => curState?.OnLeftHitExit(obj, hit);
     void IExRbStateMachine<T, S>.OnRightHitExit(T obj, RaycastHit2D hit) => curState?.OnRightHitExit(obj, hit);
+
 }
 
-public class GenericExRbSubStateMachine<T, S, PS> : GenericRbSubStateMachine<T, S, PS>, IExRbSubStateMachine<T, S, PS> where T : MonoBehaviour where S : class, IExRbSubState<T, PS>
+public partial class GenericExRbSubStateMachine<T, S, PS> : GenericRbSubStateMachine<T, S, PS>, IExRbSubStateMachine<T, S, PS> where T : MonoBehaviour where S : class, IExRbSubState<T, PS>
 {
     void IExRbSubStateMachine<T, S, PS>.OnHitEnter(T obj, PS parent, RaycastHit2D hit) => curState?.OnHitEnter(obj, parent, hit);
     void IExRbSubStateMachine<T, S, PS>.OnBottomHitEnter(T obj, PS parent, RaycastHit2D hit) => curState?.OnBottomHitEnter(obj, parent, hit);
@@ -337,14 +386,15 @@ public class GenericExRbSubStateMachine<T, S, PS> : GenericRbSubStateMachine<T, 
     void IExRbSubStateMachine<T, S, PS>.OnTopHitExit(T obj, PS parent, RaycastHit2D hit) => curState?.OnTopHitExit(obj, parent, hit);
     void IExRbSubStateMachine<T, S, PS>.OnLeftHitExit(T obj, PS parent, RaycastHit2D hit) => curState?.OnLeftHitExit(obj, parent, hit);
     void IExRbSubStateMachine<T, S, PS>.OnRightHitExit(T obj, PS parent, RaycastHit2D hit) => curState?.OnRightHitExit(obj, parent, hit);
+
 }
 
 /// <summary>
 /// ステートマシン
 /// </summary>
 /// <typeparam name="T"></typeparam>
-public class ExRbStateMachine<T>
-    : BaseRbStateMachine<T, IExRbState<T>, IExRbStateMachine<T, IExRbState<T>>, GenericExRbStateMachine<T, IExRbState<T>>>, IBaseExRbHit
+public partial class ExRbStateMachine<T>
+    : BaseRbStateMachine<T, IExRbState<T>, IExRbStateMachine<T, IExRbState<T>>, GenericExRbStateMachine<T, IExRbState<T>>>, IBaseExRbHit, IHitVisitor
     where T : ExRbStateMachine<T>
 {
     private void OnEnable()
@@ -357,19 +407,280 @@ public class ExRbStateMachine<T>
         ((IBaseExRbHit)this).OnDisable(this.gameObject);
     }
 
-    void IBaseExRbHit.OnHitEnter(RaycastHit2D hit) => stateMachine.OnHitEnter((T)this, hit);
-    void IBaseExRbHit.OnBottomHitEnter(RaycastHit2D hit) => stateMachine.OnBottomHitEnter((T)this, hit);
-    void IBaseExRbHit.OnTopHitEnter(RaycastHit2D hit) => stateMachine.OnTopHitEnter((T)this, hit);
-    void IBaseExRbHit.OnLeftHitEnter(RaycastHit2D hit) => stateMachine.OnLeftHitEnter((T)this, hit);
-    void IBaseExRbHit.OnRightHitEnter(RaycastHit2D hit) => stateMachine.OnRightHitEnter((T)this, hit);
-    void IBaseExRbHit.OnHitStay(RaycastHit2D hit) => stateMachine.OnHitStay((T)this, hit);
-    void IBaseExRbHit.OnBottomHitStay(RaycastHit2D hit) => stateMachine.OnBottomHitStay((T)this, hit);
-    void IBaseExRbHit.OnTopHitStay(RaycastHit2D hit) => stateMachine.OnTopHitStay((T)this, hit);
-    void IBaseExRbHit.OnLeftHitStay(RaycastHit2D hit) => stateMachine.OnLeftHitStay((T)this, hit);
-    void IBaseExRbHit.OnRightHitStay(RaycastHit2D hit) => stateMachine.OnRightHitStay((T)this, hit);
-    void IBaseExRbHit.OnHitExit(RaycastHit2D hit) => stateMachine.OnHitExit((T)this, hit);
-    void IBaseExRbHit.OnBottomHitExit(RaycastHit2D hit) => stateMachine.OnBottomHitExit((T)this, hit);
-    void IBaseExRbHit.OnTopHitExit(RaycastHit2D hit) => stateMachine.OnTopHitExit((T)this, hit);
-    void IBaseExRbHit.OnLeftHitExit(RaycastHit2D hit) => stateMachine.OnLeftHitExit((T)this, hit);
-    void IBaseExRbHit.OnRightHitExit(RaycastHit2D hit) => stateMachine.OnRightHitExit((T)this, hit);
+    Dictionary<RaycastHit2D, IHitVisitable> onHitCache = new Dictionary<RaycastHit2D, IHitVisitable>();
+
+
+    void IBaseExRbHit.OnHitEnter(RaycastHit2D hit)
+    {
+        stateMachine.OnHitEnter((T)this, hit);
+
+        var hitv = hit.collider.GetComponent<IHitVisitable>();
+
+        hitv?.AcceptOnHitEnter(this);
+
+        // キャッシュ
+        if (!onHitCache.ContainsKey(hit)) onHitCache.Add(hit, hitv);
+    }
+
+    void IBaseExRbHit.OnHitStay(RaycastHit2D hit)
+    {
+        stateMachine.OnHitStay((T)this, hit);
+
+        IHitVisitable hitv = null;
+
+        if (onHitCache.ContainsKey(hit))
+        {
+            hitv = onHitCache[hit];
+        }
+        else
+        {
+            hitv = hit.collider.GetComponent<IHitVisitable>();
+
+            // キャッシュ
+            onHitCache.Add(hit, hitv);
+        }
+
+        hitv?.AcceptOnHitStay(this);
+    }
+
+
+    void IBaseExRbHit.OnHitExit(RaycastHit2D hit)
+    {
+        stateMachine.OnHitExit((T)this, hit);
+
+        IHitVisitable hitv = null;
+
+        if (onHitCache.ContainsKey(hit)){
+            hitv = onHitCache[hit];
+
+            // キャッシュを削除
+            onHitCache.Remove(hit);
+        }
+        else
+        {
+            hitv = hit.collider.GetComponent<IHitVisitable>();
+        }
+
+        hitv?.AcceptOnHitExit(this);
+
+    }
+
+    void IBaseExRbHit.OnBottomHitEnter(RaycastHit2D hit)
+    {
+        stateMachine.OnBottomHitEnter((T)this, hit);
+
+        var hitv = hit.collider.GetComponent<IHitVisitable>();
+
+        hitv?.AcceptOnBottomHitEnter(this);
+
+        // キャッシュ
+        if (!onHitCache.ContainsKey(hit)) onHitCache.Add(hit, hitv);
+    }
+
+
+    void IBaseExRbHit.OnBottomHitStay(RaycastHit2D hit)
+    {
+        stateMachine.OnBottomHitStay((T)this, hit);
+
+        IHitVisitable hitv = null;
+
+        if (onHitCache.ContainsKey(hit))
+        {
+            hitv = onHitCache[hit];
+        }
+        else
+        {
+            hitv = hit.collider.GetComponent<IHitVisitable>();
+
+            // キャッシュ
+            onHitCache.Add(hit, hitv);
+        }
+
+        hitv?.AcceptOnBottomHitStay(this);
+    }
+
+    void IBaseExRbHit.OnBottomHitExit(RaycastHit2D hit)
+    {
+        stateMachine.OnBottomHitExit((T)this, hit);
+
+        IHitVisitable hitv = null;
+
+        if (onHitCache.ContainsKey(hit))
+        {
+            hitv = onHitCache[hit];
+
+            // キャッシュを削除
+            onHitCache.Remove(hit);
+        }
+        else
+        {
+            hitv = hit.collider.GetComponent<IHitVisitable>();
+        }
+
+        hitv?.AcceptOnBottomHitExit(this);
+
+        // キャッシュを削除
+        if (onHitCache.ContainsKey(hit)) onHitCache.Remove(hit);
+    }
+
+    void IBaseExRbHit.OnTopHitEnter(RaycastHit2D hit)
+    {
+        stateMachine.OnTopHitEnter((T)this, hit);
+
+        var hitv = hit.collider.GetComponent<IHitVisitable>();
+
+        hitv?.AcceptOnTopHitEnter(this);
+
+        // キャッシュ
+        if (!onHitCache.ContainsKey(hit)) onHitCache.Add(hit, hitv);
+    }
+
+    void IBaseExRbHit.OnTopHitStay(RaycastHit2D hit)
+    {
+        stateMachine.OnTopHitStay((T)this, hit);
+
+        IHitVisitable hitv = null;
+
+        if (onHitCache.ContainsKey(hit))
+        {
+            hitv = onHitCache[hit];
+        }
+        else
+        {
+            hitv = hit.collider.GetComponent<IHitVisitable>();
+
+            // キャッシュ
+            onHitCache.Add(hit, hitv);
+        }
+
+        hitv?.AcceptOnTopHitStay(this);
+    }
+
+    void IBaseExRbHit.OnTopHitExit(RaycastHit2D hit)
+    {
+        stateMachine.OnTopHitExit((T)this, hit);
+
+        IHitVisitable hitv = null;
+
+        if (onHitCache.ContainsKey(hit))
+        {
+            hitv = onHitCache[hit];
+
+            // キャッシュを削除
+            onHitCache.Remove(hit);
+        }
+        else
+        {
+            hitv = hit.collider.GetComponent<IHitVisitable>();
+        }
+
+        hitv?.AcceptOnTopHitExit(this);
+    }
+
+    void IBaseExRbHit.OnLeftHitEnter(RaycastHit2D hit)
+    {
+        stateMachine.OnLeftHitEnter((T)this, hit);
+
+        var hitv = hit.collider.GetComponent<IHitVisitable>();
+
+        hitv?.AcceptOnLeftHitEnter(this);
+
+        // キャッシュ
+        if (!onHitCache.ContainsKey(hit)) onHitCache.Add(hit, hitv);
+    }
+
+    void IBaseExRbHit.OnLeftHitStay(RaycastHit2D hit)
+    {
+        stateMachine.OnLeftHitStay((T)this, hit);
+
+        IHitVisitable hitv = null;
+
+        if (onHitCache.ContainsKey(hit))
+        {
+            hitv = onHitCache[hit];
+        }
+        else
+        {
+            hitv = hit.collider.GetComponent<IHitVisitable>();
+
+            // キャッシュ
+            onHitCache.Add(hit, hitv);
+        }
+
+        hitv?.AcceptOnLeftHitStay(this);
+    }
+
+    void IBaseExRbHit.OnLeftHitExit(RaycastHit2D hit)
+    {
+        stateMachine.OnLeftHitExit((T)this, hit);
+
+        IHitVisitable hitv = null;
+
+        if (onHitCache.ContainsKey(hit))
+        {
+            hitv = onHitCache[hit];
+
+            // キャッシュを削除
+            onHitCache.Remove(hit);
+        }
+        else
+        {
+            hitv = hit.collider.GetComponent<IHitVisitable>();
+        }
+
+        hitv?.AcceptOnLeftHitExit(this);
+    }
+
+    void IBaseExRbHit.OnRightHitEnter(RaycastHit2D hit)
+    {
+        stateMachine.OnRightHitEnter((T)this, hit);
+
+        var hitv = hit.collider.GetComponent<IHitVisitable>();
+        hitv?.AcceptOnRightHitEnter(this);
+
+        // キャッシュ
+        if (!onHitCache.ContainsKey(hit)) onHitCache.Add(hit, hitv);
+    }
+
+    void IBaseExRbHit.OnRightHitStay(RaycastHit2D hit)
+    {
+        stateMachine.OnRightHitStay((T)this, hit);
+
+        IHitVisitable hitv = null;
+
+        if (onHitCache.ContainsKey(hit))
+        {
+            hitv = onHitCache[hit];
+        }
+        else
+        {
+            hitv = hit.collider.GetComponent<IHitVisitable>();
+
+            // キャッシュ
+            onHitCache.Add(hit, hitv);
+        }
+
+        hitv?.AcceptOnRightHitStay(this);
+    }
+
+    void IBaseExRbHit.OnRightHitExit(RaycastHit2D hit)
+    {
+        stateMachine.OnRightHitExit((T)this, hit);
+
+        IHitVisitable hitv = null;
+
+        if (onHitCache.ContainsKey(hit))
+        {
+            hitv = onHitCache[hit];
+
+            // キャッシュを削除
+            onHitCache.Remove(hit);
+        }
+        else
+        {
+            hitv = hit.collider.GetComponent<IHitVisitable>();
+        }
+
+        hitv?.AcceptOnRightHitExit(this);
+    }
 }
