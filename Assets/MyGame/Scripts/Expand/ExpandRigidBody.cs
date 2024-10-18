@@ -323,10 +323,10 @@ public class ExpandRigidBody : MonoBehaviour, IBaseExRbHit.IExRbCallbackSet
     public event Action<RaycastHit2D> onHitLeftExit;
     public event Action<RaycastHit2D> onHitRightExit;
 
-    bool isCollideBottom = false;
-    bool isCollideTop = false;
-    bool isCollideLeft = false;
-    bool isCollideRight = false;
+    RaycastHit2D casheCollideBottom = default;
+    RaycastHit2D casheCollideTop = default;
+    RaycastHit2D casheCollideLeft = default;
+    RaycastHit2D casheCollideRight = default;
 
     bool isCollideThroughFloorBottom = false;
 
@@ -416,26 +416,28 @@ public class ExpandRigidBody : MonoBehaviour, IBaseExRbHit.IExRbCallbackSet
                 else currentVelocity.y += correct;
             }
 
-            if (!isCollideTop)
+            if (casheCollideTop != topHit)
             {
+                if (casheCollideTop)
+                {
+                    onHitTopExit?.Invoke(casheCollideTop);
+                    onHitExit?.Invoke(casheCollideTop);
+                }
+
                 onHitTopEnter?.Invoke(topHit);
                 onHitEnter?.Invoke(topHit);
             }
+
             onHitTopStay?.Invoke(topHit);
             onHitStay?.Invoke(topHit);
-            isCollideTop = true;
         }
-        else
+        else if (casheCollideTop)
         {
-            if (isCollideTop)
-            {
-                onHitTopExit?.Invoke(topHit);
-                onHitExit?.Invoke(topHit);
-            }
-
-            isCollideTop = false;
+            onHitTopExit?.Invoke(casheCollideTop);
+            onHitExit?.Invoke(casheCollideTop);
         }
 
+        casheCollideTop = topHit;
 
         if (bottomHit)
         {
@@ -448,47 +450,54 @@ public class ExpandRigidBody : MonoBehaviour, IBaseExRbHit.IExRbCallbackSet
                 if (bottomHit.rigidbody) currentVelocity += bottomHit.rigidbody.velocity;
             }
 
-            if (!isCollideBottom)
+            if (casheCollideBottom != bottomHit)
             {
+                if (casheCollideBottom)
+                {
+                    onHitBottomExit?.Invoke(casheCollideBottom);
+                    onHitExit?.Invoke(casheCollideBottom);
+                }
+
                 onHitBottomEnter?.Invoke(bottomHit);
                 onHitEnter?.Invoke(bottomHit);
             }
+
             onHitBottomStay?.Invoke(bottomHit);
             onHitStay?.Invoke(bottomHit);
-            isCollideBottom = true;
         }
-        else
+        else if (casheCollideBottom)
         {
-            if (isCollideBottom)
-            {
-                onHitBottomExit?.Invoke(bottomHit);
-                onHitExit?.Invoke(bottomHit);
-            }
-            isCollideBottom = false;
+            onHitBottomExit?.Invoke(casheCollideBottom);
+            onHitExit?.Invoke(casheCollideBottom);
         }
+
+        casheCollideBottom = bottomHit;
 
         if (leftHit)
         {
             float correct = (leftHit.point.x - Left + physicalGap) / Time.fixedDeltaTime;
             if (currentVelocity.x <= 0) currentVelocity.x = correct;
-            if (!isCollideLeft)
+
+            if (casheCollideLeft != leftHit)
             {
+                if (casheCollideLeft)
+                {
+                    onHitLeftExit?.Invoke(casheCollideBottom);
+                    onHitExit?.Invoke(casheCollideBottom);
+                }
+
                 onHitLeftEnter?.Invoke(leftHit);
                 onHitEnter?.Invoke(leftHit);
             }
             onHitLeftStay?.Invoke(leftHit);
             onHitStay?.Invoke(leftHit);
-            isCollideLeft = true;
         }
-        else
+        else if (casheCollideLeft)
         {
-            if (isCollideLeft)
-            {
-                onHitLeftExit?.Invoke(leftHit);
-                onHitExit?.Invoke(leftHit);
-            }
-            isCollideLeft = false;
+            onHitLeftExit?.Invoke(casheCollideLeft);
+            onHitExit?.Invoke(casheCollideLeft);
         }
+        casheCollideLeft = leftHit;
 
 
         if (rightHit)
@@ -496,24 +505,29 @@ public class ExpandRigidBody : MonoBehaviour, IBaseExRbHit.IExRbCallbackSet
             float correct = (rightHit.point.x - Right - physicalGap) / Time.fixedDeltaTime;
             if (currentVelocity.x >= 0) currentVelocity.x = correct;
             else currentVelocity.x += correct;
-            if (!isCollideRight)
+
+            if (casheCollideRight!=rightHit)
             {
+                if (casheCollideRight)
+                {
+                    onHitRightExit?.Invoke(casheCollideRight);
+                    onHitExit?.Invoke(casheCollideRight);
+                }
+
                 onHitRightEnter?.Invoke(rightHit);
                 onHitEnter?.Invoke(rightHit);
             }
+
             onHitRightStay?.Invoke(rightHit);
             onHitStay?.Invoke(rightHit);
-            isCollideRight = true;
         }
-        else
+        else if (casheCollideRight)
         {
-            if (isCollideRight)
-            {
-                onHitRightExit?.Invoke(rightHit);
-                onHitExit?.Invoke(rightHit);
-            }
-            isCollideRight = false;
+                onHitRightExit?.Invoke(casheCollideRight);
+                onHitExit?.Invoke(casheCollideRight);
         }
+
+        casheCollideRight = rightHit;
 
         this.currentVelocity = currentVelocity;
 
@@ -548,7 +562,7 @@ public class ExpandRigidBody : MonoBehaviour, IBaseExRbHit.IExRbCallbackSet
                     if (throughFloorBottomHit.rigidbody) currentVelocity += throughFloorBottomHit.rigidbody.velocity;
                 }
 
-                if (!isCollideBottom)
+                if (!casheCollideBottom)
                 {
                     onHitBottomEnter?.Invoke(throughFloorBottomHit);
                     onHitEnter?.Invoke(throughFloorBottomHit);
