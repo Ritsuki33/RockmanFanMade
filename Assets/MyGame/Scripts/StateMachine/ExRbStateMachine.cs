@@ -397,6 +397,8 @@ public partial class ExRbStateMachine<T>
     : BaseRbStateMachine<T, IExRbState<T>, IExRbStateMachine<T, IExRbState<T>>, GenericExRbStateMachine<T, IExRbState<T>>>, IBaseExRbHit, IHitVisitor
     where T : ExRbStateMachine<T>
 {
+    Dictionary<RaycastHit2D, IHitVisitable> onHitCache = new Dictionary<RaycastHit2D, IHitVisitable>();
+
     private void OnEnable()
     {
         ((IBaseExRbHit)this).OnEnable(this.gameObject);
@@ -405,10 +407,14 @@ public partial class ExRbStateMachine<T>
     {
         base.OnDisable();
         ((IBaseExRbHit)this).OnDisable(this.gameObject);
+        onHitCache.Clear();
     }
 
-    Dictionary<RaycastHit2D, IHitVisitable> onHitCache = new Dictionary<RaycastHit2D, IHitVisitable>();
-
+    protected override void OnDestroy()
+    {
+        base.OnDestroy();
+        onHitCache.Clear();
+    }
 
     void IBaseExRbHit.OnHitEnter(RaycastHit2D hit)
     {

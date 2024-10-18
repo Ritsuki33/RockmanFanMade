@@ -229,19 +229,16 @@ where S : class, IRbState<T>
 where SM : IRbStateMachine<T, S>
 where G : SM, new()
 {
-    Dictionary<Collider2D, ITriggerVisitable> cacheCollider2D = new Dictionary<Collider2D, ITriggerVisitable>();
-    Dictionary<Collision2D, ITriggerVisitable> cachCollision2D = new Dictionary<Collision2D, ITriggerVisitable>();
+    Dictionary<GameObject, ITriggerVisitable> cacheCollider = new Dictionary<GameObject, ITriggerVisitable>();
 
     protected virtual void OnDisable()
     {
-        cacheCollider2D.Clear();
-        cachCollision2D.Clear();
+        cacheCollider.Clear();
     }
 
     protected virtual void OnDestroy()
     {
-        cacheCollider2D.Clear();
-        cachCollision2D.Clear();
+        cacheCollider.Clear();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -251,7 +248,7 @@ where G : SM, new()
         var collide = collision.gameObject.GetComponent<ITriggerVisitable>();
 
         // キャッシュ
-        if (collide != null && !cacheCollider2D.ContainsKey(collision)) cacheCollider2D.Add(collision, collide);
+        if (!cacheCollider.ContainsKey(collision.gameObject)) cacheCollider.Add(collision.gameObject, collide);
 
         collide?.AcceptOnTriggerEnter(this);
     }
@@ -261,15 +258,15 @@ where G : SM, new()
 
         ITriggerVisitable collide = null;
 
-        if (cacheCollider2D.ContainsKey(collision))
+        if (cacheCollider.ContainsKey(collision.gameObject))
         {
-            collide = cacheCollider2D[collision];
+            collide = cacheCollider[collision.gameObject];
         }
         else
         {
             // キャッシュがない場合は改めて取得して再キャッシュ
             collide = collision.gameObject.GetComponent<ITriggerVisitable>();
-            if (collide != null) cacheCollider2D.Add(collision, collide);
+            cacheCollider.Add(collision.gameObject, collide);
         }
 
         collide?.AcceptOnTriggerStay(this);
@@ -281,9 +278,9 @@ where G : SM, new()
 
         ITriggerVisitable collide = null;
 
-        if (cacheCollider2D.ContainsKey(collision))
+        if (cacheCollider.ContainsKey(collision.gameObject))
         {
-            collide = cacheCollider2D[collision];
+            collide = cacheCollider[collision.gameObject];
         }
         else
         {
@@ -293,7 +290,7 @@ where G : SM, new()
         collide?.AcceptOnTriggerExit(this);
 
         // キャッシュの削除
-        if (cacheCollider2D.ContainsKey(collision)) cacheCollider2D.Remove(collision);
+        if (cacheCollider.ContainsKey(collision.gameObject)) cacheCollider.Remove(collision.gameObject);
 
     }
 
@@ -302,7 +299,7 @@ where G : SM, new()
         stateMachine.OnCollisionEnter((T)this, collision);
         var collide = collision.gameObject.GetComponent<ITriggerVisitable>();
         // キャッシュ
-        if (!cachCollision2D.ContainsKey(collision)) cachCollision2D.Add(collision, collide);
+        if (!cacheCollider.ContainsKey(collision.gameObject)) cacheCollider.Add(collision.gameObject, collide);
         collide?.AcceptOnCollisionEnter(this);
     }
 
@@ -311,15 +308,15 @@ where G : SM, new()
         stateMachine.OnCollisionStay((T)this, collision);
         ITriggerVisitable collide = null;
 
-        if (cachCollision2D.ContainsKey(collision))
+        if (cacheCollider.ContainsKey(collision.gameObject))
         {
-            collide = cachCollision2D[collision];
+            collide = cacheCollider[collision.gameObject];
         }
         else
         {
             // キャッシュがない場合は改めて取得して再キャッシュ
             collide = collision.gameObject.GetComponent<ITriggerVisitable>();
-            cachCollision2D.Add(collision, collide);
+            cacheCollider.Add(collision.gameObject, collide);
         }
         collide?.AcceptOnCollisionStay(this);
     }
@@ -329,9 +326,9 @@ where G : SM, new()
         stateMachine.OnCollisionExit((T)this, collision);
         ITriggerVisitable collide = null;
 
-        if (cachCollision2D.ContainsKey(collision))
+        if (cacheCollider.ContainsKey(collision.gameObject))
         {
-            collide = cachCollision2D[collision];
+            collide = cacheCollider[collision.gameObject];
         }
         else
         {
@@ -340,7 +337,7 @@ where G : SM, new()
         }
         collide?.AcceptOnCollisionExit(this);
 
-        if (cachCollision2D.ContainsKey(collision)) cachCollision2D.Remove(collision);
+        if (cacheCollider.ContainsKey(collision.gameObject)) cacheCollider.Remove(collision.gameObject);
     }
 }
 
