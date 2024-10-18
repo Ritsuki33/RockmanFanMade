@@ -314,91 +314,91 @@ public partial class BaseExRbSubState<T, TS, SS, SM, G, PS>
     void ISubStateHitVisitor<T, PS,  #SCRIPTNAME# >.OnHitEnter(T obj, PS parent,  #SCRIPTNAME#  hit)
     {
         OnHitEnter(obj, parent, hit);
-        subStateMachine.OnHitEnter(obj, this as TS, hit);
+        subStateMachine?.OnHitEnter(obj, this as TS, hit);
     }
 
     void ISubStateHitVisitor<T, PS,  #SCRIPTNAME# >.OnBottomHitEnter(T obj, PS parent,  #SCRIPTNAME#  hit)
     {
         OnBottomHitEnter(obj, parent, hit);
-        subStateMachine.OnBottomHitEnter(obj, this as TS, hit);
+        subStateMachine?.OnBottomHitEnter(obj, this as TS, hit);
     }
 
     void ISubStateHitVisitor<T, PS,  #SCRIPTNAME# >.OnTopHitEnter(T obj, PS parent,  #SCRIPTNAME#  hit)
     {
         OnTopHitEnter(obj, parent, hit);
-        subStateMachine.OnTopHitEnter(obj, this as TS, hit);
+        subStateMachine?.OnTopHitEnter(obj, this as TS, hit);
     }
 
     void ISubStateHitVisitor<T, PS,  #SCRIPTNAME# >.OnLeftHitEnter(T obj, PS parent,  #SCRIPTNAME#  hit)
     {
         OnLeftHitEnter(obj, parent, hit);
-        subStateMachine.OnLeftHitEnter(obj, this as TS, hit);
+        subStateMachine?.OnLeftHitEnter(obj, this as TS, hit);
     }
 
     void ISubStateHitVisitor<T, PS,  #SCRIPTNAME# >.OnRightHitEnter(T obj, PS parent,  #SCRIPTNAME#  hit)
     {
         OnRightHitEnter(obj, parent, hit);
-        subStateMachine.OnRightHitEnter(obj, this as TS, hit);
+        subStateMachine?.OnRightHitEnter(obj, this as TS, hit);
     }
 
     void ISubStateHitVisitor<T, PS,  #SCRIPTNAME# >.OnHitStay(T obj, PS parent,  #SCRIPTNAME#  hit)
     {
         OnHitStay(obj, parent, hit);
-        subStateMachine.OnHitStay(obj, this as TS, hit);
+        subStateMachine?.OnHitStay(obj, this as TS, hit);
     }
 
     void ISubStateHitVisitor<T, PS,  #SCRIPTNAME# >.OnBottomHitStay(T obj, PS parent,  #SCRIPTNAME#  hit)
     {
         OnBottomHitStay(obj, parent, hit);
-        subStateMachine.OnBottomHitStay(obj, this as TS, hit);
+        subStateMachine?.OnBottomHitStay(obj, this as TS, hit);
     }
 
     void ISubStateHitVisitor<T, PS,  #SCRIPTNAME# >.OnTopHitStay(T obj, PS parent,  #SCRIPTNAME#  hit)
     {
         OnTopHitStay(obj, parent, hit);
-        subStateMachine.OnTopHitStay(obj, this as TS, hit);
+        subStateMachine?.OnTopHitStay(obj, this as TS, hit);
     }
 
     void ISubStateHitVisitor<T, PS,  #SCRIPTNAME# >.OnLeftHitStay(T obj, PS parent,  #SCRIPTNAME#  hit)
     {
         OnLeftHitStay(obj, parent, hit);
-        subStateMachine.OnLeftHitStay(obj, this as TS, hit);
+        subStateMachine?.OnLeftHitStay(obj, this as TS, hit);
     }
 
     void ISubStateHitVisitor<T, PS,  #SCRIPTNAME# >.OnRightHitStay(T obj, PS parent,  #SCRIPTNAME#  hit)
     {
         OnRightHitStay(obj, parent, hit);
-        subStateMachine.OnRightHitStay(obj, this as TS, hit);
+        subStateMachine?.OnRightHitStay(obj, this as TS, hit);
     }
 
     void ISubStateHitVisitor<T, PS,  #SCRIPTNAME# >.OnHitExit(T obj, PS parent,  #SCRIPTNAME#  hit)
     {
         OnHitExit(obj, parent, hit);
-        subStateMachine.OnHitExit(obj, this as TS, hit);
+        subStateMachine?.OnHitExit(obj, this as TS, hit);
     }
 
     void ISubStateHitVisitor<T, PS,  #SCRIPTNAME# >.OnBottomHitExit(T obj, PS parent,  #SCRIPTNAME#  hit)
     {
         OnBottomHitExit(obj, parent, hit);
-        subStateMachine.OnBottomHitExit(obj, this as TS, hit);
+        subStateMachine?.OnBottomHitExit(obj, this as TS, hit);
     }
 
     void ISubStateHitVisitor<T, PS,  #SCRIPTNAME# >.OnTopHitExit(T obj, PS parent,  #SCRIPTNAME#  hit)
     {
         OnTopHitExit(obj, parent, hit);
-        subStateMachine.OnTopHitExit(obj, this as TS, hit);
+        subStateMachine?.OnTopHitExit(obj, this as TS, hit);
     }
 
     void ISubStateHitVisitor<T, PS,  #SCRIPTNAME# >.OnLeftHitExit(T obj, PS parent,  #SCRIPTNAME#  hit)
     {
         OnLeftHitExit(obj, parent, hit);
-        subStateMachine.OnLeftHitExit(obj, this as TS, hit);
+        subStateMachine?.OnLeftHitExit(obj, this as TS, hit);
     }
 
     void ISubStateHitVisitor<T, PS,  #SCRIPTNAME# >.OnRightHitExit(T obj, PS parent,  #SCRIPTNAME#  hit)
     {
         OnRightHitExit(obj, parent, hit);
-        subStateMachine.OnRightHitExit(obj, this as TS, hit);
+        subStateMachine?.OnRightHitExit(obj, this as TS, hit);
     }
 }
 
