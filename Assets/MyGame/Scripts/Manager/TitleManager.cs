@@ -43,10 +43,12 @@ public class TitleManager : BaseManager<TitleManager>
 {
     public struct InputInfo
     {
-        public bool decide;
+        public bool decide, up, down;
         public void SetInput(IInput input = null)
         {
             decide = input.GetInput(InputType.Decide);
+            up = input.GetDownInput(InputType.Up);
+            down = input.GetDownInput(InputType.Down);
         }
     }
 
@@ -55,6 +57,7 @@ public class TitleManager : BaseManager<TitleManager>
 
     protected override void Init()
     {
+        title.Open();
     }
 
     protected override void OnUpdate()
@@ -66,6 +69,6 @@ public class TitleManager : BaseManager<TitleManager>
 
     protected override void Terminate()
     {
-
+        title.Close();
     }
 }
