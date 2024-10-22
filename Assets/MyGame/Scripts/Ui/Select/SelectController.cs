@@ -29,7 +29,7 @@ public abstract class SelectController<T,D> : MonoBehaviour where T: BaseSelect<
         this.selectCallback = selectCallback;
     }
 
-    public void OnDestroy()
+    public void Clear()
     {
         foreach (var select in selects)
         {
@@ -38,12 +38,16 @@ public abstract class SelectController<T,D> : MonoBehaviour where T: BaseSelect<
 
         selects.Clear();
     }
+    public void OnDestroy()
+    {
+        Clear();
+    }
 
     /// <summary>
     /// コントローラー
     /// </summary>
     /// <param name="info"></param>
-    public void InputUpdate(TitleManager.InputInfo info)
+    public void InputUpdate(InputInfo info)
     {
         if (info.up)
         {

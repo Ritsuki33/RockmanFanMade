@@ -1,0 +1,68 @@
+using System;
+using System.Collections;
+
+/// <summary>
+/// スクリーンのスクリプトテンプレート
+/// Enum型はそれぞれ適切な列挙型を指定
+/// </summary>
+public class #SCRIPTNAME#Screen : BaseScreen<#SCRIPTNAME#Screen, #SCRIPTNAME#ScreenController, #SCRIPTNAME#ScreenViewModel, Enum>
+{
+    protected override void Initialize(#SCRIPTNAME#ScreenViewModel viewModel)
+    {
+        base.Initialize(viewModel);
+    }
+
+    protected override void Open()
+    {
+        base.Open();
+    }
+
+    protected override IEnumerator OpenCoroutine()
+    {
+        return base.OpenCoroutine();
+    }
+
+    protected override void OnUpdate()
+    {
+        base.OnUpdate();
+    }
+
+    protected override void Hide()
+    {
+        base.Hide();
+    }
+
+    protected override IEnumerator HideCoroutine()
+    {
+        return base.HideCoroutine();
+    }
+
+    protected override void Deinitialize()
+    {
+        base.Deinitialize();
+    }
+}
+
+public class #SCRIPTNAME#ScreenController : BaseScreenController<#SCRIPTNAME#Screen, #SCRIPTNAME#ScreenController, #SCRIPTNAME#ScreenViewModel, Enum>
+{
+    protected override void Initialize(#SCRIPTNAME#Screen screen, #SCRIPTNAME#ScreenViewModel viewModel)
+    {
+        base.Initialize(screen, viewModel);
+    }
+
+    protected override void InputUpdate(InputInfo info)
+    {
+        base.InputUpdate(info);
+
+    }
+
+}
+
+public class #SCRIPTNAME#ScreenViewModel : BaseViewModel<Enum>
+{
+
+    protected override IEnumerator Configure()
+    {
+        yield return null;
+    }
+}

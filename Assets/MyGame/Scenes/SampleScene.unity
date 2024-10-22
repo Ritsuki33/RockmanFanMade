@@ -80589,7 +80589,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6843eb09e8fd6cb4e8e4aa30bbe640a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  controller: {fileID: 1386729110}
+  select: {fileID: 1386729110}
 --- !u!1 &1852126143
 GameObject:
   m_ObjectHideFlags: 0
@@ -80644,8 +80644,8 @@ MonoBehaviour:
   m_UpdateMethod: 2
   m_BlendUpdateMethod: 1
   m_DefaultBlend:
-    m_Style: 0
-    m_Time: 0
+    m_Style: 6
+    m_Time: 0.8
     m_CustomCurve:
       serializedVersion: 2
       m_Curve: []

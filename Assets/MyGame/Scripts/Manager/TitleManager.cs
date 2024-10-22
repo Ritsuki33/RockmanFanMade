@@ -1,6 +1,15 @@
 ﻿using UnityEngine;
-using UnityEngine.InputSystem.XInput;
-
+public struct InputInfo
+{
+    public bool decide, up, down;
+    public void SetInput(IInput input = null)
+    {
+        decide = input.GetInput(InputType.Decide);
+        up = input.GetDownInput(InputType.Up);
+        down = input.GetDownInput(InputType.Down);
+    }
+    public bool IsInput => decide | up | down;
+}
 public interface IManager
 {
     public void Init();
@@ -41,34 +50,29 @@ public abstract class BaseManager<T> : SingletonComponent<T>, IManager where T :
 
 public class TitleManager : BaseManager<TitleManager>
 {
-    public struct InputInfo
+    [SerializeField] TitleScreen title;
+
+    public enum ScreenType
     {
-        public bool decide, up, down;
-        public void SetInput(IInput input = null)
-        {
-            decide = input.GetInput(InputType.Decide);
-            up = input.GetDownInput(InputType.Up);
-            down = input.GetDownInput(InputType.Down);
-        }
+        Top
     }
 
-    [SerializeField] TitleScreen title;
     private IInput InputController => InputManager.Instance;
+
+    private ScreenContainer<ScreenType> container= new ScreenContainer<ScreenType>();
 
     protected override void Init()
     {
-        title.Open();
+        container.Add(ScreenType.Top, title);
+
+        container.TransitScreen(ScreenType.Top, true);
     }
 
     protected override void OnUpdate()
     {
-        InputInfo inputInfo = default;
-        inputInfo.SetInput(InputController);
-        title.InputUpdate(inputInfo);
     }
 
     protected override void Terminate()
     {
-        title.Close();
     }
 }
