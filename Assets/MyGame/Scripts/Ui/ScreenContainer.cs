@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.PackageManager.Requests;
 using UnityEngine;
 
 public interface IScreen<T> where T : Enum
@@ -65,7 +64,6 @@ public class BaseScreen<S, SC, VM, T> : MonoBehaviour, IScreen<T>
 
     private void Update()
     {
-
         InputInfo inputInfo = default;
         inputInfo.SetInput(InputController);
 
