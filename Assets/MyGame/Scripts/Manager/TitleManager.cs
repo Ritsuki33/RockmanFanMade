@@ -52,15 +52,20 @@ public class TitleManager : BaseManager<TitleManager>
 {
     [SerializeField] TitleScreen title;
 
+    public enum ScreenType
+    {
+        Top
+    }
+
     private IInput InputController => InputManager.Instance;
 
-    private ScreenContainer container= new ScreenContainer();
+    private ScreenContainer<ScreenType> container= new ScreenContainer<ScreenType>();
 
     protected override void Init()
     {
-        container.Add(0, title);
+        container.Add(ScreenType.Top, title);
 
-        container.TransitScreen(0,true);
+        container.TransitScreen(ScreenType.Top, true);
     }
 
     protected override void OnUpdate()

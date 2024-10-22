@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TitleScreenViewModel : BaseViewModel
+public class TitleScreenViewModel : BaseViewModel<TitleManager.ScreenType>
 {
     List<SelectInfo> select = new List<SelectInfo>();
     public List<SelectInfo> Selects => select;

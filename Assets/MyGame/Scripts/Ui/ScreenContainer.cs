@@ -1,8 +1,10 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.PackageManager.Requests;
 using UnityEngine;
 
-public interface IScreen
+public interface IScreen<T> where T : Enum
 {
     /// <summary>
     /// ビュー、コントローラー、ビューモデルの準備
@@ -18,42 +20,43 @@ public interface IScreen
 
     public void SetActive(bool isActive);
 
-    public void Initialize(IViewModel viewModel);
+    public void Initialize(IViewModel<T> viewModel);
     public void Deinitialize();
 
-    public ScreenContainer Container { set; }
+    public ScreenContainer<T> Container { set; }
 
     public void SetSiblingIndex();
 }
 
-public interface IScreenController
+public interface IScreenController<T> where T : Enum
 {
     public void Initialize() { }
 
-    public IEnumerator Configure(IScreen screen);
+    public IEnumerator Configure(IScreen<T> screen);
 
     public void End() { }
 
     public void InputUpdate(InputInfo info);
 }
 
-public interface IViewModel
+public interface IViewModel<T> where T : Enum
 {
     public IEnumerator Configure();
 }
 
 
-public class BaseScreen<S, SC, VM> : MonoBehaviour, IScreen
-    where S : BaseScreen<S, SC, VM>, new()
-    where SC : BaseScreenController<S, SC, VM>, new()
-    where VM : BaseViewModel, new()
+public class BaseScreen<S, SC, VM, T> : MonoBehaviour, IScreen<T>
+    where S : BaseScreen<S, SC, VM, T>, new()
+    where SC : BaseScreenController<S, SC, VM, T>, new()
+    where VM : BaseViewModel<T>, new()
+    where T : Enum
 {
-    ScreenContainer container;
-    IScreenController screenController = null;
+    ScreenContainer<T> container;
+    IScreenController<T> screenController = null;
 
     private IInput InputController => InputManager.Instance;
 
-    IEnumerator IScreen.Configure()
+    IEnumerator IScreen<T>.Configure()
     {
         screenController = new SC();
 
@@ -71,17 +74,17 @@ public class BaseScreen<S, SC, VM> : MonoBehaviour, IScreen
         OnUpdate();
     }
 
-    public void TransitScreen(int id, bool immediate) => container.TransitScreen(id, immediate);
+    public void TransitScreen(T request, bool immediate) => container.TransitScreen(request, immediate);
 
-    void IScreen.Open() { }
-    void IScreen.Hide() { }
-    IEnumerator IScreen.OpenCoroutine() { yield return OpenCoroutine(); }
-    IEnumerator IScreen.HideCoroutine() { yield return HideCoroutine(); }
-    void IScreen.SetActive(bool isActive) => gameObject.SetActive(isActive);
-    void IScreen.Initialize(IViewModel viewModel) => Initialize((VM)viewModel);
-    ScreenContainer IScreen.Container { set => container = value; }
-    void IScreen.SetSiblingIndex() => transform.SetSiblingIndex(transform.parent.childCount - 1);
-    void IScreen.Deinitialize() => Deinitialize();
+    void IScreen<T>.Open() { }
+    void IScreen<T>.Hide() { }
+    IEnumerator IScreen<T>.OpenCoroutine() { yield return OpenCoroutine(); }
+    IEnumerator IScreen<T>.HideCoroutine() { yield return HideCoroutine(); }
+    void IScreen<T>.SetActive(bool isActive) => gameObject.SetActive(isActive);
+    void IScreen<T>.Initialize(IViewModel<T> viewModel) => Initialize((VM)viewModel);
+    ScreenContainer<T> IScreen<T>.Container { set => container = value; }
+    void IScreen<T>.SetSiblingIndex() => transform.SetSiblingIndex(transform.parent.childCount - 1);
+    void IScreen<T>.Deinitialize() => Deinitialize();
 
     protected virtual void Open() { }
     protected virtual void Hide() { }
@@ -94,16 +97,17 @@ public class BaseScreen<S, SC, VM> : MonoBehaviour, IScreen
 
 }
 
-public class BaseScreenController<S, SC, VM>: IScreenController
-    where S : BaseScreen<S, SC, VM>, new()
-    where SC : BaseScreenController<S, SC, VM>, new()
-    where VM : BaseViewModel, new()
+public class BaseScreenController<S, SC, VM, T>: IScreenController<T>
+    where S : BaseScreen<S, SC, VM, T>, new()
+    where SC : BaseScreenController<S, SC, VM, T>, new()
+    where VM : BaseViewModel<T>, new()
+    where T : Enum
 {
 
-    IEnumerator IScreenController.Configure(IScreen screen)
+    IEnumerator IScreenController<T>.Configure(IScreen<T> screen)
     {
         // モデルの構成
-        IViewModel viewModel = new VM();
+        IViewModel<T> viewModel = new VM();
         yield return viewModel.Configure();
 
         // コントローラーの初期化
@@ -112,15 +116,16 @@ public class BaseScreenController<S, SC, VM>: IScreenController
         // シーンの初期化
        screen.Initialize(viewModel);
     }
-    void IScreenController.InputUpdate(InputInfo info) => InputUpdate(info);
+    void IScreenController<T>.InputUpdate(InputInfo info) => InputUpdate(info);
 
     protected virtual void Initialize(S screen, VM viewModel) { }
     protected virtual void InputUpdate(InputInfo info) { }
 }
 
-public class BaseViewModel : IViewModel
+public class BaseViewModel<T> : IViewModel<T>
+    where T : Enum
 {
-    IEnumerator IViewModel.Configure()
+    IEnumerator IViewModel<T>.Configure()
     {
         yield return Configure();
     }
@@ -129,13 +134,11 @@ public class BaseViewModel : IViewModel
 }
 
 
-public class ScreenContainer
+public class ScreenContainer<T> where T: Enum
 {
-    Dictionary<int, IScreen> list = new Dictionary<int, IScreen>();
+    Dictionary<T, IScreen<T>> list = new Dictionary<T, IScreen<T>>();
 
-    IScreen curScreen = default;
-
-    private int currentId = -1;
+    IScreen<T> curScreen = default;
 
     Coroutine coroutine = null;
     /// <summary>
@@ -143,7 +146,7 @@ public class ScreenContainer
     /// </summary>
     /// <param name="id"></param>
     /// <param name="screen"></param>
-    public void Add(int id, IScreen screen)
+    public void Add(T id, IScreen<T> screen)
     {
         if (!list.ContainsKey(id))
         {
@@ -161,7 +164,7 @@ public class ScreenContainer
     /// シーンの削除
     /// </summary>
     /// <param name="id"></param>
-    public void Remove(int id)
+    public void Remove(T id)
     {
         if (list.ContainsKey(id))
         {
@@ -180,29 +183,28 @@ public class ScreenContainer
     /// </summary>
     /// <param name="id"></param>
     /// <param name="immediately"></param>
-    public void TransitScreen(int requestId, bool immediately)
+    public void TransitScreen(T request, bool immediately)
     {
-        if (!list.ContainsKey(requestId))
+        if (!list.ContainsKey(request))
         {
-            Debug.Log($"{requestId} キーは存在しないため、遷移はしません。");
+            Debug.Log($"{request} キーは存在しないため、遷移はしません。");
             return;
         }
 
-        if (coroutine == null && requestId >= 0 && currentId != requestId)
+        var newScreen = list[request];
+
+        if (coroutine == null && curScreen != newScreen)
         {
-            coroutine = ProjectManager.Instance.StartCoroutine(TransitCroutine(requestId, immediately));
+            coroutine = ProjectManager.Instance.StartCoroutine(TransitCroutine(newScreen, immediately));
         }
 
 
-        IEnumerator TransitCroutine(int requestId, bool immediately)
+        IEnumerator TransitCroutine(IScreen<T> newScene, bool immediately)
         {
             if (immediately)
             {
                 curScreen?.Hide();
                 curScreen?.Deinitialize();
-
-                var newScreen = list[requestId];
-                currentId = requestId;
 
                 yield return newScreen.Configure();
 
@@ -222,8 +224,7 @@ public class ScreenContainer
                 yield return curScreen?.HideCoroutine();
                 curScreen?.Deinitialize();
 
-                var newScreen = list[requestId];
-                currentId = requestId;
+                var newScreen = list[request];
 
                 yield return newScreen.Configure();
 
