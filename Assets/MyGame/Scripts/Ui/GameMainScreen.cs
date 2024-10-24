@@ -1,0 +1,118 @@
+﻿using System;
+using System.Collections;
+using Unity.Mathematics;
+using UnityEngine;
+
+/// <summary>
+/// スクリーンのスクリプトテンプレート
+/// Enum型はそれぞれ適切な列挙型を指定
+/// </summary>
+public class GameMainScreen : BaseScreen<GameMainScreen, GameMainScreenPresenter, GameMainScreenViewModel, GameMainManager.UI>
+{
+    [SerializeField] ReadyUi readyUi = default;
+    [SerializeField] HpBar enemyHpBar = default;
+    [SerializeField] HpBar hpBar = default;
+
+    public ReadyUi ReadyUi => readyUi;
+    public HpBar EnemyHpBar => enemyHpBar;
+    public HpBar HpBar => hpBar;
+
+    protected override void Initialize(GameMainScreenViewModel viewModel)
+    {
+        HpBar.SetParam(WorldManager.Instance.PlayerController.CurrentHp);
+    }
+
+    protected override void Open()
+    {
+        base.Open();
+    }
+
+    protected override IEnumerator OpenCoroutine()
+    {
+        return base.OpenCoroutine();
+    }
+
+    protected override void OnUpdate()
+    {
+        base.OnUpdate();
+    }
+
+    protected override void Hide()
+    {
+        base.Hide();
+    }
+
+    protected override IEnumerator HideCoroutine()
+    {
+        return base.HideCoroutine();
+    }
+
+    protected override void Deinitialize()
+    {
+        base.Deinitialize();
+    }
+}
+
+public class GameMainScreenPresenter : BaseScreenPresenter<GameMainScreen, GameMainScreenPresenter, GameMainScreenViewModel, GameMainManager.UI>
+{
+    GameMainScreen _screen;
+    GameMainScreenViewModel _viewModel;
+    protected override void Initialize(GameMainScreen screen, GameMainScreenViewModel viewModel)
+    {
+        _screen = screen;
+        _viewModel = viewModel;
+
+        EventTriggerManager.Instance.Subscribe(FloatEventType.PlayerDamaged, SetPlayerHp);
+    }
+
+    protected override void InputUpdate(InputInfo info)
+    {
+        base.InputUpdate(info);
+    }
+
+    public void SetPlayerHp(float hp)
+    {
+        _screen.HpBar.SetParam(hp);
+    }
+
+    public void SetEnemyHp(float hp)
+    {
+        _screen.EnemyHpBar.SetParam(hp);
+    }
+
+    public void PlayerHpActive(bool isActive)
+    {
+        _screen.HpBar.gameObject.SetActive(isActive);
+    }
+
+    public void EnemyHpActive(bool isActive)
+    {
+        _screen.EnemyHpBar.gameObject.SetActive(isActive);
+    }
+
+    public void EnemyParamChangeAnimation(Action finishCallback)
+    {
+        _screen.EnemyHpBar.gameObject.SetActive(true);
+        _screen.EnemyHpBar.SetParam(0.0f);
+        _screen.EnemyHpBar.ParamChangeAnimation(1.0f, finishCallback);
+    }
+
+    public void ReadyUiPlay(Action finishCallback)
+    {
+        _screen.ReadyUi.Play(finishCallback);
+    }
+
+    protected override void Deinitialize()
+    {
+        EventTriggerManager.Instance.Unsubscribe(FloatEventType.PlayerDamaged, SetPlayerHp);
+    }
+}
+
+public class GameMainScreenViewModel : BaseViewModel<GameMainManager.UI>
+{
+
+    protected override IEnumerator Configure()
+    {
+        yield return null;
+    }
+}

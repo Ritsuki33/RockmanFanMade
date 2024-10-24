@@ -171,7 +171,9 @@ public class ActionChainExecuter : MonoBehaviour
     {
         public override void Execute(Action finishCallback)
         {
-            GameMainManager.Instance.ReadyUi.Play(finishCallback);
+            var presenter = GameMainManager.Instance.ScreenContainer.GetCurrentScreenPresenter<GameMainScreenPresenter>();
+            presenter.ReadyUiPlay(finishCallback);
+            //GameMainManager.Instance.ReadyUi.Play(finishCallback);
         }
     }
 
@@ -220,9 +222,12 @@ public class ActionChainExecuter : MonoBehaviour
 
         override public void Execute(Action finishCallback)
         {
-            GameMainManager.Instance.EmemyHpBar.gameObject.SetActive(true);
-            GameMainManager.Instance.EmemyHpBar.SetParam(0.0f);
-            GameMainManager.Instance.EmemyHpBar.ParamChangeAnimation(1.0f, finishCallback);
+
+            var presenter = GameMainManager.Instance.ScreenContainer.GetCurrentScreenPresenter<GameMainScreenPresenter>();
+            presenter.EnemyParamChangeAnimation(finishCallback);
+            //GameMainManager.Instance.EmemyHpBar.gameObject.SetActive(true);
+            //GameMainManager.Instance.EmemyHpBar.SetParam(0.0f);
+            //GameMainManager.Instance.EmemyHpBar.ParamChangeAnimation(1.0f, finishCallback);
         }
     }
 
@@ -328,7 +333,7 @@ public class ActionChainExecuter : MonoBehaviour
     [Serializable]
     class SubscribeAction : BaseAction
     {
-        [SerializeField] EventType type;
+        [SerializeField] ValueEventType type;
         [SerializeField] UnityEvent action;
 
         public override void Execute(Action finishCallback)
@@ -341,7 +346,7 @@ public class ActionChainExecuter : MonoBehaviour
     [Serializable]
     class UnSubscribeAction : BaseAction
     {
-        [SerializeField] EventType type;
+        [SerializeField] ValueEventType type;
         [SerializeField] UnityEvent action;
 
         public override void Execute(Action finishCallback)

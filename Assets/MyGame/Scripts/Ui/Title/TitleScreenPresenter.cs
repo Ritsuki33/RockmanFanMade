@@ -1,4 +1,4 @@
-﻿public class TitleScreenController : BaseScreenController<TitleScreen, TitleScreenController, TitleScreenViewModel, TitleManager.ScreenType>
+﻿public class TitleScreenPresenter : BaseScreenPresenter<TitleScreen, TitleScreenPresenter, TitleScreenViewModel, TitleManager.ScreenType>
 {
     private TitleScreen _screen;
     private TitleScreenViewModel _model;

@@ -32,6 +32,7 @@ public partial class PlayerController : ExRbStateMachine<PlayerController>
 
     bool invincible = false;
 
+    public float CurrentHp => player.CurrentHp / player.MaxHp;
     enum StateID
     {
         Standing=0,

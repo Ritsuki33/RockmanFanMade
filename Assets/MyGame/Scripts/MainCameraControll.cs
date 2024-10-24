@@ -55,7 +55,7 @@ public class MainCameraControll : MonoBehaviour
                 m_cinemachineBrain.m_DefaultBlend.m_Time = blendTime;
 
                 // カメラ変更開始を通知する
-                EventTriggerManager.Instance.Notify(EventType.ChangeCameraStart);
+                EventTriggerManager.Instance.Notify(ValueEventType.ChangeCameraStart);
 
                 // アクティブによるオンオフによる切り替え
                 m_cinemachineBrain.ActiveVirtualCamera?.VirtualCameraGameObject.SetActive(false);
@@ -75,7 +75,7 @@ public class MainCameraControll : MonoBehaviour
                 deltaMove = Vector3.zero;
 
                 // カメラ変更終了を通知する
-                EventTriggerManager.Instance.Notify(EventType.ChangeCameraEnd);
+                EventTriggerManager.Instance.Notify(ValueEventType.ChangeCameraEnd);
             }
 
             callback?.Invoke();
