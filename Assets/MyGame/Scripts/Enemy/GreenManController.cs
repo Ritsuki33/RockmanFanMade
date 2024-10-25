@@ -148,7 +148,7 @@ public class GreenManController : ExRbStateMachine<GreenManController>
 
         protected override void OnTriggerEnter(GreenManController greenMan, RockBusterDamage collision)
         {
-            greenMan.greenMan.Damaged(collision.baseDamageValue);
+            greenMan.greenMan.Damaged(collision);
         }
 
         protected override void OnBottomHitStay(GreenManController greenMan, RaycastHit2D hit)
@@ -198,7 +198,7 @@ public class GreenManController : ExRbStateMachine<GreenManController>
 
         protected override void OnTriggerEnter(GreenManController greenMan, RockBusterDamage collision)
         {
-            greenMan.greenMan.Damaged(collision.baseDamageValue);
+            greenMan.greenMan.Damaged(collision);
         }
 
         protected override void OnBottomHitStay(GreenManController greenMan, RaycastHit2D hit)

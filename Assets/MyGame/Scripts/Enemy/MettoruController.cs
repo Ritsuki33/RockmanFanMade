@@ -132,7 +132,7 @@ public partial class MettoruController : ExRbStateMachine<MettoruController>
     /// 死亡
     /// </summary>
     /// <param name="collision"></param>
-    private void Damaged(int val) => mettrou.Damaged(val);
+    private void Damaged(RockBusterDamage damage) => mettrou.Damaged(damage);
 
     /// <summary>
     /// ターゲットに振り向き

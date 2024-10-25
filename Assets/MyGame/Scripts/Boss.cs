@@ -8,9 +8,9 @@ public class Boss : EnemyObject
     public Action<float> hpParamIncrementAnimation = default;
     public Action<float> hpChangeTrigger = default;
 
-    public override void Damaged(int val)
+    public override void Damaged(RockBusterDamage damage)
     {
-        base.Damaged(val);
+        base.Damaged(damage);
 
         hpChangeTrigger?.Invoke((float)currentHp / MaxHp);
         //var presenter = GameMainManager.Instance.ScreenContainer.GetCurrentScreenPresenter<GameMainScreenPresenter>();

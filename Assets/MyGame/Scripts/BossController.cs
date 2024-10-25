@@ -181,7 +181,7 @@ public class BossController : ExRbStateMachine<BossController>
 
         protected override void OnTriggerEnter(BossController ctr, RockBusterDamage collision)
         {
-            ctr.boss.Damaged(collision.baseDamageValue);
+            ctr.boss.Damaged(collision);
         }
     }
 
@@ -238,7 +238,7 @@ public class BossController : ExRbStateMachine<BossController>
 
         protected override void OnTriggerEnter(BossController ctr, RockBusterDamage collision)
         {
-            ctr.boss.Damaged(collision.baseDamageValue);
+            ctr.boss.Damaged(collision);
         }
     }
 
@@ -320,7 +320,7 @@ public class BossController : ExRbStateMachine<BossController>
 
         protected override void OnTriggerEnter(BossController ctr, RockBusterDamage collision)
         {
-            ctr.boss.Damaged(collision.baseDamageValue);
+            ctr.boss.Damaged(collision);
         }
     }
 
@@ -411,7 +411,7 @@ public class BossController : ExRbStateMachine<BossController>
 
         protected override void OnTriggerEnter(BossController ctr, RockBusterDamage collision)
         {
-            ctr.boss.Damaged(collision.baseDamageValue);
+            ctr.boss.Damaged(collision);
         }
     }
 
@@ -516,7 +516,7 @@ public class BossController : ExRbStateMachine<BossController>
 
         protected override void OnTriggerEnter(BossController ctr, RockBusterDamage collision)
         {
-            ctr.boss.Damaged(collision.baseDamageValue);
+            ctr.boss.Damaged(collision);
         }
     }
 

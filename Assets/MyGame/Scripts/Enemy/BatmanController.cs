@@ -58,7 +58,7 @@ public class BatmanController : ExRbStateMachine<BatmanController>
         }
         protected override void OnTriggerEnter(BatmanController batmanController, RockBusterDamage collision)
         {
-            batmanController.batman.Damaged(collision.baseDamageValue);
+            batmanController.batman.Damaged(collision);
         }
     }
 
@@ -85,7 +85,7 @@ public class BatmanController : ExRbStateMachine<BatmanController>
 
         protected override void OnTriggerEnter(BatmanController batmanController, RockBusterDamage collision)
         {
-            batmanController.batman.Damaged(collision.baseDamageValue);
+            batmanController.batman.Damaged(collision);
         }
     }
 
@@ -108,7 +108,7 @@ public class BatmanController : ExRbStateMachine<BatmanController>
 
         protected override void OnTriggerEnter(BatmanController batmanController, RockBusterDamage collision)
         {
-            batmanController.batman.Damaged(collision.baseDamageValue);
+            batmanController.batman.Damaged(collision);
         }
 
         protected override void OnTriggerEnter(BatmanController batmanController, PlayerTrigger collision)
@@ -142,7 +142,7 @@ public class BatmanController : ExRbStateMachine<BatmanController>
 
         protected override void OnTriggerEnter(BatmanController batmanController, RockBusterDamage collision)
         {
-            batmanController.batman.Damaged(collision.baseDamageValue);
+            batmanController.batman.Damaged(collision);
         }
     }
 }

@@ -56,7 +56,7 @@ public partial class MettoruController
 
         protected override void OnTriggerEnter(MettoruController mettoru, RockBusterDamage collision)
         {
-            mettoru.Damaged(collision.baseDamageValue);
+            mettoru.Damaged(collision);
         }
     }
 
@@ -107,7 +107,7 @@ public partial class MettoruController
 
         protected override void OnTriggerEnter(MettoruController mettoru, RockBusterDamage collision)
         {
-            mettoru.Damaged(collision.baseDamageValue);
+            mettoru.Damaged(collision);
         }
     }
 
@@ -226,7 +226,7 @@ public partial class MettoruController
 
         protected override void OnTriggerEnter(MettoruController mettoru, RockBusterDamage collision)
         {
-            mettoru.Damaged(collision.baseDamageValue);
+            mettoru.Damaged(collision);
         }
     }
 
@@ -271,7 +271,7 @@ public partial class MettoruController
 
         protected override void OnTriggerEnter(MettoruController mettoru, RockBusterDamage collision)
         {
-            mettoru.Damaged(collision.baseDamageValue);
+            mettoru.Damaged(collision);
         }
     }
 
@@ -305,7 +305,7 @@ public partial class MettoruController
 
         protected override void OnTriggerEnter(MettoruController mettoru, RockBusterDamage collision)
         {
-            mettoru.Damaged(collision.baseDamageValue);
+            mettoru.Damaged(collision);
         }
     }
 
@@ -334,7 +334,7 @@ public partial class MettoruController
 
         protected override void OnTriggerEnter(MettoruController mettoru, RockBusterDamage collision)
         {
-            mettoru.Damaged(collision.baseDamageValue);
+            mettoru.Damaged(collision);
         }
     }
 }

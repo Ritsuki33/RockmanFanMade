@@ -73,7 +73,7 @@ public class BigDogController : RbStateMachine<BigDogController>
 
         protected override void OnTriggerEnter(BigDogController ctr, RockBusterDamage collision)
         {
-            ctr.bigDog.Damaged(collision.baseDamageValue);
+            ctr.bigDog.Damaged(collision);
         }
       
     }
@@ -130,7 +130,7 @@ public class BigDogController : RbStateMachine<BigDogController>
 
         protected override void OnTriggerEnter(BigDogController ctr, RockBusterDamage collision)
         {
-            ctr.bigDog.Damaged(collision.baseDamageValue);
+            ctr.bigDog.Damaged(collision);
         }
     }
 
@@ -230,7 +230,7 @@ public class BigDogController : RbStateMachine<BigDogController>
 
         protected override void OnTriggerEnter(BigDogController ctr, RockBusterDamage collision)
         {
-            ctr.bigDog.Damaged(collision.baseDamageValue);
+            ctr.bigDog.Damaged(collision);
         }
     }
 }
