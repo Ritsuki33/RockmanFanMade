@@ -90,11 +90,19 @@ public class GameMainScreenPresenter : BaseScreenPresenter<GameMainScreen, GameM
         _screen.EnemyHpBar.gameObject.SetActive(isActive);
     }
 
-    public void EnemyParamChangeAnimation(Action finishCallback)
+    /// <summary>
+    /// ボスの体力上昇アニメーション（敵体力の監視登録も行う）
+    /// </summary>
+    /// <param name="val"></param>
+    /// <param name="hpChangeTrigger"></param>
+    /// <param name="finishCallback"></param>
+    public void EnemyHpIncrementAnimation(BossController ctr, Action finishCallback)
     {
         _screen.EnemyHpBar.gameObject.SetActive(true);
         _screen.EnemyHpBar.SetParam(0.0f);
-        _screen.EnemyHpBar.ParamChangeAnimation(1.0f, finishCallback);
+        _screen.EnemyHpBar.ParamChangeAnimation((float)ctr.CurrentHp / ctr.MaxHp, finishCallback);
+
+        ctr.HpChangeTrigger = SetEnemyHp;
     }
 
     public void ReadyUiPlay(Action finishCallback)

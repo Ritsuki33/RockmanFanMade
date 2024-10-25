@@ -1,16 +1,20 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System;
 using UnityEngine;
 
 public class Boss : EnemyObject
 {
     BaseObjectPool DeathEffectPool => EffectManager.Instance.DeathEffectPool;
+
+    public Action<float> hpParamIncrementAnimation = default;
+    public Action<float> hpChangeTrigger = default;
+
     public override void Damaged(int val)
     {
         base.Damaged(val);
 
-        var presenter = GameMainManager.Instance.ScreenContainer.GetCurrentScreenPresenter<GameMainScreenPresenter>();
-        presenter?.SetEnemyHp((float)currentHp / maxHp);
+        hpChangeTrigger?.Invoke((float)currentHp / MaxHp);
+        //var presenter = GameMainManager.Instance.ScreenContainer.GetCurrentScreenPresenter<GameMainScreenPresenter>();
+        //presenter?.SetEnemyHp((float)currentHp / MaxHp);
     }
 
     public override void OnDead()

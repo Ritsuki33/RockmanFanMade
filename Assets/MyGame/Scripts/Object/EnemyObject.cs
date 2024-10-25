@@ -11,18 +11,19 @@ public class EnemyObject : StageObject
 
     private Material material;
 
-    protected int maxHp=> (enemyData != null) ? enemyData.Hp : 3;
     protected int currentHp = 0;
 
     public int CurrentHp => currentHp;
-    public virtual void Init() {
+    public int MaxHp => (enemyData != null) ? enemyData.Hp : 3;
+    public virtual void Init()
+    {
         SetMaterialParam(ShaderPropertyId.IsFadeColorID, 0);
-        currentHp = maxHp;
+        currentHp = MaxHp;
     }
 
     public virtual void Damaged(int damageVal)
     {
-        currentHp = Mathf.Clamp(currentHp - damageVal, 0, maxHp);
+        currentHp = Mathf.Clamp(currentHp - damageVal, 0, MaxHp);
         if (currentHp <= 0)
         {
             Dead();

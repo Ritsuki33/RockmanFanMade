@@ -6,7 +6,6 @@ public class WorldManager : SingletonComponent<WorldManager>
 {
     [SerializeField] TransferArea _playerTransferArea;
     [SerializeField] PlayerController playerController;
-    [SerializeField] Transform defaultTransferArea;
 
     [SerializeField] ActionChainExecuter startAction = default;
 
@@ -39,7 +38,7 @@ public class WorldManager : SingletonComponent<WorldManager>
     public Vector2 GetPlayerTransferPostion()
     {
         Vector2 appearPos = new Vector2(
-               currentCheckPointData.position.x,
+               currentCheckPointData.position.position.x,
                GameMainManager.Instance.MainCameraControll.OutOfViewTop
                );
 
