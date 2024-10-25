@@ -9,12 +9,12 @@ public class BigDog : EnemyObject
 
     private void OnEnable()
     {
-        EventTriggerManager.Instance.Subscribe(EventType.EnemyDefeated, UnlockNextArea);
+        EventTriggerManager.Instance.Subscribe(ValueEventType.EnemyDefeated, UnlockNextArea);
     }
 
     private void OnDisable()
     {
-        EventTriggerManager.Instance.Unsubscribe(EventType.EnemyDefeated, UnlockNextArea);
+        EventTriggerManager.Instance.Unsubscribe(ValueEventType.EnemyDefeated, UnlockNextArea);
     }
 
     public override void Init()

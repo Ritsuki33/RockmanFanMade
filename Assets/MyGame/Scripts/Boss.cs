@@ -8,7 +8,9 @@ public class Boss : EnemyObject
     public override void Damaged(int val)
     {
         base.Damaged(val);
-        GameMainManager.Instance.EmemyHpBar.SetParam((float)currentHp / maxHp);
+
+        var presenter = GameMainManager.Instance.ScreenContainer.GetCurrentScreenPresenter<GameMainScreenPresenter>();
+        presenter?.SetEnemyHp((float)currentHp / maxHp);
     }
 
     public override void OnDead()

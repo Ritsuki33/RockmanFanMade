@@ -19,7 +19,7 @@ public class ReadyUi : MonoBehaviour
         ready.alpha = 0;
     }
 
-    public void Play(Action action=null)
+    public void Play(Action action = null)
     {
         coroutine = StartCoroutine(PlayCo(action));
     }

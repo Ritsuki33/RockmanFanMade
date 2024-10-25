@@ -1,13 +1,14 @@
 using System;
 using System.Collections;
+using UnityEngine;
 
 /// <summary>
 /// スクリーンのスクリプトテンプレート
 /// Enum型はそれぞれ適切な列挙型を指定
 /// </summary>
-public class #SCRIPTNAME#Screen : BaseScreen<#SCRIPTNAME#Screen, #SCRIPTNAME#ScreenController, #SCRIPTNAME#ScreenViewModel, Enum>
+public class #SCRIPTNAME# : BaseScreen<#SCRIPTNAME#, #SCRIPTNAME#Controller, #SCRIPTNAME#ViewModel, Enum>
 {
-    protected override void Initialize(#SCRIPTNAME#ScreenViewModel viewModel)
+    protected override void Initialize(#SCRIPTNAME#ViewModel viewModel)
     {
         base.Initialize(viewModel);
     }
@@ -43,9 +44,9 @@ public class #SCRIPTNAME#Screen : BaseScreen<#SCRIPTNAME#Screen, #SCRIPTNAME#Scr
     }
 }
 
-public class #SCRIPTNAME#ScreenController : BaseScreenController<#SCRIPTNAME#Screen, #SCRIPTNAME#ScreenController, #SCRIPTNAME#ScreenViewModel, Enum>
+public class #SCRIPTNAME#Controller : BaseScreenController<#SCRIPTNAME#, #SCRIPTNAME#Controller, #SCRIPTNAME#ViewModel, Enum>
 {
-    protected override void Initialize(#SCRIPTNAME#Screen screen, #SCRIPTNAME#ScreenViewModel viewModel)
+    protected override void Initialize(#SCRIPTNAME# screen, #SCRIPTNAME#ViewModel viewModel)
     {
         base.Initialize(screen, viewModel);
     }
@@ -58,7 +59,7 @@ public class #SCRIPTNAME#ScreenController : BaseScreenController<#SCRIPTNAME#Scr
 
 }
 
-public class #SCRIPTNAME#ScreenViewModel : BaseViewModel<Enum>
+public class #SCRIPTNAME#ViewModel : BaseViewModel<Enum>
 {
 
     protected override IEnumerator Configure()

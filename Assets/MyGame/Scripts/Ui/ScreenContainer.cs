@@ -1,10 +1,15 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.PackageManager.Requests;
 using UnityEngine;
+using UnityEngine.InputSystem.XR;
 
 public interface IScreen<T> where T : Enum
 {
+
+    public IScreenPresenter<T> GetScreenController();
+
     /// <summary>
     /// ビュー、コントローラー、ビューモデルの準備
     /// </summary>
@@ -27,13 +32,11 @@ public interface IScreen<T> where T : Enum
     public void SetSiblingIndex();
 }
 
-public interface IScreenController<T> where T : Enum
+public interface IScreenPresenter<T> where T : Enum
 {
-    public void Initialize() { }
-
     public IEnumerator Configure(IScreen<T> screen);
 
-    public void End() { }
+    public void Deinitialize();
 
     public void InputUpdate(InputInfo info);
 }
@@ -46,20 +49,27 @@ public interface IViewModel<T> where T : Enum
 
 public class BaseScreen<S, SC, VM, T> : MonoBehaviour, IScreen<T>
     where S : BaseScreen<S, SC, VM, T>, new()
-    where SC : BaseScreenController<S, SC, VM, T>, new()
+    where SC : BaseScreenPresenter<S, SC, VM, T>, new()
     where VM : BaseViewModel<T>, new()
     where T : Enum
 {
     ScreenContainer<T> container;
-    IScreenController<T> screenController = null;
+    IScreenPresenter<T> screenPresenter = null;
 
     private IInput InputController => InputManager.Instance;
 
+    IScreenPresenter<T> IScreen<T>.GetScreenController()
+    {
+
+        screenPresenter = new SC();
+        return screenPresenter;
+    }
+
     IEnumerator IScreen<T>.Configure()
     {
-        screenController = new SC();
+        screenPresenter = new SC();
 
-        yield return screenController.Configure(this);
+        yield return screenPresenter.Configure(this);
     }
 
     private void Update()
@@ -68,7 +78,7 @@ public class BaseScreen<S, SC, VM, T> : MonoBehaviour, IScreen<T>
         inputInfo.SetInput(InputController);
 
         // コントローラーへ入力情報を委譲
-        if (inputInfo.IsInput) screenController?.InputUpdate(inputInfo);
+        if (inputInfo.IsInput) screenPresenter?.InputUpdate(inputInfo);
         OnUpdate();
     }
 
@@ -82,7 +92,11 @@ public class BaseScreen<S, SC, VM, T> : MonoBehaviour, IScreen<T>
     void IScreen<T>.Initialize(IViewModel<T> viewModel) => Initialize((VM)viewModel);
     ScreenContainer<T> IScreen<T>.Container { set => container = value; }
     void IScreen<T>.SetSiblingIndex() => transform.SetSiblingIndex(transform.parent.childCount - 1);
-    void IScreen<T>.Deinitialize() => Deinitialize();
+    void IScreen<T>.Deinitialize()
+    {
+        screenPresenter.Deinitialize();
+        Deinitialize();
+    }
 
     protected virtual void Open() { }
     protected virtual void Hide() { }
@@ -95,14 +109,14 @@ public class BaseScreen<S, SC, VM, T> : MonoBehaviour, IScreen<T>
 
 }
 
-public class BaseScreenController<S, SC, VM, T>: IScreenController<T>
+public class BaseScreenPresenter<S, SC, VM, T>: IScreenPresenter<T>
     where S : BaseScreen<S, SC, VM, T>, new()
-    where SC : BaseScreenController<S, SC, VM, T>, new()
+    where SC : BaseScreenPresenter<S, SC, VM, T>, new()
     where VM : BaseViewModel<T>, new()
     where T : Enum
 {
 
-    IEnumerator IScreenController<T>.Configure(IScreen<T> screen)
+    IEnumerator IScreenPresenter<T>.Configure(IScreen<T> screen)
     {
         // モデルの構成
         IViewModel<T> viewModel = new VM();
@@ -114,10 +128,13 @@ public class BaseScreenController<S, SC, VM, T>: IScreenController<T>
         // シーンの初期化
        screen.Initialize(viewModel);
     }
-    void IScreenController<T>.InputUpdate(InputInfo info) => InputUpdate(info);
+    void IScreenPresenter<T>.InputUpdate(InputInfo info) => InputUpdate(info);
+    void IScreenPresenter<T>.Deinitialize() => Deinitialize();
 
     protected virtual void Initialize(S screen, VM viewModel) { }
     protected virtual void InputUpdate(InputInfo info) { }
+    protected virtual void Deinitialize() { }
+
 }
 
 public class BaseViewModel<T> : IViewModel<T>
@@ -137,8 +154,25 @@ public class ScreenContainer<T> where T: Enum
     Dictionary<T, IScreen<T>> list = new Dictionary<T, IScreen<T>>();
 
     IScreen<T> curScreen = default;
+    IScreenPresenter<T> screenPresenter = default;
 
     Coroutine coroutine = null;
+
+    public IEnumerator Initialize(T request,bool immediately)
+    {
+        if (!list.ContainsKey(request))
+        {
+            Debug.Log($"{request} キーは存在しないため、遷移はしません。");
+            yield break;
+        }
+
+        var newScreen = list[request];
+        if (coroutine == null && curScreen != newScreen)
+        {
+            yield return TransitCroutine(newScreen, immediately);
+        }
+    }
+
     /// <summary>
     /// シーンの追加
     /// </summary>
@@ -149,9 +183,18 @@ public class ScreenContainer<T> where T: Enum
         if (!list.ContainsKey(id))
         {
             list.Add(id, screen);
-            screen.Container = this;
-            screen.SetActive(false);
+            if (screen != null)
+            {
+                screen.Container = this;
+                screen.SetActive(false);
+            }
+            else
+            {
+                Debug.Log($"スクリーンが設定されていません。");
+            }
+
         }
+
         else
         {
             Debug.Log($"{id} キーは既に登録されています。");
@@ -177,6 +220,13 @@ public class ScreenContainer<T> where T: Enum
     public void Clear()=> list.Clear();
 
     /// <summary>
+    /// 現在のスクリーンプレゼンターを取得（型が合わない場合はNULL）
+    /// </summary>
+    /// <typeparam name="SC"></typeparam>
+    /// <returns></returns>
+    public SC GetCurrentScreenPresenter<SC>() where SC : class, IScreenPresenter<T> => screenPresenter as SC;
+
+    /// <summary>
     /// 遷移要求
     /// </summary>
     /// <param name="id"></param>
@@ -195,50 +245,48 @@ public class ScreenContainer<T> where T: Enum
         {
             coroutine = ProjectManager.Instance.StartCoroutine(TransitCroutine(newScreen, immediately));
         }
+    }
 
-
-        IEnumerator TransitCroutine(IScreen<T> newScene, bool immediately)
+    IEnumerator TransitCroutine(IScreen<T> newScreen, bool immediately)
+    {
+        if (immediately)
         {
-            if (immediately)
-            {
-                curScreen?.Hide();
-                curScreen?.Deinitialize();
+            curScreen?.Hide();
+            curScreen?.Deinitialize();
 
-                yield return newScreen.Configure();
+            screenPresenter = newScreen.GetScreenController();
+            yield return screenPresenter.Configure(newScreen);
 
-                newScreen.SetSiblingIndex();
-                newScreen.SetActive(true);
+            newScreen.SetSiblingIndex();
+            newScreen.SetActive(true);
 
-                yield return null;
+            yield return null;
 
-                curScreen?.SetActive(false);
+            curScreen?.SetActive(false);
 
-                curScreen = newScreen;
+            curScreen = newScreen;
 
-                curScreen.Open();
-            }
-            else
-            {
-                yield return curScreen?.HideCoroutine();
-                curScreen?.Deinitialize();
-
-                var newScreen = list[request];
-
-                yield return newScreen.Configure();
-
-                newScreen.SetSiblingIndex();
-                newScreen.SetActive(true);
-
-                yield return null;
-
-                curScreen?.SetActive(false);
-
-                curScreen = newScreen;
-
-                yield return curScreen?.OpenCoroutine();
-            }
-
-            coroutine = null;
+            curScreen.Open();
         }
+        else
+        {
+            yield return curScreen?.HideCoroutine();
+            curScreen?.Deinitialize();
+
+            yield return newScreen.Configure();
+
+            newScreen.SetSiblingIndex();
+            newScreen.SetActive(true);
+
+            yield return null;
+
+            curScreen?.SetActive(false);
+
+            curScreen = newScreen;
+
+            yield return curScreen?.OpenCoroutine();
+        }
+
+        coroutine = null;
     }
 }

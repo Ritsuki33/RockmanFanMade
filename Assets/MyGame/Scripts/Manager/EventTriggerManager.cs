@@ -3,42 +3,28 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public enum EventType
+public enum ValueEventType
 {
     ChangeCameraStart,
     ChangeCameraEnd,
     EnemyDefeated,
 }
 
-[DefaultExecutionOrder(-100)]
-public class EventTriggerManager : SingletonComponent<EventTriggerManager>
+public enum FloatEventType
 {
-    private Dictionary<EventType,Action> eventTriggers = new Dictionary<EventType, Action>();
+    PlayerDamaged,
+}
 
-    public Action ChangeCameraTrigger => this[EventType.ChangeCameraStart];
+public class EventTrigger<T,S> where T : Enum where S : Delegate
+{
+    private Dictionary<T, S> eventTriggers = new Dictionary<T, S>();
 
-    protected override void Awake()
+    public void Init()
     {
-        base.Awake();
-
-        eventTriggers.Add(EventType.ChangeCameraStart, null);
-        eventTriggers.Add(EventType.ChangeCameraEnd, null);
-        eventTriggers.Add(EventType.EnemyDefeated, null);
-    }
-    
-    public void Subscribe(EventType eventType, Action action)
-    {
-        eventTriggers[eventType] += action;
-    }
-
-    public void Unsubscribe(EventType eventType, Action action)
-    {
-        eventTriggers[eventType] -= action;
-    }
-
-    public void Notify(EventType eventType)
-    {
-        eventTriggers[eventType]?.Invoke();
+        foreach (T type in Enum.GetValues(typeof(T)))
+        {
+            eventTriggers.Add(type, null);
+        }
     }
 
     /// <summary>
@@ -46,11 +32,39 @@ public class EventTriggerManager : SingletonComponent<EventTriggerManager>
     /// </summary>
     /// <param name="eventType"></param>
     /// <returns></returns>
-    public Action this[EventType eventType]
+    public S this[T eventType]
     {
         get
         {
             return eventTriggers[eventType];
         }
+        set
+        {
+            eventTriggers[eventType] = value;
+        }
     }
+}
+
+[DefaultExecutionOrder(-100)]
+public class EventTriggerManager : SingletonComponent<EventTriggerManager>
+{
+    EventTrigger<ValueEventType, Action> valueEventTriggers = new EventTrigger<ValueEventType, Action>();
+    EventTrigger<FloatEventType, Action<float>> floatEventTriggers = new EventTrigger<FloatEventType, Action<float>>();
+
+    protected override void Awake()
+    {
+        base.Awake();
+
+        valueEventTriggers.Init();
+        floatEventTriggers.Init();
+    }
+    
+    public void Subscribe(ValueEventType eventType, Action action)=> valueEventTriggers[eventType] += action;
+    public void Subscribe(FloatEventType eventType, Action<float> action)=> floatEventTriggers[eventType] += action;
+
+    public void Unsubscribe(ValueEventType eventType, Action action) => valueEventTriggers[eventType] -= action;
+    public void Unsubscribe(FloatEventType eventType, Action<float> action) => floatEventTriggers[eventType] -= action;
+
+    public void Notify(ValueEventType eventType)=> valueEventTriggers[eventType]?.Invoke();
+    public void Notify(FloatEventType eventType, float val) => floatEventTriggers[eventType]?.Invoke(val);
 }

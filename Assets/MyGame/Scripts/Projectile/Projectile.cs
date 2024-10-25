@@ -25,12 +25,12 @@ public class Projectile : ReusableObject
 
     private void OnEnable()
     {
-        EventTriggerManager.Instance.Subscribe(EventType.ChangeCameraStart, Delete);
+        EventTriggerManager.Instance.Subscribe(ValueEventType.ChangeCameraStart, Delete);
     }
 
     private void OnDisable()
     {
-        EventTriggerManager.Instance.Unsubscribe(EventType.ChangeCameraStart, Delete);
+        EventTriggerManager.Instance.Unsubscribe(ValueEventType.ChangeCameraStart, Delete);
     }
 
     public void Init(int attackPower, Action<Rigidbody2D> start, Action<Rigidbody2D> fixedUpdate)

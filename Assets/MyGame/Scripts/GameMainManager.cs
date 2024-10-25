@@ -20,22 +20,33 @@ public class GameMainManager : BaseManager<GameMainManager>
     }
 
     [SerializeField] MainCameraControll m_mainCameraControll = default;
-    [SerializeField] ReadyUi readyUi = default;
-    [SerializeField] HpBar enemyHpBar = default;
-    [SerializeField] HpBar hpBar = default;
+    [SerializeField] GameMainScreen m_gameMainScreen = default;
 
     private IInput InputController => InputManager.Instance;
     private CameraControllArea currentCameraControllArea;
     public MainCameraControll MainCameraControll => m_mainCameraControll;
 
-    public ReadyUi ReadyUi => readyUi;
-    public HpBar EmemyHpBar => enemyHpBar;
-    public HpBar HpBar => hpBar;
-
+    public enum UI
+    {
+        GameMain,
+    }
+    private ScreenContainer<UI> screenContainer = new ScreenContainer<UI>();
+    public ScreenContainer<UI> ScreenContainer => screenContainer;
     protected override void Init()
     {
-        WorldManager.Instance.Init();
-        StageStart();
+        StartCoroutine(Initialize());
+
+        IEnumerator Initialize()
+        {
+            WorldManager.Instance.Init();
+
+            screenContainer.Add(UI.GameMain, m_gameMainScreen);
+
+            yield return screenContainer.Initialize(UI.GameMain, true);
+
+            StageStart();
+
+        }
     }
 
     protected override void OnUpdate()

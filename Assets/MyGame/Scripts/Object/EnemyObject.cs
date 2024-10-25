@@ -43,7 +43,7 @@ public class EnemyObject : StageObject
 
         OnDead();
 
-        EventTriggerManager.Instance.Notify(EventType.EnemyDefeated);
+        EventTriggerManager.Instance.Notify(ValueEventType.EnemyDefeated);
     }
 
     public virtual void OnDead()

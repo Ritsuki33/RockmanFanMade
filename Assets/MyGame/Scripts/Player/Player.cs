@@ -12,7 +12,12 @@ public class Player : StageObject
     {
         currentHp = Mathf.Clamp(hp, 0, maxHp);
 
-        GameMainManager.Instance.HpBar.SetParam((float)currentHp/maxHp);
+        EventTriggerManager.Instance.Notify(FloatEventType.PlayerDamaged, (float)currentHp / maxHp);
+
+        var controller = GameMainManager.Instance.ScreenContainer.GetCurrentScreenPresenter<GameMainScreenPresenter>();
+
+        controller?.SetPlayerHp((float)currentHp / maxHp);
+        //GameMainManager.Instance.HpBar.SetParam((float)currentHp/maxHp);
     }
 
 }

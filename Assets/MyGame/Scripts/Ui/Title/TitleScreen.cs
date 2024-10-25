@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class TitleScreen : BaseScreen<TitleScreen, TitleScreenController, TitleScreenViewModel, TitleManager.ScreenType>
+public class TitleScreen : BaseScreen<TitleScreen, TitleScreenPresenter, TitleScreenViewModel, TitleManager.ScreenType>
 {
     [SerializeField] MainMenuColorSelect select;
 
