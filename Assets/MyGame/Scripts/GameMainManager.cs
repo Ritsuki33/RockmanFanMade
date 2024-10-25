@@ -38,6 +38,8 @@ public class GameMainManager : BaseManager<GameMainManager>
 
         IEnumerator Initialize()
         {
+            //FadeInManager.Instance.FadeOutImmediate();
+
             WorldManager.Instance.Init();
 
             screenContainer.Add(UI.GameMain, m_gameMainScreen);
@@ -73,8 +75,10 @@ public class GameMainManager : BaseManager<GameMainManager>
     IEnumerator DeathExecuteCo(Action action)
     {
         yield return new WaitForSeconds(4.0f);
-        FadeInManager.Instance.FadeOut();
-        while (FadeInManager.Instance.IsFade) yield return null;
+
+        bool isfade = true;
+        FadeInManager.Instance.FadeOut(0.4f, Color.black, ()=>{ isfade = false; });
+        while (isfade) yield return null;
 
         action.Invoke();
     }
