@@ -224,9 +224,6 @@ public class ActionChainExecuter : MonoBehaviour
         {
             var presenter = GameMainManager.Instance.ScreenContainer.GetCurrentScreenPresenter<GameMainScreenPresenter>();
             presenter.EnemyHpIncrementAnimation(ctr, finishCallback);
-            //GameMainManager.Instance.EmemyHpBar.gameObject.SetActive(true);
-            //GameMainManager.Instance.EmemyHpBar.SetParam(0.0f);
-            //GameMainManager.Instance.EmemyHpBar.ParamChangeAnimation(1.0f, finishCallback);
         }
     }
 

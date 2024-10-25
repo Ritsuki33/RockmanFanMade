@@ -62,7 +62,7 @@ public class GameMainScreenPresenter : BaseScreenPresenter<GameMainScreen, GameM
         _screen = screen;
         _viewModel = viewModel;
 
-        EventTriggerManager.Instance.Subscribe(FloatEventType.PlayerDamaged, SetPlayerHp);
+        _viewModel.Player.hpChangeTrigger = SetPlayerHp;
     }
 
     protected override void InputUpdate(InputInfo info)
@@ -112,12 +112,13 @@ public class GameMainScreenPresenter : BaseScreenPresenter<GameMainScreen, GameM
 
     protected override void Deinitialize()
     {
-        EventTriggerManager.Instance.Unsubscribe(FloatEventType.PlayerDamaged, SetPlayerHp);
+        _viewModel.Player.hpChangeTrigger -= SetPlayerHp;
     }
 }
 
 public class GameMainScreenViewModel : BaseViewModel<GameMainManager.UI>
 {
+    public Player Player => WorldManager.Instance.Player;
 
     protected override IEnumerator Configure()
     {

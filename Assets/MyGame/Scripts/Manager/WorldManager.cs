@@ -5,11 +5,13 @@ using UnityEngine;
 public class WorldManager : SingletonComponent<WorldManager>
 {
     [SerializeField] TransferArea _playerTransferArea;
+    [SerializeField] Player player;
     [SerializeField] PlayerController playerController;
 
     [SerializeField] ActionChainExecuter startAction = default;
 
     [SerializeField] CheckPointData defaultCheckPoint;
+    public Player Player => player;
     public PlayerController PlayerController => playerController;
 
     private CheckPointData currentCheckPointData;
