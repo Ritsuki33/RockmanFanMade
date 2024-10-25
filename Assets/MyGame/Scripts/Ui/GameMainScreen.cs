@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Runtime.ConstrainedExecution;
 using Unity.Mathematics;
 using UnityEngine;
 
@@ -102,7 +103,9 @@ public class GameMainScreenPresenter : BaseScreenPresenter<GameMainScreen, GameM
         _screen.EnemyHpBar.SetParam(0.0f);
         _screen.EnemyHpBar.ParamChangeAnimation((float)ctr.CurrentHp / ctr.MaxHp, finishCallback);
 
-        ctr.HpChangeTrigger = SetEnemyHp;
+        ctr.HpChangeTrigger += SetEnemyHp;
+
+        _viewModel.bossController = ctr;
     }
 
     public void ReadyUiPlay(Action finishCallback)
@@ -113,6 +116,7 @@ public class GameMainScreenPresenter : BaseScreenPresenter<GameMainScreen, GameM
     protected override void Deinitialize()
     {
         _viewModel.Player.hpChangeTrigger -= SetPlayerHp;
+        _viewModel.bossController.HpChangeTrigger -= SetEnemyHp;
     }
 }
 
@@ -120,6 +124,7 @@ public class GameMainScreenViewModel : BaseViewModel<GameMainManager.UI>
 {
     public Player Player => WorldManager.Instance.Player;
 
+    public BossController bossController;
     protected override IEnumerator Configure()
     {
         yield return null;
