@@ -6,7 +6,7 @@ using UnityEngine;
 /// スクリーンのスクリプトテンプレート
 /// Enum型はそれぞれ適切な列挙型を指定
 /// </summary>
-public class #SCRIPTNAME# : BaseScreen<#SCRIPTNAME#, #SCRIPTNAME#Controller, #SCRIPTNAME#ViewModel, Enum>
+public class #SCRIPTNAME# : BaseScreen<#SCRIPTNAME#, #SCRIPTNAME#Presenter, #SCRIPTNAME#ViewModel, Enum>
 {
     protected override void Initialize(#SCRIPTNAME#ViewModel viewModel)
     {
@@ -44,7 +44,7 @@ public class #SCRIPTNAME# : BaseScreen<#SCRIPTNAME#, #SCRIPTNAME#Controller, #SC
     }
 }
 
-public class #SCRIPTNAME#Controller : BaseScreenController<#SCRIPTNAME#, #SCRIPTNAME#Controller, #SCRIPTNAME#ViewModel, Enum>
+public class #SCRIPTNAME#Presenter : BaseScreenPresenter<#SCRIPTNAME#, #SCRIPTNAME#Presenter, #SCRIPTNAME#ViewModel, Enum>
 {
     protected override void Initialize(#SCRIPTNAME# screen, #SCRIPTNAME#ViewModel viewModel)
     {

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public class MainMenuCursorSelect : SelectController<CursorSelector, SelectInfo>
+public class MainMenuCursorSelect : VirticalSelectContoller<CursorSelector, SelectInfo>
 {
     [SerializeField] Transform cursor = default;
 
