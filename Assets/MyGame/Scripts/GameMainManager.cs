@@ -32,13 +32,14 @@ public class GameMainManager : BaseManager<GameMainManager>
     }
     private ScreenContainer<UI> screenContainer = new ScreenContainer<UI>();
     public ScreenContainer<UI> ScreenContainer => screenContainer;
+
     protected override void Init()
     {
         StartCoroutine(Initialize());
 
         IEnumerator Initialize()
         {
-            //FadeInManager.Instance.FadeOutImmediate();
+            FadeInManager.Instance.FadeOutImmediate();
 
             WorldManager.Instance.Init();
 
