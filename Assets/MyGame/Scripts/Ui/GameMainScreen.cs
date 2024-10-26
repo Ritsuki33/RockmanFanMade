@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Runtime.ConstrainedExecution;
 using Unity.Mathematics;
 using UnityEngine;
 
@@ -62,7 +63,7 @@ public class GameMainScreenPresenter : BaseScreenPresenter<GameMainScreen, GameM
         _screen = screen;
         _viewModel = viewModel;
 
-        EventTriggerManager.Instance.Subscribe(FloatEventType.PlayerDamaged, SetPlayerHp);
+        _viewModel.Player.hpChangeTrigger = SetPlayerHp;
     }
 
     protected override void InputUpdate(InputInfo info)
@@ -90,11 +91,21 @@ public class GameMainScreenPresenter : BaseScreenPresenter<GameMainScreen, GameM
         _screen.EnemyHpBar.gameObject.SetActive(isActive);
     }
 
-    public void EnemyParamChangeAnimation(Action finishCallback)
+    /// <summary>
+    /// ボスの体力上昇アニメーション（敵体力の監視登録も行う）
+    /// </summary>
+    /// <param name="val"></param>
+    /// <param name="hpChangeTrigger"></param>
+    /// <param name="finishCallback"></param>
+    public void EnemyHpIncrementAnimation(BossController ctr, Action finishCallback)
     {
         _screen.EnemyHpBar.gameObject.SetActive(true);
         _screen.EnemyHpBar.SetParam(0.0f);
-        _screen.EnemyHpBar.ParamChangeAnimation(1.0f, finishCallback);
+        _screen.EnemyHpBar.ParamChangeAnimation((float)ctr.CurrentHp / ctr.MaxHp, finishCallback);
+
+        ctr.HpChangeTrigger += SetEnemyHp;
+
+        _viewModel.bossController = ctr;
     }
 
     public void ReadyUiPlay(Action finishCallback)
@@ -104,13 +115,16 @@ public class GameMainScreenPresenter : BaseScreenPresenter<GameMainScreen, GameM
 
     protected override void Deinitialize()
     {
-        EventTriggerManager.Instance.Unsubscribe(FloatEventType.PlayerDamaged, SetPlayerHp);
+        _viewModel.Player.hpChangeTrigger -= SetPlayerHp;
+        _viewModel.bossController.HpChangeTrigger -= SetEnemyHp;
     }
 }
 
 public class GameMainScreenViewModel : BaseViewModel<GameMainManager.UI>
 {
+    public Player Player => WorldManager.Instance.Player;
 
+    public BossController bossController;
     protected override IEnumerator Configure()
     {
         yield return null;

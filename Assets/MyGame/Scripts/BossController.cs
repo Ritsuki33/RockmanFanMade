@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Runtime.ConstrainedExecution;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 public class BossController : ExRbStateMachine<BossController>
 {
@@ -19,8 +17,14 @@ public class BossController : ExRbStateMachine<BossController>
     bool IsRight => boss.IsRight;
 
     bool existBomb = false;
+    public int CurrentHp => boss.CurrentHp;
+    public int MaxHp => boss.MaxHp;
+
     [SerializeField] Transform[] placeBombPosArray = null;
     BaseObjectPool ExplodePool=>EffectManager.Instance.ExplodePool;
+
+    public Action<float> HpChangeTrigger { get {return  boss.hpChangeTrigger; } set { boss.hpChangeTrigger = value; } }
+
     enum StateId
     {
         Idle,
@@ -95,10 +99,10 @@ public class BossController : ExRbStateMachine<BossController>
                 parent.TransitSubReady((int)SubStateId.Pause);
             }
 
-            //protected override void OnTriggerEnter2D(BossController ctr, Appearance parent, Collider2D collision)
-            //{
-            //    ctr._exRb.BoxCollider.enabled = true;
-            //}
+            protected override void OnTriggerEnter(BossController ctr, Appearance parent, Collider2D collision)
+            {
+                ctr._exRb.BoxCollider.enabled = true;
+            }
         }
 
         class Pause : ExRbSubState<BossController, Pause, Appearance>
@@ -177,7 +181,7 @@ public class BossController : ExRbStateMachine<BossController>
 
         protected override void OnTriggerEnter(BossController ctr, RockBusterDamage collision)
         {
-            ctr.boss.Damaged(collision.baseDamageValue);
+            ctr.boss.Damaged(collision);
         }
     }
 
@@ -234,7 +238,7 @@ public class BossController : ExRbStateMachine<BossController>
 
         protected override void OnTriggerEnter(BossController ctr, RockBusterDamage collision)
         {
-            ctr.boss.Damaged(collision.baseDamageValue);
+            ctr.boss.Damaged(collision);
         }
     }
 
@@ -316,7 +320,7 @@ public class BossController : ExRbStateMachine<BossController>
 
         protected override void OnTriggerEnter(BossController ctr, RockBusterDamage collision)
         {
-            ctr.boss.Damaged(collision.baseDamageValue);
+            ctr.boss.Damaged(collision);
         }
     }
 
@@ -407,7 +411,7 @@ public class BossController : ExRbStateMachine<BossController>
 
         protected override void OnTriggerEnter(BossController ctr, RockBusterDamage collision)
         {
-            ctr.boss.Damaged(collision.baseDamageValue);
+            ctr.boss.Damaged(collision);
         }
     }
 
@@ -512,7 +516,7 @@ public class BossController : ExRbStateMachine<BossController>
 
         protected override void OnTriggerEnter(BossController ctr, RockBusterDamage collision)
         {
-            ctr.boss.Damaged(collision.baseDamageValue);
+            ctr.boss.Damaged(collision);
         }
     }
 
@@ -528,4 +532,5 @@ public class BossController : ExRbStateMachine<BossController>
     {
         this.TransitReady((int)StateId.Idle);
     }
+
 }

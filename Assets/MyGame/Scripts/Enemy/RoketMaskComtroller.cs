@@ -108,7 +108,7 @@ public class RoketMaskComtroller : RbStateMachine<RoketMaskComtroller>
         }
         else
         {
-            rocketMask.Damaged(damage.baseDamageValue);
+            rocketMask.Damaged(damage);
         }
     }
 

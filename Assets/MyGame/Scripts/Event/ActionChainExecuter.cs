@@ -222,12 +222,8 @@ public class ActionChainExecuter : MonoBehaviour
 
         override public void Execute(Action finishCallback)
         {
-
             var presenter = GameMainManager.Instance.ScreenContainer.GetCurrentScreenPresenter<GameMainScreenPresenter>();
-            presenter.EnemyParamChangeAnimation(finishCallback);
-            //GameMainManager.Instance.EmemyHpBar.gameObject.SetActive(true);
-            //GameMainManager.Instance.EmemyHpBar.SetParam(0.0f);
-            //GameMainManager.Instance.EmemyHpBar.ParamChangeAnimation(1.0f, finishCallback);
+            presenter.EnemyHpIncrementAnimation(ctr, finishCallback);
         }
     }
 
@@ -363,7 +359,7 @@ public class ActionChainExecuter : MonoBehaviour
         {
             var checkPoint = WorldManager.Instance.CurrentCheckPointData;
             var nextControllArea = checkPoint.virtualCamera;
-            WorldManager.Instance.PlayerTransferArea.transform.position_xy(checkPoint.position);
+            WorldManager.Instance.PlayerTransferArea.transform.position_xy(checkPoint.position.position);
             GameMainManager.Instance.MainCameraControll.ChangeCamera(nextControllArea, Style.Cut, 0, finishCallback);
         }
     }

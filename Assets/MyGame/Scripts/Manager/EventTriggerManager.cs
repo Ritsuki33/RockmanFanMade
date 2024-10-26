@@ -10,11 +10,6 @@ public enum ValueEventType
     EnemyDefeated,
 }
 
-public enum FloatEventType
-{
-    PlayerDamaged,
-}
-
 public class EventTrigger<T,S> where T : Enum where S : Delegate
 {
     private Dictionary<T, S> eventTriggers = new Dictionary<T, S>();
@@ -49,22 +44,17 @@ public class EventTrigger<T,S> where T : Enum where S : Delegate
 public class EventTriggerManager : SingletonComponent<EventTriggerManager>
 {
     EventTrigger<ValueEventType, Action> valueEventTriggers = new EventTrigger<ValueEventType, Action>();
-    EventTrigger<FloatEventType, Action<float>> floatEventTriggers = new EventTrigger<FloatEventType, Action<float>>();
 
     protected override void Awake()
     {
         base.Awake();
 
         valueEventTriggers.Init();
-        floatEventTriggers.Init();
     }
     
     public void Subscribe(ValueEventType eventType, Action action)=> valueEventTriggers[eventType] += action;
-    public void Subscribe(FloatEventType eventType, Action<float> action)=> floatEventTriggers[eventType] += action;
 
     public void Unsubscribe(ValueEventType eventType, Action action) => valueEventTriggers[eventType] -= action;
-    public void Unsubscribe(FloatEventType eventType, Action<float> action) => floatEventTriggers[eventType] -= action;
 
     public void Notify(ValueEventType eventType)=> valueEventTriggers[eventType]?.Invoke();
-    public void Notify(FloatEventType eventType, float val) => floatEventTriggers[eventType]?.Invoke(val);
 }

@@ -5,12 +5,13 @@ using UnityEngine;
 public class WorldManager : SingletonComponent<WorldManager>
 {
     [SerializeField] TransferArea _playerTransferArea;
+    [SerializeField] Player player;
     [SerializeField] PlayerController playerController;
-    [SerializeField] Transform defaultTransferArea;
 
     [SerializeField] ActionChainExecuter startAction = default;
 
     [SerializeField] CheckPointData defaultCheckPoint;
+    public Player Player => player;
     public PlayerController PlayerController => playerController;
 
     private CheckPointData currentCheckPointData;
@@ -39,7 +40,7 @@ public class WorldManager : SingletonComponent<WorldManager>
     public Vector2 GetPlayerTransferPostion()
     {
         Vector2 appearPos = new Vector2(
-               currentCheckPointData.position.x,
+               currentCheckPointData.position.position.x,
                GameMainManager.Instance.MainCameraControll.OutOfViewTop
                );
 

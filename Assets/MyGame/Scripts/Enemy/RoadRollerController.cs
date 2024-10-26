@@ -62,7 +62,7 @@ public class RoadRollerController : ExRbStateMachine<RoadRollerController>
 
         protected override void OnTriggerEnter(RoadRollerController roller, RockBusterDamage collision)
         {
-            roller.roadRoller.Damaged(collision.baseDamageValue);
+            roller.roadRoller.Damaged(collision);
         }
     }
 
@@ -98,7 +98,7 @@ public class RoadRollerController : ExRbStateMachine<RoadRollerController>
 
         protected override void OnTriggerEnter(RoadRollerController roller, RockBusterDamage collision)
         {
-            roller.roadRoller.Damaged(collision.baseDamageValue);
+            roller.roadRoller.Damaged(collision);
         }
     }
 
@@ -120,7 +120,7 @@ public class RoadRollerController : ExRbStateMachine<RoadRollerController>
 
         protected override void OnTriggerEnter(RoadRollerController roller, RockBusterDamage collision)
         {
-            roller.roadRoller.Damaged(collision.baseDamageValue);
+            roller.roadRoller.Damaged(collision);
         }
     }
 
