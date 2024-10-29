@@ -34,6 +34,7 @@ public class ActionChainExecuter : MonoBehaviour
         UnSubscribeAction,
         SetupCheckPoint,
         SetPlayerHp,
+        ChangeManager,
     }
 
     [Serializable]
@@ -375,6 +376,17 @@ public class ActionChainExecuter : MonoBehaviour
         }
     }
 
+    [Serializable]
+    class ChangeManager : BaseAction
+    {
+        [SerializeField] ManagerType type;
+        public override void Execute(Action finishCallback)
+        {
+            SceneManager.Instance.ChangeManager(type);
+            finishCallback();
+        }
+    }
+
     [SerializeField] Element element;
 
     private void OnValidate()
@@ -521,6 +533,12 @@ public class ActionChainExecuter : MonoBehaviour
                     if (ae.action is not SetPlayerHp)
                     {
                         ae.action = new SetPlayerHp();
+                    }
+                    break;
+                case ActionType.ChangeManager:
+                    if (ae.action is not ChangeManager)
+                    {
+                        ae.action = new ChangeManager();
                     }
                     break;
                 default:

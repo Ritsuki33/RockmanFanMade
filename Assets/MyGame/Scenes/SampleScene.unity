@@ -1201,7 +1201,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &222374769
 RectTransform:
   m_ObjectHideFlags: 0
@@ -81595,10 +81595,10 @@ MonoBehaviour:
       data:
         delayTime: 0
         actions:
-        - type: 11
+        - type: 22
           remarks: 
           action:
-            rid: 115822631400243289
+            rid: 115823223720378369
         _next:
           rid: 115822631400243287
     - rid: 115822631400243282
@@ -81613,24 +81613,10 @@ MonoBehaviour:
         actions: []
         _next:
           rid: -2
-    - rid: 115822631400243289
-      type: {class: ActionChainExecuter/ExternalAction, ns: , asm: Assembly-CSharp}
+    - rid: 115823223720378369
+      type: {class: ActionChainExecuter/ChangeManager, ns: , asm: Assembly-CSharp}
       data:
-        action:
-          m_PersistentCalls:
-            m_Calls:
-            - m_Target: {fileID: 0}
-              m_TargetAssemblyTypeName: ActionChainExecuter, Assembly-CSharp
-              m_MethodName: StartEvent
-              m_Mode: 0
-              m_Arguments:
-                m_ObjectArgument: {fileID: 0}
-                m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-                m_IntArgument: 0
-                m_FloatArgument: 0
-                m_StringArgument: 
-                m_BoolArgument: 0
-              m_CallState: 2
+        type: 2
 --- !u!114 &1794142836 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5107075163451444145, guid: 50db6328845417f428e76f577eadc620, type: 3}
