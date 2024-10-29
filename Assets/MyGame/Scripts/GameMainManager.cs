@@ -20,7 +20,6 @@ public class GameMainManager : BaseManager<GameMainManager>
     }
 
     [SerializeField] MainCameraControll m_mainCameraControll = default;
-    [SerializeField] BossSelectScreen m_bossSelectScreen = default;
     [SerializeField] GameMainScreen m_gameMainScreen = default;
 
     private IInput InputController => InputManager.Instance;
@@ -29,7 +28,6 @@ public class GameMainManager : BaseManager<GameMainManager>
 
     public enum UI
     {
-        BossSelect,
         GameMain,
     }
     private ScreenContainer<UI> screenContainer = new ScreenContainer<UI>();
@@ -43,14 +41,13 @@ public class GameMainManager : BaseManager<GameMainManager>
         {
             FadeInManager.Instance.FadeOutImmediate();
 
-            //WorldManager.Instance.Init();
+            WorldManager.Instance.Init();
 
-            screenContainer.Add(UI.BossSelect, m_bossSelectScreen);
             screenContainer.Add(UI.GameMain, m_gameMainScreen);
 
-            yield return screenContainer.Initialize(UI.BossSelect, true);
+            yield return screenContainer.Initialize(UI.GameMain, true);
 
-            //StageStart();
+            StageStart();
 
         }
     }

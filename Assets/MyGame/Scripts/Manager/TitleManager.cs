@@ -4,12 +4,11 @@ public struct InputInfo
     public bool decide, up, down, left, right;
     public void SetInput(IInput input = null)
     {
-        decide = input.GetInput(InputType.Decide);
+        decide = input.GetDownInput(InputType.Decide);
         up = input.GetDownInput(InputType.Up);
         down = input.GetDownInput(InputType.Down);
         left = input.GetDownInput(InputType.Left);
         right = input.GetDownInput(InputType.Right);
-
     }
 
     public bool IsInput => decide | up | down | left | right;

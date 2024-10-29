@@ -8,8 +8,14 @@ public class LetterRevealText : MonoBehaviour
     [SerializeField] TextMeshProUGUI text;
     IEnumerator enumerator = null;
 
-    bool IsPlaying => enumerator != null;
+    public bool IsPlaying => enumerator != null && !isPause;
     bool isPause = false;
+
+    public void Init()
+    {
+        text.maxVisibleCharacters = 0;
+    }
+
     /// <summary>
     /// プレイ
     /// </summary>
@@ -17,7 +23,7 @@ public class LetterRevealText : MonoBehaviour
     /// <param name="callback"></param>
     public void Play(float delay, Action callback = null)
     {
-        enumerator = LetterRevealCo(delay);
+        enumerator = LetterRevealCo(delay, callback);
         StartCoroutine(enumerator);
         isPause = false;
     }
@@ -37,6 +43,7 @@ public class LetterRevealText : MonoBehaviour
     public void Pause()
     {
         if (enumerator != null) StopCoroutine(enumerator);
+        isPause = true;
     }
 
     /// <summary>
@@ -49,6 +56,8 @@ public class LetterRevealText : MonoBehaviour
             StopCoroutine(enumerator);
             enumerator = null;
         }
+
+        isPause = false;
     }
 
     /// <summary>

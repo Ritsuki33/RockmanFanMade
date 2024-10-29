@@ -1,53 +1,57 @@
 ﻿using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
 
 /// <summary>
 /// スクリーンのスクリプトテンプレート
 /// Enum型はそれぞれ適切な列挙型を指定
 /// </summary>
-public class BossSelectScreen : BaseScreen<BossSelectScreen, BossSelectScreenPresenter, BossSelectScreenViewModel, GameMainManager.UI>
+public class BossSelectScreen : BaseScreen<BossSelectScreen, BossSelectScreenPresenter, BossSelectScreenViewModel, BossSelectManager.UI>
 {
-    [SerializeField] BossSelectController bossSelectController;
+    [SerializeField] BossIntroScreen bossIntroScreen = default;
+    [SerializeField] BossSelectController bossSelectController = default;
+    [SerializeField] Image flash = default;
 
     public BossSelectController BossSelectController => bossSelectController;
+
     protected override void Initialize(BossSelectScreenViewModel viewModel)
     {
         base.Initialize(viewModel);
+
+        flash.gameObject.SetActive(false);
     }
 
-    protected override void Open()
+    public void OpenBossIntroScreen()
     {
-        base.Open();
+        TransitScreen(BossSelectManager.UI.BossIntro, false);
     }
 
-    protected override IEnumerator OpenCoroutine()
+    public void Selected()
     {
-        return base.OpenCoroutine();
-    }
+        StartCoroutine(FlashEffectCo());
+        IEnumerator FlashEffectCo()
+        {
+            int count = 0;
+            do
+            {
 
-    protected override void OnUpdate()
-    {
-        base.OnUpdate();
-    }
+                flash.gameObject.SetActive(true);
 
-    protected override void Hide()
-    {
-        base.Hide();
-    }
+                yield return new WaitForSeconds(0.1f);
+                flash.gameObject.SetActive(false);
+                yield return new WaitForSeconds(0.1f);
+                count++;
+            }
+            while (count < 3);
 
-    protected override IEnumerator HideCoroutine()
-    {
-        return base.HideCoroutine();
-    }
 
-    protected override void Deinitialize()
-    {
-        base.Deinitialize();
+            OpenBossIntroScreen();
+        }
     }
 }
 
-public class BossSelectScreenPresenter : BaseScreenPresenter<BossSelectScreen, BossSelectScreenPresenter, BossSelectScreenViewModel, GameMainManager.UI>
+public class BossSelectScreenPresenter : BaseScreenPresenter<BossSelectScreen, BossSelectScreenPresenter, BossSelectScreenViewModel, BossSelectManager.UI>
 {
     BossSelectScreen m_screen;
     BossSelectScreenViewModel m_viewModel;
@@ -67,11 +71,13 @@ public class BossSelectScreenPresenter : BaseScreenPresenter<BossSelectScreen, B
 
     private void Selected(SelectInfo info)
     {
-
+        m_screen.Selected();
     }
+
+ 
 }
 
-public class BossSelectScreenViewModel : BaseViewModel<GameMainManager.UI>
+public class BossSelectScreenViewModel : BaseViewModel<BossSelectManager.UI>
 {
 
     protected override IEnumerator Configure()
