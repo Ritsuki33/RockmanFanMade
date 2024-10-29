@@ -61,6 +61,7 @@ public class GameMainManager : BaseManager<GameMainManager>
 
     protected override void Terminate()
     {
+        screenContainer.Clear();
     }
 
     public void StageStart()
@@ -84,5 +85,4 @@ public class GameMainManager : BaseManager<GameMainManager>
         action.Invoke();
     }
 
-   
 }

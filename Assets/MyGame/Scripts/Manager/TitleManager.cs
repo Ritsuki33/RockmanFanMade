@@ -62,13 +62,13 @@ public class TitleManager : BaseManager<TitleManager>
 
     private IInput InputController => InputManager.Instance;
 
-    private ScreenContainer<ScreenType> container= new ScreenContainer<ScreenType>();
+    private ScreenContainer<ScreenType> screenContainer= new ScreenContainer<ScreenType>();
 
     protected override void Init()
     {
-        container.Add(ScreenType.Top, title);
+        screenContainer.Add(ScreenType.Top, title);
 
-        container.TransitScreen(ScreenType.Top, true);
+        screenContainer.TransitScreen(ScreenType.Top, true);
     }
 
     protected override void OnUpdate()
@@ -77,5 +77,6 @@ public class TitleManager : BaseManager<TitleManager>
 
     protected override void Terminate()
     {
+        screenContainer.Clear();
     }
 }

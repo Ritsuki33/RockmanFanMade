@@ -217,7 +217,12 @@ public class ScreenContainer<T> where T: Enum
         }
     }
 
-    public void Clear()=> list.Clear();
+    public void Clear()
+    {
+        list.Clear();
+        curScreen = null;
+        screenPresenter = null;
+    }
 
     /// <summary>
     /// 現在のスクリーンプレゼンターを取得（型が合わない場合はNULL）
@@ -311,6 +316,8 @@ public class ScreenContainer<T> where T: Enum
             curScreen?.Deinitialize();
 
             coroutine = null;
+
+            curScreen = null;
         }
     }
 }

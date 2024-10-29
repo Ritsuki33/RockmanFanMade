@@ -27,5 +27,6 @@ public class BossSelectManager : BaseManager<BossSelectManager>
 
     protected override void Terminate()
     {
+        screenContainer.Clear();
     }
 }
