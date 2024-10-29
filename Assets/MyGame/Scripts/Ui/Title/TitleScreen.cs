@@ -14,6 +14,5 @@ public class TitleScreen : BaseScreen<TitleScreen, TitleScreenPresenter, TitleSc
     protected override void Deinitialize()
     {
         select.Clear();
-
     }
 }

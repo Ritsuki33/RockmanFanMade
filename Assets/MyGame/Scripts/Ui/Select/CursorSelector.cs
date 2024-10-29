@@ -5,7 +5,14 @@ using UnityEngine;
 public abstract class BaseSelect<D> : MonoBehaviour
 {
     protected Action<D> selected = default;
-    protected D data;
+    [SerializeField] protected D data;
+
+    public void Setup(Action<D> selected)
+    {
+        this.selected = selected;
+
+        OnSetup(data);
+    }
 
     public void Setup(D data, Action<D> selected)
     {
@@ -23,6 +30,7 @@ public abstract class BaseSelect<D> : MonoBehaviour
     }
 }
 
+[Serializable]
 public struct SelectInfo
 {
     public int id;
@@ -42,7 +50,7 @@ public class CursorSelector : BaseSelect<SelectInfo>
 
     protected override void OnSetup(SelectInfo data)
     {
-        this.text.text = data.text;
+        if (this.text) this.text.text = data.text;
     }
 
     public void SetCursor(Transform cursor)

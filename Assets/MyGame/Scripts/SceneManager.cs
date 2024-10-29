@@ -6,13 +6,15 @@ public enum ManagerType
 {
     None,
     Title,
-    ActionPart
+    BossSelect,
+    GameMain,
 }
 
 public class SceneManager : SingletonComponent<SceneManager>
 {
     [SerializeField] TitleManager titleManager;
-    [SerializeField] GameMainManager actionPartManager;
+    [SerializeField] GameMainManager gameMainManager;
+    [SerializeField] BossSelectManager bossSelectManager;
 
     private IManager manager = null;
 
@@ -23,7 +25,8 @@ public class SceneManager : SingletonComponent<SceneManager>
     private void Start()
     {
         managerList.Add(ManagerType.Title, titleManager);
-        managerList.Add(ManagerType.ActionPart, actionPartManager);
+        managerList.Add(ManagerType.BossSelect, bossSelectManager);
+        managerList.Add(ManagerType.GameMain, gameMainManager);
 
         managerList.ToList().ForEach(manager => manager.Value.SetActive(false));
     }

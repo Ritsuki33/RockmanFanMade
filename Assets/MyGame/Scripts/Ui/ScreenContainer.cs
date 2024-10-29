@@ -289,4 +289,28 @@ public class ScreenContainer<T> where T: Enum
 
         coroutine = null;
     }
+
+    public void Close(bool immediately)
+    {
+        if (coroutine == null)
+        {
+            coroutine = ProjectManager.Instance.StartCoroutine(CloseCo());
+        }
+
+        IEnumerator CloseCo()
+        {
+            if (immediately)
+            {
+                curScreen?.Hide();
+            }
+            else
+            {
+                yield return curScreen?.HideCoroutine();
+            }
+
+            curScreen?.Deinitialize();
+
+            coroutine = null;
+        }
+    }
 }

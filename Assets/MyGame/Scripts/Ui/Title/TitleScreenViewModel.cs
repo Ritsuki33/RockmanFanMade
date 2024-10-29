@@ -17,9 +17,9 @@ public class TitleScreenViewModel : BaseViewModel<TitleManager.ScreenType>
 
     public void Selected(SelectInfo data)
     {
-        if (data.id==1)
+        if (data.id == 1)
         {
-            SceneManager.Instance.ChangeManager(ManagerType.ActionPart);
+            SceneManager.Instance.ChangeManager(ManagerType.BossSelect);
         }
         else
         {
