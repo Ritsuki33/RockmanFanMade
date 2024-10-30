@@ -9,7 +9,6 @@ using UnityEngine.UI;
 /// </summary>
 public class BossSelectScreen : BaseScreen<BossSelectScreen, BossSelectScreenPresenter, BossSelectScreenViewModel, BossSelectManager.UI>
 {
-    [SerializeField] BossIntroScreen bossIntroScreen = default;
     [SerializeField] BossSelectController bossSelectController = default;
     [SerializeField] Image flash = default;
 
