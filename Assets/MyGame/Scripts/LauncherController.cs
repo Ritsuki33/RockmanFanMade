@@ -34,12 +34,16 @@ public class LauncherController : StateMachine<LauncherController>
 
     private void Awake()
     {
-        m_charge_animator.gameObject.SetActive(false);
         stateMachine.AddState((int)StateID.None, new None());
         stateMachine.AddState((int)StateID.ChargeSmall, new ChargeSmall());
         stateMachine.AddState((int)StateID.ChargeMiddle, new ChargeMiddle());
         stateMachine.AddState((int)StateID.ChargeBig, new ChargeBig());
+    }
 
+    public void Init()
+    {
+        m_charge_animator.gameObject.SetActive(false);
+        isLaunchTrigger = false;
         stateMachine.TransitReady((int)StateID.None);
     }
 

@@ -75,6 +75,12 @@ public partial class PlayerController : ExRbStateMachine<PlayerController>
         AddState((int)StateID.Damaged, new DamagedState());
     }
 
+    public void Init()
+    {
+        invincible = false;
+        launcherController.Init();
+    }
+
     public void UpdateInput(GameMainManager.InputInfo input)
     {
         inputInfo = input;
