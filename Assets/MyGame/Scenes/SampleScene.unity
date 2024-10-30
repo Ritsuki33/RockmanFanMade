@@ -74253,7 +74253,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &510379786
 Transform:
   m_ObjectHideFlags: 0
@@ -81599,6 +81599,10 @@ MonoBehaviour:
           remarks: 
           action:
             rid: 115823223720378369
+        - type: 19
+          remarks: 
+          action:
+            rid: 115823223720378370
         _next:
           rid: 115822631400243287
     - rid: 115822631400243282
@@ -81617,6 +81621,25 @@ MonoBehaviour:
       type: {class: ActionChainExecuter/ChangeManager, ns: , asm: Assembly-CSharp}
       data:
         type: 2
+    - rid: 115823223720378370
+      type: {class: ActionChainExecuter/UnSubscribeAction, ns: , asm: Assembly-CSharp}
+      data:
+        type: 2
+        action:
+          m_PersistentCalls:
+            m_Calls:
+            - m_Target: {fileID: 1772284221}
+              m_TargetAssemblyTypeName: ActionChainExecuter, Assembly-CSharp
+              m_MethodName: StartEvent
+              m_Mode: 1
+              m_Arguments:
+                m_ObjectArgument: {fileID: 0}
+                m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+                m_IntArgument: 0
+                m_FloatArgument: 0
+                m_StringArgument: 
+                m_BoolArgument: 0
+              m_CallState: 2
 --- !u!114 &1794142836 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5107075163451444145, guid: 50db6328845417f428e76f577eadc620, type: 3}
@@ -83092,7 +83115,7 @@ MonoBehaviour:
     - rid: 115822631400243274
       type: {class: ActionChainExecuter/UnSubscribeAction, ns: , asm: Assembly-CSharp}
       data:
-        type: 0
+        type: 2
         action:
           m_PersistentCalls:
             m_Calls:

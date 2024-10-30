@@ -41,7 +41,6 @@ public class GameMainManager : BaseManager<GameMainManager>
         {
             FadeInManager.Instance.FadeOutImmediate();
 
-            WorldManager.Instance.Init();
 
             screenContainer.Add(UI.GameMain, m_gameMainScreen);
 
@@ -66,6 +65,7 @@ public class GameMainManager : BaseManager<GameMainManager>
 
     public void StageStart()
     {
+        WorldManager.Instance.Init();
         WorldManager.Instance.StartStage();
     }
 

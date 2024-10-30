@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class WorldManager : SingletonComponent<WorldManager>
 {
@@ -21,6 +19,7 @@ public class WorldManager : SingletonComponent<WorldManager>
     public void Init()
     {
         currentCheckPointData = defaultCheckPoint;
+        playerController.Init();
     }
 
     /// <summary>
