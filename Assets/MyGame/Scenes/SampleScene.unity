@@ -77684,6 +77684,10 @@ PrefabInstance:
       value: Assembly-CSharp ActionChainExecuter/SubscribeAction
       objectReference: {fileID: 0}
     - target: {fileID: 5713485015685773154, guid: 50db6328845417f428e76f577eadc620, type: 3}
+      propertyPath: managedReferences[6885937886657511449]
+      value: Assembly-CSharp ActionChainExecuter/SubscribeActionChain
+      objectReference: {fileID: 0}
+    - target: {fileID: 5713485015685773154, guid: 50db6328845417f428e76f577eadc620, type: 3}
       propertyPath: managedReferences[115822631400243250].type
       value: 2
       objectReference: {fileID: 0}
@@ -77698,6 +77702,10 @@ PrefabInstance:
     - target: {fileID: 5713485015685773154, guid: 50db6328845417f428e76f577eadc620, type: 3}
       propertyPath: managedReferences[115822631400243249]._next
       value: -2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5713485015685773154, guid: 50db6328845417f428e76f577eadc620, type: 3}
+      propertyPath: managedReferences[6885937886657511449].type
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5713485015685773154, guid: 50db6328845417f428e76f577eadc620, type: 3}
       propertyPath: managedReferences[115822631400243246].isActive
@@ -77748,6 +77756,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5713485015685773154, guid: 50db6328845417f428e76f577eadc620, type: 3}
+      propertyPath: managedReferences[6885937886657511449].actionChainExecuter
+      value: 
+      objectReference: {fileID: 2099475872}
+    - target: {fileID: 5713485015685773154, guid: 50db6328845417f428e76f577eadc620, type: 3}
       propertyPath: managedReferences[115822631400243247].actions.Array.data[0].type
       value: 18
       objectReference: {fileID: 0}
@@ -77757,7 +77769,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5713485015685773154, guid: 50db6328845417f428e76f577eadc620, type: 3}
       propertyPath: managedReferences[115822631400243247].actions.Array.data[0].action
-      value: 115822631400243250
+      value: 6885937886657511449
       objectReference: {fileID: 0}
     - target: {fileID: 5713485015685773154, guid: 50db6328845417f428e76f577eadc620, type: 3}
       propertyPath: managedReferences[115822631400243247].actions.Array.data[0].remarks
@@ -79867,7 +79879,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: edcf3b2218301d643a73abe73740a99c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bossIntroScreen: {fileID: 482696657}
   bossSelectController: {fileID: 542933125}
   flash: {fileID: 2114644873}
 --- !u!1 &1458984599
@@ -81497,7 +81508,7 @@ MonoBehaviour:
         - type: 18
           remarks: 
           action:
-            rid: 115822631400243285
+            rid: 6885937886657511452
         _next:
           rid: 115822631400243284
     - rid: 115822631400243269
@@ -81514,25 +81525,6 @@ MonoBehaviour:
         actions: []
         _next:
           rid: -2
-    - rid: 115822631400243285
-      type: {class: ActionChainExecuter/SubscribeAction, ns: , asm: Assembly-CSharp}
-      data:
-        type: 2
-        action:
-          m_PersistentCalls:
-            m_Calls:
-            - m_Target: {fileID: 1772284222}
-              m_TargetAssemblyTypeName: ActionChainExecuter, Assembly-CSharp
-              m_MethodName: StartEvent
-              m_Mode: 1
-              m_Arguments:
-                m_ObjectArgument: {fileID: 0}
-                m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-                m_IntArgument: 0
-                m_FloatArgument: 0
-                m_StringArgument: 
-                m_BoolArgument: 0
-              m_CallState: 2
     - rid: 115822658989064192
       type: {class: ActionChainExecuter/BoseAppearAction, ns: , asm: Assembly-CSharp}
       data:
@@ -81550,6 +81542,11 @@ MonoBehaviour:
         objs:
         - {fileID: 1604175648}
         isActive: 0
+    - rid: 6885937886657511452
+      type: {class: ActionChainExecuter/SubscribeActionChain, ns: , asm: Assembly-CSharp}
+      data:
+        type: 2
+        actionChainExecuter: {fileID: 1772284222}
 --- !u!114 &1772284222
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -81602,7 +81599,7 @@ MonoBehaviour:
         - type: 19
           remarks: 
           action:
-            rid: 115823223720378370
+            rid: 6885937886657511451
         _next:
           rid: 115822631400243287
     - rid: 115822631400243282
@@ -81621,25 +81618,11 @@ MonoBehaviour:
       type: {class: ActionChainExecuter/ChangeManager, ns: , asm: Assembly-CSharp}
       data:
         type: 2
-    - rid: 115823223720378370
-      type: {class: ActionChainExecuter/UnSubscribeAction, ns: , asm: Assembly-CSharp}
+    - rid: 6885937886657511451
+      type: {class: ActionChainExecuter/UnSubscribeActionChain, ns: , asm: Assembly-CSharp}
       data:
         type: 2
-        action:
-          m_PersistentCalls:
-            m_Calls:
-            - m_Target: {fileID: 1772284221}
-              m_TargetAssemblyTypeName: ActionChainExecuter, Assembly-CSharp
-              m_MethodName: StartEvent
-              m_Mode: 1
-              m_Arguments:
-                m_ObjectArgument: {fileID: 0}
-                m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-                m_IntArgument: 0
-                m_FloatArgument: 0
-                m_StringArgument: 
-                m_BoolArgument: 0
-              m_CallState: 2
+        actionChainExecuter: {fileID: 1772284222}
 --- !u!114 &1794142836 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5107075163451444145, guid: 50db6328845417f428e76f577eadc620, type: 3}
@@ -82219,8 +82202,8 @@ MonoBehaviour:
   m_UpdateMethod: 2
   m_BlendUpdateMethod: 1
   m_DefaultBlend:
-    m_Style: 0
-    m_Time: 0
+    m_Style: 6
+    m_Time: 0.8
     m_CustomCurve:
       serializedVersion: 2
       m_Curve: []
@@ -83102,7 +83085,7 @@ MonoBehaviour:
         - type: 19
           remarks: 
           action:
-            rid: 115822631400243274
+            rid: 6885937886657511450
         _next:
           rid: 115822631400243273
     - rid: 115822631400243273
@@ -83112,25 +83095,11 @@ MonoBehaviour:
         actions: []
         _next:
           rid: -2
-    - rid: 115822631400243274
-      type: {class: ActionChainExecuter/UnSubscribeAction, ns: , asm: Assembly-CSharp}
+    - rid: 6885937886657511450
+      type: {class: ActionChainExecuter/UnSubscribeActionChain, ns: , asm: Assembly-CSharp}
       data:
         type: 2
-        action:
-          m_PersistentCalls:
-            m_Calls:
-            - m_Target: {fileID: 2099475872}
-              m_TargetAssemblyTypeName: ActionChainExecuter, Assembly-CSharp
-              m_MethodName: StartEvent
-              m_Mode: 1
-              m_Arguments:
-                m_ObjectArgument: {fileID: 0}
-                m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-                m_IntArgument: 0
-                m_FloatArgument: 0
-                m_StringArgument: 
-                m_BoolArgument: 0
-              m_CallState: 2
+        actionChainExecuter: {fileID: 2099475872}
 --- !u!1 &2099932947
 GameObject:
   m_ObjectHideFlags: 0

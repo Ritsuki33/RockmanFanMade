@@ -30,8 +30,8 @@ public class ActionChainExecuter : MonoBehaviour
         CameraChange,
         PlayerForceMoveAccordingToCamera,
         PlayerForceMoveAccordingToCameraEnd,
-        SubscribeAction,
-        UnSubscribeAction,
+        SubscribeActionChain,
+        UnSubscribeActionChain,
         SetupCheckPoint,
         SetPlayerHp,
         ChangeManager,
@@ -328,27 +328,27 @@ public class ActionChainExecuter : MonoBehaviour
     }
 
     [Serializable]
-    class SubscribeAction : BaseAction
+    class SubscribeActionChain : BaseAction
     {
         [SerializeField] ValueEventType type;
-        [SerializeField] UnityEvent action;
+        [SerializeField] ActionChainExecuter actionChainExecuter;
 
         public override void Execute(Action finishCallback)
         {
-            EventTriggerManager.Instance.Subscribe(type, action.Invoke);
+            EventTriggerManager.Instance.Subscribe(type, actionChainExecuter.StartEvent);
             finishCallback.Invoke();
         }
     }
 
     [Serializable]
-    class UnSubscribeAction : BaseAction
+    class UnSubscribeActionChain : BaseAction
     {
         [SerializeField] ValueEventType type;
-        [SerializeField] UnityEvent action;
+        [SerializeField] ActionChainExecuter actionChainExecuter;
 
         public override void Execute(Action finishCallback)
         {
-            EventTriggerManager.Instance.Unsubscribe(type, action.Invoke);
+            EventTriggerManager.Instance.Unsubscribe(type, actionChainExecuter.StartEvent);
             finishCallback.Invoke();
         }
     }
@@ -511,16 +511,16 @@ public class ActionChainExecuter : MonoBehaviour
                         ae.action = new PlayerForceMoveAccordingToCameraEnd();
                     }
                     break;
-                case ActionType.SubscribeAction:
-                    if (ae.action is not SubscribeAction)
+                case ActionType.SubscribeActionChain:
+                    if (ae.action is not SubscribeActionChain)
                     {
-                        ae.action = new SubscribeAction();
+                        ae.action = new SubscribeActionChain();
                     }
                     break;
-                case ActionType.UnSubscribeAction:
-                    if (ae.action is not UnSubscribeAction)
+                case ActionType.UnSubscribeActionChain:
+                    if (ae.action is not UnSubscribeActionChain)
                     {
-                        ae.action = new UnSubscribeAction();
+                        ae.action = new UnSubscribeActionChain();
                     }
                     break;
                 case ActionType.SetupCheckPoint:
