@@ -30,14 +30,14 @@ public class EnemyAppearController : StateMachine<EnemyAppearController>
 
     private void OnEnable()
     {
-        EventTriggerManager.Instance.Subscribe(ValueEventType.ChangeCameraStart, Disabled);
-        EventTriggerManager.Instance.Subscribe(ValueEventType.ChangeCameraEnd, Enabled);
+        EventTriggerManager.Instance.VoidEventTriggers.Subscribe(EventType.ChangeCameraStart, Disabled);
+        EventTriggerManager.Instance.VoidEventTriggers.Subscribe(EventType.ChangeCameraEnd, Enabled);
     }
 
     private void OnDisable()
     {
-        EventTriggerManager.Instance.Unsubscribe(ValueEventType.ChangeCameraStart, Disabled);
-        EventTriggerManager.Instance.Unsubscribe(ValueEventType.ChangeCameraEnd, Enabled);
+        EventTriggerManager.Instance.VoidEventTriggers.Unsubscribe(EventType.ChangeCameraStart, Disabled);
+        EventTriggerManager.Instance.VoidEventTriggers.Unsubscribe(EventType.ChangeCameraEnd, Enabled);
     }
 
     public void Enabled()

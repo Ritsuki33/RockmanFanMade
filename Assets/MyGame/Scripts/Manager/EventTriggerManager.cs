@@ -3,22 +3,53 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public enum ValueEventType
+public enum EventType
 {
     ChangeCameraStart,
     ChangeCameraEnd,
     EnemyDefeated,
 }
 
-public class EventTrigger<T,S> where T : Enum where S : Delegate
+public enum EnemyEventType
+{
+    Defeated
+}
+
+public interface IEventTrigger<T, S>
+{
+    public void Subscribe(T eventType, S action);
+    public void Unsubscribe(T eventType, S action);
+}
+
+public class EventTrigger<T,S>: IEventTrigger<T, S> where T : Enum where S : Delegate
 {
     private Dictionary<T, S> eventTriggers = new Dictionary<T, S>();
 
-    public void Init()
+    public  EventTrigger()
     {
         foreach (T type in Enum.GetValues(typeof(T)))
         {
             eventTriggers.Add(type, null);
+        }
+    }
+
+    public void Subscribe(T eventType, S action)
+    {
+        if (eventTriggers[eventType] != null)
+        {
+            eventTriggers[eventType] = (S)Delegate.Combine(eventTriggers[eventType], action);
+        }
+        else
+        {
+            eventTriggers[eventType] = action;
+        }
+    }
+
+    public void Unsubscribe(T eventType, S action)
+    {
+        if (eventTriggers[eventType] != null)
+        {
+            eventTriggers[eventType] = (S)Delegate.Remove(eventTriggers[eventType], action);
         }
     }
 
@@ -43,18 +74,12 @@ public class EventTrigger<T,S> where T : Enum where S : Delegate
 [DefaultExecutionOrder(-100)]
 public class EventTriggerManager : SingletonComponent<EventTriggerManager>
 {
-    EventTrigger<ValueEventType, Action> valueEventTriggers = new EventTrigger<ValueEventType, Action>();
+    EventTrigger<EventType, Action> voidEventTriggers = new EventTrigger<EventType, Action>();
+    EventTrigger<EnemyEventType, Action<EnemyObject>> enemyEventTriggers = new EventTrigger<EnemyEventType, Action<EnemyObject>>();
 
-    protected override void Awake()
-    {
-        base.Awake();
+    public IEventTrigger<EventType, Action> VoidEventTriggers => voidEventTriggers;
+    public IEventTrigger<EnemyEventType, Action<EnemyObject>> EenemyEventTriggers => enemyEventTriggers;
 
-        valueEventTriggers.Init();
-    }
-    
-    public void Subscribe(ValueEventType eventType, Action action)=> valueEventTriggers[eventType] += action;
-
-    public void Unsubscribe(ValueEventType eventType, Action action) => valueEventTriggers[eventType] -= action;
-
-    public void Notify(ValueEventType eventType)=> valueEventTriggers[eventType]?.Invoke();
+    public void Notify(EventType eventType) => voidEventTriggers[eventType]?.Invoke();
+    public void Notify(EnemyEventType eventType, EnemyObject enemy) => enemyEventTriggers[eventType]?.Invoke(enemy);
 }

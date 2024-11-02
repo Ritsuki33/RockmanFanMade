@@ -330,12 +330,12 @@ public class ActionChainExecuter : MonoBehaviour
     [Serializable]
     class SubscribeActionChain : BaseAction
     {
-        [SerializeField] ValueEventType type;
+        [SerializeField] EventType type;
         [SerializeField] ActionChainExecuter actionChainExecuter;
 
         public override void Execute(Action finishCallback)
         {
-            EventTriggerManager.Instance.Subscribe(type, actionChainExecuter.StartEvent);
+            EventTriggerManager.Instance.VoidEventTriggers.Subscribe(type, actionChainExecuter.StartEvent);
             finishCallback.Invoke();
         }
     }
@@ -343,12 +343,12 @@ public class ActionChainExecuter : MonoBehaviour
     [Serializable]
     class UnSubscribeActionChain : BaseAction
     {
-        [SerializeField] ValueEventType type;
+        [SerializeField] EventType type;
         [SerializeField] ActionChainExecuter actionChainExecuter;
 
         public override void Execute(Action finishCallback)
         {
-            EventTriggerManager.Instance.Unsubscribe(type, actionChainExecuter.StartEvent);
+            EventTriggerManager.Instance.VoidEventTriggers.Unsubscribe(type, actionChainExecuter.StartEvent);
             finishCallback.Invoke();
         }
     }
