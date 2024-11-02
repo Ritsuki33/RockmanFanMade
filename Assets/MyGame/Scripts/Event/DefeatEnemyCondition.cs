@@ -9,9 +9,12 @@ public abstract class BaseEnemyCondition
 {
     [SerializeField,Header("条件達成後、発生するイベント")] protected ActionChainExecuter actionChainExecuter = default;
 
+    /// <summary>
+    /// 撃破メソッド
+    /// </summary>
+    /// <param name="target"></param>
     public void Defeated(EnemyObject target)
     {
-
         if (!ValidateConditions(target)) return;
 
         actionChainExecuter.StartEvent();
@@ -19,6 +22,11 @@ public abstract class BaseEnemyCondition
         EventTriggerManager.Instance.EenemyEventTriggers.Unsubscribe(EnemyEventType.Defeated, Defeated);
     }
 
+    /// <summary>
+    /// 条件達成の確認
+    /// </summary>
+    /// <param name="target"></param>
+    /// <returns></returns>
     public abstract bool ValidateConditions(EnemyObject target);
 }
 
@@ -46,6 +54,9 @@ public class DefeatTargetEnemyCondition : BaseEnemyCondition
     }
 }
 
+/// <summary>
+/// 条件、一定数撃破
+/// </summary>
 [Serializable]
 public class DefeatEnemyNunCondition : BaseEnemyCondition
 {
