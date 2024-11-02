@@ -35,6 +35,7 @@ public class ActionChainExecuter : MonoBehaviour
         SetupCheckPoint,
         SetPlayerHp,
         ChangeManager,
+        DefeatEnemyCondition,
     }
 
     [Serializable]
@@ -174,7 +175,6 @@ public class ActionChainExecuter : MonoBehaviour
         {
             var presenter = GameMainManager.Instance.ScreenContainer.GetCurrentScreenPresenter<GameMainScreenPresenter>();
             presenter.ReadyUiPlay(finishCallback);
-            //GameMainManager.Instance.ReadyUi.Play(finishCallback);
         }
     }
 
@@ -387,6 +387,46 @@ public class ActionChainExecuter : MonoBehaviour
         }
     }
 
+    [Serializable]
+    class DefeatEnemyCondition : BaseAction
+    {
+        enum CondtionType
+        {
+            DefeatTargetEnemyCondition,
+            DefeatEnemyNunCondition
+        }
+
+        [SerializeField, Header("条件タイプ")] CondtionType type;
+        [SerializeReference] BaseEnemyCondition enemyCondition;
+
+        public override void Execute(Action finishCallback)
+        {
+            EventTriggerManager.Instance.EenemyEventTriggers.Subscribe(EnemyEventType.Defeated, enemyCondition.Defeated);
+            finishCallback.Invoke();
+        }
+
+        public void OnValidation()
+        {
+            switch (type)
+            {
+                case CondtionType.DefeatTargetEnemyCondition:
+                    if(enemyCondition is not DefeatTargetEnemyCondition)
+                    {
+                        enemyCondition = new DefeatTargetEnemyCondition();
+                    }
+                    break;
+                case CondtionType.DefeatEnemyNunCondition:
+                    if (enemyCondition is not DefeatEnemyNunCondition)
+                    {
+                        enemyCondition = new DefeatEnemyNunCondition();
+                    }
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
+
     [SerializeField] Element element;
 
     private void OnValidate()
@@ -540,6 +580,14 @@ public class ActionChainExecuter : MonoBehaviour
                     {
                         ae.action = new ChangeManager();
                     }
+                    break;
+                case ActionType.DefeatEnemyCondition:
+                    if (ae.action is not DefeatEnemyCondition)
+                    {
+                        ae.action = new DefeatEnemyCondition();
+                    }
+
+                    (ae.action as DefeatEnemyCondition).OnValidation();
                     break;
                 default:
                     break;

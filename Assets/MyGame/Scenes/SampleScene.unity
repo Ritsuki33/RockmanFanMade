@@ -74757,6 +74757,82 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 595364227}
   m_CullTransparentMesh: 1
+--- !u!1 &598928239
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 598928241}
+  - component: {fileID: 598928240}
+  m_Layer: 0
+  m_Name: Test
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &598928240
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 598928239}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f5e676c01ac35744dbd6282f9459d76d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  element:
+    delayTime: 0
+    actions:
+    - type: 23
+      remarks: 
+      action:
+        rid: 6885937914202030111
+    _next:
+      rid: 6885937914202030081
+  references:
+    version: 2
+    RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }
+    - rid: 6885937914202030081
+      type: {class: ActionChainExecuter/Element, ns: , asm: Assembly-CSharp}
+      data:
+        delayTime: 0
+        actions: []
+        _next:
+          rid: -2
+    - rid: 6885937914202030111
+      type: {class: ActionChainExecuter/DefeatEnemyCondition, ns: , asm: Assembly-CSharp}
+      data:
+        type: 0
+        enemyCondition:
+          rid: 6885937914202030112
+    - rid: 6885937914202030112
+      type: {class: DefeatTargetEnemyCondition, ns: , asm: Assembly-CSharp}
+      data:
+        actionChainExecuter: {fileID: 0}
+        targets: []
+--- !u!4 &598928241
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 598928239}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 109.80955, y: 6.6933584, z: -2.1828115}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &603687432
 GameObject:
   m_ObjectHideFlags: 0
@@ -77688,6 +77764,34 @@ PrefabInstance:
       value: Assembly-CSharp ActionChainExecuter/SubscribeActionChain
       objectReference: {fileID: 0}
     - target: {fileID: 5713485015685773154, guid: 50db6328845417f428e76f577eadc620, type: 3}
+      propertyPath: managedReferences[6885937914202030103]
+      value: Assembly-CSharp ActionChainExecuter/SubscribeEnemyAction
+      objectReference: {fileID: 0}
+    - target: {fileID: 5713485015685773154, guid: 50db6328845417f428e76f577eadc620, type: 3}
+      propertyPath: managedReferences[6885937914202030104]
+      value: Assembly-CSharp DefeatTargetEnemyCondition
+      objectReference: {fileID: 0}
+    - target: {fileID: 5713485015685773154, guid: 50db6328845417f428e76f577eadc620, type: 3}
+      propertyPath: managedReferences[6885937914202030105]
+      value: Assembly-CSharp DefeatTargetEnemyCondition
+      objectReference: {fileID: 0}
+    - target: {fileID: 5713485015685773154, guid: 50db6328845417f428e76f577eadc620, type: 3}
+      propertyPath: managedReferences[6885937914202030106]
+      value: Assembly-CSharp DefeatTargetEnemyCondition
+      objectReference: {fileID: 0}
+    - target: {fileID: 5713485015685773154, guid: 50db6328845417f428e76f577eadc620, type: 3}
+      propertyPath: managedReferences[6885937914202030107]
+      value: Assembly-CSharp DefeatTargetEnemyCondition
+      objectReference: {fileID: 0}
+    - target: {fileID: 5713485015685773154, guid: 50db6328845417f428e76f577eadc620, type: 3}
+      propertyPath: managedReferences[6885937914202030109]
+      value: Assembly-CSharp ActionChainExecuter/DefeatEnemyCondition
+      objectReference: {fileID: 0}
+    - target: {fileID: 5713485015685773154, guid: 50db6328845417f428e76f577eadc620, type: 3}
+      propertyPath: managedReferences[6885937914202030110]
+      value: Assembly-CSharp DefeatTargetEnemyCondition
+      objectReference: {fileID: 0}
+    - target: {fileID: 5713485015685773154, guid: 50db6328845417f428e76f577eadc620, type: 3}
       propertyPath: managedReferences[115822631400243250].type
       value: 2
       objectReference: {fileID: 0}
@@ -77706,6 +77810,14 @@ PrefabInstance:
     - target: {fileID: 5713485015685773154, guid: 50db6328845417f428e76f577eadc620, type: 3}
       propertyPath: managedReferences[6885937886657511449].type
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5713485015685773154, guid: 50db6328845417f428e76f577eadc620, type: 3}
+      propertyPath: managedReferences[6885937914202030103].type
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5713485015685773154, guid: 50db6328845417f428e76f577eadc620, type: 3}
+      propertyPath: managedReferences[6885937914202030109].type
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5713485015685773154, guid: 50db6328845417f428e76f577eadc620, type: 3}
       propertyPath: managedReferences[115822631400243246].isActive
@@ -77736,6 +77848,14 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5713485015685773154, guid: 50db6328845417f428e76f577eadc620, type: 3}
+      propertyPath: managedReferences[6885937914202030103].enemyCondition
+      value: 6885937914202030107
+      objectReference: {fileID: 0}
+    - target: {fileID: 5713485015685773154, guid: 50db6328845417f428e76f577eadc620, type: 3}
+      propertyPath: managedReferences[6885937914202030109].enemyCondition
+      value: 6885937914202030110
+      objectReference: {fileID: 0}
+    - target: {fileID: 5713485015685773154, guid: 50db6328845417f428e76f577eadc620, type: 3}
       propertyPath: managedReferences[115822631400243214].nextControllArea
       value: 
       objectReference: {fileID: 402471237}
@@ -77756,12 +77876,60 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5713485015685773154, guid: 50db6328845417f428e76f577eadc620, type: 3}
+      propertyPath: managedReferences[6885937914202030104].targets.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5713485015685773154, guid: 50db6328845417f428e76f577eadc620, type: 3}
+      propertyPath: managedReferences[6885937914202030105].targets.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5713485015685773154, guid: 50db6328845417f428e76f577eadc620, type: 3}
+      propertyPath: managedReferences[6885937914202030106].targets.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5713485015685773154, guid: 50db6328845417f428e76f577eadc620, type: 3}
+      propertyPath: managedReferences[6885937914202030107].targets.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5713485015685773154, guid: 50db6328845417f428e76f577eadc620, type: 3}
+      propertyPath: managedReferences[6885937914202030110].targets.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5713485015685773154, guid: 50db6328845417f428e76f577eadc620, type: 3}
       propertyPath: managedReferences[6885937886657511449].actionChainExecuter
       value: 
       objectReference: {fileID: 2099475872}
     - target: {fileID: 5713485015685773154, guid: 50db6328845417f428e76f577eadc620, type: 3}
+      propertyPath: managedReferences[6885937914202030104].actionChainExecuter
+      value: 
+      objectReference: {fileID: 2099475872}
+    - target: {fileID: 5713485015685773154, guid: 50db6328845417f428e76f577eadc620, type: 3}
+      propertyPath: managedReferences[6885937914202030105].actionChainExecuter
+      value: 
+      objectReference: {fileID: 2099475872}
+    - target: {fileID: 5713485015685773154, guid: 50db6328845417f428e76f577eadc620, type: 3}
+      propertyPath: managedReferences[6885937914202030106].actionChainExecuter
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 5713485015685773154, guid: 50db6328845417f428e76f577eadc620, type: 3}
+      propertyPath: managedReferences[6885937914202030107].actionChainExecuter
+      value: 
+      objectReference: {fileID: 2099475872}
+    - target: {fileID: 5713485015685773154, guid: 50db6328845417f428e76f577eadc620, type: 3}
+      propertyPath: managedReferences[6885937914202030110].actionChainExecuter
+      value: 
+      objectReference: {fileID: 2099475872}
+    - target: {fileID: 5713485015685773154, guid: 50db6328845417f428e76f577eadc620, type: 3}
+      propertyPath: managedReferences[6885937914202030107].targets.Array.data[0]
+      value: 
+      objectReference: {fileID: 244315754}
+    - target: {fileID: 5713485015685773154, guid: 50db6328845417f428e76f577eadc620, type: 3}
+      propertyPath: managedReferences[6885937914202030110].targets.Array.data[0]
+      value: 
+      objectReference: {fileID: 244315754}
+    - target: {fileID: 5713485015685773154, guid: 50db6328845417f428e76f577eadc620, type: 3}
       propertyPath: managedReferences[115822631400243247].actions.Array.data[0].type
-      value: 18
+      value: 23
       objectReference: {fileID: 0}
     - target: {fileID: 5713485015685773154, guid: 50db6328845417f428e76f577eadc620, type: 3}
       propertyPath: managedReferences[115822631400243216].actions.Array.data[0].action
@@ -77769,7 +77937,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5713485015685773154, guid: 50db6328845417f428e76f577eadc620, type: 3}
       propertyPath: managedReferences[115822631400243247].actions.Array.data[0].action
-      value: 6885937886657511449
+      value: 6885937914202030109
       objectReference: {fileID: 0}
     - target: {fileID: 5713485015685773154, guid: 50db6328845417f428e76f577eadc620, type: 3}
       propertyPath: managedReferences[115822631400243247].actions.Array.data[0].remarks
@@ -81505,10 +81673,10 @@ MonoBehaviour:
       data:
         delayTime: 0
         actions:
-        - type: 18
+        - type: 23
           remarks: 
           action:
-            rid: 6885937886657511452
+            rid: 6885937914202030113
         _next:
           rid: 115822631400243284
     - rid: 115822631400243269
@@ -81542,11 +81710,18 @@ MonoBehaviour:
         objs:
         - {fileID: 1604175648}
         isActive: 0
-    - rid: 6885937886657511452
-      type: {class: ActionChainExecuter/SubscribeActionChain, ns: , asm: Assembly-CSharp}
+    - rid: 6885937914202030113
+      type: {class: ActionChainExecuter/DefeatEnemyCondition, ns: , asm: Assembly-CSharp}
       data:
-        type: 2
+        type: 0
+        enemyCondition:
+          rid: 6885937914202030114
+    - rid: 6885937914202030114
+      type: {class: DefeatTargetEnemyCondition, ns: , asm: Assembly-CSharp}
+      data:
         actionChainExecuter: {fileID: 1772284222}
+        targets:
+        - {fileID: 1648211535}
 --- !u!114 &1772284222
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -83810,3 +83985,4 @@ SceneRoots:
   - {fileID: 111051565}
   - {fileID: 510379786}
   - {fileID: 7688125627853884111}
+  - {fileID: 598928241}
