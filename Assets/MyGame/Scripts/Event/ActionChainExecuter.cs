@@ -30,11 +30,12 @@ public class ActionChainExecuter : MonoBehaviour
         CameraChange,
         PlayerForceMoveAccordingToCamera,
         PlayerForceMoveAccordingToCameraEnd,
-        SubscribeAction,
-        UnSubscribeAction,
+        SubscribeActionChain,
+        UnSubscribeActionChain,
         SetupCheckPoint,
         SetPlayerHp,
         ChangeManager,
+        DefeatEnemyCondition,
     }
 
     [Serializable]
@@ -174,7 +175,6 @@ public class ActionChainExecuter : MonoBehaviour
         {
             var presenter = GameMainManager.Instance.ScreenContainer.GetCurrentScreenPresenter<GameMainScreenPresenter>();
             presenter.ReadyUiPlay(finishCallback);
-            //GameMainManager.Instance.ReadyUi.Play(finishCallback);
         }
     }
 
@@ -328,27 +328,27 @@ public class ActionChainExecuter : MonoBehaviour
     }
 
     [Serializable]
-    class SubscribeAction : BaseAction
+    class SubscribeActionChain : BaseAction
     {
-        [SerializeField] ValueEventType type;
-        [SerializeField] UnityEvent action;
+        [SerializeField] EventType type;
+        [SerializeField] ActionChainExecuter actionChainExecuter;
 
         public override void Execute(Action finishCallback)
         {
-            EventTriggerManager.Instance.Subscribe(type, action.Invoke);
+            EventTriggerManager.Instance.VoidEventTriggers.Subscribe(type, actionChainExecuter.StartEvent);
             finishCallback.Invoke();
         }
     }
 
     [Serializable]
-    class UnSubscribeAction : BaseAction
+    class UnSubscribeActionChain : BaseAction
     {
-        [SerializeField] ValueEventType type;
-        [SerializeField] UnityEvent action;
+        [SerializeField] EventType type;
+        [SerializeField] ActionChainExecuter actionChainExecuter;
 
         public override void Execute(Action finishCallback)
         {
-            EventTriggerManager.Instance.Unsubscribe(type, action.Invoke);
+            EventTriggerManager.Instance.VoidEventTriggers.Unsubscribe(type, actionChainExecuter.StartEvent);
             finishCallback.Invoke();
         }
     }
@@ -384,6 +384,46 @@ public class ActionChainExecuter : MonoBehaviour
         {
             SceneManager.Instance.ChangeManager(type);
             finishCallback();
+        }
+    }
+
+    [Serializable]
+    class DefeatEnemyCondition : BaseAction
+    {
+        enum CondtionType
+        {
+            DefeatTargetEnemyCondition,
+            DefeatEnemyNunCondition
+        }
+
+        [SerializeField, Header("条件タイプ")] CondtionType type;
+        [SerializeReference] BaseEnemyCondition enemyCondition;
+
+        public override void Execute(Action finishCallback)
+        {
+            EventTriggerManager.Instance.EenemyEventTriggers.Subscribe(EnemyEventType.Defeated, enemyCondition.Defeated);
+            finishCallback.Invoke();
+        }
+
+        public void OnValidation()
+        {
+            switch (type)
+            {
+                case CondtionType.DefeatTargetEnemyCondition:
+                    if(enemyCondition is not DefeatTargetEnemyCondition)
+                    {
+                        enemyCondition = new DefeatTargetEnemyCondition();
+                    }
+                    break;
+                case CondtionType.DefeatEnemyNunCondition:
+                    if (enemyCondition is not DefeatEnemyNunCondition)
+                    {
+                        enemyCondition = new DefeatEnemyNunCondition();
+                    }
+                    break;
+                default:
+                    break;
+            }
         }
     }
 
@@ -511,16 +551,16 @@ public class ActionChainExecuter : MonoBehaviour
                         ae.action = new PlayerForceMoveAccordingToCameraEnd();
                     }
                     break;
-                case ActionType.SubscribeAction:
-                    if (ae.action is not SubscribeAction)
+                case ActionType.SubscribeActionChain:
+                    if (ae.action is not SubscribeActionChain)
                     {
-                        ae.action = new SubscribeAction();
+                        ae.action = new SubscribeActionChain();
                     }
                     break;
-                case ActionType.UnSubscribeAction:
-                    if (ae.action is not UnSubscribeAction)
+                case ActionType.UnSubscribeActionChain:
+                    if (ae.action is not UnSubscribeActionChain)
                     {
-                        ae.action = new UnSubscribeAction();
+                        ae.action = new UnSubscribeActionChain();
                     }
                     break;
                 case ActionType.SetupCheckPoint:
@@ -540,6 +580,14 @@ public class ActionChainExecuter : MonoBehaviour
                     {
                         ae.action = new ChangeManager();
                     }
+                    break;
+                case ActionType.DefeatEnemyCondition:
+                    if (ae.action is not DefeatEnemyCondition)
+                    {
+                        ae.action = new DefeatEnemyCondition();
+                    }
+
+                    (ae.action as DefeatEnemyCondition).OnValidation();
                     break;
                 default:
                     break;
