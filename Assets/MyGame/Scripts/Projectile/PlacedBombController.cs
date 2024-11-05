@@ -9,7 +9,6 @@ public class PlacedBombController : ExRbStateMachine<PlacedBombController>
     ExpandRigidBody exRb;
 
     Action<ExpandRigidBody> orbitfixedUpdate;
-    Action<Collider2D> onExplodeTriggerEnter;
     Action onExplodedFinishCallback;
 
     AmbiguousTimer timer = new AmbiguousTimer();
@@ -23,10 +22,9 @@ public class PlacedBombController : ExRbStateMachine<PlacedBombController>
         this.AddState(1, new Boot());
     }
 
-    public void Init(Action<ExpandRigidBody> orbitfixedUpdate, Action<Collider2D> onExplodeTriggerEnter, Action onExplodedFinishCallback)
+    public void Init(Action<ExpandRigidBody> orbitfixedUpdate, Action onExplodedFinishCallback)
     {
         this.orbitfixedUpdate = orbitfixedUpdate;
-        this.onExplodeTriggerEnter = onExplodeTriggerEnter;
         this.onExplodedFinishCallback = onExplodedFinishCallback;
 
         this.TransitReady(0);
@@ -68,7 +66,7 @@ public class PlacedBombController : ExRbStateMachine<PlacedBombController>
                 var explode = ctr.exlodePool.Pool.Get().GetComponent<ExplodeController>();
                 explode.transform.position = ctr.transform.position;
 
-                explode.Init(ctr.onExplodeTriggerEnter);
+                explode.Init(ExplodeController.Layer.EnemyAttack, 5);
 
                 ctr.placedBomb.Delete();
                 ctr.onExplodedFinishCallback?.Invoke();

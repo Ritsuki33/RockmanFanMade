@@ -191,9 +191,6 @@ MonoBehaviour:
   throughFloorLayer:
     serializedVersion: 2
     m_Bits: 0
-  triggerLayer:
-    serializedVersion: 2
-    m_Bits: 0
 --- !u!61 &3502984436217711033
 BoxCollider2D:
   m_ObjectHideFlags: 0

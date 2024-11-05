@@ -300,10 +300,6 @@ public class BossController : ExRbStateMachine<BossController>
                         {
                             exRb.velocity += dir * 20;
                         },
-                        (collision) =>
-                        {
-
-                        },
                         ()=>{ 
                             ctr.existBomb = false;
                         }
@@ -464,9 +460,10 @@ public class BossController : ExRbStateMachine<BossController>
                     },
                     (projectile) =>
                     {
-                            bomb.Delete();
-                            var explode = ctr.ExplodePool.Pool.Get() as ExplodeController;
-                            explode.transform.position = bomb.transform.position;
+                        bomb.Delete();
+                        var explode = ctr.ExplodePool.Pool.Get() as ExplodeController;
+                        explode.Init(ExplodeController.Layer.EnemyAttack, 3);
+                        explode.transform.position = bomb.transform.position;
                     }
                    );
             }
