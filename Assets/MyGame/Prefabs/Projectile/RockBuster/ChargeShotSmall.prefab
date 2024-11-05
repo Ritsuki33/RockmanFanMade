@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 9207079288770869027}
   - component: {fileID: 1134197257692239509}
   - component: {fileID: 7653836454619443432}
+  - component: {fileID: 8925780559723995537}
   m_Layer: 19
   m_Name: ChargeShotSmall
   m_TagString: ChargeShot
@@ -151,6 +152,19 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
+--- !u!114 &8925780559723995537
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 88640322734735704}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a7b01ea1b7b4b5469f87aaa998e091a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  projectile: {fileID: 1134197257692239509}
 --- !u!1 &2349547040294884484
 GameObject:
   m_ObjectHideFlags: 0

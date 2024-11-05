@@ -167,6 +167,7 @@ GameObject:
   - component: {fileID: 1646842431737337389}
   - component: {fileID: 925121075117786401}
   - component: {fileID: 6216268714680252117}
+  - component: {fileID: 8849856365920340392}
   m_Layer: 0
   m_Name: CrashBomb
   m_TagString: Untagged
@@ -305,3 +306,16 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
+--- !u!114 &8849856365920340392
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8335191455750100369}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a7b01ea1b7b4b5469f87aaa998e091a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  projectile: {fileID: 925121075117786401}

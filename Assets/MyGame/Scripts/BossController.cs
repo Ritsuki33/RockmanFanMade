@@ -462,21 +462,11 @@ public class BossController : ExRbStateMachine<BossController>
                     {
                         exRb.velocity = dir * 8f;
                     },
-
-                    (projectile, collision) =>
+                    (projectile) =>
                     {
                             bomb.Delete();
                             var explode = ctr.ExplodePool.Pool.Get() as ExplodeController;
                             explode.transform.position = bomb.transform.position;
-                    },
-                    (projectile,collision) =>
-                    {
-                        if (collision.gameObject.CompareTag("Player"))
-                        {
-                            bomb.Delete();
-                            var explode = ctr.ExplodePool.Pool.Get() as ExplodeController;
-                            explode.transform.position = bomb.transform.position;
-                        }
                     }
                    );
             }
