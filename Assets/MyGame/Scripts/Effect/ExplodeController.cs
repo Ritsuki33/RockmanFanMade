@@ -1,14 +1,18 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class ExplodeController : ReusableObject
 {
+    [SerializeField] DamageBase damage = default;
     Animator animator;
 
-    Action<Collider2D> onTriggerEnter;
     BoxCollider2D boxCollider;
+
+    public enum Layer
+    {
+        PlayerAttack = 19,
+        EnemyAttack = 20,
+        None = 21,
+    }
 
     private void Awake()
     {
@@ -16,13 +20,19 @@ public class ExplodeController : ReusableObject
         boxCollider = GetComponent<BoxCollider2D>();
     }
 
-    public void Init(Action<Collider2D> onTriggerEnter)
+    protected override void OnGet()
     {
-        if (onTriggerEnter != null) { 
-        }
-        this.onTriggerEnter = onTriggerEnter;
-        boxCollider.enabled = onTriggerEnter != null;
+        boxCollider.enabled = false;
     }
+
+    public void Init(Layer layer,int damageVal)
+    {
+        boxCollider.enabled = true;
+
+        gameObject.layer = (int)layer;
+        damage.baseDamageValue = damageVal;
+    }
+
 
     private void Update()
     {
@@ -30,10 +40,5 @@ public class ExplodeController : ReusableObject
         {
             Pool.Release(this);
         }
-    }
-
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        onTriggerEnter?.Invoke(collision);
     }
 }

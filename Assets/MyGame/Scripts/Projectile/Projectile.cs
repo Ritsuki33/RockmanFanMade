@@ -3,20 +3,22 @@ using UnityEngine;
 
 public class Projectile : ReusableObject
 {
-
     [SerializeField] private BoxCollider2D boxTrigger;
     [SerializeField] private BoxCollider2D boxCollider;
     private Rigidbody2D rb;
-    Action<Rigidbody2D> moveAction;
+    Action<Rigidbody2D> fixedUpdate;
     Action deleteCallback;
 
-    Action<Projectile, Collision2D> onCollision;
-    Action<Projectile, Collider2D> onTrigger;
+    Action<Projectile> onCollision;
+
     int attackPower = 1;
 
     public int AttackPower => attackPower;
     public Vector2 CurVelocity => rb.velocity;
     public float CurSpeed => rb.velocity.magnitude;
+
+    public Action<Rigidbody2D> FixedUpdateCallback=> fixedUpdate;
+    public Action<Projectile> OnCollisionCallback => onCollision;
 
     private void Awake()
     {
@@ -37,25 +39,14 @@ public class Projectile : ReusableObject
     {
         start?.Invoke(rb); 
         this.attackPower = attackPower;
-        moveAction = fixedUpdate;
+        this.fixedUpdate = fixedUpdate;
     }
 
-    public void Init(int attackPower, Action<Rigidbody2D> start, Action<Rigidbody2D> fixedUpdate, Action<Projectile, Collision2D> onCollisionEnter = null, Action<Projectile,Collider2D> onTriggerEnter =null, Action deleteCallback = null)
+    public void Init(int attackPower, Action<Rigidbody2D> start, Action<Rigidbody2D> fixedUpdate, Action<Projectile> onCollisionEnter = null, Action deleteCallback = null)
     {
         Init(attackPower, start, fixedUpdate);
         this.deleteCallback = deleteCallback;
         this.onCollision = onCollisionEnter;
-        this.onTrigger = onTriggerEnter;
-    }
-
-    private void FixedUpdate()
-    {
-        moveAction?.Invoke(this.rb);
-
-        if (GameMainManager.Instance.MainCameraControll.CheckOutOfView(this.gameObject))
-        {
-            Delete();
-        }
     }
 
     protected override void OnGet()
@@ -68,16 +59,5 @@ public class Projectile : ReusableObject
     {
         Pool.Release(this);
         this.deleteCallback?.Invoke();
-    }
-
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        this.onTrigger?.Invoke(this, collision);
-    }
-
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        this.onCollision?.Invoke(this, collision);
-
     }
 }
