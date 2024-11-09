@@ -44,6 +44,12 @@ interface IBaseExRbHit : IHitEvent
     void IHitEvent.TopHitExit(RaycastHit2D hit) => OnTopHitExit(hit);
     void IHitEvent.LeftHitExit(RaycastHit2D hit) => OnLeftHitExit(hit);
     void IHitEvent.RightHitExit(RaycastHit2D hit) => OnRightHitExit(hit);
+    void IHitEvent.BottomToptHitEnter(RaycastHit2D bottomHit,RaycastHit2D topHit)=> OnBottomTopHitEnter(bottomHit,topHit);
+    void IHitEvent.BottomToptHitExit(RaycastHit2D bottomHit,RaycastHit2D topHit)=> OnBottomTopHitExit(bottomHit,topHit);
+    void IHitEvent.BottomToptHitStay(RaycastHit2D bottomHit,RaycastHit2D topHit)=> OnBottomTopHitStay(bottomHit,topHit);
+    void IHitEvent.LeftRightHitEnter(RaycastHit2D bottomHit, RaycastHit2D topHit) => OnLeftRightHitEnter(bottomHit, topHit);
+    void IHitEvent.LeftRightHitExit(RaycastHit2D bottomHit, RaycastHit2D topHit) => OnLeftRightHitExit(bottomHit, topHit);
+    void IHitEvent.LeftRightHitStay(RaycastHit2D bottomHit, RaycastHit2D topHit) => OnLeftRightHitStay(bottomHit, topHit);
 
     void OnHitEnter(RaycastHit2D hit) { }
     void OnBottomHitEnter(RaycastHit2D hit) { }
@@ -60,4 +66,11 @@ interface IBaseExRbHit : IHitEvent
     void OnTopHitExit(RaycastHit2D hit) { }
     void OnLeftHitExit(RaycastHit2D hit) { }
     void OnRightHitExit(RaycastHit2D hit) { }
+
+    void OnBottomTopHitEnter(RaycastHit2D bottom, RaycastHit2D top) { }
+    void OnBottomTopHitExit(RaycastHit2D bottom, RaycastHit2D top) { }
+    void OnBottomTopHitStay(RaycastHit2D bottom, RaycastHit2D top) { }
+    void OnLeftRightHitEnter(RaycastHit2D left, RaycastHit2D right) { }
+    void OnLeftRightHitExit(RaycastHit2D left, RaycastHit2D right) { }
+    void OnLeftRightHitStay(RaycastHit2D left, RaycastHit2D right) { }
 }

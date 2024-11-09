@@ -79,6 +79,11 @@ public partial class PlayerController
             if (!player.invincible) player.Damaged(collision.baseDamageValue);
         }
 
+        protected override void OnBottomTopHitEnter(PlayerController player, RaycastHit2D bottom, RaycastHit2D top)
+        {
+            player.Damaged(int.MaxValue);
+        }
+
         // ==========================================
         class Basic : ExRbSubState<PlayerController, Basic,Standing>
         {
