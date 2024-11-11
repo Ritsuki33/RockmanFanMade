@@ -126,13 +126,6 @@ public partial class BaseExRbState<T, TS, SS, SM, G> : BaseRbState<T, TS, SS, SM
     virtual protected void OnLeftHitExit(T obj, RaycastHit2D hit) { }
     virtual protected void OnRightHitExit(T obj, RaycastHit2D hit) { }
 
-    virtual protected void OnBottomHitEnter(T obj, RaycastHit2D bottom, RaycastHit2D top) { }
-    virtual protected void OnBottomHitStay(T obj, RaycastHit2D bottom, RaycastHit2D top) { }
-    virtual protected void OnBottomHitExit(T obj, RaycastHit2D bottom, RaycastHit2D top) { }
-
-    virtual protected void OnLeftRightEnter(T obj, RaycastHit2D bottom, RaycastHit2D top) { }
-    virtual protected void OnLeftRightStay(T obj, RaycastHit2D bottom, RaycastHit2D top) { }
-    virtual protected void OnLeftRightExit(T obj, RaycastHit2D bottom, RaycastHit2D top) { }
     virtual protected void OnBottomTopHitEnter(T obj, RaycastHit2D bottom, RaycastHit2D top) { }
     virtual protected void OnBottomTopHitExit(T obj, RaycastHit2D bottom, RaycastHit2D top) { }
     virtual protected void OnBottomTopHitStay(T obj, RaycastHit2D bottom, RaycastHit2D top) { }
