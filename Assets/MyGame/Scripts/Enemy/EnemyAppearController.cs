@@ -23,21 +23,20 @@ public class EnemyAppearController : StateMachine<EnemyAppearController>
         TransitReady((int)StateID.OutOfCamera, true);
     }
 
-    private void Start()
-    {
-        enemy.gameObject.SetActive(false);
-    }
-
     private void OnEnable()
     {
         EventTriggerManager.Instance.VoidEventTriggers.Subscribe(EventType.ChangeCameraStart, Disabled);
         EventTriggerManager.Instance.VoidEventTriggers.Subscribe(EventType.ChangeCameraEnd, Enabled);
+
+        EventTriggerManager.Instance.VoidEventTriggers.Subscribe(EventType.StateStart, Enabled);
     }
 
     private void OnDisable()
     {
         EventTriggerManager.Instance.VoidEventTriggers.Unsubscribe(EventType.ChangeCameraStart, Disabled);
         EventTriggerManager.Instance.VoidEventTriggers.Unsubscribe(EventType.ChangeCameraEnd, Enabled);
+
+        EventTriggerManager.Instance.VoidEventTriggers.Unsubscribe(EventType.StateStart, Enabled);
     }
 
     public void Enabled()

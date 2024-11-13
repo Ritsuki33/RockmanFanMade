@@ -33,6 +33,7 @@ public class WorldManager : SingletonComponent<WorldManager>
 
     public void StartStage()
     {
+        EventTriggerManager.Instance.Notify(EventType.StateStart);
         startAction.StartEvent();
     }
 

@@ -7,7 +7,7 @@ public enum EventType
 {
     ChangeCameraStart,
     ChangeCameraEnd,
-    EnemyDefeated,
+    StateStart,
 }
 
 public enum EnemyEventType
