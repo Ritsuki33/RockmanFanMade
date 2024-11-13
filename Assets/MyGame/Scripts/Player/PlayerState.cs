@@ -79,6 +79,16 @@ public partial class PlayerController
             if (!player.invincible) player.Damaged(collision.baseDamageValue);
         }
 
+        protected override void OnBottomTopHitEnter(PlayerController player, RaycastHit2D bottom, RaycastHit2D top)
+        {
+            player.Damaged(int.MaxValue);
+        }
+
+        protected override void OnLeftRightHitEnter(PlayerController player, RaycastHit2D left, RaycastHit2D right)
+        {
+            player.Damaged(int.MaxValue);
+        }
+
         // ==========================================
         class Basic : ExRbSubState<PlayerController, Basic,Standing>
         {
@@ -190,6 +200,17 @@ public partial class PlayerController
             if (!player.invincible) player.Damaged(collision.baseDamageValue);
         }
 
+
+        protected override void OnBottomTopHitEnter(PlayerController player, RaycastHit2D bottom, RaycastHit2D top)
+        {
+            player.Damaged(int.MaxValue);
+        }
+
+        protected override void OnLeftRightHitEnter(PlayerController player, RaycastHit2D left, RaycastHit2D right)
+        {
+            player.Damaged(int.MaxValue);
+        }
+
         // ============================================================
         class Run : ExRbSubState<PlayerController, Run, Running>
         {
@@ -297,6 +318,17 @@ public partial class PlayerController
         protected override void OnTriggerEnter(PlayerController player, DamageBase collision)
         {
             if (!player.invincible) player.Damaged(collision.baseDamageValue);
+        }
+
+
+        protected override void OnBottomTopHitEnter(PlayerController player, RaycastHit2D bottom, RaycastHit2D top)
+        {
+            player.Damaged(int.MaxValue);
+        }
+
+        protected override void OnLeftRightHitEnter(PlayerController player, RaycastHit2D left, RaycastHit2D right)
+        {
+            player.Damaged(int.MaxValue);
         }
 
         class Basic: ExRbSubState<PlayerController, Basic, Floating>
@@ -414,6 +446,17 @@ public partial class PlayerController
         protected override void OnTriggerEnter(PlayerController player, DamageBase collision)
         {
             if (!player.invincible) player.Damaged(collision.baseDamageValue);
+        }
+
+
+        protected override void OnBottomTopHitEnter(PlayerController player, RaycastHit2D bottom, RaycastHit2D top)
+        {
+            player.Damaged(int.MaxValue);
+        }
+
+        protected override void OnLeftRightHitEnter(PlayerController player, RaycastHit2D left, RaycastHit2D right)
+        {
+            player.Damaged(int.MaxValue);
         }
 
         class Basic: ExRbSubState<PlayerController, Basic, Jumping>

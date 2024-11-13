@@ -17,4 +17,13 @@ public interface IHitEvent
     void TopHitExit(RaycastHit2D hit) { }
     void LeftHitExit(RaycastHit2D hit) { }
     void RightHitExit(RaycastHit2D hit) { }
+
+    void LeftRightHitEnter(RaycastHit2D leftHit, RaycastHit2D rightHit) { }
+    void BottomToptHitEnter(RaycastHit2D bottomHit, RaycastHit2D topHit) { }
+
+    void LeftRightHitExit(RaycastHit2D leftHit, RaycastHit2D rightHit) { }
+    void BottomToptHitExit(RaycastHit2D bottomHit, RaycastHit2D topHit) { }
+
+    void LeftRightHitStay(RaycastHit2D leftHit, RaycastHit2D rightHit) { }
+    void BottomToptHitStay(RaycastHit2D bottomHit, RaycastHit2D topHit) { }
 }

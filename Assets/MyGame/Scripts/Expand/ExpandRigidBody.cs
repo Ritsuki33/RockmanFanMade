@@ -323,6 +323,15 @@ public class ExpandRigidBody : MonoBehaviour, IBaseExRbHit.IExRbCallbackSet
     public event Action<RaycastHit2D> onHitLeftExit;
     public event Action<RaycastHit2D> onHitRightExit;
 
+    public event Action<RaycastHit2D,RaycastHit2D> onHitBottomTopEnter;
+    public event Action<RaycastHit2D,RaycastHit2D> onHitLeftRightEnter;
+
+    public event Action<RaycastHit2D, RaycastHit2D> onHitBottomTopStay;
+    public event Action<RaycastHit2D, RaycastHit2D> onHitLeftRightStay;
+
+    public event Action<RaycastHit2D, RaycastHit2D> onHitBottomTopExit;
+    public event Action<RaycastHit2D, RaycastHit2D> onHitLeftRightExit;
+
     RaycastHit2D casheCollideBottom = default;
     RaycastHit2D casheCollideTop = default;
     RaycastHit2D casheCollideLeft = default;
@@ -352,11 +361,9 @@ public class ExpandRigidBody : MonoBehaviour, IBaseExRbHit.IExRbCallbackSet
     private void FixedUpdate()
     {
        if((boxCollider == null) ? false : (!(boxCollider.enabled) ? false : (boxCollider.isTrigger) ? false : true)) CorrectVelocity();
-
         rb.velocity = currentVelocity;
         currentVelocity = Vector2.zero;
     }
-
 
     public void CorrectVelocity()
     {
@@ -372,38 +379,38 @@ public class ExpandRigidBody : MonoBehaviour, IBaseExRbHit.IExRbCallbackSet
     private void PhysicalVelocityCorrect(Vector2 currentVelocity)
     {
         topHit = Physics2D.BoxCast(
-            VirtualTopColliderCenter
+            VirtualTopColliderCenter + new Vector2(0, -0.005f)
             , VerticalCheckHitTopSize
             , 0
             , Vector2.up
-            , Top - VirtualTopColliderCenter.y + ((CurrentMovement.y > 0) ? Mathf.Abs(CurrentMovement.y) : 0)
+            , Top - (VirtualTopColliderCenter.y - 0.005f) + ((CurrentMovement.y > 0) ? Mathf.Abs(CurrentMovement.y) : 0)
             , physicalLayer);
 
 
         bottomHit = Physics2D.BoxCast(
-            VirtualBottomColliderCenter
+            VirtualBottomColliderCenter + new Vector2(0, 0.005f)
             , VerticalCheckHitBottomSize
             , 0
             , Vector2.down
-            , VirtualBottomColliderCenter.y - Bottom + ((CurrentMovement.y < 0) ? Mathf.Abs(CurrentMovement.y) : 0)
+            , VirtualBottomColliderCenter.y + 0.005f - Bottom + ((CurrentMovement.y < 0) ? Mathf.Abs(CurrentMovement.y) : 0)
             , physicalLayer);
 
 
         rightHit = Physics2D.BoxCast(
-            VirtualRightColliderCenter
+            VirtualRightColliderCenter + new Vector2(-0.005f, 0)
             , HorizenCheckHitRightSize
             , 0
             , Vector2.right
-            , Right - VirtualRightColliderCenter.x + ((CurrentMovement.x > 0) ? Mathf.Abs(CurrentMovement.x) : 0)
+            , Right - (VirtualRightColliderCenter.x-0.005f) + ((CurrentMovement.x > 0) ? Mathf.Abs(CurrentMovement.x) : 0)
             , physicalLayer);
 
 
         leftHit = Physics2D.BoxCast(
-            VirtualLeftColliderCenter
+            VirtualLeftColliderCenter + new Vector2(0.005f, 0)
             , HorizenCheckHitLeftSize
             , 0
             , Vector2.left
-            , VirtualLeftColliderCenter.x - Left + ((CurrentMovement.x < 0) ? Mathf.Abs(CurrentMovement.x) : 0)
+            , VirtualLeftColliderCenter.x+ 0.005f - Left + ((CurrentMovement.x < 0) ? Mathf.Abs(CurrentMovement.x) : 0)
             , physicalLayer);
 
 
@@ -437,7 +444,6 @@ public class ExpandRigidBody : MonoBehaviour, IBaseExRbHit.IExRbCallbackSet
             onHitExit?.Invoke(casheCollideTop);
         }
 
-        casheCollideTop = topHit;
 
         if (bottomHit)
         {
@@ -471,7 +477,7 @@ public class ExpandRigidBody : MonoBehaviour, IBaseExRbHit.IExRbCallbackSet
             onHitExit?.Invoke(casheCollideBottom);
         }
 
-        casheCollideBottom = bottomHit;
+
 
         if (leftHit)
         {
@@ -497,7 +503,6 @@ public class ExpandRigidBody : MonoBehaviour, IBaseExRbHit.IExRbCallbackSet
             onHitLeftExit?.Invoke(casheCollideLeft);
             onHitExit?.Invoke(casheCollideLeft);
         }
-        casheCollideLeft = leftHit;
 
 
         if (rightHit)
@@ -527,10 +532,45 @@ public class ExpandRigidBody : MonoBehaviour, IBaseExRbHit.IExRbCallbackSet
                 onHitExit?.Invoke(casheCollideRight);
         }
 
-        casheCollideRight = rightHit;
+
+        if (topHit && bottomHit)
+        {
+            if (casheCollideTop != topHit || casheCollideBottom != bottomHit)
+            {
+                onHitBottomTopExit?.Invoke(casheCollideBottom, casheCollideTop);
+
+                onHitBottomTopEnter?.Invoke(topHit, bottomHit);
+            }
+
+            onHitBottomTopStay?.Invoke(topHit, bottomHit);
+        }
+        else if (casheCollideTop && casheCollideBottom)
+        {
+            onHitBottomTopExit?.Invoke(casheCollideBottom, casheCollideTop);
+        }
+
+        if (rightHit && leftHit)
+        {
+            if (casheCollideRight != rightHit || casheCollideLeft != leftHit)
+            {
+                onHitLeftRightExit?.Invoke(casheCollideLeft, casheCollideRight);
+
+                onHitLeftRightEnter?.Invoke(rightHit, leftHit);
+            }
+
+            onHitLeftRightStay?.Invoke(rightHit, leftHit);
+        }
+        else if (casheCollideRight && casheCollideLeft)
+        {
+            onHitLeftRightExit?.Invoke(casheCollideLeft, casheCollideRight);
+        }
 
         this.currentVelocity = currentVelocity;
 
+        casheCollideTop = topHit;
+        casheCollideBottom = bottomHit;
+        casheCollideLeft = leftHit;
+        casheCollideRight = rightHit;
     }
 
 
@@ -618,6 +658,12 @@ public class ExpandRigidBody : MonoBehaviour, IBaseExRbHit.IExRbCallbackSet
         onHitTopExit += hitEvent.TopHitExit;
         onHitRightExit += hitEvent.RightHitExit;
         onHitLeftExit += hitEvent.LeftHitExit;
+        onHitBottomTopEnter += hitEvent.BottomToptHitEnter;
+        onHitLeftRightEnter += hitEvent.LeftRightHitEnter;
+        onHitBottomTopStay += hitEvent.BottomToptHitStay;
+        onHitLeftRightStay += hitEvent.LeftRightHitStay;
+        onHitBottomTopExit += hitEvent.BottomToptHitExit;
+        onHitLeftRightExit += hitEvent.LeftRightHitExit;
     }
 
     /// <summary>
@@ -641,6 +687,12 @@ public class ExpandRigidBody : MonoBehaviour, IBaseExRbHit.IExRbCallbackSet
         onHitTopExit -= hitEvent.TopHitExit;
         onHitRightExit -= hitEvent.RightHitExit;
         onHitLeftExit -= hitEvent.LeftHitExit;
+        onHitBottomTopEnter -= hitEvent.BottomToptHitEnter;
+        onHitLeftRightEnter -= hitEvent.LeftRightHitEnter;
+        onHitBottomTopStay -= hitEvent.BottomToptHitStay;
+        onHitLeftRightStay -= hitEvent.LeftRightHitStay;
+        onHitBottomTopExit -= hitEvent.BottomToptHitExit;
+        onHitLeftRightExit -= hitEvent.LeftRightHitExit;
     }
 
     private void OnDrawGizmos()
