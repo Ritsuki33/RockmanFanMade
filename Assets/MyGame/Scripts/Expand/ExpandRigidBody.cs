@@ -379,38 +379,38 @@ public class ExpandRigidBody : MonoBehaviour, IBaseExRbHit.IExRbCallbackSet
     private void PhysicalVelocityCorrect(Vector2 currentVelocity)
     {
         topHit = Physics2D.BoxCast(
-            VirtualTopColliderCenter
+            VirtualTopColliderCenter + new Vector2(0, -0.005f)
             , VerticalCheckHitTopSize
             , 0
             , Vector2.up
-            , Top - VirtualTopColliderCenter.y + ((CurrentMovement.y > 0) ? Mathf.Abs(CurrentMovement.y) : 0)
+            , Top - (VirtualTopColliderCenter.y - 0.005f) + ((CurrentMovement.y > 0) ? Mathf.Abs(CurrentMovement.y) : 0)
             , physicalLayer);
 
 
         bottomHit = Physics2D.BoxCast(
-            VirtualBottomColliderCenter
+            VirtualBottomColliderCenter + new Vector2(0, 0.005f)
             , VerticalCheckHitBottomSize
             , 0
             , Vector2.down
-            , VirtualBottomColliderCenter.y - Bottom + ((CurrentMovement.y < 0) ? Mathf.Abs(CurrentMovement.y) : 0)
+            , VirtualBottomColliderCenter.y + 0.005f - Bottom + ((CurrentMovement.y < 0) ? Mathf.Abs(CurrentMovement.y) : 0)
             , physicalLayer);
 
 
         rightHit = Physics2D.BoxCast(
-            VirtualRightColliderCenter
+            VirtualRightColliderCenter + new Vector2(-0.005f, 0)
             , HorizenCheckHitRightSize
             , 0
             , Vector2.right
-            , Right - VirtualRightColliderCenter.x + ((CurrentMovement.x > 0) ? Mathf.Abs(CurrentMovement.x) : 0)
+            , Right - (VirtualRightColliderCenter.x-0.005f) + ((CurrentMovement.x > 0) ? Mathf.Abs(CurrentMovement.x) : 0)
             , physicalLayer);
 
 
         leftHit = Physics2D.BoxCast(
-            VirtualLeftColliderCenter
+            VirtualLeftColliderCenter + new Vector2(0.005f, 0)
             , HorizenCheckHitLeftSize
             , 0
             , Vector2.left
-            , VirtualLeftColliderCenter.x - Left + ((CurrentMovement.x < 0) ? Mathf.Abs(CurrentMovement.x) : 0)
+            , VirtualLeftColliderCenter.x+ 0.005f - Left + ((CurrentMovement.x < 0) ? Mathf.Abs(CurrentMovement.x) : 0)
             , physicalLayer);
 
 
