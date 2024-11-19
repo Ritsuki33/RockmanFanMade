@@ -10,21 +10,39 @@ public class LiftBehavior : MonoBehaviour
     [SerializeField] Transform end;
     [SerializeField] bool roundTrip = false;
     [SerializeField] float oneWayTime = 3.0f;
+    [SerializeField, Range(0, 1)] float startProgress = 0;
+    [SerializeField] bool isStop = false;
 
     float currentTime = 0;
     bool isReturn = false;
-    bool isGoal=false;
+    bool isGoal = false;
 
     public event Action onGoalEvent = null;
 
     Rigidbody2D rb = null;
 
+    public bool IsStop => isStop;
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
     }
+
+    private void OnEnable()
+    {
+        Init();
+        StartMove();
+    }
+
     private void FixedUpdate()
     {
+
+        if (isStop)
+        {
+            rb.velocity = Vector2.zero;
+            return;
+        }
+
         if (!isGoal)
         {
            
@@ -72,9 +90,38 @@ public class LiftBehavior : MonoBehaviour
         }
     }
 
+    public void Init()
+    {
+        currentTime = startProgress * oneWayTime;
+        isReturn = false;
+    }
+
+    /// <summary>
+    /// 開始地点を戻して再開
+    /// </summary>
+    public void StartMove()
+    {
+        isStop = false;
+    }
+
+    public void StopMove()
+    {
+        isStop = true;
+    }
+    
+
+    /// <summary>
+    /// 逆移動を開始させる
+    /// </summary>
+    public void Reverse()
+    {
+        isReturn = !isReturn;
+        currentTime = oneWayTime - currentTime;
+    }
+
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
-        Gizmos.DrawLine(start.position, end.position); 
+        if (start && end) Gizmos.DrawLine(start.position, end.position); 
     }
 }
