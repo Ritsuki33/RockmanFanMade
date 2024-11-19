@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LiftControll : MonoBehaviour
+public class LiftBehavior : MonoBehaviour
 {
 
     [SerializeField] Transform start;

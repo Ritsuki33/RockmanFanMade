@@ -203,7 +203,7 @@ public class ActionChainExecuter : MonoBehaviour
     [Serializable]
     class BoseAppearAction : BaseAction
     {
-        [SerializeField] BossController ctr;
+        [SerializeField] GrenademanBehavior ctr;
         [SerializeField] GameObject transferArea;
         override public void Execute(Action finishCallback)
         {
@@ -219,7 +219,7 @@ public class ActionChainExecuter : MonoBehaviour
     [Serializable]
     class BossHpBarSetAction : BaseAction
     {
-        [SerializeField] BossController ctr;
+        [SerializeField] GrenademanBehavior ctr;
 
         override public void Execute(Action finishCallback)
         {
@@ -231,7 +231,7 @@ public class ActionChainExecuter : MonoBehaviour
     [Serializable]
     class BossBattleStart : BaseAction
     {
-        [SerializeField] BossController ctr;
+        [SerializeField] GrenademanBehavior ctr;
         override public void Execute(Action finishCallback)
         {
             ctr.ToBattleState();

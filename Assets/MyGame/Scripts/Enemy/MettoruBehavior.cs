@@ -4,7 +4,7 @@ using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 
-public partial class MettoruController : ExRbStateMachine<MettoruController>
+public partial class MettoruBehavior : ExRbStateMachine<MettoruBehavior>
 {
     [SerializeField] Mettoru mettrou;
     [SerializeField] Animator _animator;
@@ -35,7 +35,7 @@ public partial class MettoruController : ExRbStateMachine<MettoruController>
 
     //private bool invincible = false;
 
-    private PlayerController Player => WorldManager.Instance.PlayerController;
+    private PlayerBehavior Player => WorldManager.Instance.PlayerController;
     private BaseObjectPool ExplodePool => EffectManager.Instance.ExplodePool;
     private BaseObjectPool MettoruFire => EffectManager.Instance.MettoruFirePool;
     bool IsRight => mettrou.IsRight;

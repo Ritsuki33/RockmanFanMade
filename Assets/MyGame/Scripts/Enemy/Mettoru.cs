@@ -2,7 +2,7 @@
 
 public class Mettoru : EnemyObject
 {
-    [SerializeField] MettoruController mettoruController;
+    [SerializeField] MettoruBehavior mettoruController;
 
     /// <summary>
     /// 初期化

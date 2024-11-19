@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-public class BigDogController : RbStateMachine<BigDogController>
+public class BigDogBehavior : RbStateMachine<BigDogBehavior>
 {
     [SerializeField] BigDog bigDog;
     [SerializeField] Animator _animator;
@@ -21,7 +21,7 @@ public class BigDogController : RbStateMachine<BigDogController>
     BaseObjectPool FirePool=>EffectManager.Instance.FirePool;
     BaseObjectPool ExplodePool=>EffectManager.Instance.ExplodePool;
 
-    PlayerController Player => WorldManager.Instance.PlayerController;
+    PlayerBehavior Player => WorldManager.Instance.PlayerController;
     enum StateId
     {
         Idle,
@@ -42,16 +42,16 @@ public class BigDogController : RbStateMachine<BigDogController>
         TransitReady((int)StateId.Idle);
     }
 
-    class Idle :RbState<BigDogController, Idle>
+    class Idle :RbState<BigDogBehavior, Idle>
     {
         static int animationHash = Animator.StringToHash("Idle");
-        protected override void Enter(BigDogController ctr, int preId, int subId)
+        protected override void Enter(BigDogBehavior ctr, int preId, int subId)
         {
             ctr._animator.Play(animationHash);
             ctr.timer.Start(1, 3);
         }
 
-        protected override void Update(BigDogController ctr)
+        protected override void Update(BigDogBehavior ctr)
         {
             ctr.timer.MoveAheadTime(Time.deltaTime,
                 () =>
@@ -71,19 +71,19 @@ public class BigDogController : RbStateMachine<BigDogController>
                 );
         }
 
-        protected override void OnTriggerEnter(BigDogController ctr, RockBusterDamage collision)
+        protected override void OnTriggerEnter(BigDogBehavior ctr, RockBusterDamage collision)
         {
             ctr.bigDog.Damaged(collision);
         }
       
     }
 
-    class Fire : RbState<BigDogController, Fire>
+    class Fire : RbState<BigDogBehavior, Fire>
     {
         static int animationHash = Animator.StringToHash("Fire");
 
         bool finished = false;
-        protected override void Enter(BigDogController ctr, int preId, int subId)
+        protected override void Enter(BigDogBehavior ctr, int preId, int subId)
         {
             ctr._animator.Play(animationHash);
             ctr.timer.Start(1, 1);
@@ -115,7 +115,7 @@ public class BigDogController : RbStateMachine<BigDogController>
             }
         }
 
-        protected override void Update(BigDogController ctr)
+        protected override void Update(BigDogBehavior ctr)
         {
             if (finished)
             {
@@ -128,14 +128,14 @@ public class BigDogController : RbStateMachine<BigDogController>
             }
         }
 
-        protected override void OnTriggerEnter(BigDogController ctr, RockBusterDamage collision)
+        protected override void OnTriggerEnter(BigDogBehavior ctr, RockBusterDamage collision)
         {
             ctr.bigDog.Damaged(collision);
         }
     }
 
 
-    class TailFire : RbState<BigDogController, TailFire>
+    class TailFire : RbState<BigDogBehavior, TailFire>
     {
         static int animationHash = Animator.StringToHash("TailFire");
 
@@ -150,15 +150,15 @@ public class BigDogController : RbStateMachine<BigDogController>
             AddSubState((int)SubStateId.Fire, new Fire());
         }
 
-        protected override void Enter(BigDogController ctr, int preId, int subId)
+        protected override void Enter(BigDogBehavior ctr, int preId, int subId)
         {
             TransitSubReady((int)SubStateId.Stance);
             ctr._animator.Play(animationHash);
         }
 
-        class Stance : RbSubState<BigDogController, Stance, TailFire>
+        class Stance : RbSubState<BigDogBehavior, Stance, TailFire>
         {
-            protected override void Update(BigDogController ctr, TailFire parent)
+            protected override void Update(BigDogBehavior ctr, TailFire parent)
             {
                 if (!ctr._animator.IsPlayingCurrentAnimation(animationHash))
                 {
@@ -167,9 +167,9 @@ public class BigDogController : RbStateMachine<BigDogController>
             }
         }
 
-        class Fire : RbSubState<BigDogController, Fire, TailFire>
+        class Fire : RbSubState<BigDogBehavior, Fire, TailFire>
         {
-            protected override void Enter(BigDogController ctr, TailFire parent, int preId, int subId)
+            protected override void Enter(BigDogBehavior ctr, TailFire parent, int preId, int subId)
             {
                 var bom = ctr.BomPool.Pool.Get() as Projectile;
                 var explode = ctr.ExplodePool.Pool.Get();
@@ -215,7 +215,7 @@ public class BigDogController : RbStateMachine<BigDogController>
                 ctr.timer.Start(1, 1);
             }
 
-            protected override void Update(BigDogController ctr, TailFire parent)
+            protected override void Update(BigDogBehavior ctr, TailFire parent)
             {
                 ctr.timer.MoveAheadTime(Time.deltaTime,
                 () =>
@@ -227,7 +227,7 @@ public class BigDogController : RbStateMachine<BigDogController>
           
         }
 
-        protected override void OnTriggerEnter(BigDogController ctr, RockBusterDamage collision)
+        protected override void OnTriggerEnter(BigDogBehavior ctr, RockBusterDamage collision)
         {
             ctr.bigDog.Damaged(collision);
         }

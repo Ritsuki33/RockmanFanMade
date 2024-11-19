@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-public class RoketMaskComtroller : RbStateMachine<RoketMaskComtroller>
+public class RoketMaskBehavior : RbStateMachine<RoketMaskBehavior>
 {
     [SerializeField] RocketMask rocketMask = default;
     [SerializeField] Animator _animator;
@@ -36,7 +36,7 @@ public class RoketMaskComtroller : RbStateMachine<RoketMaskComtroller>
         TransitReady((int)StateID.Move, true);
     }
 
-    class Move : RbState<RoketMaskComtroller, Move>
+    class Move : RbState<RoketMaskBehavior, Move>
     {
         int animationHash = 0;
         float currentDistance = 0;
@@ -44,7 +44,7 @@ public class RoketMaskComtroller : RbStateMachine<RoketMaskComtroller>
         Vector2 endPos = Vector2.zero;
 
         public Move() : base() { animationHash = Animator.StringToHash("Move"); }
-        protected override void Enter(RoketMaskComtroller rocketMask, int preId, int subId)
+        protected override void Enter(RoketMaskBehavior rocketMask, int preId, int subId)
         {
             rocketMask._animator.Play(animationHash);
             currentDistance = 0;
@@ -52,7 +52,7 @@ public class RoketMaskComtroller : RbStateMachine<RoketMaskComtroller>
             endPos = (Vector2)rocketMask.transform.position + ((rocketMask.isRight) ? Vector2.right : Vector2.left) * rocketMask.distance;
         }
 
-        protected override void FixedUpdate(RoketMaskComtroller rocketMask)
+        protected override void FixedUpdate(RoketMaskBehavior rocketMask)
         {
             if(((Vector2)rocketMask.transform.position-endPos).sqrMagnitude<0.05f)
             {
@@ -70,22 +70,22 @@ public class RoketMaskComtroller : RbStateMachine<RoketMaskComtroller>
             }
         }
 
-        protected override void OnTriggerEnter(RoketMaskComtroller rocketMask, RockBusterDamage collision)
+        protected override void OnTriggerEnter(RoketMaskBehavior rocketMask, RockBusterDamage collision)
         {
             rocketMask.Atacked(collision);
         }
     }
 
-    class Turn : RbState<RoketMaskComtroller, Turn>
+    class Turn : RbState<RoketMaskBehavior, Turn>
     {
         int animationHash = 0;
         public Turn() : base() { animationHash = Animator.StringToHash("Turn"); }
-        protected override void Enter(RoketMaskComtroller rocketMask, int preId, int subId)
+        protected override void Enter(RoketMaskBehavior rocketMask, int preId, int subId)
         {
             rocketMask._animator.Play(animationHash);
         }
 
-        protected override void Update(RoketMaskComtroller rocketMask)
+        protected override void Update(RoketMaskBehavior rocketMask)
         {
             if (!rocketMask._animator.IsPlayingCurrentAnimation(animationHash))
             {
@@ -93,7 +93,7 @@ public class RoketMaskComtroller : RbStateMachine<RoketMaskComtroller>
             }
         }
 
-        protected override void OnTriggerEnter(RoketMaskComtroller rocketMask, RockBusterDamage collision)
+        protected override void OnTriggerEnter(RoketMaskBehavior rocketMask, RockBusterDamage collision)
         {
             rocketMask.Atacked(collision);
         }

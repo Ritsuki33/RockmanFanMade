@@ -985,6 +985,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 167170093}
+  - component: {fileID: 167170094}
   m_Layer: 0
   m_Name: BossCtr
   m_TagString: Untagged
@@ -1008,6 +1009,19 @@ Transform:
   - {fileID: 1648211529}
   m_Father: {fileID: 919634586}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &167170094
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 167170092}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 993f90d070ee7214f89f12fbb0e6d0c8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  boss: {fileID: 1648211535}
 --- !u!1 &174831877
 GameObject:
   m_ObjectHideFlags: 0
@@ -80804,6 +80818,17 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &1648452747 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5107075163451444145, guid: 50db6328845417f428e76f577eadc620, type: 3}
+  m_PrefabInstance: {fileID: 1028768570}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 45e653bab7fb20e499bda25e1b646fea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1655765201
 GameObject:
   m_ObjectHideFlags: 0
@@ -80864,7 +80889,7 @@ MonoBehaviour:
   startAction: {fileID: 1655765204}
   defaultCheckPoint:
     position: {fileID: 2095095611}
-    virtualCamera: {fileID: 202242201}
+    virtualCamera: {fileID: 1648452747}
 --- !u!114 &1655765204
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -81561,6 +81586,10 @@ MonoBehaviour:
           remarks: 
           action:
             rid: 115822658989064196
+        - type: 2
+          remarks: 
+          action:
+            rid: 6885938282060578816
         _next:
           rid: 115822631400243260
     - rid: 115822631400243258
@@ -81660,6 +81689,11 @@ MonoBehaviour:
         actionChainExecuter: {fileID: 1772284222}
         targets:
         - {fileID: 1648211535}
+    - rid: 6885938282060578816
+      type: {class: ActionChainExecuter/StageObjectTurn, ns: , asm: Assembly-CSharp}
+      data:
+        obj: {fileID: 1648211535}
+        isRight: 0
 --- !u!114 &1772284222
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -83061,7 +83095,7 @@ Transform:
   m_GameObject: {fileID: 2095095610}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 200, y: -10.5, z: -1.0413888}
+  m_LocalPosition: {x: 3, y: 4.7, z: -1.0413888}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

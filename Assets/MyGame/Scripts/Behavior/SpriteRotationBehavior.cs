@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class SpriteRotationController : MonoBehaviour
+public class SpriteRotationBehavior : MonoBehaviour
 {
     [SerializeField] Vector2 vector;
     private Rigidbody2D rb;

@@ -4,13 +4,13 @@ public class WorldManager : SingletonComponent<WorldManager>
 {
     [SerializeField] TransferArea _playerTransferArea;
     [SerializeField] Player player;
-    [SerializeField] PlayerController playerController;
+    [SerializeField] PlayerBehavior playerController;
 
     [SerializeField] ActionChainExecuter startAction = default;
 
     [SerializeField] CheckPointData defaultCheckPoint;
     public Player Player => player;
-    public PlayerController PlayerController => playerController;
+    public PlayerBehavior PlayerController => playerController;
 
     private CheckPointData currentCheckPointData;
     public CheckPointData CurrentCheckPointData => currentCheckPointData;
@@ -33,6 +33,7 @@ public class WorldManager : SingletonComponent<WorldManager>
 
     public void StartStage()
     {
+        EventTriggerManager.Instance.Notify(EventType.StartStage);
         startAction.StartEvent();
     }
 

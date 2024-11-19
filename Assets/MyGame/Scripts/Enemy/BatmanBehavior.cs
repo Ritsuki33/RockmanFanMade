@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BatmanController : ExRbStateMachine<BatmanController>
+public class BatmanBehavior : ExRbStateMachine<BatmanBehavior>
 {
     [SerializeField] Batman batman;
     [SerializeField] Animator _animator;
@@ -35,17 +35,17 @@ public class BatmanController : ExRbStateMachine<BatmanController>
         TransitReady((int)StateID.Idle);
     }
 
-    class Idle : ExRbState<BatmanController, Idle>
+    class Idle : ExRbState<BatmanBehavior, Idle>
     {
         static int anmationHash = Animator.StringToHash("Idle");
         AmbiguousTimer timer = new AmbiguousTimer();
-        protected override void Enter(BatmanController batmanController, int preId, int subId)
+        protected override void Enter(BatmanBehavior batmanController, int preId, int subId)
         {
             batmanController._animator.Play(anmationHash);
             timer.Start(1, 2);
         }
 
-        protected override void Update(BatmanController batmanController)
+        protected override void Update(BatmanBehavior batmanController)
         {
             timer.MoveAheadTime(Time.deltaTime, () =>
             {
@@ -56,26 +56,26 @@ public class BatmanController : ExRbStateMachine<BatmanController>
             }
             , true);
         }
-        protected override void OnTriggerEnter(BatmanController batmanController, RockBusterDamage collision)
+        protected override void OnTriggerEnter(BatmanBehavior batmanController, RockBusterDamage collision)
         {
             batmanController.batman.Damaged(collision);
         }
     }
 
-    class ToMove : ExRbState<BatmanController, ToMove>
+    class ToMove : ExRbState<BatmanBehavior, ToMove>
     {
         static int anmationHash = Animator.StringToHash("ToMove");
-        protected override void Enter(BatmanController batmanController, int preId, int subId)
+        protected override void Enter(BatmanBehavior batmanController, int preId, int subId)
         {
             batmanController._animator.Play(anmationHash);
         }
 
-        protected override void FixedUpdate(BatmanController batmanController)
+        protected override void FixedUpdate(BatmanBehavior batmanController)
         {
             batmanController.exRb.velocity = 1.0f * Vector2.down;
         }
 
-        protected override void Update(BatmanController batmanController)
+        protected override void Update(BatmanBehavior batmanController)
         {
             if (!batmanController._animator.IsPlayingCurrentAnimation(anmationHash))
             {
@@ -83,64 +83,64 @@ public class BatmanController : ExRbStateMachine<BatmanController>
             }
         }
 
-        protected override void OnTriggerEnter(BatmanController batmanController, RockBusterDamage collision)
+        protected override void OnTriggerEnter(BatmanBehavior batmanController, RockBusterDamage collision)
         {
             batmanController.batman.Damaged(collision);
         }
     }
 
-    class Move : ExRbState<BatmanController, Move>
+    class Move : ExRbState<BatmanBehavior, Move>
     {
         static int anmationHash = Animator.StringToHash("Move");
         float speed = 1;
 
         Transform PlayerPos => WorldManager.Instance.PlayerController.transform;
-        protected override void Enter(BatmanController batmanController, int preId, int subId)
+        protected override void Enter(BatmanBehavior batmanController, int preId, int subId)
         {
             batmanController._animator.Play(anmationHash);
         }
 
-        protected override void FixedUpdate(BatmanController batmanController)
+        protected override void FixedUpdate(BatmanBehavior batmanController)
         {
             Vector2 move = PlayerPos.position - batmanController.transform.position;
             batmanController.exRb.velocity = speed * move.normalized;
         }
 
-        protected override void OnTriggerEnter(BatmanController batmanController, RockBusterDamage collision)
+        protected override void OnTriggerEnter(BatmanBehavior batmanController, RockBusterDamage collision)
         {
             batmanController.batman.Damaged(collision);
         }
 
-        protected override void OnTriggerEnter(BatmanController batmanController, PlayerTrigger collision)
+        protected override void OnTriggerEnter(BatmanBehavior batmanController, PlayerTrigger collision)
         {
             batmanController.TransitReady((int)StateID.ToIdle);
         }
     }
 
-    class ToIdle : ExRbState<BatmanController, ToIdle>
+    class ToIdle : ExRbState<BatmanBehavior, ToIdle>
     {
         static int anmationHash = Animator.StringToHash("ToIdle");
         float speed = 0f;
 
-        protected override void Enter(BatmanController batmanController, int preId, int subId)
+        protected override void Enter(BatmanBehavior batmanController, int preId, int subId)
         {
             batmanController._animator.Play(anmationHash);
             speed = 0f;
         }
 
-        protected override void FixedUpdate(BatmanController batmanController)
+        protected override void FixedUpdate(BatmanBehavior batmanController)
         {
             batmanController.exRb.velocity = speed * Vector2.up;
 
             if (speed < 10) speed += 0.5f;
         }
 
-        protected override void OnTopHitEnter(BatmanController batmanController, RaycastHit2D hit)
+        protected override void OnTopHitEnter(BatmanBehavior batmanController, RaycastHit2D hit)
         {
             batmanController.TransitReady((int)StateID.Idle);
         }
 
-        protected override void OnTriggerEnter(BatmanController batmanController, RockBusterDamage collision)
+        protected override void OnTriggerEnter(BatmanBehavior batmanController, RockBusterDamage collision)
         {
             batmanController.batman.Damaged(collision);
         }
