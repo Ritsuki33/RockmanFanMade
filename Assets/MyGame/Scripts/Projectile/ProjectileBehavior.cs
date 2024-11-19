@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ProjectileController : RbStateMachine<ProjectileController>
+public class ProjectileBehavior : RbStateMachine<ProjectileBehavior>
 {
     [SerializeField] Projectile projectile;
 
@@ -22,9 +22,9 @@ public class ProjectileController : RbStateMachine<ProjectileController>
         TransitReady(0);
     }
 
-    class Fire : RbState<ProjectileController, Fire>
+    class Fire : RbState<ProjectileBehavior, Fire>
     {
-        protected override void FixedUpdate(ProjectileController ctr)
+        protected override void FixedUpdate(ProjectileBehavior ctr)
         {
             ctr.projectile.FixedUpdateCallback.Invoke(ctr.rb);
 
@@ -34,12 +34,12 @@ public class ProjectileController : RbStateMachine<ProjectileController>
             }
         }
 
-        protected override void OnCollisionEnter(ProjectileController ctr, Collision2D collision)
+        protected override void OnCollisionEnter(ProjectileBehavior ctr, Collision2D collision)
         {
             ctr.projectile.OnCollisionCallback?.Invoke(ctr.projectile);
         }
 
-        protected override void OnTriggerEnter(ProjectileController ctr, PlayerTrigger collision)
+        protected override void OnTriggerEnter(ProjectileBehavior ctr, PlayerTrigger collision)
         {
             ctr.projectile.OnCollisionCallback?.Invoke(ctr.projectile);
         }

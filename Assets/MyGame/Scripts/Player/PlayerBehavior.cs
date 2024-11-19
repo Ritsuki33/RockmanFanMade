@@ -2,10 +2,10 @@
 using System.Collections;
 using UnityEngine;
 
-public partial class PlayerController : ExRbStateMachine<PlayerController>
+public partial class PlayerBehavior : ExRbStateMachine<PlayerBehavior>
 {
     [SerializeField] Player player;
-    [SerializeField] LauncherController launcherController;
+    [SerializeField] LauncherBehavior launcherController;
     [SerializeField] SpriteRenderer spriteRenderer;
 
     Gravity gravity;

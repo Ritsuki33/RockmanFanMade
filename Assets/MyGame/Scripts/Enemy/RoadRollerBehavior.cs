@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RoadRollerController : ExRbStateMachine<RoadRollerController>
+public class RoadRollerBehavior : ExRbStateMachine<RoadRollerBehavior>
 {
     [SerializeField] RoadRoller roadRoller;
     [SerializeField] Animator _animator;
@@ -42,39 +42,39 @@ public class RoadRollerController : ExRbStateMachine<RoadRollerController>
         TransitReady((int)StateId.Float);
     }
 
-    class Float : ExRbState<RoadRollerController, Float>
+    class Float : ExRbState<RoadRollerBehavior, Float>
     {
-        protected override void Enter(RoadRollerController roller, int preId, int subId)
+        protected override void Enter(RoadRollerBehavior roller, int preId, int subId)
         {
             roller._animator.Play(Moving.animationHash);
         }
 
-        protected override void FixedUpdate(RoadRollerController roller)
+        protected override void FixedUpdate(RoadRollerBehavior roller)
         {
             roller.gravity.UpdateVelocity();
             roller.exRb.velocity = roller.gravity.CurrentVelocity;
         }
 
-        protected override void OnBottomHitEnter(RoadRollerController roller, RaycastHit2D hit)
+        protected override void OnBottomHitEnter(RoadRollerBehavior roller, RaycastHit2D hit)
         {
             roller.TransitReady((int)StateId.Move);
         }
 
-        protected override void OnTriggerEnter(RoadRollerController roller, RockBusterDamage collision)
+        protected override void OnTriggerEnter(RoadRollerBehavior roller, RockBusterDamage collision)
         {
             roller.roadRoller.Damaged(collision);
         }
     }
 
-    class Moving : ExRbState<RoadRollerController, Moving>
+    class Moving : ExRbState<RoadRollerBehavior, Moving>
     {
         public static int animationHash = Animator.StringToHash("Move");
-        protected override void Enter(RoadRollerController roller, int preId, int subId)
+        protected override void Enter(RoadRollerBehavior roller, int preId, int subId)
         {
             roller._animator.Play(animationHash);
         }
 
-        protected override void FixedUpdate(RoadRollerController roller)
+        protected override void FixedUpdate(RoadRollerBehavior roller)
         {
             roller.gravity.UpdateVelocity();
             roller.move.UpdateVelocity(Vector2.right, (roller.IsRight) ? Move.InputType.Right : Move.InputType.Left);
@@ -86,31 +86,31 @@ public class RoadRollerController : ExRbStateMachine<RoadRollerController>
                 roller.TransitReady((int)StateId.Turn);
             }
         }
-        protected override void OnRightHitStay(RoadRollerController roller, RaycastHit2D hit)
+        protected override void OnRightHitStay(RoadRollerBehavior roller, RaycastHit2D hit)
         {
             if (roller.IsRight) { roller.TransitReady((int)StateId.Turn); }
         }
 
-        protected override void OnLeftHitStay(RoadRollerController roller, RaycastHit2D hit)
+        protected override void OnLeftHitStay(RoadRollerBehavior roller, RaycastHit2D hit)
         {
             if (!roller.IsRight) { roller.TransitReady((int)StateId.Turn); }
         }
 
-        protected override void OnTriggerEnter(RoadRollerController roller, RockBusterDamage collision)
+        protected override void OnTriggerEnter(RoadRollerBehavior roller, RockBusterDamage collision)
         {
             roller.roadRoller.Damaged(collision);
         }
     }
 
-    class Turn : ExRbState<RoadRollerController, Turn>
+    class Turn : ExRbState<RoadRollerBehavior, Turn>
     {
         static int animationHash = Animator.StringToHash("Turn");
-        protected override void Enter(RoadRollerController roller, int preId, int subId)
+        protected override void Enter(RoadRollerBehavior roller, int preId, int subId)
         {
             roller._animator.Play(animationHash);
         }
 
-        protected override void Update(RoadRollerController roller)
+        protected override void Update(RoadRollerBehavior roller)
         {
             if (!roller._animator.IsPlayingCurrentAnimation(animationHash))
             {
@@ -118,7 +118,7 @@ public class RoadRollerController : ExRbStateMachine<RoadRollerController>
             }
         }
 
-        protected override void OnTriggerEnter(RoadRollerController roller, RockBusterDamage collision)
+        protected override void OnTriggerEnter(RoadRollerBehavior roller, RockBusterDamage collision)
         {
             roller.roadRoller.Damaged(collision);
         }

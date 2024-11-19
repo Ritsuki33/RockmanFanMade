@@ -3,26 +3,26 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public partial class MettoruController 
+public partial class MettoruBehavior 
 {
-    class Idle : ExRbState<MettoruController, Idle>
+    class Idle : ExRbState<MettoruBehavior, Idle>
     {
         AmbiguousTimer timer = new AmbiguousTimer();
         int animationHash = 0;
         public Idle() { animationHash = Animator.StringToHash("Idle"); }
-        protected override void Enter(MettoruController mettoru, int preId, int subId)
+        protected override void Enter(MettoruBehavior mettoru, int preId, int subId)
         {
             mettoru._animator.Play(animationHash);
             timer.Start(0.5f, 2.0f);
         }
 
-        protected override void FixedUpdate(MettoruController mettoru)
+        protected override void FixedUpdate(MettoruBehavior mettoru)
         {
             mettoru.gravity.UpdateVelocity();
             mettoru.exRb.velocity = mettoru.gravity.CurrentVelocity;
         }
 
-        protected override void Update(MettoruController mettoru)
+        protected override void Update(MettoruBehavior mettoru)
         {
             if (!mettoru._animator.IsPlayingCurrentAnimation(animationHash))
             {
@@ -54,25 +54,25 @@ public partial class MettoruController
                    });
         }
 
-        protected override void OnTriggerEnter(MettoruController mettoru, RockBusterDamage collision)
+        protected override void OnTriggerEnter(MettoruBehavior mettoru, RockBusterDamage collision)
         {
             mettoru.Damaged(collision);
         }
     }
 
-    class Walk : ExRbState<MettoruController, Walk>
+    class Walk : ExRbState<MettoruBehavior, Walk>
     {
         AmbiguousTimer timer = new AmbiguousTimer();
         int animationHash = 0;
         public Walk() { animationHash = Animator.StringToHash("Walk"); }
-        protected override void Enter(MettoruController mettoru, int preId, int subId)
+        protected override void Enter(MettoruBehavior mettoru, int preId, int subId)
         {
             mettoru._animator.Play(animationHash);
             mettoru.TurnToTarget(mettoru.Player.transform.position);
             timer.Start(0.5f, 2.0f);
         }
 
-        protected override void FixedUpdate(MettoruController mettoru)
+        protected override void FixedUpdate(MettoruBehavior mettoru)
         {
             mettoru.gravity.UpdateVelocity();
             mettoru.exRb.velocity = mettoru.gravity.CurrentVelocity;
@@ -87,7 +87,7 @@ public partial class MettoruController
             mettoru.exRb.velocity += mettoru.move.CurrentVelocity;
         }
 
-        protected override void Update(MettoruController mettoru)
+        protected override void Update(MettoruBehavior mettoru)
         {
             mettoru.raycastSensor.SearchForTargetEnter((mettoru.IsRight) ? Vector2.right : Vector2.left,
                     (hit) =>
@@ -105,29 +105,29 @@ public partial class MettoruController
                   });
         }
 
-        protected override void OnTriggerEnter(MettoruController mettoru, RockBusterDamage collision)
+        protected override void OnTriggerEnter(MettoruBehavior mettoru, RockBusterDamage collision)
         {
             mettoru.Damaged(collision);
         }
     }
 
-    class Hide : ExRbState<MettoruController, Hide>
+    class Hide : ExRbState<MettoruBehavior, Hide>
     {
         int animationHash = 0;
         public Hide() { animationHash = Animator.StringToHash("Hide"); }
 
-        protected override void Enter(MettoruController mettoru, int preId, int subId)
+        protected override void Enter(MettoruBehavior mettoru, int preId, int subId)
         {
             mettoru._animator.Play(animationHash);
         }
 
-        protected override void FixedUpdate(MettoruController mettoru)
+        protected override void FixedUpdate(MettoruBehavior mettoru)
         {
             mettoru.gravity.UpdateVelocity();
             mettoru.exRb.velocity = mettoru.gravity.CurrentVelocity;
         }
 
-        protected override void Update(MettoruController mettoru)
+        protected override void Update(MettoruBehavior mettoru)
         {
             if (!mettoru._animator.IsPlayingCurrentAnimation(animationHash))
             {
@@ -135,32 +135,32 @@ public partial class MettoruController
             }
         }
 
-        protected override void OnTriggerEnter(MettoruController mettoru, RockBusterDamage collision)
+        protected override void OnTriggerEnter(MettoruBehavior mettoru, RockBusterDamage collision)
         {
             mettoru.Defense(collision);
         }
        
     }
 
-    class Hiding : ExRbState<MettoruController, Hiding>
+    class Hiding : ExRbState<MettoruBehavior, Hiding>
     {
         int animationHash = 0;
         AmbiguousTimer timer = new AmbiguousTimer();
         public Hiding() { animationHash = Animator.StringToHash("Hiding"); }
 
-        protected override void Enter(MettoruController mettoru, int preId, int subId)
+        protected override void Enter(MettoruBehavior mettoru, int preId, int subId)
         {
             mettoru._animator.Play(animationHash);
             timer.Start(1, 3);
         }
 
-        protected override void FixedUpdate(MettoruController mettoru)
+        protected override void FixedUpdate(MettoruBehavior mettoru)
         {
             mettoru.gravity.UpdateVelocity();
             mettoru.exRb.velocity = mettoru.gravity.CurrentVelocity;
         }
 
-        protected override void Update(MettoruController mettoru)
+        protected override void Update(MettoruBehavior mettoru)
         {
             mettoru.TurnToTarget(mettoru.Player.transform.position);
 
@@ -184,32 +184,32 @@ public partial class MettoruController
             }
         }
 
-        protected override void OnTriggerEnter(MettoruController mettoru, RockBusterDamage collision)
+        protected override void OnTriggerEnter(MettoruBehavior mettoru, RockBusterDamage collision)
         {
             mettoru.Defense(collision);
         }
     }
 
-    class Appear : ExRbState<MettoruController, Appear>
+    class Appear : ExRbState<MettoruBehavior, Appear>
     {
         int animationHash = 0;
         AmbiguousTimer timer=new AmbiguousTimer();
         public Appear() { animationHash = Animator.StringToHash("Appear"); }
 
-        protected override void Enter(MettoruController mettoru, int preId, int subId)
+        protected override void Enter(MettoruBehavior mettoru, int preId, int subId)
         {
             mettoru._animator.Play(animationHash);
             mettoru.Fire();
             timer.Start(1, 3);
         }
 
-        protected override void FixedUpdate(MettoruController mettoru)
+        protected override void FixedUpdate(MettoruBehavior mettoru)
         {
             mettoru.gravity.UpdateVelocity();
             mettoru.exRb.velocity = mettoru.gravity.CurrentVelocity;
         }
 
-        protected override void Update(MettoruController mettoru)
+        protected override void Update(MettoruBehavior mettoru)
         {
             if (!mettoru._animator.IsPlayingCurrentAnimation(animationHash))
             {
@@ -224,32 +224,32 @@ public partial class MettoruController
             }
         }
 
-        protected override void OnTriggerEnter(MettoruController mettoru, RockBusterDamage collision)
+        protected override void OnTriggerEnter(MettoruBehavior mettoru, RockBusterDamage collision)
         {
             mettoru.Damaged(collision);
         }
     }
 
-    class LookIn : ExRbState<MettoruController, LookIn>
+    class LookIn : ExRbState<MettoruBehavior, LookIn>
     {
         int animationHash = 0;
         public LookIn() { animationHash = Animator.StringToHash("LookIn"); }
         AmbiguousTimer timer = new AmbiguousTimer();
 
-        protected override void Enter(MettoruController mettoru, int preId, int subId)
+        protected override void Enter(MettoruBehavior mettoru, int preId, int subId)
         {
             mettoru._animator.Play(animationHash);
             mettoru.Fire();
             timer.Start(0.5f, 2.0f);
         }
 
-        protected override void FixedUpdate(MettoruController mettoru)
+        protected override void FixedUpdate(MettoruBehavior mettoru)
         {
             mettoru.gravity.UpdateVelocity();
             mettoru.exRb.velocity = mettoru.gravity.CurrentVelocity;
         }
 
-        protected override void Update(MettoruController mettoru)
+        protected override void Update(MettoruBehavior mettoru)
         {
             if (!mettoru._animator.IsPlayingCurrentAnimation(animationHash))
             {
@@ -269,7 +269,7 @@ public partial class MettoruController
                    });
         }
 
-        protected override void OnTriggerEnter(MettoruController mettoru, RockBusterDamage collision)
+        protected override void OnTriggerEnter(MettoruBehavior mettoru, RockBusterDamage collision)
         {
             mettoru.Damaged(collision);
         }
@@ -277,12 +277,12 @@ public partial class MettoruController
 
     float move_x = 0;
 
-    class Jumping : ExRbState<MettoruController, Jumping>
+    class Jumping : ExRbState<MettoruBehavior, Jumping>
     {
         int animationHash = 0;
         public Jumping() { animationHash = Animator.StringToHash("Jump"); }
 
-        protected override void Enter(MettoruController mettoru, int preId, int subId)
+        protected override void Enter(MettoruBehavior mettoru, int preId, int subId)
         {
             mettoru._animator.Play(animationHash);
             mettoru.gravity.Reset();
@@ -291,7 +291,7 @@ public partial class MettoruController
             //mettoru.jumpOverThere.Jump(mettoru.jumpTarget.position, 88, mettoru.gravity.GravityScale, () => { Debug.Log("error jump"); });
         }
 
-        protected override void FixedUpdate(MettoruController mettoru)
+        protected override void FixedUpdate(MettoruBehavior mettoru)
         {
             mettoru.jump.UpdateVelocity(mettoru.gravity.GravityScale);
             mettoru.exRb.velocity += mettoru.jump.CurrentVelocity;
@@ -303,36 +303,36 @@ public partial class MettoruController
             }
         }
 
-        protected override void OnTriggerEnter(MettoruController mettoru, RockBusterDamage collision)
+        protected override void OnTriggerEnter(MettoruBehavior mettoru, RockBusterDamage collision)
         {
             mettoru.Damaged(collision);
         }
     }
 
-    class JumpFloating : ExRbState<MettoruController, JumpFloating>
+    class JumpFloating : ExRbState<MettoruBehavior, JumpFloating>
     {
         int animationHash = 0;
         public JumpFloating() { animationHash = Animator.StringToHash("Float"); }
 
-        protected override void Enter(MettoruController mettoru, int preId, int subId)
+        protected override void Enter(MettoruBehavior mettoru, int preId, int subId)
         {
             mettoru._animator.Play(animationHash);
             //mettoru.jumpOverThere.Jump(mettoru.jumpTarget.position, 88, mettoru.gravity.GravityScale, () => { Debug.Log("error jump"); });
         }
 
-        protected override void FixedUpdate(MettoruController mettoru)
+        protected override void FixedUpdate(MettoruBehavior mettoru)
         {
             mettoru.gravity.UpdateVelocity();
             mettoru.exRb.velocity = mettoru.gravity.CurrentVelocity;
             mettoru.exRb.velocity += new Vector2(mettoru.move_x, 0);
         }
 
-        protected override void OnBottomHitStay(MettoruController mettoru, RaycastHit2D hit)
+        protected override void OnBottomHitStay(MettoruBehavior mettoru, RaycastHit2D hit)
         {
                 mettoru.TransitReady((int)StateID.Idle);
         }
 
-        protected override void OnTriggerEnter(MettoruController mettoru, RockBusterDamage collision)
+        protected override void OnTriggerEnter(MettoruBehavior mettoru, RockBusterDamage collision)
         {
             mettoru.Damaged(collision);
         }

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class BigDog : EnemyObject
 {
-    [SerializeField] BigDogController ctr;
+    [SerializeField] BigDogBehavior ctr;
 
     public override void Init()
     {

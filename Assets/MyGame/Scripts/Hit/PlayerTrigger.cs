@@ -54,9 +54,9 @@ public class PlayerTrigger : MonoBehaviour, ITriggerVisitable, IHitVisitable
     void IHitVisitable.AcceptOnRightHitExit(IHitVisitor visitor) => AcceptOnRightHitExit(visitor);
 
     // ここから定義
-    [SerializeField] PlayerController controller;
+    [SerializeField] PlayerBehavior controller;
 
-    public PlayerController PlayerController => controller;
+    public PlayerBehavior PlayerController => controller;
 
 
 }

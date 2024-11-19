@@ -2,7 +2,7 @@
 
 public class Batman : EnemyObject
 {
-    [SerializeField] BatmanController batmanController;
+    [SerializeField] BatmanBehavior batmanController;
 
     public override void Init()
     {

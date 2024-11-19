@@ -97,7 +97,7 @@ public class GameMainScreenPresenter : BaseScreenPresenter<GameMainScreen, GameM
     /// <param name="val"></param>
     /// <param name="hpChangeTrigger"></param>
     /// <param name="finishCallback"></param>
-    public void EnemyHpIncrementAnimation(GrenademanController ctr, Action finishCallback)
+    public void EnemyHpIncrementAnimation(GrenademanBehavior ctr, Action finishCallback)
     {
         _screen.EnemyHpBar.gameObject.SetActive(true);
         _screen.EnemyHpBar.SetParam(0.0f);
@@ -124,7 +124,7 @@ public class GameMainScreenViewModel : BaseViewModel<GameMainManager.UI>
 {
     public Player Player => WorldManager.Instance.Player;
 
-    public GrenademanController bossController;
+    public GrenademanBehavior bossController;
     protected override IEnumerator Configure()
     {
         yield return null;

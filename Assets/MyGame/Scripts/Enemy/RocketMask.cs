@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class RocketMask : EnemyObject
 {
-    [SerializeField] RoketMaskComtroller rocketMaskComtroller = default;
+    [SerializeField] RoketMaskBehavior rocketMaskComtroller = default;
 
     public override void Init()
     {

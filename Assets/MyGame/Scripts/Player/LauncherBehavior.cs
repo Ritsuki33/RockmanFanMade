@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LauncherController : StateMachine<LauncherController>
+public class LauncherBehavior : StateMachine<LauncherBehavior>
 {
     [SerializeField] Player player;
     [SerializeField] Animator m_charge_animator;
@@ -47,24 +47,24 @@ public class LauncherController : StateMachine<LauncherController>
         stateMachine.TransitReady((int)StateID.None);
     }
 
-    class None : State<LauncherController, None>
+    class None : State<LauncherBehavior, None>
     {
-        protected override void Enter(LauncherController launcher, int preId, int subId)
+        protected override void Enter(LauncherBehavior launcher, int preId, int subId)
         {
             launcher.StopRimLight();
             launcher.m_charge_animator.gameObject.SetActive(false);
         }
     }
 
-    class ChargeSmall : State<LauncherController, ChargeSmall>
+    class ChargeSmall : State<LauncherBehavior, ChargeSmall>
     {
         float chargeStartTime = 1.0f;
-        protected override void Enter(LauncherController launcher, int preId, int subId)
+        protected override void Enter(LauncherBehavior launcher, int preId, int subId)
         {
             chargeStartTime = 1.0f;
         }
 
-        protected override void Update(LauncherController launcher)
+        protected override void Update(LauncherBehavior launcher)
         {
             if (launcher.isLaunchTrigger)
             {
@@ -78,13 +78,13 @@ public class LauncherController : StateMachine<LauncherController>
         }
     }
 
-    class ChargeMiddle : State<LauncherController, ChargeMiddle>
+    class ChargeMiddle : State<LauncherBehavior, ChargeMiddle>
     {
         int animationHash = 0;
         float chargeStartTime = 1.0f;
         public ChargeMiddle() { animationHash = Animator.StringToHash("ChargingBlue"); }
 
-        protected override void Enter(LauncherController launcher, int preId, int subId)
+        protected override void Enter(LauncherBehavior launcher, int preId, int subId)
         {
             launcher.m_charge_animator.gameObject.SetActive(true);
             launcher.m_charge_animator.Play(animationHash);
@@ -92,7 +92,7 @@ public class LauncherController : StateMachine<LauncherController>
             chargeStartTime = 1.0f;
         }
 
-        protected override void Update(LauncherController launcher)
+        protected override void Update(LauncherBehavior launcher)
         {
             if (launcher.isLaunchTrigger)
             {
@@ -107,18 +107,18 @@ public class LauncherController : StateMachine<LauncherController>
         }
     }
 
-    class ChargeBig : State<LauncherController, ChargeBig>
+    class ChargeBig : State<LauncherBehavior, ChargeBig>
     {
         int animationHash = 0;
         public ChargeBig() { animationHash = Animator.StringToHash("ChargingYellow"); }
 
-        protected override void Enter(LauncherController launcher, int preId, int subId)
+        protected override void Enter(LauncherBehavior launcher, int preId, int subId)
         {
             launcher.m_charge_animator.gameObject.SetActive(true);
             launcher.m_charge_animator.Play(animationHash);
         }
 
-        protected override void Update(LauncherController launcher)
+        protected override void Update(LauncherBehavior launcher)
         {
             if (!launcher.isLaunchTrigger)
             {
