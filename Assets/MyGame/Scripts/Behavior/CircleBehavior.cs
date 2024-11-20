@@ -1,18 +1,37 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 /// <summary>
-/// 円運動挙動
+/// 円運動挙動系ヘルパー関数
 /// </summary>
 public static class CircleBehavior
 {
-    static public Vector2 GetVelocityCircle(float time, float frequency, float magnitude_x,float magnitude_y)
+    /// <summary>
+    /// 中心からある座標のおける角度(ラジアン)を習得
+    /// </summary>
+    /// <param name="center"></param>
+    /// <param name="currentPos"></param>
+    /// <returns></returns>
+    static public  float GetRadian(Vector2 center, Vector2 targetPos)
     {
-        // Sin(2πft)をtで微分すると2πf・Cos(2πft)
-        float vel_x = -2 * Mathf.PI * frequency * Mathf.Sin(time * 2 * Mathf.PI * frequency) * magnitude_x;
-        float vel_y = 2 * Mathf.PI * frequency * Mathf.Cos(time * 2 * Mathf.PI * frequency) * magnitude_y;
-        Vector2 delta = new Vector2(vel_x, vel_y);
-        return delta;
+        // 中心角をラジアンで求める
+        float angle = Mathf.Atan2(targetPos.y - center.y, targetPos.x - center.x);
+        return angle;
     }
+
+    /// <summary>
+    /// 円運動
+    /// </summary>
+    /// <param name="center"></param>
+    /// <param name="currentPos"></param>
+    /// <param name="deltaTime"></param>
+    /// <param name="radius"></param>
+    /// <param name="speed"></param>
+    /// <param name="angle"></param>
+    /// <returns></returns>
+    static public Vector2 GetVelocityCircle(Transform center, Transform own, float deltaTime, float radius, float speed, ref float angle)
+    {
+        return EllipseBehavior.GetVelocityCircle(center, own, deltaTime, radius, radius, speed, ref angle);
+    }
+
+
 }
