@@ -83839,6 +83839,10 @@ PrefabInstance:
       propertyPath: forwardIsRight
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 8702880162454419263, guid: 97fd1097f2e6ac643807cdf881abe512, type: 3}
+      propertyPath: m_CollisionDetection
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
