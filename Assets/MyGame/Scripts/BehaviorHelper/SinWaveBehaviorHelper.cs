@@ -6,7 +6,7 @@ using UnityEngine;
 /// <summary>
 /// サイン波挙動
 /// </summary>
-public static class SinWaveBehavior
+public static class SinWaveBehaviorHelper
 {
     /// <summary>
     /// サイン波の挙動(Y軸)

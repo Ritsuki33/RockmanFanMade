@@ -74174,11 +74174,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4cd0cc5cb894414cb710e62c4a6d6d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  start: {fileID: 468190755}
-  end: {fileID: 143561162}
-  roundTrip: 1
+  pos1: {fileID: 468190755}
+  pos2: {fileID: 143561162}
+  roundTrip: 0
   oneWayTime: 3
-  progress: 0.5
+  startProgress: 0
+  isStop: 0
 --- !u!1 &445758466
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,21 +1,22 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class LiftBehavior : MonoBehaviour
 {
 
-    [SerializeField] Transform start;
-    [SerializeField] Transform end;
+    [SerializeField] Transform pos1;
+    [SerializeField] Transform pos2;
     [SerializeField] bool roundTrip = false;
+    [SerializeField] bool loop = false;
     [SerializeField] float oneWayTime = 3.0f;
     [SerializeField, Range(0, 1)] float startProgress = 0;
     [SerializeField] bool isStop = false;
 
     float currentTime = 0;
     bool isReturn = false;
-    bool isGoal = false;
+
+    Transform Start => (!isReturn) ? pos1 : pos2;
+    Transform End => (!isReturn) ? pos2 : pos1;
 
     public event Action onGoalEvent = null;
 
@@ -43,30 +44,28 @@ public class LiftBehavior : MonoBehaviour
             return;
         }
 
-        if (!isGoal)
+
+        Debug.Log(LineBehaviorHelper.GetStrobe(Start, End, currentTime / oneWayTime));
+        rb.SetVelocty(LineBehaviorHelper.GetStrobe(Start, End, currentTime / oneWayTime));
+
+        currentTime += Time.fixedDeltaTime;
+
+        currentTime = Mathf.Clamp(currentTime, 0, oneWayTime);
+
+        if (currentTime == oneWayTime)
         {
-           
-            if (oneWayTime > 0)
+            if (roundTrip)
             {
-                Vector3 startPos = (!isReturn) ? start.position : end.position;
-                Vector3 endPos = (!isReturn) ? end.position : start.position;
-
-
-                Vector2 newPos = Vector3.Lerp(startPos, endPos, currentTime / oneWayTime);
-
-                rb.velocity = (newPos - (Vector2)this.transform.position) / Time.deltaTime;
-            }
-            else
-            {
-                rb.velocity = Vector2.zero;
-            }
-            if (currentTime == oneWayTime)
-            {
-                Goal();
+                if (isReturn == false|| loop == true)
+                {
+                    currentTime = 0;
+                    if (isReturn) onGoalEvent?.Invoke();
+                    isReturn = !isReturn;
+                }
             }
         }
 
-     
+
         currentTime += Time.fixedDeltaTime;
 
         if (currentTime > oneWayTime)
@@ -75,19 +74,12 @@ public class LiftBehavior : MonoBehaviour
         }
     }
 
-    private void Goal()
+    private void Update()
     {
-        if (roundTrip)
+        if (Input.GetKeyDown(KeyCode.Space))
         {
-            currentTime = 0;
-            if (isReturn) onGoalEvent?.Invoke();
-            isReturn = !isReturn;
-        }
-        else
-        {
-            isGoal = true;
-            onGoalEvent?.Invoke();
-        }
+            Reverse();
+        }    
     }
 
     public void Init()
@@ -122,6 +114,10 @@ public class LiftBehavior : MonoBehaviour
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
-        if (start && end) Gizmos.DrawLine(start.position, end.position); 
+        if (pos1 && pos2)
+        {
+            Gizmos.DrawLine(pos1.position, pos2.position);
+        }
+
     }
 }

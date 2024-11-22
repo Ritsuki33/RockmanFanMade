@@ -2,7 +2,7 @@
 using UnityEngine;
 
 // 放物線運動（振舞い）を制御するクラス
-public static class ParabolicBehavior
+public static class ParabolicBehaviorHelper
 {
     /// <summary>
     /// 砲弾発射
@@ -11,7 +11,7 @@ public static class ParabolicBehavior
     /// <param name="angle"></param>
     /// <param name="gravityScale"></param>
     /// <param name="failed"></param>
-    public static Vector2 Init(Vector3 targetPosition, Vector2 myPosition, float angle, float gravityScale, Action failed = null)
+    public static Vector2 Start(Vector3 targetPosition, Vector2 myPosition, float angle, float gravityScale, Action failed = null)
     {
         bool isRight = targetPosition.x > myPosition.x;
 

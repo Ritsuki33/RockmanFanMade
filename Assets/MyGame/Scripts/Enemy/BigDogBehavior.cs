@@ -102,7 +102,7 @@ public class BigDogBehavior : RbStateMachine<BigDogBehavior>
                     fire.Init(3, null,
                         (rb) =>
                         {
-                            rb.velocity = BezierCurveBehevior.GetVelocity(fire.transform.position, time, 1, ctr._mouth, ctr.pointA, ctr.pointB);
+                            rb.SetVelocty(BezierCurveBeheviorHelper.GetStrobe(fire.transform.position, ctr._mouth, ctr.pointA, ctr.pointB, time));
                             time += Time.fixedDeltaTime;
                         }
                         );
@@ -180,12 +180,12 @@ public class BigDogBehavior : RbStateMachine<BigDogBehavior>
                     3,
                     (rb) =>
                     {
-                        Vector2 startVec = ParabolicBehavior.Init(ctr.Player.transform.position, ctr._tale.position, 60, gravityScale, () => { Debug.Log("発射失敗"); });
+                        Vector2 startVec = ParabolicBehaviorHelper.Start(ctr.Player.transform.position, ctr._tale.position, 60, gravityScale, () => { Debug.Log("発射失敗"); });
                         rb.velocity = startVec;
                     },
                     (rb) =>
                     {
-                        ParabolicBehavior.FixedUpdate(rb, gravityScale);
+                        rb.velocity += Vector2.down * gravityScale;
                     },
                     (projectile) =>
                     {
