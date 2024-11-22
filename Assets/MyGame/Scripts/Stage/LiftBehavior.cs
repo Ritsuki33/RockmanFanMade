@@ -45,7 +45,6 @@ public class LiftBehavior : MonoBehaviour
         }
 
 
-        Debug.Log(LineBehaviorHelper.GetStrobe(Start, End, currentTime / oneWayTime));
         rb.SetVelocty(LineBehaviorHelper.GetStrobe(Start, End, currentTime / oneWayTime));
 
         currentTime += Time.fixedDeltaTime;
