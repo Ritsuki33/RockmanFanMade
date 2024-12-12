@@ -33,6 +33,7 @@ public class LaserBehavior : MonoBehaviour
     public void Launch(Transform start, float speed, Action deleteCallback, Vector2 laserDir = default, float offsetSpeed = 0)
     {
         transform_start = start;
+        startPoint = transform_start.transform.position;
         this.speed = speed;
         this.laserDir = laserDir;
         this.offsetSpeed = offsetSpeed;
@@ -93,8 +94,8 @@ public class LaserBehavior : MonoBehaviour
     void Shaped(Vector2 startPoint,Vector2 endPoint)
     {
         // 開始地点と終了地点の中間点にスプライトを配置
-        Vector3 middlePoint = (startPoint + endPoint) / 2;
-        this.transform.position = middlePoint;
+        Vector2 middlePoint = (startPoint + endPoint) / 2;
+        this.transform.position = new Vector3(middlePoint.x, middlePoint.y, -2);
 
         // 開始地点と終了地点の距離を計算して、スケールを調整
         float distance = Vector3.Distance(startPoint, endPoint);
