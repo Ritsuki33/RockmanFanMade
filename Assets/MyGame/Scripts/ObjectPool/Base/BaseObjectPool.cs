@@ -29,12 +29,12 @@ public class BaseObjectPool : MonoBehaviour
 
     private void OnEnable()
     {
-        EventTriggerManager.Instance.VoidEventTriggers.Subscribe(EventType.StartStage, Init);
+        EventTriggerManager.Instance?.VoidEventTriggers.Subscribe(EventType.StartStage, Init);
     }
 
     private void OnDisable()
     {
-        EventTriggerManager.Instance.VoidEventTriggers.Unsubscribe(EventType.StartStage, Init);
+        EventTriggerManager.Instance?.VoidEventTriggers.Unsubscribe(EventType.StartStage, Init);
     }
 
     public void Init()
