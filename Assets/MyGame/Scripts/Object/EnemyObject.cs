@@ -2,10 +2,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class EnemyObject : StageObject
 {
     [SerializeField] EnemyData enemyData = default;
+
+    [SerializeField,Header("討伐後発生イベントを直接指定")] UnityEvent defeatEvent = default;
 
     private BaseObjectPool ExplodePool => EffectManager.Instance.ExplodePool;
 
@@ -15,6 +18,8 @@ public class EnemyObject : StageObject
 
     public int CurrentHp => currentHp;
     public int MaxHp => (enemyData != null) ? enemyData.Hp : 3;
+
+    
     public virtual void Init()
     {
         SetMaterialParam(ShaderPropertyId.IsFadeColorID, 0);
@@ -50,6 +55,7 @@ public class EnemyObject : StageObject
 
         OnDead();
 
+        defeatEvent?.Invoke();
         EventTriggerManager.Instance.Notify(EnemyEventType.Defeated, this);
     }
 
