@@ -14,6 +14,7 @@ public enum InputType
     UpDownRightLeft = Up | Down | Right | Left,
     Cancel = 16,
     Decide = 32,
+    Start = 64,
 }
 public interface IInput
 {
@@ -46,6 +47,10 @@ public class InputManager : SingletonComponent<InputManager>, IInput
         playerInput.Player.Decide.performed += OnDecide;
         playerInput.Player.Decide.canceled += OffDecide;
         playerInput.Player.Decide.Enable();
+
+        playerInput.Player.Start.performed += OnStart;
+        playerInput.Player.Start.canceled += OffStart;
+        playerInput.Player.Start.Enable();
 
     }
 
@@ -133,6 +138,16 @@ public class InputManager : SingletonComponent<InputManager>, IInput
     void OffDecide(InputAction.CallbackContext context)
     {
         OffInputBit(InputType.Decide);
+    }
+
+    void OnStart(InputAction.CallbackContext context)
+    {
+        OnInputBit(InputType.Start);
+    }
+
+    void OffStart(InputAction.CallbackContext context)
+    {
+        OffInputBit(InputType.Start);
     }
 
     /// <summary>

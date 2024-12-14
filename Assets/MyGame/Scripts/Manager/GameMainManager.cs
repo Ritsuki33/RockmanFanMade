@@ -6,7 +6,7 @@ public class GameMainManager : BaseManager<GameMainManager>
 {
     public struct InputInfo
     {
-        public bool left, right, up, down, jump, jumping, fire;
+        public bool left, right, up, down, jump, jumping, fire, start;
         public void SetInput(IInput input = null)
         {
             left = input.GetInput(InputType.Left);
@@ -16,6 +16,7 @@ public class GameMainManager : BaseManager<GameMainManager>
             jump = input.GetDownInput(InputType.Cancel);
             jumping = input.GetInput(InputType.Cancel);
             fire = input.GetInput(InputType.Decide);
+            start = input.GetInput(InputType.Decide);
         }
     }
 
