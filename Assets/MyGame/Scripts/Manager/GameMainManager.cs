@@ -6,7 +6,7 @@ public class GameMainManager : BaseManager<GameMainManager>
 {
     public struct InputInfo
     {
-        public bool left, right, up, down, jump, jumping, fire;
+        public bool left, right, up, down, jump, jumping, fire, start;
         public void SetInput(IInput input = null)
         {
             left = input.GetInput(InputType.Left);
@@ -16,6 +16,7 @@ public class GameMainManager : BaseManager<GameMainManager>
             jump = input.GetDownInput(InputType.Cancel);
             jumping = input.GetInput(InputType.Cancel);
             fire = input.GetInput(InputType.Decide);
+            start = input.GetDownInput(InputType.Start);
         }
     }
 
@@ -26,6 +27,7 @@ public class GameMainManager : BaseManager<GameMainManager>
     private CameraControllArea currentCameraControllArea;
     public MainCameraControll MainCameraControll => m_mainCameraControll;
 
+    private bool isPause = false;
     public enum UI
     {
         GameMain,
@@ -46,8 +48,8 @@ public class GameMainManager : BaseManager<GameMainManager>
 
             yield return screenContainer.Initialize(UI.GameMain, true);
 
+            OnPause(false);
             StageStart();
-
         }
     }
 
@@ -56,6 +58,12 @@ public class GameMainManager : BaseManager<GameMainManager>
         InputInfo inputInfo = default;
         inputInfo.SetInput(InputController);
         WorldManager.Instance.PlayerController.UpdateInput(inputInfo);
+
+        if (inputInfo.start)
+        {
+            isPause = !isPause;
+            OnPause(isPause);
+        }
     }
 
     protected override void Terminate()
@@ -85,4 +93,9 @@ public class GameMainManager : BaseManager<GameMainManager>
         action.Invoke();
     }
 
+    void OnPause(bool isPause)
+    {
+        this.isPause = isPause;
+        screenContainer.GetCurrentScreenPresenter<GameMainScreenPresenter>()?.OnOpenPauseUi(isPause);
+    }
 }

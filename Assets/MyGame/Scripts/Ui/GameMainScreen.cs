@@ -13,10 +13,12 @@ public class GameMainScreen : BaseScreen<GameMainScreen, GameMainScreenPresenter
     [SerializeField] ReadyUi readyUi = default;
     [SerializeField] HpBar enemyHpBar = default;
     [SerializeField] HpBar hpBar = default;
+    [SerializeField] GameObject pauseUi = default;
 
     public ReadyUi ReadyUi => readyUi;
     public HpBar EnemyHpBar => enemyHpBar;
     public HpBar HpBar => hpBar;
+    public GameObject PauseUi => pauseUi;
 
     protected override void Initialize(GameMainScreenViewModel viewModel)
     {
@@ -111,6 +113,11 @@ public class GameMainScreenPresenter : BaseScreenPresenter<GameMainScreen, GameM
     public void ReadyUiPlay(Action finishCallback)
     {
         _screen.ReadyUi.Play(finishCallback);
+    }
+
+    public void OnOpenPauseUi(bool isOpen)
+    {
+        _screen.PauseUi.SetActive(isOpen);
     }
 
     protected override void Deinitialize()
