@@ -3,13 +3,13 @@
 public class WorldManager : SingletonComponent<WorldManager>
 {
     [SerializeField] TransferArea _playerTransferArea;
-    [SerializeField] Player player;
+    [SerializeField] StagePlayer player;
     [SerializeField] PlayerBehavior playerController;
 
     [SerializeField] ActionChainExecuter startAction = default;
 
     [SerializeField] CheckPointData defaultCheckPoint;
-    public Player Player => player;
+    public StagePlayer Player => player;
     public PlayerBehavior PlayerController => playerController;
 
     private CheckPointData currentCheckPointData;
