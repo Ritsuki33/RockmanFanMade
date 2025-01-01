@@ -129,7 +129,7 @@ public class GameMainScreenPresenter : BaseScreenPresenter<GameMainScreen, GameM
 
 public class GameMainScreenViewModel : BaseViewModel<GameMainManager.UI>
 {
-    public Player Player => WorldManager.Instance.Player;
+    public StagePlayer Player => WorldManager.Instance.Player;
 
     public GrenademanBehavior bossController;
     protected override IEnumerator Configure()

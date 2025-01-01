@@ -4,7 +4,7 @@ using UnityEngine;
 
 public partial class PlayerBehavior : ExRbStateMachine<PlayerBehavior>
 {
-    [SerializeField] Player player;
+    [SerializeField] StagePlayer player;
     [SerializeField] LauncherBehavior launcherController;
     [SerializeField] SpriteRenderer spriteRenderer;
 

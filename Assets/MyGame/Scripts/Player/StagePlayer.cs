@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-public class Player : StageObject
+public class StagePlayer : StageObject
 {
     [SerializeField] int maxHp = 27;
 

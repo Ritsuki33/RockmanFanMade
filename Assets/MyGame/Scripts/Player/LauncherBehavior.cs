@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class LauncherBehavior : StateMachine<LauncherBehavior>
 {
-    [SerializeField] Player player;
+    [SerializeField] StagePlayer player;
     [SerializeField] Animator m_charge_animator;
 
     [SerializeField] GameObject launcher;
