@@ -6,16 +6,16 @@ using UnityEngine.Pool;
 
 public class BaseObjectPool : MonoBehaviour
 {
-    [SerializeField] private ReusableObject prefab;
+    [SerializeField] private Reusable prefab;
     [SerializeField] int defaultCapacity = 10;
     [SerializeField] int maxSize = 10;
-    public ObjectPool<ReusableObject> Pool { get; private set; }
+    public ObjectPool<Reusable> Pool { get; private set; }
 
-    private List<ReusableObject> _cacheObjects = new List<ReusableObject>();
+    private List<Reusable> _cacheObjects = new List<Reusable>();
     private void Awake()
     {
         // オブジェクトプールを作成します
-        Pool = new ObjectPool<ReusableObject>
+        Pool = new ObjectPool<Reusable>
         (
             createFunc: OnCreateToPool,
             actionOnGet: OnGetFromPool,
@@ -50,7 +50,7 @@ public class BaseObjectPool : MonoBehaviour
         Pool.Clear();
     }
 
-    ReusableObject OnCreateToPool()
+    Reusable OnCreateToPool()
     {
         var gameObject = Instantiate(prefab, this.transform);
         gameObject.Pool = Pool;
@@ -71,7 +71,7 @@ public class BaseObjectPool : MonoBehaviour
 
     void OnDestroyFromPool(IResuable obj)
     {
-        _cacheObjects.Remove(obj as ReusableObject);
+        _cacheObjects.Remove(obj as Reusable);
         obj.OnDispose();
     }
 }

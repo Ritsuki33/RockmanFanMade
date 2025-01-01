@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-public class Projectile : ReusableObject
+public class Projectile : Reusable
 {
     [SerializeField] private BoxCollider2D boxTrigger;
     [SerializeField] private BoxCollider2D boxCollider;

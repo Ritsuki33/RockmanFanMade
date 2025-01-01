@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Laser : ReusableObject
+public class Laser : Reusable
 {
     [SerializeField] LaserBehavior laserBehavior;
 

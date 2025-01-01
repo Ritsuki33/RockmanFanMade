@@ -7,9 +7,9 @@ interface IResuable
     void OnRelease();
     void OnDispose();
 }
-public class ReusableObject : MonoBehaviour, IResuable
+public class Reusable : MonoBehaviour, IResuable
 {
-    public IObjectPool<ReusableObject> Pool { get; set; }
+    public IObjectPool<Reusable> Pool { get; set; }
 
     void IResuable.OnGet() { this.gameObject.SetActive(true); OnGet(); }
 

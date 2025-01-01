@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class ExplodeController : ReusableObject
+public class ExplodeController : Reusable
 {
     [SerializeField] DamageBase damage = default;
     Animator animator;
