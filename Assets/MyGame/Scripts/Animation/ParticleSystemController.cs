@@ -6,6 +6,20 @@ public class ParticleSystemController : ModelController
 {
     [SerializeField]private ParticleSystem m_particleSystem;
 
+    private Material _material;
+    public override Material Material
+    {
+        get
+        {
+            if (_material == null)
+            {
+                m_particleSystem.gameObject.GetComponent<Renderer>().material = _material;
+            }
+
+            return _material;
+        }
+    }
+
     public override float Speed
     {
         get => m_particleSystem.main.startSpeedMultiplier;

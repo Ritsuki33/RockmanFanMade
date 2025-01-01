@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class AnimController : ModelController
@@ -7,6 +8,21 @@ public class AnimController : ModelController
     [SerializeField] private Animator m_animator;
 
     float currentAnimSpeed = 0f;
+
+
+    private Material _material;
+    public override Material Material
+    {
+        get
+        {
+            if (_material == null)
+            {
+                m_animator.gameObject.GetComponent<Renderer>().material = _material;
+            }
+
+            return _material;
+        }
+    }
 
     public override float Speed
     {
