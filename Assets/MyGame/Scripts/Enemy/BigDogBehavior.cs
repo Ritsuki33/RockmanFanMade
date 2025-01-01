@@ -96,7 +96,7 @@ public class BigDogBehavior : RbStateMachine<BigDogBehavior>
                 int count = 0;
                 while (count < 7)
                 {
-                    var fire = ctr.FirePool.Pool.Get() as Projectile;
+                    var fire = ctr.FirePool.Pool.Get() as ProjectileReusable;
                     fire.transform.position = new Vector3(ctr._mouth.position.x, ctr._mouth.position.y, -1);
                     float time = 0;
                     fire.Init(3, null,
@@ -171,7 +171,7 @@ public class BigDogBehavior : RbStateMachine<BigDogBehavior>
         {
             protected override void Enter(BigDogBehavior ctr, TailFire parent, int preId, int subId)
             {
-                var bom = ctr.BomPool.Pool.Get() as Projectile;
+                var bom = ctr.BomPool.Pool.Get() as ProjectileReusable;
                 var explode = ctr.ExplodePool.Pool.Get();
                 bom.transform.position = new Vector3(ctr._tale.position.x, ctr._tale.position.y, -1);
                 explode.transform.position = new Vector3(ctr._tale.position.x, ctr._tale.position.y, -1);

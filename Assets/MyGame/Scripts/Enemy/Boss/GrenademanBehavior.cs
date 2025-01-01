@@ -450,7 +450,7 @@ public class GrenademanBehavior : ExRbStateMachine<GrenademanBehavior>
         {
             protected override void Enter(GrenademanBehavior ctr, Shoot parent, int preId, int subId)
             {
-                var bomb = EffectManager.Instance.CrashBombPool.Pool.Get().GetComponent<Projectile>();
+                var bomb = EffectManager.Instance.CrashBombPool.Pool.Get().GetComponent<ProjectileReusable>();
                 bomb.transform.position = new Vector3(ctr.buster.transform.position.x, ctr.buster.transform.position.y, -2);
                 Vector2 dir = (ctr.IsRight) ? Vector2.right : Vector2.left;
                 dir = dir.normalized;

@@ -169,7 +169,7 @@ public class LauncherBehavior : StateMachine<LauncherBehavior>
     void LaunchMame(bool isRight)
     {
         var rockBaster = RockBusterPool.Pool.Get();
-        var projectile = rockBaster.GetComponent<Projectile>();
+        var projectile = rockBaster.GetComponent<ProjectileReusable>();
         Vector2 direction = (isRight) ? Vector2.right : Vector2.left;
         float speed = 16;
         projectile.Init(
@@ -193,7 +193,7 @@ public class LauncherBehavior : StateMachine<LauncherBehavior>
     void LaunchMiddle(bool isRight)
     {
         var rockBaster = RockBusterMiddlePool.Pool.Get();
-        var projectile = rockBaster.GetComponent<Projectile>();
+        var projectile = rockBaster.GetComponent<ProjectileReusable>();
         Vector2 direction = (isRight) ? Vector2.right : Vector2.left;
         Vector2 localScale = projectile.transform.localScale;
         localScale.x = (isRight) ? 1 : -1;
@@ -214,7 +214,7 @@ public class LauncherBehavior : StateMachine<LauncherBehavior>
     {
         var rockBaster = RockBusterBigPool.Pool.Get();
 
-        var projectile = rockBaster.GetComponent<Projectile>();
+        var projectile = rockBaster.GetComponent<ProjectileReusable>();
         Vector2 direction = (isRight) ? Vector2.right : Vector2.left;
         Vector2 localScale = projectile.transform.localScale;
         localScale.x = (isRight) ? 1 : -1;

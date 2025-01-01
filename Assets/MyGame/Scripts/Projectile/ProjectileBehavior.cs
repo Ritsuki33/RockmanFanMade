@@ -5,14 +5,14 @@ using UnityEngine;
 
 public class ProjectileBehavior : RbStateMachine<ProjectileBehavior>
 {
-    [SerializeField] Projectile projectile;
+    [SerializeField] ProjectileReusable projectile;
 
     Action<Rigidbody2D> fixedUpdate;
     Action deleteCallback;
     private Rigidbody2D rb;
 
-    Action<Projectile, Collision2D> onCollision;
-    Action<Projectile, Collider2D> onTrigger;
+    Action<ProjectileReusable, Collision2D> onCollision;
+    Action<ProjectileReusable, Collider2D> onTrigger;
 
     
     private void Awake()

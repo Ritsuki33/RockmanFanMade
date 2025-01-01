@@ -61,7 +61,7 @@ public partial class MettoruBehavior : ExRbStateMachine<MettoruBehavior>
     }
 
 
-    IEnumerator DefenseRockBuster(Projectile projectile)
+    IEnumerator DefenseRockBuster(ProjectileReusable projectile)
     {
         Vector2 reflection = projectile.CurVelocity;
         float speed = projectile.CurSpeed;
@@ -99,7 +99,7 @@ public partial class MettoruBehavior : ExRbStateMachine<MettoruBehavior>
         Vector2 direction= IsRight ? Vector2.right : Vector2.left;
         float speed = 5;
         fire.transform.position = this.transform.position;
-        fire.GetComponent<Projectile>().Init(
+        fire.GetComponent<ProjectileReusable>().Init(
             1,
             null,
             (rb) =>
@@ -116,7 +116,7 @@ public partial class MettoruBehavior : ExRbStateMachine<MettoruBehavior>
         }
         else if (collision.baseDamageValue > 1)
         {
-            var rockBuster = collision.gameObject.GetComponent<Projectile>();
+            var rockBuster = collision.gameObject.GetComponent<ProjectileReusable>();
             rockBuster.Delete();
         }
     }

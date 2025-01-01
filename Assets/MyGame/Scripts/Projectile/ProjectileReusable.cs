@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-public class Projectile : Reusable
+public class ProjectileReusable : Reusable
 {
     [SerializeField] private BoxCollider2D boxTrigger;
     [SerializeField] private BoxCollider2D boxCollider;
@@ -9,7 +9,7 @@ public class Projectile : Reusable
     Action<Rigidbody2D> fixedUpdate;
     Action deleteCallback;
 
-    Action<Projectile> onCollision;
+    Action<ProjectileReusable> onCollision;
 
     int attackPower = 1;
 
@@ -18,7 +18,7 @@ public class Projectile : Reusable
     public float CurSpeed => rb.velocity.magnitude;
 
     public Action<Rigidbody2D> FixedUpdateCallback=> fixedUpdate;
-    public Action<Projectile> OnCollisionCallback => onCollision;
+    public Action<ProjectileReusable> OnCollisionCallback => onCollision;
 
     private void Awake()
     {
@@ -42,7 +42,7 @@ public class Projectile : Reusable
         this.fixedUpdate = fixedUpdate;
     }
 
-    public void Init(int attackPower, Action<Rigidbody2D> start, Action<Rigidbody2D> fixedUpdate, Action<Projectile> onCollisionEnter = null, Action deleteCallback = null)
+    public void Init(int attackPower, Action<Rigidbody2D> start, Action<Rigidbody2D> fixedUpdate, Action<ProjectileReusable> onCollisionEnter = null, Action deleteCallback = null)
     {
         Init(attackPower, start, fixedUpdate);
         this.deleteCallback = deleteCallback;

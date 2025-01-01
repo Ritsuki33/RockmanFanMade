@@ -260,13 +260,13 @@ public class GreenManBehavior : ExRbStateMachine<GreenManBehavior>
         }
     }
 
-    public void ReflectBuster(Projectile projectile)
+    public void ReflectBuster(ProjectileReusable projectile)
     {
         if (defense != null) StopCoroutine(defense);
         defense = StartCoroutine(DefenseRockBuster(projectile));
     }
 
-    IEnumerator DefenseRockBuster(Projectile projectile)
+    IEnumerator DefenseRockBuster(ProjectileReusable projectile)
     {
         Vector2 reflection = projectile.CurVelocity;
         float speed = projectile.CurSpeed;
@@ -291,12 +291,12 @@ public class GreenManBehavior : ExRbStateMachine<GreenManBehavior>
     {
         var buster = Buster.Pool.Get();
 
-        var projectile=buster.GetComponent<Projectile>();
+        var projectile=buster.GetComponent<ProjectileReusable>();
 
         Vector2 direction = IsRight ? Vector2.right : Vector2.left;
         float speed = 5;
         projectile.transform.position = launcher.transform.position;
-        projectile.GetComponent<Projectile>().Init(1,
+        projectile.GetComponent<ProjectileReusable>().Init(1,
             null,
             (rb) =>
             {

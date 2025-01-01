@@ -15,7 +15,7 @@ public class Block : MonoBehaviour
             var explode = ExplodePool.Pool.Get();
 
             explode.transform.position = this.transform.position;
-            var rockBuster = collision.gameObject.GetComponent<Projectile>();
+            var rockBuster = collision.gameObject.GetComponent<ProjectileReusable>();
             rockBuster?.Delete();
         }
     }

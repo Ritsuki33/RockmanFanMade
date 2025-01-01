@@ -31,7 +31,7 @@ public class RockBusterDamage : DamageBase
     protected override void AcceptOnRightHitExit(IHitVisitor visitor) => visitor.OnRightHitExit(this);
 
     // ここから定義
-    [SerializeField] public Projectile projectile;
+    [SerializeField] public ProjectileReusable projectile;
 
     public void DeleteBuster() => projectile.Delete();
 
