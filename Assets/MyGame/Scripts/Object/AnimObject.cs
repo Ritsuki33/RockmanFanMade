@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// アニメーションを持つオブジェクト
+/// </summary>
 public class AnimObject : BaseObject
 {
     [SerializeField] private ModelController m_model;

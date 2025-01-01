@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// オブジェクトインタプリター
+/// </summary>
 interface IObjectInterpreter
 {
     void OnFixedUpdate();
@@ -10,6 +13,10 @@ interface IObjectInterpreter
     void OnPause(bool isPause);
 }
 
+
+/// <summary>
+/// ベースオブジェクト
+/// </summary>
 public class BaseObject : MonoBehaviour, IObjectInterpreter
 {
     void IObjectInterpreter.OnFixedUpdate() => OnFixedUpdate();

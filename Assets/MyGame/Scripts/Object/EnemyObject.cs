@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class EnemyObject : StageObject
+public class EnemyObject : StageDirectionalObject
 {
     [SerializeField] EnemyData enemyData = default;
 

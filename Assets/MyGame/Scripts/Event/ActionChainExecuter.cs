@@ -137,7 +137,7 @@ public class ActionChainExecuter : MonoBehaviour
     [Serializable]
     class StageObjectTurn:BaseAction
     {
-        [SerializeField] StageObject obj;
+        [SerializeField] StageDirectionalObject obj;
         [SerializeField] bool isRight = true;
         public override void Execute(Action finishCallback)
         {

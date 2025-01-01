@@ -1,9 +1,9 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using static Unity.Burst.Intrinsics.X86.Avx;
+﻿using UnityEngine;
 
-public class StageObject : MonoBehaviour
+/// <summary>
+/// 向きを持つオブジェクト
+/// </summary>
+public class StageDirectionalObject : AnimObject
 {
     [SerializeField,Header("マテリアル制御")]  MaterialController materialController = default;
     [SerializeField,Header("正方向")] bool forwardIsRight = false;
@@ -30,7 +30,6 @@ public class StageObject : MonoBehaviour
         }
 
         transform.localScale = localScale;
-
     }
 
     /// <summary>
