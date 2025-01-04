@@ -7,6 +7,6 @@ public class Batman : EnemyObject
     public override void Init()
     {
         base.Init();
-        batmanController.Init();
+        //batmanController.Init();
     }
 }

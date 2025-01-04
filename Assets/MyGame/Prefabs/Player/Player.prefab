@@ -13,7 +13,6 @@ GameObject:
   - component: {fileID: 8702880162454419263}
   - component: {fileID: 8844416400681651829}
   - component: {fileID: 8193433818486469091}
-  - component: {fileID: 7713921221825195418}
   - component: {fileID: 5479312749157072935}
   - component: {fileID: 8800740584444139847}
   - component: {fileID: 8952024346000347886}
@@ -184,24 +183,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 057921abc419075458a2eba9abb02507, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_mainAnimator: {fileID: 8952024346000347886}
   materialController: {fileID: 8094217357087564609}
   forwardIsRight: 0
+  m_charge_animator: {fileID: 490895303943728102}
   maxHp: 27
---- !u!114 &7713921221825195418
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1557988498668573356}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5e9389d2952f07143863749bbd49ce0c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  player: {fileID: 8193433818486469091}
-  launcherController: {fileID: 5595084998609655866}
-  spriteRenderer: {fileID: 5492504918457634560}
+  spriteRenderer: {fileID: 0}
+  mameMax: 3
 --- !u!114 &5479312749157072935
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -431,7 +419,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a26867a08acdbbf4c84b66c27c84b377, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  controller: {fileID: 7713921221825195418}
+  player: {fileID: 0}
 --- !u!1 &6287628425935475164
 GameObject:
   m_ObjectHideFlags: 0
@@ -441,7 +429,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1196822323176108787}
-  - component: {fileID: 5595084998609655866}
   m_Layer: 7
   m_Name: Launcher
   m_TagString: Untagged
@@ -464,22 +451,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1659857589686973031}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5595084998609655866
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6287628425935475164}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1192d861629927e4ba8db6d2a8bb87db, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  player: {fileID: 8193433818486469091}
-  m_charge_animator: {fileID: 490895303943728102}
-  launcher: {fileID: 6287628425935475164}
-  mameMax: 3
 --- !u!1 &6361097746056196387
 GameObject:
   m_ObjectHideFlags: 0

@@ -8,7 +8,7 @@ public class BigDog : EnemyObject
 
     public override void Init()
     {
-        ctr.Init();
+        //ctr.Init();
         base.Init();
     }
 }

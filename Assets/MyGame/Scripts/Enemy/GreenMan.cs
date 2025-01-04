@@ -8,6 +8,6 @@ public class GreenMan : EnemyObject
     public override void Init()
     {
         base.Init();
-        greenManController.Init();
+        //greenManController.Init();
     }
 }

@@ -3,25 +3,48 @@
 public class WorldManager : SingletonComponent<WorldManager>
 {
     [SerializeField] TransferArea _playerTransferArea;
-    [SerializeField] StagePlayer player;
-    [SerializeField] PlayerBehavior playerController;
 
     [SerializeField] ActionChainExecuter startAction = default;
 
     [SerializeField] CheckPointData defaultCheckPoint;
-    public StagePlayer Player => player;
-    public PlayerBehavior PlayerController => playerController;
+
+    private StagePlayer _player;
+    public StagePlayer Player => _player;
 
     private CheckPointData currentCheckPointData;
     public CheckPointData CurrentCheckPointData => currentCheckPointData;
     public TransferArea PlayerTransferArea => _playerTransferArea;
 
+    UpdateList updateList = new UpdateList();
+
+    bool isPause = false;
     public void Init()
     {
         currentCheckPointData = defaultCheckPoint;
-        playerController.Init();
+        isPause = false;
     }
 
+    /// <summary>
+    /// 物理演算等の動きはここからでいいか？？
+    /// </summary>
+    private void FixedUpdate()
+    {
+        if (isPause) return;
+        updateList.OnFixedUpdate();
+    }
+
+    public void OnUpdate()
+    {
+        if (isPause) return;
+
+        updateList.OnUpdate();
+    }
+
+    public void OnPause(bool isPause)
+    {
+        this.isPause = isPause;
+        updateList.OnPause(isPause);
+    }
     /// <summary>
     /// チェックポイントの保存
     /// </summary>
@@ -45,5 +68,21 @@ public class WorldManager : SingletonComponent<WorldManager>
                );
 
         return appearPos;
+    }
+
+    /// <summary>
+    /// プレイヤーの登録
+    /// </summary>
+    /// <param name="player"></param>
+    public void AddPlayer(StagePlayer player)
+    {
+        _player = player;
+        AddObject(player);
+    }
+
+    public void AddObject(IObjectInterpreter obj)
+    {
+        obj.Init();
+        updateList.Add(obj);
     }
 }

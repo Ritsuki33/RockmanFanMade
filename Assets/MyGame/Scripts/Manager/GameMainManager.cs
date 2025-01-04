@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class GameMainManager : BaseManager<GameMainManager>
 {
+
     public struct InputInfo
     {
         public bool left, right, up, down, jump, jumping, fire, start;
@@ -20,21 +21,27 @@ public class GameMainManager : BaseManager<GameMainManager>
         }
     }
 
+    public enum UI
+    {
+        GameMain,
+    }
+
+
     [SerializeField] MainCameraControll m_mainCameraControll = default;
     [SerializeField] GameMainScreen m_gameMainScreen = default;
+    [SerializeField] WorldManager worldManager = default;
+
+    [SerializeField] StagePlayer player;
 
     private IInput InputController => InputManager.Instance;
     private CameraControllArea currentCameraControllArea;
     public MainCameraControll MainCameraControll => m_mainCameraControll;
 
-    private bool isPause = false;
-    public enum UI
-    {
-        GameMain,
-    }
+
     private ScreenContainer<UI> screenContainer = new ScreenContainer<UI>();
     public ScreenContainer<UI> ScreenContainer => screenContainer;
 
+    private bool isPause = false;
     protected override void Init()
     {
         StartCoroutine(Initialize());
@@ -43,6 +50,11 @@ public class GameMainManager : BaseManager<GameMainManager>
         {
             FadeInManager.Instance.FadeOutImmediate();
 
+            // ワールドの初期化
+            worldManager.Init();
+
+            // プレイヤーの登録
+            worldManager.AddPlayer(player);
 
             screenContainer.Add(UI.GameMain, m_gameMainScreen);
 
@@ -55,9 +67,15 @@ public class GameMainManager : BaseManager<GameMainManager>
 
     protected override void OnUpdate()
     {
+
         InputInfo inputInfo = default;
         inputInfo.SetInput(InputController);
-        WorldManager.Instance.PlayerController.UpdateInput(inputInfo);
+
+        if (!isPause)
+        {
+            worldManager.Player.UpdateInput(inputInfo);
+            worldManager.OnUpdate();
+        }
 
         if (inputInfo.start)
         {
@@ -73,8 +91,7 @@ public class GameMainManager : BaseManager<GameMainManager>
 
     public void StageStart()
     {
-        WorldManager.Instance.Init();
-        WorldManager.Instance.StartStage();
+        worldManager.StartStage();
     }
 
     public void DeathNotification()
@@ -97,5 +114,7 @@ public class GameMainManager : BaseManager<GameMainManager>
     {
         this.isPause = isPause;
         screenContainer.GetCurrentScreenPresenter<GameMainScreenPresenter>()?.OnOpenPauseUi(isPause);
+
+        worldManager?.OnPause(isPause);
     }
 }

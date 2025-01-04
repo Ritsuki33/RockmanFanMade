@@ -2,7 +2,7 @@
 using UnityEngine;
 
 
-public class ExpandRigidBody : MonoBehaviour, IBaseExRbHit.IExRbCallbackSet
+public class ExpandRigidBody : MonoBehaviour, IExRbCallbackSet
 {
     enum Priority
     {
@@ -646,58 +646,58 @@ public class ExpandRigidBody : MonoBehaviour, IBaseExRbHit.IExRbCallbackSet
     /// 上下左右ヒット時のコールバック登録
     /// </summary>
     /// <param name="hitEvent"></param>
-     void IBaseExRbHit.IExRbCallbackSet.AddOnHitEventCallback(IHitEvent hitEvent)
+    void IExRbCallbackSet.AddOnHitEventCallback(IHitEvent hitEvent)
     {
-        onHitEnter += hitEvent.HitEnter;
-        onHitBottomEnter += hitEvent.BottomHitEnter;
-        onHitTopEnter += hitEvent.TopHitEnter;
-        onHitLeftEnter += hitEvent.LeftHitEnter;
-        onHitRightEnter += hitEvent.RightHitEnter;
-        onHitStay += hitEvent.HitStay;
-        onHitBottomStay += hitEvent.BottomHitStay;
-        onHitTopStay += hitEvent.TopHitStay;
-        onHitLeftStay += hitEvent.LeftHitStay;
-        onHitRightStay += hitEvent.RightHitStay;
-        onHitExit += hitEvent.HitExit;
-        onHitBottomExit += hitEvent.BottomHitExit;
-        onHitTopExit += hitEvent.TopHitExit;
-        onHitRightExit += hitEvent.RightHitExit;
-        onHitLeftExit += hitEvent.LeftHitExit;
-        onHitBottomTopEnter += hitEvent.BottomToptHitEnter;
-        onHitLeftRightEnter += hitEvent.LeftRightHitEnter;
-        onHitBottomTopStay += hitEvent.BottomToptHitStay;
-        onHitLeftRightStay += hitEvent.LeftRightHitStay;
-        onHitBottomTopExit += hitEvent.BottomToptHitExit;
-        onHitLeftRightExit += hitEvent.LeftRightHitExit;
+        onHitEnter += hitEvent.OnHitEnter;
+        onHitBottomEnter += hitEvent.OnBottomHitEnter;
+        onHitTopEnter += hitEvent.OnTopHitEnter;
+        onHitLeftEnter += hitEvent.OnLeftHitEnter;
+        onHitRightEnter += hitEvent.OnRightHitEnter;
+        onHitStay += hitEvent.OnHitStay;
+        onHitBottomStay += hitEvent.OnBottomHitStay;
+        onHitTopStay += hitEvent.OnTopHitStay;
+        onHitLeftStay += hitEvent.OnLeftHitStay;
+        onHitRightStay += hitEvent.OnRightHitStay;
+        onHitExit += hitEvent.OnHitExit;
+        onHitBottomExit += hitEvent.OnBottomHitExit;
+        onHitTopExit += hitEvent.OnTopHitExit;
+        onHitRightExit += hitEvent.OnRightHitExit;
+        onHitLeftExit += hitEvent.OnLeftHitExit;
+        onHitBottomTopEnter += hitEvent.OnBottomTopHitEnter;
+        onHitLeftRightEnter += hitEvent.OnLeftRightHitEnter;
+        onHitBottomTopStay += hitEvent.OnBottomToptHitStay;
+        onHitLeftRightStay += hitEvent.OnLeftRightHitStay;
+        onHitBottomTopExit += hitEvent.OnBottomToptHitExit;
+        onHitLeftRightExit += hitEvent.OnLeftRightHitExit;
     }
 
     /// <summary>
     /// 上下左右ヒット時のコールバック削除
     /// </summary>
     /// <param name="hitEvent"></param>
-    void IBaseExRbHit.IExRbCallbackSet.RemoveOnHitEventCallback(IHitEvent hitEvent)
+    void IExRbCallbackSet.RemoveOnHitEventCallback(IHitEvent hitEvent)
     {
-        onHitEnter -= hitEvent.HitEnter;
-        onHitBottomEnter -= hitEvent.BottomHitEnter;
-        onHitTopEnter -= hitEvent.TopHitEnter;
-        onHitLeftEnter -= hitEvent.LeftHitEnter;
-        onHitRightEnter -= hitEvent.RightHitEnter;
-        onHitStay -= hitEvent.HitStay;
-        onHitBottomStay -= hitEvent.BottomHitStay;
-        onHitTopStay -= hitEvent.TopHitStay;
-        onHitLeftStay -= hitEvent.LeftHitStay;
-        onHitRightStay -= hitEvent.RightHitStay;
-        onHitExit -= hitEvent.HitExit;
-        onHitBottomExit -= hitEvent.BottomHitExit;
-        onHitTopExit -= hitEvent.TopHitExit;
-        onHitRightExit -= hitEvent.RightHitExit;
-        onHitLeftExit -= hitEvent.LeftHitExit;
-        onHitBottomTopEnter -= hitEvent.BottomToptHitEnter;
-        onHitLeftRightEnter -= hitEvent.LeftRightHitEnter;
-        onHitBottomTopStay -= hitEvent.BottomToptHitStay;
-        onHitLeftRightStay -= hitEvent.LeftRightHitStay;
-        onHitBottomTopExit -= hitEvent.BottomToptHitExit;
-        onHitLeftRightExit -= hitEvent.LeftRightHitExit;
+        onHitEnter -= hitEvent.OnHitEnter;
+        onHitBottomEnter -= hitEvent.OnBottomHitEnter;
+        onHitTopEnter -= hitEvent.OnTopHitEnter;
+        onHitLeftEnter -= hitEvent.OnLeftHitEnter;
+        onHitRightEnter -= hitEvent.OnRightHitEnter;
+        onHitStay -= hitEvent.OnHitStay;
+        onHitBottomStay -= hitEvent.OnBottomHitStay;
+        onHitTopStay -= hitEvent.OnTopHitStay;
+        onHitLeftStay -= hitEvent.OnLeftHitStay;
+        onHitRightStay -= hitEvent.OnRightHitStay;
+        onHitExit -= hitEvent.OnHitExit;
+        onHitBottomExit -= hitEvent.OnBottomHitExit;
+        onHitTopExit -= hitEvent.OnTopHitExit;
+        onHitRightExit -= hitEvent.OnRightHitExit;
+        onHitLeftExit -= hitEvent.OnLeftHitExit;
+        onHitBottomTopEnter -= hitEvent.OnBottomTopHitEnter;
+        onHitLeftRightEnter -= hitEvent.OnLeftRightHitEnter;
+        onHitBottomTopStay -= hitEvent.OnBottomToptHitStay;
+        onHitLeftRightStay -= hitEvent.OnLeftRightHitStay;
+        onHitBottomTopExit -= hitEvent.OnBottomToptHitExit;
+        onHitLeftRightExit -= hitEvent.OnLeftRightHitExit;
     }
 
     private void OnDrawGizmos()

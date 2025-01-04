@@ -22,7 +22,7 @@ public class GameMainScreen : BaseScreen<GameMainScreen, GameMainScreenPresenter
 
     protected override void Initialize(GameMainScreenViewModel viewModel)
     {
-        HpBar.SetParam(WorldManager.Instance.PlayerController.CurrentHp);
+        HpBar.SetParam(WorldManager.Instance.Player.CurrentHp);
     }
 
     protected override void Open()

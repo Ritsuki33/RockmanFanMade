@@ -28,6 +28,7 @@ public abstract class BaseManager<T> : SingletonComponent<T>, IManager where T :
     {
         Init();
     }
+
     void IManager.OnUpdate()
     {
         OnUpdate();
@@ -46,6 +47,7 @@ public abstract class BaseManager<T> : SingletonComponent<T>, IManager where T :
 
     protected abstract void Init();
 
+    protected virtual void OnFixedUpdate() { }
     protected abstract void OnUpdate();
 
     protected abstract void Terminate();

@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ProjectileBehavior : RbStateMachine<ProjectileBehavior>
+public class ProjectileBehavior : MonoBehaviour
 {
     [SerializeField] ProjectileReusable projectile;
 
@@ -15,33 +15,33 @@ public class ProjectileBehavior : RbStateMachine<ProjectileBehavior>
     Action<ProjectileReusable, Collider2D> onTrigger;
 
     
-    private void Awake()
-    {
-        rb = GetComponent<Rigidbody2D>();
-        AddState(0, new Fire());    
-        TransitReady(0);
-    }
+    //private void Awake()
+    //{
+    //    rb = GetComponent<Rigidbody2D>();
+    //    AddState(0, new Fire());    
+    //    TransitReady(0);
+    //}
 
-    class Fire : RbState<ProjectileBehavior, Fire>
-    {
-        protected override void FixedUpdate(ProjectileBehavior ctr)
-        {
-            ctr.projectile.FixedUpdateCallback.Invoke(ctr.rb);
+    //class Fire : RbState<ProjectileBehavior, Fire>
+    //{
+    //    protected override void FixedUpdate(ProjectileBehavior ctr)
+    //    {
+    //        ctr.projectile.FixedUpdateCallback.Invoke(ctr.rb);
 
-            if (GameMainManager.Instance.MainCameraControll.CheckOutOfView(ctr.gameObject))
-            {
-                ctr.projectile.Delete();
-            }
-        }
+    //        if (GameMainManager.Instance.MainCameraControll.CheckOutOfView(ctr.gameObject))
+    //        {
+    //            ctr.projectile.Delete();
+    //        }
+    //    }
 
-        protected override void OnCollisionEnter(ProjectileBehavior ctr, Collision2D collision)
-        {
-            ctr.projectile.OnCollisionCallback?.Invoke(ctr.projectile);
-        }
+    //    protected override void OnCollisionEnter(ProjectileBehavior ctr, Collision2D collision)
+    //    {
+    //        ctr.projectile.OnCollisionCallback?.Invoke(ctr.projectile);
+    //    }
 
-        protected override void OnTriggerEnter(ProjectileBehavior ctr, PlayerTrigger collision)
-        {
-            ctr.projectile.OnCollisionCallback?.Invoke(ctr.projectile);
-        }
-    }
+    //    protected override void OnTriggerEnter(ProjectileBehavior ctr, PlayerTrigger collision)
+    //    {
+    //        ctr.projectile.OnCollisionCallback?.Invoke(ctr.projectile);
+    //    }
+    //}
 }

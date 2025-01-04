@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class EnemyAppearController : StateMachine<EnemyAppearController>
+public class EnemyAppearController : MonoBehaviour
 {
     [SerializeField] EnemyObject enemy = default;
 
@@ -13,106 +13,107 @@ public class EnemyAppearController : StateMachine<EnemyAppearController>
         Appering,
         Disappearing
     }
-    private void Awake()
-    {
-        AddState((int)StateID.None, new None());
-        AddState((int)StateID.OutOfCamera, new OutOfCamera());
-        AddState((int)StateID.Appering, new Appering());
-        AddState((int)StateID.Disappearing, new Disappearing());
 
-        TransitReady((int)StateID.OutOfCamera, true);
-    }
+    //private void Awake()
+    //{
+    //    AddState((int)StateID.None, new None());
+    //    AddState((int)StateID.OutOfCamera, new OutOfCamera());
+    //    AddState((int)StateID.Appering, new Appering());
+    //    AddState((int)StateID.Disappearing, new Disappearing());
 
-    private void Start()
-    {
-        enemy.gameObject.SetActive(false);
-    }
+    //    TransitReady((int)StateID.OutOfCamera, true);
+    //}
 
-    private void OnEnable()
-    {
-        EventTriggerManager.Instance.VoidEventTriggers.Subscribe(EventType.ChangeCameraStart, Disabled);
-        EventTriggerManager.Instance.VoidEventTriggers.Subscribe(EventType.ChangeCameraEnd, Enabled);
-    }
+    //private void Start()
+    //{
+    //    enemy.gameObject.SetActive(false);
+    //}
 
-    private void OnDisable()
-    {
-        EventTriggerManager.Instance.VoidEventTriggers.Unsubscribe(EventType.ChangeCameraStart, Disabled);
-        EventTriggerManager.Instance.VoidEventTriggers.Unsubscribe(EventType.ChangeCameraEnd, Enabled);
-    }
+    //private void OnEnable()
+    //{
+    //    EventTriggerManager.Instance.VoidEventTriggers.Subscribe(EventType.ChangeCameraStart, Disabled);
+    //    EventTriggerManager.Instance.VoidEventTriggers.Subscribe(EventType.ChangeCameraEnd, Enabled);
+    //}
 
-    public void Enabled()
-    {
-        TransitReady((int)StateID.OutOfCamera);
-    }
+    //private void OnDisable()
+    //{
+    //    EventTriggerManager.Instance.VoidEventTriggers.Unsubscribe(EventType.ChangeCameraStart, Disabled);
+    //    EventTriggerManager.Instance.VoidEventTriggers.Unsubscribe(EventType.ChangeCameraEnd, Enabled);
+    //}
 
-    public void Disabled()
-    {
-        enemy.gameObject.SetActive(false);
-        TransitReady((int)StateID.None);
-    }
+    //public void Enabled()
+    //{
+    //    TransitReady((int)StateID.OutOfCamera);
+    //}
 
-    class None : State<EnemyAppearController, None>
-    {
-        protected override void Enter(EnemyAppearController enemyAppearController, int preId, int subId)
-        {
-            enemyAppearController.enemy.gameObject.SetActive(false);
-        }
-    }
+    //public void Disabled()
+    //{
+    //    enemy.gameObject.SetActive(false);
+    //    TransitReady((int)StateID.None);
+    //}
 
-    /// <summary>
-    /// カメラ外
-    /// </summary>
-    class OutOfCamera : State<EnemyAppearController, OutOfCamera>
-    {
-        protected override void Enter(EnemyAppearController enemyAppearController, int preId, int subId)
-        {
-            enemyAppearController.enemy.Init();
-            enemyAppearController.enemy.transform.position = enemyAppearController.transform.position;
-            enemyAppearController.enemy.gameObject.SetActive(false);
-        }
-        protected override void Update(EnemyAppearController enemyAppearController)
-        {
-            if (!GameMainManager.Instance.MainCameraControll.CheckOutOfView(enemyAppearController.gameObject))
-            {
-                enemyAppearController.TransitReady((int)StateID.Appering);
-            }
-        }
-    }
+    //class None : State<EnemyAppearController, None>
+    //{
+    //    protected override void Enter(EnemyAppearController enemyAppearController, int preId, int subId)
+    //    {
+    //        enemyAppearController.enemy.gameObject.SetActive(false);
+    //    }
+    //}
 
-    /// <summary>
-    /// 敵が見えている状態
-    /// </summary>
-    class Appering: State<EnemyAppearController, Appering>
-    {
-        protected override void Enter(EnemyAppearController enemyAppearController, int preId, int subId)
-        {
-            enemyAppearController.enemy.gameObject.SetActive(true);
-        }
+    ///// <summary>
+    ///// カメラ外
+    ///// </summary>
+    //class OutOfCamera : State<EnemyAppearController, OutOfCamera>
+    //{
+    //    protected override void Enter(EnemyAppearController enemyAppearController, int preId, int subId)
+    //    {
+    //        enemyAppearController.enemy.Init();
+    //        enemyAppearController.enemy.transform.position = enemyAppearController.transform.position;
+    //        enemyAppearController.enemy.gameObject.SetActive(false);
+    //    }
+    //    protected override void Update(EnemyAppearController enemyAppearController)
+    //    {
+    //        if (!GameMainManager.Instance.MainCameraControll.CheckOutOfView(enemyAppearController.gameObject))
+    //        {
+    //            enemyAppearController.TransitReady((int)StateID.Appering);
+    //        }
+    //    }
+    //}
 
-        protected override void Update(EnemyAppearController enemyAppearController)
-        {
-            if (enemyAppearController.IsDeath|| GameMainManager.Instance.MainCameraControll.CheckOutOfView(enemyAppearController.enemy.gameObject))
-            {
-                enemyAppearController.TransitReady((int)StateID.Disappearing);
-            }
-        }
-    }
+    ///// <summary>
+    ///// 敵が見えている状態
+    ///// </summary>
+    //class Appering: State<EnemyAppearController, Appering>
+    //{
+    //    protected override void Enter(EnemyAppearController enemyAppearController, int preId, int subId)
+    //    {
+    //        enemyAppearController.enemy.gameObject.SetActive(true);
+    //    }
 
-    /// <summary>
-    /// 消えている状態
-    /// </summary>
-    class Disappearing : State<EnemyAppearController, Disappearing>
-    {
-        protected override void Enter(EnemyAppearController enemyAppearController, int preId, int subId)
-        {
-            enemyAppearController.enemy.gameObject.SetActive(false);
-        }
-        protected override void Update(EnemyAppearController enemyAppearController)
-        {
-            if (GameMainManager.Instance.MainCameraControll.CheckOutOfView(enemyAppearController.gameObject))
-            {
-                enemyAppearController.TransitReady((int)StateID.OutOfCamera);
-            }
-        }
-    }
+    //    protected override void Update(EnemyAppearController enemyAppearController)
+    //    {
+    //        if (enemyAppearController.IsDeath|| GameMainManager.Instance.MainCameraControll.CheckOutOfView(enemyAppearController.enemy.gameObject))
+    //        {
+    //            enemyAppearController.TransitReady((int)StateID.Disappearing);
+    //        }
+    //    }
+    //}
+
+    ///// <summary>
+    ///// 消えている状態
+    ///// </summary>
+    //class Disappearing : State<EnemyAppearController, Disappearing>
+    //{
+    //    protected override void Enter(EnemyAppearController enemyAppearController, int preId, int subId)
+    //    {
+    //        enemyAppearController.enemy.gameObject.SetActive(false);
+    //    }
+    //    protected override void Update(EnemyAppearController enemyAppearController)
+    //    {
+    //        if (GameMainManager.Instance.MainCameraControll.CheckOutOfView(enemyAppearController.gameObject))
+    //        {
+    //            enemyAppearController.TransitReady((int)StateID.OutOfCamera);
+    //        }
+    //    }
+    //}
 }

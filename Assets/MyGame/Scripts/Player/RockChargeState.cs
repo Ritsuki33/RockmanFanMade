@@ -3,14 +3,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LauncherBehavior : StateMachine<LauncherBehavior>
+public partial class StagePlayer
 {
-    [SerializeField] StagePlayer player;
+    [Header("チャージ")]
     [SerializeField] Animator m_charge_animator;
-
-    [SerializeField] GameObject launcher;
-
-    [SerializeField] int mameMax = 3;
 
     BaseObjectPool RockBusterPool => EffectManager.Instance.RockBusterPool;
     BaseObjectPool RockBusterMiddlePool => EffectManager.Instance.RockBusterMiddlePool;
@@ -24,7 +20,10 @@ public class LauncherBehavior : StateMachine<LauncherBehavior>
 
     // 豆バスターの数
     int curMameNum = 0;
-    enum StateID
+
+    float chargeAnimSpeed;
+
+    enum Chage_StateID
     {
         None,
         ChargeSmall,
@@ -32,45 +31,30 @@ public class LauncherBehavior : StateMachine<LauncherBehavior>
         ChargeBig
     }
 
-    private void Awake()
+    class None : State<StagePlayer, None>
     {
-        stateMachine.AddState((int)StateID.None, new None());
-        stateMachine.AddState((int)StateID.ChargeSmall, new ChargeSmall());
-        stateMachine.AddState((int)StateID.ChargeMiddle, new ChargeMiddle());
-        stateMachine.AddState((int)StateID.ChargeBig, new ChargeBig());
-    }
-
-    public void Init()
-    {
-        m_charge_animator.gameObject.SetActive(false);
-        isLaunchTrigger = false;
-        stateMachine.TransitReady((int)StateID.None);
-    }
-
-    class None : State<LauncherBehavior, None>
-    {
-        protected override void Enter(LauncherBehavior launcher, int preId, int subId)
+        protected override void Enter(StagePlayer player, int preId, int subId)
         {
-            launcher.StopRimLight();
-            launcher.m_charge_animator.gameObject.SetActive(false);
+            player.StopRimLight();
+            player.m_charge_animator.gameObject.SetActive(false);
         }
     }
 
-    class ChargeSmall : State<LauncherBehavior, ChargeSmall>
+    class ChargeSmall : State<StagePlayer, ChargeSmall>
     {
         float chargeStartTime = 1.0f;
-        protected override void Enter(LauncherBehavior launcher, int preId, int subId)
+        protected override void Enter(StagePlayer player, int preId, int subId)
         {
             chargeStartTime = 1.0f;
         }
 
-        protected override void Update(LauncherBehavior launcher)
+        protected override void Update(StagePlayer player)
         {
-            if (launcher.isLaunchTrigger)
+            if (player.isLaunchTrigger)
             {
                 if (chargeStartTime < 0)
                 {
-                    launcher.TransitReady((int)StateID.ChargeMiddle);
+                    player.m_chargeStateMachine.TransitReady((int)Chage_StateID.ChargeMiddle);
                 }
 
                 chargeStartTime -= Time.deltaTime;
@@ -78,88 +62,103 @@ public class LauncherBehavior : StateMachine<LauncherBehavior>
         }
     }
 
-    class ChargeMiddle : State<LauncherBehavior, ChargeMiddle>
+    class ChargeMiddle : State<StagePlayer, ChargeMiddle>
     {
         int animationHash = 0;
         float chargeStartTime = 1.0f;
+
         public ChargeMiddle() { animationHash = Animator.StringToHash("ChargingBlue"); }
 
-        protected override void Enter(LauncherBehavior launcher, int preId, int subId)
+        protected override void Enter(StagePlayer player, int preId, int subId)
         {
-            launcher.m_charge_animator.gameObject.SetActive(true);
-            launcher.m_charge_animator.Play(animationHash);
-            launcher.LimLightChaging();
+            player.m_charge_animator.gameObject.SetActive(true);
+            player.m_charge_animator.Play(animationHash);
+            player.LimLightChaging();
             chargeStartTime = 1.0f;
         }
 
-        protected override void Update(LauncherBehavior launcher)
+        protected override void Update(StagePlayer player)
         {
-            if (launcher.isLaunchTrigger)
+            if (player.isLaunchTrigger)
             {
                 if (chargeStartTime < 0)
                 {
-                    launcher.TransitReady((int)StateID.ChargeBig);
+                    player.m_chargeStateMachine.TransitReady((int)Chage_StateID.ChargeBig);
                 }
 
                 chargeStartTime -= Time.deltaTime;
             }
-            
+
         }
     }
 
-    class ChargeBig : State<LauncherBehavior, ChargeBig>
+    class ChargeBig : State<StagePlayer, ChargeBig>
     {
         int animationHash = 0;
         public ChargeBig() { animationHash = Animator.StringToHash("ChargingYellow"); }
 
-        protected override void Enter(LauncherBehavior launcher, int preId, int subId)
+        protected override void Enter(StagePlayer player, int preId, int subId)
         {
-            launcher.m_charge_animator.gameObject.SetActive(true);
-            launcher.m_charge_animator.Play(animationHash);
+            player.m_charge_animator.gameObject.SetActive(true);
+            player.m_charge_animator.Play(animationHash);
         }
 
-        protected override void Update(LauncherBehavior launcher)
+        protected override void Update(StagePlayer player)
         {
-            if (!launcher.isLaunchTrigger)
+            if (!player.isLaunchTrigger)
             {
-                launcher.TransitReady((int)StateID.None);
+                player.m_chargeStateMachine.TransitReady((int)Chage_StateID.None);
             }
         }
+    }
+
+    void ChargeInit()
+    {
+        // チャージの状態セット
+        m_chargeStateMachine.AddState((int)Chage_StateID.None, new None());
+        m_chargeStateMachine.AddState((int)Chage_StateID.ChargeSmall, new ChargeSmall());
+        m_chargeStateMachine.AddState((int)Chage_StateID.ChargeMiddle, new ChargeMiddle());
+        m_chargeStateMachine.AddState((int)Chage_StateID.ChargeBig, new ChargeBig());
+
+        chargeAnimSpeed = m_charge_animator.speed;
+        m_charge_animator.gameObject.SetActive(false);
+        isLaunchTrigger = false;
+        m_chargeStateMachine.TransitReady((int)Chage_StateID.None);
     }
 
     public void LaunchTrigger(bool trigger, Action callbackAfterLaunch)
     {
         this.isLaunchTrigger = trigger;
 
-        switch ((StateID)stateMachine.CurId)
+        switch ((Chage_StateID)m_chargeStateMachine.CurId)
         {
-            case StateID.None:
+            case Chage_StateID.None:
                 if (this.isLaunchTrigger && curMameNum < mameMax)
                 {
-                    LaunchMame(player.IsRight);
-                    TransitReady((int)StateID.ChargeSmall);
+                    LaunchMame(IsRight);
+                    m_chargeStateMachine.TransitReady((int)Chage_StateID.ChargeSmall);
                     callbackAfterLaunch.Invoke();
                 }
                 break;
-            case StateID.ChargeSmall:
+            case Chage_StateID.ChargeSmall:
                 if (!this.isLaunchTrigger)
                 {
-                    TransitReady((int)StateID.None);
+                    m_chargeStateMachine.TransitReady((int)Chage_StateID.None);
                 }
                 break;
-            case StateID.ChargeMiddle:
+            case Chage_StateID.ChargeMiddle:
                 if (!this.isLaunchTrigger)
                 {
-                    LaunchMiddle(player.IsRight);
-                    TransitReady((int)StateID.None);
+                    LaunchMiddle(IsRight);
+                    m_chargeStateMachine.TransitReady((int)Chage_StateID.None);
                     callbackAfterLaunch.Invoke();
                 }
                 break;
-            case StateID.ChargeBig:
+            case Chage_StateID.ChargeBig:
                 if (!this.isLaunchTrigger)
                 {
-                    LaunchBig(player.IsRight);
-                    TransitReady((int)StateID.None);
+                    LaunchBig(IsRight);
+                    m_chargeStateMachine.TransitReady((int)Chage_StateID.None);
                     callbackAfterLaunch.Invoke();
                 }
                 break;
@@ -185,7 +184,7 @@ public class LauncherBehavior : StateMachine<LauncherBehavior>
                 if (curMameNum > 0) curMameNum--;
             }
             );
-        projectile.transform.position = new Vector3(launcher.transform.position.x, launcher.transform.position.y, -2);
+        projectile.transform.position = new Vector3(transform.position.x, transform.position.y, -2);
 
         curMameNum++;
     }
@@ -207,7 +206,7 @@ public class LauncherBehavior : StateMachine<LauncherBehavior>
             {
                 rb.velocity = direction * speed;
             });
-        projectile.transform.position = new Vector3(launcher.transform.position.x, launcher.transform.position.y, -2);
+        projectile.transform.position = new Vector3(transform.position.x, transform.position.y, -2);
     }
 
     void LaunchBig(bool isRight)
@@ -228,19 +227,19 @@ public class LauncherBehavior : StateMachine<LauncherBehavior>
             {
                 rb.velocity = direction * speed;
             });
-        projectile.transform.position = new Vector3(launcher.transform.position.x, launcher.transform.position.y, -2);
+        projectile.transform.position = new Vector3(transform.position.x, transform.position.y, -2);
     }
 
     public void StopRimLight()
     {
         if (chargingCo != null) StopCoroutine(chargingCo);
-        player.SetMaterialParam(FadeLightId, 0);
+        SetMaterialParam(FadeLightId, 0);
         chargingCo = null;
     }
 
     public void LimLightChaging()
     {
-        if(chargingCo!=null) StopCoroutine(chargingCo);
+        if (chargingCo != null) StopCoroutine(chargingCo);
 
         chargingCo = StartCoroutine(ChagingMiddleCo());
         IEnumerator ChagingMiddleCo()
@@ -248,15 +247,15 @@ public class LauncherBehavior : StateMachine<LauncherBehavior>
             if (ColorUtility.TryParseHtmlString("#81C3FF", out Color color))
             {
 
-                player.SetMaterialParam(rimLightColorId, color);
+                SetMaterialParam(rimLightColorId, color);
 
                 while (true)
                 {
-                    player.SetMaterialParam(FadeLightId, 1);
+                    SetMaterialParam(FadeLightId, 1);
 
                     yield return new WaitForSeconds(0.05f);
 
-                    player.SetMaterialParam(FadeLightId, 0);
+                    SetMaterialParam(FadeLightId, 0);
 
                     yield return new WaitForSeconds(0.05f);
                 }

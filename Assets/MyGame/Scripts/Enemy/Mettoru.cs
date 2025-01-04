@@ -10,6 +10,6 @@ public class Mettoru : EnemyObject
     public override void Init()
     {
         base.Init();
-        mettoruController.Init();
+        //mettoruController.Init();
     }
 }

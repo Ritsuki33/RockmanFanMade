@@ -8,6 +8,6 @@ public class RoadRoller : EnemyObject
     public override void Init()
     {
         base.Init();
-        controller.Init();
+        //controller.Init();
     }
 }

@@ -184,8 +184,8 @@ public class ActionChainExecuter : MonoBehaviour
         public override void Execute(Action finishCallback)
         {
             Vector2 appearPos = WorldManager.Instance.GetPlayerTransferPostion();
-            WorldManager.Instance.PlayerController.transform.position_xy(appearPos);
-            WorldManager.Instance.PlayerController.TransferPlayer(finishCallback);
+            WorldManager.Instance.Player.transform.position_xy(appearPos);
+            WorldManager.Instance.Player.TransferPlayer(finishCallback);
         }
     }
 
@@ -196,7 +196,7 @@ public class ActionChainExecuter : MonoBehaviour
 
         override public void Execute(Action finishCallback)
         {
-            WorldManager.Instance.PlayerController.AutoMoveTowards(_bamili, finishCallback);
+            WorldManager.Instance.Player.AutoMoveTowards(_bamili, finishCallback);
         }
     }
 
@@ -212,7 +212,7 @@ public class ActionChainExecuter : MonoBehaviour
                GameMainManager.Instance.MainCameraControll.OutOfViewTop
                );
             ctr.transform.position_xy(appearPos);
-            ctr.Appeare(finishCallback);
+            //ctr.Appeare(finishCallback);
         }
     }
 
@@ -234,7 +234,7 @@ public class ActionChainExecuter : MonoBehaviour
         [SerializeField] GrenademanBehavior ctr;
         override public void Execute(Action finishCallback)
         {
-            ctr.ToBattleState();
+            //ctr.ToBattleState();
             finishCallback.Invoke();
         }
     }
@@ -272,7 +272,7 @@ public class ActionChainExecuter : MonoBehaviour
     {
         override public void Execute(Action finishCallback)
         {
-            WorldManager.Instance.PlayerController.InputProhibit(finishCallback);
+            WorldManager.Instance.Player.InputProhibit(finishCallback);
         }
     }
 
@@ -281,7 +281,7 @@ public class ActionChainExecuter : MonoBehaviour
     {
         override public void Execute(Action finishCallback)
         {
-            WorldManager.Instance.PlayerController.InputPermission();
+            WorldManager.Instance.Player.InputPermission();
             finishCallback.Invoke();
         }
     }
@@ -291,7 +291,7 @@ public class ActionChainExecuter : MonoBehaviour
     {
         public override void Execute(Action finishCallback)
         {
-            WorldManager.Instance.PlayerController.RepatriatePlayer(finishCallback);
+            WorldManager.Instance.Player.RepatriatePlayer(finishCallback);
         }
     }
 
@@ -314,7 +314,7 @@ public class ActionChainExecuter : MonoBehaviour
     {
         public override void Execute(Action finishCallback)
         {
-            WorldManager.Instance.PlayerController.PlayerForceMoveAccordingToCamera(finishCallback);
+            WorldManager.Instance.Player.PlayerForceMoveAccordingToCamera(finishCallback);
         }
     }
 
@@ -323,7 +323,7 @@ public class ActionChainExecuter : MonoBehaviour
     {
         public override void Execute(Action finishCallback)
         {
-            WorldManager.Instance.PlayerController.PlayerForceMoveAccordingToCameraEnd(finishCallback);
+            WorldManager.Instance.Player.PlayerForceMoveAccordingToCameraEnd(finishCallback);
         }
     }
 
@@ -371,7 +371,7 @@ public class ActionChainExecuter : MonoBehaviour
         [SerializeField, Range(0, 27)] int val;
         public override void Execute(Action finishCallback)
         {
-            WorldManager.Instance.PlayerController.SetHp(val);
+            WorldManager.Instance.Player.SetHp(val);
             finishCallback();
         }
     }

@@ -1,15 +1,44 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 /// <summary>
 /// アニメーションを持つオブジェクト
 /// </summary>
 public class AnimObject : BaseObject
 {
-    [SerializeField] private ModelController m_model;
+    [SerializeField] private Animator m_mainAnimator;
+    public Animator MainAnimator => m_mainAnimator;
 
-    public ModelController ModelController => m_model;
+    float currentAnimSpeed = 0f;
+    private Material _material;
 
-    protected override void OnPause(bool isPause) => m_model.OnPause(isPause);
+    public Material Material
+    {
+        get
+        {
+            if (_material == null)
+            {
+                m_mainAnimator.gameObject.GetComponent<Renderer>().material = _material;
+            }
+
+            return _material;
+        }
+    }
+
+    protected override void Init()
+    {
+        currentAnimSpeed = m_mainAnimator.speed;
+    }
+
+    protected override void OnPause(bool isPause)
+    {
+        if (isPause)
+        {
+            currentAnimSpeed = m_mainAnimator.speed;
+            m_mainAnimator.speed = 0.0f;
+        }
+        else
+        {
+            m_mainAnimator.speed = currentAnimSpeed;
+        }
+    }
 }

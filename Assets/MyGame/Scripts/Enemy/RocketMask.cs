@@ -9,6 +9,6 @@ public class RocketMask : EnemyObject
     public override void Init()
     {
         base.Init();
-        rocketMaskComtroller.Init();
+        //rocketMaskComtroller.Init();
     }
 }
