@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Pool;
 
@@ -12,7 +10,8 @@ public class BaseObjectPool : MonoBehaviour
     public ObjectPool<Reusable> Pool { get; private set; }
 
     private List<Reusable> _cacheObjects = new List<Reusable>();
-    private void Awake()
+
+    public void Init()
     {
         // オブジェクトプールを作成します
         Pool = new ObjectPool<Reusable>
@@ -25,21 +24,8 @@ public class BaseObjectPool : MonoBehaviour
             defaultCapacity: defaultCapacity,
             maxSize: maxSize
         );
-    }
 
-    private void OnEnable()
-    {
-        EventTriggerManager.Instance?.VoidEventTriggers.Subscribe(EventType.StartStage, Init);
-    }
-
-    private void OnDisable()
-    {
-        EventTriggerManager.Instance?.VoidEventTriggers.Unsubscribe(EventType.StartStage, Init);
-    }
-
-    public void Init()
-    {
-        foreach(var obj in _cacheObjects)
+        foreach (var obj in _cacheObjects)
         {
             if (obj.gameObject.activeSelf) // アクティブ状態のオブジェクトをチェック
             {

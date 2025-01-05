@@ -30,4 +30,20 @@ public class EffectManager : SingletonComponent<EffectManager>
     public BaseObjectPool PlacedBombPool => placedBombPool;
     public BaseObjectPool CrashBombPool => crashBombPool;
     public BaseObjectPool LaserPool => laserPool;
+
+    public void Init()
+    {
+        explodePool.Init();
+        explode2Pool.Init();
+        rockBusterPool.Init();
+        rockBusterMiddlePool.Init();
+        rockBusterBigPool.Init();
+        mettoruFirePool.Init();
+        bomPool.Init();
+        firePool.Init();
+        deathEffectPool.Init();
+        placedBombPool.Init();
+        crashBombPool.Init();
+        laserPool.Init();
+    }
 }
