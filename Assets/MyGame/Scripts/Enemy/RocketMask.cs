@@ -6,7 +6,7 @@ public class RocketMask : EnemyObject
 {
     [SerializeField] RoketMaskBehavior rocketMaskComtroller = default;
 
-    public override void Init()
+    protected override void Init()
     {
         base.Init();
         //rocketMaskComtroller.Init();

@@ -5,7 +5,7 @@ using UnityEngine;
 public class GreenMan : EnemyObject
 {
     [SerializeField] GreenManBehavior greenManController;
-    public override void Init()
+    protected override void Init()
     {
         base.Init();
         //greenManController.Init();

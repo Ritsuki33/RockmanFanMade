@@ -9,19 +9,24 @@ public class AnimObject : BaseObject
     public Animator MainAnimator => m_mainAnimator;
 
     float currentAnimSpeed = 0f;
-    private Material _material;
+    private Material _mainMaterial;
 
-    public Material Material
+    public Material MainMaterial
     {
         get
         {
-            if (_material == null)
+            if (_mainMaterial == null)
             {
-                m_mainAnimator.gameObject.GetComponent<Renderer>().material = _material;
+                _mainMaterial = m_mainAnimator.gameObject.GetComponent<Renderer>().material;
             }
 
-            return _material;
+            return _mainMaterial;
         }
+    }
+
+    protected virtual void Awake()
+    {
+        _mainMaterial = m_mainAnimator.gameObject.GetComponent<Renderer>().material;
     }
 
     protected override void Init()

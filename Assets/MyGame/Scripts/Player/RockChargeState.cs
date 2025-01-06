@@ -192,7 +192,7 @@ public partial class StagePlayer
     public void StopRimLight()
     {
         if (chargingCo != null) StopCoroutine(chargingCo);
-        SetMaterialParam(FadeLightId, 0);
+        MainMaterial.SetFloat(FadeLightId, 0);
         chargingCo = null;
     }
 
@@ -205,16 +205,14 @@ public partial class StagePlayer
         {
             if (ColorUtility.TryParseHtmlString("#81C3FF", out Color color))
             {
-
-                SetMaterialParam(rimLightColorId, color);
-
+                MainMaterial.SetColor(rimLightColorId, color);
                 while (true)
                 {
-                    SetMaterialParam(FadeLightId, 1);
+                    MainMaterial.SetFloat(FadeLightId, 1);
 
                     yield return new WaitForSeconds(0.05f);
 
-                    SetMaterialParam(FadeLightId, 0);
+                    MainMaterial.SetFloat(FadeLightId, 0);
 
                     yield return new WaitForSeconds(0.05f);
                 }

@@ -7,7 +7,7 @@ public class Mettoru : EnemyObject
     /// <summary>
     /// 初期化
     /// </summary>
-    public override void Init()
+    protected override void Init()
     {
         base.Init();
         //mettoruController.Init();

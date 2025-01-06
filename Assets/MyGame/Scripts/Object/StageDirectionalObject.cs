@@ -5,7 +5,6 @@
 /// </summary>
 public class StageDirectionalObject : AnimObject
 {
-    [SerializeField,Header("マテリアル制御")]  MaterialController materialController = default;
     [SerializeField,Header("正方向")] bool forwardIsRight = false;
 
     public bool IsRight => (forwardIsRight) ? this.transform.localScale.x > 0 : this.transform.localScale.x < 0;
@@ -61,18 +60,4 @@ public class StageDirectionalObject : AnimObject
         localScale.x *= -1;
         transform.localScale = localScale;
     }
-
-    /// <summary>
-    /// floatのセット
-    /// </summary>
-    /// <param name="propertyID"></param>
-    /// <param name="val"></param>
-    public void SetMaterialParam(int propertyID, float val) => materialController.SetFloat(propertyID, val);
-
-    /// <summary>
-    /// カラーのセット
-    /// </summary>
-    /// <param name="propertyID"></param>
-    /// <param name="color"></param>
-    public void SetMaterialParam(int propertyID, Color color) => materialController.SetColor(propertyID, color);
 }

@@ -18,7 +18,7 @@ public class BossController : MonoBehaviour
 
     public void Init()
     {
-        boss.Init();
+        //boss.Init();
         boss.gameObject.SetActive(false);
     }
 }

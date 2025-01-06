@@ -5,7 +5,7 @@ using UnityEngine;
 public class RoadRoller : EnemyObject
 {
     [SerializeField] RoadRollerBehavior controller;
-    public override void Init()
+    protected override void Init()
     {
         base.Init();
         //controller.Init();

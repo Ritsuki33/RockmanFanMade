@@ -7,10 +7,16 @@ using UnityEngine.WSA;
 
 public partial class StagePlayer : StageDirectionalObject
 {
+    [Header("拡張RigidBody")]
+    [SerializeField] ExpandRigidBody exRb;
     [Header("プレイヤー情報")]
     [SerializeField] int maxHp = 27;
     [SerializeField] SpriteRenderer spriteRenderer;
     [SerializeField] int mameMax = 3;
+    [SerializeField] Gravity gravity;
+    [SerializeField] Move move ;
+    [SerializeField] OnTheGround onTheGround;
+    [SerializeField] Jump jump;
 
     ExRbStateMachine<StagePlayer> m_mainStateMachine = new ExRbStateMachine<StagePlayer>();
     StateMachine<StagePlayer> m_chargeStateMachine = new StateMachine<StagePlayer>();
@@ -22,11 +28,7 @@ public partial class StagePlayer : StageDirectionalObject
 
     public Action<float> hpChangeTrigger;
 
-    Gravity gravity;
-    Move move;
-    OnTheGround onTheGround;
     Animator animator;
-    Jump jump;
 
     Collider2D bodyLadder = null;
 
@@ -34,8 +36,6 @@ public partial class StagePlayer : StageDirectionalObject
     bool isladderTop = false;
 
     GameMainManager.InputInfo inputInfo;
-
-    private ExpandRigidBody exRb;
 
     Transform bamili = null;
 
@@ -45,10 +45,10 @@ public partial class StagePlayer : StageDirectionalObject
 
     bool invincible = false;
 
-    ExRbHit exRbHit=new ExRbHit();
+    ExRbHit exRbHit = new ExRbHit();
     RbCollide rbCollide = new RbCollide();
 
-    
+
     enum Main_StateID
     {
         Standing = 0,
@@ -69,13 +69,7 @@ public partial class StagePlayer : StageDirectionalObject
     protected override void Init()
     {
         base.Init();
-
-        exRb = GetComponent<ExpandRigidBody>();
-        gravity = GetComponent<Gravity>();
-        move = GetComponent<Move>();
-        onTheGround = GetComponent<OnTheGround>();
         animator = GetComponent<Animator>();
-        jump = GetComponent<Jump>();
         boxPhysicalCollider = GetComponent<BoxCollider2D>();
 
         invincible = false;
@@ -301,7 +295,7 @@ public partial class StagePlayer : StageDirectionalObject
 
     void OnBottomTopHitEnter(RaycastHit2D bottom, RaycastHit2D top)
     {
-        m_mainStateMachine.OnBottomTopHitEnter(this, bottom,top);
+        m_mainStateMachine.OnBottomTopHitEnter(this, bottom, top);
     }
 
     void OnLeftRightHitEnter(RaycastHit2D bottom, RaycastHit2D top)
@@ -309,7 +303,13 @@ public partial class StagePlayer : StageDirectionalObject
         m_mainStateMachine.OnLeftRightHitEnter(this, bottom, top);
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)=> rbCollide.OnTriggerEnter(collision);
-    private void OnTriggerStay2D(Collider2D collision)=> rbCollide.OnTriggerEnter(collision);
+    private void OnTriggerEnter2D(Collider2D collision) => rbCollide.OnTriggerEnter(collision);
+    private void OnTriggerStay2D(Collider2D collision) => rbCollide.OnTriggerEnter(collision);
     private void OnTriggerExit2D(Collider2D collision) => rbCollide.OnTriggerExit(collision);
+
+
+    private void OnDrawGizmos()
+    {
+        onTheGround.OnDrawGizmos(transform.position, exRb.PhysicalBoxSize.x);
+    }
 }

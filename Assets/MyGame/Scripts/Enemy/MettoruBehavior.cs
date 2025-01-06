@@ -18,7 +18,7 @@ public partial class MettoruBehavior : MonoBehaviour
     [SerializeField] bool walk = false;
 
     [SerializeField] Transform jumpTarget;
-    [SerializeField] MaterialController materialController;
+    //[SerializeField] MaterialController materialController;
     private ExpandRigidBody exRb;
 
     enum StateID

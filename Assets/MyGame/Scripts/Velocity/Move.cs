@@ -1,10 +1,9 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System;
 using UnityEngine;
 
-public class Move : MonoBehaviour
-{
-    [SerializeField] float speed = 5.0f;
+[Serializable]
+public class Move{
+    [SerializeField] float _speed = 5.0f;
 
     Vector2 velocity;
 
@@ -24,7 +23,7 @@ public class Move : MonoBehaviour
     public bool Hit => leftHit || rightHit;
     public Vector2 CurrentVelocity => velocity;
 
-    public void UpdateVelocity(Vector2 dir, InputType input)
+    public void OnUpdate(Vector2 dir, InputType input)
     {
         dir = (((dir.x > 0) ? 1 : -1) * dir);
 
@@ -34,10 +33,10 @@ public class Move : MonoBehaviour
                 velocity = Vector2.zero;
                 break;
             case InputType.Left:
-                    velocity = dir * -speed;
+                    velocity = dir * -_speed;
                 break;
             case InputType.Right:
-                    velocity = dir * speed;
+                    velocity = dir * _speed;
                 break;
             default:
                 break;

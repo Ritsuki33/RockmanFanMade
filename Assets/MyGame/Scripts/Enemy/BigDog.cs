@@ -6,7 +6,7 @@ public class BigDog : EnemyObject
 {
     [SerializeField] BigDogBehavior ctr;
 
-    public override void Init()
+    protected override void Init()
     {
         //ctr.Init();
         base.Init();

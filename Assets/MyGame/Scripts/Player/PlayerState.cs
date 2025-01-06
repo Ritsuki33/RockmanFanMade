@@ -26,10 +26,10 @@ public partial class StagePlayer
 
         protected override void FixedUpdate(StagePlayer player)
         {
-            player.gravity.UpdateVelocity();
+            player.gravity.OnUpdate();
             player.exRb.velocity = player.gravity.CurrentVelocity;
 
-            var hitCheck = player.onTheGround.Check();
+            var hitCheck = player.onTheGround.Check(player.transform.position, player.exRb.PhysicalBoxSize.x);
             if (!hitCheck)
             {
                 player.m_mainStateMachine.TransitReady((int)Main_StateID.Floating);
@@ -154,12 +154,12 @@ public partial class StagePlayer
 
         protected override void FixedUpdate(StagePlayer player)
         {
-            player.gravity.UpdateVelocity();
+            player.gravity.OnUpdate();
             player.exRb.velocity += player.gravity.CurrentVelocity;
             Move.InputType type = default;
             if (player.inputInfo.left == true) type = Move.InputType.Left;
             else if (player.inputInfo.right == true) type = Move.InputType.Right;
-            player.move.UpdateVelocity(player.onTheGround.GroundHit.normal.Verticalize(), type);
+            player.move.OnUpdate(player.onTheGround.GroundHit.normal.Verticalize(), type);
             Vector2 moveV = player.move.CurrentVelocity;
             player.exRb.velocity += moveV;
 
@@ -173,7 +173,7 @@ public partial class StagePlayer
 
 
             }
-            if (!player.onTheGround.Check())
+            if (!player.onTheGround.Check(player.transform.position, player.exRb.PhysicalBoxSize.x))
             {
                 player.m_mainStateMachine.TransitReady((int)Main_StateID.Floating);
             }
@@ -275,12 +275,12 @@ public partial class StagePlayer
 
         protected override void FixedUpdate(StagePlayer player)
         {
-            player.gravity.UpdateVelocity();
+            player.gravity.OnUpdate();
             player.exRb.velocity = player.gravity.CurrentVelocity;
             Move.InputType type = default;
             if (player.inputInfo.left == true) type = Move.InputType.Left;
             else if (player.inputInfo.right == true) type = Move.InputType.Right;
-            player.move.UpdateVelocity(Vector2.right, type);
+            player.move.OnUpdate(Vector2.right, type);
             Vector2 moveV = player.move.CurrentVelocity;
             player.exRb.velocity += moveV;
 
@@ -404,7 +404,7 @@ public partial class StagePlayer
             Move.InputType type = default;
             if (player.inputInfo.left == true) type = Move.InputType.Left;
             else if (player.inputInfo.right == true) type = Move.InputType.Right;
-            player.move.UpdateVelocity(Vector2.right, type);
+            player.move.OnUpdate(Vector2.right, type);
             Vector2 moveV = player.move.CurrentVelocity;
             player.exRb.velocity = moveV;
 
@@ -784,7 +784,7 @@ public partial class StagePlayer
 
         protected override void FixedUpdate(StagePlayer player)
         {
-            player.gravity.UpdateVelocity();
+            player.gravity.OnUpdate();
             player.exRb.velocity = player.gravity.CurrentVelocity;
         }
 
@@ -842,7 +842,7 @@ public partial class StagePlayer
 
             protected override void FixedUpdate(StagePlayer player, AutoMove parent)
             {
-                player.gravity.UpdateVelocity();
+                player.gravity.OnUpdate();
                 player.exRb.velocity = player.gravity.CurrentVelocity;
 
 
@@ -855,7 +855,7 @@ public partial class StagePlayer
                     Move.InputType type = default;
                     if (player.transform.position.x > bamili_x) type = Move.InputType.Left;
                     else if (player.transform.position.x < bamili_x) type = Move.InputType.Right;
-                    player.move.UpdateVelocity(player.onTheGround.GroundHit.normal.Verticalize(), type);
+                    player.move.OnUpdate(player.onTheGround.GroundHit.normal.Verticalize(), type);
                     Vector2 moveV = player.move.CurrentVelocity;
                     player.exRb.velocity += moveV;
 
@@ -868,7 +868,7 @@ public partial class StagePlayer
                         player.TurnTo(false);
                     }
 
-                    if (!player.onTheGround.Check())
+                    if (!player.onTheGround.Check(player.transform.position, player.exRb.PhysicalBoxSize.x))
                     {
                         parent.TransitSubReady((int)SubStateId.Float);
                     }

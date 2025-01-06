@@ -1,21 +1,23 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
-public class Gravity : MonoBehaviour
+[Serializable]
+public class Gravity
 {
-    [SerializeField] float gravityScale = 1;
-    [SerializeField] float maxSpeed = 10;
+    [SerializeField]private float _gravityScale = 1;
+    [SerializeField]private float _maxSpeed = 10;
 
-    [SerializeField] float canStopSlope = 45;
+    private float canStopSlope = 45;
     float currentSpeed = default;
 
     public Vector2 CurrentVelocity => Vector2.down * currentSpeed;
 
-    public float GravityScale => gravityScale;
+    public float GravityScale => _gravityScale;
 
-    public void UpdateVelocity()
+    public void OnUpdate()
     {
-        currentSpeed += gravityScale;
-        currentSpeed = Mathf.Clamp(currentSpeed, 0, maxSpeed);
+        currentSpeed += _gravityScale;
+        currentSpeed = Mathf.Clamp(currentSpeed, 0, _maxSpeed);
     }
 
     /// <summary>

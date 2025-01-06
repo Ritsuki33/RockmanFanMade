@@ -20,9 +20,10 @@ public class EnemyObject : StageDirectionalObject
     public int MaxHp => (enemyData != null) ? enemyData.Hp : 3;
 
     
-    public virtual void Init()
+    protected override void Init()
     {
-        SetMaterialParam(ShaderPropertyId.IsFadeColorID, 0);
+        base.Init();
+        MainMaterial.SetFloat(ShaderPropertyId.IsFadeColorID, 0);
         currentHp = MaxHp;
     }
 
@@ -82,11 +83,11 @@ public class EnemyObject : StageDirectionalObject
 
             for (int i = 0; i < count; i++)
             {
-                SetMaterialParam(ShaderPropertyId.IsFadeColorID, 1);
+                MainMaterial.SetFloat(ShaderPropertyId.IsFadeColorID, 1);
 
                 yield return new WaitForSeconds(0.05f);
 
-                SetMaterialParam(ShaderPropertyId.IsFadeColorID, 0);
+                MainMaterial.SetFloat(ShaderPropertyId.IsFadeColorID, 0);
 
                 yield return new WaitForSeconds(0.05f);
             }

@@ -1,14 +1,13 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System;
 using UnityEngine;
 
-public class Jump : MonoBehaviour
+[Serializable]
+public class Jump
 {
     [SerializeField] float maxSpeed = 15;
 
     float currentSpeed = 0;
 
-    //bool isBottomHit = false;
     
     public Vector2 CurrentVelocity => Vector2.up * currentSpeed;
     public float CurrentSpeed => currentSpeed;
@@ -35,15 +34,4 @@ public class Jump : MonoBehaviour
     {
         this.currentSpeed = val;
     }
-
-    //protected override void OnBottomHitStay(RaycastHit2D hit)
-    //{
-    //    if (!isBottomHit) currentSpeed = 0;
-    //    isBottomHit = true;
-    //}
-
-    //protected override void OnBottomHitExit(RaycastHit2D hit)
-    //{
-    //    isBottomHit = false;
-    //}
 }
