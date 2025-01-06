@@ -115,7 +115,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7223287936867541727}
-  - component: {fileID: 3419730522486037644}
   - component: {fileID: 8219540544395458463}
   - component: {fileID: 861263011152484376}
   - component: {fileID: 3502984436217711033}
@@ -142,20 +141,6 @@ Transform:
   - {fileID: 5844086777958173841}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3419730522486037644
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8197843532567573251}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dec092299f2e46f46bfa6d887970cc86, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  boxTrigger: {fileID: 0}
-  boxCollider: {fileID: 3502984436217711033}
 --- !u!114 &8219540544395458463
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -168,8 +153,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7311dd70b7f2594419ddc4f65bc4d14c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  placedBomb: {fileID: 3419730522486037644}
+  placedBomb: {fileID: 0}
   _animator: {fileID: 6660667417037396447}
+  boxTrigger: {fileID: 0}
+  boxCollider: {fileID: 3502984436217711033}
 --- !u!114 &861263011152484376
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -85,4 +85,10 @@ public class WorldManager : SingletonComponent<WorldManager>
         obj.Init();
         updateList.Add(obj);
     }
+
+    public void RemoveObject(IObjectInterpreter obj)
+    {
+        obj.Destroy();
+        updateList.Remove(obj);
+    }
 }

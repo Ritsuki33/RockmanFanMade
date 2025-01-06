@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class Grenademan : EnemyObject
 {
-    BaseObjectPool DeathEffectPool => EffectManager.Instance.DeathEffectPool;
+    PsPool DeathEffectPool => EffectManager.Instance.DeathEffectPool;
 
     public Action<float> hpParamIncrementAnimation = default;
     public Action<float> hpChangeTrigger = default;
@@ -19,11 +19,11 @@ public class Grenademan : EnemyObject
 
     public override void OnDead()
     {
-        var deathEffect = DeathEffectPool.Pool.Get().GetComponent<ParticleSystem>();
-        deathEffect.gameObject.transform.position = new Vector3(this.transform.position.x, this.transform.position.y, -3);
+        //var deathEffect = DeathEffectPool.Pool.Get().GetComponent<ParticleSystem>();
+        //deathEffect.gameObject.transform.position = new Vector3(this.transform.position.x, this.transform.position.y, -3);
 
-        deathEffect.Play();
+        //deathEffect.Play();
 
-        this.gameObject.SetActive(false);
+        //this.gameObject.SetActive(false);
     }
 }

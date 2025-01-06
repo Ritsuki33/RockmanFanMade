@@ -9,7 +9,7 @@ public class RoketMaskBehavior : MonoBehaviour
     [SerializeField] float speed = 2.0f;
     [SerializeField] AnimationEnvetController animationEnvetController;
     Coroutine defense = null;
-    private BaseObjectPool ExplodePool => EffectManager.Instance.ExplodePool;
+    private ExplodePool ExplodePool => EffectManager.Instance.ExplodePool;
 
     bool isRight => this.transform.localScale.x < 0;
 

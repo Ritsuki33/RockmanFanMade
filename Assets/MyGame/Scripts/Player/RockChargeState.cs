@@ -7,10 +7,11 @@ public partial class StagePlayer
 {
     [Header("チャージ")]
     [SerializeField] Animator m_charge_animator;
+    [SerializeField] Transform launcher;
 
-    BaseObjectPool RockBusterPool => EffectManager.Instance.RockBusterPool;
-    BaseObjectPool RockBusterMiddlePool => EffectManager.Instance.RockBusterMiddlePool;
-    BaseObjectPool RockBusterBigPool => EffectManager.Instance.RockBusterBigPool;
+    ProjectilePool RockBusterPool => EffectManager.Instance.RockBusterPool;
+    ProjectilePool RockBusterMiddlePool => EffectManager.Instance.RockBusterMiddlePool;
+    ProjectilePool RockBusterBigPool => EffectManager.Instance.RockBusterBigPool;
 
     bool isLaunchTrigger = false;
     int rimLightColorId = Shader.PropertyToID("_RimLightColor");
@@ -167,67 +168,25 @@ public partial class StagePlayer
 
     void LaunchMame(bool isRight)
     {
-        var rockBaster = RockBusterPool.Pool.Get();
-        var projectile = rockBaster.GetComponent<ProjectileReusable>();
         Vector2 direction = (isRight) ? Vector2.right : Vector2.left;
         float speed = 16;
-        projectile.Init(
-            1,
-            null,
-            (rb) =>
-            {
-                rb.velocity = direction * speed;
-            },
-            null,
-            () =>
-            {
-                if (curMameNum > 0) curMameNum--;
-            }
-            );
-        projectile.transform.position = new Vector3(transform.position.x, transform.position.y, -2);
+        ObjectManager.Instance.CreateRockBuster(RockBuster.Small, launcher.position, 1, isRight, null, (rb) => rb.velocity = direction * speed, () => { if (curMameNum > 0) curMameNum--; });
 
         curMameNum++;
     }
 
     void LaunchMiddle(bool isRight)
     {
-        var rockBaster = RockBusterMiddlePool.Pool.Get();
-        var projectile = rockBaster.GetComponent<ProjectileReusable>();
         Vector2 direction = (isRight) ? Vector2.right : Vector2.left;
-        Vector2 localScale = projectile.transform.localScale;
-        localScale.x = (isRight) ? 1 : -1;
-        projectile.transform.localScale = localScale;
         float speed = 16;
-        projectile.Init(
-            2,
-            null
-,
-            (rb) =>
-            {
-                rb.velocity = direction * speed;
-            });
-        projectile.transform.position = new Vector3(transform.position.x, transform.position.y, -2);
+        ObjectManager.Instance.CreateRockBuster(RockBuster.Middle, launcher.position, 2, isRight, null, (rb) => rb.velocity = direction * speed);
     }
 
     void LaunchBig(bool isRight)
     {
-        var rockBaster = RockBusterBigPool.Pool.Get();
-
-        var projectile = rockBaster.GetComponent<ProjectileReusable>();
         Vector2 direction = (isRight) ? Vector2.right : Vector2.left;
-        Vector2 localScale = projectile.transform.localScale;
-        localScale.x = (isRight) ? 1 : -1;
-        projectile.transform.localScale = localScale;
         float speed = 24;
-        projectile.Init(
-            3,
-            null
-,
-            (rb) =>
-            {
-                rb.velocity = direction * speed;
-            });
-        projectile.transform.position = new Vector3(transform.position.x, transform.position.y, -2);
+        ObjectManager.Instance.CreateRockBuster(RockBuster.Big, launcher.position, 3, isRight, null, (rb) => rb.velocity = direction * speed);
     }
 
     public void StopRimLight()

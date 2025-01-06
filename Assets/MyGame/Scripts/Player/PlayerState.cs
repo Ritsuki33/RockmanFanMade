@@ -642,11 +642,11 @@ public partial class StagePlayer
     {
         protected override void Enter(StagePlayer player, int preId, int subId)
         {
-            player.gameObject.SetActive(false);
-            var deathEffect = EffectManager.Instance.DeathEffectPool.Pool.Get().GetComponent<ParticleSystem>();
-            deathEffect.gameObject.transform.position = player.transform.position;
+            //player.gameObject.SetActive(false);
+            //var deathEffect = EffectManager.Instance.DeathEffectPool.Pool.Get().GetComponent<ParticleSystem>();
+            //deathEffect.gameObject.transform.position = player.transform.position;
 
-            deathEffect.Play();
+            //deathEffect.Play();
         }
     }
 

@@ -5,52 +5,53 @@ using UnityEngine;
 
 public class GreenManBehavior :MonoBehaviour
 {
-    [SerializeField] GreenMan greenMan = default;
-    [SerializeField] Animator _animator = default;
-    [SerializeField] Transform launcher = default;
-    enum StateId
-    {
-        Idle,
-        Float,
-        Shoot,
-        Shooting,
-        Jump
-    }
-
-    Gravity gravity = default;
-    Jump jump = default;
-    ExpandRigidBody exRb = default;
-    AmbiguousTimer timer = new AmbiguousTimer();
-
-    BaseObjectPool Buster => EffectManager.Instance.MettoruFirePool;
-    //private PlayerBehavior Player => WorldManager.Instance.PlayerController;
-    private BaseObjectPool ExplodePool => EffectManager.Instance.ExplodePool;
-    Coroutine defense = null;
-
-    public bool IsRight => this.transform.localScale.x < 0;
-//    private void Awake()
+//    [SerializeField] GreenMan greenMan = default;
+//    [SerializeField] Animator _animator = default;
+//    [SerializeField] Transform launcher = default;
+//    enum StateId
 //    {
-//        gravity = GetComponent<Gravity>();
-//        jump= GetComponent<Jump>();
-//        exRb = GetComponent<ExpandRigidBody>();
-
-//        AddState((int)StateId.Idle, new Idle());
-//        AddState((int)StateId.Float, new Float());
-//        AddState((int)StateId.Shoot, new Shoot());
-//        AddState((int)StateId.Shooting, new Shooting());
-//        AddState((int)StateId.Jump, new Jumping());
-
-//        Init();
+//        Idle,
+//        Float,
+//        Shoot,
+//        Shooting,
+//        Jump
 //    }
 
-//    public void Init()
-//    {
-//        gravity.Reset();
-//        jump.SetSpeed(0);
-//        TransitReady((int)StateId.Idle);
-//    }
+//    Gravity gravity = default;
+//    Jump jump = default;
+//    ExpandRigidBody exRb = default;
+//    AmbiguousTimer timer = new AmbiguousTimer();
 
-//    class Idle: ExRbState<GreenManBehavior, Idle> {
+//    BaseObjectPool Buster => EffectManager.Instance.MettoruFirePool;
+//    //private PlayerBehavior Player => WorldManager.Instance.PlayerController;
+//    private BaseObjectPool ExplodePool => EffectManager.Instance.ExplodePool;
+//    Coroutine defense = null;
+
+//    public bool IsRight => this.transform.localScale.x < 0;
+//    //    private void Awake()
+//    //    {
+//    //        gravity = GetComponent<Gravity>();
+//    //        jump= GetComponent<Jump>();
+//    //        exRb = GetComponent<ExpandRigidBody>();
+
+//    //        AddState((int)StateId.Idle, new Idle());
+//    //        AddState((int)StateId.Float, new Float());
+//    //        AddState((int)StateId.Shoot, new Shoot());
+//    //        AddState((int)StateId.Shooting, new Shooting());
+//    //        AddState((int)StateId.Jump, new Jumping());
+
+//    //        Init();
+//    //    }
+
+//    //    public void Init()
+//    //    {
+//    //        gravity.Reset();
+//    //        jump.SetSpeed(0);
+//    //        TransitReady((int)StateId.Idle);
+//    //    }
+
+//    class Idle : ExRbState<GreenManBehavior, Idle>
+//    {
 //        static int animationHash = Animator.StringToHash("Idle");
 
 //        protected override void Enter(GreenManBehavior greenMan, int preId, int subId)
@@ -88,8 +89,8 @@ public class GreenManBehavior :MonoBehaviour
 //        {
 //            greenMan.Defense(collision);
 //        }
-       
-      
+
+
 //        protected override void OnBottomHitStay(GreenManBehavior greenMan, RaycastHit2D hit)
 //        {
 //            greenMan.gravity.Reset();
@@ -291,7 +292,7 @@ public class GreenManBehavior :MonoBehaviour
 //    {
 //        var buster = Buster.Pool.Get();
 
-//        var projectile=buster.GetComponent<ProjectileReusable>();
+//        var projectile = buster.GetComponent<ProjectileReusable>();
 
 //        Vector2 direction = IsRight ? Vector2.right : Vector2.left;
 //        float speed = 5;

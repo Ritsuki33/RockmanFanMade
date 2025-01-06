@@ -5,18 +5,18 @@ using UnityEngine;
 public class Block : MonoBehaviour
 {
 
-    private BaseObjectPool ExplodePool => EffectManager.Instance.ExplodePool;
+    private ExplodePool ExplodePool => EffectManager.Instance.ExplodePool;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.CompareTag("RockBuster"))
-        {
-            Destroy(this.gameObject);
-            var explode = ExplodePool.Pool.Get();
+        //if (collision.gameObject.CompareTag("RockBuster"))
+        //{
+        //    Destroy(this.gameObject);
+        //    var explode = ExplodePool.Pool.Get();
 
-            explode.transform.position = this.transform.position;
-            var rockBuster = collision.gameObject.GetComponent<ProjectileReusable>();
-            rockBuster?.Delete();
-        }
+        //    explode.transform.position = this.transform.position;
+        //    var rockBuster = collision.gameObject.GetComponent<Projectile>();
+        //    rockBuster?.Delete();
+        //}
     }
 }

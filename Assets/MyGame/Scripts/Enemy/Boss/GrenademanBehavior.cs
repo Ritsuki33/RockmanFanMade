@@ -21,7 +21,7 @@ public class GrenademanBehavior : MonoBehaviour
     public int MaxHp => boss.MaxHp;
 
     [SerializeField] Transform[] placeBombPosArray = null;
-    BaseObjectPool ExplodePool=>EffectManager.Instance.ExplodePool;
+    ExplodePool ExplodePool =>EffectManager.Instance.ExplodePool;
 
     public Action<float> HpChangeTrigger { get {return  boss.hpChangeTrigger; } set { boss.hpChangeTrigger = value; } }
 

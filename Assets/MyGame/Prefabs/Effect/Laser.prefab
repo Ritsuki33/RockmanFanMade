@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 7285331306090593000}
   - component: {fileID: 4955074163980617985}
-  - component: {fileID: 7320882228867670150}
   - component: {fileID: 8597258245987466177}
   m_Layer: 7
   m_Name: Laser
@@ -48,25 +47,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac68b3d72df4c8d408d4dfeed185e3ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_spriteRenderer: {fileID: 5183670482342708258}
-  m_boxCollider: {fileID: 5261035547619792588}
-  scrollSpriteController: {fileID: 6627526884009817981}
-  targetLayer:
-    serializedVersion: 2
-    m_Bits: 64
---- !u!114 &7320882228867670150
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5127122438194919228}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2ff48cf2d49332347a7de689c6a5089a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  laserBehavior: {fileID: 4955074163980617985}
 --- !u!50 &8597258245987466177
 Rigidbody2D:
   serializedVersion: 4
@@ -241,19 +221,3 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 7326428361581436547, guid: 5b402fdff79be974092b09fc5dbcb1a3, type: 3}
   m_PrefabInstance: {fileID: 4700301585396713941}
   m_PrefabAsset: {fileID: 0}
---- !u!212 &5183670482342708258 stripped
-SpriteRenderer:
-  m_CorrespondingSourceObject: {fileID: 489427490363788791, guid: 5b402fdff79be974092b09fc5dbcb1a3, type: 3}
-  m_PrefabInstance: {fileID: 4700301585396713941}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &6627526884009817981 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1928499368517140136, guid: 5b402fdff79be974092b09fc5dbcb1a3, type: 3}
-  m_PrefabInstance: {fileID: 4700301585396713941}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 01e1ec76446aa6f4db2bdd777a37d191, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 

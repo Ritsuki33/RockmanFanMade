@@ -50,7 +50,7 @@ public class GameMainManager : BaseManager<GameMainManager>
         {
             FadeInManager.Instance.FadeOutImmediate();
 
-            EffectManager.Instance.Init();
+            ObjectManager.Instance.Init();
 
             // ワールドの初期化
             worldManager.Init();

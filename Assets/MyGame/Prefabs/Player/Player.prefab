@@ -187,6 +187,7 @@ MonoBehaviour:
   materialController: {fileID: 8094217357087564609}
   forwardIsRight: 0
   m_charge_animator: {fileID: 490895303943728102}
+  launcher: {fileID: 1196822323176108787}
   maxHp: 27
   spriteRenderer: {fileID: 0}
   mameMax: 3

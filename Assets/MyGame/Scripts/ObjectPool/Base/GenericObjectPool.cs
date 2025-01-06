@@ -1,20 +1,29 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Pool;
 
-public class BaseObjectPool : MonoBehaviour
+public interface IPooledObject<T> where T : MonoBehaviour
 {
-    [SerializeField] private Reusable prefab;
+    public IObjectPool<T> Pool { get; set; }
+    void OnGet() { }
+    void OnRelease() { }
+    void OnDispose() { }
+}
+
+
+public class GenericObjectPool<T> : MonoBehaviour where T : MonoBehaviour, IPooledObject<T>
+{
+    [SerializeField] private T prefab;
     [SerializeField] int defaultCapacity = 10;
     [SerializeField] int maxSize = 10;
-    public ObjectPool<Reusable> Pool { get; private set; }
-
-    private List<Reusable> _cacheObjects = new List<Reusable>();
+    public ObjectPool<T> Pool { get; private set; }
+    private List<T> _cacheObjects = new List<T>();
 
     public void Init()
     {
         // オブジェクトプールを作成します
-        Pool = new ObjectPool<Reusable>
+        Pool = new ObjectPool<T>
         (
             createFunc: OnCreateToPool,
             actionOnGet: OnGetFromPool,
@@ -36,28 +45,32 @@ public class BaseObjectPool : MonoBehaviour
         Pool.Clear();
     }
 
-    Reusable OnCreateToPool()
+    T OnCreateToPool()
     {
-        var gameObject = Instantiate(prefab, this.transform);
+        T gameObject = Instantiate<T>(prefab, this.transform);
         gameObject.Pool = Pool;
 
         _cacheObjects.Add(gameObject);
         return gameObject;
     }
 
-    void OnGetFromPool(IResuable obj)
+    void OnGetFromPool(T obj)
     {
+        obj.gameObject.SetActive(true);
         obj.OnGet();
     }
 
-    void OnRelaseToPool(IResuable obj)
+    void OnRelaseToPool(T obj)
     {
+        obj.gameObject.SetActive(false);
         obj.OnRelease();
     }
 
-    void OnDestroyFromPool(IResuable obj)
+    void OnDestroyFromPool(T obj)
     {
-        _cacheObjects.Remove(obj as Reusable);
+        _cacheObjects.Remove(obj as T);
         obj.OnDispose();
     }
 }
+
+

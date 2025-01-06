@@ -10,7 +10,7 @@ public class EnemyObject : StageDirectionalObject
 
     [SerializeField,Header("討伐後発生イベントを直接指定")] UnityEvent defeatEvent = default;
 
-    private BaseObjectPool ExplodePool => EffectManager.Instance.ExplodePool;
+    private ExplodePool ExplodePool => EffectManager.Instance.ExplodePool;
 
     private Material material;
 
@@ -61,10 +61,10 @@ public class EnemyObject : StageDirectionalObject
 
     public virtual void OnDead()
     {
-        var explode = ExplodePool.Pool.Get();
-        explode.transform.position = this.transform.position;
+        //var explode = ExplodePool.Pool.Get();
+        //explode.transform.position = this.transform.position;
 
-        this.gameObject.SetActive(false);
+        //this.gameObject.SetActive(false);
     }
 
     /// <summary>
