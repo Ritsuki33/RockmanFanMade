@@ -97,7 +97,7 @@ public partial class StagePlayer
 
             protected override void Enter(StagePlayer player, Standing parent, int preId, int subId)
             {
-                player.animator.Play(animationHash);
+                player.MainAnimator.Play(animationHash);
             }
 
             protected override void Update(StagePlayer player, Standing parent)
@@ -116,7 +116,7 @@ public partial class StagePlayer
 
             protected override void Enter(StagePlayer player, Standing parent, int preId, int subId)
             {
-                player.animator.Play(animationHash);
+                player.MainAnimator.Play(animationHash);
                 time = 0.3f;
             }
 
@@ -220,7 +220,7 @@ public partial class StagePlayer
 
             protected override void Enter(StagePlayer player, Running parent, int preId, int subId)
             {
-                player.animator.Play(animationHash);
+                player.MainAnimator.Play(animationHash);
             }
 
             protected override void Update(StagePlayer player, Running parent)
@@ -238,7 +238,7 @@ public partial class StagePlayer
             protected override void Enter(StagePlayer player, Running parent, int preId, int subId)
             {
                 time = 0.3f;
-                player.animator.Play(animationHash);
+                player.MainAnimator.Play(animationHash);
             }
 
             protected override void Update(StagePlayer player, Running parent)
@@ -339,7 +339,7 @@ public partial class StagePlayer
 
             protected override void Enter(StagePlayer player, Floating parent, int preId, int subId)
             {
-                player.animator.Play(animationHash);
+                player.MainAnimator.Play(animationHash);
             }
 
             protected override void Update(StagePlayer player, Floating parent)
@@ -357,7 +357,7 @@ public partial class StagePlayer
             protected override void Enter(StagePlayer player, Floating parent, int preId, int subId)
             {
                 time = 0.3f;
-                player.animator.Play(animationHash);
+                player.MainAnimator.Play(animationHash);
             }
 
             protected override void Update(StagePlayer player, Floating parent)
@@ -467,7 +467,7 @@ public partial class StagePlayer
 
             protected override void Enter(StagePlayer player, Jumping parent, int preId, int subId)
             {
-                player.animator.Play(animationHash);
+                player.MainAnimator.Play(animationHash);
             }
 
             protected override void Update(StagePlayer player, Jumping parent)
@@ -484,7 +484,7 @@ public partial class StagePlayer
 
             protected override void Enter(StagePlayer player, Jumping parent, int preId, int subId)
             {
-                player.animator.Play(animationHash);
+                player.MainAnimator.Play(animationHash);
                 time = 0.3f;
             }
 
@@ -516,8 +516,8 @@ public partial class StagePlayer
         Dir input = Dir.None;
         protected override void Enter(StagePlayer player, int preId, int subId)
         {
-            player.animator.Play(animationHash);
-            player.animator.speed = 0;
+            player.MainAnimator.Play(animationHash);
+            player.MainAnimator.speed = 0;
             Vector2 pos = player.exRb.BoxColliderCenter;
             pos.x = player.bodyLadder.transform.position.x;
             player.exRb.SetPosition(pos);
@@ -559,19 +559,19 @@ public partial class StagePlayer
             }
             else if (player.inputInfo.down)
             {
-                player.animator.speed = 1;
+                player.MainAnimator.speed = 1;
                 input = Dir.Down;
 
             }
             else if (player.inputInfo.up)
             {
-                player.animator.speed = 1;
+                player.MainAnimator.speed = 1;
                 input = Dir.Up;
             }
             else
             {
                 input = Dir.None;
-                player.animator.speed = 0;
+                player.MainAnimator.speed = 0;
             }
 
             if (player.inputInfo.jump)
@@ -582,7 +582,7 @@ public partial class StagePlayer
 
         protected override void Exit(StagePlayer player, int nextId)
         {
-            player.animator.speed = 1;
+            player.MainAnimator.speed = 1;
         }
 
         protected override void OnBottomHitStay(StagePlayer player, RaycastHit2D hit)
@@ -599,7 +599,7 @@ public partial class StagePlayer
         float time = 0;
         protected override void Enter(StagePlayer player, int preId, int subId)
         {
-            player.animator.Play(animationHash);
+            player.MainAnimator.Play(animationHash);
             time = 0;
         }
         protected override void FixedUpdate(StagePlayer player)
@@ -621,7 +621,7 @@ public partial class StagePlayer
         float time = 0;
         protected override void Enter(StagePlayer player, int preId, int subId)
         {
-            player.animator.Play(animationHash);
+            player.MainAnimator.Play(animationHash);
             Vector2 nextPos = player.exRb.BoxColliderCenter;
             nextPos.x = player.bodyLadder.transform.position.x;
             nextPos.y = player.bodyLadder.bounds.max.y;
@@ -658,7 +658,7 @@ public partial class StagePlayer
         protected override void Enter(StagePlayer player, int preId, int subId)
         {
             player.boxPhysicalCollider.enabled = false;
-            player.animator.Play(animationHash);
+            player.MainAnimator.Play(animationHash);
         }
 
         protected override void FixedUpdate(StagePlayer player)
@@ -683,12 +683,12 @@ public partial class StagePlayer
 
         protected override void Enter(StagePlayer player, int preId, int subId)
         {
-            player.animator.Play(animationHash);
+            player.MainAnimator.Play(animationHash);
         }
 
         protected override void Update(StagePlayer player)
         {
-            if (!player.animator.IsPlayingCurrentAnimation(animationHash))
+            if (!player.MainAnimator.IsPlayingCurrentAnimation(animationHash))
             {
                 player.m_mainStateMachine.TransitReady((int)(Main_StateID.Standing));
                 player.ActionFinishNotify();
@@ -710,7 +710,7 @@ public partial class StagePlayer
         protected override void Enter(StagePlayer player, int preId, int subId)
         {
             player.boxPhysicalCollider.enabled = false;
-            player.animator.Play(animationHash);
+            player.MainAnimator.Play(animationHash);
 
             TransitSubReady(0);
         }
@@ -719,7 +719,7 @@ public partial class StagePlayer
         {
             protected override void Update(StagePlayer player, Repatriation parent)
             {
-                if (!player.animator.IsPlayingCurrentAnimation(parent.animationHash))
+                if (!player.MainAnimator.IsPlayingCurrentAnimation(parent.animationHash))
                 {
                     parent.TransitSubReady(1);
                 }
@@ -796,7 +796,7 @@ public partial class StagePlayer
 
             protected override void Enter(StagePlayer player, AutoMove parent, int preId, int subId)
             {
-                player.animator.Play(animationHash);
+                player.MainAnimator.Play(animationHash);
                 if (preId == (int)SubStateId.Wait)
                 {
                     isWait = true;
@@ -832,7 +832,7 @@ public partial class StagePlayer
                 }
                 preViousX = player.transform.position.x;
 
-                player.animator.Play(animationHash);
+                player.MainAnimator.Play(animationHash);
             }
 
             protected override void OnBottomHitExit(StagePlayer player, AutoMove parent, RaycastHit2D hit)
@@ -889,7 +889,7 @@ public partial class StagePlayer
 
                 player.bamili = null;
 
-                player.animator.Play(animationHash);
+                player.MainAnimator.Play(animationHash);
             }
 
             protected override void OnBottomHitExit(StagePlayer player, AutoMove parent, RaycastHit2D hit)
@@ -904,7 +904,7 @@ public partial class StagePlayer
 
         protected override void Enter(StagePlayer player, int preId, int subId)
         {
-            player.animator.Play(animationHash);
+            player.MainAnimator.Play(animationHash);
             player.timer.Start(0.6f, 0.6f);
         }
 

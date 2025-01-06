@@ -115,13 +115,6 @@ public partial class StagePlayer
 
     void ChargeInit()
     {
-        // チャージの状態セット
-        m_chargeStateMachine.AddState((int)Chage_StateID.None, new None());
-        m_chargeStateMachine.AddState((int)Chage_StateID.ChargeSmall, new ChargeSmall());
-        m_chargeStateMachine.AddState((int)Chage_StateID.ChargeMiddle, new ChargeMiddle());
-        m_chargeStateMachine.AddState((int)Chage_StateID.ChargeBig, new ChargeBig());
-
-        chargeAnimSpeed = m_charge_animator.speed;
         m_charge_animator.gameObject.SetActive(false);
         isLaunchTrigger = false;
         m_chargeStateMachine.TransitReady((int)Chage_StateID.None);

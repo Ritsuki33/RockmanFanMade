@@ -28,7 +28,6 @@ public partial class StagePlayer : StageDirectionalObject
 
     public Action<float> hpChangeTrigger;
 
-    Animator animator;
 
     Collider2D bodyLadder = null;
 
@@ -66,13 +65,9 @@ public partial class StagePlayer : StageDirectionalObject
         Damaged,
     }
 
-    protected override void Init()
+    private void Awake()
     {
-        base.Init();
-        animator = GetComponent<Animator>();
-        boxPhysicalCollider = GetComponent<BoxCollider2D>();
-
-        invincible = false;
+        m_mainStateMachine.Clear();
 
         // メインの状態セット
         m_mainStateMachine.AddState((int)Main_StateID.Standing, new Standing());
@@ -89,6 +84,8 @@ public partial class StagePlayer : StageDirectionalObject
         m_mainStateMachine.AddState((int)Main_StateID.Repatriate, new Repatriation());
         m_mainStateMachine.AddState((int)Main_StateID.Damaged, new DamagedState());
 
+        boxPhysicalCollider = GetComponent<BoxCollider2D>();
+
 
         exRbHit.Init(exRb);
         rbCollide.Init();
@@ -100,6 +97,22 @@ public partial class StagePlayer : StageDirectionalObject
         exRbHit.onTopHitStay += OnTopHitStay;
         exRbHit.onBottomTopHitStay += OnBottomTopHitEnter;
         exRbHit.onLeftRightHitEnter += OnLeftRightHitEnter;
+
+        m_chargeStateMachine.Clear();
+        // チャージの状態セット
+        m_chargeStateMachine.AddState((int)Chage_StateID.None, new None());
+        m_chargeStateMachine.AddState((int)Chage_StateID.ChargeSmall, new ChargeSmall());
+        m_chargeStateMachine.AddState((int)Chage_StateID.ChargeMiddle, new ChargeMiddle());
+        m_chargeStateMachine.AddState((int)Chage_StateID.ChargeBig, new ChargeBig());
+
+        chargeAnimSpeed = m_charge_animator.speed;
+    }
+
+    protected override void Init()
+    {
+        base.Init();
+
+        invincible = false;
 
         ChargeInit();
     }
