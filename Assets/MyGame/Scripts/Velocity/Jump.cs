@@ -23,7 +23,7 @@ public class Jump
         this.maxSpeed = maxSpeed;
     }
 
-    public void UpdateVelocity(float gravity)
+    public void OnUpdate(float gravity)
     {
         currentSpeed -= gravity;
 

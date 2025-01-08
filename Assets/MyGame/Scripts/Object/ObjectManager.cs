@@ -1,13 +1,15 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public enum RockBuster
+public enum ProjectileType
 {
-    Small,
-    Middle,
-    Big
+    RockBuster_Small,
+    RockBuster_Middle,
+    RockBuster_Big,
+    MettoruFire,
+    Fire,
+    Bom,
+    CrashBomb,
 }
 
 public class ObjectManager : SingletonComponent<ObjectManager>
@@ -19,32 +21,19 @@ public class ObjectManager : SingletonComponent<ObjectManager>
         effectManager.Init();
     }
 
-    /// <summary>
-    /// ロックバスター
-    /// </summary>
-    /// <param name="rockBuster"></param>
-    /// <param name="position"></param>
-    /// <param name="attackPower"></param>
-    /// <param name="isRight"></param>
-    /// <param name="startCallback"></param>
-    /// <param name="fixedUpdateCallback"></param>
-    /// <param name="finishCallback"></param>
-    public void CreateRockBuster(RockBuster rockBuster, Vector2 position, int attackPower, bool isRight, Action<Rigidbody2D> startCallback, Action<Rigidbody2D> fixedUpdateCallback, Action finishCallback = null)
+    // Projectileの生成
+    public void Create(ProjectileType type, Vector2 position, int attackPower, bool isRight, Action<Rigidbody2D> startCallback, Action<Rigidbody2D> fixedUpdateCallback, Action<Projectile> finishCallback = null)
     {
-        ProjectilePool pool = null;
-        switch (rockBuster)
+        // プール取得
+        var pool = GetPool(type);
+        if (pool == null)
         {
-            case RockBuster.Small:
-                pool = effectManager.RockBusterPool;
-                break;
-            case RockBuster.Middle:
-                pool = effectManager.RockBusterMiddlePool;
-                break;
-            case RockBuster.Big:
-                pool = effectManager.RockBusterBigPool;
-                break;
+            Debug.Log($"{type}のPoolが取得できませんでした。");
+            return;
         }
-        Projectile projectile = pool.Pool.Get();
+
+        // Projectileの初期化
+        var projectile = pool.Pool.Get(); 
         Vector2 localScale = projectile.transform.localScale;
         localScale.x = (isRight) ? 1 : -1;
         projectile.transform.localScale = localScale;
@@ -53,12 +42,122 @@ public class ObjectManager : SingletonComponent<ObjectManager>
             attackPower,
             startCallback,
             fixedUpdateCallback,
-            () =>
+            (obj) =>
             {
-                pool.Pool.Release(projectile); WorldManager.Instance.RemoveObject(projectile);
-                finishCallback?.Invoke();
-            });
+                // 削除タイミング
 
+                // プールへ返還
+                pool?.Release(obj);
+                // ワールドから削除
+                WorldManager.Instance.RemoveObject(obj);
+
+                finishCallback?.Invoke(obj);
+            }
+            );
+
+        // ワールドへ追加
         WorldManager.Instance.AddObject(projectile);
+    }
+
+    /// <summary>
+    /// 爆発オブジェクトの生成
+    /// </summary>
+    /// <param name="type"></param>
+    /// <param name="layer"></param>
+    /// <param name="damageVal"></param>
+    /// <param name="position"></param>
+    public void Create(ExplodeType type,Explode.Layer layer,int damageVal,Vector2 position)
+    {
+        // プール取得
+        var pool = GetPool(type);
+
+        var explode = pool.Pool.Get();
+
+        explode.Setup(
+            layer,
+            damageVal,
+            (obj) =>
+            {
+                // プールへ返還
+                pool.Release(obj);
+
+                // ワールドから削除
+                WorldManager.Instance.RemoveObject(obj);
+            }
+        );
+        explode.transform.position = position;
+
+        // ワールドへ追加
+        WorldManager.Instance.AddObject(explode);
+
+    }
+
+    /// <summary>
+    /// PlacedBombの生成
+    /// </summary>
+    /// <param name="position"></param>
+    /// <param name="targetPos"></param>
+    /// <param name="finishCallback"></param>
+    public void CreatePlacedBomb(Vector2 position, Vector2 targetPos, Action<ExpandRigidBody> orbitfixedUpdate, Action<PlacedBomb> finishCallback)
+    {
+        var pool = effectManager.PlacedBombPool;
+        var bomb = pool.Pool.Get();
+        bomb.transform.position = new Vector3(position.x, position.y, -2);
+        Vector2 dir = targetPos - position;
+        dir = dir.normalized;
+        bomb.Setup(
+           orbitfixedUpdate,
+        (obj) =>
+            {
+                // プールへ返還
+                pool.Release(obj);
+                // ワールドから削除
+                WorldManager.Instance.AddObject(obj);
+
+                finishCallback.Invoke(obj);
+            }
+            );
+
+        // ワールドへ追加
+        WorldManager.Instance.AddObject(bomb);
+    }
+
+    /// <summary>
+    /// Projectileのプール取得
+    /// </summary>
+    /// <param name="rockBuster"></param>
+    /// <returns></returns>
+    private ProjectilePool GetPool(ProjectileType rockBuster)
+    {
+        switch (rockBuster)
+        {
+            case ProjectileType.RockBuster_Small:
+                return effectManager.RockBusterPool;
+            case ProjectileType.RockBuster_Middle:
+                return effectManager.RockBusterMiddlePool;
+            case ProjectileType.RockBuster_Big:
+                return effectManager.RockBusterBigPool;
+            case ProjectileType.MettoruFire:
+                return effectManager.MettoruFirePool;
+            case ProjectileType.Fire:
+                return effectManager.FirePool;
+            case ProjectileType.Bom:
+                return effectManager.BomPool;
+            case ProjectileType.CrashBomb:
+                return effectManager.CrashBombPool;
+            default: return null;
+        }
+    }
+
+    private ExplodePool GetPool(ExplodeType type)
+    {
+        switch (type)
+        {
+            case ExplodeType.Explode1:
+                return EffectManager.Instance.ExplodePool;
+            case ExplodeType.Explode2:
+                return EffectManager.Instance.Explode2Pool;
+            default: return null;
+        }
     }
 }

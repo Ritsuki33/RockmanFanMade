@@ -400,7 +400,7 @@ public partial class StagePlayer
 
         protected override void FixedUpdate(StagePlayer player)
         {
-            player.jump.UpdateVelocity(player.gravity.GravityScale);
+            player.jump.OnUpdate(player.gravity.GravityScale);
             Move.InputType type = default;
             if (player.inputInfo.left == true) type = Move.InputType.Left;
             else if (player.inputInfo.right == true) type = Move.InputType.Right;

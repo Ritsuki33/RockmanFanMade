@@ -4,32 +4,27 @@ using UnityEngine.Pool;
 
 public class PlacedBomb : AnimObject, IPooledObject<PlacedBomb>
 {
-    [SerializeField] PlacedBomb placedBomb;
     [SerializeField] Animator _animator;
 
     [SerializeField] private BoxCollider2D boxTrigger;
     [SerializeField] private BoxCollider2D boxCollider;
-    private Rigidbody2D rb;
     ExpandRigidBody exRb;
 
     Action<ExpandRigidBody> orbitfixedUpdate;
-    Action onExplodedFinishCallback;
+    Action<PlacedBomb> onExplodedFinishCallback;
 
     AmbiguousTimer timer = new AmbiguousTimer();
-
-    ExplodePool exlodePool => EffectManager.Instance.Explode2Pool;
 
     IObjectPool<PlacedBomb> pool = null;
 
     IObjectPool<PlacedBomb> IPooledObject<PlacedBomb>.Pool { get => pool; set => pool = value; }
 
-    Action deleteCallback;
 
     ExRbStateMachine<PlacedBomb> stateMachine = new ExRbStateMachine<PlacedBomb>();
+
     public void Delete()
     {
-        pool.Release(this);
-        this.deleteCallback?.Invoke();
+        onExplodedFinishCallback?.Invoke(this);
     }
 
     void IPooledObject<PlacedBomb>.OnGet()
@@ -38,14 +33,29 @@ public class PlacedBomb : AnimObject, IPooledObject<PlacedBomb>
         if (boxTrigger) boxTrigger.enabled = true;
     }
 
-    private void Awake()
+    protected override void Awake()
     {
+        base.Awake();
         exRb = GetComponent<ExpandRigidBody>();
         stateMachine.AddState(0, new Orbit());
         stateMachine.AddState(1, new Boot());
     }
 
-    public void Init(Action<ExpandRigidBody> orbitfixedUpdate, Action onExplodedFinishCallback)
+    protected override void Init()
+    {
+        stateMachine.TransitReady(0);
+    }
+    protected override void OnFixedUpdate()
+    {
+        stateMachine.FixedUpdate(this);
+    }
+
+    protected override void OnUpdate()
+    {
+        stateMachine.Update(this);
+    }
+
+    public void Setup(Action<ExpandRigidBody> orbitfixedUpdate, Action<PlacedBomb> onExplodedFinishCallback)
     {
         this.orbitfixedUpdate = orbitfixedUpdate;
         this.onExplodedFinishCallback = onExplodedFinishCallback;
@@ -75,6 +85,7 @@ public class PlacedBomb : AnimObject, IPooledObject<PlacedBomb>
 
     class Boot : ExRbState<PlacedBomb, Boot>
     {
+            ObjectManager ObjectManager => ObjectManager.Instance;
         int animationHash = Animator.StringToHash("Boot");
         protected override void Enter(PlacedBomb ctr, int preId, int subId)
         {
@@ -86,13 +97,9 @@ public class PlacedBomb : AnimObject, IPooledObject<PlacedBomb>
         {
             ctr.timer.MoveAheadTime(Time.deltaTime, () =>
             {
-                var explode = ctr.exlodePool.Pool.Get().GetComponent<Explode>();
-                explode.transform.position = ctr.transform.position;
+                ObjectManager.Create(ExplodeType.Explode2, Explode.Layer.EnemyAttack, 5, ctr.transform.position);
 
-                explode.Init(Explode.Layer.EnemyAttack, 5);
-
-                ctr.placedBomb.Delete();
-                ctr.onExplodedFinishCallback?.Invoke();
+                ctr.Delete();
             });
         }
     }

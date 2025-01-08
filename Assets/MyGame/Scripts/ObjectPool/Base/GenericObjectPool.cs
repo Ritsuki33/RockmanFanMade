@@ -45,6 +45,11 @@ public class GenericObjectPool<T> : MonoBehaviour where T : MonoBehaviour, IPool
         Pool.Clear();
     }
 
+    public void Release(T obj)
+    {
+        Pool.Release(obj);
+    }
+
     T OnCreateToPool()
     {
         T gameObject = Instantiate<T>(prefab, this.transform);

@@ -1,4 +1,7 @@
-﻿using UnityEngine;
+﻿using NUnit.Framework;
+using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
 
 public class WorldManager : SingletonComponent<WorldManager>
 {
@@ -7,6 +10,8 @@ public class WorldManager : SingletonComponent<WorldManager>
     [SerializeField] ActionChainExecuter startAction = default;
 
     [SerializeField] CheckPointData defaultCheckPoint;
+
+    [SerializeField] Transform enemyRoot;
 
     private StagePlayer _player;
     public StagePlayer Player => _player;
@@ -18,10 +23,14 @@ public class WorldManager : SingletonComponent<WorldManager>
     UpdateList updateList = new UpdateList();
 
     bool isPause = false;
+
+    List<EnemyAppearController> enemyAppearControllerList = new List<EnemyAppearController>();
     public void Init()
     {
         currentCheckPointData = defaultCheckPoint;
         isPause = false;
+
+        GetEnemyControllerList();
     }
 
     /// <summary>
@@ -90,5 +99,16 @@ public class WorldManager : SingletonComponent<WorldManager>
     {
         obj.Destroy();
         updateList.Remove(obj);
+    }
+
+
+    void GetEnemyControllerList()
+    {
+        EnemyAppearController[] array = enemyRoot.GetComponentsInChildren<EnemyAppearController>();
+
+        foreach(var e in array)
+        {
+            Debug.Log(e);
+        }
     }
 }

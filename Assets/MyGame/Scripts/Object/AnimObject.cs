@@ -15,9 +15,9 @@ public class AnimObject : BaseObject
     {
         get
         {
-            if (_mainMaterial == null)
+            if (m_mainAnimator != null && _mainMaterial == null)
             {
-                _mainMaterial = m_mainAnimator.gameObject.GetComponent<Renderer>().material;
+                _mainMaterial = m_mainAnimator?.gameObject.GetComponent<Renderer>().material;
             }
 
             return _mainMaterial;
@@ -26,12 +26,12 @@ public class AnimObject : BaseObject
 
     protected virtual void Awake()
     {
-        _mainMaterial = m_mainAnimator.gameObject.GetComponent<Renderer>().material;
+        if (m_mainAnimator != null) _mainMaterial = m_mainAnimator.gameObject.GetComponent<Renderer>().material;
     }
 
     protected override void Init()
     {
-        currentAnimSpeed = m_mainAnimator.speed;
+        if (m_mainAnimator != null) currentAnimSpeed = m_mainAnimator.speed;
     }
 
     protected override void OnPause(bool isPause)

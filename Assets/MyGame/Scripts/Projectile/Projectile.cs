@@ -5,6 +5,8 @@ using System.Runtime.ConstrainedExecution;
 using UnityEngine;
 using UnityEngine.Pool;
 
+
+
 public class Projectile : StageDirectionalObject,IPooledObject<Projectile>
 {
     [SerializeField] Rigidbody2D rb = default;
@@ -12,7 +14,7 @@ public class Projectile : StageDirectionalObject,IPooledObject<Projectile>
     [SerializeField] private BoxCollider2D boxTrigger;
     [SerializeField] private BoxCollider2D boxCollider;
     Action<Rigidbody2D> fixedUpdate;
-    Action deleteCallback;
+    Action<Projectile> deleteCallback;
 
     Action<Projectile> onCollision;
 
@@ -46,7 +48,7 @@ public class Projectile : StageDirectionalObject,IPooledObject<Projectile>
         }
     }
 
-    public void Setup(int attackPower, Action<Rigidbody2D> start, Action<Rigidbody2D> fixedUpdate, Action deleteCallback)
+    public void Setup(int attackPower, Action<Rigidbody2D> start, Action<Rigidbody2D> fixedUpdate, Action<Projectile> deleteCallback)
     {
         start?.Invoke(rb);
         this.attackPower = attackPower;
@@ -54,7 +56,7 @@ public class Projectile : StageDirectionalObject,IPooledObject<Projectile>
         this.deleteCallback = deleteCallback;
     }
 
-    public void Setup(int attackPower, Action<Rigidbody2D> start, Action<Rigidbody2D> fixedUpdate, Action deleteCallback, Action<Projectile> onCollisionEnter = null)
+    public void Setup(int attackPower, Action<Rigidbody2D> start, Action<Rigidbody2D> fixedUpdate, Action<Projectile> deleteCallback, Action<Projectile> onCollisionEnter = null)
     {
         Setup(attackPower, start, fixedUpdate, deleteCallback);
         this.onCollision = onCollisionEnter;
@@ -82,9 +84,8 @@ public class Projectile : StageDirectionalObject,IPooledObject<Projectile>
 
     public void Delete()
     {
-        this.deleteCallback?.Invoke();
+        this.deleteCallback?.Invoke(this);
     }
-
 
     IObjectPool<Projectile> IPooledObject<Projectile>.Pool { get => pool; set => pool = value; }
 

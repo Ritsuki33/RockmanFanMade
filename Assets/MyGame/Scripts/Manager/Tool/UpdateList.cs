@@ -68,11 +68,13 @@ public class UpdateList
     {
         foreach(var e in addList)
         {
+            e.Init();
             list.Add(e);
         }
 
         foreach(var e in removeList)
         {
+            e.Destroy();
             list.Remove(e);
         }
 
