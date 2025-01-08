@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BigDog : EnemyObject
+public class BigDog : StageEnemy
 {
     [SerializeField] BigDogBehavior ctr;
 

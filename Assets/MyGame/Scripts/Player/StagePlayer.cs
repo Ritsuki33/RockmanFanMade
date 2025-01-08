@@ -5,7 +5,7 @@ using UnityEditorInternal;
 using UnityEngine;
 using UnityEngine.WSA;
 
-public partial class StagePlayer : StageDirectionalObject
+public partial class StagePlayer : AnimObject, IDirect
 {
     [Header("拡張RigidBody")]
     [SerializeField] ExpandRigidBody exRb;
@@ -14,17 +14,20 @@ public partial class StagePlayer : StageDirectionalObject
     [SerializeField] SpriteRenderer spriteRenderer;
     [SerializeField] int mameMax = 3;
     [SerializeField] Gravity gravity;
-    [SerializeField] Move move ;
+    [SerializeField] Move move;
     [SerializeField] OnTheGround onTheGround;
     [SerializeField] Jump jump;
+    [SerializeField] Direct direct;
 
     ExRbStateMachine<StagePlayer> m_mainStateMachine = new ExRbStateMachine<StagePlayer>();
     StateMachine<StagePlayer> m_chargeStateMachine = new StateMachine<StagePlayer>();
+
 
     int currentHp = 0;
 
     public int CurrentHp => currentHp;
     public int MaxHp => maxHp;
+
 
     public Action<float> hpChangeTrigger;
 
@@ -65,8 +68,9 @@ public partial class StagePlayer : StageDirectionalObject
         Damaged,
     }
 
-    private void Awake()
+    protected override void Awake()
     {
+        base.Awake();
         m_mainStateMachine.Clear();
 
         // メインの状態セット
@@ -86,6 +90,7 @@ public partial class StagePlayer : StageDirectionalObject
 
         boxPhysicalCollider = GetComponent<BoxCollider2D>();
 
+        direct.Setup(this.transform);
 
         exRbHit.Init(exRb);
         rbCollide.Init();
@@ -325,4 +330,9 @@ public partial class StagePlayer : StageDirectionalObject
     {
         onTheGround.OnDrawGizmos(transform.position, exRb.PhysicalBoxSize.x);
     }
+
+    public bool IsRight => direct.IsRight;
+    public void TurnTo(bool isRight) => direct.TurnTo(isRight);
+    public void TurnToTarget(Vector2 targetPos) => TurnToTarget(targetPos);
+    public void TurnFace() => direct.TurnFace();
 }

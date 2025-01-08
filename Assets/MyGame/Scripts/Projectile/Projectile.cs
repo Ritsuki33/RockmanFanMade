@@ -24,8 +24,6 @@ public class Projectile : StageDirectionalObject,IPooledObject<Projectile>
     public Vector2 CurVelocity => rb.velocity;
     public float CurSpeed => rb.velocity.magnitude;
 
-    public Action<Rigidbody2D> FixedUpdateCallback => fixedUpdate;
-    public Action<Projectile> OnCollisionCallback => onCollision;
     RbCollide rbCollide = new RbCollide();
 
     private IObjectPool<Projectile> pool = null;
@@ -40,7 +38,7 @@ public class Projectile : StageDirectionalObject,IPooledObject<Projectile>
 
     protected override void OnFixedUpdate()
     {
-        FixedUpdateCallback.Invoke(rb);
+        fixedUpdate.Invoke(rb);
 
         if (GameMainManager.Instance.MainCameraControll.CheckOutOfView(gameObject))
         {
@@ -64,12 +62,12 @@ public class Projectile : StageDirectionalObject,IPooledObject<Projectile>
 
     void OnCollisionEnterBase(Collision2D collision)
     {
-        OnCollisionCallback?.Invoke(this);
+        onCollision?.Invoke(this);
     }
 
     void OnTriggerEnterBase(Collider2D collision)
     {
-        OnCollisionCallback?.Invoke(this);
+        onCollision?.Invoke(this);
     }
 
     private void OnCollisionEnter2D(Collision2D collision)

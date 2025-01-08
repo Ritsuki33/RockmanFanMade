@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class Batman : EnemyObject
+public class Batman : StageEnemy
 {
     ExRbStateMachine<Batman> mainStateMachine = new ExRbStateMachine<Batman>();
     ExpandRigidBody exRb;

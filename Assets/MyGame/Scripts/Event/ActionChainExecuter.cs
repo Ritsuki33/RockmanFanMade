@@ -137,11 +137,12 @@ public class ActionChainExecuter : MonoBehaviour
     [Serializable]
     class StageObjectTurn:BaseAction
     {
-        [SerializeField] StageDirectionalObject obj;
+        [SerializeField] BaseObject obj;
         [SerializeField] bool isRight = true;
         public override void Execute(Action finishCallback)
         {
-            obj.TurnTo(isRight);
+            IDirect direct = obj as IDirect;
+            direct?.TurnTo(isRight);
             finishCallback.Invoke();
         }
     }

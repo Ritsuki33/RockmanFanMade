@@ -6,7 +6,7 @@
 public class StageDirectionalObject : AnimObject
 {
     [SerializeField,Header("正方向")] bool forwardIsRight = false;
-
+    
     public bool IsRight => (forwardIsRight) ? this.transform.localScale.x > 0 : this.transform.localScale.x < 0;
 
     // 正方向の単位値

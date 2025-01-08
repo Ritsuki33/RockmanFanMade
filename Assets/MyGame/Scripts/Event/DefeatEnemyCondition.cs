@@ -13,7 +13,7 @@ public abstract class BaseEnemyCondition
     /// 撃破メソッド
     /// </summary>
     /// <param name="target"></param>
-    public void Defeated(EnemyObject target)
+    public void Defeated(StageEnemy target)
     {
         if (!ValidateConditions(target)) return;
 
@@ -27,7 +27,7 @@ public abstract class BaseEnemyCondition
     /// </summary>
     /// <param name="target"></param>
     /// <returns></returns>
-    public abstract bool ValidateConditions(EnemyObject target);
+    public abstract bool ValidateConditions(StageEnemy target);
 }
 
 /// <summary>
@@ -36,13 +36,13 @@ public abstract class BaseEnemyCondition
 [Serializable]
 public class DefeatTargetEnemyCondition : BaseEnemyCondition
 {
-    [SerializeField,Header("討伐対象の敵リスト")] EnemyObject[] targets = default;
+    [SerializeField,Header("討伐対象の敵リスト")] StageEnemy[] targets = default;
     int count = 0;
 
-    public override bool ValidateConditions(EnemyObject target)
+    public override bool ValidateConditions(StageEnemy target)
     {
         // 指定した敵の討伐数カウント
-        foreach (EnemyObject t in targets)
+        foreach (StageEnemy t in targets)
         {
             if (t == target)
             {
@@ -63,7 +63,7 @@ public class DefeatEnemyNunCondition : BaseEnemyCondition
     [SerializeField] int defeatNum;
     int count = 0;
   
-    public override bool ValidateConditions(EnemyObject target)
+    public override bool ValidateConditions(StageEnemy target)
     {
         // 討伐数カウント
         count++;

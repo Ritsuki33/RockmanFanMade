@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RocketMask : EnemyObject
+public class RocketMask : StageEnemy
 {
     [SerializeField] RoketMaskBehavior rocketMaskComtroller = default;
 

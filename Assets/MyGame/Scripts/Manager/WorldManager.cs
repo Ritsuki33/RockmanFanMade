@@ -3,7 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class WorldManager : SingletonComponent<WorldManager>
+public interface IUpdateListController
+{
+    public void AddPlayer(StagePlayer player);
+    public void AddObject(IObjectInterpreter obj);
+    public void RemoveObject(IObjectInterpreter obj);
+}
+public class WorldManager : SingletonComponent<WorldManager>, IUpdateListController
 {
     [SerializeField] TransferArea _playerTransferArea;
 
@@ -30,7 +36,12 @@ public class WorldManager : SingletonComponent<WorldManager>
         currentCheckPointData = defaultCheckPoint;
         isPause = false;
 
-        GetEnemyControllerList();
+        enemyAppearControllerList = enemyRoot.GetComponentsInChildren<EnemyAppearController>().ToList();
+
+        foreach (var e in enemyAppearControllerList)
+        {
+            e.Init(this);
+        }
     }
 
     /// <summary>
@@ -47,6 +58,11 @@ public class WorldManager : SingletonComponent<WorldManager>
         if (isPause) return;
 
         updateList.OnUpdate();
+
+        foreach(var element in enemyAppearControllerList)
+        {
+            element.OnUpdate();
+        }
     }
 
     public void OnPause(bool isPause)
@@ -101,14 +117,4 @@ public class WorldManager : SingletonComponent<WorldManager>
         updateList.Remove(obj);
     }
 
-
-    void GetEnemyControllerList()
-    {
-        EnemyAppearController[] array = enemyRoot.GetComponentsInChildren<EnemyAppearController>();
-
-        foreach(var e in array)
-        {
-            Debug.Log(e);
-        }
-    }
 }

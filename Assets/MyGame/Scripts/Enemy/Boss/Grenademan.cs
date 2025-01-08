@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Runtime.Serialization;
 using UnityEngine;
-using static Cinemachine.CinemachinePathBase;
 
-public class Grenademan : EnemyObject
+public class Grenademan : StageEnemy,IDirect
 {
     PsPool DeathEffectPool => EffectManager.Instance.DeathEffectPool;
 
@@ -15,6 +13,7 @@ public class Grenademan : EnemyObject
     [SerializeField] private Gravity _gravity;
     [SerializeField] private Move _move;
     [SerializeField] private Jump jump;
+    [SerializeField] private Direct direct;
     private ExpandRigidBody _exRb;
 
     private AmbiguousTimer _timer = new AmbiguousTimer();
@@ -26,6 +25,7 @@ public class Grenademan : EnemyObject
     ExplodePool ExplodePool => EffectManager.Instance.ExplodePool;
 
     public Action<float> HpChangeTrigger { get { return hpChangeTrigger; } set { hpChangeTrigger = value; } }
+
 
     ExRbStateMachine<Grenademan> stateMachine = new ExRbStateMachine<Grenademan>();
     enum StateId
@@ -53,6 +53,8 @@ public class Grenademan : EnemyObject
         stateMachine.AddState((int)StateId.Shoot, new Shoot());
         //AddState((int)StateId.Float, new Float());
         stateMachine.AddState((int)StateId.Appearance, new Appearance());
+
+        direct.Setup(transform);
     }
 
     protected override void Init()
@@ -557,4 +559,8 @@ public class Grenademan : EnemyObject
         this.stateMachine.TransitReady((int)StateId.Idle);
     }
 
+    public bool IsRight => direct.IsRight;
+    public void TurnTo(bool isRight) => direct.TurnTo(isRight);
+    public void TurnToTarget(Vector2 targetPos) => direct.TurnToTarget(targetPos);
+    public void TurnFace() => direct.TurnFace();
 }

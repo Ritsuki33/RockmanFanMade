@@ -126,7 +126,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_mainAnimator: {fileID: 3088061996218391432}
-  forwardIsRight: 0
   m_charge_animator: {fileID: 490895303943728102}
   launcher: {fileID: 1196822323176108787}
   exRb: {fileID: 3680167717726453950}
@@ -146,6 +145,8 @@ MonoBehaviour:
       m_Bits: 131904
   jump:
     maxSpeed: 30
+  direct:
+    forwardIsRight: 1
 --- !u!114 &3680167717726453950
 MonoBehaviour:
   m_ObjectHideFlags: 0

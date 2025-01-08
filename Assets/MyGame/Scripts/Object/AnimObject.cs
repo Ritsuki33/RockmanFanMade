@@ -36,6 +36,8 @@ public class AnimObject : BaseObject
 
     protected override void OnPause(bool isPause)
     {
+        if (m_mainAnimator == null) return;
+
         if (isPause)
         {
             currentAnimSpeed = m_mainAnimator.speed;

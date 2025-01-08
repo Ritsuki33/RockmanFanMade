@@ -75,11 +75,11 @@ public class EventTrigger<T,S>: IEventTrigger<T, S> where T : Enum where S : Del
 public class EventTriggerManager : SingletonComponent<EventTriggerManager>
 {
     EventTrigger<EventType, Action> voidEventTriggers = new EventTrigger<EventType, Action>();
-    EventTrigger<EnemyEventType, Action<EnemyObject>> enemyEventTriggers = new EventTrigger<EnemyEventType, Action<EnemyObject>>();
+    EventTrigger<EnemyEventType, Action<StageEnemy>> enemyEventTriggers = new EventTrigger<EnemyEventType, Action<StageEnemy>>();
 
     public IEventTrigger<EventType, Action> VoidEventTriggers => voidEventTriggers;
-    public IEventTrigger<EnemyEventType, Action<EnemyObject>> EenemyEventTriggers => enemyEventTriggers;
+    public IEventTrigger<EnemyEventType, Action<StageEnemy>> EenemyEventTriggers => enemyEventTriggers;
 
     public void Notify(EventType eventType) => voidEventTriggers[eventType]?.Invoke();
-    public void Notify(EnemyEventType eventType, EnemyObject enemy) => enemyEventTriggers[eventType]?.Invoke(enemy);
+    public void Notify(EnemyEventType eventType, StageEnemy enemy) => enemyEventTriggers[eventType]?.Invoke(enemy);
 }
