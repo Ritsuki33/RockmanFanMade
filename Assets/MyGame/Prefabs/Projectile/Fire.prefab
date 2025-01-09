@@ -303,9 +303,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a7b01ea1b7b4b5469f87aaa998e091a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_mainAnimator: {fileID: 0}
-  materialController: {fileID: 0}
-  forwardIsRight: 0
-  rb: {fileID: 0}
-  boxTrigger: {fileID: 0}
-  boxCollider: {fileID: 0}
+  m_mainAnimator: {fileID: 1533953807141096291}
+  rb: {fileID: 3378736190339322313}
+  boxTrigger: {fileID: 2061328204228827753}
+  boxCollider: {fileID: 1189704593197543832}
+  direct:
+    _transform: {fileID: 4124914671780115097}
+    forwardIsRight: 0

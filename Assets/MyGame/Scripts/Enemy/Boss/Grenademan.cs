@@ -54,7 +54,6 @@ public class Grenademan : StageEnemy,IDirect
         //AddState((int)StateId.Float, new Float());
         stateMachine.AddState((int)StateId.Appearance, new Appearance());
 
-        direct.Setup(transform);
     }
 
     protected override void Init()

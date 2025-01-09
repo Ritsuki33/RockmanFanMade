@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 8702880162454419263}
   - component: {fileID: 8844416400681651829}
   - component: {fileID: 8193433818486469091}
-  - component: {fileID: 3680167717726453950}
   - component: {fileID: 6071180307351402407}
   - component: {fileID: 8522347132344267101}
   m_Layer: 7
@@ -126,11 +125,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_mainAnimator: {fileID: 3088061996218391432}
+  rb: {fileID: 8702880162454419263}
   m_charge_animator: {fileID: 490895303943728102}
   launcher: {fileID: 1196822323176108787}
-  exRb: {fileID: 3680167717726453950}
+  exRb:
+    transform: {fileID: 1659857589686973031}
+    rb: {fileID: 8702880162454419263}
+    boxCollider: {fileID: 8844416400681651829}
+    physicalOffset: {x: 0.02, y: 0.03}
+    physicalGap: 0.005
+    priority: 4
+    ratio_x: 1
+    ratio_y: 1
+    throughFloorLayer:
+      serializedVersion: 2
+      m_Bits: 768
   maxHp: 27
-  spriteRenderer: {fileID: 0}
+  spriteRenderer: {fileID: 5797357178476956558}
   mameMax: 3
   gravity:
     _gravityScale: 2
@@ -146,28 +157,8 @@ MonoBehaviour:
   jump:
     maxSpeed: 30
   direct:
+    _transform: {fileID: 1659857589686973031}
     forwardIsRight: 1
---- !u!114 &3680167717726453950
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1557988498668573356}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0de98cabf75ebf44f9e360d301c8bafa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  boxCollider: {fileID: 8844416400681651829}
-  physicalOffset: {x: 0.02, y: 0.03}
-  physicalGap: 0.005
-  priority: 4
-  ratio_x: 1
-  ratio_y: 1
-  throughFloorLayer:
-    serializedVersion: 2
-    m_Bits: 768
 --- !u!114 &6071180307351402407
 MonoBehaviour:
   m_ObjectHideFlags: 0

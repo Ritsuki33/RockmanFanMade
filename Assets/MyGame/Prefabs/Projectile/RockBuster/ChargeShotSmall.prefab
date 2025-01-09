@@ -150,10 +150,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_mainAnimator: {fileID: 9207079288770869027}
-  forwardIsRight: 0
   rb: {fileID: 7653836454619443432}
   boxTrigger: {fileID: 9164642648087310750}
   boxCollider: {fileID: 4889863036634415680}
+  direct:
+    _transform: {fileID: 5736933279683153212}
+    forwardIsRight: 0
 --- !u!1 &2349547040294884484
 GameObject:
   m_ObjectHideFlags: 0

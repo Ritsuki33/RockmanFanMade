@@ -80890,6 +80890,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0de98cabf75ebf44f9e360d301c8bafa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  rb: {fileID: 0}
   boxCollider: {fileID: 1222568601}
   physicalOffset: {x: 0.05, y: 0.05}
   physicalGap: 0.005
@@ -80897,8 +80898,11 @@ MonoBehaviour:
   ratio_x: 1
   ratio_y: 1
   throughFloorLayer:
-    serializedVersion: 2
     m_Bits: 0
+  physicalLayer:
+    m_Bits: 0
+  currentVelocity: {x: 0, y: 0}
+  isCollideThroughFloorBottom: 0
 --- !u!114 &1648211534
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -80938,6 +80942,7 @@ MonoBehaviour:
   jump:
     maxSpeed: 15
   direct:
+    _transform: {fileID: 0}
     forwardIsRight: 0
   placeBombPosArray: []
 --- !u!114 &1648211536

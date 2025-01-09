@@ -1,18 +1,14 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Runtime.ConstrainedExecution;
 using UnityEngine;
 using UnityEngine.Pool;
 
 
 
-public class Projectile : StageDirectionalObject,IPooledObject<Projectile>
+public class Projectile : PhysicalObject,IPooledObject<Projectile>,IDirect
 {
-    [SerializeField] Rigidbody2D rb = default;
-
     [SerializeField] private BoxCollider2D boxTrigger;
     [SerializeField] private BoxCollider2D boxCollider;
+    [SerializeField] private Direct direct;
     Action<Rigidbody2D> fixedUpdate;
     Action<Projectile> deleteCallback;
 
@@ -87,9 +83,17 @@ public class Projectile : StageDirectionalObject,IPooledObject<Projectile>
 
     IObjectPool<Projectile> IPooledObject<Projectile>.Pool { get => pool; set => pool = value; }
 
+
     void IPooledObject<Projectile>.OnGet()
     {
         if (boxCollider) boxCollider.enabled = true;
         if (boxTrigger) boxTrigger.enabled = true;
     }
+
+
+    public bool IsRight => direct.IsRight;
+
+    public void TurnTo(bool isRight) => direct.TurnTo(isRight);
+    public void TurnToTarget(Vector2 targetPos) => direct.TurnToTarget(targetPos);
+    public void TurnFace() => direct.TurnFace();
 }

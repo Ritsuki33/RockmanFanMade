@@ -1,8 +1,8 @@
 ﻿using System;
 using UnityEngine;
 
-
-public class ExpandRigidBody : MonoBehaviour, IExRbCallbackSet
+[Serializable]
+public class ExpandRigidBody : IExRbCallbackSet
 {
     enum Priority
     {
@@ -15,7 +15,8 @@ public class ExpandRigidBody : MonoBehaviour, IExRbCallbackSet
         Left,
     }
 
-    Rigidbody2D rb;
+    [SerializeField] Transform transform = default;
+    [SerializeField] Rigidbody2D rb = default;
 
     [SerializeField] BoxCollider2D boxCollider = null;
     [SerializeField] Vector2 physicalOffset = new Vector2(0.05f, 0.05f);
@@ -342,13 +343,13 @@ public class ExpandRigidBody : MonoBehaviour, IExRbCallbackSet
     Vector2 CurrentMovement => velocity * Time.fixedDeltaTime;
 
     
-    private void Awake()
+    public void Init()
     {
-        if (boxCollider == null) boxCollider = GetComponent<BoxCollider2D>();
+        if (boxCollider == null) boxCollider = transform.gameObject.GetComponent<BoxCollider2D>();
         physicalLayer = Physics2D.GetLayerCollisionMask(boxCollider.gameObject.layer);
 
-        rb = GetComponent<Rigidbody2D>();
-        if (!rb) rb = gameObject.AddComponent<Rigidbody2D>();
+        rb = transform.gameObject.GetComponent<Rigidbody2D>();
+        if (!rb) rb = transform.gameObject.AddComponent<Rigidbody2D>();
 
         rb.bodyType = RigidbodyType2D.Dynamic;
         rb.mass = 0;
@@ -358,14 +359,14 @@ public class ExpandRigidBody : MonoBehaviour, IExRbCallbackSet
         rb.constraints = RigidbodyConstraints2D.FreezeRotation;
     }
 
-    private void FixedUpdate()
+    public void FixedUpdate()
     {
        if((boxCollider == null) ? false : (!(boxCollider.enabled) ? false : (boxCollider.isTrigger) ? false : true)) CorrectVelocity();
         rb.velocity = currentVelocity;
         currentVelocity = Vector2.zero;
     }
 
-    public void CorrectVelocity()
+    private void CorrectVelocity()
     {
         PhysicalVelocityCorrect(currentVelocity);
         ThroughFloorVelocityCorrect(currentVelocity);

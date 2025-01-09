@@ -16,19 +16,13 @@ public interface IDirect
 [Serializable]
 public class Direct: IDirect
 {
+    [SerializeField] Transform _transform = default;
     [SerializeField, Header("正方向")] bool forwardIsRight = false;
 
     public bool IsRight => (forwardIsRight) ? this._transform.localScale.x > 0 : this._transform.localScale.x < 0;
 
     // 正方向の単位値
     float forwardDirection => ((forwardIsRight) ? 1 : -1);
-
-    private Transform _transform = null;
-
-    public void Setup(Transform transform)
-    {
-        this._transform = transform;
-    }
 
     /// <summary>
     /// 方向を決定

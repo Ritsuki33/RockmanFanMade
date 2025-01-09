@@ -116,7 +116,6 @@ GameObject:
   m_Component:
   - component: {fileID: 7223287936867541727}
   - component: {fileID: 8219540544395458463}
-  - component: {fileID: 861263011152484376}
   - component: {fileID: 3502984436217711033}
   m_Layer: 16
   m_Name: PlacedBomb
@@ -153,31 +152,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7311dd70b7f2594419ddc4f65bc4d14c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  placedBomb: {fileID: 0}
+  m_mainAnimator: {fileID: 0}
   _animator: {fileID: 6660667417037396447}
   boxTrigger: {fileID: 0}
   boxCollider: {fileID: 3502984436217711033}
---- !u!114 &861263011152484376
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8197843532567573251}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0de98cabf75ebf44f9e360d301c8bafa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  boxCollider: {fileID: 3502984436217711033}
-  physicalOffset: {x: 0.05, y: 0.05}
-  physicalGap: 0.005
-  priority: 1
-  ratio_x: 1
-  ratio_y: 1
-  throughFloorLayer:
-    serializedVersion: 2
-    m_Bits: 0
 --- !u!61 &3502984436217711033
 BoxCollider2D:
   m_ObjectHideFlags: 0

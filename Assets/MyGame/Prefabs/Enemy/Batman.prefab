@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 54479242450792280}
   - component: {fileID: 7690334316104389653}
   - component: {fileID: 2478137116597086615}
-  - component: {fileID: 4009951237653330862}
   - component: {fileID: 2728003768869186676}
   m_Layer: 16
   m_Name: Batman
@@ -129,27 +128,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.72, y: 0.8}
   m_EdgeRadius: 0
---- !u!114 &4009951237653330862
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4617759762714419291}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0de98cabf75ebf44f9e360d301c8bafa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  boxCollider: {fileID: 2478137116597086615}
-  physicalOffset: {x: 0.05, y: 0.05}
-  physicalGap: 0.005
-  priority: 1
-  ratio_x: 1
-  ratio_y: 1
-  throughFloorLayer:
-    serializedVersion: 2
-    m_Bits: 0
 --- !u!114 &2728003768869186676
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -163,11 +141,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_mainAnimator: {fileID: 7417334609489879742}
-  forwardIsRight: 0
+  rb: {fileID: 7690334316104389653}
   enemyData: {fileID: 0}
   defeatEvent:
     m_PersistentCalls:
       m_Calls: []
+  exRb:
+    transform: {fileID: 8952645648318105706}
+    rb: {fileID: 7690334316104389653}
+    boxCollider: {fileID: 2478137116597086615}
+    physicalOffset: {x: 0.05, y: 0.05}
+    physicalGap: 0.005
+    priority: 1
+    ratio_x: 1
+    ratio_y: 1
+    throughFloorLayer:
+      serializedVersion: 2
+      m_Bits: 768
 --- !u!1 &5926959085142508283
 GameObject:
   m_ObjectHideFlags: 0

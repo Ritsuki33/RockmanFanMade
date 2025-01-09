@@ -319,7 +319,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_mainAnimator: {fileID: 5264032448341594800}
-  forwardIsRight: 0
   rb: {fileID: 6681407226516014065}
   boxTrigger: {fileID: 5998792146544469334}
   boxCollider: {fileID: 3310653848489901165}
+  direct:
+    _transform: {fileID: 3172450265035474752}
+    forwardIsRight: 0

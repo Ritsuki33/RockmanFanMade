@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class StageEnemy : AnimObject
+public class StageEnemy : PhysicalObject
 {
     [SerializeField] EnemyData enemyData = default;
 

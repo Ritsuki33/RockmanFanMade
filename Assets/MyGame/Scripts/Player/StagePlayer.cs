@@ -2,9 +2,8 @@
 using System.Collections;
 using UnityEngine;
 
-public partial class StagePlayer : AnimObject, IDirect
+public partial class StagePlayer : PhysicalObject, IDirect
 {
-    [Header("拡張RigidBody")]
     [SerializeField] ExpandRigidBody exRb;
     [Header("プレイヤー情報")]
     [SerializeField] int maxHp = 27;
@@ -87,7 +86,7 @@ public partial class StagePlayer : AnimObject, IDirect
 
         boxPhysicalCollider = GetComponent<BoxCollider2D>();
 
-        direct.Setup(this.transform);
+        exRb.Init();
 
         exRbHit.Init(exRb);
         rbCollide.Init();
@@ -123,6 +122,8 @@ public partial class StagePlayer : AnimObject, IDirect
     {
         m_mainStateMachine.FixedUpdate(this);
         m_chargeStateMachine.FixedUpdate(this);
+
+        exRb.FixedUpdate();
     }
 
     protected override void OnUpdate()

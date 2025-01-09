@@ -2,8 +2,8 @@
 
 public class Batman : StageEnemy
 {
+    [SerializeField] ExpandRigidBody exRb;
     ExRbStateMachine<Batman> mainStateMachine = new ExRbStateMachine<Batman>();
-    ExpandRigidBody exRb;
 
     RaycastSensor sensor;
 
@@ -22,7 +22,6 @@ public class Batman : StageEnemy
     {
         base.Awake();
 
-        exRb = GetComponent<ExpandRigidBody>();
         sensor = GetComponent<RaycastSensor>();
 
         mainStateMachine.Clear();
@@ -30,7 +29,7 @@ public class Batman : StageEnemy
         mainStateMachine.AddState((int)StateID.ToMove, new ToMove());
         mainStateMachine.AddState((int)StateID.Move, new Move());
         mainStateMachine.AddState((int)StateID.ToIdle, new ToIdle());
-
+        exRb.Init();
         exRbHit.Init(exRb);
         exRbHit.onTopHitEnter += OnTopHitEnter;
         rbCollide.onTriggerEnterRockBusterDamage += OnTriggerEnterRockBusterDamage;
@@ -46,6 +45,7 @@ public class Batman : StageEnemy
     protected override void OnFixedUpdate()
     {
         mainStateMachine.FixedUpdate(this);
+        exRb.FixedUpdate();
     }
 
     protected override void OnUpdate()
