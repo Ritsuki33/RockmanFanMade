@@ -168,7 +168,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   baseDamageValue: 3
-  projectile: {fileID: 0}
+  projectile: {fileID: 7951104935778699332}
 --- !u!1 &6093197117267456266
 GameObject:
   m_ObjectHideFlags: 0
@@ -319,7 +319,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_mainAnimator: {fileID: 5264032448341594800}
-  materialController: {fileID: 0}
   forwardIsRight: 0
   rb: {fileID: 6681407226516014065}
   boxTrigger: {fileID: 5998792146544469334}

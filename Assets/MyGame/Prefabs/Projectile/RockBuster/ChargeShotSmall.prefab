@@ -150,7 +150,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_mainAnimator: {fileID: 9207079288770869027}
-  materialController: {fileID: 0}
   forwardIsRight: 0
   rb: {fileID: 7653836454619443432}
   boxTrigger: {fileID: 9164642648087310750}
@@ -246,7 +245,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   baseDamageValue: 2
-  projectile: {fileID: 0}
+  projectile: {fileID: 8925780559723995537}
 --- !u!1 &8005054857083094304
 GameObject:
   m_ObjectHideFlags: 0
