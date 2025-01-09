@@ -33,8 +33,8 @@ public class Batman : StageEnemy
 
         exRbHit.Init(exRb);
         exRbHit.onTopHitEnter += OnTopHitEnter;
-        rbCollide.onCollisionEnterRockBusterDamage += OnCollisionEnterRockBusterDamage;
-        rbCollide.onCollisionEnterPlayerTrigger += OnCollisionEnterPlayerTrigger;
+        rbCollide.onTriggerEnterRockBusterDamage += OnTriggerEnterRockBusterDamage;
+        rbCollide.onTriggerEnterPlayerTrigger += OnTriggerEnterPlayerTrigger;
     }
 
     protected override void Init()
@@ -63,12 +63,12 @@ public class Batman : StageEnemy
         mainStateMachine.OnTopHitEnter(this, hit);
     }
 
-    private void OnCollisionEnterRockBusterDamage(RockBusterDamage collision)
+    private void OnTriggerEnterRockBusterDamage(RockBusterDamage collision)
     {
         mainStateMachine.OnTriggerEnter(this, collision);
     }
 
-    private void OnCollisionEnterPlayerTrigger(PlayerTrigger collision)
+    private void OnTriggerEnterPlayerTrigger(PlayerTrigger collision)
     {
         mainStateMachine.OnTriggerEnter(this, collision);
     }
