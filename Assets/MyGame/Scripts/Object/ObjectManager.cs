@@ -123,6 +123,24 @@ public class ObjectManager : SingletonComponent<ObjectManager>
     }
 
     /// <summary>
+    /// デスエフェクトの生成
+    /// </summary>
+    /// <param name="position"></param>
+    public void CreateDeathEffect(Vector2 position)
+    {
+        var pool = effectManager.DeathEffectPool;
+        PooledPsObejct deathEffect = pool.Pool.Get();
+        deathEffect.gameObject.transform.position = new Vector3(position.x, position.y, -3);
+
+        deathEffect.Setup((obj) =>
+        {
+            pool.Release(deathEffect);
+            WorldManager.Instance.RemoveObject(obj);
+        });
+        WorldManager.Instance.AddObject(deathEffect);
+    }
+
+    /// <summary>
     /// Projectileのプール取得
     /// </summary>
     /// <param name="rockBuster"></param>
@@ -154,9 +172,9 @@ public class ObjectManager : SingletonComponent<ObjectManager>
         switch (type)
         {
             case ExplodeType.Explode1:
-                return EffectManager.Instance.ExplodePool;
+                return effectManager.ExplodePool;
             case ExplodeType.Explode2:
-                return EffectManager.Instance.Explode2Pool;
+                return effectManager.Explode2Pool;
             default: return null;
         }
     }

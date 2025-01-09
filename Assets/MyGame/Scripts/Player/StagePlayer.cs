@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections;
-using Unity.VisualScripting;
-using UnityEditorInternal;
 using UnityEngine;
-using UnityEngine.WSA;
 
 public partial class StagePlayer : AnimObject, IDirect
 {

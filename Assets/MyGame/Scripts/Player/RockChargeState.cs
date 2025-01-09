@@ -9,10 +9,6 @@ public partial class StagePlayer
     [SerializeField] Animator m_charge_animator;
     [SerializeField] Transform launcher;
 
-    ProjectilePool RockBusterPool => EffectManager.Instance.RockBusterPool;
-    ProjectilePool RockBusterMiddlePool => EffectManager.Instance.RockBusterMiddlePool;
-    ProjectilePool RockBusterBigPool => EffectManager.Instance.RockBusterBigPool;
-
     bool isLaunchTrigger = false;
     int rimLightColorId = Shader.PropertyToID("_RimLightColor");
     int FadeLightId = Shader.PropertyToID("_FadeLight");

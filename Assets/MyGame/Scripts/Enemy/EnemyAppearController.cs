@@ -27,19 +27,6 @@ public class EnemyAppearController : MonoBehaviour
         enemy.gameObject.SetActive(false);
     }
 
-    //private void OnEnable()
-    //{
-    //    EventTriggerManager.Instance.VoidEventTriggers.Subscribe(EventType.ChangeCameraStart, Disabled);
-    //    EventTriggerManager.Instance.VoidEventTriggers.Subscribe(EventType.ChangeCameraEnd, Enabled);
-    //}
-
-    //private void OnDisable()
-    //{
-    //    EventTriggerManager.Instance.VoidEventTriggers.Unsubscribe(EventType.ChangeCameraStart, Disabled);
-    //    EventTriggerManager.Instance.VoidEventTriggers.Unsubscribe(EventType.ChangeCameraEnd, Enabled);
-    //}
-
-
     public void Init(IUpdateListController updateListController)
     {
         stateMachine.TransitReady((int)StateID.OutOfCamera, true);
@@ -117,6 +104,7 @@ public class EnemyAppearController : MonoBehaviour
         protected override void Enter(EnemyAppearController ctr, int preId, int subId)
         {
             ctr.enemy.gameObject.SetActive(true);
+            ctr.enemy.Setup(ctr._updateListController.RemoveObject);
             ctr._updateListController.AddObject(ctr.enemy);
         }
 

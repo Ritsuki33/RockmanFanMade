@@ -17,9 +17,9 @@ public class BigDogBehavior : MonoBehaviour
     AmbiguousTimer timer = new AmbiguousTimer();
 
 
-    ProjectilePool BomPool=>EffectManager.Instance.BomPool;
-    ProjectilePool FirePool =>EffectManager.Instance.FirePool;
-    ExplodePool ExplodePool=>EffectManager.Instance.ExplodePool;
+    //ProjectilePool BomPool=>EffectManager.Instance.BomPool;
+    //ProjectilePool FirePool =>EffectManager.Instance.FirePool;
+    //ExplodePool ExplodePool=>EffectManager.Instance.ExplodePool;
 
     //PlayerBehavior Player => WorldManager.Instance.PlayerController;
     enum StateId

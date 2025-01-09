@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public class PsObject : BaseObject
 {
@@ -7,6 +8,8 @@ public class PsObject : BaseObject
     public ParticleSystem ParticleSystem => m_particleSystem;
 
     private Material _material;
+
+    Action<PsObject> _finishedcallback;
     public  Material Material
     {
         get
@@ -20,9 +23,21 @@ public class PsObject : BaseObject
         }
     }
 
+    public void Setup(Action<PsObject> finishedcallback)
+    {
+        _finishedcallback = finishedcallback;
+    }
+
+    protected override void OnUpdate()
+    {
+        if (!m_particleSystem.isPlaying)
+        {
+            _finishedcallback?.Invoke(this);
+        }
+    }
     protected override void OnPause(bool isPause)
     {
-       if(isPause) m_particleSystem.Stop();
+       if(isPause) m_particleSystem.Pause();
         else m_particleSystem.Play();
     }
 }

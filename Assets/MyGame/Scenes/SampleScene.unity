@@ -1325,7 +1325,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_mainAnimator: {fileID: 0}
-  forwardIsRight: 1
   enemyData: {fileID: 0}
   defeatEvent:
     m_PersistentCalls:
@@ -80925,7 +80924,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_mainAnimator: {fileID: 0}
-  forwardIsRight: 0
   enemyData: {fileID: 11400000, guid: 1c8f826dbe2641547a3f178f338248e1, type: 2}
   defeatEvent:
     m_PersistentCalls:
@@ -80939,6 +80937,8 @@ MonoBehaviour:
     _speed: 5
   jump:
     maxSpeed: 15
+  direct:
+    forwardIsRight: 0
   placeBombPosArray: []
 --- !u!114 &1648211536
 MonoBehaviour:

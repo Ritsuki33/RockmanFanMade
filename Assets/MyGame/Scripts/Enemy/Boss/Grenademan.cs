@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class Grenademan : StageEnemy,IDirect
 {
-    PsPool DeathEffectPool => EffectManager.Instance.DeathEffectPool;
+    //PsPool DeathEffectPool => EffectManager.Instance.DeathEffectPool;
 
     public Action<float> hpParamIncrementAnimation = default;
     public Action<float> hpChangeTrigger = default;
@@ -22,7 +22,7 @@ public class Grenademan : StageEnemy,IDirect
     bool existBomb = false;
 
     [SerializeField] Transform[] placeBombPosArray = null;
-    ExplodePool ExplodePool => EffectManager.Instance.ExplodePool;
+    //ExplodePool ExplodePool => EffectManager.Instance.ExplodePool;
 
     public Action<float> HpChangeTrigger { get { return hpChangeTrigger; } set { hpChangeTrigger = value; } }
 
@@ -83,11 +83,7 @@ public class Grenademan : StageEnemy,IDirect
 
     public override void OnDead()
     {
-        var deathEffect = DeathEffectPool.Pool.Get().GetComponent<ParticleSystem>();
-        deathEffect.gameObject.transform.position = new Vector3(this.transform.position.x, this.transform.position.y, -3);
-
-        deathEffect.Play();
-
+        ObjectManager.Instance.CreateDeathEffect(this.transform.position);
         this.gameObject.SetActive(false);
     }
 

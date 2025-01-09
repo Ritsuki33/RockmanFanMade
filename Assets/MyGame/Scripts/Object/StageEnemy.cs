@@ -10,8 +10,6 @@ public class StageEnemy : AnimObject
 
     [SerializeField,Header("討伐後発生イベントを直接指定")] UnityEvent defeatEvent = default;
 
-    private ExplodePool ExplodePool => EffectManager.Instance.ExplodePool;
-
     private Material material;
 
     protected int currentHp = 0;
@@ -19,12 +17,18 @@ public class StageEnemy : AnimObject
     public int CurrentHp => currentHp;
     public int MaxHp => (enemyData != null) ? enemyData.Hp : 3;
 
-    
+    Action<StageEnemy> _onDeleteCallback;
+
     protected override void Init()
     {
         base.Init();
         MainMaterial.SetFloat(ShaderPropertyId.IsFadeColorID, 0);
         currentHp = MaxHp;
+    }
+
+    public void Setup(Action<StageEnemy> onDeleteCallback)
+    {
+        _onDeleteCallback = onDeleteCallback;
     }
 
     public virtual void Damaged(RockBusterDamage damageVal)
@@ -52,20 +56,17 @@ public class StageEnemy : AnimObject
     /// <param name="collision"></param>
     public void Dead()
     {
-        //if (projectile.AttackPower < 3) projectile?.Delete();
-
         OnDead();
 
+        _onDeleteCallback.Invoke(this);
         defeatEvent?.Invoke();
         EventTriggerManager.Instance.Notify(EnemyEventType.Defeated, this);
     }
 
     public virtual void OnDead()
     {
-        //var explode = ExplodePool.Pool.Get();
-        //explode.transform.position = this.transform.position;
-
-        //this.gameObject.SetActive(false);
+        ObjectManager.Instance.Create(ExplodeType.Explode1, Explode.Layer.None, 0, this.transform.position);
+        this.gameObject.SetActive(false);
     }
 
     /// <summary>

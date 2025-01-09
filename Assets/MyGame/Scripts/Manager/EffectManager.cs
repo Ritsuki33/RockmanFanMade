@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [DefaultExecutionOrder(-100)]
-public class EffectManager : SingletonComponent<EffectManager>
+public class EffectManager : MonoBehaviour
 {
     [SerializeField] ExplodePool explodePool = default;
     [SerializeField] ExplodePool explode2Pool = default;

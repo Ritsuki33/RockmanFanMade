@@ -1,4 +1,5 @@
 ﻿using System.Runtime.ConstrainedExecution;
+using System.Runtime.Serialization;
 using System.Threading;
 using Unity.VisualScripting.InputSystem;
 using UnityEngine;
@@ -642,11 +643,8 @@ public partial class StagePlayer
     {
         protected override void Enter(StagePlayer player, int preId, int subId)
         {
-            //player.gameObject.SetActive(false);
-            //var deathEffect = EffectManager.Instance.DeathEffectPool.Pool.Get().GetComponent<ParticleSystem>();
-            //deathEffect.gameObject.transform.position = player.transform.position;
-
-            //deathEffect.Play();
+            player.gameObject.SetActive(false);
+            ObjectManager.Instance.CreateDeathEffect(player.transform.position);
         }
     }
 

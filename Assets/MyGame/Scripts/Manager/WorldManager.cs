@@ -116,5 +116,4 @@ public class WorldManager : SingletonComponent<WorldManager>, IUpdateListControl
         obj.Destroy();
         updateList.Remove(obj);
     }
-
 }

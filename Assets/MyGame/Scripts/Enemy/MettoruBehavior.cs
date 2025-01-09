@@ -36,8 +36,8 @@ public partial class MettoruBehavior : MonoBehaviour
     //private bool invincible = false;
 
     //private PlayerBehavior Player => WorldManager.Instance.PlayerController;
-    private ExplodePool ExplodePool => EffectManager.Instance.ExplodePool;
-    private ProjectilePool MettoruFire => EffectManager.Instance.MettoruFirePool;
+    //private ExplodePool ExplodePool => EffectManager.Instance.ExplodePool;
+    //private ProjectilePool MettoruFire => EffectManager.Instance.MettoruFirePool;
     bool IsRight => mettrou.IsRight;
 
     Coroutine defense = null;

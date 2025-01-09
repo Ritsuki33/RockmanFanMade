@@ -5,7 +5,7 @@ using UnityEngine;
 public class Block : MonoBehaviour
 {
 
-    private ExplodePool ExplodePool => EffectManager.Instance.ExplodePool;
+    //private ExplodePool ExplodePool => EffectManager.Instance.ExplodePool;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
