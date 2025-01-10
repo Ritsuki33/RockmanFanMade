@@ -115,7 +115,7 @@ public class GameMainManager : BaseManager<GameMainManager>
     {
         this.isPause = isPause;
 
-        CoroutineManager.Instance.OnPause(isPause);
+        PauseManager.Instance.OnPause(isPause);
         screenContainer.GetCurrentScreenPresenter<GameMainScreenPresenter>()?.OnOpenPauseUi(isPause);
 
         worldManager?.OnPause(isPause);

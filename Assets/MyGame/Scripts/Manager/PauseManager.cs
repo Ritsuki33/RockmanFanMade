@@ -2,22 +2,22 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CoroutineManager : SingletonComponent<CoroutineManager>
+public class PauseManager : SingletonComponent<PauseManager>
 {
     public class WaitForSeconds : CustomYieldInstruction
     {
         private float waitTime;
-        CoroutineManager coroutineManager;
+        PauseManager coroutineManager;
         float currentTime = 0;
 
-        private WaitForSeconds(CoroutineManager manager, float seconds)
+        private WaitForSeconds(PauseManager manager, float seconds)
         {
             coroutineManager = manager;
             waitTime = seconds;
             currentTime = 0;
         }
 
-        internal static WaitForSeconds Create(CoroutineManager manager, float seconds)
+        internal static WaitForSeconds Create(PauseManager manager, float seconds)
         {
             return new WaitForSeconds(manager, seconds);
         }
