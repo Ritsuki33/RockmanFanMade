@@ -85,11 +85,11 @@ public class StageEnemy : PhysicalObject
             {
                 MainMaterial.SetFloat(ShaderPropertyId.IsFadeColorID, 1);
 
-                yield return new WaitForSeconds(0.05f);
+                yield return CoroutineManager.Instance.PausableWaitForSeconds(0.05f);
 
                 MainMaterial.SetFloat(ShaderPropertyId.IsFadeColorID, 0);
 
-                yield return new WaitForSeconds(0.05f);
+                yield return CoroutineManager.Instance.PausableWaitForSeconds(0.05f);
             }
             yield return null;
         }

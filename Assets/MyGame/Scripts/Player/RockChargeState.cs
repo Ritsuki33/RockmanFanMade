@@ -200,11 +200,11 @@ public partial class StagePlayer
                 {
                     MainMaterial.SetFloat(FadeLightId, 1);
 
-                    yield return new WaitForSeconds(0.05f);
+                    yield return CoroutineManager.Instance.PausableWaitForSeconds(0.05f);
 
                     MainMaterial.SetFloat(FadeLightId, 0);
 
-                    yield return new WaitForSeconds(0.05f);
+                    yield return CoroutineManager.Instance.PausableWaitForSeconds(0.05f);
                 }
             }
         }
