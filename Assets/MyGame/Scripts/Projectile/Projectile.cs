@@ -42,11 +42,16 @@ public class Projectile : PhysicalObject,IPooledObject<Projectile>,IDirect
         }
     }
 
-    public void Setup(int attackPower, Action<Rigidbody2D> start, Action<Rigidbody2D> fixedUpdate, Action<Projectile> deleteCallback)
+    public void Setup(int attackPower, Action<Rigidbody2D> start, Action<Rigidbody2D> fixedUpdate)
     {
         start?.Invoke(rb);
         this.attackPower = attackPower;
         this.fixedUpdate = fixedUpdate;
+    }
+
+    public void Setup(int attackPower, Action<Rigidbody2D> start, Action<Rigidbody2D> fixedUpdate, Action<Projectile> deleteCallback)
+    {
+        Setup(attackPower, start, fixedUpdate);
         this.deleteCallback = deleteCallback;
     }
 
