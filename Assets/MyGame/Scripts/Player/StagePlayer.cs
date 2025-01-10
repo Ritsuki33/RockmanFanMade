@@ -276,11 +276,11 @@ public partial class StagePlayer : PhysicalObject, IDirect
             {
                 spriteRenderer.enabled = false;
 
-                yield return new WaitForSeconds(0.05f);
+                yield return CoroutineManager.Instance.PausableWaitForSeconds(0.05f);
 
                 spriteRenderer.enabled = true;
 
-                yield return new WaitForSeconds(0.05f);
+                yield return CoroutineManager.Instance.PausableWaitForSeconds(0.05f);
             }
 
             invincible = false;

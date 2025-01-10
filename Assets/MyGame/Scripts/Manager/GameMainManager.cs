@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class GameMainManager : BaseManager<GameMainManager>
 {
-
     public struct InputInfo
     {
         public bool left, right, up, down, jump, jumping, fire, start;
@@ -115,6 +114,8 @@ public class GameMainManager : BaseManager<GameMainManager>
     void OnPause(bool isPause)
     {
         this.isPause = isPause;
+
+        CoroutineManager.Instance.OnPause(isPause);
         screenContainer.GetCurrentScreenPresenter<GameMainScreenPresenter>()?.OnOpenPauseUi(isPause);
 
         worldManager?.OnPause(isPause);

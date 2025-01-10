@@ -1267,6 +1267,7 @@ GameObject:
   - component: {fileID: 244315750}
   - component: {fileID: 244315754}
   - component: {fileID: 244315755}
+  - component: {fileID: 244315756}
   m_Layer: 18
   m_Name: BigDog
   m_TagString: Untagged
@@ -1325,6 +1326,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_mainAnimator: {fileID: 0}
+  rb: {fileID: 0}
   enemyData: {fileID: 0}
   defeatEvent:
     m_PersistentCalls:
@@ -1375,6 +1377,33 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 5.704235, y: 4.9716244}
   m_EdgeRadius: 0
+--- !u!50 &244315756
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 244315749}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
 --- !u!1 &249527603
 GameObject:
   m_ObjectHideFlags: 0
@@ -76116,6 +76145,50 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 841519566}
   m_CullTransparentMesh: 1
+--- !u!1 &851069014
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 851069015}
+  - component: {fileID: 851069016}
+  m_Layer: 0
+  m_Name: GameObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &851069015
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 851069014}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 2.67929, y: 18.873365, z: -1.0311278}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &851069016
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 851069014}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fd61e9dbfd7e5d54ba411cbaeb195332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &859604024
 GameObject:
   m_ObjectHideFlags: 0
@@ -80890,19 +80963,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0de98cabf75ebf44f9e360d301c8bafa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rb: {fileID: 0}
-  boxCollider: {fileID: 1222568601}
-  physicalOffset: {x: 0.05, y: 0.05}
-  physicalGap: 0.005
-  priority: 1
-  ratio_x: 1
-  ratio_y: 1
-  throughFloorLayer:
-    m_Bits: 0
-  physicalLayer:
-    m_Bits: 0
-  currentVelocity: {x: 0, y: 0}
-  isCollideThroughFloorBottom: 0
 --- !u!114 &1648211534
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -80928,6 +80988,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_mainAnimator: {fileID: 0}
+  rb: {fileID: 0}
   enemyData: {fileID: 11400000, guid: 1c8f826dbe2641547a3f178f338248e1, type: 2}
   defeatEvent:
     m_PersistentCalls:
@@ -84248,3 +84309,4 @@ SceneRoots:
   - {fileID: 111051565}
   - {fileID: 510379786}
   - {fileID: 7688125627853884111}
+  - {fileID: 851069015}
