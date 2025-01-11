@@ -2163,40 +2163,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 267645028}
   m_CullTransparentMesh: 1
---- !u!1 &289549939
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 289549940}
-  m_Layer: 0
-  m_Name: RockBuster
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &289549940
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 289549939}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 448285933}
-  - {fileID: 1215983618}
-  - {fileID: 1153223705}
-  m_Father: {fileID: 1834423535}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &311468351
 GameObject:
   m_ObjectHideFlags: 0
@@ -74126,53 +74092,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 445758466}
   m_CullTransparentMesh: 1
---- !u!1 &448285932
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 448285933}
-  - component: {fileID: 448285935}
-  m_Layer: 0
-  m_Name: RockBusterPool
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &448285933
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 448285932}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 289549940}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &448285935
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 448285932}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 409bf2cda0c904c49b8ca072ea25cdf5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  prefab: {fileID: 5626266956188926944, guid: 3aa76ed7d8599b14d8ea3aac03793f44, type: 3}
-  defaultCapacity: 10
-  maxSize: 10
 --- !u!1 &465925498
 GameObject:
   m_ObjectHideFlags: 0
@@ -74641,53 +74560,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09607b6be470f5d4ba9bc860ae6dd828, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &558259091
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 558259093}
-  - component: {fileID: 558259094}
-  m_Layer: 0
-  m_Name: PlacedBombPool
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &558259093
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 558259091}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1834423535}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &558259094
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 558259091}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a35c8ea486451d049af291647bc3454d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  prefab: {fileID: 8219540544395458463, guid: 9e9fd118df68a0d48bbb4d53776f7084, type: 3}
-  defaultCapacity: 10
-  maxSize: 10
 --- !u!1 &587026932
 GameObject:
   m_ObjectHideFlags: 0
@@ -74763,53 +74635,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 587026932}
   m_CullTransparentMesh: 1
---- !u!1 &587079111
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 587079113}
-  - component: {fileID: 587079114}
-  m_Layer: 0
-  m_Name: BomPool
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &587079113
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 587079111}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1834423535}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &587079114
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 587079111}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 409bf2cda0c904c49b8ca072ea25cdf5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  prefab: {fileID: 6751316735053717961, guid: 8b59b79d95cbf8a4cafe3d136260d47b, type: 3}
-  defaultCapacity: 10
-  maxSize: 10
 --- !u!1 &595364227
 GameObject:
   m_ObjectHideFlags: 0
@@ -75141,53 +74966,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1648211529}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &677187622
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 677187624}
-  - component: {fileID: 677187625}
-  m_Layer: 0
-  m_Name: ExplodePool
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &677187624
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 677187622}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1834423535}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &677187625
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 677187622}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 62a296a6b1816f349934d3d819bac117, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  prefab: {fileID: 5195749165649718930, guid: c5eb6c4a144a9024e85251cccde3a79b, type: 3}
-  defaultCapacity: 10
-  maxSize: 10
 --- !u!1 &689941047
 GameObject:
   m_ObjectHideFlags: 0
@@ -76023,53 +75801,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 814627140}
   m_CullTransparentMesh: 1
---- !u!1 &829898952
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 829898954}
-  - component: {fileID: 829898955}
-  m_Layer: 0
-  m_Name: MettoruFirePool
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &829898954
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 829898952}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1834423535}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &829898955
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 829898952}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 409bf2cda0c904c49b8ca072ea25cdf5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  prefab: {fileID: 2065087388781239814, guid: 738101ea82959744ebc7803fc660f962, type: 3}
-  defaultCapacity: 10
-  maxSize: 10
 --- !u!1 &841519566
 GameObject:
   m_ObjectHideFlags: 0
@@ -76186,56 +75917,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 851069014}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fd61e9dbfd7e5d54ba411cbaeb195332, type: 3}
+  m_Script: {fileID: 11500000, guid: be7f7da58c48f3041854f17e6e93debb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &859604024
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 859604026}
-  - component: {fileID: 859604027}
-  m_Layer: 0
-  m_Name: Explode2Pool
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &859604026
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 859604024}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1834423535}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &859604027
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 859604024}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 62a296a6b1816f349934d3d819bac117, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  prefab: {fileID: 4956757010214756816, guid: 671117b7ff1462048a598b3559ed65a4, type: 3}
-  defaultCapacity: 10
-  maxSize: 10
+  m_Hoge:
+    value: 0
+  m_Hoge2:
+    value: 0
 --- !u!1 &859778770
 GameObject:
   m_ObjectHideFlags: 0
@@ -76815,53 +76503,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2315293911548943548, guid: f3a666b461389234cae67cd3ed06cc57, type: 3}
   m_PrefabInstance: {fileID: 887088931}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &894966981
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 894966983}
-  - component: {fileID: 894966984}
-  m_Layer: 0
-  m_Name: DeathEffectPool
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &894966983
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 894966981}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1834423535}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &894966984
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 894966981}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 75e3bada405635345962a50bc13f8cba, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  prefab: {fileID: 4170089108575676417, guid: 53916ad1597b3d64592af5fdbb8d766f, type: 3}
-  defaultCapacity: 10
-  maxSize: 10
 --- !u!1 &899179700
 GameObject:
   m_ObjectHideFlags: 0
@@ -78516,53 +78157,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1140812598}
   m_CullTransparentMesh: 1
---- !u!1 &1153223703
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1153223705}
-  - component: {fileID: 1153223706}
-  m_Layer: 0
-  m_Name: RockBusterBigPool
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1153223705
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1153223703}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 289549940}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1153223706
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1153223703}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 409bf2cda0c904c49b8ca072ea25cdf5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  prefab: {fileID: 7951104935778699332, guid: 92ffe6b60fa07f1439296c5360805848, type: 3}
-  defaultCapacity: 10
-  maxSize: 10
 --- !u!1 &1157082027
 GameObject:
   m_ObjectHideFlags: 0
@@ -78913,53 +78507,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: -1820, y: -980}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!1 &1215983617
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1215983618}
-  - component: {fileID: 1215983620}
-  m_Layer: 0
-  m_Name: RockBusterMiddlePool
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1215983618
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1215983617}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 289549940}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1215983620
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1215983617}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 409bf2cda0c904c49b8ca072ea25cdf5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  prefab: {fileID: 8925780559723995537, guid: 8e07ca485353f2c40ace185dce97eb94, type: 3}
-  defaultCapacity: 10
-  maxSize: 10
 --- !u!1 &1220417878
 GameObject:
   m_ObjectHideFlags: 0
@@ -79861,100 +79408,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a37163c03f20f24581d5180b0882491, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &1331567723
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1331567724}
-  - component: {fileID: 1331567725}
-  m_Layer: 0
-  m_Name: LaserPool
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1331567724
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1331567723}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1834423535}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1331567725
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1331567723}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2d9edb7407c5ec844b7c9f9603198245, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  prefab: {fileID: 4955074163980617985, guid: dd49b9024d2abe9499ec4254797ad8e5, type: 3}
-  defaultCapacity: 10
-  maxSize: 10
---- !u!1 &1353862753
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1353862755}
-  - component: {fileID: 1353862756}
-  m_Layer: 0
-  m_Name: CrashBombPool
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1353862755
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1353862753}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1834423535}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1353862756
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1353862753}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 409bf2cda0c904c49b8ca072ea25cdf5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  prefab: {fileID: 8849856365920340392, guid: 815c91568b93b2b4f98c3c7a9ecf15f7, type: 3}
-  defaultCapacity: 10
-  maxSize: 10
 --- !u!1 &1385032750
 GameObject:
   m_ObjectHideFlags: 0
@@ -80697,53 +80150,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1611133419}
   m_CullTransparentMesh: 1
---- !u!1 &1627227903
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1627227905}
-  - component: {fileID: 1627227906}
-  m_Layer: 0
-  m_Name: FirePool
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1627227905
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1627227903}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1834423535}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1627227906
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1627227903}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 409bf2cda0c904c49b8ca072ea25cdf5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  prefab: {fileID: 731981991334158557, guid: 32cff727000d20a4ba82288462a1ad98, type: 3}
-  defaultCapacity: 10
-  maxSize: 10
 --- !u!1 &1635016849
 GameObject:
   m_ObjectHideFlags: 0
@@ -82290,18 +81696,66 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2e68f1693c6e7544291966300f9040ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  explodePool: {fileID: 677187625}
-  explode2Pool: {fileID: 859604027}
-  rockBusterPool: {fileID: 448285935}
-  rockBusterMiddlePool: {fileID: 1215983620}
-  rockBusterBigPool: {fileID: 1153223706}
-  mettoruFirePool: {fileID: 829898955}
-  bomPool: {fileID: 587079114}
-  firePool: {fileID: 1627227906}
-  deathEffectPool: {fileID: 894966984}
-  placedBombPool: {fileID: 558259094}
-  crashBombPool: {fileID: 1353862756}
-  laserPool: {fileID: 1331567725}
+  explodePool:
+    prefab: {fileID: 5195749165649718930, guid: c5eb6c4a144a9024e85251cccde3a79b, type: 3}
+    root: {fileID: 1834423535}
+    defaultCapacity: 10
+    maxSize: 10
+  explode2Pool:
+    prefab: {fileID: 4956757010214756816, guid: 671117b7ff1462048a598b3559ed65a4, type: 3}
+    root: {fileID: 1834423535}
+    defaultCapacity: 10
+    maxSize: 10
+  rockBusterPool:
+    prefab: {fileID: 5626266956188926944, guid: 3aa76ed7d8599b14d8ea3aac03793f44, type: 3}
+    root: {fileID: 1834423535}
+    defaultCapacity: 10
+    maxSize: 10
+  rockBusterMiddlePool:
+    prefab: {fileID: 8925780559723995537, guid: 8e07ca485353f2c40ace185dce97eb94, type: 3}
+    root: {fileID: 1834423535}
+    defaultCapacity: 10
+    maxSize: 10
+  rockBusterBigPool:
+    prefab: {fileID: 7951104935778699332, guid: 92ffe6b60fa07f1439296c5360805848, type: 3}
+    root: {fileID: 1834423535}
+    defaultCapacity: 10
+    maxSize: 10
+  mettoruFirePool:
+    prefab: {fileID: 731981991334158557, guid: 32cff727000d20a4ba82288462a1ad98, type: 3}
+    root: {fileID: 1834423535}
+    defaultCapacity: 10
+    maxSize: 10
+  bomPool:
+    prefab: {fileID: 6751316735053717961, guid: 8b59b79d95cbf8a4cafe3d136260d47b, type: 3}
+    root: {fileID: 1834423535}
+    defaultCapacity: 10
+    maxSize: 10
+  firePool:
+    prefab: {fileID: 731981991334158557, guid: 32cff727000d20a4ba82288462a1ad98, type: 3}
+    root: {fileID: 1834423535}
+    defaultCapacity: 10
+    maxSize: 10
+  deathEffectPool:
+    prefab: {fileID: 4170089108575676417, guid: 53916ad1597b3d64592af5fdbb8d766f, type: 3}
+    root: {fileID: 1834423535}
+    defaultCapacity: 10
+    maxSize: 10
+  placedBombPool:
+    prefab: {fileID: 8219540544395458463, guid: 9e9fd118df68a0d48bbb4d53776f7084, type: 3}
+    root: {fileID: 1834423535}
+    defaultCapacity: 10
+    maxSize: 10
+  crashBombPool:
+    prefab: {fileID: 8849856365920340392, guid: 815c91568b93b2b4f98c3c7a9ecf15f7, type: 3}
+    root: {fileID: 1834423535}
+    defaultCapacity: 10
+    maxSize: 10
+  laserPool:
+    prefab: {fileID: 4955074163980617985, guid: dd49b9024d2abe9499ec4254797ad8e5, type: 3}
+    root: {fileID: 1834423535}
+    defaultCapacity: 10
+    maxSize: 10
 --- !u!4 &1834423535
 Transform:
   m_ObjectHideFlags: 0
@@ -82314,17 +81768,7 @@ Transform:
   m_LocalPosition: {x: -82.692566, y: -7.7143474, z: 1.1404036}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 677187624}
-  - {fileID: 859604026}
-  - {fileID: 289549940}
-  - {fileID: 829898954}
-  - {fileID: 587079113}
-  - {fileID: 1627227905}
-  - {fileID: 558259093}
-  - {fileID: 1353862755}
-  - {fileID: 894966983}
-  - {fileID: 1331567724}
+  m_Children: []
   m_Father: {fileID: 355799876}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1836396427

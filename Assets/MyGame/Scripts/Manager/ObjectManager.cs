@@ -145,7 +145,7 @@ public class ObjectManager : SingletonComponent<ObjectManager>
     /// </summary>
     /// <param name="rockBuster"></param>
     /// <returns></returns>
-    private ProjectilePool GetPool(ProjectileType rockBuster)
+    private ObjectPoolWrapper<Projectile> GetPool(ProjectileType rockBuster)
     {
         switch (rockBuster)
         {
@@ -167,7 +167,7 @@ public class ObjectManager : SingletonComponent<ObjectManager>
         }
     }
 
-    private ExplodePool GetPool(ExplodeType type)
+    private ObjectPoolWrapper<Explode> GetPool(ExplodeType type)
     {
         switch (type)
         {

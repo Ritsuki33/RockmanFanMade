@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Pool;
@@ -11,10 +12,11 @@ public interface IPooledObject<T> where T : MonoBehaviour
     void OnDispose() { }
 }
 
-
-public class GenericObjectPool<T> : MonoBehaviour where T : MonoBehaviour, IPooledObject<T>
+[Serializable]
+public class ObjectPoolWrapper<T> where T : MonoBehaviour, IPooledObject<T>
 {
     [SerializeField] private T prefab;
+    [SerializeField] private Transform root;
     [SerializeField] int defaultCapacity = 10;
     [SerializeField] int maxSize = 10;
     public ObjectPool<T> Pool { get; private set; }
@@ -52,7 +54,7 @@ public class GenericObjectPool<T> : MonoBehaviour where T : MonoBehaviour, IPool
 
     T OnCreateToPool()
     {
-        T gameObject = Instantiate<T>(prefab, this.transform);
+        T gameObject = GameObject.Instantiate<T>(prefab, root);
         gameObject.Pool = Pool;
 
         _cacheObjects.Add(gameObject);

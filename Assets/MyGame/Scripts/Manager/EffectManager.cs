@@ -5,31 +5,31 @@ using UnityEngine;
 [DefaultExecutionOrder(-100)]
 public class EffectManager : MonoBehaviour
 {
-    [SerializeField] ExplodePool explodePool = default;
-    [SerializeField] ExplodePool explode2Pool = default;
-    [SerializeField] ProjectilePool rockBusterPool = default;
-    [SerializeField] ProjectilePool rockBusterMiddlePool = default;
-    [SerializeField] ProjectilePool rockBusterBigPool = default;
-    [SerializeField] ProjectilePool mettoruFirePool = default;
-    [SerializeField] ProjectilePool bomPool = default;
-    [SerializeField] ProjectilePool firePool = default;
-    [SerializeField] PsPool deathEffectPool = default;
-    [SerializeField] PlacedBombPool placedBombPool = default;
-    [SerializeField] ProjectilePool crashBombPool = default;
-    [SerializeField] LaserPool laserPool = default;
+    [SerializeField] ObjectPoolWrapper<Explode> explodePool = default;
+    [SerializeField] ObjectPoolWrapper<Explode> explode2Pool = default;
+    [SerializeField] ObjectPoolWrapper<Projectile> rockBusterPool = default;
+    [SerializeField] ObjectPoolWrapper<Projectile> rockBusterMiddlePool = default;
+    [SerializeField] ObjectPoolWrapper<Projectile> rockBusterBigPool = default;
+    [SerializeField] ObjectPoolWrapper<Projectile> mettoruFirePool = default;
+    [SerializeField] ObjectPoolWrapper<Projectile> bomPool = default;
+    [SerializeField] ObjectPoolWrapper<Projectile> firePool = default;
+    [SerializeField] ObjectPoolWrapper<PooledPsObejct> deathEffectPool = default;
+    [SerializeField] ObjectPoolWrapper<PlacedBomb> placedBombPool = default;
+    [SerializeField] ObjectPoolWrapper<Projectile> crashBombPool = default;
+    [SerializeField] ObjectPoolWrapper<Laser> laserPool = default;
 
-    public ExplodePool ExplodePool => explodePool;
-    public ExplodePool Explode2Pool => explode2Pool;
-    public ProjectilePool RockBusterPool => rockBusterPool;
-    public ProjectilePool RockBusterMiddlePool => rockBusterMiddlePool;
-    public ProjectilePool RockBusterBigPool => rockBusterBigPool;
-    public ProjectilePool MettoruFirePool => mettoruFirePool;
-    public ProjectilePool BomPool => bomPool;
-    public ProjectilePool FirePool => firePool;
-    public PsPool DeathEffectPool => deathEffectPool;
-    public PlacedBombPool PlacedBombPool => placedBombPool;
-    public ProjectilePool CrashBombPool => crashBombPool;
-    public LaserPool LaserPool => laserPool;
+    public ObjectPoolWrapper<Explode> ExplodePool => explodePool;
+    public ObjectPoolWrapper<Explode> Explode2Pool => explode2Pool;
+    public ObjectPoolWrapper<Projectile> RockBusterPool => rockBusterPool;
+    public ObjectPoolWrapper<Projectile> RockBusterMiddlePool => rockBusterMiddlePool;
+    public ObjectPoolWrapper<Projectile> RockBusterBigPool => rockBusterBigPool;
+    public ObjectPoolWrapper<Projectile> MettoruFirePool => mettoruFirePool;
+    public ObjectPoolWrapper<Projectile> BomPool => bomPool;
+    public ObjectPoolWrapper<Projectile> FirePool => firePool;
+    public ObjectPoolWrapper<PooledPsObejct> DeathEffectPool => deathEffectPool;
+    public ObjectPoolWrapper<PlacedBomb> PlacedBombPool => placedBombPool;
+    public ObjectPoolWrapper<Projectile> CrashBombPool => crashBombPool;
+    public ObjectPoolWrapper<Laser> LaserPool => laserPool;
 
     public void Init()
     {
