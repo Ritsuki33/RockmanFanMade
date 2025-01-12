@@ -37,6 +37,11 @@ public class EnemyAppearController : MonoBehaviour
         _updateListController = updateListController;
     }
 
+    public void Reset()
+    {
+        stateMachine.TransitReady((int)StateID.OutOfCamera, true);
+    }
+
     public void OnUpdate()
     {
         if (_updateListController == null)

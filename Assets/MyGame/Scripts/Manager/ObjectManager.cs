@@ -130,6 +130,7 @@ public class ObjectManager : SingletonComponent<ObjectManager>
     {
         var pool = effectManager.DeathEffectPool;
         PooledPsObejct deathEffect = pool.Pool.Get();
+
         deathEffect.gameObject.transform.position = new Vector3(position.x, position.y, -3);
 
         deathEffect.Setup((obj) =>

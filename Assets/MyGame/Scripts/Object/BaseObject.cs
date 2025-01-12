@@ -12,6 +12,8 @@ public interface IObjectInterpreter
     void OnPause(bool isPause);
 
     void Destroy();
+
+    void OnReset();
 }
 
 
@@ -25,11 +27,12 @@ public class BaseObject : MonoBehaviour, IObjectInterpreter
     void IObjectInterpreter.OnUpdate() => OnUpdate();
     void IObjectInterpreter.OnPause(bool isPause) => OnPause(isPause);
     void IObjectInterpreter.Destroy() => Destroy();
+    void IObjectInterpreter.OnReset() => OnReset();
 
     protected virtual void Init() { }
     protected virtual void OnFixedUpdate() { }
     protected virtual void OnUpdate() { }
     protected virtual void OnPause(bool isPause) { }
     protected virtual void Destroy() { }
-
+    protected virtual void OnReset() { }
 }

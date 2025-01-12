@@ -40,4 +40,9 @@ public class PsObject : BaseObject
        if(isPause) m_particleSystem.Pause();
         else m_particleSystem.Play();
     }
+
+    protected override void OnReset()
+    {
+        _finishedcallback?.Invoke(this);
+    }
 }

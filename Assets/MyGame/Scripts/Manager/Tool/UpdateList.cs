@@ -39,6 +39,14 @@ public class UpdateList
         }
     }
 
+    public void OnReset()
+    {
+        foreach (IObjectInterpreter e in list)
+        {
+            e.OnReset();
+        }
+    }
+
     public void OnPause(bool isPause)
     {
         foreach(IObjectInterpreter e in list)

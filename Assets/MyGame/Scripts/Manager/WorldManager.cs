@@ -44,6 +44,16 @@ public class WorldManager : SingletonComponent<WorldManager>, IUpdateListControl
         }
     }
 
+    private void OnReset()
+    {
+        updateList.OnReset();
+
+        foreach (var e in enemyAppearControllerList)
+        {
+            e.Reset();
+        }
+    }
+
     /// <summary>
     /// 物理演算等の動きはここからでいいか？？
     /// </summary>
@@ -81,6 +91,7 @@ public class WorldManager : SingletonComponent<WorldManager>, IUpdateListControl
 
     public void StartStage()
     {
+        OnReset();
         EventTriggerManager.Instance.Notify(EventType.StartStage);
         startAction.StartEvent();
     }

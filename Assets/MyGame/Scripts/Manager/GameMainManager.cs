@@ -62,13 +62,13 @@ public class GameMainManager : BaseManager<GameMainManager>
             yield return screenContainer.Initialize(UI.GameMain, true);
 
             OnPause(false);
+            worldManager.StartStage();
             StageStart();
         }
     }
 
     protected override void OnUpdate()
     {
-
         InputInfo inputInfo = default;
         inputInfo.SetInput(InputController);
 
