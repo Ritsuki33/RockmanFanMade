@@ -23,6 +23,7 @@ public class UpdateList
 
     public void OnFixedUpdate()
     {
+        FixedList();
         foreach (IObjectInterpreter e in list)
         {
             e.OnFixedUpdate();
@@ -31,13 +32,11 @@ public class UpdateList
 
     public void OnUpdate()
     {
+        FixedList();
         foreach (IObjectInterpreter e in list)
         {
             e.OnUpdate();
         }
-
-
-        FixedList();
     }
 
     public void OnPause(bool isPause)
