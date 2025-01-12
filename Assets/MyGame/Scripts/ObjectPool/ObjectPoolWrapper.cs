@@ -24,18 +24,30 @@ public class ObjectPoolWrapper<T> where T : MonoBehaviour, IPooledObject<T>
 
     public void Init()
     {
-        // オブジェクトプールを作成します
-        Pool = new ObjectPool<T>
-        (
-            createFunc: OnCreateToPool,
-            actionOnGet: OnGetFromPool,
-            actionOnRelease: OnRelaseToPool,
-            actionOnDestroy: OnDestroyFromPool,
-            collectionCheck: true,
-            defaultCapacity: defaultCapacity,
-            maxSize: maxSize
-        );
+        _cacheObjects.Clear();
 
+        if (Pool != null)
+        {
+            Pool.Clear();
+        }
+        else
+        {
+            // オブジェクトプールを作成します
+            Pool = new ObjectPool<T>
+            (
+                createFunc: OnCreateToPool,
+                actionOnGet: OnGetFromPool,
+                actionOnRelease: OnRelaseToPool,
+                actionOnDestroy: OnDestroyFromPool,
+                collectionCheck: true,
+                defaultCapacity: defaultCapacity,
+                maxSize: maxSize
+            );
+        }
+    }
+
+    public void AllRelease()
+    {
         foreach (var obj in _cacheObjects)
         {
             if (obj.gameObject.activeSelf) // アクティブ状態のオブジェクトをチェック
@@ -43,14 +55,10 @@ public class ObjectPoolWrapper<T> where T : MonoBehaviour, IPooledObject<T>
                 Pool.Release(obj); // プールに返却
             }
         }
-
-        Pool.Clear();
     }
 
-    public void Release(T obj)
-    {
-        Pool.Release(obj);
-    }
+    public void Release(T obj)=> Pool.Release(obj);
+    public void Clear() => Pool.Clear();
 
     T OnCreateToPool()
     {
@@ -75,7 +83,7 @@ public class ObjectPoolWrapper<T> where T : MonoBehaviour, IPooledObject<T>
 
     void OnDestroyFromPool(T obj)
     {
-        _cacheObjects.Remove(obj as T);
+        _cacheObjects.Remove(obj);
         obj.OnDispose();
     }
 }
