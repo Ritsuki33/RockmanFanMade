@@ -118,13 +118,11 @@ public class WorldManager : SingletonComponent<WorldManager>, IUpdateListControl
 
     public void AddObject(IObjectInterpreter obj)
     {
-        obj.Init();
         updateList.Add(obj);
     }
 
     public void RemoveObject(IObjectInterpreter obj)
     {
-        obj.Destroy();
         updateList.Remove(obj);
     }
 }
