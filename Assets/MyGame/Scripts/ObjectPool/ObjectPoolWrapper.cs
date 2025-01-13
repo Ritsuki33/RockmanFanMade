@@ -12,8 +12,9 @@ public interface IPooledObject<T> where T : MonoBehaviour
     void OnDispose() { }
 }
 
+
 [Serializable]
-public class ObjectPoolWrapper<T> where T : MonoBehaviour, IPooledObject<T>
+public class ObjectPoolWrapper<T> where T : BaseObject, IPooledObject<T>
 {
     [SerializeField] private T prefab;
     [SerializeField] private Transform root;
@@ -22,7 +23,8 @@ public class ObjectPoolWrapper<T> where T : MonoBehaviour, IPooledObject<T>
     public ObjectPool<T> Pool { get; private set; }
     private List<T> _cacheObjects = new List<T>();
 
-    public void Init()
+    IRegister _creator = null;
+    public void Init(IRegister creator)
     {
         _cacheObjects.Clear();
 
@@ -44,6 +46,8 @@ public class ObjectPoolWrapper<T> where T : MonoBehaviour, IPooledObject<T>
                 maxSize: maxSize
             );
         }
+
+        _creator = creator;
     }
 
     public void AllRelease()
@@ -72,18 +76,21 @@ public class ObjectPoolWrapper<T> where T : MonoBehaviour, IPooledObject<T>
     void OnGetFromPool(T obj)
     {
         obj.gameObject.SetActive(true);
+        _creator?.OnRegist(obj);
         obj.OnGet();
     }
 
     void OnRelaseToPool(T obj)
     {
         obj.gameObject.SetActive(false);
+        _creator?.OnUnregist(obj);
         obj.OnRelease();
     }
 
     void OnDestroyFromPool(T obj)
     {
         _cacheObjects.Remove(obj);
+        GameObject.Destroy(obj.gameObject);
         obj.OnDispose();
     }
 }

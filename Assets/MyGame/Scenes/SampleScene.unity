@@ -35772,6 +35772,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   effectManager: {fileID: 1834423534}
+  enemyRoot: {fileID: 465925499}
 --- !u!1 &358443789
 GameObject:
   m_ObjectHideFlags: 0
@@ -75876,54 +75877,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 841519566}
   m_CullTransparentMesh: 1
---- !u!1 &851069014
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 851069015}
-  - component: {fileID: 851069016}
-  m_Layer: 0
-  m_Name: GameObject
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &851069015
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 851069014}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.67929, y: 18.873365, z: -1.0311278}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &851069016
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 851069014}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: be7f7da58c48f3041854f17e6e93debb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Hoge:
-    value: 0
-  m_Hoge2:
-    value: 0
 --- !u!1 &859778770
 GameObject:
   m_ObjectHideFlags: 0
@@ -80525,7 +80478,6 @@ MonoBehaviour:
   defaultCheckPoint:
     position: {fileID: 2095095611}
     virtualCamera: {fileID: 1648452747}
-  enemyRoot: {fileID: 465925499}
 --- !u!114 &1655765204
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -81709,8 +81661,8 @@ MonoBehaviour:
   rockBusterPool:
     prefab: {fileID: 5626266956188926944, guid: 3aa76ed7d8599b14d8ea3aac03793f44, type: 3}
     root: {fileID: 1834423535}
-    defaultCapacity: 10
-    maxSize: 10
+    defaultCapacity: 1
+    maxSize: 2
   rockBusterMiddlePool:
     prefab: {fileID: 8925780559723995537, guid: 8e07ca485353f2c40ace185dce97eb94, type: 3}
     root: {fileID: 1834423535}
@@ -83753,4 +83705,3 @@ SceneRoots:
   - {fileID: 111051565}
   - {fileID: 510379786}
   - {fileID: 7688125627853884111}
-  - {fileID: 851069015}

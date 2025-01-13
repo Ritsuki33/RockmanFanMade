@@ -31,19 +31,19 @@ public class EffectManager : MonoBehaviour
     public ObjectPoolWrapper<Projectile> CrashBombPool => crashBombPool;
     public ObjectPoolWrapper<Laser> LaserPool => laserPool;
 
-    public void Init()
+    public void Init(IRegister register)
     {
-        explodePool.Init();
-        explode2Pool.Init();
-        rockBusterPool.Init();
-        rockBusterMiddlePool.Init();
-        rockBusterBigPool.Init();
-        mettoruFirePool.Init();
-        bomPool.Init();
-        firePool.Init();
-        deathEffectPool.Init();
-        placedBombPool.Init();
-        crashBombPool.Init();
-        laserPool.Init();
+        explodePool.Init(register);
+        explode2Pool.Init(register);
+        rockBusterPool.Init(register);
+        rockBusterMiddlePool.Init(register);
+        rockBusterBigPool.Init(register);
+        mettoruFirePool.Init(register);
+        bomPool.Init(register);
+        firePool.Init(register);
+        deathEffectPool.Init(register);
+        placedBombPool.Init(register);
+        crashBombPool.Init(register);
+        laserPool.Init(register);
     }
 }

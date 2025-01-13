@@ -34,9 +34,7 @@ public class Explode : AnimObject, IPooledObject<Explode>
     {
         if (!MainAnimator.IsPlayingCurrentAnimation())
         {
-            _finishCallback?.Invoke(this);
-            pool.Release(this);
-            WorldManager.Instance.RemoveObject(this);
+            Delete();
         }
     }
     void IPooledObject<Explode>.OnGet()
@@ -50,5 +48,17 @@ public class Explode : AnimObject, IPooledObject<Explode>
 
         gameObject.layer = (int)layer;
         damage.baseDamageValue = damageVal;
+
+        _finishCallback = finishCallback;
+    }
+
+    protected override void OnReset()
+    {
+        Delete();
+    }
+
+    public void Delete()
+    {
+        _finishCallback?.Invoke(this);
     }
 }

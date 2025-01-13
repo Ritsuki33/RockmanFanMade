@@ -5,6 +5,8 @@
 /// </summary>
 public interface IObjectInterpreter
 {
+    GameObject gameObject { get; }
+
     void Init();
     void OnFixedUpdate();
     void OnUpdate();

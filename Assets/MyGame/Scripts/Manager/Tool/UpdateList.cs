@@ -20,23 +20,32 @@ public class UpdateList
     // 削除分のリスト
     private List<IObjectInterpreter> removeList= new List<IObjectInterpreter>();
 
-
     public void OnFixedUpdate()
     {
         FixedList();
+        int nullCount = 0;
         foreach (IObjectInterpreter e in list)
         {
-            e.OnFixedUpdate();
+            if (e.gameObject == null) nullCount++; 
+            else e.OnFixedUpdate();
         }
+
+        // nullがあった場合は削除
+        if (nullCount > 0) list.RemoveAll(item => item == null);
     }
 
     public void OnUpdate()
     {
         FixedList();
+        int nullCount = 0;
         foreach (IObjectInterpreter e in list)
         {
-            e.OnUpdate();
+            if (e.gameObject == null) nullCount++; 
+            else e.OnUpdate();
         }
+
+        // nullがあった場合は削除
+        if (nullCount > 0) list.RemoveAll(item => item == null);
     }
 
     public void OnReset()
@@ -89,15 +98,15 @@ public class UpdateList
         if (removeList.Count > 0) removeList.Clear();
     }
 
-    public IObjectInterpreter this[int idndex]
+    public IObjectInterpreter this[int index]
     {
         get
         {
-            return list[idndex];
+            return list[index];
         }
         set
         {
-            list[idndex] = value;
+            list[index] = value;
         }
     }
 }

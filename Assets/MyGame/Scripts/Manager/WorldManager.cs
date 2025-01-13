@@ -1,15 +1,16 @@
-﻿using NUnit.Framework;
+﻿using DG.Tweening;
+using NUnit.Framework;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public interface IUpdateListController
+public interface IRegister
 {
-    public void AddPlayer(StagePlayer player);
-    public void AddObject(IObjectInterpreter obj);
-    public void RemoveObject(IObjectInterpreter obj);
+    public void OnRegist(IObjectInterpreter obj);
+    public void OnUnregist(IObjectInterpreter obj);
 }
-public class WorldManager : SingletonComponent<WorldManager>, IUpdateListController
+
+public class WorldManager : SingletonComponent<WorldManager>
 {
     [SerializeField] TransferArea _playerTransferArea;
 
@@ -17,7 +18,6 @@ public class WorldManager : SingletonComponent<WorldManager>, IUpdateListControl
 
     [SerializeField] CheckPointData defaultCheckPoint;
 
-    [SerializeField] Transform enemyRoot;
 
     private StagePlayer _player;
     public StagePlayer Player => _player;
@@ -26,32 +26,20 @@ public class WorldManager : SingletonComponent<WorldManager>, IUpdateListControl
     public CheckPointData CurrentCheckPointData => currentCheckPointData;
     public TransferArea PlayerTransferArea => _playerTransferArea;
 
-    UpdateList updateList = new UpdateList();
 
     bool isPause = false;
 
-    List<EnemyAppearController> enemyAppearControllerList = new List<EnemyAppearController>();
     public void Init()
     {
         currentCheckPointData = defaultCheckPoint;
         isPause = false;
 
-        enemyAppearControllerList = enemyRoot.GetComponentsInChildren<EnemyAppearController>().ToList();
-
-        foreach (var e in enemyAppearControllerList)
-        {
-            e.Init(this);
-        }
+        
     }
 
     private void OnReset()
     {
-        updateList.OnReset();
-
-        foreach (var e in enemyAppearControllerList)
-        {
-            e.Reset();
-        }
+        ObjectManager.Instance.OnReset();
     }
 
     /// <summary>
@@ -60,26 +48,21 @@ public class WorldManager : SingletonComponent<WorldManager>, IUpdateListControl
     private void FixedUpdate()
     {
         if (isPause) return;
-        updateList.OnFixedUpdate();
+        ObjectManager.Instance.OnFixedUpdate();
     }
 
     public void OnUpdate()
     {
         if (isPause) return;
-
-        updateList.OnUpdate();
-
-        foreach(var element in enemyAppearControllerList)
-        {
-            element.OnUpdate();
-        }
+        ObjectManager.Instance.OnUpdate();
     }
 
     public void OnPause(bool isPause)
     {
         this.isPause = isPause;
-        updateList.OnPause(isPause);
+        ObjectManager.Instance.OnPause(isPause);
     }
+
     /// <summary>
     /// チェックポイントの保存
     /// </summary>
@@ -113,16 +96,6 @@ public class WorldManager : SingletonComponent<WorldManager>, IUpdateListControl
     public void AddPlayer(StagePlayer player)
     {
         _player = player;
-        AddObject(player);
-    }
-
-    public void AddObject(IObjectInterpreter obj)
-    {
-        updateList.Add(obj);
-    }
-
-    public void RemoveObject(IObjectInterpreter obj)
-    {
-        updateList.Remove(obj);
+        ObjectManager.Instance.OnRegist(player);
     }
 }

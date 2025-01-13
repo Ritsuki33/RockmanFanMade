@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public enum ProjectileType
@@ -12,13 +14,58 @@ public enum ProjectileType
     CrashBomb,
 }
 
-public class ObjectManager : SingletonComponent<ObjectManager>
+public class ObjectManager : SingletonComponent<ObjectManager>, IRegister
 {
     [SerializeField] EffectManager effectManager;
+    UpdateList updateList = new UpdateList();
+    List<EnemyAppearController> enemyAppearControllerList = new List<EnemyAppearController>();
+    [SerializeField] Transform enemyRoot;
 
     public void Init()
     {
-        effectManager.Init();
+        effectManager.Init(this);
+
+        enemyAppearControllerList = enemyRoot.GetComponentsInChildren<EnemyAppearController>().ToList();
+
+        foreach (var e in enemyAppearControllerList)
+        {
+            e.Init(this);
+        }
+    }
+
+    public void OnFixedUpdate()
+    {
+        updateList.OnFixedUpdate();
+    }
+
+    public void OnUpdate()
+    {
+        updateList.OnUpdate();
+
+        foreach (var element in enemyAppearControllerList)
+        {
+            element.OnUpdate();
+        }
+    }
+
+    public void OnPause(bool isPause)
+    {
+        updateList.OnPause(isPause);
+    }
+
+    public void OnReset()
+    {
+        updateList.OnReset();
+    }
+
+    public void OnRegist(IObjectInterpreter obj)
+    {
+        updateList.Add(obj);
+    }
+
+    public void OnUnregist(IObjectInterpreter obj)
+    {
+        updateList.Remove(obj);
     }
 
     // Projectileの生成
@@ -44,19 +91,14 @@ public class ObjectManager : SingletonComponent<ObjectManager>
             fixedUpdateCallback,
             (obj) =>
             {
-                // 削除タイミング
-
                 // プールへ返還
                 pool?.Release(obj);
-                // ワールドから削除
-                WorldManager.Instance.RemoveObject(obj);
-
                 finishCallback?.Invoke(obj);
             }
             );
 
         // ワールドへ追加
-        WorldManager.Instance.AddObject(projectile);
+        OnRegist(projectile);
     }
 
     /// <summary>
@@ -80,16 +122,9 @@ public class ObjectManager : SingletonComponent<ObjectManager>
             {
                 // プールへ返還
                 pool.Release(obj);
-
-                // ワールドから削除
-                WorldManager.Instance.RemoveObject(obj);
             }
         );
         explode.transform.position = position;
-
-        // ワールドへ追加
-        WorldManager.Instance.AddObject(explode);
-
     }
 
     /// <summary>
@@ -110,16 +145,9 @@ public class ObjectManager : SingletonComponent<ObjectManager>
         (obj) =>
             {
                 // プールへ返還
-                pool.Release(obj);
-                // ワールドから削除
-                WorldManager.Instance.AddObject(obj);
-
                 finishCallback.Invoke(obj);
             }
             );
-
-        // ワールドへ追加
-        WorldManager.Instance.AddObject(bomb);
     }
 
     /// <summary>
@@ -136,9 +164,7 @@ public class ObjectManager : SingletonComponent<ObjectManager>
         deathEffect.Setup((obj) =>
         {
             pool.Release(deathEffect);
-            WorldManager.Instance.RemoveObject(obj);
         });
-        WorldManager.Instance.AddObject(deathEffect);
     }
 
     /// <summary>
@@ -179,4 +205,5 @@ public class ObjectManager : SingletonComponent<ObjectManager>
             default: return null;
         }
     }
+
 }

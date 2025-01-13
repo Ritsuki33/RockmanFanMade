@@ -8,7 +8,7 @@ public class EnemyAppearController : MonoBehaviour
 
     StateMachine<EnemyAppearController> stateMachine = new StateMachine<EnemyAppearController>();
 
-    IUpdateListController _updateListController = null;
+    IRegister _register = null;
     enum StateID
     {
         None,
@@ -27,14 +27,14 @@ public class EnemyAppearController : MonoBehaviour
         enemy.gameObject.SetActive(false);
     }
 
-    public void Init(IUpdateListController updateListController)
+    public void Init(IRegister register)
     {
         stateMachine.TransitReady((int)StateID.OutOfCamera, true);
 
         EventTriggerManager.Instance.VoidEventTriggers.Subscribe(EventType.ChangeCameraStart, Disabled);
         EventTriggerManager.Instance.VoidEventTriggers.Subscribe(EventType.ChangeCameraEnd, Enabled);
 
-        _updateListController = updateListController;
+        _register = register;
     }
 
     public void Reset()
@@ -44,7 +44,7 @@ public class EnemyAppearController : MonoBehaviour
 
     public void OnUpdate()
     {
-        if (_updateListController == null)
+        if (_register == null)
         {
             Debug.Log("オブジェクト管理用インターフェイスが設定されていないため、更新処理が出来ません");
             return;
@@ -69,7 +69,7 @@ public class EnemyAppearController : MonoBehaviour
         EventTriggerManager.Instance.VoidEventTriggers.Unsubscribe(EventType.ChangeCameraStart, Disabled);
         EventTriggerManager.Instance.VoidEventTriggers.Unsubscribe(EventType.ChangeCameraEnd, Enabled);
 
-        _updateListController = null;
+        _register = null;
     }
 
     class None : State<EnemyAppearController, None>
@@ -89,7 +89,7 @@ public class EnemyAppearController : MonoBehaviour
         {
             ctr.enemy.transform.position = ctr.transform.position;
             ctr.enemy.gameObject.SetActive(false);
-            ctr._updateListController.RemoveObject(ctr.enemy);
+            ctr._register?.OnUnregist(ctr.enemy);
         }
 
         protected override void Update(EnemyAppearController ctr)
@@ -109,8 +109,8 @@ public class EnemyAppearController : MonoBehaviour
         protected override void Enter(EnemyAppearController ctr, int preId, int subId)
         {
             ctr.enemy.gameObject.SetActive(true);
-            ctr.enemy.Setup(ctr._updateListController.RemoveObject);
-            ctr._updateListController.AddObject(ctr.enemy);
+            ctr.enemy.Setup(ctr._register.OnUnregist);
+            ctr._register?.OnRegist(ctr.enemy);
         }
 
         protected override void Update(EnemyAppearController ctr)
@@ -130,7 +130,7 @@ public class EnemyAppearController : MonoBehaviour
         protected override void Enter(EnemyAppearController ctr, int preId, int subId)
         {
             ctr.enemy.gameObject.SetActive(false);
-            ctr._updateListController.RemoveObject(ctr.enemy);
+            ctr._register?.OnUnregist(ctr.enemy);
         }
         protected override void Update(EnemyAppearController ctr)
         {
