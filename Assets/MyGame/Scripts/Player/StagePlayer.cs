@@ -229,9 +229,8 @@ public partial class StagePlayer : PhysicalObject, IDirect
 
         IEnumerator PlayerForceMoveAccordingToCameraCo()
         {
-            this.enabled = false;
-
-            while (!enabled)
+            RequestPause(true);
+            while (IsPause)
             {
                 this.transform.position += GameMainManager.Instance.MainCameraControll.DeltaMove * 0.08f;
                 yield return null;
@@ -245,7 +244,7 @@ public partial class StagePlayer : PhysicalObject, IDirect
     /// <param name="actionFinishCallback"></param>
     public void PlayerForceMoveAccordingToCameraEnd(Action actionFinishCallback)
     {
-        this.enabled = true;
+        RequestPause(false);
         actionFinishCallback?.Invoke();
     }
 

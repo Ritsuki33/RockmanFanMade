@@ -60,7 +60,7 @@ public class UpdateList
     {
         foreach(IObjectInterpreter e in list)
         {
-            e.OnPause(isPause);
+            e.RequestPause(isPause);
         }
     }
 

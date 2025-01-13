@@ -36,6 +36,7 @@ public class AnimObject : BaseObject
 
     protected override void OnPause(bool isPause)
     {
+        base.OnPause(isPause);
         if (m_mainAnimator == null) return;
 
         if (isPause)
