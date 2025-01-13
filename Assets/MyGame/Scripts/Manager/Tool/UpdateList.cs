@@ -84,14 +84,20 @@ public class UpdateList
     {
         foreach(var e in addList)
         {
-            e.Init();
-            list.Add(e);
+            if (!list.Contains(e))
+            {
+                e.Init();
+                list.Add(e);
+            }
         }
 
         foreach(var e in removeList)
         {
-            e.Destroy();
-            list.Remove(e);
+            if (list.Contains(e))
+            {
+                e.Destroy();
+                list.Remove(e);
+            }
         }
 
         if (addList.Count > 0) addList.Clear();
