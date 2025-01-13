@@ -123,7 +123,7 @@ public class EnemyAppearController : MonoBehaviour
     }
 
     /// <summary>
-    /// 消えている状態
+    /// 画面に入っているが、敵が消えている状態
     /// </summary>
     class Disappearing : State<EnemyAppearController, Disappearing>
     {
