@@ -33,11 +33,9 @@ public class WorldManager : SingletonComponent<WorldManager>
     {
         currentCheckPointData = defaultCheckPoint;
         isPause = false;
-
-        
     }
 
-    private void OnReset()
+    public void OnReset()
     {
         ObjectManager.Instance.OnReset();
     }
@@ -74,7 +72,6 @@ public class WorldManager : SingletonComponent<WorldManager>
 
     public void StartStage()
     {
-        OnReset();
         EventTriggerManager.Instance.Notify(EventType.StartStage);
         startAction.StartEvent();
     }

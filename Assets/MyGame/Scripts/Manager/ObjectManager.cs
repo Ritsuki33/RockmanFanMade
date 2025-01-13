@@ -31,6 +31,8 @@ public class ObjectManager : SingletonComponent<ObjectManager>, IRegister
         {
             e.Init(this);
         }
+
+        updateList.Clear();
     }
 
     public void OnFixedUpdate()
@@ -55,7 +57,12 @@ public class ObjectManager : SingletonComponent<ObjectManager>, IRegister
 
     public void OnReset()
     {
-        updateList.OnReset();
+        updateList.Clear();
+
+        foreach (var e in enemyAppearControllerList)
+        {
+            e.Reset();
+        }
     }
 
     public void OnRegist(IObjectInterpreter obj)

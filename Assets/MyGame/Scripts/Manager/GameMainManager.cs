@@ -62,8 +62,8 @@ public class GameMainManager : BaseManager<GameMainManager>
             yield return screenContainer.Initialize(UI.GameMain, true);
 
             OnPause(false);
+
             worldManager.StartStage();
-            StageStart();
         }
     }
 
@@ -90,14 +90,19 @@ public class GameMainManager : BaseManager<GameMainManager>
         screenContainer.Clear();
     }
 
-    public void StageStart()
+    public void StageReStart()
     {
+        worldManager.OnReset();
+
+        // プレイヤーの登録
+        worldManager.AddPlayer(player);
+
         worldManager.StartStage();
     }
 
     public void DeathNotification()
     {
-        StartCoroutine(DeathExecuteCo(StageStart));
+        StartCoroutine(DeathExecuteCo(StageReStart));
     }
 
     IEnumerator DeathExecuteCo(Action action)
