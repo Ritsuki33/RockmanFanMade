@@ -16,18 +16,12 @@ public class StageEnemy : PhysicalObject
     public int CurrentHp => currentHp;
     public int MaxHp => (enemyData != null) ? enemyData.Hp : 3;
 
-    Action<StageEnemy> _onDeleteCallback;
 
     protected override void Init()
     {
         base.Init();
         MainMaterial.SetFloat(ShaderPropertyId.IsFadeColorID, 0);
         currentHp = MaxHp;
-    }
-
-    public void Setup(Action<StageEnemy> onDeleteCallback)
-    {
-        _onDeleteCallback = onDeleteCallback;
     }
 
     public virtual void Damaged(RockBusterDamage damageVal)
@@ -57,7 +51,7 @@ public class StageEnemy : PhysicalObject
     {
         OnDead();
 
-        _onDeleteCallback.Invoke(this);
+        Delete();
         defeatEvent?.Invoke();
         EventTriggerManager.Instance.Notify(EnemyEventType.Defeated, this);
     }
@@ -65,7 +59,6 @@ public class StageEnemy : PhysicalObject
     public virtual void OnDead()
     {
         ObjectManager.Instance.Create(ExplodeType.Explode1, Explode.Layer.None, 0, this.transform.position);
-        this.gameObject.SetActive(false);
     }
 
     /// <summary>

@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System;
+using System.Runtime.ConstrainedExecution;
+using UnityEngine;
 
 /// <summary>
 /// オブジェクトインタプリター
@@ -24,10 +26,14 @@ public interface IObjectInterpreter
 /// </summary>
 public class BaseObject : MonoBehaviour, IObjectInterpreter
 {
+    [SerializeField] bool outofCameraDelete = true;
+
     private bool _isPause = false;
     public bool IsPause => _isPause;
 
     int pauseRequest = 0;
+    Action _onDeleteCallback;
+
     void IObjectInterpreter.Init() => Init();
     void IObjectInterpreter.OnFixedUpdate() => OnFixedUpdate();
     void IObjectInterpreter.OnUpdate() => OnUpdate();
@@ -37,10 +43,17 @@ public class BaseObject : MonoBehaviour, IObjectInterpreter
 
     protected virtual void Init() { }
     protected virtual void OnFixedUpdate() { }
-    protected virtual void OnUpdate() { }
     protected virtual void OnPause(bool isPause) { _isPause = isPause; }
     protected virtual void Destroy() { }
     protected virtual void OnReset() { }
+
+    protected virtual void OnUpdate()
+    {
+        if (GameMainManager.Instance.MainCameraControll.CheckOutOfView(gameObject))
+        {
+            Delete();
+        }
+    }
 
     /// <summary>
     /// ポーズのリクエスト
@@ -61,5 +74,14 @@ public class BaseObject : MonoBehaviour, IObjectInterpreter
         OnPause(pauseRequest > 0);
     }
 
+    public void Setup(Action onDeleteCallback)
+    {
+        _onDeleteCallback = onDeleteCallback;
+    }
+
+    public virtual void Delete()
+    {
+        _onDeleteCallback?.Invoke();
+    }
 
 }

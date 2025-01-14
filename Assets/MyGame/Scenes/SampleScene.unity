@@ -1325,6 +1325,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 83cd78d3bbd5b3e4195583258bed6674, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  outofCameraDelete: 1
   m_mainAnimator: {fileID: 257428250}
   rb: {fileID: 244315756}
   enemyData: {fileID: 0}
@@ -80346,6 +80347,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a3072e5eaf6a8124a974f7c806d84a00, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  outofCameraDelete: 1
   m_mainAnimator: {fileID: 0}
   rb: {fileID: 0}
   enemyData: {fileID: 11400000, guid: 1c8f826dbe2641547a3f178f338248e1, type: 2}
@@ -81954,8 +81956,8 @@ MonoBehaviour:
   m_UpdateMethod: 2
   m_BlendUpdateMethod: 1
   m_DefaultBlend:
-    m_Style: 6
-    m_Time: 0.8
+    m_Style: 0
+    m_Time: 0
     m_CustomCurve:
       serializedVersion: 2
       m_Curve: []

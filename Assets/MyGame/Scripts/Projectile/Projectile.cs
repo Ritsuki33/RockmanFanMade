@@ -10,7 +10,6 @@ public class Projectile : PhysicalObject,IPooledObject<Projectile>,IDirect
     [SerializeField] private BoxCollider2D boxCollider;
     [SerializeField] private Direct direct;
     Action<Rigidbody2D> fixedUpdate;
-    Action<Projectile> deleteCallback;
 
     Action<Projectile> onCollision;
 
@@ -35,11 +34,6 @@ public class Projectile : PhysicalObject,IPooledObject<Projectile>,IDirect
     protected override void OnFixedUpdate()
     {
         fixedUpdate.Invoke(rb);
-
-        if (GameMainManager.Instance.MainCameraControll.CheckOutOfView(gameObject))
-        {
-            Delete();
-        }
     }
 
     public void Setup(int attackPower, Action<Rigidbody2D> start, Action<Rigidbody2D> fixedUpdate)
@@ -49,13 +43,13 @@ public class Projectile : PhysicalObject,IPooledObject<Projectile>,IDirect
         this.fixedUpdate = fixedUpdate;
     }
 
-    public void Setup(int attackPower, Action<Rigidbody2D> start, Action<Rigidbody2D> fixedUpdate, Action<Projectile> deleteCallback)
+    public void Setup(int attackPower, Action<Rigidbody2D> start, Action<Rigidbody2D> fixedUpdate, Action deleteCallback)
     {
         Setup(attackPower, start, fixedUpdate);
-        this.deleteCallback = deleteCallback;
+        Setup(deleteCallback);
     }
 
-    public void Setup(int attackPower, Action<Rigidbody2D> start, Action<Rigidbody2D> fixedUpdate, Action<Projectile> deleteCallback, Action<Projectile> onCollisionEnter = null)
+    public void Setup(int attackPower, Action<Rigidbody2D> start, Action<Rigidbody2D> fixedUpdate, Action deleteCallback, Action<Projectile> onCollisionEnter = null)
     {
         Setup(attackPower, start, fixedUpdate, deleteCallback);
         this.onCollision = onCollisionEnter;
@@ -79,11 +73,6 @@ public class Projectile : PhysicalObject,IPooledObject<Projectile>,IDirect
     private void OnTriggerEnter2D(Collider2D collision)
     {
         rbCollide.OnTriggerEnter(collision);
-    }
-
-    public void Delete()
-    {
-        this.deleteCallback?.Invoke(this);
     }
 
     IObjectPool<Projectile> IPooledObject<Projectile>.Pool { get => pool; set => pool = value; }

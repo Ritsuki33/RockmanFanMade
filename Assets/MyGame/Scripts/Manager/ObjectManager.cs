@@ -61,7 +61,7 @@ public class ObjectManager : SingletonComponent<ObjectManager>, IRegister
 
         foreach (var e in enemyAppearControllerList)
         {
-            e.Reset();
+            e.OnReset();
         }
     }
 
@@ -96,11 +96,11 @@ public class ObjectManager : SingletonComponent<ObjectManager>, IRegister
             attackPower,
             startCallback,
             fixedUpdateCallback,
-            (obj) =>
+            () =>
             {
                 // プールへ返還
-                pool?.Release(obj);
-                finishCallback?.Invoke(obj);
+                pool?.Release(projectile);
+                finishCallback?.Invoke(projectile);
             }
             );
 

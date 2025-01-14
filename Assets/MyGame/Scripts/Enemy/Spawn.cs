@@ -1,5 +1,9 @@
-﻿using UnityEngine;
+﻿using System.Runtime.ConstrainedExecution;
+using UnityEngine;
 
+/// <summary>
+/// 敵のスポーン制御
+/// </summary>
 public class Spawn : MonoBehaviour
 {
     [SerializeField] StageEnemy enemy = default;
@@ -21,8 +25,7 @@ public class Spawn : MonoBehaviour
     {
         stateMachine.AddState((int)StateID.None, new None());
         stateMachine.AddState((int)StateID.OutOfCamera, new OutOfCamera());
-        stateMachine.AddState((int)StateID.Appering, new Appering());
-        stateMachine.AddState((int)StateID.Disappearing, new Disappearing());
+        stateMachine.AddState((int)StateID.Appering, new InCamera());
 
         enemy.gameObject.SetActive(false);
     }
@@ -37,7 +40,22 @@ public class Spawn : MonoBehaviour
         _register = register;
     }
 
-    public void Reset()
+    /// <summary>
+    /// 敵をスポーン
+    /// </summary>
+    public void SpawnEnemy()
+    {
+        enemy.gameObject.SetActive(true);
+        enemy.Setup(() =>
+        {
+            _register.OnUnregist(enemy);
+            enemy.gameObject.SetActive(false);
+        });
+
+        _register?.OnRegist(enemy);
+    }
+
+    public void OnReset()
     {
         stateMachine.TransitReady((int)StateID.OutOfCamera, true);
     }
@@ -81,17 +99,10 @@ public class Spawn : MonoBehaviour
     }
 
     /// <summary>
-    /// カメラ外
+    /// スポーン位置がカメラ外
     /// </summary>
     class OutOfCamera : State<Spawn, OutOfCamera>
     {
-        protected override void Enter(Spawn ctr, int preId, int subId)
-        {
-            ctr.enemy.transform.position = ctr.transform.position;
-            ctr.enemy.gameObject.SetActive(false);
-            ctr._register?.OnUnregist(ctr.enemy);
-        }
-
         protected override void Update(Spawn ctr)
         {
             if (!GameMainManager.Instance.MainCameraControll.CheckOutOfView(ctr.gameObject))
@@ -102,36 +113,15 @@ public class Spawn : MonoBehaviour
     }
 
     /// <summary>
-    /// 敵が見えている状態
+    /// スポーン位置がカメラ内
     /// </summary>
-    class Appering : State<Spawn, Appering>
+    class InCamera : State<Spawn, InCamera>
     {
         protected override void Enter(Spawn ctr, int preId, int subId)
         {
-            ctr.enemy.gameObject.SetActive(true);
-            ctr.enemy.Setup(ctr._register.OnUnregist);
-            ctr._register?.OnRegist(ctr.enemy);
+            if (ctr.IsDeath) ctr.SpawnEnemy();
         }
 
-        protected override void Update(Spawn ctr)
-        {
-            if (ctr.IsDeath || GameMainManager.Instance.MainCameraControll.CheckOutOfView(ctr.enemy.gameObject))
-            {
-                ctr.stateMachine.TransitReady((int)StateID.Disappearing);
-            }
-        }
-    }
-
-    /// <summary>
-    /// 画面に入っているが、敵が消えている状態
-    /// </summary>
-    class Disappearing : State<Spawn, Disappearing>
-    {
-        protected override void Enter(Spawn ctr, int preId, int subId)
-        {
-            ctr.enemy.gameObject.SetActive(false);
-            ctr._register?.OnUnregist(ctr.enemy);
-        }
         protected override void Update(Spawn ctr)
         {
             if (GameMainManager.Instance.MainCameraControll.CheckOutOfView(ctr.gameObject))

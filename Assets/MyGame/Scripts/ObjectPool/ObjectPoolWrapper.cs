@@ -23,7 +23,7 @@ public class ObjectPoolWrapper<T> where T : BaseObject, IPooledObject<T>
     public ObjectPool<T> Pool { get; private set; }
     private List<T> _cacheObjects = new List<T>();
 
-    IRegister _creator = null;
+    IRegister _register = null;
     public void Init(IRegister creator)
     {
         _cacheObjects.Clear();
@@ -47,7 +47,7 @@ public class ObjectPoolWrapper<T> where T : BaseObject, IPooledObject<T>
             );
         }
 
-        _creator = creator;
+        _register = creator;
     }
 
     public void AllRelease()
@@ -76,14 +76,14 @@ public class ObjectPoolWrapper<T> where T : BaseObject, IPooledObject<T>
     void OnGetFromPool(T obj)
     {
         obj.gameObject.SetActive(true);
-        _creator?.OnRegist(obj);
+        _register?.OnRegist(obj);
         obj.OnGet();
     }
 
     void OnRelaseToPool(T obj)
     {
         obj.gameObject.SetActive(false);
-        _creator?.OnUnregist(obj);
+        _register?.OnUnregist(obj);
         obj.OnRelease();
     }
 

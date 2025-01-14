@@ -50,6 +50,7 @@ public class Batman : StageEnemy
 
     protected override void OnUpdate()
     {
+        base.OnUpdate();
         mainStateMachine.Update(this);
     }
 
