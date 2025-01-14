@@ -1,12 +1,12 @@
 ﻿using UnityEngine;
 
-public class EnemyAppearController : MonoBehaviour
+public class Spawn : MonoBehaviour
 {
     [SerializeField] StageEnemy enemy = default;
 
     public bool IsDeath => !enemy.gameObject.activeSelf;
 
-    StateMachine<EnemyAppearController> stateMachine = new StateMachine<EnemyAppearController>();
+    StateMachine<Spawn> stateMachine = new StateMachine<Spawn>();
 
     IRegister _register = null;
     enum StateID
@@ -72,9 +72,9 @@ public class EnemyAppearController : MonoBehaviour
         _register = null;
     }
 
-    class None : State<EnemyAppearController, None>
+    class None : State<Spawn, None>
     {
-        protected override void Enter(EnemyAppearController ctr, int preId, int subId)
+        protected override void Enter(Spawn ctr, int preId, int subId)
         {
             ctr.enemy.gameObject.SetActive(false);
         }
@@ -83,16 +83,16 @@ public class EnemyAppearController : MonoBehaviour
     /// <summary>
     /// カメラ外
     /// </summary>
-    class OutOfCamera : State<EnemyAppearController, OutOfCamera>
+    class OutOfCamera : State<Spawn, OutOfCamera>
     {
-        protected override void Enter(EnemyAppearController ctr, int preId, int subId)
+        protected override void Enter(Spawn ctr, int preId, int subId)
         {
             ctr.enemy.transform.position = ctr.transform.position;
             ctr.enemy.gameObject.SetActive(false);
             ctr._register?.OnUnregist(ctr.enemy);
         }
 
-        protected override void Update(EnemyAppearController ctr)
+        protected override void Update(Spawn ctr)
         {
             if (!GameMainManager.Instance.MainCameraControll.CheckOutOfView(ctr.gameObject))
             {
@@ -104,16 +104,16 @@ public class EnemyAppearController : MonoBehaviour
     /// <summary>
     /// 敵が見えている状態
     /// </summary>
-    class Appering : State<EnemyAppearController, Appering>
+    class Appering : State<Spawn, Appering>
     {
-        protected override void Enter(EnemyAppearController ctr, int preId, int subId)
+        protected override void Enter(Spawn ctr, int preId, int subId)
         {
             ctr.enemy.gameObject.SetActive(true);
             ctr.enemy.Setup(ctr._register.OnUnregist);
             ctr._register?.OnRegist(ctr.enemy);
         }
 
-        protected override void Update(EnemyAppearController ctr)
+        protected override void Update(Spawn ctr)
         {
             if (ctr.IsDeath || GameMainManager.Instance.MainCameraControll.CheckOutOfView(ctr.enemy.gameObject))
             {
@@ -125,14 +125,14 @@ public class EnemyAppearController : MonoBehaviour
     /// <summary>
     /// 画面に入っているが、敵が消えている状態
     /// </summary>
-    class Disappearing : State<EnemyAppearController, Disappearing>
+    class Disappearing : State<Spawn, Disappearing>
     {
-        protected override void Enter(EnemyAppearController ctr, int preId, int subId)
+        protected override void Enter(Spawn ctr, int preId, int subId)
         {
             ctr.enemy.gameObject.SetActive(false);
             ctr._register?.OnUnregist(ctr.enemy);
         }
-        protected override void Update(EnemyAppearController ctr)
+        protected override void Update(Spawn ctr)
         {
             if (GameMainManager.Instance.MainCameraControll.CheckOutOfView(ctr.gameObject))
             {

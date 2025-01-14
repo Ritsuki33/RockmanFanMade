@@ -18,14 +18,14 @@ public class ObjectManager : SingletonComponent<ObjectManager>, IRegister
 {
     [SerializeField] EffectManager effectManager;
     UpdateList updateList = new UpdateList();
-    List<EnemyAppearController> enemyAppearControllerList = new List<EnemyAppearController>();
+    List<Spawn> enemyAppearControllerList = new List<Spawn>();
     [SerializeField] Transform enemyRoot;
 
     public void Init()
     {
         effectManager.Init(this);
 
-        enemyAppearControllerList = enemyRoot.GetComponentsInChildren<EnemyAppearController>().ToList();
+        enemyAppearControllerList = enemyRoot.GetComponentsInChildren<Spawn>().ToList();
 
         foreach (var e in enemyAppearControllerList)
         {
