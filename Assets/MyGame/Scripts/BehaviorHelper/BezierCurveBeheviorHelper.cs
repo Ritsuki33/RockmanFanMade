@@ -35,8 +35,6 @@ public static class BezierCurveBeheviorHelper
                          + 2 * (1 - progress) * progress * b.position
                          + Mathf.Pow(progress, 2) * c.position;
 
-        Vector2 movement = position - curPos;
-
-        return movement / Time.fixedDeltaTime;
+        return position;
     }
 }

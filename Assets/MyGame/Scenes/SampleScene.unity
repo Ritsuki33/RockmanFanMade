@@ -1264,7 +1264,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 244315753}
-  - component: {fileID: 244315750}
   - component: {fileID: 244315754}
   - component: {fileID: 244315755}
   - component: {fileID: 244315756}
@@ -1275,24 +1274,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &244315750
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 244315749}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7dc6186acd22ee3479f7acb8e943e9a1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  bigDog: {fileID: 244315754}
-  _animator: {fileID: 257428250}
-  _mouth: {fileID: 689941048}
-  _tale: {fileID: 726497870}
-  pointA: {fileID: 797696724}
-  pointB: {fileID: 175052827}
 --- !u!4 &244315753
 Transform:
   m_ObjectHideFlags: 0
@@ -1332,7 +1313,10 @@ MonoBehaviour:
   defeatEvent:
     m_PersistentCalls:
       m_Calls: []
-  ctr: {fileID: 244315750}
+  _mouth: {fileID: 689941048}
+  _tale: {fileID: 726497870}
+  pointA: {fileID: 797696724}
+  pointB: {fileID: 175052827}
 --- !u!61 &244315755
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1362,7 +1346,7 @@ BoxCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0.24975395, y: -0.7492616}
@@ -81956,8 +81940,8 @@ MonoBehaviour:
   m_UpdateMethod: 2
   m_BlendUpdateMethod: 1
   m_DefaultBlend:
-    m_Style: 0
-    m_Time: 0
+    m_Style: 6
+    m_Time: 0.8
     m_CustomCurve:
       serializedVersion: 2
       m_Curve: []

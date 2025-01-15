@@ -19,17 +19,8 @@ public class Projectile : PhysicalObject,IPooledObject<Projectile>,IDirect
     public Vector2 CurVelocity => rb.velocity;
     public float CurSpeed => rb.velocity.magnitude;
 
-    RbCollide rbCollide = new RbCollide();
 
     private IObjectPool<Projectile> pool = null;
-
-    protected override void Init()
-    {
-        rbCollide.Init();
-
-        rbCollide.onCollisionEnter += OnCollisionEnterBase;
-        rbCollide.onTriggerEnter += OnTriggerEnterBase;
-    }
 
     protected override void OnFixedUpdate()
     {
@@ -55,24 +46,14 @@ public class Projectile : PhysicalObject,IPooledObject<Projectile>,IDirect
         this.onCollision = onCollisionEnter;
     }
 
-    void OnCollisionEnterBase(Collision2D collision)
-    {
-        onCollision?.Invoke(this);
-    }
-
-    void OnTriggerEnterBase(Collider2D collision)
-    {
-        onCollision?.Invoke(this);
-    }
-
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        rbCollide.OnCollisionEnter(collision);
+        onCollision?.Invoke(this);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        rbCollide.OnTriggerEnter(collision);
+        onCollision?.Invoke(this);
     }
 
     IObjectPool<Projectile> IPooledObject<Projectile>.Pool { get => pool; set => pool = value; }

@@ -7,7 +7,7 @@ static public class ExtendRigidBody2D
 {
     public static void SetVelocty(this Rigidbody2D rb, Vector2 nextPosition)
     {
-        Vector2 diff = nextPosition - rb.position;
+        Vector2 diff = nextPosition - (Vector2)rb.transform.position;
 
         Vector2 velocity = diff / Time.fixedDeltaTime;
 

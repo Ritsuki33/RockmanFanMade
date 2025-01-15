@@ -76,7 +76,7 @@ public class ObjectManager : SingletonComponent<ObjectManager>, IRegister
     }
 
     // Projectileの生成
-    public void Create(ProjectileType type, Vector2 position, int attackPower, bool isRight, Action<Rigidbody2D> startCallback, Action<Rigidbody2D> fixedUpdateCallback, Action<Projectile> finishCallback = null)
+    public void Create(ProjectileType type, Vector2 position, int attackPower, bool isRight, Action<Rigidbody2D> startCallback, Action<Rigidbody2D> fixedUpdateCallback, Action<Projectile> collisionCallback = null, Action<Projectile> finishCallback = null)
     {
         // プール取得
         var pool = GetPool(type);
@@ -89,7 +89,7 @@ public class ObjectManager : SingletonComponent<ObjectManager>, IRegister
         // Projectileの初期化
         var projectile = pool.Pool.Get(); 
         Vector2 localScale = projectile.transform.localScale;
-        localScale.x = (isRight) ? 1 : -1;
+        projectile.TurnTo(isRight);
         projectile.transform.localScale = localScale;
         projectile.transform.position = new Vector3(position.x, position.y, -2);
         projectile.Setup(
@@ -101,7 +101,8 @@ public class ObjectManager : SingletonComponent<ObjectManager>, IRegister
                 // プールへ返還
                 pool?.Release(projectile);
                 finishCallback?.Invoke(projectile);
-            }
+            },
+            collisionCallback
             );
 
         // ワールドへ追加

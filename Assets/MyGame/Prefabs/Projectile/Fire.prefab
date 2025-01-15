@@ -303,10 +303,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a7b01ea1b7b4b5469f87aaa998e091a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  outofCameraDelete: 1
   m_mainAnimator: {fileID: 1533953807141096291}
   rb: {fileID: 3378736190339322313}
   boxTrigger: {fileID: 2061328204228827753}
-  boxCollider: {fileID: 1189704593197543832}
+  boxCollider: {fileID: 0}
   direct:
     _transform: {fileID: 4124914671780115097}
     forwardIsRight: 0

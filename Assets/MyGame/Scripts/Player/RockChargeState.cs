@@ -160,7 +160,7 @@ public partial class StagePlayer
     {
         Vector2 direction = (isRight) ? Vector2.right : Vector2.left;
         float speed = 16;
-        ObjectManager.Create(ProjectileType.RockBuster_Small, launcher.position, 1, isRight, null, (rb) => rb.velocity = direction * speed, (projectile) => { if (curMameNum > 0) curMameNum--; });
+        ObjectManager.Create(ProjectileType.RockBuster_Small, launcher.position, 1, isRight, null, (rb) => rb.velocity = direction * speed, null, (projectile) => { if (curMameNum > 0) curMameNum--; });
 
         curMameNum++;
     }
