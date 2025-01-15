@@ -18,16 +18,16 @@ public class ObjectManager : SingletonComponent<ObjectManager>, IRegister
 {
     [SerializeField] EffectManager effectManager;
     UpdateList updateList = new UpdateList();
-    List<Spawn> enemyAppearControllerList = new List<Spawn>();
+    List<InCamaraSpawn> spawns = new List<InCamaraSpawn>();
     [SerializeField] Transform enemyRoot;
 
     public void Init()
     {
         effectManager.Init(this);
 
-        enemyAppearControllerList = enemyRoot.GetComponentsInChildren<Spawn>().ToList();
+        spawns = enemyRoot.GetComponentsInChildren<InCamaraSpawn>().ToList();
 
-        foreach (var e in enemyAppearControllerList)
+        foreach (var e in spawns)
         {
             e.Init(this);
         }
@@ -44,7 +44,7 @@ public class ObjectManager : SingletonComponent<ObjectManager>, IRegister
     {
         updateList.OnUpdate();
 
-        foreach (var element in enemyAppearControllerList)
+        foreach (var element in spawns)
         {
             element.OnUpdate();
         }
@@ -59,7 +59,7 @@ public class ObjectManager : SingletonComponent<ObjectManager>, IRegister
     {
         updateList.Clear();
 
-        foreach (var e in enemyAppearControllerList)
+        foreach (var e in spawns)
         {
             e.OnReset();
         }

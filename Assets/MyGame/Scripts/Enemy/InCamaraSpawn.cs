@@ -4,15 +4,12 @@ using UnityEngine;
 /// <summary>
 /// 敵のスポーン制御
 /// </summary>
-public class Spawn : MonoBehaviour
+public class InCamaraSpawn : Spawn
 {
-    [SerializeField] StageEnemy enemy = default;
+    public bool IsDeath => !Obj.gameObject.activeSelf;
 
-    public bool IsDeath => !enemy.gameObject.activeSelf;
+    StateMachine<InCamaraSpawn> stateMachine = new StateMachine<InCamaraSpawn>();
 
-    StateMachine<Spawn> stateMachine = new StateMachine<Spawn>();
-
-    IRegister _register = null;
     enum StateID
     {
         None,
@@ -27,32 +24,16 @@ public class Spawn : MonoBehaviour
         stateMachine.AddState((int)StateID.OutOfCamera, new OutOfCamera());
         stateMachine.AddState((int)StateID.Appering, new InCamera());
 
-        enemy.gameObject.SetActive(false);
+        Obj.gameObject.SetActive(false);
     }
 
-    public void Init(IRegister register)
+    public override void Init(IRegister register)
     {
+        base.Init(register);
         stateMachine.TransitReady((int)StateID.OutOfCamera, true);
 
         EventTriggerManager.Instance.VoidEventTriggers.Subscribe(EventType.ChangeCameraStart, Disabled);
         EventTriggerManager.Instance.VoidEventTriggers.Subscribe(EventType.ChangeCameraEnd, Enabled);
-
-        _register = register;
-    }
-
-    /// <summary>
-    /// 敵をスポーン
-    /// </summary>
-    public void SpawnEnemy()
-    {
-        enemy.gameObject.SetActive(true);
-        enemy.Setup(() =>
-        {
-            _register.OnUnregist(enemy);
-            enemy.gameObject.SetActive(false);
-        });
-
-        _register?.OnRegist(enemy);
     }
 
     public void OnReset()
@@ -62,11 +43,6 @@ public class Spawn : MonoBehaviour
 
     public void OnUpdate()
     {
-        if (_register == null)
-        {
-            Debug.Log("オブジェクト管理用インターフェイスが設定されていないため、更新処理が出来ません");
-            return;
-        }
         stateMachine.Update(this);
     }
 
@@ -77,33 +53,32 @@ public class Spawn : MonoBehaviour
 
     private void Disabled()
     {
-        enemy.gameObject.SetActive(false);
+        Obj.gameObject.SetActive(false);
         stateMachine.TransitReady((int)StateID.None);
     }
 
-    public void Destroy()
+    public override void Destroy()
     {
+        base.Destroy();
         stateMachine.TransitReady((int)StateID.None);
         EventTriggerManager.Instance.VoidEventTriggers.Unsubscribe(EventType.ChangeCameraStart, Disabled);
         EventTriggerManager.Instance.VoidEventTriggers.Unsubscribe(EventType.ChangeCameraEnd, Enabled);
-
-        _register = null;
     }
 
-    class None : State<Spawn, None>
+    class None : State<InCamaraSpawn, None>
     {
-        protected override void Enter(Spawn ctr, int preId, int subId)
+        protected override void Enter(InCamaraSpawn ctr, int preId, int subId)
         {
-            ctr.enemy.gameObject.SetActive(false);
+            ctr.Obj.gameObject.SetActive(false);
         }
     }
 
     /// <summary>
     /// スポーン位置がカメラ外
     /// </summary>
-    class OutOfCamera : State<Spawn, OutOfCamera>
+    class OutOfCamera : State<InCamaraSpawn, OutOfCamera>
     {
-        protected override void Update(Spawn ctr)
+        protected override void Update(InCamaraSpawn ctr)
         {
             if (!GameMainManager.Instance.MainCameraControll.CheckOutOfView(ctr.gameObject))
             {
@@ -115,14 +90,14 @@ public class Spawn : MonoBehaviour
     /// <summary>
     /// スポーン位置がカメラ内
     /// </summary>
-    class InCamera : State<Spawn, InCamera>
+    class InCamera : State<InCamaraSpawn, InCamera>
     {
-        protected override void Enter(Spawn ctr, int preId, int subId)
+        protected override void Enter(InCamaraSpawn ctr, int preId, int subId)
         {
-            if (ctr.IsDeath) ctr.SpawnEnemy();
+            if (ctr.IsDeath) ctr.SpawnObject();
         }
 
-        protected override void Update(Spawn ctr)
+        protected override void Update(InCamaraSpawn ctr)
         {
             if (GameMainManager.Instance.MainCameraControll.CheckOutOfView(ctr.gameObject))
             {

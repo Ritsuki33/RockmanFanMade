@@ -73982,7 +73982,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 405820804}
-  - component: {fileID: 405820803}
+  - component: {fileID: 405820805}
   m_Layer: 0
   m_Name: BigDogAppearController
   m_TagString: Untagged
@@ -73990,19 +73990,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &405820803
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 405820802}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 87e51f73871949e498c0e257df9c35e2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  enemy: {fileID: 244315754}
 --- !u!4 &405820804
 Transform:
   m_ObjectHideFlags: 0
@@ -74019,6 +74006,19 @@ Transform:
   - {fileID: 244315753}
   m_Father: {fileID: 465925499}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &405820805
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 405820802}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 65f3dce4b0715834da2e731a51635a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  obj: {fileID: 244315754}
 --- !u!1 &445758466
 GameObject:
   m_ObjectHideFlags: 0
@@ -75041,10 +75041,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 700741432}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 87e51f73871949e498c0e257df9c35e2, type: 3}
+  m_Script: {fileID: 11500000, guid: 65f3dce4b0715834da2e731a51635a41, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemy: {fileID: 1963970708}
+  obj: {fileID: 1963970708}
 --- !u!1 &704584960
 GameObject:
   m_ObjectHideFlags: 0
