@@ -22,6 +22,18 @@ public class Projectile : PhysicalObject,IPooledObject<Projectile>,IDirect
 
     private IObjectPool<Projectile> pool = null;
 
+    protected override void Init()
+    {
+        base.Init();
+        EventTriggerManager.Instance.VoidEventTriggers.Subscribe(EventType.ChangeCameraStart, Delete);
+    }
+
+    protected override void Destroy()
+    {
+        base.Destroy();
+        EventTriggerManager.Instance.VoidEventTriggers.Unsubscribe(EventType.ChangeCameraStart, Delete);
+    }
+
     protected override void OnFixedUpdate()
     {
         fixedUpdate.Invoke(rb);
