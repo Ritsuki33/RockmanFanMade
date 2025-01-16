@@ -342,13 +342,12 @@ public class ExpandRigidBody : IExRbCallbackSet
 
     Vector2 CurrentMovement => velocity * Time.fixedDeltaTime;
 
-    
     public void Init()
     {
         if (boxCollider == null) boxCollider = transform.gameObject.GetComponent<BoxCollider2D>();
         physicalLayer = Physics2D.GetLayerCollisionMask(boxCollider.gameObject.layer);
 
-        rb = transform.gameObject.GetComponent<Rigidbody2D>();
+        if (rb == null) rb = transform.gameObject.GetComponent<Rigidbody2D>();
         if (!rb) rb = transform.gameObject.AddComponent<Rigidbody2D>();
 
         rb.bodyType = RigidbodyType2D.Dynamic;
@@ -379,6 +378,8 @@ public class ExpandRigidBody : IExRbCallbackSet
 
     private void PhysicalVelocityCorrect(Vector2 currentVelocity)
     {
+        if (physicalLayer == 0) Debug.LogError("ExpandRigidBodyが初期化されていないため、レイの判定ができません。");
+
         topHit = Physics2D.BoxCast(
             VirtualTopColliderCenter + new Vector2(0, -0.005f)
             , VerticalCheckHitTopSize
@@ -701,7 +702,7 @@ public class ExpandRigidBody : IExRbCallbackSet
         onHitLeftRightExit -= hitEvent.OnLeftRightHitExit;
     }
 
-    private void OnDrawGizmos()
+    public void OnDrawGizmos()
     {
         if (boxCollider && !boxCollider.enabled) return;
         Gizmos.color = Color.red;

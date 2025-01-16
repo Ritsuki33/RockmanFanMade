@@ -18,14 +18,14 @@ public class ObjectManager : SingletonComponent<ObjectManager>, IRegister
 {
     [SerializeField] EffectManager effectManager;
     UpdateList updateList = new UpdateList();
-    List<InCamaraSpawn> spawns = new List<InCamaraSpawn>();
+    List<Spawn> spawns = new List<Spawn>();
     [SerializeField] Transform enemyRoot;
 
     public void Init()
     {
         effectManager.Init(this);
 
-        spawns = enemyRoot.GetComponentsInChildren<InCamaraSpawn>().ToList();
+        spawns = enemyRoot.GetComponentsInChildren<Spawn>().ToList();
 
         foreach (var e in spawns)
         {

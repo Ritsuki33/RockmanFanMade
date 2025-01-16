@@ -36,6 +36,7 @@ public class ActionChainExecuter : MonoBehaviour
         SetPlayerHp,
         ChangeManager,
         DefeatEnemyCondition,
+        Spawn,
     }
 
     [Serializable]
@@ -204,16 +205,15 @@ public class ActionChainExecuter : MonoBehaviour
     [Serializable]
     class BoseAppearAction : BaseAction
     {
-        [SerializeField] Grenademan ctr;
-        [SerializeField] GameObject transferArea;
+        [SerializeField] Grenademan grenademan;
         override public void Execute(Action finishCallback)
         {
-            Vector2 appearPos = new Vector3(
-               transferArea.transform.position.x,
-               GameMainManager.Instance.MainCameraControll.OutOfViewTop
-               );
-            ctr.transform.position_xy(appearPos);
-            //ctr.Appeare(finishCallback);
+            //Vector2 appearPos = new Vector3(
+            //   grenademan.transform.position.x,
+            //   GameMainManager.Instance.MainCameraControll.OutOfViewTop
+            //   );
+            //grenademan.transform.position_xy(appearPos);
+            grenademan.Appeare(finishCallback);
         }
     }
 
@@ -428,6 +428,17 @@ public class ActionChainExecuter : MonoBehaviour
         }
     }
 
+    [Serializable]
+    class SpawnAction : BaseAction
+    {
+        [SerializeField] Spawn spawn;
+        public override void Execute(Action finishCallback)
+        {
+            spawn.SpawnObject();
+            finishCallback.Invoke();
+        }
+    }
+
     [SerializeField] Element element;
 
     private void OnValidate()
@@ -589,6 +600,13 @@ public class ActionChainExecuter : MonoBehaviour
                     }
 
                     (ae.action as DefeatEnemyCondition).OnValidation();
+                    break;
+
+                case ActionType.Spawn:
+                    if (ae.action is not SpawnAction)
+                    {
+                        ae.action = new SpawnAction();
+                    }
                     break;
                 default:
                     break;

@@ -11,12 +11,12 @@ public class Grenademan : StageEnemy,IDirect
     [SerializeField] Transform buster;
     [SerializeField] private Gravity _gravity;
     [SerializeField] private Move _move;
-    [SerializeField] private Jump jump;
-    [SerializeField] private Direct direct;
-    private ExpandRigidBody _exRb;
+    [SerializeField] private Jump _jump;
+    [SerializeField] private Direct _direct;
+    [SerializeField] private ExpandRigidBody _exRb;
 
     private AmbiguousTimer _timer = new AmbiguousTimer();
-    private Action finishActionCallback;
+    private Action _finishActionCallback;
 
     bool existBomb = false;
 
@@ -27,6 +27,9 @@ public class Grenademan : StageEnemy,IDirect
 
 
     ExRbStateMachine<Grenademan> stateMachine = new ExRbStateMachine<Grenademan>();
+
+    RbCollide rbCollide = new RbCollide();
+    ExRbHit exRbHit = new ExRbHit();
     enum StateId
     {
         Idle,
@@ -40,19 +43,22 @@ public class Grenademan : StageEnemy,IDirect
     protected override void Awake()
     {
         base.Awake();
-        _gravity = GetComponent<Gravity>();
-        _exRb = GetComponent<ExpandRigidBody>();
-        _move = GetComponent<Move>();
-        jump = GetComponent<Jump>();
+        _exRb.Init();
 
         stateMachine.AddState((int)StateId.Idle, new Idle());
         stateMachine.AddState((int)StateId.Run, new Run());
         stateMachine.AddState((int)StateId.Jump, new Jumping());
         stateMachine.AddState((int)StateId.PlaceBomb, new PlaceBomb());
         stateMachine.AddState((int)StateId.Shoot, new Shoot());
-        //AddState((int)StateId.Float, new Float());
         stateMachine.AddState((int)StateId.Appearance, new Appearance());
+        rbCollide.Init();
+        rbCollide.onTriggerEnter += OnTriggerEnterBase;
 
+        exRbHit.Init(_exRb);
+        exRbHit.onBottomHitEnter += OnBottomHitEnter;
+        exRbHit.onBottomHitStay += OnBottomHitStay;
+        exRbHit.onLeftHitStay += OnLeftHitStay;
+        exRbHit.onRightHitStay += OnRightHitStay;
     }
 
     protected override void Init()
@@ -63,11 +69,42 @@ public class Grenademan : StageEnemy,IDirect
     protected override void OnFixedUpdate()
     {
         stateMachine.FixedUpdate(this);
+        _exRb.FixedUpdate();
     }
 
     protected override void OnUpdate()
     {
         stateMachine.Update(this);
+    }
+
+    private void OnBottomHitEnter(RaycastHit2D hit)
+    {
+        stateMachine.OnBottomHitEnter(this, hit);
+    }
+
+    private void OnBottomHitStay(RaycastHit2D hit)
+    {
+        stateMachine.OnBottomHitStay(this, hit);
+    }
+
+    private void OnLeftHitStay(RaycastHit2D hit)
+    {
+        stateMachine.OnLeftHitStay(this, hit);
+    }
+
+    private void OnRightHitStay(RaycastHit2D hit)
+    {
+        stateMachine.OnRightHitStay(this, hit);
+    }
+
+    private void OnTriggerEnterBase(Collider2D collision)
+    {
+        stateMachine.OnTriggerEnter(this, collision);
+
+    }
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        rbCollide.OnTriggerEnter(collision);
     }
 
     public override void Damaged(RockBusterDamage damage)
@@ -156,7 +193,7 @@ public class Grenademan : StageEnemy,IDirect
             protected override void Exit(Grenademan ctr, Appearance parent, int nextId)
             {
                 // 通知を飛ばす
-                ctr.finishActionCallback?.Invoke();
+                ctr._finishActionCallback?.Invoke();
             }
         }
 
@@ -228,7 +265,7 @@ public class Grenademan : StageEnemy,IDirect
             ctr.TurnToTarget(WorldManager.Instance.Player.transform.position);
             ctr.MainAnimator.Play(AnimationNameHash.Float);
 
-            ctr.jump.Init(jump_vel);
+            ctr._jump.Init(jump_vel);
 
             RaycastHit2D left = Physics2D.Raycast(ctr.transform.position, Vector2.left, Mathf.Infinity, layerMask);
             RaycastHit2D right = Physics2D.Raycast(ctr.transform.position, Vector2.right, Mathf.Infinity, layerMask);
@@ -250,10 +287,10 @@ public class Grenademan : StageEnemy,IDirect
 
         protected override void FixedUpdate(Grenademan ctr)
         {
-            if (ctr.jump.CurrentSpeed > 0)
+            if (ctr._jump.CurrentSpeed > 0)
             {
-                ctr.jump.OnUpdate(ctr._gravity.GravityScale);
-                ctr._exRb.velocity += ctr.jump.CurrentVelocity;
+                ctr._jump.OnUpdate(ctr._gravity.GravityScale);
+                ctr._exRb.velocity += ctr._jump.CurrentVelocity;
             }
             else
             {
@@ -289,7 +326,7 @@ public class Grenademan : StageEnemy,IDirect
             ctr.TurnToTarget(WorldManager.Instance.Player.transform.position);
             ctr.MainAnimator.Play(animationHash);
 
-            ctr.jump.Init(jump_vel);
+            ctr._jump.Init(jump_vel);
 
             RaycastHit2D left = Physics2D.Raycast(ctr.transform.position, Vector2.left, Mathf.Infinity, layerMask);
             RaycastHit2D right = Physics2D.Raycast(ctr.transform.position, Vector2.right, Mathf.Infinity, layerMask);
@@ -301,10 +338,10 @@ public class Grenademan : StageEnemy,IDirect
 
         protected override void FixedUpdate(Grenademan ctr)
         {
-            if (ctr.jump.CurrentSpeed > 0)
+            if (ctr._jump.CurrentSpeed > 0)
             {
-                ctr.jump.OnUpdate(ctr._gravity.GravityScale);
-                ctr._exRb.velocity += ctr.jump.CurrentVelocity;
+                ctr._jump.OnUpdate(ctr._gravity.GravityScale);
+                ctr._exRb.velocity += ctr._jump.CurrentVelocity;
             }
             else
             {
@@ -543,8 +580,7 @@ public class Grenademan : StageEnemy,IDirect
 
     public void Appeare(Action finishCallback)
     {
-        gameObject.SetActive(true);
-        finishActionCallback = finishCallback;
+        _finishActionCallback = finishCallback;
         this.stateMachine.TransitReady((int)StateId.Appearance);
     }
 
@@ -553,8 +589,12 @@ public class Grenademan : StageEnemy,IDirect
         this.stateMachine.TransitReady((int)StateId.Idle);
     }
 
-    public bool IsRight => direct.IsRight;
-    public void TurnTo(bool isRight) => direct.TurnTo(isRight);
-    public void TurnToTarget(Vector2 targetPos) => direct.TurnToTarget(targetPos);
-    public void TurnFace() => direct.TurnFace();
+    private void OnDrawGizmos()
+    {
+        _exRb.OnDrawGizmos();
+    }
+    public bool IsRight => _direct.IsRight;
+    public void TurnTo(bool isRight) => _direct.TurnTo(isRight);
+    public void TurnToTarget(Vector2 targetPos) => _direct.TurnToTarget(targetPos);
+    public void TurnFace() => _direct.TurnFace();
 }

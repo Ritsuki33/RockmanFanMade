@@ -36,12 +36,12 @@ public class InCamaraSpawn : Spawn
         EventTriggerManager.Instance.VoidEventTriggers.Subscribe(EventType.ChangeCameraEnd, Enabled);
     }
 
-    public void OnReset()
+    public override void OnReset()
     {
         stateMachine.TransitReady((int)StateID.OutOfCamera, true);
     }
 
-    public void OnUpdate()
+    public override void OnUpdate()
     {
         stateMachine.Update(this);
     }

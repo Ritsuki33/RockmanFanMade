@@ -987,7 +987,7 @@ GameObject:
   - component: {fileID: 167170093}
   - component: {fileID: 167170094}
   m_Layer: 0
-  m_Name: BossCtr
+  m_Name: BossSpawn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1001,13 +1001,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 167170092}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 258.0975, y: 1.4712472, z: -0.13478398}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1648211529}
-  m_Father: {fileID: 919634586}
+  m_Father: {fileID: 465925499}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &167170094
 MonoBehaviour:
@@ -1018,10 +1018,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 167170092}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 993f90d070ee7214f89f12fbb0e6d0c8, type: 3}
+  m_Script: {fileID: 11500000, guid: 81dfae70e90443247bedb7e094f743a4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  boss: {fileID: 1648211535}
+  obj: {fileID: 1648211535}
 --- !u!1 &174831877
 GameObject:
   m_ObjectHideFlags: 0
@@ -73968,7 +73968,7 @@ GameObject:
   - component: {fileID: 405820804}
   - component: {fileID: 405820805}
   m_Layer: 0
-  m_Name: BigDogAppearController
+  m_Name: BigDogSpawn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -74088,7 +74088,7 @@ GameObject:
   m_Component:
   - component: {fileID: 465925499}
   m_Layer: 0
-  m_Name: EnemyRoot
+  m_Name: SpawnRoot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -74109,6 +74109,7 @@ Transform:
   m_Children:
   - {fileID: 700741433}
   - {fileID: 405820804}
+  - {fileID: 167170093}
   m_Father: {fileID: 1655765202}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &482696655
@@ -74994,7 +74995,7 @@ GameObject:
   - component: {fileID: 700741433}
   - component: {fileID: 700741434}
   m_Layer: 0
-  m_Name: EnemyController
+  m_Name: EnemySpawn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -76729,7 +76730,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 311468352}
-  - {fileID: 167170093}
   - {fileID: 1265673477}
   - {fileID: 1172068112}
   - {fileID: 1604175649}
@@ -80302,11 +80302,23 @@ MonoBehaviour:
     _maxSpeed: 10
   _move:
     _speed: 5
-  jump:
+  _jump:
     maxSpeed: 15
-  direct:
+  _direct:
     _transform: {fileID: 1648211529}
     forwardIsRight: 0
+  _exRb:
+    transform: {fileID: 1648211529}
+    rb: {fileID: 1648211531}
+    boxCollider: {fileID: 1222568601}
+    physicalOffset: {x: 0.05, y: 0.05}
+    physicalGap: 0.005
+    priority: 4
+    ratio_x: 1
+    ratio_y: 1
+    throughFloorLayer:
+      serializedVersion: 2
+      m_Bits: 768
   placeBombPosArray:
   - {fileID: 1950921531}
   - {fileID: 2064169959}
@@ -80314,17 +80326,6 @@ MonoBehaviour:
   - {fileID: 1177587040}
   - {fileID: 1288204518}
   - {fileID: 1012831296}
---- !u!114 &1648452747 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 5107075163451444145, guid: 50db6328845417f428e76f577eadc620, type: 3}
-  m_PrefabInstance: {fileID: 1028768570}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 45e653bab7fb20e499bda25e1b646fea, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1655765201
 GameObject:
   m_ObjectHideFlags: 0
@@ -80381,7 +80382,7 @@ MonoBehaviour:
   startAction: {fileID: 1655765204}
   defaultCheckPoint:
     position: {fileID: 2095095611}
-    virtualCamera: {fileID: 1648452747}
+    virtualCamera: {fileID: 1915592298}
 --- !u!114 &1655765204
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -81070,6 +81071,10 @@ MonoBehaviour:
           remarks: 
           action:
             rid: 115822631400243265
+        - type: 24
+          remarks: 
+          action:
+            rid: 6618942727087456259
         - type: 8
           remarks: 
           action:
@@ -81155,8 +81160,7 @@ MonoBehaviour:
     - rid: 115822658989064192
       type: {class: ActionChainExecuter/BoseAppearAction, ns: , asm: Assembly-CSharp}
       data:
-        ctr: {fileID: 0}
-        transferArea: {fileID: 1604175648}
+        grenademan: {fileID: 1648211535}
     - rid: 115822658989064196
       type: {class: ActionChainExecuter/ObjectActive, ns: , asm: Assembly-CSharp}
       data:
@@ -81169,6 +81173,10 @@ MonoBehaviour:
         objs:
         - {fileID: 1604175648}
         isActive: 0
+    - rid: 6618942727087456259
+      type: {class: ActionChainExecuter/SpawnAction, ns: , asm: Assembly-CSharp}
+      data:
+        spawn: {fileID: 167170094}
     - rid: 6885937914202030113
       type: {class: ActionChainExecuter/DefeatEnemyCondition, ns: , asm: Assembly-CSharp}
       data:
@@ -82737,7 +82745,7 @@ Transform:
   m_GameObject: {fileID: 2095095610}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 3, y: 4.7, z: -1.0413888}
+  m_LocalPosition: {x: 231.6, y: -10.4, z: -1.0413888}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

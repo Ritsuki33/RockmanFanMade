@@ -17,6 +17,9 @@ public class Spawn : MonoBehaviour
         _register = null;
     }
 
+    public virtual void OnReset() { }
+    public virtual void OnUpdate() { }
+
     /// <summary>
     /// Objectをスポーン
     /// </summary>

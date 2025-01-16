@@ -341,6 +341,7 @@ public partial class StagePlayer : PhysicalObject, IDirect
 
     private void OnDrawGizmos()
     {
+        exRb.OnDrawGizmos();
         onTheGround.OnDrawGizmos(transform.position, exRb.PhysicalBoxSize.x);
     }
 
