@@ -41,6 +41,8 @@ public class GameMainManager : BaseManager<GameMainManager>
     public ScreenContainer<UI> ScreenContainer => screenContainer;
 
     private bool isPause = false;
+    //ポーズ可否　
+    public bool Pausable { get; set; } = true;
     protected override void Init()
     {
         StartCoroutine(Initialize());
@@ -78,7 +80,7 @@ public class GameMainManager : BaseManager<GameMainManager>
             worldManager.OnUpdate();
         }
 
-        if (inputInfo.start)
+        if (Pausable && inputInfo.start)
         {
             isPause = !isPause;
             OnPause(isPause);

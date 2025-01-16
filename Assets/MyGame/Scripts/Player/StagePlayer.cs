@@ -234,6 +234,7 @@ public partial class StagePlayer : PhysicalObject, IDirect
 
         IEnumerator PlayerForceMoveAccordingToCameraCo()
         {
+            GameMainManager.Instance.Pausable = false;
             WorldManager.Instance.OnPause(true);
             while (WorldManager.Instance.IsPause)
             {
@@ -249,6 +250,7 @@ public partial class StagePlayer : PhysicalObject, IDirect
     /// <param name="actionFinishCallback"></param>
     public void PlayerForceMoveAccordingToCameraEnd(Action actionFinishCallback)
     {
+        GameMainManager.Instance.Pausable = true;
         WorldManager.Instance.OnPause(false);
         actionFinishCallback?.Invoke();
     }
