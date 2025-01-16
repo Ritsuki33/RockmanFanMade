@@ -9,7 +9,6 @@ public class Grenademan : StageEnemy,IDirect
     public Action<float> hpChangeTrigger = default;
 
     [SerializeField] Transform buster;
-    [SerializeField] private Animator _animator;
     [SerializeField] private Gravity _gravity;
     [SerializeField] private Move _move;
     [SerializeField] private Jump jump;
@@ -125,7 +124,7 @@ public class Grenademan : StageEnemy,IDirect
         {
             protected override void Enter(Grenademan ctr, Appearance parent, int preId, int subId)
             {
-                ctr._animator.Play(AnimationNameHash.Float);
+                ctr.MainAnimator.Play(AnimationNameHash.Float);
             }
 
             protected override void OnBottomHitEnter(Grenademan ctr, Appearance parent, RaycastHit2D hit)
@@ -143,12 +142,12 @@ public class Grenademan : StageEnemy,IDirect
         {
             protected override void Enter(Grenademan ctr, Appearance parent, int preId, int subId)
             {
-                ctr._animator.Play(AnimationNameHash.Pause);
+                ctr.MainAnimator.Play(AnimationNameHash.Pause);
             }
 
             protected override void Update(Grenademan ctr, Appearance parent)
             {
-                if (!ctr._animator.IsPlayingCurrentAnimation(AnimationNameHash.Pause))
+                if (!ctr.MainAnimator.IsPlayingCurrentAnimation(AnimationNameHash.Pause))
                 {
                     parent.TransitSubReady((int)SubStateId.Wait);
                 }
@@ -168,7 +167,7 @@ public class Grenademan : StageEnemy,IDirect
     {
         protected override void Enter(Grenademan ctr, int preId, int subId)
         {
-            ctr._animator.Play(AnimationNameHash.Idle);
+            ctr.MainAnimator.Play(AnimationNameHash.Idle);
             ctr._timer.Start(0.2f, 0.5f);
         }
 
@@ -227,7 +226,7 @@ public class Grenademan : StageEnemy,IDirect
         protected override void Enter(Grenademan ctr, int preId, int subId)
         {
             ctr.TurnToTarget(WorldManager.Instance.Player.transform.position);
-            ctr._animator.Play(AnimationNameHash.Float);
+            ctr.MainAnimator.Play(AnimationNameHash.Float);
 
             ctr.jump.Init(jump_vel);
 
@@ -288,7 +287,7 @@ public class Grenademan : StageEnemy,IDirect
         protected override void Enter(Grenademan ctr, int preId, int subId)
         {
             ctr.TurnToTarget(WorldManager.Instance.Player.transform.position);
-            ctr._animator.Play(animationHash);
+            ctr.MainAnimator.Play(animationHash);
 
             ctr.jump.Init(jump_vel);
 
@@ -318,7 +317,7 @@ public class Grenademan : StageEnemy,IDirect
 
         protected override void Update(Grenademan ctr)
         {
-            if (!isFire && !ctr._animator.IsPlayingCurrentAnimation(animationHash))
+            if (!isFire && !ctr.MainAnimator.IsPlayingCurrentAnimation(animationHash))
             {
                 isFire = true;
                 ctr.existBomb = true;
@@ -383,12 +382,12 @@ public class Grenademan : StageEnemy,IDirect
             protected override void Enter(Grenademan ctr, Run parent, int preId, int subId)
             {
                 ctr.TurnToTarget(WorldManager.Instance.Player.transform.position);
-                ctr._animator.Play(animationHash);
+                ctr.MainAnimator.Play(animationHash);
             }
 
             protected override void Update(Grenademan ctr, Run parent)
             {
-                if (!ctr._animator.IsPlayingCurrentAnimation(animationHash))
+                if (!ctr.MainAnimator.IsPlayingCurrentAnimation(animationHash))
                 {
                     parent.TransitSubReady(1);
                 }
@@ -403,7 +402,7 @@ public class Grenademan : StageEnemy,IDirect
 
             protected override void Enter(Grenademan ctr, Run parent, int preId, int subId)
             {
-                ctr._animator.Play(AnimationNameHash.Run);
+                ctr.MainAnimator.Play(AnimationNameHash.Run);
                 targetPos = WorldManager.Instance.Player.transform.position;
                 prePos = ctr.transform.position;
             }
@@ -421,7 +420,7 @@ public class Grenademan : StageEnemy,IDirect
 
             protected override void Update(Grenademan ctr, Run parent)
             {
-                if (!ctr._animator.IsPlayingCurrentAnimation(AnimationNameHash.Run))
+                if (!ctr.MainAnimator.IsPlayingCurrentAnimation(AnimationNameHash.Run))
                 {
                     parent.TransitSubReady(1);
                 }
@@ -457,7 +456,7 @@ public class Grenademan : StageEnemy,IDirect
         {
             this.TransitSubReady(0);
             ctr.TurnToTarget(WorldManager.Instance.Player.transform.position);
-            ctr._animator.Play(AnimationNameHash.Shoot);
+            ctr.MainAnimator.Play(AnimationNameHash.Shoot);
         }
 
 
