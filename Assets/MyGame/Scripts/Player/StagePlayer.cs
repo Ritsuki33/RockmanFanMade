@@ -98,6 +98,7 @@ public partial class StagePlayer : PhysicalObject, IDirect
         exRbHit.onTopHitStay += OnTopHitStay;
         exRbHit.onBottomTopHitStay += OnBottomTopHitEnter;
         exRbHit.onLeftRightHitEnter += OnLeftRightHitEnter;
+        exRbHit.onHitEnter += OnHitEnter;
 
         m_chargeStateMachine.Clear();
         // チャージの状態セット
@@ -316,6 +317,15 @@ public partial class StagePlayer : PhysicalObject, IDirect
     void OnLeftRightHitEnter(RaycastHit2D bottom, RaycastHit2D top)
     {
         m_mainStateMachine.OnLeftRightHitEnter(this, bottom, top);
+    }
+
+    void OnHitEnter(RaycastHit2D hit)
+    {
+        if (hit.collider.CompareTag("Door"))
+        {
+            var shutter = hit.collider.GetComponent<ShutterControll>();
+            shutter.Enter();
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D collision) => rbCollide.OnTriggerEnter(collision);
