@@ -80222,14 +80222,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1648211529}
-  - component: {fileID: 1648211530}
-  - component: {fileID: 1648211534}
-  - component: {fileID: 1648211533}
   - component: {fileID: 1648211531}
   - component: {fileID: 1648211535}
-  - component: {fileID: 1648211536}
-  - component: {fileID: 1648211537}
-  - component: {fileID: 1648211538}
   m_Layer: 16
   m_Name: Boss
   m_TagString: Untagged
@@ -80256,18 +80250,6 @@ Transform:
   - {fileID: 1555002136}
   m_Father: {fileID: 167170093}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1648211530
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1648211528}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d5a9d667a727b3b43bc7c23c44326abc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!50 &1648211531
 Rigidbody2D:
   serializedVersion: 4
@@ -80295,30 +80277,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!114 &1648211533
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1648211528}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0de98cabf75ebf44f9e360d301c8bafa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &1648211534
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1648211528}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 428ca68a2d919f9499efa9b9d3e1b3f3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &1648211535
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -80332,14 +80290,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   outofCameraDelete: 1
-  m_mainAnimator: {fileID: 0}
-  rb: {fileID: 0}
+  m_mainAnimator: {fileID: 1836396428}
+  rb: {fileID: 1648211531}
   enemyData: {fileID: 11400000, guid: 1c8f826dbe2641547a3f178f338248e1, type: 2}
   defeatEvent:
     m_PersistentCalls:
       m_Calls: []
-  buster: {fileID: 0}
-  _animator: {fileID: 0}
+  buster: {fileID: 638046972}
   _gravity:
     _gravityScale: 1
     _maxSpeed: 10
@@ -80348,54 +80305,15 @@ MonoBehaviour:
   jump:
     maxSpeed: 15
   direct:
-    _transform: {fileID: 0}
+    _transform: {fileID: 1648211529}
     forwardIsRight: 0
-  placeBombPosArray: []
---- !u!114 &1648211536
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1648211528}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e24a7cd47c14ba7458e97c388650a51c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &1648211537
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1648211528}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 810d5c94a5f6d52498f22fb0ec9292e6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!95 &1648211538
-Animator:
-  serializedVersion: 5
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1648211528}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 5e1543d4daabc6f42b7db7dc0ac9542d, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
+  placeBombPosArray:
+  - {fileID: 1950921531}
+  - {fileID: 2064169959}
+  - {fileID: 859778771}
+  - {fileID: 1177587040}
+  - {fileID: 1288204518}
+  - {fileID: 1012831296}
 --- !u!114 &1648452747 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5107075163451444145, guid: 50db6328845417f428e76f577eadc620, type: 3}
@@ -81203,7 +81121,7 @@ MonoBehaviour:
     - rid: 115822631400243264
       type: {class: ActionChainExecuter/BossHpBarSetAction, ns: , asm: Assembly-CSharp}
       data:
-        ctr: {fileID: 1648211530}
+        ctr: {fileID: 0}
     - rid: 115822631400243265
       type: {class: ActionChainExecuter/ObjectMove, ns: , asm: Assembly-CSharp}
       data:
@@ -81223,7 +81141,7 @@ MonoBehaviour:
     - rid: 115822631400243269
       type: {class: ActionChainExecuter/BossBattleStart, ns: , asm: Assembly-CSharp}
       data:
-        ctr: {fileID: 1648211530}
+        ctr: {fileID: 0}
     - rid: 115822631400243271
       type: {class: ActionChainExecuter/PlayerInputPermit, ns: , asm: Assembly-CSharp}
       data: 
@@ -81237,7 +81155,7 @@ MonoBehaviour:
     - rid: 115822658989064192
       type: {class: ActionChainExecuter/BoseAppearAction, ns: , asm: Assembly-CSharp}
       data:
-        ctr: {fileID: 1648211530}
+        ctr: {fileID: 0}
         transferArea: {fileID: 1604175648}
     - rid: 115822658989064196
       type: {class: ActionChainExecuter/ObjectActive, ns: , asm: Assembly-CSharp}
@@ -81720,7 +81638,6 @@ GameObject:
   - component: {fileID: 1836396430}
   - component: {fileID: 1836396429}
   - component: {fileID: 1836396428}
-  - component: {fileID: 1836396431}
   m_Layer: 0
   m_Name: Sprite
   m_TagString: Untagged
@@ -81816,18 +81733,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1648211529}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1836396431
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1836396427}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 95f3fb9c1d596fa408a4ab5e0dfe8a0c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!4 &1836540445 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1659857589686973031, guid: 97fd1097f2e6ac643807cdf881abe512, type: 3}
