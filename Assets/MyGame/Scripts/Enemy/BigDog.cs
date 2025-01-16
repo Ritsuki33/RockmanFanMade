@@ -216,7 +216,7 @@ public class BigDog : StageEnemy
                     {
 
                         projectile.Delete();
-                        ctr.StartCoroutine(ExplodeCo());
+                        GameMainManager.Instance.StartCoroutine(ExplodeCo());
                         IEnumerator ExplodeCo()
                         {
                             ObjectManager.Instance.Create(ExplodeType.Explode1, Explode.Layer.EnemyAttack, 3, projectile.transform.position);
