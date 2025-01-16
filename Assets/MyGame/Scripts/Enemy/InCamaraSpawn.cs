@@ -53,7 +53,6 @@ public class InCamaraSpawn : Spawn
 
     private void Disabled()
     {
-        Obj.gameObject.SetActive(false);
         stateMachine.TransitReady((int)StateID.None);
     }
 

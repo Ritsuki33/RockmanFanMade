@@ -40,6 +40,12 @@ public class Batman : StageEnemy
     {
         base.Init();
         mainStateMachine.TransitReady((int)StateID.Idle);
+        EventTriggerManager.Instance.VoidEventTriggers.Subscribe(EventType.ChangeCameraStart, Delete);
+    }
+
+    protected override void Destroy()
+    {
+        EventTriggerManager.Instance.VoidEventTriggers.Unsubscribe(EventType.ChangeCameraStart, Delete);
     }
 
     protected override void OnFixedUpdate()
