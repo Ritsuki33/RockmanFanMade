@@ -36,13 +36,18 @@ public class AnimObject : BaseObject
 
     protected override void OnPause(bool isPause)
     {
+        bool current = IsPause;
+
         base.OnPause(isPause);
         if (m_mainAnimator == null) return;
 
         if (isPause)
         {
-            currentAnimSpeed = m_mainAnimator.speed;
-            m_mainAnimator.speed = 0.0f;
+            if (!current)
+            {
+                currentAnimSpeed = m_mainAnimator.speed;
+                m_mainAnimator.speed = 0.0f;
+            }
         }
         else
         {

@@ -29,6 +29,7 @@ public class WorldManager : SingletonComponent<WorldManager>
 
     bool isPause = false;
 
+    public bool IsPause => IsPause;
     public void Init()
     {
         currentCheckPointData = defaultCheckPoint;

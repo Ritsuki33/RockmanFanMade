@@ -60,18 +60,24 @@ public class BaseObject : MonoBehaviour, IObjectInterpreter
     /// </summary>
     /// <param name="isPause"></param>
     public void RequestPause(bool isPause) {
+
+        
         if (isPause)
         {
+            if (pauseRequest == 0) OnPause(true);
             pauseRequest++;
         }
         else
         {
             pauseRequest--;
-            if (pauseRequest < 0) pauseRequest = 0;
+            if (pauseRequest <= 0)
+            {
+                pauseRequest = 0;
+                OnPause(false);
+            }
         }
 
-        // リクエストが1つ以上ならポーズ
-        OnPause(pauseRequest > 0);
+        
     }
 
     public void Setup(Action onDeleteCallback)
