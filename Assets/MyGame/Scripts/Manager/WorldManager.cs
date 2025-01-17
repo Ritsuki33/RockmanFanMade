@@ -12,7 +12,7 @@ public interface IRegister
 
 public class WorldManager : SingletonComponent<WorldManager>
 {
-    [SerializeField] TransferArea _playerTransferArea;
+    [SerializeField] Transform _playerTransferArea;
 
     [SerializeField] ActionChainExecuter startAction = default;
 
@@ -24,7 +24,7 @@ public class WorldManager : SingletonComponent<WorldManager>
 
     private CheckPointData currentCheckPointData;
     public CheckPointData CurrentCheckPointData => currentCheckPointData;
-    public TransferArea PlayerTransferArea => _playerTransferArea;
+    public Transform PlayerTransferArea => _playerTransferArea;
 
 
     bool isPause = false;

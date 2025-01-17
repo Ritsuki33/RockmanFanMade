@@ -153,6 +153,7 @@ public class ObjectManager : SingletonComponent<ObjectManager>, IRegister
         (obj) =>
             {
                 // プールへ返還
+                pool.Release(obj);
                 finishCallback.Invoke(obj);
             }
             );

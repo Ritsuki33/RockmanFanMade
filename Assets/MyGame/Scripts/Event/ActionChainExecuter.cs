@@ -235,7 +235,7 @@ public class ActionChainExecuter : MonoBehaviour
         [SerializeField] Grenademan ctr;
         override public void Execute(Action finishCallback)
         {
-            //ctr.ToBattleState();
+            ctr.ToBattleState();
             finishCallback.Invoke();
         }
     }

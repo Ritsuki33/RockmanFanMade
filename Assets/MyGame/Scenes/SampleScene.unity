@@ -76452,7 +76452,6 @@ GameObject:
   m_Component:
   - component: {fileID: 899179701}
   - component: {fileID: 899179702}
-  - component: {fileID: 899179703}
   m_Layer: 14
   m_Name: TansferArea
   m_TagString: Untagged
@@ -76520,18 +76519,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 6.04, y: 4.15}
   m_EdgeRadius: 0
---- !u!114 &899179703
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 899179700}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3607a12dcdff33549ab9f72a5fba6cf5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &899724080
 GameObject:
   m_ObjectHideFlags: 0
@@ -80299,9 +80286,9 @@ MonoBehaviour:
   buster: {fileID: 638046972}
   _gravity:
     _gravityScale: 1
-    _maxSpeed: 10
+    _maxSpeed: 30
   _move:
-    _speed: 5
+    _speed: 20
   _jump:
     maxSpeed: 15
   _direct:
@@ -80378,7 +80365,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a36c9858a7dfa5d438e2c951703baa82, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _playerTransferArea: {fileID: 899179703}
+  _playerTransferArea: {fileID: 899179701}
   startAction: {fileID: 1655765204}
   defaultCheckPoint:
     position: {fileID: 2095095611}
@@ -81126,7 +81113,7 @@ MonoBehaviour:
     - rid: 115822631400243264
       type: {class: ActionChainExecuter/BossHpBarSetAction, ns: , asm: Assembly-CSharp}
       data:
-        ctr: {fileID: 0}
+        ctr: {fileID: 1648211535}
     - rid: 115822631400243265
       type: {class: ActionChainExecuter/ObjectMove, ns: , asm: Assembly-CSharp}
       data:
@@ -81146,7 +81133,7 @@ MonoBehaviour:
     - rid: 115822631400243269
       type: {class: ActionChainExecuter/BossBattleStart, ns: , asm: Assembly-CSharp}
       data:
-        ctr: {fileID: 0}
+        ctr: {fileID: 1648211535}
     - rid: 115822631400243271
       type: {class: ActionChainExecuter/PlayerInputPermit, ns: , asm: Assembly-CSharp}
       data: 
@@ -83497,7 +83484,8 @@ PrefabInstance:
       propertyPath: m_CollisionDetection
       value: 1
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 8522347132344267101, guid: 97fd1097f2e6ac643807cdf881abe512, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []

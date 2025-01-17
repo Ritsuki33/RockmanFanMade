@@ -1,10 +1,8 @@
 ﻿using System;
 using UnityEngine;
 
-public class Grenademan : StageEnemy,IDirect
+public class Grenademan : StageEnemy, IDirect
 {
-    //PsPool DeathEffectPool => EffectManager.Instance.DeathEffectPool;
-
     public Action<float> hpParamIncrementAnimation = default;
     public Action<float> hpChangeTrigger = default;
 
@@ -21,7 +19,6 @@ public class Grenademan : StageEnemy,IDirect
     bool existBomb = false;
 
     [SerializeField] Transform[] placeBombPosArray = null;
-    //ExplodePool ExplodePool => EffectManager.Instance.ExplodePool;
 
     public Action<float> HpChangeTrigger { get { return hpChangeTrigger; } set { hpChangeTrigger = value; } }
 
@@ -53,6 +50,7 @@ public class Grenademan : StageEnemy,IDirect
         stateMachine.AddState((int)StateId.Appearance, new Appearance());
         rbCollide.Init();
         rbCollide.onTriggerEnter += OnTriggerEnterBase;
+        rbCollide.onTriggerEnterRockBusterDamage += OnTriggerEnterRockBusterDamage;
 
         exRbHit.Init(_exRb);
         exRbHit.onBottomHitEnter += OnBottomHitEnter;
@@ -63,6 +61,7 @@ public class Grenademan : StageEnemy,IDirect
 
     protected override void Init()
     {
+        base.Init();
         stateMachine.TransitReady((int)StateId.Appearance);
     }
 
@@ -102,6 +101,12 @@ public class Grenademan : StageEnemy,IDirect
         stateMachine.OnTriggerEnter(this, collision);
 
     }
+
+    private void OnTriggerEnterRockBusterDamage(RockBusterDamage collision)
+    {
+        stateMachine.OnTriggerEnter(this, collision);
+    }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         rbCollide.OnTriggerEnter(collision);
@@ -534,7 +539,8 @@ public class Grenademan : StageEnemy,IDirect
                     },
                     (bomb) =>
                     {
-                        ObjectManager.Create(ExplodeType.Explode1 ,Explode.Layer.EnemyAttack, 3, bomb.transform.position);
+                        bomb.Delete();
+                        ObjectManager.Create(ExplodeType.Explode1, Explode.Layer.EnemyAttack, 3, bomb.transform.position);
                     }
                     );
             }

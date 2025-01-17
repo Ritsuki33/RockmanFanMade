@@ -87,7 +87,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8773943775900748512}
   - component: {fileID: 624121910759576864}
-  m_Layer: 15
+  m_Layer: 20
   m_Name: TriggerBody
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -167,7 +167,7 @@ GameObject:
   - component: {fileID: 1646842431737337389}
   - component: {fileID: 6216268714680252117}
   - component: {fileID: 8849856365920340392}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: CrashBomb
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -303,9 +303,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a7b01ea1b7b4b5469f87aaa998e091a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_mainAnimator: {fileID: 0}
-  materialController: {fileID: 0}
-  forwardIsRight: 0
-  rb: {fileID: 0}
-  boxTrigger: {fileID: 0}
-  boxCollider: {fileID: 0}
+  outofCameraDelete: 1
+  m_mainAnimator: {fileID: 1646842431737337389}
+  rb: {fileID: 6216268714680252117}
+  boxTrigger: {fileID: 624121910759576864}
+  boxCollider: {fileID: 5122336567195158783}
+  direct:
+    _transform: {fileID: 3419270457553091669}
+    forwardIsRight: 0

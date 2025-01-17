@@ -4,11 +4,9 @@ using UnityEngine.Pool;
 
 public class PlacedBomb : AnimObject, IPooledObject<PlacedBomb>
 {
-    [SerializeField] Animator _animator;
-
     [SerializeField] private BoxCollider2D boxTrigger;
     [SerializeField] private BoxCollider2D boxCollider;
-    ExpandRigidBody exRb;
+    [SerializeField] ExpandRigidBody exRb;
 
     Action<ExpandRigidBody> orbitfixedUpdate;
     Action<PlacedBomb> onExplodedFinishCallback;
@@ -22,7 +20,9 @@ public class PlacedBomb : AnimObject, IPooledObject<PlacedBomb>
 
     ExRbStateMachine<PlacedBomb> stateMachine = new ExRbStateMachine<PlacedBomb>();
 
-    public void Delete()
+    ExRbHit exRbHit = new ExRbHit();
+
+    public override void Delete()
     {
         onExplodedFinishCallback?.Invoke(this);
     }
@@ -36,9 +36,13 @@ public class PlacedBomb : AnimObject, IPooledObject<PlacedBomb>
     protected override void Awake()
     {
         base.Awake();
-        exRb = GetComponent<ExpandRigidBody>();
+        exRb.Init();
         stateMachine.AddState(0, new Orbit());
         stateMachine.AddState(1, new Boot());
+
+        exRbHit.Init(exRb);
+
+        exRbHit.onBottomHitEnter += OnBottomHitEnter;
     }
 
     protected override void Init()
@@ -48,11 +52,17 @@ public class PlacedBomb : AnimObject, IPooledObject<PlacedBomb>
     protected override void OnFixedUpdate()
     {
         stateMachine.FixedUpdate(this);
+        exRb.FixedUpdate();
     }
 
     protected override void OnUpdate()
     {
         stateMachine.Update(this);
+    }
+
+    void OnBottomHitEnter(RaycastHit2D hit)
+    {
+        stateMachine.OnBottomHitEnter(this, hit);
     }
 
     public void Setup(Action<ExpandRigidBody> orbitfixedUpdate, Action<PlacedBomb> onExplodedFinishCallback)
@@ -68,7 +78,7 @@ public class PlacedBomb : AnimObject, IPooledObject<PlacedBomb>
         int animationHash = Animator.StringToHash("UnBoot");
         protected override void Enter(PlacedBomb ctr, int preId, int subId)
         {
-            ctr._animator.Play(animationHash);
+            ctr.MainAnimator.Play(animationHash);
         }
 
         protected override void FixedUpdate(PlacedBomb ctr)
@@ -89,7 +99,7 @@ public class PlacedBomb : AnimObject, IPooledObject<PlacedBomb>
         int animationHash = Animator.StringToHash("Boot");
         protected override void Enter(PlacedBomb ctr, int preId, int subId)
         {
-            ctr._animator.Play(animationHash);
+            ctr.MainAnimator.Play(animationHash);
             ctr.timer.Start(3, 3);
         }
 
