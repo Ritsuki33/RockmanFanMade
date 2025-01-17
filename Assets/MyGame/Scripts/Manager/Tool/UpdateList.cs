@@ -66,16 +66,25 @@ public class UpdateList
 
     public void Add(IObjectInterpreter obj)
     {
-        if (!addList.Contains(obj)) addList.Add(obj);
+        if (!addList.Contains(obj))
+        {
+            obj.Init();
+            addList.Add(obj);
+        }
     }
 
     public void Remove(IObjectInterpreter obj)
     {
-        if (!removeList.Contains(obj)) removeList.Add(obj);
+        if (!removeList.Contains(obj))
+        {
+            obj.Destroy();
+            removeList.Add(obj);
+        }
     }
 
     public void Clear()
     {
+
         list.Clear();
     }
 
@@ -86,7 +95,6 @@ public class UpdateList
         {
             if (!list.Contains(e))
             {
-                e.Init();
                 list.Add(e);
             }
         }
@@ -95,7 +103,6 @@ public class UpdateList
         {
             if (list.Contains(e))
             {
-                e.Destroy();
                 list.Remove(e);
             }
         }

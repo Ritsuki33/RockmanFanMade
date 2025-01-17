@@ -57,6 +57,7 @@ public class ObjectManager : SingletonComponent<ObjectManager>, IRegister
 
     public void OnReset()
     {
+        updateList.OnReset();
         updateList.Clear();
 
         foreach (var e in spawns)

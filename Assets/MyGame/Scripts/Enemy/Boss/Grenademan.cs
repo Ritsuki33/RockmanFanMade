@@ -65,6 +65,11 @@ public class Grenademan : StageEnemy, IDirect
         stateMachine.TransitReady((int)StateId.Appearance);
     }
 
+    protected override void OnReset()
+    {
+        Delete();
+    }
+
     protected override void OnFixedUpdate()
     {
         stateMachine.FixedUpdate(this);
