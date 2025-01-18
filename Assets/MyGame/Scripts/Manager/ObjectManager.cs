@@ -89,9 +89,7 @@ public class ObjectManager : SingletonComponent<ObjectManager>, IRegister
 
         // Projectileの初期化
         var projectile = pool.Pool.Get(); 
-        Vector2 localScale = projectile.transform.localScale;
         projectile.TurnTo(isRight);
-        projectile.transform.localScale = localScale;
         projectile.transform.position = new Vector3(position.x, position.y, -2);
         projectile.Setup(
             attackPower,
