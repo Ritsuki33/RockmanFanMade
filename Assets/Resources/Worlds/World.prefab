@@ -72632,6 +72632,7 @@ MonoBehaviour:
   defaultCheckPoint:
     position: {fileID: 2778216731557678149}
     virtualCamera: {fileID: 7077015859779081719}
+  spawnRoot: {fileID: 3821792001746930927}
 --- !u!114 &3042793139968518822
 MonoBehaviour:
   m_ObjectHideFlags: 0

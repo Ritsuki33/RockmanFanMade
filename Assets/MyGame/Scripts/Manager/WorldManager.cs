@@ -18,6 +18,7 @@ public class WorldManager : SingletonComponent<WorldManager>
 
     [SerializeField] CheckPointData defaultCheckPoint;
 
+    [SerializeField] Transform spawnRoot;
 
     private StagePlayer _player;
     public StagePlayer Player => _player;
@@ -26,6 +27,7 @@ public class WorldManager : SingletonComponent<WorldManager>
     public CheckPointData CurrentCheckPointData => currentCheckPointData;
     public Transform PlayerTransferArea => _playerTransferArea;
 
+    public Transform SpawnRoot => spawnRoot;
 
     bool isPause = false;
 

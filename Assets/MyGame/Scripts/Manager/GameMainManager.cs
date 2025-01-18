@@ -50,8 +50,6 @@ public class GameMainManager : BaseManager<GameMainManager>
         {
             FadeInManager.Instance.FadeOutImmediate();
 
-            ObjectManager.Instance.Init();
-
             worldManager = CreateWorldManager();
             if (worldManager == null)
             {
@@ -61,6 +59,9 @@ public class GameMainManager : BaseManager<GameMainManager>
 
             // ワールドの初期化
             worldManager.Init();
+
+            // オブジェクトマネージャー初期化
+            ObjectManager.Instance.Init(worldManager.SpawnRoot);
 
             screenContainer.Add(UI.GameMain, m_gameMainScreen);
 

@@ -21,11 +21,11 @@ public class ObjectManager : SingletonComponent<ObjectManager>, IRegister
     List<Spawn> spawns = new List<Spawn>();
     [SerializeField] Transform enemyRoot;
 
-    public void Init()
+    public void Init(Transform spawnRoot)
     {
         effectManager.Init(this);
 
-        spawns = enemyRoot.GetComponentsInChildren<Spawn>().ToList();
+        spawns = spawnRoot.GetComponentsInChildren<Spawn>().ToList();
 
         foreach (var e in spawns)
         {
