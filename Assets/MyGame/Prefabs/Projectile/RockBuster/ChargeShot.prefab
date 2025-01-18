@@ -318,10 +318,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a7b01ea1b7b4b5469f87aaa998e091a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  outofCameraDelete: 1
   m_mainAnimator: {fileID: 5264032448341594800}
   rb: {fileID: 6681407226516014065}
   boxTrigger: {fileID: 5998792146544469334}
   boxCollider: {fileID: 3310653848489901165}
   direct:
     _transform: {fileID: 3172450265035474752}
-    forwardIsRight: 0
+    forwardIsRight: 1
