@@ -19,7 +19,7 @@ public class ActionChainExecuter : MonoBehaviour
         FadeOutScreen,
         StartSign,
         PlayerTransfer,
-        PlayerMove,
+        PlayerWalkAction,
         EnemyAppear,
         BossHpBarSet,
         BossBattleStart,
@@ -37,6 +37,8 @@ public class ActionChainExecuter : MonoBehaviour
         ChangeManager,
         DefeatEnemyCondition,
         Spawn,
+        PlayerActive,
+        PlayerMove,
     }
 
     [Serializable]
@@ -131,6 +133,30 @@ public class ActionChainExecuter : MonoBehaviour
         public override void Execute(Action finishCallback)
         {
             transform.position = targetPosition.position;
+            finishCallback.Invoke();
+        }
+    }
+
+
+    [Serializable]
+    class PlayerActive : BaseAction
+    {
+        [SerializeField] bool isActive = false;
+        public override void Execute(Action finishCallback)
+        {
+            WorldManager.Instance.Player.gameObject.SetActive(isActive);
+            finishCallback();
+        }
+    }
+
+    [Serializable]
+    class PlayerMove : BaseAction
+    {
+        [SerializeField] Transform targetPosition;
+
+        public override void Execute(Action finishCallback)
+        {
+            WorldManager.Instance.Player.transform.position = targetPosition.position;
             finishCallback.Invoke();
         }
     }
@@ -466,6 +492,18 @@ public class ActionChainExecuter : MonoBehaviour
                         ae.action = new ObjectMove();
                     }
                     break;
+                case ActionType.PlayerActive:
+                    if (ae.action is not PlayerActive)
+                    {
+                        ae.action = new PlayerActive();
+                    }
+                    break;
+                case ActionType.PlayerMove:
+                    if (ae.action is not PlayerMove)
+                    {
+                        ae.action = new PlayerMove();
+                    }
+                    break;
                 case ActionType.StageObjectTurn:
                     if (ae.action is not StageObjectTurn)
                     {
@@ -496,7 +534,7 @@ public class ActionChainExecuter : MonoBehaviour
                         ae.action = new PlayerTransfer();
                     }
                     break;
-                case ActionType.PlayerMove:
+                case ActionType.PlayerWalkAction:
                     if (ae.action is not PlayerWalkAction)
                     {
                         ae.action = new PlayerWalkAction();

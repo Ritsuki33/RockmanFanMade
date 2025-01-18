@@ -30,8 +30,6 @@ public class GameMainManager : BaseManager<GameMainManager>
     [SerializeField] GameMainScreen m_gameMainScreen = default;
     [SerializeField] WorldManager worldManager = default;
 
-    [SerializeField] StagePlayer player;
-
     private IInput InputController => InputManager.Instance;
     private CameraControllArea currentCameraControllArea;
     public MainCameraControll MainCameraControll => m_mainCameraControll;
@@ -55,9 +53,6 @@ public class GameMainManager : BaseManager<GameMainManager>
 
             // ワールドの初期化
             worldManager.Init();
-
-            // プレイヤーの登録
-            worldManager.AddPlayer(player);
 
             screenContainer.Add(UI.GameMain, m_gameMainScreen);
 
@@ -95,9 +90,6 @@ public class GameMainManager : BaseManager<GameMainManager>
     public void StageReStart()
     {
         worldManager.OnReset();
-
-        // プレイヤーの登録
-        worldManager.AddPlayer(player);
 
         worldManager.StartStage();
     }

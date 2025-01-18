@@ -34,6 +34,9 @@ public class WorldManager : SingletonComponent<WorldManager>
     {
         currentCheckPointData = defaultCheckPoint;
         isPause = false;
+
+        _player = ObjectManager.Instance.CreatePlayer();
+        ObjectManager.Instance.OnRegist(_player);
     }
 
     public void OnReset()
@@ -85,15 +88,5 @@ public class WorldManager : SingletonComponent<WorldManager>
                );
 
         return appearPos;
-    }
-
-    /// <summary>
-    /// プレイヤーの登録
-    /// </summary>
-    /// <param name="player"></param>
-    public void AddPlayer(StagePlayer player)
-    {
-        _player = player;
-        ObjectManager.Instance.OnRegist(player);
     }
 }

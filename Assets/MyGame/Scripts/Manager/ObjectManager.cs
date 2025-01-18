@@ -75,8 +75,37 @@ public class ObjectManager : SingletonComponent<ObjectManager>, IRegister
     {
         updateList.Remove(obj);
     }
+    
+    /// <summary>
+    /// プレイヤーのロード
+    /// </summary>
+    /// <returns></returns>
+    public StagePlayer CreatePlayer()
+    {
+        var src = Resources.Load<StagePlayer>("Prefabs/Player");
 
-    // Projectileの生成
+        if (src != null)
+        {
+            return Instantiate(src, this.transform);
+        }
+        else
+        {
+            Debug.LogError("プレイヤーリソースをロードできませんでした。");
+            return null;
+        }
+    }
+
+    /// <summary>
+    /// Projectileの生成
+    /// </summary>
+    /// <param name="type"></param>
+    /// <param name="position"></param>
+    /// <param name="attackPower"></param>
+    /// <param name="isRight"></param>
+    /// <param name="startCallback"></param>
+    /// <param name="fixedUpdateCallback"></param>
+    /// <param name="collisionCallback"></param>
+    /// <param name="finishCallback"></param>
     public void Create(ProjectileType type, Vector2 position, int attackPower, bool isRight, Action<Rigidbody2D> startCallback, Action<Rigidbody2D> fixedUpdateCallback, Action<Projectile> collisionCallback = null, Action<Projectile> finishCallback = null)
     {
         // プール取得
