@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RoadRoller : EnemyObject
+public class RoadRoller : StageEnemy
 {
     [SerializeField] RoadRollerBehavior controller;
-    public override void Init()
+    protected override void Init()
     {
         base.Init();
-        controller.Init();
+        //controller.Init();
     }
 }

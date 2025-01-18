@@ -1,25 +1,65 @@
-﻿using UnityEngine;
+﻿using DG.Tweening;
+using NUnit.Framework;
+using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
+
+public interface IRegister
+{
+    public void OnRegist(IObjectInterpreter obj);
+    public void OnUnregist(IObjectInterpreter obj);
+}
 
 public class WorldManager : SingletonComponent<WorldManager>
 {
-    [SerializeField] TransferArea _playerTransferArea;
-    [SerializeField] Player player;
-    [SerializeField] PlayerBehavior playerController;
+    [SerializeField] Transform _playerTransferArea;
 
     [SerializeField] ActionChainExecuter startAction = default;
 
     [SerializeField] CheckPointData defaultCheckPoint;
-    public Player Player => player;
-    public PlayerBehavior PlayerController => playerController;
+
+
+    private StagePlayer _player;
+    public StagePlayer Player => _player;
 
     private CheckPointData currentCheckPointData;
     public CheckPointData CurrentCheckPointData => currentCheckPointData;
-    public TransferArea PlayerTransferArea => _playerTransferArea;
+    public Transform PlayerTransferArea => _playerTransferArea;
 
+
+    bool isPause = false;
+
+    public bool IsPause => isPause;
     public void Init()
     {
         currentCheckPointData = defaultCheckPoint;
-        playerController.Init();
+        isPause = false;
+    }
+
+    public void OnReset()
+    {
+        ObjectManager.Instance.OnReset();
+    }
+
+    /// <summary>
+    /// 物理演算等の動きはここからでいいか？？
+    /// </summary>
+    private void FixedUpdate()
+    {
+        if (isPause) return;
+        ObjectManager.Instance.OnFixedUpdate();
+    }
+
+    public void OnUpdate()
+    {
+        if (isPause) return;
+        ObjectManager.Instance.OnUpdate();
+    }
+
+    public void OnPause(bool isPause)
+    {
+        this.isPause = isPause;
+        ObjectManager.Instance.OnPause(isPause);
     }
 
     /// <summary>
@@ -45,5 +85,15 @@ public class WorldManager : SingletonComponent<WorldManager>
                );
 
         return appearPos;
+    }
+
+    /// <summary>
+    /// プレイヤーの登録
+    /// </summary>
+    /// <param name="player"></param>
+    public void AddPlayer(StagePlayer player)
+    {
+        _player = player;
+        ObjectManager.Instance.OnRegist(player);
     }
 }

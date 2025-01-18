@@ -20,21 +20,29 @@ public class GameMainManager : BaseManager<GameMainManager>
         }
     }
 
+    public enum UI
+    {
+        GameMain,
+    }
+
+
     [SerializeField] MainCameraControll m_mainCameraControll = default;
     [SerializeField] GameMainScreen m_gameMainScreen = default;
+    [SerializeField] WorldManager worldManager = default;
+
+    [SerializeField] StagePlayer player;
 
     private IInput InputController => InputManager.Instance;
     private CameraControllArea currentCameraControllArea;
     public MainCameraControll MainCameraControll => m_mainCameraControll;
 
-    private bool isPause = false;
-    public enum UI
-    {
-        GameMain,
-    }
+
     private ScreenContainer<UI> screenContainer = new ScreenContainer<UI>();
     public ScreenContainer<UI> ScreenContainer => screenContainer;
 
+    private bool isPause = false;
+    //ポーズ可否　
+    public bool Pausable { get; set; } = true;
     protected override void Init()
     {
         StartCoroutine(Initialize());
@@ -43,13 +51,21 @@ public class GameMainManager : BaseManager<GameMainManager>
         {
             FadeInManager.Instance.FadeOutImmediate();
 
+            ObjectManager.Instance.Init();
+
+            // ワールドの初期化
+            worldManager.Init();
+
+            // プレイヤーの登録
+            worldManager.AddPlayer(player);
 
             screenContainer.Add(UI.GameMain, m_gameMainScreen);
 
             yield return screenContainer.Initialize(UI.GameMain, true);
 
             OnPause(false);
-            StageStart();
+
+            worldManager.StartStage();
         }
     }
 
@@ -57,9 +73,14 @@ public class GameMainManager : BaseManager<GameMainManager>
     {
         InputInfo inputInfo = default;
         inputInfo.SetInput(InputController);
-        WorldManager.Instance.PlayerController.UpdateInput(inputInfo);
 
-        if (inputInfo.start)
+        if (!isPause)
+        {
+            worldManager.Player.UpdateInput(inputInfo);
+            worldManager.OnUpdate();
+        }
+
+        if (Pausable && inputInfo.start)
         {
             isPause = !isPause;
             OnPause(isPause);
@@ -71,15 +92,19 @@ public class GameMainManager : BaseManager<GameMainManager>
         screenContainer.Clear();
     }
 
-    public void StageStart()
+    public void StageReStart()
     {
-        WorldManager.Instance.Init();
-        WorldManager.Instance.StartStage();
+        worldManager.OnReset();
+
+        // プレイヤーの登録
+        worldManager.AddPlayer(player);
+
+        worldManager.StartStage();
     }
 
     public void DeathNotification()
     {
-        StartCoroutine(DeathExecuteCo(StageStart));
+        StartCoroutine(DeathExecuteCo(StageReStart));
     }
 
     IEnumerator DeathExecuteCo(Action action)
@@ -96,6 +121,10 @@ public class GameMainManager : BaseManager<GameMainManager>
     void OnPause(bool isPause)
     {
         this.isPause = isPause;
+
+        PauseManager.Instance.OnPause(isPause);
         screenContainer.GetCurrentScreenPresenter<GameMainScreenPresenter>()?.OnOpenPauseUi(isPause);
+
+        worldManager?.OnPause(isPause);
     }
 }

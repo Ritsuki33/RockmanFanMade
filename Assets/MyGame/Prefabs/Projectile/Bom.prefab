@@ -193,7 +193,6 @@ GameObject:
   m_Component:
   - component: {fileID: 5770381111765335939}
   - component: {fileID: 6149021633267922717}
-  - component: {fileID: 4609798344657420940}
   - component: {fileID: 6751316735053717961}
   m_Layer: 20
   m_Name: Bom
@@ -247,20 +246,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!114 &4609798344657420940
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4060258789571615544}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e1f7fb5424a94a448aec5267bc3897ca, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  boxTrigger: {fileID: 8969825244388134863}
-  boxCollider: {fileID: 7252592665153678333}
 --- !u!114 &6751316735053717961
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -273,7 +258,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a7b01ea1b7b4b5469f87aaa998e091a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  projectile: {fileID: 4609798344657420940}
+  m_mainAnimator: {fileID: 2301682132184905093}
+  rb: {fileID: 6149021633267922717}
+  boxTrigger: {fileID: 8969825244388134863}
+  boxCollider: {fileID: 7252592665153678333}
+  direct:
+    _transform: {fileID: 5770381111765335939}
+    forwardIsRight: 0
 --- !u!1 &6921897158570895889
 GameObject:
   m_ObjectHideFlags: 0

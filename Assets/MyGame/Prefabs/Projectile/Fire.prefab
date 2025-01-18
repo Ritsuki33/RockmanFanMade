@@ -165,7 +165,6 @@ GameObject:
   - component: {fileID: 4124914671780115097}
   - component: {fileID: 1232161006274694930}
   - component: {fileID: 1533953807141096291}
-  - component: {fileID: 6015589148712709786}
   - component: {fileID: 3378736190339322313}
   - component: {fileID: 731981991334158557}
   m_Layer: 15
@@ -265,20 +264,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &6015589148712709786
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6962034601951979652}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e1f7fb5424a94a448aec5267bc3897ca, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  boxTrigger: {fileID: 2061328204228827753}
-  boxCollider: {fileID: 0}
 --- !u!50 &3378736190339322313
 Rigidbody2D:
   serializedVersion: 4
@@ -318,4 +303,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a7b01ea1b7b4b5469f87aaa998e091a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  projectile: {fileID: 6015589148712709786}
+  outofCameraDelete: 1
+  m_mainAnimator: {fileID: 1533953807141096291}
+  rb: {fileID: 3378736190339322313}
+  boxTrigger: {fileID: 2061328204228827753}
+  boxCollider: {fileID: 0}
+  direct:
+    _transform: {fileID: 4124914671780115097}
+    forwardIsRight: 0

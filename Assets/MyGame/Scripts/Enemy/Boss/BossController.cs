@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class BossController : MonoBehaviour
 {
-    [SerializeField] EnemyObject boss;
+    [SerializeField] StageEnemy boss;
 
     private void OnEnable()
     {
@@ -18,7 +18,7 @@ public class BossController : MonoBehaviour
 
     public void Init()
     {
-        boss.Init();
+        //boss.Init();
         boss.gameObject.SetActive(false);
     }
 }

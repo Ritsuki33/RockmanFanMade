@@ -2,28 +2,34 @@
 
 public interface IHitEvent
 {
-    void HitEnter(RaycastHit2D hit) { }
-    void BottomHitEnter(RaycastHit2D hit) { }
-    void TopHitEnter(RaycastHit2D hit) { }
-    void LeftHitEnter(RaycastHit2D hit) { }
-    void RightHitEnter(RaycastHit2D hit) { }
-    void HitStay(RaycastHit2D hit) { }
-    void BottomHitStay(RaycastHit2D hit) { }
-    void TopHitStay(RaycastHit2D hit) { }
-    void LeftHitStay(RaycastHit2D hit) { }
-    void RightHitStay(RaycastHit2D hit) {}
-    void HitExit(RaycastHit2D hit) { }
-    void BottomHitExit(RaycastHit2D hit) { }
-    void TopHitExit(RaycastHit2D hit) { }
-    void LeftHitExit(RaycastHit2D hit) { }
-    void RightHitExit(RaycastHit2D hit) { }
+    void OnHitEnter(RaycastHit2D hit);
+    void OnBottomHitEnter(RaycastHit2D hit);
+    void OnTopHitEnter(RaycastHit2D hit);
+    void OnLeftHitEnter(RaycastHit2D hit);
+    void OnRightHitEnter(RaycastHit2D hit);
+    void OnHitStay(RaycastHit2D hit);
+    void OnBottomHitStay(RaycastHit2D hit);
+    void OnTopHitStay(RaycastHit2D hit);
+    void OnLeftHitStay(RaycastHit2D hit);
+    void OnRightHitStay(RaycastHit2D hit);
+    void OnHitExit(RaycastHit2D hit);
+    void OnBottomHitExit(RaycastHit2D hit);
+    void OnTopHitExit(RaycastHit2D hit);
+    void OnLeftHitExit(RaycastHit2D hit);
+    void OnRightHitExit(RaycastHit2D hit);
 
-    void LeftRightHitEnter(RaycastHit2D leftHit, RaycastHit2D rightHit) { }
-    void BottomToptHitEnter(RaycastHit2D bottomHit, RaycastHit2D topHit) { }
+    void OnLeftRightHitEnter(RaycastHit2D leftHit, RaycastHit2D rightHit);
+    void OnBottomTopHitEnter(RaycastHit2D bottomHit, RaycastHit2D topHit);
 
-    void LeftRightHitExit(RaycastHit2D leftHit, RaycastHit2D rightHit) { }
-    void BottomToptHitExit(RaycastHit2D bottomHit, RaycastHit2D topHit) { }
+    void OnLeftRightHitExit(RaycastHit2D leftHit, RaycastHit2D rightHit);
+    void OnBottomToptHitExit(RaycastHit2D bottomHit, RaycastHit2D topHit);
 
-    void LeftRightHitStay(RaycastHit2D leftHit, RaycastHit2D rightHit) { }
-    void BottomToptHitStay(RaycastHit2D bottomHit, RaycastHit2D topHit) { }
+    void OnLeftRightHitStay(RaycastHit2D leftHit, RaycastHit2D rightHit);
+    void OnBottomToptHitStay(RaycastHit2D bottomHit, RaycastHit2D topHit);
+}
+
+public interface IExRbCallbackSet
+{
+    void AddOnHitEventCallback(IHitEvent hitEvent);
+    void RemoveOnHitEventCallback(IHitEvent hitEvent);
 }

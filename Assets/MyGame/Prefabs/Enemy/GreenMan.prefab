@@ -9,12 +9,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5412021727086774027}
-  - component: {fileID: 4987665359584516886}
-  - component: {fileID: 937454283205309659}
   - component: {fileID: 3441184939640542002}
   - component: {fileID: 3629008528181579886}
-  - component: {fileID: 7624320027145459090}
-  - component: {fileID: 5794983809864931330}
   - component: {fileID: 5950899104789406071}
   m_Layer: 16
   m_Name: GreenMan
@@ -41,36 +37,6 @@ Transform:
   - {fileID: 2288715670023806803}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &4987665359584516886
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2946115964517513461}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7fd5d24077471f44b9810bcce96410cf, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  enemy: {fileID: 5950899104789406071}
-  _animator: {fileID: 2451121724989072181}
-  launcher: {fileID: 2288715670023806803}
---- !u!114 &937454283205309659
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2946115964517513461}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 428ca68a2d919f9499efa9b9d3e1b3f3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  gravityScale: 1
-  maxSpeed: 10
-  canStopSlope: 45
 --- !u!61 &3441184939640542002
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -143,40 +109,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!114 &7624320027145459090
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2946115964517513461}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0de98cabf75ebf44f9e360d301c8bafa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  boxCollider: {fileID: 3441184939640542002}
-  physicalOffset: {x: 0.05, y: 0.05}
-  physicalGap: 0.005
-  priority: 1
-  ratio_x: 1
-  ratio_y: 1
-  throughFloorLayer:
-    serializedVersion: 2
-    m_Bits: 768
---- !u!114 &5794983809864931330
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2946115964517513461}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 810d5c94a5f6d52498f22fb0ec9292e6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  maxSpeed: 15
 --- !u!114 &5950899104789406071
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -189,10 +121,33 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f66f34863a982843a7b702cab0ea86b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  materialController: {fileID: 5046474950320866773}
-  forwardIsRight: 0
+  m_mainAnimator: {fileID: 2451121724989072181}
+  rb: {fileID: 3629008528181579886}
   enemyData: {fileID: 0}
-  greenManController: {fileID: 4987665359584516886}
+  defeatEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  launcher: {fileID: 2288715670023806803}
+  gravity:
+    _gravityScale: 1
+    _maxSpeed: 10
+  jump:
+    maxSpeed: 15
+  exRb:
+    transform: {fileID: 5412021727086774027}
+    rb: {fileID: 3629008528181579886}
+    boxCollider: {fileID: 3441184939640542002}
+    physicalOffset: {x: 0.05, y: 0.05}
+    physicalGap: 0.005
+    priority: 1
+    ratio_x: 1
+    ratio_y: 1
+    throughFloorLayer:
+      serializedVersion: 2
+      m_Bits: 0
+  direct:
+    _transform: {fileID: 5412021727086774027}
+    forwardIsRight: 0
 --- !u!1 &5532927641908652158
 GameObject:
   m_ObjectHideFlags: 0
@@ -295,7 +250,6 @@ GameObject:
   - component: {fileID: 5724801701075077618}
   - component: {fileID: 3682488713756767035}
   - component: {fileID: 2451121724989072181}
-  - component: {fileID: 5046474950320866773}
   m_Layer: 0
   m_Name: Sprite
   m_TagString: Untagged
@@ -391,19 +345,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &5046474950320866773
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5620596311297198031}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 95f3fb9c1d596fa408a4ab5e0dfe8a0c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  sharedMaterial: 0
 --- !u!1 &8470361379975972266
 GameObject:
   m_ObjectHideFlags: 0

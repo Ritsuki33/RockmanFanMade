@@ -115,10 +115,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7223287936867541727}
-  - component: {fileID: 3419730522486037644}
   - component: {fileID: 8219540544395458463}
-  - component: {fileID: 861263011152484376}
   - component: {fileID: 3502984436217711033}
+  - component: {fileID: 8944768094322057143}
   m_Layer: 16
   m_Name: PlacedBomb
   m_TagString: Untagged
@@ -142,20 +141,6 @@ Transform:
   - {fileID: 5844086777958173841}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3419730522486037644
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8197843532567573251}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dec092299f2e46f46bfa6d887970cc86, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  boxTrigger: {fileID: 0}
-  boxCollider: {fileID: 3502984436217711033}
 --- !u!114 &8219540544395458463
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -168,29 +153,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7311dd70b7f2594419ddc4f65bc4d14c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  placedBomb: {fileID: 3419730522486037644}
-  _animator: {fileID: 6660667417037396447}
---- !u!114 &861263011152484376
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8197843532567573251}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0de98cabf75ebf44f9e360d301c8bafa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  outofCameraDelete: 1
+  m_mainAnimator: {fileID: 6660667417037396447}
+  boxTrigger: {fileID: 0}
   boxCollider: {fileID: 3502984436217711033}
-  physicalOffset: {x: 0.05, y: 0.05}
-  physicalGap: 0.005
-  priority: 1
-  ratio_x: 1
-  ratio_y: 1
-  throughFloorLayer:
-    serializedVersion: 2
-    m_Bits: 0
+  exRb:
+    transform: {fileID: 7223287936867541727}
+    rb: {fileID: 8944768094322057143}
+    boxCollider: {fileID: 3502984436217711033}
+    physicalOffset: {x: 0.05, y: 0.05}
+    physicalGap: 0.005
+    priority: 1
+    ratio_x: 1
+    ratio_y: 1
+    throughFloorLayer:
+      serializedVersion: 2
+      m_Bits: 768
 --- !u!61 &3502984436217711033
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -236,3 +214,30 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.47324157, y: 0.558993}
   m_EdgeRadius: 0
+--- !u!50 &8944768094322057143
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8197843532567573251}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 0.0001
+  m_LinearDrag: 0
+  m_AngularDrag: 0
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 4

@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RocketMask : EnemyObject
+public class RocketMask : StageEnemy
 {
     [SerializeField] RoketMaskBehavior rocketMaskComtroller = default;
 
-    public override void Init()
+    protected override void Init()
     {
         base.Init();
-        rocketMaskComtroller.Init();
+        //rocketMaskComtroller.Init();
     }
 }

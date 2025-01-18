@@ -22,7 +22,7 @@ public class GameMainScreen : BaseScreen<GameMainScreen, GameMainScreenPresenter
 
     protected override void Initialize(GameMainScreenViewModel viewModel)
     {
-        HpBar.SetParam(WorldManager.Instance.PlayerController.CurrentHp);
+        HpBar.SetParam(WorldManager.Instance.Player.CurrentHp);
     }
 
     protected override void Open()
@@ -99,15 +99,14 @@ public class GameMainScreenPresenter : BaseScreenPresenter<GameMainScreen, GameM
     /// <param name="val"></param>
     /// <param name="hpChangeTrigger"></param>
     /// <param name="finishCallback"></param>
-    public void EnemyHpIncrementAnimation(GrenademanBehavior ctr, Action finishCallback)
+    public void EnemyHpIncrementAnimation(Grenademan ctr, Action finishCallback)
     {
         _screen.EnemyHpBar.gameObject.SetActive(true);
         _screen.EnemyHpBar.SetParam(0.0f);
         _screen.EnemyHpBar.ParamChangeAnimation((float)ctr.CurrentHp / ctr.MaxHp, finishCallback);
 
         ctr.HpChangeTrigger += SetEnemyHp;
-
-        _viewModel.bossController = ctr;
+        _viewModel.grenademan = ctr;
     }
 
     public void ReadyUiPlay(Action finishCallback)
@@ -123,15 +122,15 @@ public class GameMainScreenPresenter : BaseScreenPresenter<GameMainScreen, GameM
     protected override void Deinitialize()
     {
         _viewModel.Player.hpChangeTrigger -= SetPlayerHp;
-        _viewModel.bossController.HpChangeTrigger -= SetEnemyHp;
+        _viewModel.grenademan.HpChangeTrigger -= SetEnemyHp;
     }
 }
 
 public class GameMainScreenViewModel : BaseViewModel<GameMainManager.UI>
 {
-    public Player Player => WorldManager.Instance.Player;
+    public StagePlayer Player => WorldManager.Instance.Player;
 
-    public GrenademanBehavior bossController;
+    public Grenademan grenademan;
     protected override IEnumerator Configure()
     {
         yield return null;

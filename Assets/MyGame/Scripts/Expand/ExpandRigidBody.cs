@@ -1,8 +1,8 @@
 ﻿using System;
 using UnityEngine;
 
-
-public class ExpandRigidBody : MonoBehaviour, IBaseExRbHit.IExRbCallbackSet
+[Serializable]
+public class ExpandRigidBody : IExRbCallbackSet
 {
     enum Priority
     {
@@ -15,7 +15,8 @@ public class ExpandRigidBody : MonoBehaviour, IBaseExRbHit.IExRbCallbackSet
         Left,
     }
 
-    Rigidbody2D rb;
+    [SerializeField] Transform transform = default;
+    [SerializeField] Rigidbody2D rb = default;
 
     [SerializeField] BoxCollider2D boxCollider = null;
     [SerializeField] Vector2 physicalOffset = new Vector2(0.05f, 0.05f);
@@ -341,14 +342,13 @@ public class ExpandRigidBody : MonoBehaviour, IBaseExRbHit.IExRbCallbackSet
 
     Vector2 CurrentMovement => velocity * Time.fixedDeltaTime;
 
-    
-    private void Awake()
+    public void Init()
     {
-        if (boxCollider == null) boxCollider = GetComponent<BoxCollider2D>();
+        if (boxCollider == null) boxCollider = transform.gameObject.GetComponent<BoxCollider2D>();
         physicalLayer = Physics2D.GetLayerCollisionMask(boxCollider.gameObject.layer);
 
-        rb = GetComponent<Rigidbody2D>();
-        if (!rb) rb = gameObject.AddComponent<Rigidbody2D>();
+        if (rb == null) rb = transform.gameObject.GetComponent<Rigidbody2D>();
+        if (!rb) rb = transform.gameObject.AddComponent<Rigidbody2D>();
 
         rb.bodyType = RigidbodyType2D.Dynamic;
         rb.mass = 0;
@@ -358,14 +358,14 @@ public class ExpandRigidBody : MonoBehaviour, IBaseExRbHit.IExRbCallbackSet
         rb.constraints = RigidbodyConstraints2D.FreezeRotation;
     }
 
-    private void FixedUpdate()
+    public void FixedUpdate()
     {
        if((boxCollider == null) ? false : (!(boxCollider.enabled) ? false : (boxCollider.isTrigger) ? false : true)) CorrectVelocity();
         rb.velocity = currentVelocity;
         currentVelocity = Vector2.zero;
     }
 
-    public void CorrectVelocity()
+    private void CorrectVelocity()
     {
         PhysicalVelocityCorrect(currentVelocity);
         ThroughFloorVelocityCorrect(currentVelocity);
@@ -378,6 +378,8 @@ public class ExpandRigidBody : MonoBehaviour, IBaseExRbHit.IExRbCallbackSet
 
     private void PhysicalVelocityCorrect(Vector2 currentVelocity)
     {
+        if (physicalLayer == 0) Debug.LogError("ExpandRigidBodyが初期化されていないため、レイの判定ができません。");
+
         topHit = Physics2D.BoxCast(
             VirtualTopColliderCenter + new Vector2(0, -0.005f)
             , VerticalCheckHitTopSize
@@ -646,61 +648,61 @@ public class ExpandRigidBody : MonoBehaviour, IBaseExRbHit.IExRbCallbackSet
     /// 上下左右ヒット時のコールバック登録
     /// </summary>
     /// <param name="hitEvent"></param>
-     void IBaseExRbHit.IExRbCallbackSet.AddOnHitEventCallback(IHitEvent hitEvent)
+    void IExRbCallbackSet.AddOnHitEventCallback(IHitEvent hitEvent)
     {
-        onHitEnter += hitEvent.HitEnter;
-        onHitBottomEnter += hitEvent.BottomHitEnter;
-        onHitTopEnter += hitEvent.TopHitEnter;
-        onHitLeftEnter += hitEvent.LeftHitEnter;
-        onHitRightEnter += hitEvent.RightHitEnter;
-        onHitStay += hitEvent.HitStay;
-        onHitBottomStay += hitEvent.BottomHitStay;
-        onHitTopStay += hitEvent.TopHitStay;
-        onHitLeftStay += hitEvent.LeftHitStay;
-        onHitRightStay += hitEvent.RightHitStay;
-        onHitExit += hitEvent.HitExit;
-        onHitBottomExit += hitEvent.BottomHitExit;
-        onHitTopExit += hitEvent.TopHitExit;
-        onHitRightExit += hitEvent.RightHitExit;
-        onHitLeftExit += hitEvent.LeftHitExit;
-        onHitBottomTopEnter += hitEvent.BottomToptHitEnter;
-        onHitLeftRightEnter += hitEvent.LeftRightHitEnter;
-        onHitBottomTopStay += hitEvent.BottomToptHitStay;
-        onHitLeftRightStay += hitEvent.LeftRightHitStay;
-        onHitBottomTopExit += hitEvent.BottomToptHitExit;
-        onHitLeftRightExit += hitEvent.LeftRightHitExit;
+        onHitEnter += hitEvent.OnHitEnter;
+        onHitBottomEnter += hitEvent.OnBottomHitEnter;
+        onHitTopEnter += hitEvent.OnTopHitEnter;
+        onHitLeftEnter += hitEvent.OnLeftHitEnter;
+        onHitRightEnter += hitEvent.OnRightHitEnter;
+        onHitStay += hitEvent.OnHitStay;
+        onHitBottomStay += hitEvent.OnBottomHitStay;
+        onHitTopStay += hitEvent.OnTopHitStay;
+        onHitLeftStay += hitEvent.OnLeftHitStay;
+        onHitRightStay += hitEvent.OnRightHitStay;
+        onHitExit += hitEvent.OnHitExit;
+        onHitBottomExit += hitEvent.OnBottomHitExit;
+        onHitTopExit += hitEvent.OnTopHitExit;
+        onHitRightExit += hitEvent.OnRightHitExit;
+        onHitLeftExit += hitEvent.OnLeftHitExit;
+        onHitBottomTopEnter += hitEvent.OnBottomTopHitEnter;
+        onHitLeftRightEnter += hitEvent.OnLeftRightHitEnter;
+        onHitBottomTopStay += hitEvent.OnBottomToptHitStay;
+        onHitLeftRightStay += hitEvent.OnLeftRightHitStay;
+        onHitBottomTopExit += hitEvent.OnBottomToptHitExit;
+        onHitLeftRightExit += hitEvent.OnLeftRightHitExit;
     }
 
     /// <summary>
     /// 上下左右ヒット時のコールバック削除
     /// </summary>
     /// <param name="hitEvent"></param>
-    void IBaseExRbHit.IExRbCallbackSet.RemoveOnHitEventCallback(IHitEvent hitEvent)
+    void IExRbCallbackSet.RemoveOnHitEventCallback(IHitEvent hitEvent)
     {
-        onHitEnter -= hitEvent.HitEnter;
-        onHitBottomEnter -= hitEvent.BottomHitEnter;
-        onHitTopEnter -= hitEvent.TopHitEnter;
-        onHitLeftEnter -= hitEvent.LeftHitEnter;
-        onHitRightEnter -= hitEvent.RightHitEnter;
-        onHitStay -= hitEvent.HitStay;
-        onHitBottomStay -= hitEvent.BottomHitStay;
-        onHitTopStay -= hitEvent.TopHitStay;
-        onHitLeftStay -= hitEvent.LeftHitStay;
-        onHitRightStay -= hitEvent.RightHitStay;
-        onHitExit -= hitEvent.HitExit;
-        onHitBottomExit -= hitEvent.BottomHitExit;
-        onHitTopExit -= hitEvent.TopHitExit;
-        onHitRightExit -= hitEvent.RightHitExit;
-        onHitLeftExit -= hitEvent.LeftHitExit;
-        onHitBottomTopEnter -= hitEvent.BottomToptHitEnter;
-        onHitLeftRightEnter -= hitEvent.LeftRightHitEnter;
-        onHitBottomTopStay -= hitEvent.BottomToptHitStay;
-        onHitLeftRightStay -= hitEvent.LeftRightHitStay;
-        onHitBottomTopExit -= hitEvent.BottomToptHitExit;
-        onHitLeftRightExit -= hitEvent.LeftRightHitExit;
+        onHitEnter -= hitEvent.OnHitEnter;
+        onHitBottomEnter -= hitEvent.OnBottomHitEnter;
+        onHitTopEnter -= hitEvent.OnTopHitEnter;
+        onHitLeftEnter -= hitEvent.OnLeftHitEnter;
+        onHitRightEnter -= hitEvent.OnRightHitEnter;
+        onHitStay -= hitEvent.OnHitStay;
+        onHitBottomStay -= hitEvent.OnBottomHitStay;
+        onHitTopStay -= hitEvent.OnTopHitStay;
+        onHitLeftStay -= hitEvent.OnLeftHitStay;
+        onHitRightStay -= hitEvent.OnRightHitStay;
+        onHitExit -= hitEvent.OnHitExit;
+        onHitBottomExit -= hitEvent.OnBottomHitExit;
+        onHitTopExit -= hitEvent.OnTopHitExit;
+        onHitRightExit -= hitEvent.OnRightHitExit;
+        onHitLeftExit -= hitEvent.OnLeftHitExit;
+        onHitBottomTopEnter -= hitEvent.OnBottomTopHitEnter;
+        onHitLeftRightEnter -= hitEvent.OnLeftRightHitEnter;
+        onHitBottomTopStay -= hitEvent.OnBottomToptHitStay;
+        onHitLeftRightStay -= hitEvent.OnLeftRightHitStay;
+        onHitBottomTopExit -= hitEvent.OnBottomToptHitExit;
+        onHitLeftRightExit -= hitEvent.OnLeftRightHitExit;
     }
 
-    private void OnDrawGizmos()
+    public void OnDrawGizmos()
     {
         if (boxCollider && !boxCollider.enabled) return;
         Gizmos.color = Color.red;

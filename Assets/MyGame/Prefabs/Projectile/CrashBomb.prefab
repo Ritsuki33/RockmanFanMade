@@ -87,7 +87,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8773943775900748512}
   - component: {fileID: 624121910759576864}
-  m_Layer: 15
+  m_Layer: 20
   m_Name: TriggerBody
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -165,10 +165,9 @@ GameObject:
   - component: {fileID: 3419270457553091669}
   - component: {fileID: 7109083435785351137}
   - component: {fileID: 1646842431737337389}
-  - component: {fileID: 925121075117786401}
   - component: {fileID: 6216268714680252117}
   - component: {fileID: 8849856365920340392}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: CrashBomb
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -265,20 +264,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &925121075117786401
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8335191455750100369}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e1f7fb5424a94a448aec5267bc3897ca, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  boxTrigger: {fileID: 624121910759576864}
-  boxCollider: {fileID: 5122336567195158783}
 --- !u!50 &6216268714680252117
 Rigidbody2D:
   serializedVersion: 4
@@ -318,4 +303,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a7b01ea1b7b4b5469f87aaa998e091a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  projectile: {fileID: 925121075117786401}
+  outofCameraDelete: 1
+  m_mainAnimator: {fileID: 1646842431737337389}
+  rb: {fileID: 6216268714680252117}
+  boxTrigger: {fileID: 624121910759576864}
+  boxCollider: {fileID: 5122336567195158783}
+  direct:
+    _transform: {fileID: 3419270457553091669}
+    forwardIsRight: 0

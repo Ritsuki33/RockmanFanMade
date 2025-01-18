@@ -1,13 +1,15 @@
 ﻿using System;
 using UnityEngine;
+using UnityEngine.Pool;
 
-public class Projectile : ReusableObject
+
+
+public class Projectile : PhysicalObject,IPooledObject<Projectile>,IDirect
 {
     [SerializeField] private BoxCollider2D boxTrigger;
     [SerializeField] private BoxCollider2D boxCollider;
-    private Rigidbody2D rb;
+    [SerializeField] private Direct direct;
     Action<Rigidbody2D> fixedUpdate;
-    Action deleteCallback;
 
     Action<Projectile> onCollision;
 
@@ -17,47 +19,68 @@ public class Projectile : ReusableObject
     public Vector2 CurVelocity => rb.velocity;
     public float CurSpeed => rb.velocity.magnitude;
 
-    public Action<Rigidbody2D> FixedUpdateCallback=> fixedUpdate;
-    public Action<Projectile> OnCollisionCallback => onCollision;
 
-    private void Awake()
-    {
-        rb = GetComponent<Rigidbody2D>();
-    }
+    private IObjectPool<Projectile> pool = null;
 
-    private void OnEnable()
+    protected override void Init()
     {
+        base.Init();
         EventTriggerManager.Instance.VoidEventTriggers.Subscribe(EventType.ChangeCameraStart, Delete);
     }
 
-    private void OnDisable()
+    protected override void Destroy()
     {
+        base.Destroy();
         EventTriggerManager.Instance.VoidEventTriggers.Unsubscribe(EventType.ChangeCameraStart, Delete);
     }
 
-    public void Init(int attackPower, Action<Rigidbody2D> start, Action<Rigidbody2D> fixedUpdate)
+    protected override void OnFixedUpdate()
     {
-        start?.Invoke(rb); 
+        fixedUpdate.Invoke(rb);
+    }
+
+    public void Setup(int attackPower, Action<Rigidbody2D> start, Action<Rigidbody2D> fixedUpdate)
+    {
+        start?.Invoke(rb);
         this.attackPower = attackPower;
         this.fixedUpdate = fixedUpdate;
     }
 
-    public void Init(int attackPower, Action<Rigidbody2D> start, Action<Rigidbody2D> fixedUpdate, Action<Projectile> onCollisionEnter = null, Action deleteCallback = null)
+    public void Setup(int attackPower, Action<Rigidbody2D> start, Action<Rigidbody2D> fixedUpdate, Action deleteCallback)
     {
-        Init(attackPower, start, fixedUpdate);
-        this.deleteCallback = deleteCallback;
+        Setup(attackPower, start, fixedUpdate);
+        Setup(deleteCallback);
+    }
+
+    public void Setup(int attackPower, Action<Rigidbody2D> start, Action<Rigidbody2D> fixedUpdate, Action deleteCallback, Action<Projectile> onCollisionEnter = null)
+    {
+        Setup(attackPower, start, fixedUpdate, deleteCallback);
         this.onCollision = onCollisionEnter;
     }
 
-    protected override void OnGet()
+    private void OnCollisionEnter2D(Collision2D collision)
     {
-        if(boxCollider) boxCollider.enabled = true;
-        if(boxTrigger) boxTrigger.enabled = true;
+        onCollision?.Invoke(this);
     }
 
-    public void Delete()
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        Pool.Release(this);
-        this.deleteCallback?.Invoke();
+        onCollision?.Invoke(this);
     }
+
+    IObjectPool<Projectile> IPooledObject<Projectile>.Pool { get => pool; set => pool = value; }
+
+
+    void IPooledObject<Projectile>.OnGet()
+    {
+        if (boxCollider) boxCollider.enabled = true;
+        if (boxTrigger) boxTrigger.enabled = true;
+    }
+
+
+    public bool IsRight => direct.IsRight;
+
+    public void TurnTo(bool isRight) => direct.TurnTo(isRight);
+    public void TurnToTarget(Vector2 targetPos) => direct.TurnToTarget(targetPos);
+    public void TurnFace() => direct.TurnFace();
 }

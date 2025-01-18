@@ -1,58 +1,41 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System;
 using UnityEngine;
 
-public class OnTheGround : MonoBehaviour
+[Serializable]
+public class OnTheGround
 {
-    [SerializeField]float offset_y = 0.01f;
-    [SerializeField]float check_y = 0.01f;
+    [SerializeField] float offset_y = 0.01f;
+    [SerializeField] float check_y = 0.01f;
     [SerializeField] LayerMask physicalLayer = default;
-
-    [SerializeField] ExpandRigidBody exRb;
-
-    Vector2 CheckSize => new Vector2(this.exRb.PhysicalBoxSize.x, check_y);
-
-    Vector2 center => new Vector2(this.transform.position.x, this.transform.position.y + offset_y - CheckSize.y / 2);
-
-    Vector2 topCenter => new Vector2(center.x, center.y + CheckSize.y / 2);
 
     private RaycastHit2D hit;
 
     public RaycastHit2D GroundHit => hit;
 
-    //bool bottomhit = false;
-
-    //public Vector2 MoveOnTheGround { get; set; }
-
-        public void Reset()
+    public void Reset()
     {
         hit = default;
     }
-    //public bool CheckBottomHit()
-    //{
-    //    return bottomhit;
-    //}
-    public RaycastHit2D Check()
+
+    public RaycastHit2D Check(Vector2 position, float boxSize_x)
     {
-        hit = Physics2D.BoxCast(topCenter, new Vector2(CheckSize.x, 0.001f), 0, Vector2.down, CheckSize.y, physicalLayer);
+        Vector2 checkSize = new Vector2(boxSize_x, check_y);
+        Vector2 center = new Vector2(position.x, position.y + offset_y - checkSize.y / 2);
+
+        Vector2 topCenter = new Vector2(center.x, center.y + checkSize.y / 2);
+        hit = Physics2D.BoxCast(topCenter, new Vector2(checkSize.x, 0.001f), 0, Vector2.down, checkSize.y, physicalLayer);
 
         return hit;
     }
 
-    private void OnDrawGizmos()
+    public void OnDrawGizmos(Vector2 position, float boxSize_x)
     {
+        Vector2 checkSize = new Vector2(boxSize_x, check_y);
+        Vector2 center = new Vector2(position.x, position.y + offset_y - checkSize.y / 2);
+
         Gizmos.color = Color.blue;
-        Gizmos.DrawWireCube(center, CheckSize);
+        Gizmos.DrawWireCube(center, checkSize);
 
         if (hit) Gizmos.DrawSphere(hit.point, 0.05f);
     }
-
-    //protected override void OnBottomHitStay(RaycastHit2D hit)
-    //{
-    //    bottomhit = true;
-    //}
-    //protected override void OnBottomHitExit(RaycastHit2D hit)
-    //{
-    //    bottomhit = false;
-    //}
 }
