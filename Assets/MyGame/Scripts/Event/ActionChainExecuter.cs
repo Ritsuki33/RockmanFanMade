@@ -39,6 +39,7 @@ public class ActionChainExecuter : MonoBehaviour
         Spawn,
         PlayerActive,
         PlayerMove,
+        GameMainUIChange,
     }
 
     [Serializable]
@@ -465,6 +466,30 @@ public class ActionChainExecuter : MonoBehaviour
         }
     }
 
+    [Serializable]
+    class GameMainUIChange : BaseAction
+    {
+        [SerializeField] bool playerHpGuage;
+        [SerializeField] bool enemyHpGuage;
+
+        public override void Execute(Action finishCallback)
+        {
+            var presenter = GameMainManager.Instance.ScreenContainer.GetCurrentScreenPresenter<GameMainScreenPresenter>();
+            if (presenter == null)
+            {
+                Debug.LogError("スクリーンプレゼンターの取得が出来ませんでした");
+
+            }
+            else
+            {
+                presenter.PlayerHpActive(playerHpGuage);
+                presenter.EnemyHpActive(enemyHpGuage);
+            }
+        
+            finishCallback.Invoke();
+        }
+    }
+
     [SerializeField] Element element;
 
     private void OnValidate()
@@ -644,6 +669,12 @@ public class ActionChainExecuter : MonoBehaviour
                     if (ae.action is not SpawnAction)
                     {
                         ae.action = new SpawnAction();
+                    }
+                    break; 
+                case ActionType.GameMainUIChange:
+                    if (ae.action is not GameMainUIChange)
+                    {
+                        ae.action = new GameMainUIChange();
                     }
                     break;
                 default:

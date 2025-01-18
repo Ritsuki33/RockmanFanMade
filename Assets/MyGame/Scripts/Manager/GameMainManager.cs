@@ -28,7 +28,8 @@ public class GameMainManager : BaseManager<GameMainManager>
 
     [SerializeField] MainCameraControll m_mainCameraControll = default;
     [SerializeField] GameMainScreen m_gameMainScreen = default;
-    [SerializeField] WorldManager worldManager = default;
+    [SerializeField] Transform worldRoot= default;
+    WorldManager worldManager = default;
 
     private IInput InputController => InputManager.Instance;
     private CameraControllArea currentCameraControllArea;
@@ -50,6 +51,13 @@ public class GameMainManager : BaseManager<GameMainManager>
             FadeInManager.Instance.FadeOutImmediate();
 
             ObjectManager.Instance.Init();
+
+            worldManager = CreateWorldManager();
+            if (worldManager == null)
+            {
+                Debug.LogError("ワールドの読み込みに失敗しました");
+                yield break;
+            }
 
             // ワールドの初期化
             worldManager.Init();
@@ -118,5 +126,20 @@ public class GameMainManager : BaseManager<GameMainManager>
         screenContainer.GetCurrentScreenPresenter<GameMainScreenPresenter>()?.OnOpenPauseUi(isPause);
 
         worldManager?.OnPause(isPause);
+    }
+
+
+    WorldManager CreateWorldManager()
+    {
+        var res = Resources.Load<WorldManager>("Worlds/World");
+
+        if (res != null)
+        {
+            return Instantiate(res, this.worldRoot);
+        }
+        else
+        {
+            return null;
+        }
     }
 }

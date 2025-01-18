@@ -227,9 +227,9 @@ public class ScreenContainer<T> where T: Enum
     /// <summary>
     /// 現在のスクリーンプレゼンターを取得（型が合わない場合はNULL）
     /// </summary>
-    /// <typeparam name="SC"></typeparam>
+    /// <typeparam name="SP"></typeparam>
     /// <returns></returns>
-    public SC GetCurrentScreenPresenter<SC>() where SC : class, IScreenPresenter<T> => screenPresenter as SC;
+    public SP GetCurrentScreenPresenter<SP>() where SP : class, IScreenPresenter<T> => screenPresenter as SP;
 
     /// <summary>
     /// 遷移要求
