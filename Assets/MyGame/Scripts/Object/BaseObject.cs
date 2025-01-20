@@ -84,11 +84,6 @@ public class BaseObject : MonoBehaviour, IObjectInterpreter
         }
     }
 
-    public void Setup(Action onDeleteCallback)
-    {
-        _onDeleteCallback = onDeleteCallback;
-    }
-
     public virtual void Delete()
     {
         _onDeleteCallback?.Invoke();

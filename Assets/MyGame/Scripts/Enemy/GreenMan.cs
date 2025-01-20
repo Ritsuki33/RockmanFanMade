@@ -318,7 +318,7 @@ public class GreenMan : StageEnemy,IDirect
         reflection = new Vector2(reflection.x, 0).normalized;
         reflection += Vector2.up;
         reflection = reflection.normalized;
-        projectile.Setup(
+        projectile.ChangeBehavior(
             0,
             null,
             (rb) =>

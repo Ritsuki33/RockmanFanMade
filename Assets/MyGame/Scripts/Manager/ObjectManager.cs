@@ -117,9 +117,9 @@ public class ObjectManager : SingletonComponent<ObjectManager>, IRegister
 
         // Projectileの初期化
         var projectile = pool.Pool.Get(); 
-        projectile.TurnTo(isRight);
-        projectile.transform.position = new Vector3(position.x, position.y, -2);
         projectile.Setup(
+            new Vector3(position.x, position.y, -2),
+            isRight,
             attackPower,
             startCallback,
             fixedUpdateCallback,
@@ -152,6 +152,7 @@ public class ObjectManager : SingletonComponent<ObjectManager>, IRegister
 
         explode.Setup(
             layer,
+            position,
             damageVal,
             (obj) =>
             {
@@ -172,10 +173,10 @@ public class ObjectManager : SingletonComponent<ObjectManager>, IRegister
     {
         var pool = effectManager.PlacedBombPool;
         var bomb = pool.Pool.Get();
-        bomb.transform.position = new Vector3(position.x, position.y, -2);
         Vector2 dir = targetPos - position;
         dir = dir.normalized;
         bomb.Setup(
+            new Vector3(position.x, position.y, -2),
            orbitfixedUpdate,
         (obj) =>
             {
@@ -195,12 +196,12 @@ public class ObjectManager : SingletonComponent<ObjectManager>, IRegister
         var pool = effectManager.DeathEffectPool;
         PooledPsObejct deathEffect = pool.Pool.Get();
 
-        deathEffect.gameObject.transform.position = new Vector3(position.x, position.y, -3);
-
-        deathEffect.Setup((obj) =>
-        {
-            pool.Release(deathEffect);
-        });
+        deathEffect.Setup(
+            new Vector3(position.x, position.y, -3),
+            (obj) =>
+            {
+                pool.Release(deathEffect);
+            });
     }
 
     /// <summary>

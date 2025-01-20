@@ -65,8 +65,9 @@ public class PlacedBomb : AnimObject, IPooledObject<PlacedBomb>
         stateMachine.OnBottomHitEnter(this, hit);
     }
 
-    public void Setup(Action<ExpandRigidBody> orbitfixedUpdate, Action<PlacedBomb> onExplodedFinishCallback)
+    public void Setup(Vector3 position, Action<ExpandRigidBody> orbitfixedUpdate, Action<PlacedBomb> onExplodedFinishCallback)
     {
+        this.transform.position = position;
         this.orbitfixedUpdate = orbitfixedUpdate;
         this.onExplodedFinishCallback = onExplodedFinishCallback;
 

@@ -33,11 +33,11 @@ public class Spawn : MonoBehaviour
         
         obj.transform.position = transform.position;
         obj.gameObject.SetActive(true);
-        obj.Setup(() =>
-        {
-            _register.OnUnregist(obj);
-            obj.gameObject.SetActive(false);
-        });
+        //obj.Setup(() =>
+        //{
+        //    _register.OnUnregist(obj);
+        //    obj.gameObject.SetActive(false);
+        //});
 
         _register?.OnRegist(obj);
 

@@ -39,23 +39,21 @@ public class Projectile : PhysicalObject,IPooledObject<Projectile>,IDirect
         fixedUpdate.Invoke(rb);
     }
 
-    public void Setup(int attackPower, Action<Rigidbody2D> start, Action<Rigidbody2D> fixedUpdate)
+    public void Setup(Vector3 position, bool isRight, int attackPower, Action<Rigidbody2D> start, Action<Rigidbody2D> fixedUpdate, Action deleteCallback, Action<Projectile> onCollisionEnter = null)
+    {
+        this.transform.position = position;
+        TurnTo(isRight);
+        start?.Invoke(rb);
+        this.attackPower = attackPower;
+        this.fixedUpdate = fixedUpdate;
+        this.onCollision = onCollisionEnter;
+    }
+
+    public void ChangeBehavior(int attackPower, Action<Rigidbody2D> start, Action<Rigidbody2D> fixedUpdate)
     {
         start?.Invoke(rb);
         this.attackPower = attackPower;
         this.fixedUpdate = fixedUpdate;
-    }
-
-    public void Setup(int attackPower, Action<Rigidbody2D> start, Action<Rigidbody2D> fixedUpdate, Action deleteCallback)
-    {
-        Setup(attackPower, start, fixedUpdate);
-        Setup(deleteCallback);
-    }
-
-    public void Setup(int attackPower, Action<Rigidbody2D> start, Action<Rigidbody2D> fixedUpdate, Action deleteCallback, Action<Projectile> onCollisionEnter = null)
-    {
-        Setup(attackPower, start, fixedUpdate, deleteCallback);
-        this.onCollision = onCollisionEnter;
     }
 
     private void OnCollisionEnter2D(Collision2D collision)

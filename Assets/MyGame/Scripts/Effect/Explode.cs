@@ -42,11 +42,12 @@ public class Explode : AnimObject, IPooledObject<Explode>
         boxCollider.enabled = false;
     }
 
-    public void Setup(Layer layer, int damageVal, Action<Explode> finishCallback)
+    public void Setup(Layer layer, Vector3 position, int damageVal, Action<Explode> finishCallback)
     {
         boxCollider.enabled = true;
 
         gameObject.layer = (int)layer;
+        this.transform.position = position;
         damage.baseDamageValue = damageVal;
 
         _finishCallback = finishCallback;

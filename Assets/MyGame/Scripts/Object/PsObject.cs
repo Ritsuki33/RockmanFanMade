@@ -23,8 +23,9 @@ public class PsObject : BaseObject
         }
     }
 
-    public void Setup(Action<PsObject> finishedcallback)
+    public void Setup(Vector3 position,Action<PsObject> finishedcallback)
     {
+        this.transform.position = position;
         _finishedcallback = finishedcallback;
     }
 

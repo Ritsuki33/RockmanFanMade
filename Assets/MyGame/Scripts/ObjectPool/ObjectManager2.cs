@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public enum PoolType
 {
@@ -39,12 +40,14 @@ public class ObjectManager2 : MonoBehaviour
     /// <typeparam name="T"></typeparam>
     /// <param name="obj"></param>
     /// <returns></returns>
-    public T OnGet<T>(PoolType type) where T : BaseObject, IObjectInterpreter
+    public T OnGet<T>(PoolType type, Action<T> deleteCallback=null) where T : BaseObject, IObjectInterpreter
     {
         T obj = objectPoolList.OnGet<T>(type);
 
         obj.onDeleteCallback = () =>
         {
+            deleteCallback?.Invoke(obj);
+
             // オブジェクトの退会
             updateList.Remove(obj);
 
@@ -63,7 +66,7 @@ public class ObjectManager2 : MonoBehaviour
     /// <typeparam name="T"></typeparam>
     /// <param name="path"></param>
     /// <returns></returns>
-    public T OnLoad<T>(string path) where T : BaseObject, IObjectInterpreter
+    public T OnLoad<T>(string path, Action<T> deleteCallback = null) where T : BaseObject, IObjectInterpreter
     {
         T res = Resources.Load<T>(path);
 
@@ -77,6 +80,8 @@ public class ObjectManager2 : MonoBehaviour
 
         obj.onDeleteCallback = () =>
         {
+            deleteCallback?.Invoke(obj);
+
             // オブジェクトの退会
             updateList.Remove(obj);
 
