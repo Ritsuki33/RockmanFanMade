@@ -18,7 +18,11 @@ public interface IObjectInterpreter
     void Destroy();
 
     void OnReset();
+
+    Action onDeleteCallback { set; }
+    void Delete();
 }
+
 
 
 /// <summary>
@@ -30,9 +34,11 @@ public class BaseObject : MonoBehaviour, IObjectInterpreter
 
     private bool _isPause = false;
     public bool IsPause => _isPause;
+    Action _onDeleteCallback;
+
+    Action IObjectInterpreter.onDeleteCallback { set => _onDeleteCallback = value; }
 
     int pauseRequest = 0;
-    Action _onDeleteCallback;
 
     void IObjectInterpreter.Init() => Init();
     void IObjectInterpreter.OnFixedUpdate() => OnFixedUpdate();
@@ -40,6 +46,7 @@ public class BaseObject : MonoBehaviour, IObjectInterpreter
     void IObjectInterpreter.RequestPause(bool isPause) => RequestPause(isPause);
     void IObjectInterpreter.Destroy() => Destroy();
     void IObjectInterpreter.OnReset() => OnReset();
+    void IObjectInterpreter.Delete() => Delete();
 
     protected virtual void Init() { }
     protected virtual void OnFixedUpdate() { }
@@ -59,9 +66,8 @@ public class BaseObject : MonoBehaviour, IObjectInterpreter
     /// ポーズのリクエスト
     /// </summary>
     /// <param name="isPause"></param>
-    public void RequestPause(bool isPause) {
-
-        
+    public void RequestPause(bool isPause)
+    {
         if (isPause)
         {
             if (pauseRequest == 0) OnPause(true);
@@ -76,8 +82,6 @@ public class BaseObject : MonoBehaviour, IObjectInterpreter
                 OnPause(false);
             }
         }
-
-        
     }
 
     public void Setup(Action onDeleteCallback)

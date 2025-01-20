@@ -32,7 +32,6 @@ public class ObjectManager : SingletonComponent<ObjectManager>, IRegister
             e.Init(this);
         }
 
-        updateList.Clear();
     }
 
     public void OnFixedUpdate()
@@ -58,7 +57,7 @@ public class ObjectManager : SingletonComponent<ObjectManager>, IRegister
     public void OnReset()
     {
         updateList.OnReset();
-        updateList.Clear();
+        updateList.AllDelete();
 
         foreach (var e in spawns)
         {

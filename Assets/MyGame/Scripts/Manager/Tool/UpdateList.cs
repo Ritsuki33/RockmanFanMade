@@ -20,6 +20,8 @@ public class UpdateList
     // 削除分のリスト
     private List<IObjectInterpreter> removeList= new List<IObjectInterpreter>();
 
+    public int Count=>list.Count;
+
     public void OnFixedUpdate()
     {
         FixedList();
@@ -46,6 +48,14 @@ public class UpdateList
 
         // nullがあった場合は削除
         if (nullCount > 0) list.RemoveAll(item => item == null);
+    }
+
+    public void AllDelete()
+    {
+        foreach (IObjectInterpreter e in list)
+        {
+            e.Delete();
+        }
     }
 
     public void OnReset()
@@ -80,12 +90,6 @@ public class UpdateList
             obj.Destroy();
             removeList.Add(obj);
         }
-    }
-
-    public void Clear()
-    {
-
-        list.Clear();
     }
 
     // リストの更新
