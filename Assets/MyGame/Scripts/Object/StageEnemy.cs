@@ -58,7 +58,8 @@ public class StageEnemy : PhysicalObject
 
     public virtual void OnDead()
     {
-        ObjectManager.Instance.Create(ExplodeType.Explode1, Explode.Layer.None, 0, this.transform.position);
+        var explode=ObjectManager.Instance.OnGet<Explode>(PoolType.Explode);
+        explode.Setup(Explode.Layer.None, this.transform.position, 0);
     }
 
     /// <summary>

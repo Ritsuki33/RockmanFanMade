@@ -108,7 +108,8 @@ public class PlacedBomb : AnimObject, IPooledObject<PlacedBomb>
         {
             ctr.timer.MoveAheadTime(Time.deltaTime, () =>
             {
-                ObjectManager.Create(ExplodeType.Explode2, Explode.Layer.EnemyAttack, 5, ctr.transform.position);
+                var explode = ObjectManager.OnGet<Explode>(PoolType.Explode2);
+                explode.Setup(Explode.Layer.EnemyAttack, ctr.transform.position, 5);
 
                 ctr.Delete();
             });

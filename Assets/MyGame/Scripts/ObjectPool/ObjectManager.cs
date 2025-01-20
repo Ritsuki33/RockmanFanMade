@@ -5,10 +5,19 @@ public enum PoolType
 {
     RockBuster,
     ChargeShotSmall,
-    ChargeShot
+    ChargeShot,
+    Bom,
+    CrashBomb,
+    Fire,
+    MettoruFire,
+    PlacedBomb,
+    Explode,
+    Explode2,
+    Laser,
+    PlayerDeathEffect,
 }
 
-public class ObjectManager2 : MonoBehaviour
+public class ObjectManager : SingletonComponent<ObjectManager>
 {
     [SerializeField] ObjectPoolList<PoolType> objectPoolList;
 
@@ -34,6 +43,11 @@ public class ObjectManager2 : MonoBehaviour
         updateList.AllDelete();
     }
 
+    public void Init()
+    {
+        objectPoolList.Init(this.transform);
+    }
+
     /// <summary>
     /// プールからオブジェクトを取得
     /// </summary>
@@ -44,6 +58,7 @@ public class ObjectManager2 : MonoBehaviour
     {
         T obj = objectPoolList.OnGet<T>(type);
 
+        if (obj == null) return null;
         obj.onDeleteCallback = () =>
         {
             deleteCallback?.Invoke(obj);
@@ -91,6 +106,6 @@ public class ObjectManager2 : MonoBehaviour
 
         // オブジェクトの登録
         updateList.Add(obj);
-        return res;
+        return obj;
     }
 }

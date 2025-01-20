@@ -39,7 +39,8 @@ public class Projectile : PhysicalObject,IPooledObject<Projectile>,IDirect
         fixedUpdate.Invoke(rb);
     }
 
-    public void Setup(Vector3 position, bool isRight, int attackPower, Action<Rigidbody2D> start, Action<Rigidbody2D> fixedUpdate, Action deleteCallback, Action<Projectile> onCollisionEnter = null)
+
+    public void Setup(Vector3 position, bool isRight, int attackPower, Action<Rigidbody2D> start, Action<Rigidbody2D> fixedUpdate, Action<Projectile> onCollisionEnter = null)
     {
         this.transform.position = position;
         TurnTo(isRight);

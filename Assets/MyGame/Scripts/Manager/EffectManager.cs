@@ -13,7 +13,7 @@ public class EffectManager : MonoBehaviour
     [SerializeField] ObjectPoolWrapper<Projectile> mettoruFirePool = default;
     [SerializeField] ObjectPoolWrapper<Projectile> bomPool = default;
     [SerializeField] ObjectPoolWrapper<Projectile> firePool = default;
-    [SerializeField] ObjectPoolWrapper<PooledPsObejct> deathEffectPool = default;
+    //[SerializeField] ObjectPoolWrapper<PooledPsObejct> deathEffectPool = default;
     [SerializeField] ObjectPoolWrapper<PlacedBomb> placedBombPool = default;
     [SerializeField] ObjectPoolWrapper<Projectile> crashBombPool = default;
     [SerializeField] ObjectPoolWrapper<Laser> laserPool = default;
@@ -26,7 +26,7 @@ public class EffectManager : MonoBehaviour
     public ObjectPoolWrapper<Projectile> MettoruFirePool => mettoruFirePool;
     public ObjectPoolWrapper<Projectile> BomPool => bomPool;
     public ObjectPoolWrapper<Projectile> FirePool => firePool;
-    public ObjectPoolWrapper<PooledPsObejct> DeathEffectPool => deathEffectPool;
+    //public ObjectPoolWrapper<PooledPsObejct> DeathEffectPool => deathEffectPool;
     public ObjectPoolWrapper<PlacedBomb> PlacedBombPool => placedBombPool;
     public ObjectPoolWrapper<Projectile> CrashBombPool => crashBombPool;
     public ObjectPoolWrapper<Laser> LaserPool => laserPool;
@@ -41,7 +41,7 @@ public class EffectManager : MonoBehaviour
         mettoruFirePool.Init(register);
         bomPool.Init(register);
         firePool.Init(register);
-        deathEffectPool.Init(register);
+        //deathEffectPool.Init(register);
         placedBombPool.Init(register);
         crashBombPool.Init(register);
         laserPool.Init(register);

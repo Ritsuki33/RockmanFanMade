@@ -61,7 +61,7 @@ public class GameMainManager : BaseManager<GameMainManager>
             worldManager.Init();
 
             // オブジェクトマネージャー初期化
-            ObjectManager.Instance.Init(worldManager.SpawnRoot);
+            ObjectManager.Instance.Init();
 
             screenContainer.Add(UI.GameMain, m_gameMainScreen);
 

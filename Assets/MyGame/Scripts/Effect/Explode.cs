@@ -17,7 +17,7 @@ public class Explode : AnimObject, IPooledObject<Explode>
 
     IObjectPool<Explode> IPooledObject<Explode>.Pool { get => pool; set => pool = value; }
 
-    Action<Explode> _finishCallback = default;
+    //Action<Explode> _finishCallback = default;
     public enum Layer
     {
         PlayerAttack = 19,
@@ -42,7 +42,7 @@ public class Explode : AnimObject, IPooledObject<Explode>
         boxCollider.enabled = false;
     }
 
-    public void Setup(Layer layer, Vector3 position, int damageVal, Action<Explode> finishCallback)
+    public void Setup(Layer layer, Vector3 position, int damageVal)
     {
         boxCollider.enabled = true;
 
@@ -50,7 +50,7 @@ public class Explode : AnimObject, IPooledObject<Explode>
         this.transform.position = position;
         damage.baseDamageValue = damageVal;
 
-        _finishCallback = finishCallback;
+        //_finishCallback = finishCallback;
     }
 
     protected override void OnReset()
@@ -58,8 +58,8 @@ public class Explode : AnimObject, IPooledObject<Explode>
         Delete();
     }
 
-    public void Delete()
-    {
-        _finishCallback?.Invoke(this);
-    }
+    //public void Delete()
+    //{
+    //    _finishCallback?.Invoke(this);
+    //}
 }

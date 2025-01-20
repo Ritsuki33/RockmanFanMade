@@ -128,7 +128,8 @@ public class Grenademan : StageEnemy, IDirect
 
     public override void OnDead()
     {
-        ObjectManager.Instance.CreateDeathEffect(this.transform.position);
+        var deathEffect=ObjectManager.Instance.OnGet<PsObject>(PoolType.PlayerDeathEffect);
+        deathEffect.Setup(this.transform.position);
         this.gameObject.SetActive(false);
     }
 
@@ -373,7 +374,10 @@ public class Grenademan : StageEnemy, IDirect
                 {
                     Vector2 dir = t.position - ctr.transform.position;
                     dir = dir.normalized;
-                    ObjectManager.CreatePlacedBomb(ctr.transform.position, t.position,
+                    var bomb = ObjectManager.Instance.OnGet<PlacedBomb>(PoolType.PlacedBomb);
+
+                    bomb.Setup(
+                        ctr.transform.position,
                         (exRb) =>
                         {
                             exRb.velocity += dir * 20;
@@ -532,11 +536,12 @@ public class Grenademan : StageEnemy, IDirect
             {
                 Vector2 dir = (ctr.IsRight) ? Vector2.right : Vector2.left;
                 dir = dir.normalized;
-                ObjectManager.Create(
-                    ProjectileType.CrashBomb,
+
+                var projectile = ObjectManager.Instance.OnGet<Projectile>(PoolType.CrashBomb);
+                projectile.Setup(
                     new Vector3(ctr.buster.transform.position.x, ctr.buster.transform.position.y, -2),
-                    5,
                     ctr.IsRight,
+                    5,
                     null,
                     (rb) =>
                     {
@@ -545,7 +550,8 @@ public class Grenademan : StageEnemy, IDirect
                     (bomb) =>
                     {
                         bomb.Delete();
-                        ObjectManager.Create(ExplodeType.Explode1, Explode.Layer.EnemyAttack, 3, bomb.transform.position);
+                        var explode= ObjectManager.Instance.OnGet<Explode>(PoolType.Explode);
+                        explode.Setup(Explode.Layer.EnemyAttack, bomb.transform.position, 3);
                     }
                     );
             }

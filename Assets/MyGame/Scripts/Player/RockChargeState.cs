@@ -160,8 +160,11 @@ public partial class StagePlayer
     {
         Vector2 direction = (isRight) ? Vector2.right : Vector2.left;
         float speed = 16;
-        ObjectManager.Create(ProjectileType.RockBuster_Small, launcher.position, 1, isRight, null, (rb) => rb.velocity = direction * speed, null, (projectile) => { if (curMameNum > 0) curMameNum--; });
+        var projectile = ObjectManager.OnGet<Projectile>(PoolType.RockBuster, (pjt) => { if (curMameNum > 0) curMameNum--; });
 
+        projectile.Setup(
+            launcher.position, isRight, 1, null, (rb) => rb.velocity = direction * speed
+            );
         curMameNum++;
     }
 
@@ -169,14 +172,21 @@ public partial class StagePlayer
     {
         Vector2 direction = (isRight) ? Vector2.right : Vector2.left;
         float speed = 16;
-        ObjectManager.Create(ProjectileType.RockBuster_Middle, launcher.position, 2, isRight, null, (rb) => rb.velocity = direction * speed);
+        var projectile = ObjectManager.OnGet<Projectile>(PoolType.ChargeShotSmall);
+        projectile.Setup(
+           launcher.position, isRight, 2, null, (rb) => rb.velocity = direction * speed
+           );
     }
 
     void LaunchBig(bool isRight)
     {
         Vector2 direction = (isRight) ? Vector2.right : Vector2.left;
         float speed = 24;
-        ObjectManager.Create(ProjectileType.RockBuster_Big, launcher.position, 3, isRight, null, (rb) => rb.velocity = direction * speed);
+
+        var projectile = ObjectManager.OnGet<Projectile>(PoolType.ChargeShot);
+        projectile.Setup(
+           launcher.position, isRight, 3, null, (rb) => rb.velocity = direction * speed
+           );
     }
 
     public void StopRimLight()

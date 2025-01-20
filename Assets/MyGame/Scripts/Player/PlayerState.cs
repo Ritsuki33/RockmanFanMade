@@ -640,7 +640,9 @@ public partial class StagePlayer
         protected override void Enter(StagePlayer player, int preId, int subId)
         {
             player.gameObject.SetActive(false);
-            ObjectManager.Instance.CreateDeathEffect(player.transform.position);
+
+            var deathEffect = ObjectManager.Instance.OnGet<PsObject>(PoolType.PlayerDeathEffect);
+            deathEffect.Setup(player.transform.position);
         }
     }
 

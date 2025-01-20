@@ -334,11 +334,13 @@ public class GreenMan : StageEnemy,IDirect
     {
         Vector2 direction = IsRight ? Vector2.right : Vector2.left;
         float speed = 5;
-        ObjectManager.Instance.Create(
-            ProjectileType.MettoruFire,
+
+        var projectile = ObjectManager.Instance.OnGet<Projectile>(PoolType.MettoruFire);
+
+        projectile.Setup(
             launcher.transform.position,
-            3,
             IsRight,
+            3,
             null,
             (rb) =>
             {

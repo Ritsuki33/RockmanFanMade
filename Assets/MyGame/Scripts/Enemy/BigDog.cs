@@ -118,11 +118,11 @@ public class BigDog : StageEnemy
                 while (count < 7)
                 {
                     float time = 0;
-                    ObjectManager.Instance.Create(
-                        ProjectileType.Fire,
-                         new Vector3(ctr._mouth.position.x, ctr._mouth.position.y, -1),
-                         3,
+                    var projectile = ObjectManager.Instance.OnGet<Projectile>(PoolType.Fire);
+                    projectile.Setup(
+                        new Vector3(ctr._mouth.position.x, ctr._mouth.position.y, -1),
                          false,
+                         3,
                          null,
                          (rb) =>
                          {
@@ -130,8 +130,7 @@ public class BigDog : StageEnemy
                              time += Time.fixedDeltaTime;
                          },
                          null
-                         );
-
+                        );
                     yield return PauseManager.Instance.PausableWaitForSeconds(0.07f);
                     count++;
                 }
@@ -198,11 +197,11 @@ public class BigDog : StageEnemy
             {
                 float gravityScale = 1;
 
-                ObjectManager.Instance.Create(
-                    ProjectileType.Bom,
+                var bom = ObjectManager.Instance.OnGet<Projectile>(PoolType.Bom);
+                bom.Setup(
                     new Vector3(ctr._tale.position.x, ctr._tale.position.y, -1),
-                    3,
                     false,
+                    3,
                     (rb) =>
                     {
                         Vector2 startVec = ParabolicBehaviorHelper.Start(ctr.Player.transform.position, ctr._tale.position, 60, gravityScale, () => { Debug.Log("発射失敗"); });
@@ -219,18 +218,21 @@ public class BigDog : StageEnemy
                         GameMainManager.Instance.StartCoroutine(ExplodeCo());
                         IEnumerator ExplodeCo()
                         {
-                            ObjectManager.Instance.Create(ExplodeType.Explode1, Explode.Layer.EnemyAttack, 3, projectile.transform.position);
+                            var explode=ObjectManager.Instance.OnGet<Explode>(PoolType.Explode);
+                            explode.Setup(Explode.Layer.EnemyAttack, projectile.transform.position, 3);
 
                             yield return PauseManager.Instance.PausableWaitForSeconds(0.1f);
-                            ObjectManager.Instance.Create(ExplodeType.Explode1, Explode.Layer.EnemyAttack, 3, projectile.transform.position + Vector3.up);
-
-                            ObjectManager.Instance.Create(ExplodeType.Explode1, Explode.Layer.EnemyAttack, 3, projectile.transform.position + Vector3.down);
-
-                            ObjectManager.Instance.Create(ExplodeType.Explode1, Explode.Layer.EnemyAttack, 3, projectile.transform.position + Vector3.right);
-
-                            ObjectManager.Instance.Create(ExplodeType.Explode1, Explode.Layer.EnemyAttack, 3, projectile.transform.position + Vector3.left);
+                            var explode1 = ObjectManager.Instance.OnGet<Explode>(PoolType.Explode);
+                            explode1.Setup(Explode.Layer.EnemyAttack, projectile.transform.position + Vector3.up, 3);
+                            var explode2 = ObjectManager.Instance.OnGet<Explode>(PoolType.Explode);
+                            explode2.Setup(Explode.Layer.EnemyAttack, projectile.transform.position + Vector3.down, 3);
+                            var explode3 = ObjectManager.Instance.OnGet<Explode>(PoolType.Explode);
+                            explode3.Setup(Explode.Layer.EnemyAttack, projectile.transform.position + Vector3.right, 3);
+                            var explode4 = ObjectManager.Instance.OnGet<Explode>(PoolType.Explode);
+                            explode4.Setup(Explode.Layer.EnemyAttack, projectile.transform.position + Vector3.left, 3);
                         }
-                    });
+                    }
+                    );
                 ctr.timer.Start(1, 1);
             }
 

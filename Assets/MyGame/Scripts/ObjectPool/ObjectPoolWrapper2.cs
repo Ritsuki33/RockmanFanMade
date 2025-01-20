@@ -61,7 +61,7 @@ public class ObjectPoolWrapper2<E> where E : Enum
         }
         else
         {
-            Debug.LogError("型キャストができないため取得てきません");
+            Debug.LogError($"型キャスト({typeof(T).ToString()})ができないため取得てきません");
             return null;
         }
     }

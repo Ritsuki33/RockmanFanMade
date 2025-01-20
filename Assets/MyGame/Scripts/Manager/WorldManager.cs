@@ -37,13 +37,12 @@ public class WorldManager : SingletonComponent<WorldManager>
         currentCheckPointData = defaultCheckPoint;
         isPause = false;
 
-        _player = ObjectManager.Instance.CreatePlayer();
-        ObjectManager.Instance.OnRegist(_player);
+        _player = ObjectManager.Instance.OnLoad<StagePlayer>("Prefabs/Player");
     }
 
     public void OnReset()
     {
-        ObjectManager.Instance.OnReset();
+        ObjectManager.Instance.AllDelete();
     }
 
     /// <summary>

@@ -23,10 +23,10 @@ public class PsObject : BaseObject
         }
     }
 
-    public void Setup(Vector3 position,Action<PsObject> finishedcallback)
+    public void Setup(Vector3 position)
     {
         this.transform.position = position;
-        _finishedcallback = finishedcallback;
+        //_finishedcallback = finishedcallback;
     }
 
     protected override void OnUpdate()

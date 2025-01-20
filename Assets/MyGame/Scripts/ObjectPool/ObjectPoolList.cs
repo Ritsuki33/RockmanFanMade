@@ -33,6 +33,7 @@ public class ObjectPoolList<E> where E : struct, Enum
             if (poolDic.ContainsKey(master.type))
             {
                 Debug.LogWarning($"{master.type}は既に登録されています。");
+                return;
             }
 
             poolDic.Add(master.type, pool);
@@ -49,11 +50,11 @@ public class ObjectPoolList<E> where E : struct, Enum
     {
         //E? type = ConvertClassNameToEnum(typeof(T).Name);
 
-        //if (!type.HasValue)
-        //{
-        //    Debug.Log("クラス名に該当するPooledObjectTypeが存在しません。");
-        //    return null;
-        //}
+        if (!poolDic.ContainsKey(obj))
+        {
+            Debug.Log($"{obj.ToString()}がDictionaryに存在しません。");
+            return null;
+        }
 
         return this[obj].OnGet<T>();
     }
