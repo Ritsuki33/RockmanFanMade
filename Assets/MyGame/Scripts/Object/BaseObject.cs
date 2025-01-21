@@ -9,6 +9,7 @@ public interface IObjectInterpreter
 {
     GameObject gameObject { get; }
 
+    int Id { set; }
     void Init();
     void OnFixedUpdate();
     void OnUpdate();
@@ -32,13 +33,18 @@ public class BaseObject : MonoBehaviour, IObjectInterpreter
 {
     [SerializeField] bool outofCameraDelete = true;
 
+    private int id = 0;
     private bool _isPause = false;
     public bool IsPause => _isPause;
     Action _onDeleteCallback;
 
     Action IObjectInterpreter.onDeleteCallback { set => _onDeleteCallback = value; }
 
+    int IObjectInterpreter.Id { set => id = value; }
+    public int ObjectId { get { return id; } }
+
     int pauseRequest = 0;
+
 
     void IObjectInterpreter.Init() => Init();
     void IObjectInterpreter.OnFixedUpdate() => OnFixedUpdate();

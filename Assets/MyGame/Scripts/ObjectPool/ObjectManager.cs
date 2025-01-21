@@ -48,17 +48,21 @@ public class ObjectManager : SingletonComponent<ObjectManager>
         objectPoolList.Init(this.transform);
     }
 
+
     /// <summary>
     /// プールからオブジェクトを取得
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    /// <param name="obj"></param>
+    /// <param name="type"></param>
+    /// <param name="id"></param>
+    /// <param name="deleteCallback"></param>
     /// <returns></returns>
-    public T OnGet<T>(PoolType type, Action<T> deleteCallback=null) where T : BaseObject, IObjectInterpreter
+    public T OnGet<T>(PoolType type,int id, Action<T> deleteCallback = null) where T : BaseObject, IObjectInterpreter
     {
         T obj = objectPoolList.OnGet<T>(type);
 
         if (obj == null) return null;
+        obj.Id = id;
         obj.onDeleteCallback = () =>
         {
             deleteCallback?.Invoke(obj);
@@ -68,6 +72,53 @@ public class ObjectManager : SingletonComponent<ObjectManager>
 
             // プールへ返還
             objectPoolList.OnRelease(type, obj);
+        };
+
+        // オブジェクトの登録
+        updateList.Add(obj);
+        return obj;
+    }
+
+    /// <summary>
+    /// プールからオブジェクトを取得(idは0とする)
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="obj"></param>
+    /// <returns></returns>
+    public T OnGet<T>(PoolType type, Action<T> deleteCallback=null) where T : BaseObject, IObjectInterpreter
+    {
+        return OnGet<T>(type, 0, deleteCallback);
+    }
+
+    /// <summary>
+    /// オブジェクトをロードして取得(idは0とする)
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="path"></param>
+    /// <param name="id"></param>
+    /// <param name="deleteCallback"></param>
+    /// <returns></returns>
+    public T OnLoad<T>(string path, int id, Action<T> deleteCallback = null) where T : BaseObject, IObjectInterpreter
+    {
+        T res = Resources.Load<T>(path);
+
+        if (res == null)
+        {
+            Debug.LogError($"リソースをロードできませんでした。(path:{path})");
+            return null;
+        }
+
+        T obj = Instantiate(res, this.transform);
+        obj.Id = id;
+        obj.onDeleteCallback = () =>
+        {
+            deleteCallback?.Invoke(obj);
+
+            // オブジェクトの退会
+            updateList.Remove(obj);
+
+            // そのまま破棄
+            Destroy(obj);
         };
 
         // オブジェクトの登録

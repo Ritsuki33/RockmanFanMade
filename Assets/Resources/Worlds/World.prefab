@@ -45,6 +45,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   path: Prefabs/Grenademan
+  id: 100
   _placeBombPosArray:
   - {fileID: 1992267844250635506}
   - {fileID: 6511174626242222326}
@@ -73607,6 +73608,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 5714357564681955498}
     - target: {fileID: 5713485015685773154, guid: 50db6328845417f428e76f577eadc620, type: 3}
+      propertyPath: managedReferences[6885937914202030110].targetIds.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5713485015685773154, guid: 50db6328845417f428e76f577eadc620, type: 3}
       propertyPath: managedReferences[6885937914202030107].targets.Array.data[0]
       value: 
       objectReference: {fileID: 1716151281645879793}
@@ -74581,8 +74586,7 @@ MonoBehaviour:
       type: {class: DefeatTargetEnemyCondition, ns: , asm: Assembly-CSharp}
       data:
         actionChainExecuter: {fileID: 5454125336562566552}
-        targets:
-        - {fileID: 0}
+        targetIds: 64000000
     - rid: 6885938282060578816
       type: {class: ActionChainExecuter/StageObjectTurn, ns: , asm: Assembly-CSharp}
       data:
