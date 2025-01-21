@@ -99,14 +99,14 @@ public class GameMainScreenPresenter : BaseScreenPresenter<GameMainScreen, GameM
     /// <param name="val"></param>
     /// <param name="hpChangeTrigger"></param>
     /// <param name="finishCallback"></param>
-    public void EnemyHpIncrementAnimation(Grenademan ctr, Action finishCallback)
+    public void EnemyHpIncrementAnimation(StageBoss boss, Action finishCallback)
     {
         _screen.EnemyHpBar.gameObject.SetActive(true);
         _screen.EnemyHpBar.SetParam(0.0f);
-        _screen.EnemyHpBar.ParamChangeAnimation((float)ctr.CurrentHp / ctr.MaxHp, finishCallback);
+        _screen.EnemyHpBar.ParamChangeAnimation((float)boss.CurrentHp / boss.MaxHp, finishCallback);
 
-        ctr.HpChangeTrigger += SetEnemyHp;
-        _viewModel.grenademan = ctr;
+        boss.HpChangeTrigger += SetEnemyHp;
+        _viewModel.boss = boss;
     }
 
     public void ReadyUiPlay(Action finishCallback)
@@ -122,7 +122,7 @@ public class GameMainScreenPresenter : BaseScreenPresenter<GameMainScreen, GameM
     protected override void Deinitialize()
     {
         _viewModel.Player.hpChangeTrigger -= SetPlayerHp;
-        _viewModel.grenademan.HpChangeTrigger -= SetEnemyHp;
+        _viewModel.boss.HpChangeTrigger -= SetEnemyHp;
     }
 }
 
@@ -130,7 +130,7 @@ public class GameMainScreenViewModel : BaseViewModel<GameMainManager.UI>
 {
     public StagePlayer Player => WorldManager.Instance.Player;
 
-    public Grenademan grenademan;
+    public StageBoss boss;
     protected override IEnumerator Configure()
     {
         yield return null;

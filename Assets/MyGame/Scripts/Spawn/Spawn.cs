@@ -1,46 +1,40 @@
 ﻿using UnityEngine;
 
-public class Spawn : MonoBehaviour
+public interface ISpawn<T> where T : BaseObject
 {
-    [SerializeField] BaseObject obj;
-    IRegister _register = null;
+    void Initialize();
+    void OnUpdate();
+    void Terminate();
+}
 
+public abstract class Spawn: MonoBehaviour
+{
+    protected BaseObject obj;
     public BaseObject Obj => obj;
+    public abstract void TrySpawnObject();
+}
 
-    public virtual void Init(IRegister register)
+public abstract class Spawn<T> : Spawn where T : BaseObject
+{
+    public new T Obj => obj as T;
+
+    public override void TrySpawnObject()
     {
-        _register = register;
-    }
+        obj = OnGetResource();
 
-    public virtual void Destroy()
-    {
-        _register = null;
-    }
-
-    public virtual void OnReset() { }
-    public virtual void OnUpdate() { }
-
-    /// <summary>
-    /// Objectをスポーン
-    /// </summary>
-    public BaseObject SpawnObject()
-    {
-        if (_register == null)
+        if (obj == null)
         {
-            Debug.Log("オブジェクト管理用インターフェイスが設定されていないため、スポーン出来ません");
-            return null;
+            Debug.Log("リソースを取得できなかったため、スポーン出来ません");
+            return ;
         }
-        
+
+        InitializeObject();
+    }
+
+    abstract protected T OnGetResource();
+
+    virtual protected void InitializeObject()
+    {
         obj.transform.position = transform.position;
-        obj.gameObject.SetActive(true);
-        //obj.Setup(() =>
-        //{
-        //    _register.OnUnregist(obj);
-        //    obj.gameObject.SetActive(false);
-        //});
-
-        _register?.OnRegist(obj);
-
-        return obj;
     }
 }

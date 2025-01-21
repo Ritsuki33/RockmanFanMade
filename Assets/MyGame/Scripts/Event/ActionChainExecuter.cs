@@ -20,7 +20,7 @@ public class ActionChainExecuter : MonoBehaviour
         StartSign,
         PlayerTransfer,
         PlayerWalkAction,
-        EnemyAppear,
+        BossAppear,
         BossHpBarSet,
         BossBattleStart,
         External,
@@ -165,11 +165,11 @@ public class ActionChainExecuter : MonoBehaviour
     [Serializable]
     class StageObjectTurn:BaseAction
     {
-        [SerializeField] BaseObject obj;
+        [SerializeField] Spawn spawn;
         [SerializeField] bool isRight = true;
         public override void Execute(Action finishCallback)
         {
-            IDirect direct = obj as IDirect;
+            IDirect direct = spawn.Obj as IDirect;
             direct?.TurnTo(isRight);
             finishCallback.Invoke();
         }
@@ -232,7 +232,7 @@ public class ActionChainExecuter : MonoBehaviour
     [Serializable]
     class BoseAppearAction : BaseAction
     {
-        [SerializeField] Grenademan grenademan;
+        [SerializeField] BossSpawn spawn;
         override public void Execute(Action finishCallback)
         {
             //Vector2 appearPos = new Vector3(
@@ -240,29 +240,29 @@ public class ActionChainExecuter : MonoBehaviour
             //   GameMainManager.Instance.MainCameraControll.OutOfViewTop
             //   );
             //grenademan.transform.position_xy(appearPos);
-            grenademan.Appeare(finishCallback);
+            spawn.Obj.Appeare(finishCallback);
         }
     }
 
     [Serializable]
     class BossHpBarSetAction : BaseAction
     {
-        [SerializeField] Grenademan ctr;
+        [SerializeField] BossSpawn spawn;
 
         override public void Execute(Action finishCallback)
         {
             var presenter = GameMainManager.Instance.ScreenContainer.GetCurrentScreenPresenter<GameMainScreenPresenter>();
-            presenter.EnemyHpIncrementAnimation(ctr, finishCallback);
+            presenter.EnemyHpIncrementAnimation(spawn.Obj, finishCallback);
         }
     }
 
     [Serializable]
     class BossBattleStart : BaseAction
     {
-        [SerializeField] Grenademan ctr;
+        [SerializeField] BossSpawn spawn;
         override public void Execute(Action finishCallback)
         {
-            ctr.ToBattleState();
+            spawn.Obj.ToBattleState();
             finishCallback.Invoke();
         }
     }
@@ -461,7 +461,7 @@ public class ActionChainExecuter : MonoBehaviour
         [SerializeField] Spawn spawn;
         public override void Execute(Action finishCallback)
         {
-            spawn.SpawnObject();
+            spawn.TrySpawnObject();
             finishCallback.Invoke();
         }
     }
@@ -565,7 +565,7 @@ public class ActionChainExecuter : MonoBehaviour
                         ae.action = new PlayerWalkAction();
                     }
                     break;
-                case ActionType.EnemyAppear:
+                case ActionType.BossAppear:
                     if (ae.action is not BoseAppearAction)
                     {
                         ae.action = new BoseAppearAction();

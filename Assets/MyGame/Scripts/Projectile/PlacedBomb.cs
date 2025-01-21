@@ -9,7 +9,6 @@ public class PlacedBomb : AnimObject, IPooledObject<PlacedBomb>
     [SerializeField] ExpandRigidBody exRb;
 
     Action<ExpandRigidBody> orbitfixedUpdate;
-    Action<PlacedBomb> onExplodedFinishCallback;
 
     AmbiguousTimer timer = new AmbiguousTimer();
 
@@ -21,11 +20,6 @@ public class PlacedBomb : AnimObject, IPooledObject<PlacedBomb>
     ExRbStateMachine<PlacedBomb> stateMachine = new ExRbStateMachine<PlacedBomb>();
 
     ExRbHit exRbHit = new ExRbHit();
-
-    public override void Delete()
-    {
-        onExplodedFinishCallback?.Invoke(this);
-    }
 
     void IPooledObject<PlacedBomb>.OnGet()
     {
@@ -65,11 +59,10 @@ public class PlacedBomb : AnimObject, IPooledObject<PlacedBomb>
         stateMachine.OnBottomHitEnter(this, hit);
     }
 
-    public void Setup(Vector3 position, Action<ExpandRigidBody> orbitfixedUpdate, Action<PlacedBomb> onExplodedFinishCallback)
+    public void Setup(Vector3 position, Action<ExpandRigidBody> orbitfixedUpdate)
     {
         this.transform.position = position;
         this.orbitfixedUpdate = orbitfixedUpdate;
-        this.onExplodedFinishCallback = onExplodedFinishCallback;
 
         stateMachine.TransitReady(0);
     }

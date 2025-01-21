@@ -87,7 +87,7 @@ public class ObjectManager : SingletonComponent<ObjectManager>
 
         if (res == null)
         {
-            Debug.LogError("リソースをロードできませんでした。");
+            Debug.LogError($"リソースをロードできませんでした。(path:{path})");
             return null;
         }
 

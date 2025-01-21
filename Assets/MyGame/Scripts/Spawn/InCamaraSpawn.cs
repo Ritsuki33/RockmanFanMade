@@ -4,8 +4,9 @@ using UnityEngine;
 /// <summary>
 /// 敵のスポーン制御
 /// </summary>
-public class InCamaraSpawn : Spawn
+public class InCamaraSpawn : Spawn<BaseObject>, ISpawn<BaseObject>
 {
+    [SerializeField] PoolType type;
     public bool IsDeath => !Obj.gameObject.activeSelf;
 
     StateMachine<InCamaraSpawn> stateMachine = new StateMachine<InCamaraSpawn>();
@@ -27,23 +28,30 @@ public class InCamaraSpawn : Spawn
         Obj.gameObject.SetActive(false);
     }
 
-    public override void Init(IRegister register)
+    void ISpawn<BaseObject>.Initialize()
     {
-        base.Init(register);
         stateMachine.TransitReady((int)StateID.OutOfCamera, true);
 
         EventTriggerManager.Instance.VoidEventTriggers.Subscribe(EventType.ChangeCameraStart, Disabled);
         EventTriggerManager.Instance.VoidEventTriggers.Subscribe(EventType.ChangeCameraEnd, Enabled);
     }
 
-    public override void OnReset()
-    {
-        stateMachine.TransitReady((int)StateID.OutOfCamera, true);
-    }
-
-    public override void OnUpdate()
+    void ISpawn<BaseObject>.OnUpdate()
     {
         stateMachine.Update(this);
+    }
+
+
+    void ISpawn<BaseObject>.Terminate()
+    {
+        stateMachine.TransitReady((int)StateID.None);
+        EventTriggerManager.Instance.VoidEventTriggers.Unsubscribe(EventType.ChangeCameraStart, Disabled);
+        EventTriggerManager.Instance.VoidEventTriggers.Unsubscribe(EventType.ChangeCameraEnd, Enabled);
+    }
+
+    protected override BaseObject OnGetResource()
+    {
+        return ObjectManager.Instance.OnGet<BaseObject>(type);
     }
 
     private void Enabled()
@@ -56,13 +64,7 @@ public class InCamaraSpawn : Spawn
         stateMachine.TransitReady((int)StateID.None);
     }
 
-    public override void Destroy()
-    {
-        base.Destroy();
-        stateMachine.TransitReady((int)StateID.None);
-        EventTriggerManager.Instance.VoidEventTriggers.Unsubscribe(EventType.ChangeCameraStart, Disabled);
-        EventTriggerManager.Instance.VoidEventTriggers.Unsubscribe(EventType.ChangeCameraEnd, Enabled);
-    }
+
 
     class None : State<InCamaraSpawn, None>
     {
@@ -93,7 +95,7 @@ public class InCamaraSpawn : Spawn
     {
         protected override void Enter(InCamaraSpawn ctr, int preId, int subId)
         {
-            if (ctr.IsDeath) ctr.SpawnObject();
+            if (ctr.IsDeath) ctr.TrySpawnObject();
         }
 
         protected override void Update(InCamaraSpawn ctr)
