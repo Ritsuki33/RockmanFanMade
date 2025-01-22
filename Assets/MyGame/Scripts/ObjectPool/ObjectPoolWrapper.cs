@@ -1,32 +1,34 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Pool;
 
-public interface IPooledObject<T> where T : MonoBehaviour
-{
-    public IObjectPool<T> Pool { get; set; }
-    void OnGet() { }
-    void OnRelease() { }
-    void OnDispose() { }
-}
-
-
 [Serializable]
-public class ObjectPoolWrapper<T> where T : BaseObject, IPooledObject<T>
+public class ObjectPoolWrapper<E> where E : Enum
 {
-    [SerializeField] private T prefab;
-    [SerializeField] private Transform root;
-    [SerializeField] int defaultCapacity = 10;
-    [SerializeField] int maxSize = 10;
-    public ObjectPool<T> Pool { get; private set; }
-    private List<T> _cacheObjects = new List<T>();
+    string addPath;
+    Transform _root;
 
-    IRegister _register = null;
-    public void Init(IRegister creator)
+    public ObjectPool<BaseObject> Pool { get; private set; }
+    BaseObject res = null;
+
+    List<BaseObject> caches = new List<BaseObject>();
+    /// <summary>
+    /// 初期化
+    /// </summary>
+    public void Init(GenericPoolData<E> master,Transform root)
     {
-        _cacheObjects.Clear();
+        // リソースの読み込み
+        string path = $"Prefabs/{master.addPath}{master.type.ToString()}";
+        res = Resources.Load<BaseObject>(path);
+
+        _root = root;
+        if (res == null)
+        {
+            Debug.LogError($"リソースのロードに失敗しました(path:{path})");
+            return;
+        }
 
         if (Pool != null)
         {
@@ -35,64 +37,74 @@ public class ObjectPoolWrapper<T> where T : BaseObject, IPooledObject<T>
         else
         {
             // オブジェクトプールを作成します
-            Pool = new ObjectPool<T>
+            Pool = new ObjectPool<BaseObject>
             (
                 createFunc: OnCreateToPool,
                 actionOnGet: OnGetFromPool,
                 actionOnRelease: OnRelaseToPool,
                 actionOnDestroy: OnDestroyFromPool,
                 collectionCheck: true,
-                defaultCapacity: defaultCapacity,
-                maxSize: maxSize
+                defaultCapacity: master.defaultCapacity,
+                maxSize: master.maxSize
             );
         }
-
-        _register = creator;
     }
 
-    public void AllRelease()
+    public void Clear()
     {
-        foreach (var obj in _cacheObjects)
+        // 削除だけなので逆ループでおｋ
+        for(int i= caches.Count - 1; i >= 0; i--)
         {
-            if (obj.gameObject.activeSelf) // アクティブ状態のオブジェクトをチェック
-            {
-                Pool.Release(obj); // プールに返却
-            }
+            Release(caches[i]);
+        }
+
+        Pool.Clear();
+    }
+
+    /// <summary>
+    /// オブジェクトの取得
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <returns></returns>
+    public T OnGet<T>() where T : BaseObject
+    {
+        T obj = null;
+        if (obj = Pool.Get() as T)
+        {
+            return obj;
+        }
+        else
+        {
+            Debug.LogError($"型キャスト({typeof(T).ToString()})ができないため取得てきません");
+            return null;
         }
     }
 
-    public void Release(T obj)=> Pool.Release(obj);
-    public void Clear() => Pool.Clear();
-
-    T OnCreateToPool()
+    public void Release(BaseObject obj)
     {
-        T gameObject = GameObject.Instantiate<T>(prefab, root);
-        gameObject.Pool = Pool;
+        if(caches.Contains(obj))Pool.Release(obj);
+    }
 
-        _cacheObjects.Add(gameObject);
+    BaseObject OnCreateToPool()
+    {
+        BaseObject gameObject = GameObject.Instantiate(res, _root);
         return gameObject;
     }
 
-    void OnGetFromPool(T obj)
+    void OnGetFromPool(BaseObject obj)
     {
+        caches.Add(obj);
         obj.gameObject.SetActive(true);
-        _register?.OnRegist(obj);
-        obj.OnGet();
     }
 
-    void OnRelaseToPool(T obj)
+    void OnRelaseToPool(BaseObject obj)
     {
+        caches.Remove(obj);
         obj.gameObject.SetActive(false);
-        _register?.OnUnregist(obj);
-        obj.OnRelease();
     }
 
-    void OnDestroyFromPool(T obj)
+    void OnDestroyFromPool(BaseObject obj)
     {
-        _cacheObjects.Remove(obj);
         GameObject.Destroy(obj.gameObject);
-        obj.OnDispose();
     }
 }
-
-

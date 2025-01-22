@@ -119,6 +119,13 @@ public class GameMainManager : BaseManager<GameMainManager>
         action.Invoke();
     }
 
+    public void GameStageEnd()
+    {
+        ObjectManager.Instance.Clear();
+        DestroyWorld();
+        SceneManager.Instance.ChangeManager(ManagerType.BossSelect);
+    }
+
     void OnPause(bool isPause)
     {
         this.isPause = isPause;
@@ -142,5 +149,10 @@ public class GameMainManager : BaseManager<GameMainManager>
         {
             return null;
         }
+    }
+
+    void DestroyWorld()
+    {
+        Destroy(worldManager.gameObject);
     }
 }

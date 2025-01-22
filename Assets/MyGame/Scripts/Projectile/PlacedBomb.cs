@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.Pool;
 
-public class PlacedBomb : AnimObject, IPooledObject<PlacedBomb>
+public class PlacedBomb : AnimObject
 {
     [SerializeField] private BoxCollider2D boxTrigger;
     [SerializeField] private BoxCollider2D boxCollider;
@@ -14,18 +14,11 @@ public class PlacedBomb : AnimObject, IPooledObject<PlacedBomb>
 
     IObjectPool<PlacedBomb> pool = null;
 
-    IObjectPool<PlacedBomb> IPooledObject<PlacedBomb>.Pool { get => pool; set => pool = value; }
 
 
     ExRbStateMachine<PlacedBomb> stateMachine = new ExRbStateMachine<PlacedBomb>();
 
     ExRbHit exRbHit = new ExRbHit();
-
-    void IPooledObject<PlacedBomb>.OnGet()
-    {
-        if (boxCollider) boxCollider.enabled = true;
-        if (boxTrigger) boxTrigger.enabled = true;
-    }
 
     protected override void Awake()
     {
@@ -41,6 +34,8 @@ public class PlacedBomb : AnimObject, IPooledObject<PlacedBomb>
 
     protected override void Init()
     {
+        if (boxCollider) boxCollider.enabled = true;
+        if (boxTrigger) boxTrigger.enabled = true;
         stateMachine.TransitReady(0);
     }
     protected override void OnFixedUpdate()

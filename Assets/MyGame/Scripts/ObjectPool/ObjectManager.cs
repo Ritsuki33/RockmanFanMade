@@ -23,6 +23,12 @@ public class ObjectManager : SingletonComponent<ObjectManager>
 
     UpdateList updateList = new UpdateList();
 
+    [SerializeField] bool check;
+    private void OnValidate()
+    {
+        objectPoolList.Clear();
+    }
+
     public void OnFixedUpdate()
     {
         updateList.OnFixedUpdate();
@@ -46,6 +52,11 @@ public class ObjectManager : SingletonComponent<ObjectManager>
     public void Init()
     {
         objectPoolList.Init(this.transform);
+    }
+
+    public void Clear()
+    {
+        objectPoolList.Clear();
     }
 
     /// <summary>

@@ -4,7 +4,7 @@ using UnityEngine.Pool;
 
 
 
-public class Projectile : PhysicalObject,IPooledObject<Projectile>,IDirect
+public class Projectile : PhysicalObject,IDirect
 {
     [SerializeField] private BoxCollider2D boxTrigger;
     [SerializeField] private BoxCollider2D boxCollider;
@@ -26,6 +26,8 @@ public class Projectile : PhysicalObject,IPooledObject<Projectile>,IDirect
     {
         base.Init();
         EventTriggerManager.Instance.VoidEventTriggers.Subscribe(EventType.ChangeCameraStart, Delete);
+        if (boxCollider) boxCollider.enabled = true;
+        if (boxTrigger) boxTrigger.enabled = true;
     }
 
     protected override void Destroy()
@@ -66,16 +68,6 @@ public class Projectile : PhysicalObject,IPooledObject<Projectile>,IDirect
     {
         onCollision?.Invoke(this);
     }
-
-    IObjectPool<Projectile> IPooledObject<Projectile>.Pool { get => pool; set => pool = value; }
-
-
-    void IPooledObject<Projectile>.OnGet()
-    {
-        if (boxCollider) boxCollider.enabled = true;
-        if (boxTrigger) boxTrigger.enabled = true;
-    }
-
 
     public bool IsRight => direct.IsRight;
 

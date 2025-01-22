@@ -34,7 +34,7 @@ public class ActionChainExecuter : MonoBehaviour
         UnSubscribeActionChain,
         SetupCheckPoint,
         SetPlayerHp,
-        ChangeManager,
+        GameStageEnd,
         DefeatEnemyCondition,
         Spawn,
         PlayerActive,
@@ -405,12 +405,12 @@ public class ActionChainExecuter : MonoBehaviour
     }
 
     [Serializable]
-    class ChangeManager : BaseAction
+    class GameStageEnd : BaseAction
     {
         [SerializeField] ManagerType type;
         public override void Execute(Action finishCallback)
         {
-            SceneManager.Instance.ChangeManager(type);
+            GameMainManager.Instance.GameStageEnd();
             finishCallback();
         }
     }
@@ -650,10 +650,10 @@ public class ActionChainExecuter : MonoBehaviour
                         ae.action = new SetPlayerHp();
                     }
                     break;
-                case ActionType.ChangeManager:
-                    if (ae.action is not ChangeManager)
+                case ActionType.GameStageEnd:
+                    if (ae.action is not GameStageEnd)
                     {
-                        ae.action = new ChangeManager();
+                        ae.action = new GameStageEnd();
                     }
                     break;
                 case ActionType.DefeatEnemyCondition:

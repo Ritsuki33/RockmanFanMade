@@ -8,14 +8,12 @@ public enum ExplodeType
     Explode2,
 }
 
-public class Explode : AnimObject, IPooledObject<Explode>
+public class Explode : AnimObject
 {
     [SerializeField] DamageBase damage = default;
 
     BoxCollider2D boxCollider;
     IObjectPool<Explode> pool = null;
-
-    IObjectPool<Explode> IPooledObject<Explode>.Pool { get => pool; set => pool = value; }
 
     //Action<Explode> _finishCallback = default;
     public enum Layer
@@ -37,10 +35,6 @@ public class Explode : AnimObject, IPooledObject<Explode>
             Delete();
         }
     }
-    void IPooledObject<Explode>.OnGet()
-    {
-        boxCollider.enabled = false;
-    }
 
     public void Setup(Layer layer, Vector3 position, int damageVal)
     {
@@ -57,9 +51,4 @@ public class Explode : AnimObject, IPooledObject<Explode>
     {
         Delete();
     }
-
-    //public void Delete()
-    //{
-    //    _finishCallback?.Invoke(this);
-    //}
 }

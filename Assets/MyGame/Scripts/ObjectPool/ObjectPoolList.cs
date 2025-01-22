@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 [Serializable]
@@ -17,7 +18,7 @@ public class ObjectPoolList<E> where E : struct, Enum
 {
     [SerializeField, Header("プール設定")] GenericPoolData<E>[] poolMaster;
 
-    Dictionary<E, ObjectPoolWrapper2<E>> poolDic = new Dictionary<E, ObjectPoolWrapper2<E>>();
+    Dictionary<E, ObjectPoolWrapper<E>> poolDic = new Dictionary<E, ObjectPoolWrapper<E>>();
 
     /// <summary>
     /// 初期化
@@ -26,7 +27,7 @@ public class ObjectPoolList<E> where E : struct, Enum
     {
         foreach (GenericPoolData<E> master in poolMaster)
         {
-            ObjectPoolWrapper2<E> pool = new ObjectPoolWrapper2<E>();
+            ObjectPoolWrapper<E> pool = new ObjectPoolWrapper<E>();
 
             pool.Init(master, _root);
 
@@ -40,6 +41,15 @@ public class ObjectPoolList<E> where E : struct, Enum
         }
     }
 
+    public void Clear()
+    {
+        foreach(var pool in poolDic.Values)
+        {
+            pool.Clear();
+        }
+
+        poolDic.Clear();
+    }
 
     /// <summary>
     /// オブジェクトをプールから取得
@@ -73,7 +83,7 @@ public class ObjectPoolList<E> where E : struct, Enum
         return null; // 失敗時はnullを返す
     }
 
-    public ObjectPoolWrapper2<E> this[E type]
+    public ObjectPoolWrapper<E> this[E type]
     {
         get
         {

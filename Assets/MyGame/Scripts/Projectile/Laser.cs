@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.Pool;
 
-public class Laser : BaseObject, IPooledObject<Laser>
+public class Laser : BaseObject
 {
     [SerializeField] SpriteRenderer m_spriteRenderer;
     [SerializeField] BoxCollider2D m_boxCollider;
