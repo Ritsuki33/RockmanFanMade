@@ -9,7 +9,7 @@ public interface IObjectInterpreter
 {
     GameObject gameObject { get; }
 
-    int Id { set; }
+    int Id { get; set; }
     void Init();
     void OnFixedUpdate();
     void OnUpdate();
@@ -40,7 +40,7 @@ public class BaseObject : MonoBehaviour, IObjectInterpreter
 
     Action IObjectInterpreter.onDeleteCallback { set => _onDeleteCallback = value; }
 
-    int IObjectInterpreter.Id { set => id = value; }
+    int IObjectInterpreter.Id { get => id; set => id = value; }
     public int ObjectId { get { return id; } }
 
     int pauseRequest = 0;

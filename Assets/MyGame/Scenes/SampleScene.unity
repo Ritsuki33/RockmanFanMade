@@ -1744,8 +1744,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dd138c4361c84ab40a57f0032c195d90, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  objectPoolList:
-    poolMaster: []
 --- !u!1 &383235102
 GameObject:
   m_ObjectHideFlags: 0
