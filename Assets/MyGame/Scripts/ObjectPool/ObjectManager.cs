@@ -24,10 +24,6 @@ public class ObjectManager : SingletonComponent<ObjectManager>
     UpdateList updateList = new UpdateList();
 
     [SerializeField] bool check;
-    private void OnValidate()
-    {
-        objectPoolList.Clear();
-    }
 
     public void OnFixedUpdate()
     {
@@ -56,6 +52,7 @@ public class ObjectManager : SingletonComponent<ObjectManager>
 
     public void Clear()
     {
+        updateList.AllDelete();
         objectPoolList.Clear();
     }
 
@@ -165,7 +162,7 @@ public class ObjectManager : SingletonComponent<ObjectManager>
             updateList.Remove(obj);
 
             // そのまま破棄
-            Destroy(obj);
+            Destroy(obj.gameObject);
         };
 
         // オブジェクトの登録

@@ -123,7 +123,7 @@ public class UpdateList
         else
         {
             // アップデート外ならばその場で削除
-            if (!list.Contains(obj))
+            if (list.Contains(obj))
             {
                 obj.Destroy();
                 list.Remove(obj);
