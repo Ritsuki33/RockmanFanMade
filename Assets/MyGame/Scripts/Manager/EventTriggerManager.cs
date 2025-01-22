@@ -7,7 +7,6 @@ public enum EventType
 {
     ChangeCameraStart,
     ChangeCameraEnd,
-    StartStage,
 }
 
 public enum EnemyEventType
@@ -25,8 +24,9 @@ public class EventTrigger<T,S>: IEventTrigger<T, S> where T : Enum where S : Del
 {
     private Dictionary<T, S> eventTriggers = new Dictionary<T, S>();
 
-    public  EventTrigger()
+    public void Init()
     {
+        eventTriggers.Clear();
         foreach (T type in Enum.GetValues(typeof(T)))
         {
             eventTriggers.Add(type, null);
@@ -80,6 +80,14 @@ public class EventTriggerManager : SingletonComponent<EventTriggerManager>
     public IEventTrigger<EventType, Action> VoidEventTriggers => voidEventTriggers;
     public IEventTrigger<EnemyEventType, Action<StageEnemy>> EenemyEventTriggers => enemyEventTriggers;
 
+    public void Init()
+    {
+        voidEventTriggers.Init();
+        enemyEventTriggers.Init();
+    }
+
     public void Notify(EventType eventType) => voidEventTriggers[eventType]?.Invoke();
     public void Notify(EnemyEventType eventType, StageEnemy enemy) => enemyEventTriggers[eventType]?.Invoke(enemy);
+
+
 }

@@ -77,7 +77,7 @@ public class WorldManager : SingletonComponent<WorldManager>
 
     public void StartStage()
     {
-        EventTriggerManager.Instance.Notify(EventType.StartStage);
+        EventTriggerManager.Instance.Init();
         startAction.StartEvent();
     }
 
