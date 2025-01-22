@@ -18,8 +18,6 @@ public interface IObjectInterpreter
 
     void Destroy();
 
-    void OnReset();
-
     Action onDeleteCallback { set; }
     void Delete();
 }
@@ -51,7 +49,6 @@ public class BaseObject : MonoBehaviour, IObjectInterpreter
     void IObjectInterpreter.OnUpdate() => OnUpdate();
     void IObjectInterpreter.RequestPause(bool isPause) => RequestPause(isPause);
     void IObjectInterpreter.Destroy() => Destroy();
-    void IObjectInterpreter.OnReset() => OnReset();
     void IObjectInterpreter.Delete() => Delete();
 
     protected virtual void OnFixedUpdate() { }

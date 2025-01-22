@@ -64,17 +64,10 @@ public class UpdateList
 
     public void AllDelete()
     {
-        foreach (IObjectInterpreter e in list)
+        // 要素が減っていくので逆順で実行
+        for(int i = list.Count - 1; i >= 0; i--)
         {
-            e.Delete();
-        }
-    }
-
-    public void OnReset()
-    {
-        foreach (IObjectInterpreter e in list)
-        {
-            e.OnReset();
+            list[i].Delete();
         }
     }
 
