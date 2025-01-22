@@ -23,8 +23,8 @@ public class ShutterControll : MonoBehaviour
 
     public void ShutterOpen(Action finishCallback)
     {
-        StartCoroutine(ShutterOpenCo(finishCallback));
-        IEnumerator ShutterOpenCo(Action finishCallback)
+        StartCoroutine(ShutterOpenCo());
+        IEnumerator ShutterOpenCo()
         {
             _animator.enabled = true;
             _animator.Play(animationOpenHash);
@@ -39,9 +39,9 @@ public class ShutterControll : MonoBehaviour
 
     public void ShutterClose(Action finishCallback)
     {
-        StartCoroutine(ShutterCloseCo(finishCallback));
+        StartCoroutine(ShutterCloseCo());
 
-        IEnumerator ShutterCloseCo(Action finishCallback)
+        IEnumerator ShutterCloseCo()
         {
             _animator.Play(animationCloseHash);
 

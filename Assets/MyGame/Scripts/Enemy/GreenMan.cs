@@ -307,28 +307,29 @@ public class GreenMan : StageEnemy,IDirect
     public void ReflectBuster(Projectile projectile)
     {
         if (defense != null) StopCoroutine(defense);
-        defense = StartCoroutine(DefenseRockBuster(projectile));
+        defense = StartCoroutine(DefenseRockBuster());
+        IEnumerator DefenseRockBuster()
+        {
+            Vector2 reflection = projectile.CurVelocity;
+            float speed = projectile.CurSpeed;
+            reflection.x *= -1;
+            reflection = new Vector2(reflection.x, 0).normalized;
+            reflection += Vector2.up;
+            reflection = reflection.normalized;
+            projectile.ChangeBehavior(
+                0,
+                null,
+                (rb) =>
+                {
+                    rb.velocity = reflection * speed;
+                });
+            yield return PauseManager.Instance.PausableWaitForSeconds(1f);
+
+            defense = null;
+        }
     }
 
-    IEnumerator DefenseRockBuster(Projectile projectile)
-    {
-        Vector2 reflection = projectile.CurVelocity;
-        float speed = projectile.CurSpeed;
-        reflection.x *= -1;
-        reflection = new Vector2(reflection.x, 0).normalized;
-        reflection += Vector2.up;
-        reflection = reflection.normalized;
-        projectile.ChangeBehavior(
-            0,
-            null,
-            (rb) =>
-            {
-                rb.velocity = reflection * speed;
-            });
-        yield return PauseManager.Instance.PausableWaitForSeconds(1f);
-
-        defense = null;
-    }
+    
 
     void Atack()
     {

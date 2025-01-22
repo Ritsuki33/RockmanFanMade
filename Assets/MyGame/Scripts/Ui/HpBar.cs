@@ -53,9 +53,9 @@ public class HpBar : MonoBehaviour
     public void ParamChangeAnimation(float val, Action fisnihCallback = null)
     {
         if (coroutine != null) { StopCoroutine(coroutine); }
-        coroutine = StartCoroutine(CoParamChangeAnimation(val));
+        coroutine = StartCoroutine(CoParamChangeAnimation());
 
-        IEnumerator CoParamChangeAnimation(float val)
+        IEnumerator CoParamChangeAnimation()
         {
             int start = (int)(Mathf.Min(currentHp, val) * list.Count);  // 開始位置は小さい方
             int end = (int)(Mathf.Max(currentHp, val) * list.Count);    // 終了位置は大きい方

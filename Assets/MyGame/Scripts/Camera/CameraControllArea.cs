@@ -45,6 +45,11 @@ public class CameraControllArea : MonoBehaviour
 
     public Vector3 EndCameraCenter => StartCameraCneter + Direction * scrollRange;
 
+    public void SetFollowTargetObject(Transform position)
+    {
+
+    }
+
     private void AddTransitCameraArea()
     {
         var obj = Instantiate(transitCameraAreaPrefab, transitCameraAreaRoot).GetComponent<TransitCameraArea>();

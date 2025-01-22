@@ -45,11 +45,11 @@ public class MainCameraControll : MonoBehaviour
     /// <param name="finishCallback"></param>
     public void ChangeCamera(CinemachineVirtualCamera virtualCamera, CinemachineBlendDefinition.Style style,float blendTime, Action finishCallback)
     {
-        StartCoroutine(ChangeCameraCo(virtualCamera, style, blendTime, finishCallback));
+        StartCoroutine(ChangeCameraCo());
       
-        IEnumerator ChangeCameraCo(CinemachineVirtualCamera nextVirtualCamera, CinemachineBlendDefinition.Style style, float blendTime, Action callback)
+        IEnumerator ChangeCameraCo()
         {
-            if (nextVirtualCamera != null && !Equal(nextVirtualCamera))
+            if (virtualCamera != null && !Equal(virtualCamera))
             {
                 m_cinemachineBrain.m_DefaultBlend.m_Style = style;
                 m_cinemachineBrain.m_DefaultBlend.m_Time = blendTime;
@@ -78,7 +78,7 @@ public class MainCameraControll : MonoBehaviour
                 EventTriggerManager.Instance.Notify(EventType.ChangeCameraEnd);
             }
 
-            callback?.Invoke();
+            finishCallback?.Invoke();
         }
     }
 

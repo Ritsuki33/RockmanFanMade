@@ -59,9 +59,9 @@ public class ActionChainExecuter : MonoBehaviour
 
         override public void Execute(ActionChainExecuter eventControll)
         {
-            eventControll.StartCoroutine(ActionExecuteCo(eventControll));
+            eventControll.StartCoroutine(ActionExecuteCo());
 
-            IEnumerator ActionExecuteCo(ActionChainExecuter eventControll)
+            IEnumerator ActionExecuteCo()
             {
                 if (actions == null || actions.Count == 0) yield break;
 
