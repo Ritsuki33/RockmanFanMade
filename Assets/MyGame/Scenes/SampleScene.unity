@@ -3580,7 +3580,7 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 7970c8b86296efc44ba47ff761908c36, type: 2}
     - {fileID: 11400000, guid: 1a144b6767c6af04e92ab0afda66ed93, type: 2}
     - {fileID: 11400000, guid: c629d4906ec1a9d47a3db8183036e391, type: 2}
-  check: 0
+    - {fileID: 11400000, guid: 8eeeedfa63295a742a4cab3f725796ec, type: 2}
 --- !u!1 &841519566
 GameObject:
   m_ObjectHideFlags: 0
@@ -6941,8 +6941,8 @@ MonoBehaviour:
   m_UpdateMethod: 2
   m_BlendUpdateMethod: 1
   m_DefaultBlend:
-    m_Style: 6
-    m_Time: 0.8
+    m_Style: 0
+    m_Time: 0
     m_CustomCurve:
       serializedVersion: 2
       m_Curve: []

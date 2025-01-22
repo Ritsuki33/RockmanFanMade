@@ -15,6 +15,7 @@ public enum PoolType
     Explode2,
     Laser,
     PlayerDeathEffect,
+    Batman
 }
 
 public class ObjectManager : SingletonComponent<ObjectManager>
@@ -22,8 +23,6 @@ public class ObjectManager : SingletonComponent<ObjectManager>
     [SerializeField] ObjectPoolList<PoolType> objectPoolList;
 
     UpdateList updateList = new UpdateList();
-
-    [SerializeField] bool check;
 
     public void OnFixedUpdate()
     {

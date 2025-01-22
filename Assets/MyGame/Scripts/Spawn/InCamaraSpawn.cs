@@ -25,7 +25,7 @@ public class InCamaraSpawn : Spawn<BaseObject>, ISpawn<BaseObject>
         stateMachine.AddState((int)StateID.OutOfCamera, new OutOfCamera());
         stateMachine.AddState((int)StateID.Appering, new InCamera());
 
-        Obj.gameObject.SetActive(false);
+        //Obj.gameObject.SetActive(false);
     }
 
     void ISpawn<BaseObject>.Initialize()
