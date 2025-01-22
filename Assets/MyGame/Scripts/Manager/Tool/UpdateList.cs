@@ -25,6 +25,7 @@ public class UpdateList
 
     // アップデート中か
     private bool isUpdating = true;
+
     public void OnFixedUpdate()
     {
         isUpdating = true;
@@ -62,6 +63,9 @@ public class UpdateList
         isUpdating = false;
     }
 
+    /// <summary>
+    /// すべて削除
+    /// </summary>
     public void AllDelete()
     {
         // 要素が減っていくので逆順で実行
@@ -79,6 +83,10 @@ public class UpdateList
         }
     }
 
+    /// <summary>
+    /// オブジェクトの登録
+    /// </summary>
+    /// <param name="obj"></param>
     public void Add(IObjectInterpreter obj)
     {
         if (isUpdating)
@@ -102,6 +110,10 @@ public class UpdateList
         
     }
 
+    /// <summary>
+    /// オブジェクトの削除
+    /// </summary>
+    /// <param name="obj"></param>
     public void Remove(IObjectInterpreter obj)
     {
         if (isUpdating)
@@ -124,7 +136,9 @@ public class UpdateList
         }
     }
 
-    // リストの更新
+    /// <summary>
+    /// リストの更新
+    /// </summary>
     private void FixedList()
     {
         foreach(var e in addList)
@@ -147,6 +161,11 @@ public class UpdateList
         if (removeList.Count > 0) removeList.Clear();
     }
 
+    /// <summary>
+    /// インデクサー
+    /// </summary>
+    /// <param name="index"></param>
+    /// <returns></returns>
     public IObjectInterpreter this[int index]
     {
         get
