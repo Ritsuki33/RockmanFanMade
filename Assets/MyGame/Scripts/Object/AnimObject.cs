@@ -8,7 +8,7 @@ public class AnimObject : BaseObject
     [SerializeField] private Animator m_mainAnimator;
     public Animator MainAnimator => m_mainAnimator;
 
-    float currentAnimSpeed = 0f;
+    float cacheAnimSpeed = 0f;
     private Material _mainMaterial;
 
     public Material MainMaterial
@@ -31,27 +31,28 @@ public class AnimObject : BaseObject
 
     protected override void Init()
     {
-        if (m_mainAnimator != null) currentAnimSpeed = m_mainAnimator.speed;
+        if (m_mainAnimator != null) cacheAnimSpeed = m_mainAnimator.speed;
+        base.Init();
     }
 
     protected override void OnPause(bool isPause)
     {
-        bool current = IsPause;
 
-        base.OnPause(isPause);
         if (m_mainAnimator == null) return;
 
         if (isPause)
         {
-            if (!current)
+            if (!IsPause)
             {
-                currentAnimSpeed = m_mainAnimator.speed;
+                cacheAnimSpeed = m_mainAnimator.speed;
                 m_mainAnimator.speed = 0.0f;
             }
         }
         else
         {
-            m_mainAnimator.speed = currentAnimSpeed;
+            m_mainAnimator.speed = cacheAnimSpeed;
         }
+
+        base.OnPause(isPause);
     }
 }

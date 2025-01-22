@@ -54,11 +54,17 @@ public class BaseObject : MonoBehaviour, IObjectInterpreter
     void IObjectInterpreter.OnReset() => OnReset();
     void IObjectInterpreter.Delete() => Delete();
 
-    protected virtual void Init() { }
     protected virtual void OnFixedUpdate() { }
     protected virtual void OnPause(bool isPause) { _isPause = isPause; }
     protected virtual void Destroy() { }
     protected virtual void OnReset() { }
+
+    protected virtual void Init()
+    {
+        pauseRequest = 0;
+        OnPause(false);
+    }
+
 
     protected virtual void OnUpdate()
     {
