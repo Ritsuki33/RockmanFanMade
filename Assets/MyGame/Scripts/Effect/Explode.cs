@@ -2,12 +2,6 @@
 using UnityEngine;
 using UnityEngine.Pool;
 
-public enum ExplodeType
-{
-    Explode1,
-    Explode2,
-}
-
 public class Explode : AnimObject
 {
     [SerializeField] DamageBase damage = default;
@@ -25,6 +19,7 @@ public class Explode : AnimObject
 
     protected override void Awake()
     {
+        base.Awake();
         boxCollider = GetComponent<BoxCollider2D>();
     }
 
