@@ -43,7 +43,7 @@ public class MainCameraControll : MonoBehaviour
     /// <param name="style"></param>
     /// <param name="blendTime"></param>
     /// <param name="finishCallback"></param>
-    public void ChangeCamera(CinemachineVirtualCamera virtualCamera, CinemachineBlendDefinition.Style style,float blendTime, Action finishCallback)
+    public void ChangePlayerCamera(CinemachineVirtualCamera virtualCamera, CinemachineBlendDefinition.Style style,float blendTime, Action finishCallback)
     {
         StartCoroutine(ChangeCameraCo());
       
@@ -58,9 +58,14 @@ public class MainCameraControll : MonoBehaviour
                 EventTriggerManager.Instance.Notify(EventType.ChangeCameraStart);
 
                 // アクティブによるオンオフによる切り替え
-                m_cinemachineBrain.ActiveVirtualCamera?.VirtualCameraGameObject.SetActive(false);
-                virtualCamera.VirtualCameraGameObject.SetActive(true);
+                if (m_cinemachineBrain.ActiveVirtualCamera != null)
+                {
+                    m_cinemachineBrain.ActiveVirtualCamera.VirtualCameraGameObject.SetActive(false);
+                    m_cinemachineBrain.ActiveVirtualCamera.Follow = null;
+                }
 
+                virtualCamera.VirtualCameraGameObject.SetActive(true);
+                virtualCamera.Follow = WorldManager.Instance.Player.transform;
                 // ブレンディングをスタートさせるため、次フレームまで待つ 
                 yield return null;
 

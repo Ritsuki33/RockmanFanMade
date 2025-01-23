@@ -333,7 +333,7 @@ public class ActionChainExecuter : MonoBehaviour
 
         public override void Execute(Action finishCallback)
         {
-            GameMainManager.Instance.MainCameraControll.ChangeCamera(nextControllArea, style, blendTime, finishCallback);
+            GameMainManager.Instance.MainCameraControll.ChangePlayerCamera(nextControllArea, style, blendTime, finishCallback);
         }
     }
 
@@ -389,7 +389,7 @@ public class ActionChainExecuter : MonoBehaviour
             var checkPoint = WorldManager.Instance.CurrentCheckPointData;
             var nextControllArea = checkPoint.virtualCamera;
             WorldManager.Instance.PlayerTransferArea.transform.position_xy(checkPoint.position.position);
-            GameMainManager.Instance.MainCameraControll.ChangeCamera(nextControllArea, Style.Cut, 0, finishCallback);
+            GameMainManager.Instance.MainCameraControll.ChangePlayerCamera(nextControllArea, Style.Cut, 0, finishCallback);
         }
     }
 
