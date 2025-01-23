@@ -21,28 +21,47 @@ public class WorldManager : SingletonComponent<WorldManager>
     [SerializeField] Transform spawnRoot;
 
     private StagePlayer _player;
-    public StagePlayer Player => _player;
+    public StagePlayer Player
+    {
+        get
+        {
+            if (!_player) Debug.LogError("Playerがロードされていません");
+
+            return _player;
+        }
+    }
 
     private CheckPointData currentCheckPointData;
     public CheckPointData CurrentCheckPointData => currentCheckPointData;
     public Transform PlayerTransferArea => _playerTransferArea;
 
-    public Transform SpawnRoot => spawnRoot;
 
     bool isPause = false;
 
     public bool IsPause => isPause;
+
+    private List<ISpawn> _spawns;
     public void Init()
     {
         currentCheckPointData = defaultCheckPoint;
         isPause = false;
 
         _player = ObjectManager.Instance.OnLoad<StagePlayer>("Prefabs/Player");
+
+        _spawns = spawnRoot.GetComponentsInChildren<ISpawn>()?.ToList();
+
     }
 
     public void OnReset()
     {
         ObjectManager.Instance.AllDelete();
+
+        _player = ObjectManager.Instance.OnLoad<StagePlayer>("Prefabs/Player");
+
+        _spawns.ForEach(spawn =>
+        {
+            spawn.Initialize();
+        });
     }
 
     /// <summary>
@@ -58,6 +77,11 @@ public class WorldManager : SingletonComponent<WorldManager>
     {
         if (isPause) return;
         ObjectManager.Instance.OnUpdate();
+
+        _spawns.ForEach(spawn =>
+        {
+            spawn.OnUpdate();
+        });
     }
 
     public void OnPause(bool isPause)
@@ -78,6 +102,12 @@ public class WorldManager : SingletonComponent<WorldManager>
     public void StartStage()
     {
         EventTriggerManager.Instance.Init();
+
+        _spawns.ForEach(spawn =>
+        {
+            spawn.Initialize();
+        });
+
         startAction.StartEvent();
     }
 

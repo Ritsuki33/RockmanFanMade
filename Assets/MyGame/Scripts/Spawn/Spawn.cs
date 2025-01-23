@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 
-public interface ISpawn<T> where T : BaseObject
-{
+public interface ISpawn {
     void Initialize();
     void OnUpdate();
     void Terminate();

@@ -4,74 +4,40 @@ using UnityEngine;
 /// <summary>
 /// 敵のスポーン制御
 /// </summary>
-public class InCamaraSpawn : Spawn<BaseObject>, ISpawn<BaseObject>
+public class InCamaraSpawn : Spawn<BaseObject>, ISpawn
 {
     [SerializeField] PoolType type;
-    public bool IsDeath => !Obj.gameObject.activeSelf;
+    public bool IsDeath => Obj == null || !Obj.gameObject.activeSelf;
 
     StateMachine<InCamaraSpawn> stateMachine = new StateMachine<InCamaraSpawn>();
 
     enum StateID
     {
-        None,
         OutOfCamera,
-        Appering,
-        Disappearing
+        InCamera,
     }
 
     private void Awake()
     {
-        stateMachine.AddState((int)StateID.None, new None());
         stateMachine.AddState((int)StateID.OutOfCamera, new OutOfCamera());
-        stateMachine.AddState((int)StateID.Appering, new InCamera());
-
-        //Obj.gameObject.SetActive(false);
+        stateMachine.AddState((int)StateID.InCamera, new InCamera());
     }
 
-    void ISpawn<BaseObject>.Initialize()
+    void ISpawn.Initialize()
     {
         stateMachine.TransitReady((int)StateID.OutOfCamera, true);
-
-        EventTriggerManager.Instance.VoidEventTriggers.Subscribe(EventType.ChangeCameraStart, Disabled);
-        EventTriggerManager.Instance.VoidEventTriggers.Subscribe(EventType.ChangeCameraEnd, Enabled);
     }
 
-    void ISpawn<BaseObject>.OnUpdate()
+    void ISpawn.OnUpdate()
     {
         stateMachine.Update(this);
     }
 
-
-    void ISpawn<BaseObject>.Terminate()
-    {
-        stateMachine.TransitReady((int)StateID.None);
-        EventTriggerManager.Instance.VoidEventTriggers.Unsubscribe(EventType.ChangeCameraStart, Disabled);
-        EventTriggerManager.Instance.VoidEventTriggers.Unsubscribe(EventType.ChangeCameraEnd, Enabled);
-    }
+    void ISpawn.Terminate() { }
 
     protected override BaseObject OnGetResource()
     {
         return ObjectManager.Instance.OnGet<BaseObject>(type);
-    }
-
-    private void Enabled()
-    {
-        stateMachine.TransitReady((int)StateID.OutOfCamera);
-    }
-
-    private void Disabled()
-    {
-        stateMachine.TransitReady((int)StateID.None);
-    }
-
-
-
-    class None : State<InCamaraSpawn, None>
-    {
-        protected override void Enter(InCamaraSpawn ctr, int preId, int subId)
-        {
-            ctr.Obj.gameObject.SetActive(false);
-        }
     }
 
     /// <summary>
@@ -83,7 +49,7 @@ public class InCamaraSpawn : Spawn<BaseObject>, ISpawn<BaseObject>
         {
             if (!GameMainManager.Instance.MainCameraControll.CheckOutOfView(ctr.gameObject))
             {
-                ctr.stateMachine.TransitReady((int)StateID.Appering);
+                ctr.stateMachine.TransitReady((int)StateID.InCamera);
             }
         }
     }

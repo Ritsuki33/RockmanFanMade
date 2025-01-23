@@ -38,7 +38,7 @@ public class Projectile : PhysicalObject,IDirect
 
     protected override void OnFixedUpdate()
     {
-        fixedUpdate.Invoke(rb);
+        fixedUpdate?.Invoke(rb);
     }
 
 

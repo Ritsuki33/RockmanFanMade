@@ -98,10 +98,22 @@ public class GameMainManager : BaseManager<GameMainManager>
 
     public void StageReStart()
     {
-        worldManager.OnReset();
+        StartCoroutine(RestartCo());
 
-        worldManager.StartStage();
+        IEnumerator RestartCo()
+        {
+            MainCameraControll.OnReset();
+            worldManager.OnReset();
+
+            yield return screenContainer.Initialize(UI.GameMain, true);
+
+            OnPause(false);
+
+            worldManager.StartStage();
+        }
     }
+
+   
 
     public void DeathNotification()
     {
@@ -154,5 +166,6 @@ public class GameMainManager : BaseManager<GameMainManager>
     void DestroyWorld()
     {
         Destroy(worldManager.gameObject);
+        worldManager = null;
     }
 }

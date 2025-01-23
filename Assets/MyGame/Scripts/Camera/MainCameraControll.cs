@@ -36,6 +36,16 @@ public class MainCameraControll : MonoBehaviour
 
     public CinemachineVirtualCamera CurrrentVirtualCamera => m_cinemachineBrain.ActiveVirtualCamera as CinemachineVirtualCamera;
 
+    public void OnReset()
+    {
+        // アクティブによるオンオフによる切り替え
+        if (m_cinemachineBrain.ActiveVirtualCamera != null)
+        {
+            m_cinemachineBrain.ActiveVirtualCamera.VirtualCameraGameObject.SetActive(false);
+            m_cinemachineBrain.ActiveVirtualCamera.Follow = null;
+        }
+    }
+
     /// <summary>
     /// カメラの変更
     /// </summary>
