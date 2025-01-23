@@ -28,9 +28,8 @@ public class GameMainManager : BaseManager<GameMainManager>
 
     [SerializeField] MainCameraControll m_mainCameraControll = default;
     [SerializeField] GameMainScreen m_gameMainScreen = default;
-    [SerializeField] WorldManager worldManager = default;
-
-    [SerializeField] StagePlayer player;
+    [SerializeField] Transform worldRoot= default;
+    WorldManager worldManager = default;
 
     private IInput InputController => InputManager.Instance;
     private CameraControllArea currentCameraControllArea;
@@ -51,13 +50,18 @@ public class GameMainManager : BaseManager<GameMainManager>
         {
             FadeInManager.Instance.FadeOutImmediate();
 
-            ObjectManager.Instance.Init();
+            worldManager = CreateWorldManager();
+            if (worldManager == null)
+            {
+                Debug.LogError("ワールドの読み込みに失敗しました");
+                yield break;
+            }
 
             // ワールドの初期化
             worldManager.Init();
 
-            // プレイヤーの登録
-            worldManager.AddPlayer(player);
+            // オブジェクトマネージャー初期化
+            ObjectManager.Instance.Init();
 
             screenContainer.Add(UI.GameMain, m_gameMainScreen);
 
@@ -94,13 +98,22 @@ public class GameMainManager : BaseManager<GameMainManager>
 
     public void StageReStart()
     {
-        worldManager.OnReset();
+        StartCoroutine(RestartCo());
 
-        // プレイヤーの登録
-        worldManager.AddPlayer(player);
+        IEnumerator RestartCo()
+        {
+            MainCameraControll.OnReset();
+            worldManager.OnReset();
 
-        worldManager.StartStage();
+            yield return screenContainer.Initialize(UI.GameMain, true);
+
+            OnPause(false);
+
+            worldManager.StartStage();
+        }
     }
+
+   
 
     public void DeathNotification()
     {
@@ -118,6 +131,13 @@ public class GameMainManager : BaseManager<GameMainManager>
         action.Invoke();
     }
 
+    public void GameStageEnd()
+    {
+        ObjectManager.Instance.Clear();
+        DestroyWorld();
+        SceneManager.Instance.ChangeManager(ManagerType.BossSelect);
+    }
+
     void OnPause(bool isPause)
     {
         this.isPause = isPause;
@@ -126,5 +146,26 @@ public class GameMainManager : BaseManager<GameMainManager>
         screenContainer.GetCurrentScreenPresenter<GameMainScreenPresenter>()?.OnOpenPauseUi(isPause);
 
         worldManager?.OnPause(isPause);
+    }
+
+
+    WorldManager CreateWorldManager()
+    {
+        var res = Resources.Load<WorldManager>("Worlds/World");
+
+        if (res != null)
+        {
+            return Instantiate(res, this.worldRoot);
+        }
+        else
+        {
+            return null;
+        }
+    }
+
+    void DestroyWorld()
+    {
+        Destroy(worldManager.gameObject);
+        worldManager = null;
     }
 }

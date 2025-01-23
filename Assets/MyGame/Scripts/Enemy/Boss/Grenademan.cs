@@ -1,10 +1,9 @@
 ﻿using System;
 using UnityEngine;
 
-public class Grenademan : StageEnemy, IDirect
+public class Grenademan : StageBoss, IDirect
 {
     public Action<float> hpParamIncrementAnimation = default;
-    public Action<float> hpChangeTrigger = default;
 
     [SerializeField] Transform buster;
     [SerializeField] private Gravity _gravity;
@@ -18,10 +17,7 @@ public class Grenademan : StageEnemy, IDirect
 
     bool existBomb = false;
 
-    [SerializeField] Transform[] placeBombPosArray = null;
-
-    public Action<float> HpChangeTrigger { get { return hpChangeTrigger; } set { hpChangeTrigger = value; } }
-
+    [SerializeField] Transform[] _placeBombPosArray = null;
 
     ExRbStateMachine<Grenademan> stateMachine = new ExRbStateMachine<Grenademan>();
 
@@ -81,6 +77,27 @@ public class Grenademan : StageEnemy, IDirect
         stateMachine.Update(this);
     }
 
+    public void Visit(GrenademanSpawn acceptable)
+    {
+        throw new NotImplementedException();
+    }
+
+    public void Setup(Transform[] placeBombPosArray)
+    {
+        _placeBombPosArray = placeBombPosArray;
+    }
+
+    public override void Appeare(Action finishCallback)
+    {
+        _finishActionCallback = finishCallback;
+        this.stateMachine.TransitReady((int)StateId.Appearance);
+    }
+
+    public override void ToBattleState()
+    {
+        this.stateMachine.TransitReady((int)StateId.Idle);
+    }
+
     private void OnBottomHitEnter(RaycastHit2D hit)
     {
         stateMachine.OnBottomHitEnter(this, hit);
@@ -128,10 +145,10 @@ public class Grenademan : StageEnemy, IDirect
 
     public override void OnDead()
     {
-        ObjectManager.Instance.CreateDeathEffect(this.transform.position);
+        var deathEffect=ObjectManager.Instance.OnGet<PsObject>(PoolType.PlayerDeathEffect);
+        deathEffect.Setup(this.transform.position);
         this.gameObject.SetActive(false);
     }
-
 
     class Appearance : ExRbState<Grenademan, Appearance>
     {
@@ -369,18 +386,20 @@ public class Grenademan : StageEnemy, IDirect
                 isFire = true;
                 ctr.existBomb = true;
 
-                foreach (var t in ctr.placeBombPosArray)
+                foreach (var t in ctr._placeBombPosArray)
                 {
                     Vector2 dir = t.position - ctr.transform.position;
                     dir = dir.normalized;
-                    ObjectManager.CreatePlacedBomb(ctr.transform.position, t.position,
+                    var bomb = ObjectManager.Instance.OnGet<PlacedBomb>(PoolType.PlacedBomb, (bomb) =>
+                    {
+                        ctr.existBomb = false;
+                    });
+
+                    bomb.Setup(
+                        ctr.transform.position,
                         (exRb) =>
                         {
                             exRb.velocity += dir * 20;
-                        },
-                        (bomb) =>
-                        {
-                            ctr.existBomb = false;
                         }
                         );
                 }
@@ -532,11 +551,12 @@ public class Grenademan : StageEnemy, IDirect
             {
                 Vector2 dir = (ctr.IsRight) ? Vector2.right : Vector2.left;
                 dir = dir.normalized;
-                ObjectManager.Create(
-                    ProjectileType.CrashBomb,
+
+                var projectile = ObjectManager.Instance.OnGet<Projectile>(PoolType.CrashBomb);
+                projectile.Setup(
                     new Vector3(ctr.buster.transform.position.x, ctr.buster.transform.position.y, -2),
-                    5,
                     ctr.IsRight,
+                    5,
                     null,
                     (rb) =>
                     {
@@ -545,7 +565,8 @@ public class Grenademan : StageEnemy, IDirect
                     (bomb) =>
                     {
                         bomb.Delete();
-                        ObjectManager.Create(ExplodeType.Explode1, Explode.Layer.EnemyAttack, 3, bomb.transform.position);
+                        var explode= ObjectManager.Instance.OnGet<Explode>(PoolType.Explode);
+                        explode.Setup(Explode.Layer.EnemyAttack, bomb.transform.position, 3);
                     }
                     );
             }
@@ -589,16 +610,7 @@ public class Grenademan : StageEnemy, IDirect
         }
     }
 
-    public void Appeare(Action finishCallback)
-    {
-        _finishActionCallback = finishCallback;
-        this.stateMachine.TransitReady((int)StateId.Appearance);
-    }
 
-    public void ToBattleState()
-    {
-        this.stateMachine.TransitReady((int)StateId.Idle);
-    }
 
     private void OnDrawGizmos()
     {
@@ -608,4 +620,6 @@ public class Grenademan : StageEnemy, IDirect
     public void TurnTo(bool isRight) => _direct.TurnTo(isRight);
     public void TurnToTarget(Vector2 targetPos) => _direct.TurnToTarget(targetPos);
     public void TurnFace() => _direct.TurnFace();
+
+   
 }

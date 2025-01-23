@@ -4,7 +4,7 @@ using UnityEngine.Pool;
 
 
 
-public class Projectile : PhysicalObject,IPooledObject<Projectile>,IDirect
+public class Projectile : PhysicalObject,IDirect
 {
     [SerializeField] private BoxCollider2D boxTrigger;
     [SerializeField] private BoxCollider2D boxCollider;
@@ -26,6 +26,8 @@ public class Projectile : PhysicalObject,IPooledObject<Projectile>,IDirect
     {
         base.Init();
         EventTriggerManager.Instance.VoidEventTriggers.Subscribe(EventType.ChangeCameraStart, Delete);
+        if (boxCollider) boxCollider.enabled = true;
+        if (boxTrigger) boxTrigger.enabled = true;
     }
 
     protected override void Destroy()
@@ -36,26 +38,25 @@ public class Projectile : PhysicalObject,IPooledObject<Projectile>,IDirect
 
     protected override void OnFixedUpdate()
     {
-        fixedUpdate.Invoke(rb);
+        fixedUpdate?.Invoke(rb);
     }
 
-    public void Setup(int attackPower, Action<Rigidbody2D> start, Action<Rigidbody2D> fixedUpdate)
+
+    public void Setup(Vector3 position, bool isRight, int attackPower, Action<Rigidbody2D> start, Action<Rigidbody2D> fixedUpdate, Action<Projectile> onCollisionEnter = null)
+    {
+        this.transform.position = position;
+        TurnTo(isRight);
+        start?.Invoke(rb);
+        this.attackPower = attackPower;
+        this.fixedUpdate = fixedUpdate;
+        this.onCollision = onCollisionEnter;
+    }
+
+    public void ChangeBehavior(int attackPower, Action<Rigidbody2D> start, Action<Rigidbody2D> fixedUpdate)
     {
         start?.Invoke(rb);
         this.attackPower = attackPower;
         this.fixedUpdate = fixedUpdate;
-    }
-
-    public void Setup(int attackPower, Action<Rigidbody2D> start, Action<Rigidbody2D> fixedUpdate, Action deleteCallback)
-    {
-        Setup(attackPower, start, fixedUpdate);
-        Setup(deleteCallback);
-    }
-
-    public void Setup(int attackPower, Action<Rigidbody2D> start, Action<Rigidbody2D> fixedUpdate, Action deleteCallback, Action<Projectile> onCollisionEnter = null)
-    {
-        Setup(attackPower, start, fixedUpdate, deleteCallback);
-        this.onCollision = onCollisionEnter;
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -67,16 +68,6 @@ public class Projectile : PhysicalObject,IPooledObject<Projectile>,IDirect
     {
         onCollision?.Invoke(this);
     }
-
-    IObjectPool<Projectile> IPooledObject<Projectile>.Pool { get => pool; set => pool = value; }
-
-
-    void IPooledObject<Projectile>.OnGet()
-    {
-        if (boxCollider) boxCollider.enabled = true;
-        if (boxTrigger) boxTrigger.enabled = true;
-    }
-
 
     public bool IsRight => direct.IsRight;
 

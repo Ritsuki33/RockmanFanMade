@@ -2,36 +2,23 @@
 using UnityEngine;
 using UnityEngine.Pool;
 
-public class PlacedBomb : AnimObject, IPooledObject<PlacedBomb>
+public class PlacedBomb : AnimObject
 {
     [SerializeField] private BoxCollider2D boxTrigger;
     [SerializeField] private BoxCollider2D boxCollider;
     [SerializeField] ExpandRigidBody exRb;
 
     Action<ExpandRigidBody> orbitfixedUpdate;
-    Action<PlacedBomb> onExplodedFinishCallback;
 
     AmbiguousTimer timer = new AmbiguousTimer();
 
     IObjectPool<PlacedBomb> pool = null;
 
-    IObjectPool<PlacedBomb> IPooledObject<PlacedBomb>.Pool { get => pool; set => pool = value; }
 
 
     ExRbStateMachine<PlacedBomb> stateMachine = new ExRbStateMachine<PlacedBomb>();
 
     ExRbHit exRbHit = new ExRbHit();
-
-    public override void Delete()
-    {
-        onExplodedFinishCallback?.Invoke(this);
-    }
-
-    void IPooledObject<PlacedBomb>.OnGet()
-    {
-        if (boxCollider) boxCollider.enabled = true;
-        if (boxTrigger) boxTrigger.enabled = true;
-    }
 
     protected override void Awake()
     {
@@ -47,6 +34,8 @@ public class PlacedBomb : AnimObject, IPooledObject<PlacedBomb>
 
     protected override void Init()
     {
+        if (boxCollider) boxCollider.enabled = true;
+        if (boxTrigger) boxTrigger.enabled = true;
         stateMachine.TransitReady(0);
     }
     protected override void OnFixedUpdate()
@@ -65,10 +54,10 @@ public class PlacedBomb : AnimObject, IPooledObject<PlacedBomb>
         stateMachine.OnBottomHitEnter(this, hit);
     }
 
-    public void Setup(Action<ExpandRigidBody> orbitfixedUpdate, Action<PlacedBomb> onExplodedFinishCallback)
+    public void Setup(Vector3 position, Action<ExpandRigidBody> orbitfixedUpdate)
     {
+        this.transform.position = position;
         this.orbitfixedUpdate = orbitfixedUpdate;
-        this.onExplodedFinishCallback = onExplodedFinishCallback;
 
         stateMachine.TransitReady(0);
     }
@@ -107,7 +96,8 @@ public class PlacedBomb : AnimObject, IPooledObject<PlacedBomb>
         {
             ctr.timer.MoveAheadTime(Time.deltaTime, () =>
             {
-                ObjectManager.Create(ExplodeType.Explode2, Explode.Layer.EnemyAttack, 5, ctr.transform.position);
+                var explode = ObjectManager.OnGet<Explode>(PoolType.Explode2);
+                explode.Setup(Explode.Layer.EnemyAttack, ctr.transform.position, 5);
 
                 ctr.Delete();
             });

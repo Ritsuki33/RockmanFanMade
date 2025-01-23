@@ -378,7 +378,7 @@ public class ExpandRigidBody : IExRbCallbackSet
 
     private void PhysicalVelocityCorrect(Vector2 currentVelocity)
     {
-        if (physicalLayer == 0) Debug.LogError("ExpandRigidBodyが初期化されていないため、レイの判定ができません。");
+        if (physicalLayer == 0) Debug.LogError($"ExpandRigidBodyが初期化されていないため、レイの判定ができません。({this.transform.gameObject})");
 
         topHit = Physics2D.BoxCast(
             VirtualTopColliderCenter + new Vector2(0, -0.005f)

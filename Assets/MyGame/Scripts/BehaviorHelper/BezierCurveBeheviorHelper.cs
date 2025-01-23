@@ -27,13 +27,13 @@ public static class BezierCurveBeheviorHelper
     //    return movement / Time.fixedDeltaTime;
     //}
 
-    public static Vector2 GetStrobe(Vector2 curPos, Transform a, Transform b, Transform c,float progress)
+    public static Vector2 GetStrobe(Vector2 curPos, Vector3  a, Vector3 b, Vector3 c,float progress)
     {
 
         // 2次ベジェ曲線の計算
-        Vector2 position = Mathf.Pow(1 - progress, 2) * a.position
-                         + 2 * (1 - progress) * progress * b.position
-                         + Mathf.Pow(progress, 2) * c.position;
+        Vector2 position = Mathf.Pow(1 - progress, 2) * a
+                         + 2 * (1 - progress) * progress * b
+                         + Mathf.Pow(progress, 2) * c;
 
         return position;
     }

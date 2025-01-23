@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /*
- * オブジェクトをリストで管理し、オブジェクトの増減に応じてリストも更新する場合、
+ * オブジェクトをリストで管理し、オブジェクトの増減に応じてリストを更新する場合、
  * 直接リストを操作するとループ処理が中断されたりエラーが発生することがあります。
  * これは、リストが変更されると列挙（foreach ループなど）が破損するため
+ * ループ中はisUpdatingで管理する。
  */
 
 public class UpdateList
@@ -20,10 +21,18 @@ public class UpdateList
     // 削除分のリスト
     private List<IObjectInterpreter> removeList= new List<IObjectInterpreter>();
 
+    public int Count=>list.Count;
+
+    // アップデート中か
+    private bool isUpdating = true;
+
     public void OnFixedUpdate()
     {
+        isUpdating = true;
+
         FixedList();
         int nullCount = 0;
+
         foreach (IObjectInterpreter e in list)
         {
             if (e.gameObject == null) nullCount++; 
@@ -32,10 +41,14 @@ public class UpdateList
 
         // nullがあった場合は削除
         if (nullCount > 0) list.RemoveAll(item => item == null);
+
+        isUpdating = false;
     }
 
     public void OnUpdate()
     {
+        isUpdating = true;
+
         FixedList();
         int nullCount = 0;
         foreach (IObjectInterpreter e in list)
@@ -46,13 +59,19 @@ public class UpdateList
 
         // nullがあった場合は削除
         if (nullCount > 0) list.RemoveAll(item => item == null);
+
+        isUpdating = false;
     }
 
-    public void OnReset()
+    /// <summary>
+    /// すべて削除
+    /// </summary>
+    public void AllDelete()
     {
-        foreach (IObjectInterpreter e in list)
+        // 要素が減っていくので逆順で実行
+        for(int i = list.Count - 1; i >= 0; i--)
         {
-            e.OnReset();
+            list[i].Delete();
         }
     }
 
@@ -64,31 +83,62 @@ public class UpdateList
         }
     }
 
+    /// <summary>
+    /// オブジェクトの登録
+    /// </summary>
+    /// <param name="obj"></param>
     public void Add(IObjectInterpreter obj)
     {
-        if (!addList.Contains(obj))
+        if (isUpdating)
         {
-            obj.Init();
-            addList.Add(obj);
+            // アップデートの場合は予約
+            if (!addList.Contains(obj))
+            {
+                obj.Init();
+                addList.Add(obj);
+            }
         }
+        else
+        {
+            // アップデート外ならばその場で登録
+            if (!list.Contains(obj))
+            {
+                obj.Init();
+                list.Add(obj);
+            }
+        }
+        
     }
 
+    /// <summary>
+    /// オブジェクトの削除
+    /// </summary>
+    /// <param name="obj"></param>
     public void Remove(IObjectInterpreter obj)
     {
-        if (!removeList.Contains(obj))
+        if (isUpdating)
         {
-            obj.Destroy();
-            removeList.Add(obj);
+            // アップデートの場合は予約
+            if (!removeList.Contains(obj))
+            {
+                obj.Destroy();
+                removeList.Add(obj);
+            }
+        }
+        else
+        {
+            // アップデート外ならばその場で削除
+            if (list.Contains(obj))
+            {
+                obj.Destroy();
+                list.Remove(obj);
+            }
         }
     }
 
-    public void Clear()
-    {
-
-        list.Clear();
-    }
-
-    // リストの更新
+    /// <summary>
+    /// リストの更新
+    /// </summary>
     private void FixedList()
     {
         foreach(var e in addList)
@@ -111,6 +161,11 @@ public class UpdateList
         if (removeList.Count > 0) removeList.Clear();
     }
 
+    /// <summary>
+    /// インデクサー
+    /// </summary>
+    /// <param name="index"></param>
+    /// <returns></returns>
     public IObjectInterpreter this[int index]
     {
         get

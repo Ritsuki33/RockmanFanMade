@@ -21,30 +21,32 @@ public class ReadyUi : MonoBehaviour
 
     public void Play(Action action = null)
     {
-        coroutine = StartCoroutine(PlayCo(action));
-    }
+        coroutine = StartCoroutine(PlayCo());
 
-    private IEnumerator PlayCo(Action action)
-    {
-        ready.alpha = 0;
-
-        int count = 0;
-        while (count < blinkingNum)
+        IEnumerator PlayCo()
         {
-            ready.alpha = 1;
-            yield return new WaitForSeconds(showTime);
             ready.alpha = 0;
-            yield return new WaitForSeconds(unshowTime);
-            count++;
+
+            int count = 0;
+            while (count < blinkingNum)
+            {
+                ready.alpha = 1;
+                yield return new WaitForSeconds(showTime);
+                ready.alpha = 0;
+                yield return new WaitForSeconds(unshowTime);
+                count++;
+            }
+
+            ready.alpha = 1;
+
+            yield return new WaitForSeconds(finishTime);
+
+            ready.alpha = 0;
+
+            coroutine = null;
+            action?.Invoke();
         }
-
-        ready.alpha = 1;
-
-        yield return new WaitForSeconds(finishTime);
-
-        ready.alpha = 0;
-
-        coroutine = null;
-        action?.Invoke();
     }
+
+    
 }

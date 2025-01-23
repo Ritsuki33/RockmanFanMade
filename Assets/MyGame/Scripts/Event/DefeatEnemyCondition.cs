@@ -36,21 +36,22 @@ public abstract class BaseEnemyCondition
 [Serializable]
 public class DefeatTargetEnemyCondition : BaseEnemyCondition
 {
-    [SerializeField,Header("討伐対象の敵リスト")] StageEnemy[] targets = default;
+    //[SerializeField,Header("討伐対象の敵リスト")] StageEnemy[] targets = default;
+    [SerializeField,Header("討伐対象の敵リスト")] int[] targetIds = default;
     int count = 0;
 
     public override bool ValidateConditions(StageEnemy target)
     {
         // 指定した敵の討伐数カウント
-        foreach (StageEnemy t in targets)
+        foreach (int id in targetIds)
         {
-            if (t == target)
+            if (id == target.ObjectId)
             {
                 count++;
             }
         }
 
-        return count >= targets.Length;
+        return count >= targetIds.Length;
     }
 }
 

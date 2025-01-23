@@ -19,8 +19,8 @@ public class ActionChainExecuter : MonoBehaviour
         FadeOutScreen,
         StartSign,
         PlayerTransfer,
-        PlayerMove,
-        EnemyAppear,
+        PlayerWalkAction,
+        BossAppear,
         BossHpBarSet,
         BossBattleStart,
         External,
@@ -34,9 +34,12 @@ public class ActionChainExecuter : MonoBehaviour
         UnSubscribeActionChain,
         SetupCheckPoint,
         SetPlayerHp,
-        ChangeManager,
+        GameStageEnd,
         DefeatEnemyCondition,
         Spawn,
+        PlayerActive,
+        PlayerMove,
+        GameMainUIChange,
     }
 
     [Serializable]
@@ -56,9 +59,9 @@ public class ActionChainExecuter : MonoBehaviour
 
         override public void Execute(ActionChainExecuter eventControll)
         {
-            eventControll.StartCoroutine(ActionExecuteCo(eventControll));
+            eventControll.StartCoroutine(ActionExecuteCo());
 
-            IEnumerator ActionExecuteCo(ActionChainExecuter eventControll)
+            IEnumerator ActionExecuteCo()
             {
                 if (actions == null || actions.Count == 0) yield break;
 
@@ -135,14 +138,38 @@ public class ActionChainExecuter : MonoBehaviour
         }
     }
 
+
+    [Serializable]
+    class PlayerActive : BaseAction
+    {
+        [SerializeField] bool isActive = false;
+        public override void Execute(Action finishCallback)
+        {
+            WorldManager.Instance.Player.gameObject.SetActive(isActive);
+            finishCallback();
+        }
+    }
+
+    [Serializable]
+    class PlayerMove : BaseAction
+    {
+        [SerializeField] Transform targetPosition;
+
+        public override void Execute(Action finishCallback)
+        {
+            WorldManager.Instance.Player.transform.position = targetPosition.position;
+            finishCallback.Invoke();
+        }
+    }
+
     [Serializable]
     class StageObjectTurn:BaseAction
     {
-        [SerializeField] BaseObject obj;
+        [SerializeField] Spawn spawn;
         [SerializeField] bool isRight = true;
         public override void Execute(Action finishCallback)
         {
-            IDirect direct = obj as IDirect;
+            IDirect direct = spawn.Obj as IDirect;
             direct?.TurnTo(isRight);
             finishCallback.Invoke();
         }
@@ -205,7 +232,7 @@ public class ActionChainExecuter : MonoBehaviour
     [Serializable]
     class BoseAppearAction : BaseAction
     {
-        [SerializeField] Grenademan grenademan;
+        [SerializeField] BossSpawn spawn;
         override public void Execute(Action finishCallback)
         {
             //Vector2 appearPos = new Vector3(
@@ -213,29 +240,29 @@ public class ActionChainExecuter : MonoBehaviour
             //   GameMainManager.Instance.MainCameraControll.OutOfViewTop
             //   );
             //grenademan.transform.position_xy(appearPos);
-            grenademan.Appeare(finishCallback);
+            spawn.Obj.Appeare(finishCallback);
         }
     }
 
     [Serializable]
     class BossHpBarSetAction : BaseAction
     {
-        [SerializeField] Grenademan ctr;
+        [SerializeField] BossSpawn spawn;
 
         override public void Execute(Action finishCallback)
         {
             var presenter = GameMainManager.Instance.ScreenContainer.GetCurrentScreenPresenter<GameMainScreenPresenter>();
-            presenter.EnemyHpIncrementAnimation(ctr, finishCallback);
+            presenter.EnemyHpIncrementAnimation(spawn.Obj, finishCallback);
         }
     }
 
     [Serializable]
     class BossBattleStart : BaseAction
     {
-        [SerializeField] Grenademan ctr;
+        [SerializeField] BossSpawn spawn;
         override public void Execute(Action finishCallback)
         {
-            ctr.ToBattleState();
+            spawn.Obj.ToBattleState();
             finishCallback.Invoke();
         }
     }
@@ -306,7 +333,7 @@ public class ActionChainExecuter : MonoBehaviour
 
         public override void Execute(Action finishCallback)
         {
-            GameMainManager.Instance.MainCameraControll.ChangeCamera(nextControllArea, style, blendTime, finishCallback);
+            GameMainManager.Instance.MainCameraControll.ChangePlayerCamera(nextControllArea, style, blendTime, finishCallback);
         }
     }
 
@@ -362,7 +389,7 @@ public class ActionChainExecuter : MonoBehaviour
             var checkPoint = WorldManager.Instance.CurrentCheckPointData;
             var nextControllArea = checkPoint.virtualCamera;
             WorldManager.Instance.PlayerTransferArea.transform.position_xy(checkPoint.position.position);
-            GameMainManager.Instance.MainCameraControll.ChangeCamera(nextControllArea, Style.Cut, 0, finishCallback);
+            GameMainManager.Instance.MainCameraControll.ChangePlayerCamera(nextControllArea, Style.Cut, 0, finishCallback);
         }
     }
 
@@ -378,12 +405,12 @@ public class ActionChainExecuter : MonoBehaviour
     }
 
     [Serializable]
-    class ChangeManager : BaseAction
+    class GameStageEnd : BaseAction
     {
         [SerializeField] ManagerType type;
         public override void Execute(Action finishCallback)
         {
-            SceneManager.Instance.ChangeManager(type);
+            GameMainManager.Instance.GameStageEnd();
             finishCallback();
         }
     }
@@ -434,7 +461,31 @@ public class ActionChainExecuter : MonoBehaviour
         [SerializeField] Spawn spawn;
         public override void Execute(Action finishCallback)
         {
-            spawn.SpawnObject();
+            spawn.TrySpawnObject();
+            finishCallback.Invoke();
+        }
+    }
+
+    [Serializable]
+    class GameMainUIChange : BaseAction
+    {
+        [SerializeField] bool playerHpGuage;
+        [SerializeField] bool enemyHpGuage;
+
+        public override void Execute(Action finishCallback)
+        {
+            var presenter = GameMainManager.Instance.ScreenContainer.GetCurrentScreenPresenter<GameMainScreenPresenter>();
+            if (presenter == null)
+            {
+                Debug.LogError("スクリーンプレゼンターの取得が出来ませんでした");
+
+            }
+            else
+            {
+                presenter.PlayerHpActive(playerHpGuage);
+                presenter.EnemyHpActive(enemyHpGuage);
+            }
+        
             finishCallback.Invoke();
         }
     }
@@ -464,6 +515,18 @@ public class ActionChainExecuter : MonoBehaviour
                     if (ae.action is not ObjectMove)
                     {
                         ae.action = new ObjectMove();
+                    }
+                    break;
+                case ActionType.PlayerActive:
+                    if (ae.action is not PlayerActive)
+                    {
+                        ae.action = new PlayerActive();
+                    }
+                    break;
+                case ActionType.PlayerMove:
+                    if (ae.action is not PlayerMove)
+                    {
+                        ae.action = new PlayerMove();
                     }
                     break;
                 case ActionType.StageObjectTurn:
@@ -496,13 +559,13 @@ public class ActionChainExecuter : MonoBehaviour
                         ae.action = new PlayerTransfer();
                     }
                     break;
-                case ActionType.PlayerMove:
+                case ActionType.PlayerWalkAction:
                     if (ae.action is not PlayerWalkAction)
                     {
                         ae.action = new PlayerWalkAction();
                     }
                     break;
-                case ActionType.EnemyAppear:
+                case ActionType.BossAppear:
                     if (ae.action is not BoseAppearAction)
                     {
                         ae.action = new BoseAppearAction();
@@ -587,10 +650,10 @@ public class ActionChainExecuter : MonoBehaviour
                         ae.action = new SetPlayerHp();
                     }
                     break;
-                case ActionType.ChangeManager:
-                    if (ae.action is not ChangeManager)
+                case ActionType.GameStageEnd:
+                    if (ae.action is not GameStageEnd)
                     {
-                        ae.action = new ChangeManager();
+                        ae.action = new GameStageEnd();
                     }
                     break;
                 case ActionType.DefeatEnemyCondition:
@@ -606,6 +669,12 @@ public class ActionChainExecuter : MonoBehaviour
                     if (ae.action is not SpawnAction)
                     {
                         ae.action = new SpawnAction();
+                    }
+                    break; 
+                case ActionType.GameMainUIChange:
+                    if (ae.action is not GameMainUIChange)
+                    {
+                        ae.action = new GameMainUIChange();
                     }
                     break;
                 default:

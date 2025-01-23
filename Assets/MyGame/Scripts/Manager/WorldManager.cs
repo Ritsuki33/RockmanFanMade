@@ -18,9 +18,18 @@ public class WorldManager : SingletonComponent<WorldManager>
 
     [SerializeField] CheckPointData defaultCheckPoint;
 
+    [SerializeField] Transform spawnRoot;
 
     private StagePlayer _player;
-    public StagePlayer Player => _player;
+    public StagePlayer Player
+    {
+        get
+        {
+            if (!_player) Debug.LogError("Playerがロードされていません");
+
+            return _player;
+        }
+    }
 
     private CheckPointData currentCheckPointData;
     public CheckPointData CurrentCheckPointData => currentCheckPointData;
@@ -30,15 +39,29 @@ public class WorldManager : SingletonComponent<WorldManager>
     bool isPause = false;
 
     public bool IsPause => isPause;
+
+    private List<ISpawn> _spawns;
     public void Init()
     {
         currentCheckPointData = defaultCheckPoint;
         isPause = false;
+
+        _player = ObjectManager.Instance.OnLoad<StagePlayer>("Prefabs/Player");
+
+        _spawns = spawnRoot.GetComponentsInChildren<ISpawn>()?.ToList();
+
     }
 
     public void OnReset()
     {
-        ObjectManager.Instance.OnReset();
+        ObjectManager.Instance.AllDelete();
+
+        _player = ObjectManager.Instance.OnLoad<StagePlayer>("Prefabs/Player");
+
+        _spawns.ForEach(spawn =>
+        {
+            spawn.Initialize();
+        });
     }
 
     /// <summary>
@@ -54,6 +77,11 @@ public class WorldManager : SingletonComponent<WorldManager>
     {
         if (isPause) return;
         ObjectManager.Instance.OnUpdate();
+
+        _spawns.ForEach(spawn =>
+        {
+            spawn.OnUpdate();
+        });
     }
 
     public void OnPause(bool isPause)
@@ -73,7 +101,13 @@ public class WorldManager : SingletonComponent<WorldManager>
 
     public void StartStage()
     {
-        EventTriggerManager.Instance.Notify(EventType.StartStage);
+        EventTriggerManager.Instance.Init();
+
+        _spawns.ForEach(spawn =>
+        {
+            spawn.Initialize();
+        });
+
         startAction.StartEvent();
     }
 
@@ -85,15 +119,5 @@ public class WorldManager : SingletonComponent<WorldManager>
                );
 
         return appearPos;
-    }
-
-    /// <summary>
-    /// プレイヤーの登録
-    /// </summary>
-    /// <param name="player"></param>
-    public void AddPlayer(StagePlayer player)
-    {
-        _player = player;
-        ObjectManager.Instance.OnRegist(player);
     }
 }
