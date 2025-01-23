@@ -119,6 +119,9 @@ public class BigDog : StageEnemy
                 {
                     float time = 0;
                     var projectile = ObjectManager.Instance.OnGet<Projectile>(PoolType.Fire);
+                    Vector2 mouthPos = ctr._mouth.position;
+                    Vector2 pointA = ctr.pointA.position;
+                    Vector2 pointB = WorldManager.Instance.Player.transform.position;
                     projectile.Setup(
                         new Vector3(ctr._mouth.position.x, ctr._mouth.position.y, -1),
                          false,
@@ -126,7 +129,7 @@ public class BigDog : StageEnemy
                          null,
                          (rb) =>
                          {
-                             rb.SetVelocty(BezierCurveBeheviorHelper.GetStrobe(rb.transform.position, ctr._mouth, ctr.pointA, ctr.pointB, time));
+                             rb.SetVelocty(BezierCurveBeheviorHelper.GetStrobe(rb.transform.position, mouthPos, pointA, pointB, time));
                              time += Time.fixedDeltaTime;
                          },
                          null

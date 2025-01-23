@@ -33850,7 +33850,7 @@ Transform:
   m_GameObject: {fileID: 3866963660743570153}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 3.25, y: 3.9, z: -1.0413888}
+  m_LocalPosition: {x: 64.5, y: 8.5, z: -1.0413888}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -73872,25 +73872,9 @@ MonoBehaviour:
       type: {class: ActionChainExecuter/Element, ns: , asm: Assembly-CSharp}
       data:
         delayTime: 0
-        actions:
-        - type: 19
-          remarks: 
-          action:
-            rid: 6885937886657511450
-        _next:
-          rid: 115822631400243273
-    - rid: 115822631400243273
-      type: {class: ActionChainExecuter/Element, ns: , asm: Assembly-CSharp}
-      data:
-        delayTime: 0
         actions: []
         _next:
           rid: -2
-    - rid: 6885937886657511450
-      type: {class: ActionChainExecuter/UnSubscribeActionChain, ns: , asm: Assembly-CSharp}
-      data:
-        type: 2
-        actionChainExecuter: {fileID: 5714357564681955498}
 --- !u!114 &8357944293148474530 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5107075163451444145, guid: 50db6328845417f428e76f577eadc620, type: 3}
