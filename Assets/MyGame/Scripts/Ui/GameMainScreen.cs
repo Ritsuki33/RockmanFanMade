@@ -3,6 +3,7 @@ using System.Collections;
 using System.Runtime.ConstrainedExecution;
 using Unity.Mathematics;
 using UnityEngine;
+using static UnityEditor.Profiling.HierarchyFrameDataView;
 
 /// <summary>
 /// スクリーンのスクリプトテンプレート
@@ -121,8 +122,8 @@ public class GameMainScreenPresenter : BaseScreenPresenter<GameMainScreen, GameM
 
     protected override void Deinitialize()
     {
-        _viewModel.Player.hpChangeTrigger -= SetPlayerHp;
-        _viewModel.boss.HpChangeTrigger -= SetEnemyHp;
+        if(_viewModel.Player!=null) _viewModel.Player.hpChangeTrigger -= SetPlayerHp;
+        if (_viewModel.boss != null)  _viewModel.boss.HpChangeTrigger -= SetEnemyHp;
     }
 }
 

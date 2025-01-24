@@ -99,6 +99,7 @@ public partial class StagePlayer : PhysicalObject, IDirect
         exRbHit.onBottomTopHitStay += OnBottomTopHitEnter;
         exRbHit.onLeftRightHitEnter += OnLeftRightHitEnter;
         exRbHit.onHitEnter += OnHitEnter;
+        exRbHit.onHitStayDamageBase += OnHitStay;
 
         m_chargeStateMachine.Clear();
         // チャージの状態セット
@@ -323,6 +324,11 @@ public partial class StagePlayer : PhysicalObject, IDirect
     void OnLeftRightHitEnter(RaycastHit2D bottom, RaycastHit2D top)
     {
         m_mainStateMachine.OnLeftRightHitEnter(this, bottom, top);
+    }
+
+    void OnHitStay(DamageBase damage)
+    {
+            if (!invincible) Damaged(damage.baseDamageValue);
     }
 
     void OnHitEnter(RaycastHit2D hit)
