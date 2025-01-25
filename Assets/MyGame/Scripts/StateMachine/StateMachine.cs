@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-
+using UnityEngine;
 /* =================================================================
 T ・・・　 オブジェクト
 TS ・・・  当該先具象ステート
@@ -198,12 +198,18 @@ public class CommonStateMachine<T, S> where S : class
 
     public void AddState(int id, S state)
     {
+        if (states.ContainsKey(id))
+        {
+            Debug.LogError($"id={id}: キーは既に存在しています。{state.ToString()}は登録できませんでした");
+            return;
+        }
+
         states.Add(id, state);
     }
 
     public void RemoveState(int id)
     {
-        states.Remove(id);
+        if (states.ContainsKey(id)) states.Remove(id);
     }
 
     public void TransitReady(int id, int subId)

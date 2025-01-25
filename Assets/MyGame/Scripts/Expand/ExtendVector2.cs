@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 
@@ -85,5 +86,17 @@ static public class ExtendVector2
         Vector2 vector = Vector2.Dot(v, dir) * dir;
 
         return vector;
+    }
+
+    /// <summary>
+    /// 座標A,Bの間にあるか
+    /// </summary>
+    /// <param name="v"></param>
+    /// <param name="a"></param>
+    /// <param name="b"></param>
+    /// <returns></returns>
+    public static bool IsBetween(this Vector2 v, Vector2 a, Vector2 b)
+    {
+        return Vector3.Dot(v - a, v - b) <= 0;
     }
 }

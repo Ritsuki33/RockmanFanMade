@@ -15,7 +15,8 @@ public enum PoolType
     Explode2,
     Laser,
     PlayerDeathEffect,
-    Batman
+    Batman,
+    LiftYellow,
 }
 
 public class ObjectManager : SingletonComponent<ObjectManager>
