@@ -97,6 +97,6 @@ static public class ExtendVector2
     /// <returns></returns>
     public static bool IsBetween(this Vector2 v, Vector2 a, Vector2 b)
     {
-        return Vector3.Dot(v - a, v - b) <= 0;
+        return Vector3.Dot(v - a, v - b) <= 0.001f;
     }
 }
