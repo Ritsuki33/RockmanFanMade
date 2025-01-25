@@ -51,6 +51,10 @@ public class Batman : StageEnemy
     protected override void OnFixedUpdate()
     {
         mainStateMachine.FixedUpdate(this);
+    }
+
+    protected override void OnLateFixedUpdate()
+    {
         exRb.FixedUpdate();
     }
 

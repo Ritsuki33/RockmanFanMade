@@ -28,11 +28,15 @@ public class ObjectManager : SingletonComponent<ObjectManager>
     public void OnFixedUpdate()
     {
         updateList.OnFixedUpdate();
+
+        updateList.OnLateFixedUpdate();
     }
 
     public void OnUpdate()
     {
         updateList.OnUpdate();
+
+        updateList.OnLateUpdate();
     }
 
     public void OnPause(bool isPause)

@@ -69,6 +69,10 @@ public class Grenademan : StageBoss, IDirect
     protected override void OnFixedUpdate()
     {
         stateMachine.FixedUpdate(this);
+    }
+
+    protected override void OnLateFixedUpdate()
+    {
         _exRb.FixedUpdate();
     }
 

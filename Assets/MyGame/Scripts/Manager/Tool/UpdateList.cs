@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -35,8 +36,15 @@ public class UpdateList
 
         foreach (IObjectInterpreter e in list)
         {
-            if (e.gameObject == null) nullCount++; 
-            else e.OnFixedUpdate();
+            try
+            {
+                e.OnFixedUpdate();
+            }
+            catch (NullReferenceException ex)
+            {
+                Debug.LogError($"FixedUpdate中にNull参照を検知しました。{ex.Message}");
+                nullCount++;
+            }
         }
 
         // nullがあった場合は削除
@@ -44,6 +52,17 @@ public class UpdateList
 
         isUpdating = false;
     }
+
+    public void OnLateFixedUpdate()
+    {
+        isUpdating = true;
+        foreach (IObjectInterpreter e in list)
+        {
+            e.OnLateFixedUpdate();
+        }
+        isUpdating = false;
+    }
+
 
     public void OnUpdate()
     {
@@ -53,13 +72,30 @@ public class UpdateList
         int nullCount = 0;
         foreach (IObjectInterpreter e in list)
         {
-            if (e.gameObject == null) nullCount++; 
-            else e.OnUpdate();
+            try
+            {
+                e.OnUpdate();
+            }
+            catch (NullReferenceException ex)
+            {
+                Debug.LogError($"Update中にNull参照を検知しました。{ex.Message}");
+                nullCount++;
+            }
         }
 
         // nullがあった場合は削除
         if (nullCount > 0) list.RemoveAll(item => item == null);
 
+        isUpdating = false;
+    }
+
+    public void OnLateUpdate()
+    {
+        isUpdating = true;
+        foreach (IObjectInterpreter e in list)
+        {
+            e.OnLateUpdate();
+        }
         isUpdating = false;
     }
 
@@ -107,7 +143,6 @@ public class UpdateList
                 list.Add(obj);
             }
         }
-        
     }
 
     /// <summary>
