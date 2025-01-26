@@ -44,6 +44,11 @@ public class PlacedBomb : AnimObject
         exRb.FixedUpdate();
     }
 
+    protected override void OnLateFixedUpdate()
+    {
+        exRb.FixedUpdate();
+    }
+
     protected override void OnUpdate()
     {
         stateMachine.Update(this);

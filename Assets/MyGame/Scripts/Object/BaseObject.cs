@@ -12,7 +12,9 @@ public interface IObjectInterpreter
     int Id { get; set; }
     void Init();
     void OnFixedUpdate();
+    void OnLateFixedUpdate();
     void OnUpdate();
+    void OnLateUpdate();
 
     void RequestPause(bool isPause);
 
@@ -50,8 +52,12 @@ public class BaseObject : MonoBehaviour, IObjectInterpreter
     void IObjectInterpreter.RequestPause(bool isPause) => RequestPause(isPause);
     void IObjectInterpreter.Destroy() => Destroy();
     void IObjectInterpreter.Delete() => Delete();
+    void IObjectInterpreter.OnLateFixedUpdate() => OnLateFixedUpdate();
+    void IObjectInterpreter.OnLateUpdate() => OnLateUpdate();
 
     protected virtual void OnFixedUpdate() { }
+    protected virtual void OnLateFixedUpdate() { }
+    protected virtual void OnLateUpdate() { }
     protected virtual void OnPause(bool isPause) { _isPause = isPause; }
     protected virtual void Destroy() { }
     protected virtual void OnReset() { }
@@ -97,5 +103,4 @@ public class BaseObject : MonoBehaviour, IObjectInterpreter
     {
         _onDeleteCallback?.Invoke();
     }
-
 }

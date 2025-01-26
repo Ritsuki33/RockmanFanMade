@@ -124,7 +124,10 @@ public partial class StagePlayer : PhysicalObject, IDirect
     {
         m_mainStateMachine.FixedUpdate(this);
         m_chargeStateMachine.FixedUpdate(this);
+    }
 
+    protected override void OnLateFixedUpdate()
+    {
         exRb.FixedUpdate();
     }
 

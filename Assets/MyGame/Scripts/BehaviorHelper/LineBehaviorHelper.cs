@@ -45,9 +45,9 @@ public static class LineBehaviorHelper
     //    return velocity;
     //}
 
-    static public Vector2 GetStrobe(Transform start,Transform end, float progress)
+    static public Vector2 GetStrobe(Vector3 start, Vector3 end, float progress)
     {
-        Vector2 pos = Vector3.Lerp(start.position, end.position, progress);
+        Vector2 pos = Vector3.Lerp(start, end, progress);
 
         return pos;
     }

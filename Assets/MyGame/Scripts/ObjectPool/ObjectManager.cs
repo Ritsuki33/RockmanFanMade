@@ -15,7 +15,8 @@ public enum PoolType
     Explode2,
     Laser,
     PlayerDeathEffect,
-    Batman
+    Batman,
+    LiftYellow,
 }
 
 public class ObjectManager : SingletonComponent<ObjectManager>
@@ -27,11 +28,15 @@ public class ObjectManager : SingletonComponent<ObjectManager>
     public void OnFixedUpdate()
     {
         updateList.OnFixedUpdate();
+
+        updateList.OnLateFixedUpdate();
     }
 
     public void OnUpdate()
     {
         updateList.OnUpdate();
+
+        updateList.OnLateUpdate();
     }
 
     public void OnPause(bool isPause)
