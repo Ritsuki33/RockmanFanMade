@@ -667,9 +667,9 @@ public class ExpandRigidBody : IExRbCallbackSet
         onHitLeftExit += hitEvent.OnLeftHitExit;
         onHitBottomTopEnter += hitEvent.OnBottomTopHitEnter;
         onHitLeftRightEnter += hitEvent.OnLeftRightHitEnter;
-        onHitBottomTopStay += hitEvent.OnBottomToptHitStay;
+        onHitBottomTopStay += hitEvent.OnBottomTopHitStay;
         onHitLeftRightStay += hitEvent.OnLeftRightHitStay;
-        onHitBottomTopExit += hitEvent.OnBottomToptHitExit;
+        onHitBottomTopExit += hitEvent.OnBottomTopHitExit;
         onHitLeftRightExit += hitEvent.OnLeftRightHitExit;
     }
 
@@ -696,9 +696,9 @@ public class ExpandRigidBody : IExRbCallbackSet
         onHitLeftExit -= hitEvent.OnLeftHitExit;
         onHitBottomTopEnter -= hitEvent.OnBottomTopHitEnter;
         onHitLeftRightEnter -= hitEvent.OnLeftRightHitEnter;
-        onHitBottomTopStay -= hitEvent.OnBottomToptHitStay;
+        onHitBottomTopStay -= hitEvent.OnBottomTopHitStay;
         onHitLeftRightStay -= hitEvent.OnLeftRightHitStay;
-        onHitBottomTopExit -= hitEvent.OnBottomToptHitExit;
+        onHitBottomTopExit -= hitEvent.OnBottomTopHitExit;
         onHitLeftRightExit -= hitEvent.OnLeftRightHitExit;
     }
 

@@ -331,7 +331,7 @@ public partial class StagePlayer : PhysicalObject, IDirect
 
     void OnHitStay(DamageBase damage)
     {
-            if (!invincible) Damaged(damage.baseDamageValue);
+        if (!invincible) Damaged(damage.baseDamageValue);
     }
 
     void OnHitEnter(RaycastHit2D hit)

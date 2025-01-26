@@ -312,9 +312,9 @@ public partial class ExRbHit : IHitEvent, IExRbVisitor
     void IHitEvent.OnLeftRightHitEnter(RaycastHit2D leftHit, RaycastHit2D rightHit) => onLeftRightHitEnter?.Invoke(leftHit, rightHit);
     void IHitEvent.OnBottomTopHitEnter(RaycastHit2D bottomHit, RaycastHit2D topHit) => onBottomTopHitEnter?.Invoke(bottomHit, topHit);
     void IHitEvent.OnLeftRightHitExit(RaycastHit2D leftHit, RaycastHit2D rightHit) => onLeftRightHitExit?.Invoke(leftHit, rightHit);
-    void IHitEvent.OnBottomToptHitExit(RaycastHit2D bottomHit, RaycastHit2D topHit) => onLeftRightHitExit?.Invoke(bottomHit, topHit);
-    void IHitEvent.OnLeftRightHitStay(RaycastHit2D leftHit, RaycastHit2D rightHit) => onLeftRightHitExit?.Invoke(leftHit, rightHit);
-    void IHitEvent.OnBottomToptHitStay(RaycastHit2D bottomHit, RaycastHit2D topHit) => onLeftRightHitExit?.Invoke(bottomHit, topHit);
+    void IHitEvent.OnBottomTopHitExit(RaycastHit2D bottomHit, RaycastHit2D topHit) => onBottomTopHitExit?.Invoke(bottomHit, topHit);
+    void IHitEvent.OnLeftRightHitStay(RaycastHit2D leftHit, RaycastHit2D rightHit) => onLeftRightHitStay?.Invoke(leftHit, rightHit);
+    void IHitEvent.OnBottomTopHitStay(RaycastHit2D bottomHit, RaycastHit2D topHit) => onBottomTopHitStay?.Invoke(bottomHit, topHit);
 
 
 }
