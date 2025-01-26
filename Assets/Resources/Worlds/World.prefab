@@ -71950,6 +71950,8 @@ MonoBehaviour:
   liftPoints:
   - {fileID: 4068135058324486123}
   - {fileID: 7728306253001460664}
+  maxSpeed: 5
+  accelerate: 5
 --- !u!1 &6456536299689329542
 GameObject:
   m_ObjectHideFlags: 0

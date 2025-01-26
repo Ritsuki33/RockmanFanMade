@@ -262,5 +262,5 @@ MonoBehaviour:
   animSpeed: 1
   rb: {fileID: 1157633437391631242}
   _liftPoints: []
-  idleTime: 0
-  speed: 5
+  maxSpeed: 5
+  accelerate: 5

@@ -1,28 +1,30 @@
-﻿using NUnit.Framework;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System;
 using Unity.VisualScripting;
 using UnityEngine;
 
 public class LiftYellow : PhysicalObject
 {
     [SerializeField] Transform[] _liftPoints;
-    [SerializeField] float idleTime;
-    [SerializeField] float speed = 1;
+    [SerializeField] float maxSpeed = 5.0f;     // 最大速度 (v)
+    [SerializeField] float accelerate = 2.0f;   // 加速、減速(v/s)
     StateMachine<LiftYellow> _stateMachine = new StateMachine<LiftYellow>();
 
     int targetNumber = 0;
     bool reverse = false;
 
-    protected override void Init()
+    float currentSpeed = 0;
+    protected override void Awake()
     {
         _stateMachine.AddState(0, new Move());
-        _stateMachine.TransitReady(0);
+    }
 
+    protected override void Init()
+    {
+        _stateMachine.TransitReady(0);
         base.Init();
     }
 
-    public void Setup(Transform[] liftPoints)
+    public void Setup(Transform[] liftPoints, float maxSpeed, float accelerate)
     {
         _liftPoints = liftPoints;
     }
@@ -49,19 +51,45 @@ public class LiftYellow : PhysicalObject
             Vector2 direction = TargetPos - currentPos;
             direction = direction.normalized;
 
-            Vector2 movement = direction * lift.speed * Time.fixedDeltaTime;
+            float distance = Vector2.Distance(TargetPos, currentPos);
 
-            Vector2 nextPos = currentPos + movement;
-
-            // 目標地点を超えたか判定
-            if (TargetPos.IsBetween(currentPos,nextPos))
+            if (lift.accelerate > 0)
             {
-                lift.rb.SetVelocty(lift._liftPoints[lift.targetNumber].position);
-                lift.targetNumber = lift.Adjust(lift.targetNumber + (lift.reverse ? -1 : 1), lift._liftPoints.Length);
+                // 制動距離 = 速度 * 速度 / ( 2 * 減速度 ) 
+                float brakingDistance = (lift.accelerate == 0) ? 0 : lift.currentSpeed * lift.currentSpeed / (2 * lift.accelerate);
+
+                if (distance < brakingDistance)
+                {
+                    // 速度増加分＝ 加速度 * 時間（１F）
+                    lift.currentSpeed -= lift.accelerate * Time.fixedDeltaTime;
+                }
+                else
+                {
+                    // 速度増加分＝ 加速度 * 時間（１F）
+                    lift.currentSpeed += lift.accelerate * Time.fixedDeltaTime;
+                }
+                lift.currentSpeed = Math.Clamp(lift.currentSpeed, 0, lift.maxSpeed);
             }
             else
             {
-                lift.rb.velocity = direction * lift.speed;
+                lift.currentSpeed = lift.maxSpeed;
+            }
+
+            Vector2 velocity = direction * lift.currentSpeed;
+
+            Vector2 movement = velocity * Time.fixedDeltaTime;
+            Vector2 nextPos = currentPos + movement;
+
+            // 目標地点を超えたか判定
+            if (TargetPos.IsBetween(currentPos, nextPos))
+            {
+                lift.rb.SetVelocty(lift._liftPoints[lift.targetNumber].position);
+                lift.targetNumber = lift.Adjust(lift.targetNumber + (lift.reverse ? -1 : 1), lift._liftPoints.Length);
+                lift.currentSpeed = 0;
+            }
+            else
+            {
+                lift.rb.velocity = velocity;
             }
         }
     }
