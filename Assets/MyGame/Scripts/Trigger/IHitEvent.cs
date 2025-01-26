@@ -22,10 +22,10 @@ public interface IHitEvent
     void OnBottomTopHitEnter(RaycastHit2D bottomHit, RaycastHit2D topHit);
 
     void OnLeftRightHitExit(RaycastHit2D leftHit, RaycastHit2D rightHit);
-    void OnBottomToptHitExit(RaycastHit2D bottomHit, RaycastHit2D topHit);
+    void OnBottomTopHitExit(RaycastHit2D bottomHit, RaycastHit2D topHit);
 
     void OnLeftRightHitStay(RaycastHit2D leftHit, RaycastHit2D rightHit);
-    void OnBottomToptHitStay(RaycastHit2D bottomHit, RaycastHit2D topHit);
+    void OnBottomTopHitStay(RaycastHit2D bottomHit, RaycastHit2D topHit);
 }
 
 public interface IExRbCallbackSet
