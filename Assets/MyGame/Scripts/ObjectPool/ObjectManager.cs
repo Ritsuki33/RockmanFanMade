@@ -17,6 +17,7 @@ public enum PoolType
     PlayerDeathEffect,
     Batman,
     LiftYellow,
+    LiftBlue,
 }
 
 public class ObjectManager : SingletonComponent<ObjectManager>
