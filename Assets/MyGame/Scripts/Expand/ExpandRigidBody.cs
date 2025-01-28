@@ -415,11 +415,23 @@ public class ExpandRigidBody : IExRbCallbackSet
             , VirtualLeftColliderCenter.x+ 0.005f - Left + ((CurrentMovement.x < 0) ? Mathf.Abs(CurrentMovement.x) : 0)
             , physicalLayer);
 
-        // コライダー内部からのレイヒットをフィルタリング
-        if (topHit.distance < 0.01f) topHit = default;
-        if (bottomHit.distance < 0.01f) bottomHit = default;
-        if (leftHit.distance < 0.01f) leftHit = default;
-        if (rightHit.distance < 0.01f) rightHit = default;
+        //// めり込み→１辺がヒット、およびその両側の２辺が内部でヒット　？？？
+        if ((topHit) && (leftHit && leftHit.distance < 0.001f) && (rightHit && rightHit.distance < 0.001f))
+        {
+            leftHit = rightHit = default;
+        }
+        else if ((rightHit) && (topHit && topHit.distance < 0.001f) && (bottomHit && bottomHit.distance < 0.001f))
+        {
+            topHit = bottomHit = default;
+        }
+        else if ((bottomHit) && (leftHit && leftHit.distance < 0.001f) && (rightHit && rightHit.distance < 0.001f))
+        {
+            leftHit = rightHit = default;
+        }
+        else if ((leftHit) && (topHit && topHit.distance < 0.001f) && (bottomHit && bottomHit.distance < 0.001f))
+        {
+            topHit = bottomHit = default;
+        }
 
         if (topHit)
         {
