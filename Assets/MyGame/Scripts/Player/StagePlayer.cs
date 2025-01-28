@@ -46,7 +46,7 @@ public partial class StagePlayer : PhysicalObject, IDirect
     ExRbHit exRbHit = new ExRbHit();
     RbCollide rbCollide = new RbCollide();
 
-
+    private bool isDead = false;
     enum Main_StateID
     {
         Standing = 0,
@@ -116,7 +116,7 @@ public partial class StagePlayer : PhysicalObject, IDirect
         base.Init();
 
         invincible = false;
-
+        isDead = false;
         ChargeInit();
     }
 
@@ -169,6 +169,8 @@ public partial class StagePlayer : PhysicalObject, IDirect
 
     public void Dead()
     {
+        if (isDead) return;
+        isDead = true;
         m_mainStateMachine.TransitReady((int)Main_StateID.Death);
         GameMainManager.Instance.DeathNotification();
     }
