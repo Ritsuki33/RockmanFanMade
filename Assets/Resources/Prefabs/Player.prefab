@@ -63,8 +63,8 @@ Rigidbody2D:
     serializedVersion: 2
     m_Bits: 0
   m_Interpolate: 0
-  m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_SleepingMode: 0
+  m_CollisionDetection: 1
   m_Constraints: 4
 --- !u!61 &8844416400681651829
 BoxCollider2D:
@@ -125,6 +125,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   outofCameraDelete: 1
   m_mainAnimator: {fileID: 3088061996218391432}
+  animSpeed: 1
   rb: {fileID: 8702880162454419263}
   m_charge_animator: {fileID: 490895303943728102}
   launcher: {fileID: 1196822323176108787}

@@ -72093,7 +72093,6 @@ Transform:
   - {fileID: 8728504660978963260}
   - {fileID: 2176989403069042075}
   - {fileID: 2021728252841551959}
-  - {fileID: 7705378597264852412}
   m_Father: {fileID: 2043483968243743446}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7409725073617103763
@@ -72622,51 +72621,6 @@ Transform:
   - {fileID: 1417687423886127276}
   m_Father: {fileID: 5575985270747670335}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &9105967839120632030
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 7705378597264852412}
-  - component: {fileID: 3925821640951758617}
-  m_Layer: 0
-  m_Name: LiftBlue
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &7705378597264852412
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9105967839120632030}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 9.43, y: 6.18, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 3821792001746930927}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3925821640951758617
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9105967839120632030}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 65f3dce4b0715834da2e731a51635a41, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  type: 14
 --- !u!1 &9181247305287076683
 GameObject:
   m_ObjectHideFlags: 0
