@@ -46,6 +46,7 @@ public partial class StagePlayer : PhysicalObject, IDirect
     ExRbHit exRbHit = new ExRbHit();
     RbCollide rbCollide = new RbCollide();
 
+    CrashChecker crashChecker = new CrashChecker();
     private bool isDead = false;
     enum Main_StateID
     {
@@ -96,11 +97,10 @@ public partial class StagePlayer : PhysicalObject, IDirect
 
         exRbHit.onBottomHitStay += OnBottomHitStay;
         exRbHit.onTopHitStay += OnTopHitStay;
-        exRbHit.onBottomTopHitStay += OnBottomTopHitEnter;
-        exRbHit.onLeftRightHitEnter += OnLeftRightHitEnter;
         exRbHit.onHitEnter += OnHitEnter;
         exRbHit.onHitStayDamageBase += OnHitStay;
 
+        crashChecker.onClashCallback += OnCrash;
         m_chargeStateMachine.Clear();
         // チャージの状態セット
         m_chargeStateMachine.AddState((int)Chage_StateID.None, new None());
@@ -129,6 +129,7 @@ public partial class StagePlayer : PhysicalObject, IDirect
     protected override void OnLateFixedUpdate()
     {
         exRb.FixedUpdate();
+        crashChecker.FixedUpdate();
     }
 
     protected override void OnUpdate()
@@ -321,14 +322,9 @@ public partial class StagePlayer : PhysicalObject, IDirect
         m_mainStateMachine.OnTopHitStay(this, hit);
     }
 
-    void OnBottomTopHitEnter(RaycastHit2D bottom, RaycastHit2D top)
+    void OnCrash(ContactPoint2D a, ContactPoint2D b)
     {
-        m_mainStateMachine.OnBottomTopHitEnter(this, bottom, top);
-    }
-
-    void OnLeftRightHitEnter(RaycastHit2D bottom, RaycastHit2D top)
-    {
-        m_mainStateMachine.OnLeftRightHitEnter(this, bottom, top);
+        Damaged(int.MaxValue);
     }
 
     void OnHitStay(DamageBase damage)
@@ -343,6 +339,11 @@ public partial class StagePlayer : PhysicalObject, IDirect
             var shutter = hit.collider.GetComponent<ShutterControll>();
             shutter.Enter();
         }
+    }
+
+    public void OnCollisionStay2D(Collision2D collision)
+    {
+        crashChecker.OnCollisionStay2D(collision);
     }
 
     private void OnTriggerEnter2D(Collider2D collision) => rbCollide.OnTriggerEnter(collision);
