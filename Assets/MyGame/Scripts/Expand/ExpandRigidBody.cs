@@ -324,15 +324,6 @@ public class ExpandRigidBody : IExRbCallbackSet
     public event Action<RaycastHit2D> onHitLeftExit;
     public event Action<RaycastHit2D> onHitRightExit;
 
-    public event Action<RaycastHit2D,RaycastHit2D> onHitBottomTopEnter;
-    public event Action<RaycastHit2D,RaycastHit2D> onHitLeftRightEnter;
-
-    public event Action<RaycastHit2D, RaycastHit2D> onHitBottomTopStay;
-    public event Action<RaycastHit2D, RaycastHit2D> onHitLeftRightStay;
-
-    public event Action<RaycastHit2D, RaycastHit2D> onHitBottomTopExit;
-    public event Action<RaycastHit2D, RaycastHit2D> onHitLeftRightExit;
-
     RaycastHit2D casheCollideBottom = default;
     RaycastHit2D casheCollideTop = default;
     RaycastHit2D casheCollideLeft = default;
@@ -415,30 +406,11 @@ public class ExpandRigidBody : IExRbCallbackSet
             , VirtualLeftColliderCenter.x+ 0.005f - Left + ((CurrentMovement.x < 0) ? Mathf.Abs(CurrentMovement.x) : 0)
             , physicalLayer);
 
-        if((topHit&&topHit.distance<0.001f)
-            && (bottomHit && bottomHit.distance < 0.001f)
-            && (leftHit && leftHit.distance < 0.001f)
-            && (rightHit && rightHit.distance < 0.001f))
-        {
-            topHit = bottomHit = leftHit = rightHit = default;
-        }
-        //// めり込み→１辺がヒット、およびその両側の２辺が内部でヒット　？？？
-        else if ((topHit) && (leftHit && leftHit.distance < 0.001f) && (rightHit && rightHit.distance < 0.001f))
-        {
-            leftHit = rightHit = default;
-        }
-        else if ((rightHit) && (topHit && topHit.distance < 0.001f) && (bottomHit && bottomHit.distance < 0.001f))
-        {
-            topHit = bottomHit = default;
-        }
-        else if ((bottomHit) && (leftHit && leftHit.distance < 0.001f) && (rightHit && rightHit.distance < 0.001f))
-        {
-            leftHit = rightHit = default;
-        }
-        else if ((leftHit) && (topHit && topHit.distance < 0.001f) && (bottomHit && bottomHit.distance < 0.001f))
-        {
-            topHit = bottomHit = default;
-        }
+        // コライダー内部からのレイヒットをフィルタリング
+        if (topHit.distance < 0.01f) topHit = default;
+        if (bottomHit.distance < 0.01f) bottomHit = default;
+        if (leftHit.distance < 0.01f) leftHit = default;
+        if (rightHit.distance < 0.01f) rightHit = default;
 
         if (topHit)
         {
@@ -558,39 +530,6 @@ public class ExpandRigidBody : IExRbCallbackSet
                 onHitExit?.Invoke(casheCollideRight);
         }
 
-
-        if (topHit && bottomHit)
-        {
-            if (casheCollideTop != topHit || casheCollideBottom != bottomHit)
-            {
-                onHitBottomTopExit?.Invoke(casheCollideBottom, casheCollideTop);
-
-                onHitBottomTopEnter?.Invoke(topHit, bottomHit);
-            }
-
-            onHitBottomTopStay?.Invoke(topHit, bottomHit);
-        }
-        else if (casheCollideTop && casheCollideBottom)
-        {
-            onHitBottomTopExit?.Invoke(casheCollideBottom, casheCollideTop);
-        }
-
-        if (rightHit && leftHit)
-        {
-            if (casheCollideRight != rightHit || casheCollideLeft != leftHit)
-            {
-                onHitLeftRightExit?.Invoke(casheCollideLeft, casheCollideRight);
-
-                onHitLeftRightEnter?.Invoke(rightHit, leftHit);
-            }
-
-            onHitLeftRightStay?.Invoke(rightHit, leftHit);
-        }
-        else if (casheCollideRight && casheCollideLeft)
-        {
-            onHitLeftRightExit?.Invoke(casheCollideLeft, casheCollideRight);
-        }
-
         this.currentVelocity = currentVelocity;
 
         casheCollideTop = topHit;
@@ -684,12 +623,6 @@ public class ExpandRigidBody : IExRbCallbackSet
         onHitTopExit += hitEvent.OnTopHitExit;
         onHitRightExit += hitEvent.OnRightHitExit;
         onHitLeftExit += hitEvent.OnLeftHitExit;
-        onHitBottomTopEnter += hitEvent.OnBottomTopHitEnter;
-        onHitLeftRightEnter += hitEvent.OnLeftRightHitEnter;
-        onHitBottomTopStay += hitEvent.OnBottomTopHitStay;
-        onHitLeftRightStay += hitEvent.OnLeftRightHitStay;
-        onHitBottomTopExit += hitEvent.OnBottomTopHitExit;
-        onHitLeftRightExit += hitEvent.OnLeftRightHitExit;
     }
 
     /// <summary>
@@ -713,12 +646,6 @@ public class ExpandRigidBody : IExRbCallbackSet
         onHitTopExit -= hitEvent.OnTopHitExit;
         onHitRightExit -= hitEvent.OnRightHitExit;
         onHitLeftExit -= hitEvent.OnLeftHitExit;
-        onHitBottomTopEnter -= hitEvent.OnBottomTopHitEnter;
-        onHitLeftRightEnter -= hitEvent.OnLeftRightHitEnter;
-        onHitBottomTopStay -= hitEvent.OnBottomTopHitStay;
-        onHitLeftRightStay -= hitEvent.OnLeftRightHitStay;
-        onHitBottomTopExit -= hitEvent.OnBottomTopHitExit;
-        onHitLeftRightExit -= hitEvent.OnLeftRightHitExit;
     }
 
     public void OnDrawGizmos()

@@ -17,15 +17,6 @@ public interface IHitEvent
     void OnTopHitExit(RaycastHit2D hit);
     void OnLeftHitExit(RaycastHit2D hit);
     void OnRightHitExit(RaycastHit2D hit);
-
-    void OnLeftRightHitEnter(RaycastHit2D leftHit, RaycastHit2D rightHit);
-    void OnBottomTopHitEnter(RaycastHit2D bottomHit, RaycastHit2D topHit);
-
-    void OnLeftRightHitExit(RaycastHit2D leftHit, RaycastHit2D rightHit);
-    void OnBottomTopHitExit(RaycastHit2D bottomHit, RaycastHit2D topHit);
-
-    void OnLeftRightHitStay(RaycastHit2D leftHit, RaycastHit2D rightHit);
-    void OnBottomTopHitStay(RaycastHit2D bottomHit, RaycastHit2D topHit);
 }
 
 public interface IExRbCallbackSet
