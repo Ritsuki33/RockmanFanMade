@@ -31,6 +31,8 @@ public class ExpandRigidBody : IExRbCallbackSet
 
     LayerMask physicalLayer = default;
 
+    public LayerMask PhysicalLayer => physicalLayer;
+
     private Vector2 currentVelocity;
     /// <summary>
     /// コライダーの中心とサイズ

@@ -46,8 +46,8 @@ public partial class StagePlayer : PhysicalObject, IDirect
     ExRbHit exRbHit = new ExRbHit();
     RbCollide rbCollide = new RbCollide();
 
-    CrashChecker crashChecker = new CrashChecker();
     private bool isDead = false;
+
     enum Main_StateID
     {
         Standing = 0,
@@ -100,14 +100,12 @@ public partial class StagePlayer : PhysicalObject, IDirect
         exRbHit.onHitEnter += OnHitEnter;
         exRbHit.onHitStayDamageBase += OnHitStay;
 
-        crashChecker.onClashCallback += OnCrash;
         m_chargeStateMachine.Clear();
         // チャージの状態セット
         m_chargeStateMachine.AddState((int)Chage_StateID.None, new None());
         m_chargeStateMachine.AddState((int)Chage_StateID.ChargeSmall, new ChargeSmall());
         m_chargeStateMachine.AddState((int)Chage_StateID.ChargeMiddle, new ChargeMiddle());
         m_chargeStateMachine.AddState((int)Chage_StateID.ChargeBig, new ChargeBig());
-
         chargeAnimSpeed = m_charge_animator.speed;
     }
 
@@ -129,7 +127,11 @@ public partial class StagePlayer : PhysicalObject, IDirect
     protected override void OnLateFixedUpdate()
     {
         exRb.FixedUpdate();
-        crashChecker.FixedUpdate();
+
+        if (CrashCheck(exRb.BoxColliderCenter, exRb.PhysicalBoxSize, exRb.PhysicalLayer))
+        {
+            Dead();
+        }
     }
 
     protected override void OnUpdate()
@@ -339,11 +341,6 @@ public partial class StagePlayer : PhysicalObject, IDirect
             var shutter = hit.collider.GetComponent<ShutterControll>();
             shutter.Enter();
         }
-    }
-
-    public void OnCollisionStay2D(Collision2D collision)
-    {
-        crashChecker.OnCollisionStay2D(collision);
     }
 
     private void OnTriggerEnter2D(Collider2D collision) => rbCollide.OnTriggerEnter(collision);
