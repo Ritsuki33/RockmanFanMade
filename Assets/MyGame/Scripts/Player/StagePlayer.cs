@@ -2,7 +2,7 @@
 using System.Collections;
 using UnityEngine;
 
-public partial class StagePlayer : PhysicalObject, IDirect
+public partial class StagePlayer : PhysicalObject, IDirect,IBeltConveyorVelocity
 {
     [SerializeField] ExpandRigidBody exRb;
     [Header("プレイヤー情報")]
@@ -11,7 +11,6 @@ public partial class StagePlayer : PhysicalObject, IDirect
     [SerializeField] int mameMax = 3;
     [SerializeField] Gravity gravity;
     [SerializeField] Move move;
-    [SerializeField] OnTheGround onTheGround;
     [SerializeField] Jump jump;
     [SerializeField] Direct direct;
 
@@ -47,6 +46,8 @@ public partial class StagePlayer : PhysicalObject, IDirect
     RbCollide rbCollide = new RbCollide();
 
     private bool isDead = false;
+
+    RaycastHit2D bottomHit = default;
     enum Main_StateID
     {
         Standing = 0,
@@ -95,11 +96,11 @@ public partial class StagePlayer : PhysicalObject, IDirect
         rbCollide.onTriggerEnterDamageBase += OnTriggerStayDamageBase;
 
         exRbHit.onBottomHitStay += OnBottomHitStay;
+        exRbHit.onBottomHitExit += OnBottomHitExit;
         exRbHit.onTopHitStay += OnTopHitStay;
-        exRbHit.onBottomTopHitStay += OnBottomTopHitEnter;
-        exRbHit.onLeftRightHitEnter += OnLeftRightHitEnter;
         exRbHit.onHitEnter += OnHitEnter;
         exRbHit.onHitStayDamageBase += OnHitStay;
+        exRbHit.onBottomHitStayBeltConveyor += OnBottomHitStay;
 
         m_chargeStateMachine.Clear();
         // チャージの状態セット
@@ -107,7 +108,6 @@ public partial class StagePlayer : PhysicalObject, IDirect
         m_chargeStateMachine.AddState((int)Chage_StateID.ChargeSmall, new ChargeSmall());
         m_chargeStateMachine.AddState((int)Chage_StateID.ChargeMiddle, new ChargeMiddle());
         m_chargeStateMachine.AddState((int)Chage_StateID.ChargeBig, new ChargeBig());
-
         chargeAnimSpeed = m_charge_animator.speed;
     }
 
@@ -118,6 +118,8 @@ public partial class StagePlayer : PhysicalObject, IDirect
         invincible = false;
         isDead = false;
         ChargeInit();
+
+        bottomHit = default;
     }
 
     protected override void OnFixedUpdate()
@@ -129,6 +131,11 @@ public partial class StagePlayer : PhysicalObject, IDirect
     protected override void OnLateFixedUpdate()
     {
         exRb.FixedUpdate();
+
+        if (CrashCheck(exRb.BoxColliderCenter, exRb.PhysicalBoxSize, exRb.PhysicalLayer))
+        {
+            Dead();
+        }
     }
 
     protected override void OnUpdate()
@@ -316,19 +323,20 @@ public partial class StagePlayer : PhysicalObject, IDirect
         m_mainStateMachine.OnBottomHitStay(this, hit);
     }
 
+    void OnBottomHitExit(RaycastHit2D hit)
+    {
+        m_mainStateMachine.OnBottomHitExit(this, hit);
+    }
+
+
     void OnTopHitStay(RaycastHit2D hit)
     {
         m_mainStateMachine.OnTopHitStay(this, hit);
     }
 
-    void OnBottomTopHitEnter(RaycastHit2D bottom, RaycastHit2D top)
+    void OnCrash(ContactPoint2D a, ContactPoint2D b)
     {
-        m_mainStateMachine.OnBottomTopHitEnter(this, bottom, top);
-    }
-
-    void OnLeftRightHitEnter(RaycastHit2D bottom, RaycastHit2D top)
-    {
-        m_mainStateMachine.OnLeftRightHitEnter(this, bottom, top);
+        Damaged(int.MaxValue);
     }
 
     void OnHitStay(DamageBase damage)
@@ -345,6 +353,11 @@ public partial class StagePlayer : PhysicalObject, IDirect
         }
     }
 
+    void OnBottomHitStay(BeltConveyor beltConveyor)
+    {
+        beltConveyor.GetOn(this);
+    }
+
     private void OnTriggerEnter2D(Collider2D collision) => rbCollide.OnTriggerEnter(collision);
     private void OnTriggerStay2D(Collider2D collision) => rbCollide.OnTriggerEnter(collision);
     private void OnTriggerExit2D(Collider2D collision) => rbCollide.OnTriggerExit(collision);
@@ -353,10 +366,12 @@ public partial class StagePlayer : PhysicalObject, IDirect
     private void OnDrawGizmos()
     {
         exRb.OnDrawGizmos();
-        onTheGround.OnDrawGizmos(transform.position, exRb.PhysicalBoxSize.x);
     }
 
     public bool IsRight => direct.IsRight;
+
+    Vector2 IBeltConveyorVelocity.velocity { get => exRb.velocity; set => exRb.velocity = value; }
+
     public void TurnTo(bool isRight) => direct.TurnTo(isRight);
     public void TurnToTarget(Vector2 targetPos) => TurnToTarget(targetPos);
     public void TurnFace() => direct.TurnFace();

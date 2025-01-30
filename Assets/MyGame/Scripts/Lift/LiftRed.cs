@@ -32,11 +32,6 @@ public class LiftRed : PhysicalObject
         m_StateMachine.TransitReady(0);
     }
 
-    private void FixedUpdate()
-    {
-        m_StateMachine.FixedUpdate(this);
-    }
-
     protected override void OnFixedUpdate()
     {
         m_StateMachine.FixedUpdate(this);

@@ -31,6 +31,8 @@ public class ExpandRigidBody : IExRbCallbackSet
 
     LayerMask physicalLayer = default;
 
+    public LayerMask PhysicalLayer => physicalLayer;
+
     private Vector2 currentVelocity;
     /// <summary>
     /// コライダーの中心とサイズ
@@ -324,15 +326,6 @@ public class ExpandRigidBody : IExRbCallbackSet
     public event Action<RaycastHit2D> onHitLeftExit;
     public event Action<RaycastHit2D> onHitRightExit;
 
-    public event Action<RaycastHit2D,RaycastHit2D> onHitBottomTopEnter;
-    public event Action<RaycastHit2D,RaycastHit2D> onHitLeftRightEnter;
-
-    public event Action<RaycastHit2D, RaycastHit2D> onHitBottomTopStay;
-    public event Action<RaycastHit2D, RaycastHit2D> onHitLeftRightStay;
-
-    public event Action<RaycastHit2D, RaycastHit2D> onHitBottomTopExit;
-    public event Action<RaycastHit2D, RaycastHit2D> onHitLeftRightExit;
-
     RaycastHit2D casheCollideBottom = default;
     RaycastHit2D casheCollideTop = default;
     RaycastHit2D casheCollideLeft = default;
@@ -367,8 +360,8 @@ public class ExpandRigidBody : IExRbCallbackSet
 
     private void CorrectVelocity()
     {
-        PhysicalVelocityCorrect(currentVelocity);
-        ThroughFloorVelocityCorrect(currentVelocity);
+        PhysicalVelocityCorrect();
+        ThroughFloorVelocityCorrect();
     }
 
     public void SetPosition(Vector2 pos)
@@ -376,11 +369,12 @@ public class ExpandRigidBody : IExRbCallbackSet
         BoxColliderCenter = pos;
     }
 
-    private void PhysicalVelocityCorrect(Vector2 currentVelocity)
+    private void PhysicalVelocityCorrect()
     {
         if (physicalLayer == 0) Debug.LogError($"ExpandRigidBodyが初期化されていないため、レイの判定ができません。({this.transform.gameObject})");
 
-        topHit = Physics2D.BoxCast(
+        // ヒット情報は一旦すべて取得
+        RaycastHit2D[] topHits = Physics2D.BoxCastAll(
             VirtualTopColliderCenter + new Vector2(0, -0.005f)
             , VerticalCheckHitTopSize
             , 0
@@ -389,7 +383,7 @@ public class ExpandRigidBody : IExRbCallbackSet
             , physicalLayer);
 
 
-        bottomHit = Physics2D.BoxCast(
+        RaycastHit2D[] bottomHits = Physics2D.BoxCastAll(
             VirtualBottomColliderCenter + new Vector2(0, 0.005f)
             , VerticalCheckHitBottomSize
             , 0
@@ -398,7 +392,7 @@ public class ExpandRigidBody : IExRbCallbackSet
             , physicalLayer);
 
 
-        rightHit = Physics2D.BoxCast(
+        RaycastHit2D[] rightHits = Physics2D.BoxCastAll(
             VirtualRightColliderCenter + new Vector2(-0.005f, 0)
             , HorizenCheckHitRightSize
             , 0
@@ -407,7 +401,7 @@ public class ExpandRigidBody : IExRbCallbackSet
             , physicalLayer);
 
 
-        leftHit = Physics2D.BoxCast(
+        RaycastHit2D[] leftHits = Physics2D.BoxCastAll(
             VirtualLeftColliderCenter + new Vector2(0.005f, 0)
             , HorizenCheckHitLeftSize
             , 0
@@ -415,29 +409,33 @@ public class ExpandRigidBody : IExRbCallbackSet
             , VirtualLeftColliderCenter.x+ 0.005f - Left + ((CurrentMovement.x < 0) ? Mathf.Abs(CurrentMovement.x) : 0)
             , physicalLayer);
 
-        if((topHit&&topHit.distance<0.001f)
-            && (bottomHit && bottomHit.distance < 0.001f)
-            && (leftHit && leftHit.distance < 0.001f)
-            && (rightHit && rightHit.distance < 0.001f))
+        // ヒット情報から内部ヒットは除外、一番近いヒット情報を利用
+        topHit = default;
+        foreach(var hit in topHits)
         {
-            topHit = bottomHit = leftHit = rightHit = default;
+            if (hit.distance < 0.001f) continue;
+            topHit = hit; break;
         }
-        //// めり込み→１辺がヒット、およびその両側の２辺が内部でヒット　？？？
-        else if ((topHit) && (leftHit && leftHit.distance < 0.001f) && (rightHit && rightHit.distance < 0.001f))
+
+        bottomHit = default;
+        foreach (var hit in bottomHits)
         {
-            leftHit = rightHit = default;
+            if (hit.distance < 0.001f) continue;
+            bottomHit = hit; break;
         }
-        else if ((rightHit) && (topHit && topHit.distance < 0.001f) && (bottomHit && bottomHit.distance < 0.001f))
+
+        leftHit = default;
+        foreach (var hit in leftHits)
         {
-            topHit = bottomHit = default;
+            if (hit.distance < 0.001f) continue;
+            leftHit = hit; break;
         }
-        else if ((bottomHit) && (leftHit && leftHit.distance < 0.001f) && (rightHit && rightHit.distance < 0.001f))
+
+        rightHit = default;
+        foreach (var hit in rightHits)
         {
-            leftHit = rightHit = default;
-        }
-        else if ((leftHit) && (topHit && topHit.distance < 0.001f) && (bottomHit && bottomHit.distance < 0.001f))
-        {
-            topHit = bottomHit = default;
+            if (hit.distance < 0.001f) continue;
+            rightHit = hit; break;
         }
 
         if (topHit)
@@ -558,41 +556,6 @@ public class ExpandRigidBody : IExRbCallbackSet
                 onHitExit?.Invoke(casheCollideRight);
         }
 
-
-        if (topHit && bottomHit)
-        {
-            if (casheCollideTop != topHit || casheCollideBottom != bottomHit)
-            {
-                onHitBottomTopExit?.Invoke(casheCollideBottom, casheCollideTop);
-
-                onHitBottomTopEnter?.Invoke(topHit, bottomHit);
-            }
-
-            onHitBottomTopStay?.Invoke(topHit, bottomHit);
-        }
-        else if (casheCollideTop && casheCollideBottom)
-        {
-            onHitBottomTopExit?.Invoke(casheCollideBottom, casheCollideTop);
-        }
-
-        if (rightHit && leftHit)
-        {
-            if (casheCollideRight != rightHit || casheCollideLeft != leftHit)
-            {
-                onHitLeftRightExit?.Invoke(casheCollideLeft, casheCollideRight);
-
-                onHitLeftRightEnter?.Invoke(rightHit, leftHit);
-            }
-
-            onHitLeftRightStay?.Invoke(rightHit, leftHit);
-        }
-        else if (casheCollideRight && casheCollideLeft)
-        {
-            onHitLeftRightExit?.Invoke(casheCollideLeft, casheCollideRight);
-        }
-
-        this.currentVelocity = currentVelocity;
-
         casheCollideTop = topHit;
         casheCollideBottom = bottomHit;
         casheCollideLeft = leftHit;
@@ -600,7 +563,7 @@ public class ExpandRigidBody : IExRbCallbackSet
     }
 
 
-    private void ThroughFloorVelocityCorrect(Vector2 currentVelocity)
+    private void ThroughFloorVelocityCorrect()
     {
         throughFloorBottomHit = Physics2D.BoxCast(
            VirtualBottomColliderCenter
@@ -647,8 +610,6 @@ public class ExpandRigidBody : IExRbCallbackSet
             }
             isCollideThroughFloorBottom = false;
         }
-
-        this.currentVelocity = currentVelocity;
     }
 
     public void RemoveThroughFloorLayer(int excludeLayer)
@@ -684,12 +645,6 @@ public class ExpandRigidBody : IExRbCallbackSet
         onHitTopExit += hitEvent.OnTopHitExit;
         onHitRightExit += hitEvent.OnRightHitExit;
         onHitLeftExit += hitEvent.OnLeftHitExit;
-        onHitBottomTopEnter += hitEvent.OnBottomTopHitEnter;
-        onHitLeftRightEnter += hitEvent.OnLeftRightHitEnter;
-        onHitBottomTopStay += hitEvent.OnBottomTopHitStay;
-        onHitLeftRightStay += hitEvent.OnLeftRightHitStay;
-        onHitBottomTopExit += hitEvent.OnBottomTopHitExit;
-        onHitLeftRightExit += hitEvent.OnLeftRightHitExit;
     }
 
     /// <summary>
@@ -713,12 +668,6 @@ public class ExpandRigidBody : IExRbCallbackSet
         onHitTopExit -= hitEvent.OnTopHitExit;
         onHitRightExit -= hitEvent.OnRightHitExit;
         onHitLeftExit -= hitEvent.OnLeftHitExit;
-        onHitBottomTopEnter -= hitEvent.OnBottomTopHitEnter;
-        onHitLeftRightEnter -= hitEvent.OnLeftRightHitEnter;
-        onHitBottomTopStay -= hitEvent.OnBottomTopHitStay;
-        onHitLeftRightStay -= hitEvent.OnLeftRightHitStay;
-        onHitBottomTopExit -= hitEvent.OnBottomTopHitExit;
-        onHitLeftRightExit -= hitEvent.OnLeftRightHitExit;
     }
 
     public void OnDrawGizmos()
