@@ -373,7 +373,8 @@ public class ExpandRigidBody : IExRbCallbackSet
     {
         if (physicalLayer == 0) Debug.LogError($"ExpandRigidBodyが初期化されていないため、レイの判定ができません。({this.transform.gameObject})");
 
-        topHit = Physics2D.BoxCast(
+        // ヒット情報は一旦すべて取得
+        RaycastHit2D[] topHits = Physics2D.BoxCastAll(
             VirtualTopColliderCenter + new Vector2(0, -0.005f)
             , VerticalCheckHitTopSize
             , 0
@@ -382,7 +383,7 @@ public class ExpandRigidBody : IExRbCallbackSet
             , physicalLayer);
 
 
-        bottomHit = Physics2D.BoxCast(
+        RaycastHit2D[] bottomHits = Physics2D.BoxCastAll(
             VirtualBottomColliderCenter + new Vector2(0, 0.005f)
             , VerticalCheckHitBottomSize
             , 0
@@ -391,7 +392,7 @@ public class ExpandRigidBody : IExRbCallbackSet
             , physicalLayer);
 
 
-        rightHit = Physics2D.BoxCast(
+        RaycastHit2D[] rightHits = Physics2D.BoxCastAll(
             VirtualRightColliderCenter + new Vector2(-0.005f, 0)
             , HorizenCheckHitRightSize
             , 0
@@ -400,7 +401,7 @@ public class ExpandRigidBody : IExRbCallbackSet
             , physicalLayer);
 
 
-        leftHit = Physics2D.BoxCast(
+        RaycastHit2D[] leftHits = Physics2D.BoxCastAll(
             VirtualLeftColliderCenter + new Vector2(0.005f, 0)
             , HorizenCheckHitLeftSize
             , 0
@@ -408,11 +409,34 @@ public class ExpandRigidBody : IExRbCallbackSet
             , VirtualLeftColliderCenter.x+ 0.005f - Left + ((CurrentMovement.x < 0) ? Mathf.Abs(CurrentMovement.x) : 0)
             , physicalLayer);
 
-        // コライダー内部からのレイヒットをフィルタリング
-        if (topHit.distance < 0.01f) topHit = default;
-        if (bottomHit.distance < 0.01f) bottomHit = default;
-        if (leftHit.distance < 0.01f) leftHit = default;
-        if (rightHit.distance < 0.01f) rightHit = default;
+        // ヒット情報から内部ヒットは除外、一番近いヒット情報を利用
+        topHit = default;
+        foreach(var hit in topHits)
+        {
+            if (hit.distance < 0.001f) continue;
+            topHit = hit; break;
+        }
+
+        bottomHit = default;
+        foreach (var hit in bottomHits)
+        {
+            if (hit.distance < 0.001f) continue;
+            bottomHit = hit; break;
+        }
+
+        leftHit = default;
+        foreach (var hit in leftHits)
+        {
+            if (hit.distance < 0.001f) continue;
+            leftHit = hit; break;
+        }
+
+        rightHit = default;
+        foreach (var hit in rightHits)
+        {
+            if (hit.distance < 0.001f) continue;
+            rightHit = hit; break;
+        }
 
         if (topHit)
         {
