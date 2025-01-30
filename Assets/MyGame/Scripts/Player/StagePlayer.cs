@@ -11,7 +11,7 @@ public partial class StagePlayer : PhysicalObject, IDirect
     [SerializeField] int mameMax = 3;
     [SerializeField] Gravity gravity;
     [SerializeField] Move move;
-    [SerializeField] OnTheGround onTheGround;
+    //[SerializeField] OnTheGround onTheGround;
     [SerializeField] Jump jump;
     [SerializeField] Direct direct;
 
@@ -48,6 +48,7 @@ public partial class StagePlayer : PhysicalObject, IDirect
 
     private bool isDead = false;
 
+    RaycastHit2D bottomHit = default;
     enum Main_StateID
     {
         Standing = 0,
@@ -96,6 +97,7 @@ public partial class StagePlayer : PhysicalObject, IDirect
         rbCollide.onTriggerEnterDamageBase += OnTriggerStayDamageBase;
 
         exRbHit.onBottomHitStay += OnBottomHitStay;
+        exRbHit.onBottomHitExit += OnBottomHitExit;
         exRbHit.onTopHitStay += OnTopHitStay;
         exRbHit.onHitEnter += OnHitEnter;
         exRbHit.onHitStayDamageBase += OnHitStay;
@@ -116,6 +118,8 @@ public partial class StagePlayer : PhysicalObject, IDirect
         invincible = false;
         isDead = false;
         ChargeInit();
+
+        bottomHit = default;
     }
 
     protected override void OnFixedUpdate()
@@ -319,6 +323,12 @@ public partial class StagePlayer : PhysicalObject, IDirect
         m_mainStateMachine.OnBottomHitStay(this, hit);
     }
 
+    void OnBottomHitExit(RaycastHit2D hit)
+    {
+        m_mainStateMachine.OnBottomHitExit(this, hit);
+    }
+
+
     void OnTopHitStay(RaycastHit2D hit)
     {
         m_mainStateMachine.OnTopHitStay(this, hit);
@@ -351,7 +361,7 @@ public partial class StagePlayer : PhysicalObject, IDirect
     private void OnDrawGizmos()
     {
         exRb.OnDrawGizmos();
-        onTheGround.OnDrawGizmos(transform.position, exRb.PhysicalBoxSize.x);
+        //onTheGround.OnDrawGizmos(transform.position, exRb.PhysicalBoxSize.x);
     }
 
     public bool IsRight => direct.IsRight;

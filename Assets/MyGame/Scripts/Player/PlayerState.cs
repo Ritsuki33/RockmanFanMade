@@ -25,12 +25,6 @@ public partial class StagePlayer
         {
             player.gravity.OnUpdate();
             player.exRb.velocity = player.gravity.CurrentVelocity;
-
-            var hitCheck = player.onTheGround.Check(player.transform.position, player.exRb.PhysicalBoxSize.x);
-            if (!hitCheck)
-            {
-                player.m_mainStateMachine.TransitReady((int)Main_StateID.Floating);
-            }
         }
 
         protected override void Update(StagePlayer player)
@@ -51,11 +45,11 @@ public partial class StagePlayer
                 player.exRb.SetPosition(pos);
                 player.m_mainStateMachine.TransitReady((int)Main_StateID.Climb);
             }
-            else if (player.onTheGround.GroundHit && player.inputInfo.down)
+            else if (player.bottomHit && player.inputInfo.down)
             {
-                if (player.onTheGround.GroundHit.collider.gameObject.CompareTag("Ladder"))
+                if (player.bottomHit.collider.gameObject.CompareTag("Ladder"))
                 {
-                    player.bodyLadder = player.onTheGround.GroundHit.collider;
+                    player.bodyLadder = player.bottomHit.collider;
                     player.m_mainStateMachine.TransitReady((int)Main_StateID.ClimbDown);
                 }
             }
@@ -69,6 +63,12 @@ public partial class StagePlayer
         protected override void OnBottomHitStay(StagePlayer player, RaycastHit2D hit)
         {
             player.gravity.OnGround(hit.normal);
+            player.bottomHit = hit;
+        }
+
+        protected override void OnBottomHitExit(StagePlayer player, RaycastHit2D hit)
+        {
+            player.m_mainStateMachine.TransitReady((int)Main_StateID.Floating);
         }
 
         protected override void OnTriggerEnter(StagePlayer player, DamageBase collision)
@@ -156,7 +156,7 @@ public partial class StagePlayer
             Move.InputType type = default;
             if (player.inputInfo.left == true) type = Move.InputType.Left;
             else if (player.inputInfo.right == true) type = Move.InputType.Right;
-            player.move.OnUpdate(player.onTheGround.GroundHit.normal.Verticalize(), type);
+            player.move.OnUpdate(player.bottomHit.normal.Verticalize(), type);
             Vector2 moveV = player.move.CurrentVelocity;
             player.exRb.velocity += moveV;
 
@@ -167,12 +167,6 @@ public partial class StagePlayer
             else if (moveV.x < 0)
             {
                 player.TurnTo(false);
-
-
-            }
-            if (!player.onTheGround.Check(player.transform.position, player.exRb.PhysicalBoxSize.x))
-            {
-                player.m_mainStateMachine.TransitReady((int)Main_StateID.Floating);
             }
         }
 
@@ -191,6 +185,12 @@ public partial class StagePlayer
         protected override void OnBottomHitStay(StagePlayer player, RaycastHit2D hit)
         {
             player.gravity.OnGround(hit.normal);
+            player.bottomHit = hit;
+        }
+
+        protected override void OnBottomHitExit(StagePlayer player, RaycastHit2D hit)
+        {
+            player.m_mainStateMachine.TransitReady((int)Main_StateID.Floating);
         }
 
         protected override void OnTriggerEnter(StagePlayer player, DamageBase collision)
@@ -266,7 +266,7 @@ public partial class StagePlayer
         }
         protected override void Enter(StagePlayer player, int preId, int subId)
         {
-            player.onTheGround.Reset();
+            player.bottomHit = default;
             TransitSubReady((int)SubStateID.Basic);
         }
 
@@ -390,7 +390,7 @@ public partial class StagePlayer
         protected override void Enter(StagePlayer player, int preId, int subId)
         {
             TransitSubReady((int)SubStateID.Basic);
-            player.onTheGround.Reset();
+            player.bottomHit = default;
             player.jump.Init();
             isJumping = true;
         }
@@ -519,7 +519,7 @@ public partial class StagePlayer
             pos.x = player.bodyLadder.transform.position.x;
             player.exRb.SetPosition(pos);
 
-            player.onTheGround.Reset();
+            player.bottomHit = default;
             player.gravity.Reset();
         }
 
@@ -757,7 +757,7 @@ public partial class StagePlayer
         }
         protected override void Enter(StagePlayer player, int preId, int subId)
         {
-            player.onTheGround.Reset();
+            player.bottomHit = default;
 
             if (subId >= 0)
             {
@@ -851,7 +851,7 @@ public partial class StagePlayer
                     Move.InputType type = default;
                     if (player.transform.position.x > bamili_x) type = Move.InputType.Left;
                     else if (player.transform.position.x < bamili_x) type = Move.InputType.Right;
-                    player.move.OnUpdate(player.onTheGround.GroundHit.normal.Verticalize(), type);
+                    player.move.OnUpdate(player.bottomHit.normal.Verticalize(), type);
                     Vector2 moveV = player.move.CurrentVelocity;
                     player.exRb.velocity += moveV;
 
@@ -864,7 +864,7 @@ public partial class StagePlayer
                         player.TurnTo(false);
                     }
 
-                    if (!player.onTheGround.Check(player.transform.position, player.exRb.PhysicalBoxSize.x))
+                    if (!player.bottomHit)
                     {
                         parent.TransitSubReady((int)SubStateId.Float);
                     }
