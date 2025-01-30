@@ -360,8 +360,8 @@ public class ExpandRigidBody : IExRbCallbackSet
 
     private void CorrectVelocity()
     {
-        PhysicalVelocityCorrect(currentVelocity);
-        ThroughFloorVelocityCorrect(currentVelocity);
+        PhysicalVelocityCorrect();
+        ThroughFloorVelocityCorrect();
     }
 
     public void SetPosition(Vector2 pos)
@@ -369,7 +369,7 @@ public class ExpandRigidBody : IExRbCallbackSet
         BoxColliderCenter = pos;
     }
 
-    private void PhysicalVelocityCorrect(Vector2 currentVelocity)
+    private void PhysicalVelocityCorrect()
     {
         if (physicalLayer == 0) Debug.LogError($"ExpandRigidBodyが初期化されていないため、レイの判定ができません。({this.transform.gameObject})");
 
@@ -556,8 +556,6 @@ public class ExpandRigidBody : IExRbCallbackSet
                 onHitExit?.Invoke(casheCollideRight);
         }
 
-        this.currentVelocity = currentVelocity;
-
         casheCollideTop = topHit;
         casheCollideBottom = bottomHit;
         casheCollideLeft = leftHit;
@@ -565,7 +563,7 @@ public class ExpandRigidBody : IExRbCallbackSet
     }
 
 
-    private void ThroughFloorVelocityCorrect(Vector2 currentVelocity)
+    private void ThroughFloorVelocityCorrect()
     {
         throughFloorBottomHit = Physics2D.BoxCast(
            VirtualBottomColliderCenter
@@ -612,8 +610,6 @@ public class ExpandRigidBody : IExRbCallbackSet
             }
             isCollideThroughFloorBottom = false;
         }
-
-        this.currentVelocity = currentVelocity;
     }
 
     public void RemoveThroughFloorLayer(int excludeLayer)
