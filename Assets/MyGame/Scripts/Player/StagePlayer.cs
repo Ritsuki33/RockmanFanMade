@@ -2,7 +2,7 @@
 using System.Collections;
 using UnityEngine;
 
-public partial class StagePlayer : PhysicalObject, IDirect
+public partial class StagePlayer : PhysicalObject, IDirect,IBeltConveyorVelocity
 {
     [SerializeField] ExpandRigidBody exRb;
     [Header("プレイヤー情報")]
@@ -11,7 +11,6 @@ public partial class StagePlayer : PhysicalObject, IDirect
     [SerializeField] int mameMax = 3;
     [SerializeField] Gravity gravity;
     [SerializeField] Move move;
-    //[SerializeField] OnTheGround onTheGround;
     [SerializeField] Jump jump;
     [SerializeField] Direct direct;
 
@@ -101,6 +100,7 @@ public partial class StagePlayer : PhysicalObject, IDirect
         exRbHit.onTopHitStay += OnTopHitStay;
         exRbHit.onHitEnter += OnHitEnter;
         exRbHit.onHitStayDamageBase += OnHitStay;
+        exRbHit.onBottomHitStayBeltConveyor += OnBottomHitStay;
 
         m_chargeStateMachine.Clear();
         // チャージの状態セット
@@ -353,6 +353,11 @@ public partial class StagePlayer : PhysicalObject, IDirect
         }
     }
 
+    void OnBottomHitStay(BeltConveyor beltConveyor)
+    {
+        beltConveyor.GetOn(this);
+    }
+
     private void OnTriggerEnter2D(Collider2D collision) => rbCollide.OnTriggerEnter(collision);
     private void OnTriggerStay2D(Collider2D collision) => rbCollide.OnTriggerEnter(collision);
     private void OnTriggerExit2D(Collider2D collision) => rbCollide.OnTriggerExit(collision);
@@ -361,10 +366,12 @@ public partial class StagePlayer : PhysicalObject, IDirect
     private void OnDrawGizmos()
     {
         exRb.OnDrawGizmos();
-        //onTheGround.OnDrawGizmos(transform.position, exRb.PhysicalBoxSize.x);
     }
 
     public bool IsRight => direct.IsRight;
+
+    Vector2 IBeltConveyorVelocity.velocity { get => exRb.velocity; set => exRb.velocity = value; }
+
     public void TurnTo(bool isRight) => direct.TurnTo(isRight);
     public void TurnToTarget(Vector2 targetPos) => TurnToTarget(targetPos);
     public void TurnFace() => direct.TurnFace();

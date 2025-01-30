@@ -12,7 +12,7 @@ public interface IBeltConveyorVelocity
 /// 衝突時の取得コンポーネント
 /// スクリプトテンプレートから自動生成
 /// </summary>
-public class BeltConveyor : MonoBehaviour, IRbVisitable, IExRbVisitable
+public class BeltConveyor : PhysicalObject, IRbVisitable, IExRbVisitable
 {
     protected virtual void AcceptOnTriggerEnter(IRbVisitor visitor) => visitor.OnTriggerEnter(this);
     protected virtual void AcceptOnCollisionEnter(IRbVisitor visitor) => visitor.OnCollisionEnter(this);
@@ -75,9 +75,9 @@ public class BeltConveyor : MonoBehaviour, IRbVisitable, IExRbVisitable
 
     Vector2 actualWorldSpriteSize;
 
-    List<IBeltConveyorVelocity> objs = new List<IBeltConveyorVelocity>();
-    private void Awake()
+    protected override void Awake()
     {
+        base.Awake();
         actualWorldSpriteSize = spriteRenderer.sprite.rect.size / spriteRenderer.sprite.pixelsPerUnit;
     }
     private void OnValidate()
@@ -86,27 +86,16 @@ public class BeltConveyor : MonoBehaviour, IRbVisitable, IExRbVisitable
         boxCollider.size = new Vector2(width, spriteRenderer.size.y);
     }
 
-    private void FixedUpdate()
+    protected override void OnFixedUpdate()
     {
         scrollSpriteController.Scroll(Vector2.right * offset);
         offset += speed * Time.fixedDeltaTime;
         offset %= 1.0f;
-
-        foreach (var obj in objs)
-        {
-            obj.velocity += speed * actualWorldSpriteSize.x * Vector2.left;
-        }
     }
 
-    public void AddObject(IBeltConveyorVelocity obj)
+    public void GetOn(IBeltConveyorVelocity obj)
     {
-        //objs.Add(obj);
         obj.velocity += speed * actualWorldSpriteSize.x * Vector2.left;
-    }
-
-    public void RemoveObject(IBeltConveyorVelocity obj)
-    {
-        //objs.Remove(obj);
     }
 }
 

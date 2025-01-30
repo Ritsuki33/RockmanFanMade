@@ -11,7 +11,8 @@ GameObject:
   - component: {fileID: 6746342973471516326}
   - component: {fileID: 7382182119604741233}
   - component: {fileID: 6440919712141078022}
-  m_Layer: 0
+  - component: {fileID: 2739669190116138367}
+  m_Layer: 6
   m_Name: BeltConveyer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -91,6 +92,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b01b13893c6151249bdb5e8ccebff572, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  outofCameraDelete: 1
+  m_mainAnimator: {fileID: 0}
+  animSpeed: 1
+  rb: {fileID: 0}
   spriteRenderer: {fileID: 3496282227341827053}
   boxCollider: {fileID: 7382182119604741233}
   scrollSpriteController: {fileID: 2016105646917397664}
@@ -99,6 +104,33 @@ MonoBehaviour:
     m_Bits: 128
   width: 4
   speed: 1
+--- !u!50 &2739669190116138367
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 781327474785582655}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
 --- !u!1 &4342700295401587069
 GameObject:
   m_ObjectHideFlags: 0
@@ -110,7 +142,7 @@ GameObject:
   - component: {fileID: 3871301711136612874}
   - component: {fileID: 3496282227341827053}
   - component: {fileID: 2016105646917397664}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: belt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -177,7 +209,7 @@ SpriteRenderer:
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
-  m_DrawMode: 0
+  m_DrawMode: 1
   m_Size: {x: 4, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
