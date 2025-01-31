@@ -624,6 +624,37 @@ public class ExpandRigidBody : IExRbCallbackSet
         throughFloorLayer = throughFloorLayer | layerMaskToExclude;
     }
 
+    // キャッシュの削除
+    public void DeleteCache()
+    {
+        if (casheCollideTop)
+        {
+            onHitRightExit?.Invoke(casheCollideTop);
+            onHitExit?.Invoke(casheCollideTop);
+        }
+        casheCollideTop = default;
+
+        if (casheCollideBottom)
+        {
+            onHitRightExit?.Invoke(casheCollideBottom);
+            onHitExit?.Invoke(casheCollideBottom);
+        }
+        casheCollideBottom = default;
+
+        if (casheCollideLeft)
+        {
+            onHitRightExit?.Invoke(casheCollideLeft);
+            onHitExit?.Invoke(casheCollideLeft);
+        }
+        casheCollideLeft = default;
+
+        if (casheCollideRight)
+        {
+            onHitRightExit?.Invoke(casheCollideRight);
+            onHitExit?.Invoke(casheCollideRight);
+        }
+        casheCollideRight = default;
+    }
     /// <summary>
     /// 上下左右ヒット時のコールバック登録
     /// </summary>
