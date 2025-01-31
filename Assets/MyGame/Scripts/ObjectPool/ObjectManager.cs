@@ -16,7 +16,8 @@ public enum PoolType
     Laser,
     PlayerDeathEffect,
     Batman,
-    LiftYellow,
+    LiftYellow_LineMove,
+    LiftYellow_CircleMove,
     LiftBlue,
 }
 

@@ -8,12 +8,12 @@ public class LiftSpawn : InCameraSpawn
     [SerializeField] float maxSpeed = 5.0f;     // 最大速度 (v)
     [SerializeField] float accelerate = 2.0f;   // 加速、減速(v/s)
 
-    public new LiftYellow Obj
+    public new LiftYellowLineMove Obj
     {
         get
         {
-            LiftYellow grenademan = null;
-            if (grenademan = base.Obj as LiftYellow)
+            LiftYellowLineMove grenademan = null;
+            if (grenademan = base.Obj as LiftYellowLineMove)
             {
                 return grenademan;
             }

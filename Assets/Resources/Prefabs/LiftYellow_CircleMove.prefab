@@ -195,7 +195,7 @@ GameObject:
   - component: {fileID: 1157633437391631242}
   - component: {fileID: 1952177346052995084}
   m_Layer: 0
-  m_Name: LiftYellow
+  m_Name: LiftYellow_CircleMove
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
