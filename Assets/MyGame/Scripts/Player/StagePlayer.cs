@@ -128,6 +128,11 @@ public partial class StagePlayer : PhysicalObject, IDirect,IBeltConveyorVelocity
         curGround = default;
     }
 
+    protected override void Destroy()
+    {
+        exRb.DeleteCache();
+    }
+
     protected override void OnFixedUpdate()
     {
         m_mainStateMachine.FixedUpdate(this);
