@@ -48,6 +48,8 @@ public partial class StagePlayer : PhysicalObject, IDirect,IBeltConveyorVelocity
     private bool isDead = false;
 
     RaycastHit2D bottomHit = default;
+
+    Ground curGround = default;
     enum Main_StateID
     {
         Standing = 0,
@@ -102,6 +104,8 @@ public partial class StagePlayer : PhysicalObject, IDirect,IBeltConveyorVelocity
         exRbHit.onHitStayDamageBase += OnHitStay;
         exRbHit.onBottomHitStayBeltConveyor += OnBottomHitStay;
         exRbHit.onBottomHitStayTire += OnBottmHitStay;
+        exRbHit.onBottomHitStayGround += OnBottomHitStay;
+        exRbHit.onBottomHitExitGround += OnBottomHitExit;
 
         m_chargeStateMachine.Clear();
         // チャージの状態セット
@@ -121,6 +125,7 @@ public partial class StagePlayer : PhysicalObject, IDirect,IBeltConveyorVelocity
         ChargeInit();
 
         bottomHit = default;
+        curGround = default;
     }
 
     protected override void OnFixedUpdate()
@@ -352,6 +357,17 @@ public partial class StagePlayer : PhysicalObject, IDirect,IBeltConveyorVelocity
             var shutter = hit.collider.GetComponent<ShutterControll>();
             shutter.Enter();
         }
+    }
+
+    void OnBottomHitStay(Ground ground)
+    {
+        //m_mainStateMachine.OnBottomHitStay(this, ground);
+        curGround = ground;
+    }
+
+    void OnBottomHitExit(Ground ground)
+    {
+        curGround = default;
     }
 
     void OnBottomHitStay(BeltConveyor beltConveyor)

@@ -8,6 +8,7 @@ using UnityEngine;
 /// </summary>
 public class #SCRIPTNAME# : MonoBehaviour, IRbVisitable, IExRbVisitable
 {
+    #region 編集禁止
     protected virtual void AcceptOnTriggerEnter(IRbVisitor visitor) => visitor.OnTriggerEnter(this);
     protected virtual void AcceptOnCollisionEnter(IRbVisitor visitor) => visitor.OnCollisionEnter(this);
     protected virtual void AcceptOnCollisionExit(IRbVisitor visitor) => visitor.OnCollisionExit(this);
@@ -53,10 +54,12 @@ public class #SCRIPTNAME# : MonoBehaviour, IRbVisitable, IExRbVisitable
     void IExRbVisitable.AcceptOnRightHitEnter(IExRbVisitor visitor) => AcceptOnRightHitEnter(visitor);
     void IExRbVisitable.AcceptOnRightHitStay(IExRbVisitor visitor) => AcceptOnRightHitStay(visitor);
     void IExRbVisitable.AcceptOnRightHitExit(IExRbVisitor visitor) => AcceptOnRightHitExit(visitor);
+    #endregion
 
     // ここから定義
 }
 
+# region 編集禁止
 public partial interface IRbVisitor : IRbVisitor<#SCRIPTNAME#>
 { }
 
@@ -534,3 +537,4 @@ public partial class ExRbHit
 }
 
 public partial interface IHitInterpreter : IHitInterpreter<#SCRIPTNAME#> { }
+#endregion

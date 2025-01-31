@@ -148,13 +148,8 @@ MonoBehaviour:
     _gravityScale: 2
     _maxSpeed: 20
   move:
-    _speed: 10
-  onTheGround:
-    offset_y: -0.4
-    check_y: 0.6
-    physicalLayer:
-      serializedVersion: 2
-      m_Bits: 131904
+    _maxSpeed: 10
+    _accelerate: 10
   jump:
     maxSpeed: 30
   direct:

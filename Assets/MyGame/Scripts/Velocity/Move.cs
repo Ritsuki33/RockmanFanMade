@@ -3,7 +3,8 @@ using UnityEngine;
 
 [Serializable]
 public class Move{
-    [SerializeField] float _speed = 5.0f;
+    [SerializeField] float _maxSpeed = 5.0f;
+    [SerializeField] float _accelerate = 5.0f;
 
     Vector2 velocity;
 
@@ -23,23 +24,29 @@ public class Move{
     public bool Hit => leftHit || rightHit;
     public Vector2 CurrentVelocity => velocity;
 
-    public void OnUpdate(Vector2 dir, InputType input)
+    public void OnUpdate(Vector2 dir, InputType input, float friction = 1)
     {
         dir = (((dir.x > 0) ? 1 : -1) * dir);
+        float realAccelerate = _accelerate * friction;
 
         switch (input)
         {
             case InputType.None:
-                velocity = Vector2.zero;
+                float magnitude = velocity.magnitude - realAccelerate;
+                if (magnitude < 0) magnitude = 0;
+                velocity = velocity.SetMagnitude(magnitude);
                 break;
             case InputType.Left:
-                    velocity = dir * -_speed;
+                velocity -= dir * realAccelerate;
                 break;
             case InputType.Right:
-                    velocity = dir * _speed;
+                velocity += dir * realAccelerate;
                 break;
             default:
                 break;
         }
+
+        velocity = velocity.Clamp(0, _maxSpeed);
+        Debug.Log(velocity);
     }
 }

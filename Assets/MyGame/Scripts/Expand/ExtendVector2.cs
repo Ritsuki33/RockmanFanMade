@@ -74,11 +74,13 @@ static public class ExtendVector2
         return direction.normalized;
     }
 
-    public static void SetMagnitude(this Vector2 v,float scalar)
+    public static Vector2 SetMagnitude(this Vector2 v,float scalar)
     {
         Vector2 e = v.normalized;
 
         v = e * scalar;
+
+        return v;
     }
 
     public static Vector2 DirectionVector(this Vector2 v,Vector2 dir)
@@ -98,5 +100,14 @@ static public class ExtendVector2
     public static bool IsBetween(this Vector2 v, Vector2 a, Vector2 b)
     {
         return Vector3.Dot(v - a, v - b) <= 0.001f;
+    }
+
+    public static Vector2 Clamp(this Vector2 v,float min, float max)
+    {
+        float magnitude = v.magnitude;
+        if (magnitude < min) return v.SetMagnitude(min);
+        else if(magnitude > max) return v.SetMagnitude(max);
+
+        return v;
     }
 }

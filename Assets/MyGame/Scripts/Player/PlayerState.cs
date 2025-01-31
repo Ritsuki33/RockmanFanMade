@@ -25,6 +25,14 @@ public partial class StagePlayer
         {
             player.gravity.OnUpdate();
             player.exRb.velocity = player.gravity.CurrentVelocity;
+
+            Move.InputType type = default;
+            if (player.inputInfo.left == true) type = Move.InputType.Left;
+            else if (player.inputInfo.right == true) type = Move.InputType.Right;
+            player.move.OnUpdate(player.bottomHit.normal.Verticalize(), type, (player.curGround == null) ? 1.0f : player.curGround.Friction);
+            Vector2 moveV = player.move.CurrentVelocity;
+            player.exRb.velocity += moveV;
+
         }
 
         protected override void Update(StagePlayer player)
@@ -157,15 +165,14 @@ public partial class StagePlayer
             Move.InputType type = default;
             if (player.inputInfo.left == true) type = Move.InputType.Left;
             else if (player.inputInfo.right == true) type = Move.InputType.Right;
-            player.move.OnUpdate(player.bottomHit.normal.Verticalize(), type);
-            Vector2 moveV = player.move.CurrentVelocity;
-            player.exRb.velocity += moveV;
+            player.move.OnUpdate(player.bottomHit.normal.Verticalize(), type, (player.curGround == null) ? 1.0f : player.curGround.Friction);
+            player.exRb.velocity += player.move.CurrentVelocity;
 
-            if (moveV.x > 0)
+            if (type == Move.InputType.Right)
             {
                 player.TurnTo(true);
             }
-            else if (moveV.x < 0)
+            else if (type == Move.InputType.Left)
             {
                 player.TurnTo(false);
             }
@@ -280,14 +287,13 @@ public partial class StagePlayer
             if (player.inputInfo.left == true) type = Move.InputType.Left;
             else if (player.inputInfo.right == true) type = Move.InputType.Right;
             player.move.OnUpdate(Vector2.right, type);
-            Vector2 moveV = player.move.CurrentVelocity;
-            player.exRb.velocity += moveV;
+            player.exRb.velocity += player.move.CurrentVelocity;
 
-            if (moveV.x > 0)
+            if (type == Move.InputType.Right)
             {
                 player.TurnTo(true);
             }
-            else if (moveV.x < 0)
+            else if (type == Move.InputType.Left)
             {
                 player.TurnTo(false);
             }
@@ -403,14 +409,13 @@ public partial class StagePlayer
             if (player.inputInfo.left == true) type = Move.InputType.Left;
             else if (player.inputInfo.right == true) type = Move.InputType.Right;
             player.move.OnUpdate(Vector2.right, type);
-            Vector2 moveV = player.move.CurrentVelocity;
-            player.exRb.velocity = moveV;
+            player.exRb.velocity = player.move.CurrentVelocity;
 
-            if (moveV.x > 0)
+            if (type == Move.InputType.Right)
             {
                 player.TurnTo(true);
             }
-            else if (moveV.x < 0)
+            else if (type == Move.InputType.Left)
             {
                 player.TurnTo(false);
             }
