@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections;
-using System.Runtime.ConstrainedExecution;
-using Unity.Mathematics;
 using UnityEngine;
-using static UnityEditor.Profiling.HierarchyFrameDataView;
 
 /// <summary>
 /// スクリーンのスクリプトテンプレート
@@ -71,7 +68,14 @@ public class GameMainScreenPresenter : BaseScreenPresenter<GameMainScreen, GameM
 
     protected override void InputUpdate(InputInfo info)
     {
-        base.InputUpdate(info);
+        if (_screen.PauseUi.activeSelf)
+        {
+            // ステージ離脱
+            if (info.decide)
+            {
+                GameMainManager.Instance.GameStageEnd();
+            }
+        }
     }
 
     public void SetPlayerHp(float hp)
