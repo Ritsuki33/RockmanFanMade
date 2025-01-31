@@ -101,6 +101,7 @@ public partial class StagePlayer : PhysicalObject, IDirect,IBeltConveyorVelocity
         exRbHit.onHitEnter += OnHitEnter;
         exRbHit.onHitStayDamageBase += OnHitStay;
         exRbHit.onBottomHitStayBeltConveyor += OnBottomHitStay;
+        exRbHit.onBottomHitStayTire += OnBottmHitStay;
 
         m_chargeStateMachine.Clear();
         // チャージの状態セット
@@ -356,6 +357,13 @@ public partial class StagePlayer : PhysicalObject, IDirect,IBeltConveyorVelocity
     void OnBottomHitStay(BeltConveyor beltConveyor)
     {
         beltConveyor.GetOn(this);
+    }
+
+    void OnBottmHitStay(Tire tire)
+    {
+        jump.Init(tire.JumpPower);
+        m_mainStateMachine.TransitReady((int)Main_StateID.Jumping);
+        tire.OnSteppedOn();
     }
 
     private void OnTriggerEnter2D(Collider2D collision) => rbCollide.OnTriggerEnter(collision);

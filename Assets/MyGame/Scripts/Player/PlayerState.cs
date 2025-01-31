@@ -56,6 +56,7 @@ public partial class StagePlayer
 
             if (player.inputInfo.jump)
             {
+                player.jump.Init(30);
                 player.m_mainStateMachine.TransitReady((int)Main_StateID.Jumping);
             }
         }
@@ -178,6 +179,7 @@ public partial class StagePlayer
             }
             else if (player.inputInfo.jump)
             {
+                player.jump.Init(30);
                 player.m_mainStateMachine.TransitReady((int)Main_StateID.Jumping);
             }
         }
@@ -391,7 +393,6 @@ public partial class StagePlayer
         {
             TransitSubReady((int)SubStateID.Basic);
             player.bottomHit = default;
-            player.jump.Init();
             isJumping = true;
         }
 
