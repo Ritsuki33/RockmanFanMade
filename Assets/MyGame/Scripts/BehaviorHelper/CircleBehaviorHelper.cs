@@ -43,7 +43,7 @@ public static class CircleBehaviorHelper
     /// <param name="speed"></param>
     /// <param name="angle"></param>
     /// <returns></returns>
-    static public Vector2 GetStrobe(Transform center, float radius, float angle)
+    static public Vector2 GetStrobe(Vector2 center, float radius, float angle)
     {
         return EllipseBehaviorHelper.GetStrobe(center, radius, radius, angle);
     }

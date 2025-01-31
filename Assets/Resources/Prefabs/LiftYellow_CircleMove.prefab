@@ -193,7 +193,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2732733351212833155}
   - component: {fileID: 1157633437391631242}
-  - component: {fileID: 1952177346052995084}
+  - component: {fileID: 1407391933677728073}
   m_Layer: 0
   m_Name: LiftYellow_CircleMove
   m_TagString: Untagged
@@ -245,7 +245,7 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 4
---- !u!114 &1952177346052995084
+--- !u!114 &1407391933677728073
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -254,13 +254,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 8848930967289404066}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ff41c30c2c293fa499d8a7480c9c28a7, type: 3}
+  m_Script: {fileID: 11500000, guid: 3bbb4b96e8ec7044abcc035d8882bcd3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   outofCameraDelete: 1
   m_mainAnimator: {fileID: 2013140588083846850}
   animSpeed: 1
   rb: {fileID: 1157633437391631242}
-  _liftPoints: []
-  maxSpeed: 5
-  accelerate: 5
+  _center: {fileID: 0}
+  radius: 5
+  speed: 2
