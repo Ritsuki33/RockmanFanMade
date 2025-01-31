@@ -2,12 +2,12 @@
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class LiftYellow : PhysicalObject
+public class LiftYellowLineMove : PhysicalObject
 {
     [SerializeField] Transform[] _liftPoints;
     [SerializeField] float maxSpeed = 5.0f;     // 最大速度 (v)
     [SerializeField] float accelerate = 2.0f;   // 加速、減速(v/s)
-    StateMachine<LiftYellow> _stateMachine = new StateMachine<LiftYellow>();
+    StateMachine<LiftYellowLineMove> _stateMachine = new StateMachine<LiftYellowLineMove>();
 
     int targetNumber = 0;
     bool reverse = false;
@@ -39,9 +39,9 @@ public class LiftYellow : PhysicalObject
         _stateMachine.Update(this);
     }
 
-    class Move : State<LiftYellow, Move>
+    class Move : State<LiftYellowLineMove, Move>
     {
-        protected override void FixedUpdate(LiftYellow lift)
+        protected override void FixedUpdate(LiftYellowLineMove lift)
         {
             if (lift._liftPoints.Length == 0) return;
 

@@ -32,7 +32,7 @@ public class CircleBehavior : MonoBehaviour
         time += ((!isReverse) ? 1 : -1) * Time.fixedDeltaTime;
         time %= oneWayTime;
         float progress = Mathf.PI * 2 * time / oneWayTime;
-        rb.SetVelocty(CircleBehaviorHelper.GetStrobe(center, radius, progress));
+        rb.SetVelocty(CircleBehaviorHelper.GetStrobe(center.position, radius, progress));
 
         if (time == oneWayTime)
         {

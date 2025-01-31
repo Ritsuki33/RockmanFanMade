@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 /// <summary>
 /// 楕円運動挙動系ヘルパー関数
@@ -46,11 +44,11 @@ public static class EllipseBehaviorHelper
     /// <param name="speed"></param>
     /// <param name="angle"></param>
     /// <returns></returns>
-    static public Vector2 GetStrobe(Transform center,float radius_x, float radius_y, float angle )
+    static public Vector2 GetStrobe(Vector2 center,float radius_x, float radius_y, float angle )
     {
         // 角度に応じた新しい位置を計算
-        float x = center.position.x + Mathf.Cos(angle) * radius_x;
-        float y = center.position.y + Mathf.Sin(angle) * radius_y;
+        float x = center.x + Mathf.Cos(angle) * radius_x;
+        float y = center.y + Mathf.Sin(angle) * radius_y;
 
         // 速度ベクトルを設定
         return new Vector2(x, y); ;
