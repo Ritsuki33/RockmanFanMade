@@ -47,6 +47,5 @@ public class Move{
         }
 
         velocity = velocity.Clamp(0, _maxSpeed);
-        Debug.Log(velocity);
     }
 }
