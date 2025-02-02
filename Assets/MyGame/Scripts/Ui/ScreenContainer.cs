@@ -48,9 +48,9 @@ public interface IViewModel<T> where T : Enum
 
 
 public class BaseScreen<S, SP, VM, T> : MonoBehaviour, IScreen<T>
-    where S : BaseScreen<S, SP, VM, T>, new()
-    where SP : BaseScreenPresenter<S, SP, VM, T>, new()
-    where VM : BaseViewModel<T>, new()
+    where S : IScreen<T>, new()
+    where SP : IScreenPresenter<T>, new()
+    where VM : IViewModel<T>, new()
     where T : Enum
 {
     ScreenContainer<T> container;
@@ -111,9 +111,9 @@ public class BaseScreen<S, SP, VM, T> : MonoBehaviour, IScreen<T>
 }
 
 public class BaseScreenPresenter<S, SP, VM, T>: IScreenPresenter<T>
-    where S : BaseScreen<S, SP, VM, T>, new()
-    where SP : BaseScreenPresenter<S, SP, VM, T>, new()
-    where VM : BaseViewModel<T>, new()
+    where S : IScreen<T>, new()
+    where SP : IScreenPresenter<T>, new()
+    where VM : IViewModel<T>, new()
     where T : Enum
 {
 
