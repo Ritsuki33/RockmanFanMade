@@ -8,8 +8,8 @@ using UnityEngine.InputSystem.XR;
 public interface IScreen<T> where T : Enum
 {
 
-    public IScreenPresenter<T> GetScreenController();
-
+    //public IScreenPresenter<T> GetScreenPresenter();
+    IScreenPresenter<T> ScreenPresenter { get; }
     /// <summary>
     /// ビュー、コントローラー、ビューモデルの準備
     /// </summary>
@@ -47,9 +47,9 @@ public interface IViewModel<T> where T : Enum
 }
 
 
-public class BaseScreen<S, SC, VM, T> : MonoBehaviour, IScreen<T>
-    where S : BaseScreen<S, SC, VM, T>, new()
-    where SC : BaseScreenPresenter<S, SC, VM, T>, new()
+public class BaseScreen<S, SP, VM, T> : MonoBehaviour, IScreen<T>
+    where S : BaseScreen<S, SP, VM, T>, new()
+    where SP : BaseScreenPresenter<S, SP, VM, T>, new()
     where VM : BaseViewModel<T>, new()
     where T : Enum
 {
@@ -58,16 +58,17 @@ public class BaseScreen<S, SC, VM, T> : MonoBehaviour, IScreen<T>
 
     private IInput InputController => InputManager.Instance;
 
-    IScreenPresenter<T> IScreen<T>.GetScreenController()
-    {
+    public IScreenPresenter<T> ScreenPresenter => screenPresenter;
 
-        screenPresenter = new SC();
-        return screenPresenter;
-    }
+    //IScreenPresenter<T> IScreen<T>.GetScreenPresenter()
+    //{
+    //    screenPresenter = new SP();
+    //    return screenPresenter;
+    //}
 
     IEnumerator IScreen<T>.Configure()
     {
-        screenPresenter = new SC();
+        screenPresenter = new SP();
 
         yield return screenPresenter.Configure(this);
     }
@@ -109,9 +110,9 @@ public class BaseScreen<S, SC, VM, T> : MonoBehaviour, IScreen<T>
 
 }
 
-public class BaseScreenPresenter<S, SC, VM, T>: IScreenPresenter<T>
-    where S : BaseScreen<S, SC, VM, T>, new()
-    where SC : BaseScreenPresenter<S, SC, VM, T>, new()
+public class BaseScreenPresenter<S, SP, VM, T>: IScreenPresenter<T>
+    where S : BaseScreen<S, SP, VM, T>, new()
+    where SP : BaseScreenPresenter<S, SP, VM, T>, new()
     where VM : BaseViewModel<T>, new()
     where T : Enum
 {
@@ -154,7 +155,7 @@ public class ScreenContainer<T> where T: Enum
     Dictionary<T, IScreen<T>> list = new Dictionary<T, IScreen<T>>();
 
     IScreen<T> curScreen = default;
-    IScreenPresenter<T> screenPresenter = default;
+    //IScreenPresenter<T> screenPresenter = default;
 
     Coroutine coroutine = null;
 
@@ -221,7 +222,7 @@ public class ScreenContainer<T> where T: Enum
     {
         list.Clear();
         curScreen = null;
-        screenPresenter = null;
+        //screenPresenter = null;
     }
 
     /// <summary>
@@ -229,7 +230,7 @@ public class ScreenContainer<T> where T: Enum
     /// </summary>
     /// <typeparam name="SP"></typeparam>
     /// <returns></returns>
-    public SP GetCurrentScreenPresenter<SP>() where SP : class, IScreenPresenter<T> => screenPresenter as SP;
+    public SP GetCurrentScreenPresenter<SP>() where SP : class, IScreenPresenter<T> => curScreen.ScreenPresenter as SP;
 
     /// <summary>
     /// 遷移要求
@@ -259,8 +260,7 @@ public class ScreenContainer<T> where T: Enum
             curScreen?.Hide();
             curScreen?.Deinitialize();
 
-            screenPresenter = newScreen.GetScreenController();
-            yield return screenPresenter.Configure(newScreen);
+            yield return newScreen.Configure();
 
             newScreen.SetSiblingIndex();
             newScreen.SetActive(true);
