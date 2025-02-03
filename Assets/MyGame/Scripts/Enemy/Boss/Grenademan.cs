@@ -143,8 +143,7 @@ public class Grenademan : StageBoss, IDirect
         base.Damaged(damage);
 
         hpChangeTrigger?.Invoke((float)currentHp / MaxHp);
-        var presenter = GameMainManager.Instance.ScreenContainer.GetCurrentScreenPresenter<GameMainScreenPresenter>();
-        presenter?.SetEnemyHp((float)currentHp / MaxHp);
+        GameMainManager.Instance.GameMainScreenPresenter?.SetEnemyHp((float)currentHp / MaxHp);
     }
 
     public override void OnDead()

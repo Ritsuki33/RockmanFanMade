@@ -202,8 +202,7 @@ public class ActionChainExecuter : MonoBehaviour
     {
         public override void Execute(Action finishCallback)
         {
-            var presenter = GameMainManager.Instance.ScreenContainer.GetCurrentScreenPresenter<GameMainScreenPresenter>();
-            presenter.ReadyUiPlay(finishCallback);
+            GameMainManager.Instance.GameMainScreenPresenter?.ReadyUiPlay(finishCallback);
         }
     }
 
@@ -251,8 +250,7 @@ public class ActionChainExecuter : MonoBehaviour
 
         override public void Execute(Action finishCallback)
         {
-            var presenter = GameMainManager.Instance.ScreenContainer.GetCurrentScreenPresenter<GameMainScreenPresenter>();
-            presenter.EnemyHpIncrementAnimation(spawn.Obj, finishCallback);
+            GameMainManager.Instance.GameMainScreenPresenter.EnemyHpIncrementAnimation(spawn.Obj, finishCallback);
         }
     }
 
@@ -474,7 +472,7 @@ public class ActionChainExecuter : MonoBehaviour
 
         public override void Execute(Action finishCallback)
         {
-            var presenter = GameMainManager.Instance.ScreenContainer.GetCurrentScreenPresenter<GameMainScreenPresenter>();
+            var presenter = GameMainManager.Instance.GameMainScreenPresenter;
             if (presenter == null)
             {
                 Debug.LogError("スクリーンプレゼンターの取得が出来ませんでした");

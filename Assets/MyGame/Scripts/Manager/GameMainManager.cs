@@ -39,6 +39,8 @@ public class GameMainManager : BaseManager<GameMainManager>
     private ScreenContainer<UI> screenContainer = new ScreenContainer<UI>();
     public ScreenContainer<UI> ScreenContainer => screenContainer;
 
+    public GameMainScreenPresenter GameMainScreenPresenter => m_gameMainScreen.ScreenPresenter;
+
     private bool isPause = false;
     //ポーズ可否　
     public bool Pausable { get; set; } = true;
@@ -64,7 +66,6 @@ public class GameMainManager : BaseManager<GameMainManager>
             ObjectManager.Instance.Init();
 
             screenContainer.Add(UI.GameMain, m_gameMainScreen);
-
             yield return screenContainer.Initialize(UI.GameMain, true);
 
             OnPause(false);
@@ -144,8 +145,7 @@ public class GameMainManager : BaseManager<GameMainManager>
         this.isPause = isPause;
 
         PauseManager.Instance.OnPause(isPause);
-        screenContainer.GetCurrentScreenPresenter<GameMainScreenPresenter>()?.OnOpenPauseUi(isPause);
-
+        GameMainScreenPresenter.OnOpenPauseUi(isPause);
         worldManager?.OnPause(isPause);
     }
 
