@@ -1,11 +1,16 @@
 ﻿using System;
 
-public interface IReadOnlyReactiveProperty<T>
+public interface IDisposableReactiveProperty
 {
-    void Subscribe(Action<T> onChangePropertyCallback);
+    void Dispose();
 }
 
-public class ReactiveProperty<T> : IReadOnlyReactiveProperty<T>
+public interface IReadOnlyReactiveProperty<T>
+{
+    IDisposableReactiveProperty Subscribe(Action<T> onChangePropertyCallback);
+}
+
+public class ReactiveProperty<T> : IReadOnlyReactiveProperty<T>, IDisposableReactiveProperty
 {
     T value;
 
@@ -24,9 +29,16 @@ public class ReactiveProperty<T> : IReadOnlyReactiveProperty<T>
         }
     }
 
-    public void Subscribe(Action<T> onChangePropertyCallback)
+    public IDisposableReactiveProperty Subscribe(Action<T> onChangePropertyCallback)
     {
         _onChangePropertyCallback = onChangePropertyCallback;
+
+        return this;
+    }
+
+    public void Dispose()
+    {
+        _onChangePropertyCallback = null;
     }
 
     event Action<T> _onChangePropertyCallback = default;

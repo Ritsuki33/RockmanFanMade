@@ -138,8 +138,6 @@ public class BaseViewModel<T> : IViewModel<T>
     protected virtual IEnumerator Configure() { yield return null; }
 }
 
-public class DummyModel<T> : BaseViewModel<T> where T : Enum { }
-
 public class ScreenContainer<T> where T: Enum
 {
     Dictionary<T, IScreen<T>> list = new Dictionary<T, IScreen<T>>();
@@ -212,13 +210,6 @@ public class ScreenContainer<T> where T: Enum
         list.Clear();
         curScreen = null;
     }
-
-    /// <summary>
-    /// 現在のスクリーンプレゼンターを取得（型が合わない場合はNULL）
-    /// </summary>
-    /// <typeparam name="SP"></typeparam>
-    /// <returns></returns>
-    //public SP GetCurrentScreenPresenter<SP>() where SP : class, IScreenPresenter<T> => curScreen.ScreenPresenter as SP;
 
     /// <summary>
     /// 遷移要求

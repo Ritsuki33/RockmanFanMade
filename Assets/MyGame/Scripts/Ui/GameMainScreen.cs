@@ -58,12 +58,11 @@ public class GameMainScreenPresenter : BaseScreenPresenter<GameMainScreen, GameM
 {
     GameMainScreen _screen;
     GameMainScreenViewModel _viewModel;
+
     protected override void Initialize(GameMainScreen screen, GameMainScreenViewModel viewModel)
     {
         _screen = screen;
         _viewModel = viewModel;
-
-        _viewModel.Player.hpChangeTrigger = SetPlayerHp;
     }
 
     protected override void InputUpdate(InputInfo info)
@@ -78,7 +77,16 @@ public class GameMainScreenPresenter : BaseScreenPresenter<GameMainScreen, GameM
         }
     }
 
-    public void SetPlayerHp(float hp)
+    /// <summary>
+    /// プレイヤーHpの監視登録
+    /// </summary>
+    /// <param name="hp"></param>
+    public void BindPlayerHp(IReadOnlyReactiveProperty<float> hp)
+    {
+        hp.Subscribe(SetPlayerHp);
+    }
+
+    private void SetPlayerHp(float hp)
     {
         _screen.HpBar.SetParam(hp);
     }
@@ -104,14 +112,19 @@ public class GameMainScreenPresenter : BaseScreenPresenter<GameMainScreen, GameM
     /// <param name="val"></param>
     /// <param name="hpChangeTrigger"></param>
     /// <param name="finishCallback"></param>
-    public void EnemyHpIncrementAnimation(StageBoss boss, Action finishCallback)
+    public void EnemyHpIncrementAnimation(float param, IReadOnlyReactiveProperty<float> hp, Action finishCallback)
     {
         _screen.EnemyHpBar.gameObject.SetActive(true);
         _screen.EnemyHpBar.SetParam(0.0f);
-        _screen.EnemyHpBar.ParamChangeAnimation((float)boss.CurrentHp / boss.MaxHp, finishCallback);
+        _screen.EnemyHpBar.ParamChangeAnimation(param,
+            () =>
+            {
+                // 敵Hpの監視登録
+                hp.Subscribe(SetEnemyHp);
 
-        boss.HpChangeTrigger += SetEnemyHp;
-        _viewModel.boss = boss;
+                finishCallback.Invoke();
+            }
+            );
     }
 
     public void ReadyUiPlay(Action finishCallback)
@@ -123,21 +136,7 @@ public class GameMainScreenPresenter : BaseScreenPresenter<GameMainScreen, GameM
     {
         _screen.PauseUi.SetActive(isOpen);
     }
-
-    protected override void Deinitialize()
-    {
-        if(_viewModel.Player!=null) _viewModel.Player.hpChangeTrigger -= SetPlayerHp;
-        if (_viewModel.boss != null)  _viewModel.boss.HpChangeTrigger -= SetEnemyHp;
-    }
 }
 
 public class GameMainScreenViewModel : BaseViewModel<GameMainManager.UI>
-{
-    public StagePlayer Player => WorldManager.Instance.Player;
-
-    public StageBoss boss;
-    protected override IEnumerator Configure()
-    {
-        yield return null;
-    }
-}
+{ }

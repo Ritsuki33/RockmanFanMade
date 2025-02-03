@@ -17,14 +17,26 @@ public partial class StagePlayer : PhysicalObject, IDirect,IBeltConveyorVelocity
     ExRbStateMachine<StagePlayer> m_mainStateMachine = new ExRbStateMachine<StagePlayer>();
     StateMachine<StagePlayer> m_chargeStateMachine = new StateMachine<StagePlayer>();
 
-
+    ReactiveProperty<float> hp = new ReactiveProperty<float>(0);
+    public IReadOnlyReactiveProperty<float> Hp => hp;
     int currentHp = 0;
 
-    public int CurrentHp => currentHp;
+    public int CurrentHp
+    {
+        get
+        {
+            return currentHp;
+        }
+        set
+        {
+            currentHp = value;
+            hp.Value = (float)currentHp / MaxHp;
+        }
+    }
     public int MaxHp => maxHp;
 
 
-    public Action<float> hpChangeTrigger;
+    //public Action<float> hpChangeTrigger;
 
 
     Collider2D bodyLadder = null;
@@ -131,6 +143,7 @@ public partial class StagePlayer : PhysicalObject, IDirect,IBeltConveyorVelocity
     protected override void Destroy()
     {
         exRb.DeleteCache();
+        hp.Dispose();
     }
 
     protected override void OnFixedUpdate()
@@ -175,9 +188,7 @@ public partial class StagePlayer : PhysicalObject, IDirect,IBeltConveyorVelocity
 
     public void SetHp(int hp)
     {
-        currentHp = Mathf.Clamp(hp, 0, maxHp);
-
-        hpChangeTrigger?.Invoke((float)currentHp / maxHp);
+        this.CurrentHp = Mathf.Clamp(hp, 0, maxHp);
     }
 
     public void UpdateInput(GameMainManager.InputInfo input)

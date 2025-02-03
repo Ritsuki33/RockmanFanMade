@@ -13,7 +13,7 @@ public class StageEnemy : PhysicalObject
 
     protected int currentHp = 0;
 
-    public int CurrentHp => currentHp;
+    public virtual int CurrentHp { get; set; }
     public int MaxHp => (enemyData != null) ? enemyData.Hp : 3;
 
 
@@ -21,12 +21,13 @@ public class StageEnemy : PhysicalObject
     {
         base.Init();
         MainMaterial.SetFloat(ShaderPropertyId.IsFadeColorID, 0);
-        currentHp = MaxHp;
+        CurrentHp = MaxHp;
     }
+
 
     public virtual void Damaged(RockBusterDamage damageVal)
     {
-        currentHp = Mathf.Clamp(currentHp - damageVal.baseDamageValue, 0, MaxHp);
+        CurrentHp = Mathf.Clamp(CurrentHp - damageVal.baseDamageValue, 0, MaxHp);
         if (currentHp <= 0)
         {
             Dead();

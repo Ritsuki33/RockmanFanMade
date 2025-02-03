@@ -142,7 +142,7 @@ public class Grenademan : StageBoss, IDirect
     {
         base.Damaged(damage);
 
-        hpChangeTrigger?.Invoke((float)currentHp / MaxHp);
+        //hpChangeTrigger?.Invoke((float)currentHp / MaxHp);
         GameMainManager.Instance.GameMainScreenPresenter?.SetEnemyHp((float)currentHp / MaxHp);
     }
 

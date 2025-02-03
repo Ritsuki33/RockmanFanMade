@@ -250,7 +250,7 @@ public class ActionChainExecuter : MonoBehaviour
 
         override public void Execute(Action finishCallback)
         {
-            GameMainManager.Instance.GameMainScreenPresenter.EnemyHpIncrementAnimation(spawn.Obj, finishCallback);
+            GameMainManager.Instance.GameMainScreenPresenter.EnemyHpIncrementAnimation((float)spawn.Obj.CurrentHp/spawn.Obj.MaxHp, spawn.Obj.Hp, finishCallback);
         }
     }
 

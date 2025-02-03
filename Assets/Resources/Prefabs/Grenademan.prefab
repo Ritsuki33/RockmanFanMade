@@ -306,6 +306,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   outofCameraDelete: 1
   m_mainAnimator: {fileID: 8967907223175558610}
+  animSpeed: 1
   rb: {fileID: 4184061222935920490}
   enemyData: {fileID: 11400000, guid: 1c8f826dbe2641547a3f178f338248e1, type: 2}
   defeatEvent:
@@ -316,7 +317,8 @@ MonoBehaviour:
     _gravityScale: 1
     _maxSpeed: 30
   _move:
-    _speed: 20
+    _maxSpeed: 15
+    _accelerate: 15
   _jump:
     maxSpeed: 15
   _direct:
@@ -334,13 +336,7 @@ MonoBehaviour:
     throughFloorLayer:
       serializedVersion: 2
       m_Bits: 768
-  placeBombPosArray:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  _placeBombPosArray: []
 --- !u!1 &8096674225689860548
 GameObject:
   m_ObjectHideFlags: 0
