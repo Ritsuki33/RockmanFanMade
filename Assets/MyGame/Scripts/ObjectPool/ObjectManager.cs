@@ -19,6 +19,7 @@ public enum PoolType
     LiftYellow_LineMove,
     LiftYellow_CircleMove,
     LiftBlue,
+    GreenMan
 }
 
 public class ObjectManager : SingletonComponent<ObjectManager>

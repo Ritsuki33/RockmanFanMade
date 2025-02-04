@@ -33,5 +33,6 @@ public class Jump
     public void SetSpeed(float val)
     {
         this.currentSpeed = val;
+        this.maxSpeed = val;
     }
 }
