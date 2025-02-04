@@ -9,8 +9,8 @@ public class TitleScreenViewModel : BaseViewModel<TitleManager.ScreenType>
 
     protected override IEnumerator Configure()
     {
-        select.Add(new SelectInfo(1, "start"));
-        select.Add(new SelectInfo(2, "load data"));
+        select.Add(new SelectInfo(1, "START"));
+        select.Add(new SelectInfo(2, "LOAD DATA"));
 
         yield return null;
     }
