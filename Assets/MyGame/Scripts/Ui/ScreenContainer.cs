@@ -7,8 +7,7 @@ using UnityEngine.InputSystem.XR;
 
 public interface IScreen<T> where T : Enum
 {
-
-    public IScreenPresenter<T> GetScreenController();
+    IScreenPresenter<T> ScreenPresenter { get; }
 
     /// <summary>
     /// ビュー、コントローラー、ビューモデルの準備
@@ -45,12 +44,10 @@ public interface IViewModel<T> where T : Enum
 {
     public IEnumerator Configure();
 }
-
-
-public class BaseScreen<S, SC, VM, T> : MonoBehaviour, IScreen<T>
-    where S : BaseScreen<S, SC, VM, T>, new()
-    where SC : BaseScreenPresenter<S, SC, VM, T>, new()
-    where VM : BaseViewModel<T>, new()
+public class BaseScreen<S, SP, VM, T> : MonoBehaviour, IScreen<T>
+    where S : IScreen<T>, new()
+    where SP : IScreenPresenter<T>, new()
+    where VM : IViewModel<T>, new()
     where T : Enum
 {
     ScreenContainer<T> container;
@@ -58,16 +55,13 @@ public class BaseScreen<S, SC, VM, T> : MonoBehaviour, IScreen<T>
 
     private IInput InputController => InputManager.Instance;
 
-    IScreenPresenter<T> IScreen<T>.GetScreenController()
-    {
+    IScreenPresenter<T> IScreen<T>.ScreenPresenter => screenPresenter;
 
-        screenPresenter = new SC();
-        return screenPresenter;
-    }
-
-    IEnumerator IScreen<T>.Configure()
+    public SP ScreenPresenter => (SP)screenPresenter;
+    
+    public IEnumerator Configure()
     {
-        screenPresenter = new SC();
+        if (screenPresenter == null) screenPresenter = new SP();
 
         yield return screenPresenter.Configure(this);
     }
@@ -109,21 +103,20 @@ public class BaseScreen<S, SC, VM, T> : MonoBehaviour, IScreen<T>
 
 }
 
-public class BaseScreenPresenter<S, SC, VM, T>: IScreenPresenter<T>
-    where S : BaseScreen<S, SC, VM, T>, new()
-    where SC : BaseScreenPresenter<S, SC, VM, T>, new()
-    where VM : BaseViewModel<T>, new()
+public class BaseScreenPresenter<S, SP, VM, T>: IScreenPresenter<T>
+    where S : IScreen<T>, new()
+    where SP : IScreenPresenter<T>, new()
+    where VM : IViewModel<T>, new()
     where T : Enum
 {
-
     IEnumerator IScreenPresenter<T>.Configure(IScreen<T> screen)
     {
         // モデルの構成
-        IViewModel<T> viewModel = new VM();
+        VM viewModel = new VM();
         yield return viewModel.Configure();
 
         // コントローラーの初期化
-        Initialize((S)screen, (VM)viewModel);
+        Initialize((S)screen, viewModel);
 
         // シーンの初期化
        screen.Initialize(viewModel);
@@ -140,21 +133,16 @@ public class BaseScreenPresenter<S, SC, VM, T>: IScreenPresenter<T>
 public class BaseViewModel<T> : IViewModel<T>
     where T : Enum
 {
-    IEnumerator IViewModel<T>.Configure()
-    {
-        yield return Configure();
-    }
+    IEnumerator IViewModel<T>.Configure() => Configure();
 
     protected virtual IEnumerator Configure() { yield return null; }
 }
-
 
 public class ScreenContainer<T> where T: Enum
 {
     Dictionary<T, IScreen<T>> list = new Dictionary<T, IScreen<T>>();
 
     IScreen<T> curScreen = default;
-    IScreenPresenter<T> screenPresenter = default;
 
     Coroutine coroutine = null;
 
@@ -221,15 +209,7 @@ public class ScreenContainer<T> where T: Enum
     {
         list.Clear();
         curScreen = null;
-        screenPresenter = null;
     }
-
-    /// <summary>
-    /// 現在のスクリーンプレゼンターを取得（型が合わない場合はNULL）
-    /// </summary>
-    /// <typeparam name="SP"></typeparam>
-    /// <returns></returns>
-    public SP GetCurrentScreenPresenter<SP>() where SP : class, IScreenPresenter<T> => screenPresenter as SP;
 
     /// <summary>
     /// 遷移要求
@@ -259,8 +239,7 @@ public class ScreenContainer<T> where T: Enum
             curScreen?.Hide();
             curScreen?.Deinitialize();
 
-            screenPresenter = newScreen.GetScreenController();
-            yield return screenPresenter.Configure(newScreen);
+            yield return newScreen.Configure();
 
             newScreen.SetSiblingIndex();
             newScreen.SetActive(true);

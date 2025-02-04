@@ -814,7 +814,6 @@ public partial class StagePlayer
                 else
                 {
                     parent.TransitSubReady((int)SubStateId.Run);
-
                 }
             }
         }
@@ -835,6 +834,12 @@ public partial class StagePlayer
                 preViousX = player.transform.position.x;
 
                 player.MainAnimator.Play(animationHash);
+            }
+
+            protected override void OnBottomHitStay(StagePlayer player, AutoMove parent, RaycastHit2D hit)
+            {
+                player.gravity.OnGround(hit.normal);
+                player.bottomHit = hit;
             }
 
             protected override void OnBottomHitExit(StagePlayer player, AutoMove parent, RaycastHit2D hit)
