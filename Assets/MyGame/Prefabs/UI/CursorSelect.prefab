@@ -116,6 +116,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d73f3c046ffc994db7310186479d8c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  data:
+    id: 0
+    text: 
   cursorPtr: {fileID: 2753555492950945564}
   text: {fileID: 8014256386922357631}
 --- !u!114 &2118662985483531073
@@ -211,8 +214,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Start
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: e332d1e569b02ca4e87af109a16594d0, type: 2}
+  m_sharedMaterial: {fileID: -116341392222448040, guid: e332d1e569b02ca4e87af109a16594d0, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -246,7 +249,7 @@ MonoBehaviour:
   m_HorizontalAlignment: 1
   m_VerticalAlignment: 256
   m_textAlignment: 65535
-  m_characterSpacing: 0
+  m_characterSpacing: 22.5
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
