@@ -106,25 +106,45 @@ public class GameMainScreenPresenter : BaseScreenPresenter<GameMainScreen, GameM
         _screen.EnemyHpBar.gameObject.SetActive(isActive);
     }
 
+    public void HpIncrementAnimation(HpBar hpbar, float startParam, float endParam, IReadOnlyReactiveProperty<float> hp, Action finishCallback)
+    {
+        hpbar.gameObject.SetActive(true);
+        hpbar.SetParam(startParam);
+        hpbar.ParamChangeAnimation(endParam, finishCallback);
+    }
+
+    /// <summary>
+    /// プレイヤーの体力
+    /// </summary>
+    /// <param name="param"></param>
+    /// <param name="hp"></param>
+    /// <param name="finishCallback"></param>
+    public void PlayerHpIncrementAnimation(float startParam, float endParam, IReadOnlyReactiveProperty<float> hp, Action finishCallback)
+    {
+        HpIncrementAnimation(_screen.HpBar, startParam, endParam, hp,()=>
+        {
+            // プレイヤーHpの監視登録
+            hp.Subscribe(SetPlayerHp);
+
+            finishCallback.Invoke();
+        });
+    }
+
     /// <summary>
     /// ボスの体力上昇アニメーション（敵体力の監視登録も行う）
     /// </summary>
     /// <param name="val"></param>
     /// <param name="hpChangeTrigger"></param>
     /// <param name="finishCallback"></param>
-    public void EnemyHpIncrementAnimation(float param, IReadOnlyReactiveProperty<float> hp, Action finishCallback)
+    public void EnemyHpIncrementAnimation(float startParam, float endParam, IReadOnlyReactiveProperty<float> hp, Action finishCallback)
     {
-        _screen.EnemyHpBar.gameObject.SetActive(true);
-        _screen.EnemyHpBar.SetParam(0.0f);
-        _screen.EnemyHpBar.ParamChangeAnimation(param,
-            () =>
-            {
-                // 敵Hpの監視登録
-                hp.Subscribe(SetEnemyHp);
+        HpIncrementAnimation(_screen.EnemyHpBar, startParam, endParam, hp, () =>
+        {
+            // 敵Hpの監視登録
+            hp.Subscribe(SetEnemyHp);
 
-                finishCallback.Invoke();
-            }
-            );
+            finishCallback.Invoke();
+        });
     }
 
     public void ReadyUiPlay(Action finishCallback)

@@ -108,6 +108,7 @@ public partial class StagePlayer : PhysicalObject, IDirect,IBeltConveyorVelocity
 
         rbCollide.onTriggerEnter += OnTriggerEnterBase;
         rbCollide.onTriggerEnterDamageBase += OnTriggerStayDamageBase;
+        rbCollide.onTriggerEnterRecovery += OnTriggerStayRecovery;
 
         exRbHit.onBottomHitStay += OnBottomHitStay;
         exRbHit.onBottomHitExit += OnBottomHitExit;
@@ -330,9 +331,35 @@ public partial class StagePlayer : PhysicalObject, IDirect,IBeltConveyorVelocity
         }
     }
 
+    public void RecoverHp(int val)
+    {
+        // GUIとの切り離し
+        hp.Dispose();
+
+        float startParam = hp.Value;
+        SetHp(CurrentHp + val);
+
+        // 無敵
+        invincible = true;
+
+        // ポーズを掛ける
+        WorldManager.Instance.OnPause(true);
+        GameMainManager.Instance.GameMainScreenPresenter.PlayerHpIncrementAnimation(startParam, hp.Value, Hp, () =>
+        {
+            WorldManager.Instance.OnPause(false);
+            invincible = false;
+        });
+    }
+
     private void OnTriggerEnterBase(Collider2D collision)
     {
         m_mainStateMachine.OnTriggerEnter(this, collision);
+    }
+
+    private void OnTriggerStayRecovery(Recovery recovery)
+    {
+        RecoverHp(recovery.Amount);
+        recovery.gameObject.SetActive(false);
     }
 
     void OnTriggerStayDamageBase(DamageBase damageBase)
