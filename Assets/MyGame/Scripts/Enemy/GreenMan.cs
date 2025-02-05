@@ -33,10 +33,6 @@ public class GreenMan : StageEnemy,IDirect
 
     protected override void Awake()
     {
-        gravity = GetComponent<Gravity>();
-        jump = GetComponent<Jump>();
-        exRb = GetComponent<ExpandRigidBody>();
-
         stateMachine.AddState((int)StateId.Idle, new Idle());
         stateMachine.AddState((int)StateId.Float, new Float());
         stateMachine.AddState((int)StateId.Shoot, new Shoot());
@@ -50,7 +46,7 @@ public class GreenMan : StageEnemy,IDirect
 
         rbCollide.onTriggerEnterRockBusterDamage += OnTriggerEnterRuckBusterDamage;
         exRbHit.onTopHitEnter += OnTopHitEnter;
-        exRbHit.onBottomHitEnter += OnBottomHitEnter;
+        exRbHit.onBottomHitStay += OnBottomHitStay;
         exRbHit.onBottomHitExit += OnBottomHitExit;
     }
 
@@ -68,19 +64,29 @@ public class GreenMan : StageEnemy,IDirect
         stateMachine.FixedUpdate(this);
     }
 
+    protected override void OnLateFixedUpdate()
+    {
+        exRb.FixedUpdate();
+    }
+
     protected override void OnUpdate()
     {
         stateMachine.Update(this);
     }
 
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        rbCollide.OnTriggerEnter(collision);
+    }
+
     void OnTopHitEnter(RaycastHit2D hit)
     {
-        stateMachine.OnBottomHitEnter(this, hit);
+        stateMachine.OnTopHitEnter(this, hit);
 
     }
-    void OnBottomHitEnter(RaycastHit2D hit)
+    void OnBottomHitStay(RaycastHit2D hit)
     {
-        stateMachine.OnBottomHitEnter(this, hit);
+        stateMachine.OnBottomHitStay(this, hit);
     }
 
     void OnBottomHitExit(RaycastHit2D hit)
@@ -163,7 +169,7 @@ public class GreenMan : StageEnemy,IDirect
             greenMan.Defense(collision);
         }
 
-        protected override void OnBottomHitEnter(GreenMan greenMan, RaycastHit2D hit)
+        protected override void OnBottomHitStay(GreenMan greenMan, RaycastHit2D hit)
         {
             greenMan.stateMachine.TransitReady((int)StateId.Idle);
         }
@@ -261,7 +267,7 @@ public class GreenMan : StageEnemy,IDirect
         static int animationHash = Animator.StringToHash("Float");
         protected override void Enter(GreenMan greenMan, int preId, int subId)
         {
-            greenMan.jump.SetSpeed(15);
+            greenMan.jump.SetSpeed(20);
             greenMan.MainAnimator.Play(animationHash);
         }
 

@@ -29,7 +29,7 @@ public class LiftYellowCircleMove : PhysicalObject
         _stateMachine.Update(this);
     }
 
-    public void Setup(Transform center)
+    public void Setup(Transform center,float speed)
     {
         _center = center;
     }

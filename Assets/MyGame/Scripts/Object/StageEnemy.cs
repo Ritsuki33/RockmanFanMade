@@ -28,7 +28,7 @@ public class StageEnemy : PhysicalObject
     public virtual void Damaged(RockBusterDamage damageVal)
     {
         CurrentHp = Mathf.Clamp(CurrentHp - damageVal.baseDamageValue, 0, MaxHp);
-        if (currentHp <= 0)
+        if (CurrentHp <= 0)
         {
             Dead();
 

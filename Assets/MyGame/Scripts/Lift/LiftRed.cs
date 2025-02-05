@@ -7,6 +7,9 @@ public class LiftRed : PhysicalObject
     [SerializeField] LayerMask m_Mask;
     [SerializeField] Transform start;
     [SerializeField] Transform end;
+    [SerializeField] float idleSpeed = 5f;
+    [SerializeField] float maxSpeed = 10f;
+    [SerializeField] float accelerate = 15f;
     [SerializeField] BoxCollider2D boxCollider;
     [SerializeField] float checkRange = 0.5f;
     StateMachine<LiftRed> m_StateMachine = new StateMachine<LiftRed>();
@@ -37,10 +40,17 @@ public class LiftRed : PhysicalObject
         m_StateMachine.FixedUpdate(this);
     }
 
+    public void Setup(Transform start,Transform end,float idleSpeed,float maxSpeed,float accelerate)
+    {
+        this.start = start;
+        this.end = end;
+        this.idleSpeed = idleSpeed;
+        this.maxSpeed = maxSpeed;
+        this.accelerate = accelerate;
+    }
 
     class Idle : State<LiftRed, Idle>
     {
-        float speed = 5.0f;
         protected override void Enter(LiftRed obj, int preId, int subId)
         {
             obj.MainAnimator.Play(AnimationNameHash.Idle);
@@ -55,7 +65,7 @@ public class LiftRed : PhysicalObject
             Vector2 direction = start - end;
             direction = direction.normalized;
 
-            var nextPos = (Vector2)obj.transform.position + direction * speed * Time.fixedDeltaTime;
+            var nextPos = (Vector2)obj.transform.position + direction * obj.idleSpeed * Time.fixedDeltaTime;
 
             if (start.IsBetween(currentPos, nextPos))
             {
@@ -63,7 +73,7 @@ public class LiftRed : PhysicalObject
             }
             else
             {
-                obj.rb.velocity = direction * speed;
+                obj.rb.velocity = direction * obj.idleSpeed;
             }
 
             RaycastHit2D hit = Physics2D.BoxCast(obj.BoxCenter, obj.BoxSize, 0, Vector2.up, obj.checkRange, obj.m_Mask);
@@ -78,8 +88,6 @@ public class LiftRed : PhysicalObject
     class Up : State<LiftRed, Idle>
     {
         int animationHash = 0;
-        float maxSpeed = 10f;
-        float accelerate = 15.0f;
         float curSpeed = 0;
         public Up()
         {
@@ -101,8 +109,8 @@ public class LiftRed : PhysicalObject
             Vector2 direction = end - start;
             direction = direction.normalized;
 
-            curSpeed += accelerate * Time.fixedDeltaTime;
-            curSpeed = Mathf.Clamp(curSpeed, 0, maxSpeed);
+            curSpeed += obj.accelerate * Time.fixedDeltaTime;
+            curSpeed = Mathf.Clamp(curSpeed, 0, obj.maxSpeed);
 
             var nextPos = currentPos + direction * curSpeed * Time.fixedDeltaTime;
 

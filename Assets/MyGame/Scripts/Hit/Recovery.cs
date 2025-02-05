@@ -75,11 +75,15 @@ public class Recovery : PhysicalObject, IRbVisitable, IExRbVisitable
         exRbHit.onBottomHitStay += OnBottomHitStay;
     }
 
-    private void FixedUpdate()
+    protected override void OnFixedUpdate()
     {
         gravity.OnUpdate();
         this.exRb.velocity = gravity.CurrentVelocity;
 
+    }
+
+    protected override void OnLateFixedUpdate()
+    {
         this.exRb.FixedUpdate();
     }
 

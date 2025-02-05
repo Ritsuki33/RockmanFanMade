@@ -108,7 +108,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!114 &5950899104789406071
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -121,7 +121,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f66f34863a982843a7b702cab0ea86b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  outofCameraDelete: 1
   m_mainAnimator: {fileID: 2451121724989072181}
+  animSpeed: 1
   rb: {fileID: 3629008528181579886}
   enemyData: {fileID: 0}
   defeatEvent:

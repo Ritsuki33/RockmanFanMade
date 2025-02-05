@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8739075ca11f31242b289cbdf6d904c1, type: 3}
-  m_Name: LiftBlue
+  m_Name: Greenman
   m_EditorClassIdentifier: 
-  type: 15
+  type: 16
   addPath: 
   defaultCapacity: 10
   maxSize: 10
