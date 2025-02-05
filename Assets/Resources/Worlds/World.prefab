@@ -188,6 +188,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   type: 12
+  dropItem: -1
 --- !u!1 &718863106240750070
 GameObject:
   m_ObjectHideFlags: 0
@@ -33504,6 +33505,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   type: 19
+  dropItem: -1
 --- !u!1 &1543887266324164333
 GameObject:
   m_ObjectHideFlags: 0
@@ -72162,6 +72164,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   type: 16
+  dropItem: -1
 --- !u!1 &7059072139800775559
 GameObject:
   m_ObjectHideFlags: 0

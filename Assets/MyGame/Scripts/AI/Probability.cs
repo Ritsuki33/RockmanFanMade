@@ -42,7 +42,7 @@ public static class Probability
 
             if (randomValue <= probability)
             {
-                action.Item2.Invoke();
+                action.Item2?.Invoke();
                 break;
             }
         }
