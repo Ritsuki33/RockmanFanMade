@@ -47,6 +47,7 @@ public class RocketMask : StageEnemy,IDirect
 
     protected override void OnUpdate()
     {
+        base.OnUpdate();
         m_stateMachine.Update(this);
     }
 

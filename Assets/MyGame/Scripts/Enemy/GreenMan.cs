@@ -71,6 +71,7 @@ public class GreenMan : StageEnemy,IDirect
 
     protected override void OnUpdate()
     {
+        base.OnUpdate();
         stateMachine.Update(this);
     }
 

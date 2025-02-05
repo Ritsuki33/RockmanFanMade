@@ -85,6 +85,7 @@ public partial class Mettoru : StageEnemy,IDirect
 
     protected override void OnUpdate()
     {
+        base.OnUpdate();
         m_stateMachine.Update(this);
     }
 

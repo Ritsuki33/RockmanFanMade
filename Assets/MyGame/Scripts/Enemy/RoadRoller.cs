@@ -64,6 +64,7 @@ public class RoadRoller : StageEnemy,IDirect
 
     protected override void OnUpdate()
     {
+        base.OnUpdate();
         m_stateMachine.Update(this);
     }
 
