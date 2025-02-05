@@ -21,6 +21,7 @@ public enum PoolType
     LiftBlue,
     GreenMan,
     RoadRoller,
+    RocketMask,
 }
 
 public class ObjectManager : SingletonComponent<ObjectManager>

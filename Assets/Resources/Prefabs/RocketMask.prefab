@@ -206,10 +206,9 @@ GameObject:
   m_Component:
   - component: {fileID: 3023601850290523613}
   - component: {fileID: 8056068072713770508}
-  - component: {fileID: 5804682697886815763}
   - component: {fileID: 5259320055156434993}
   m_Layer: 16
-  m_Name: RoketMask
+  m_Name: RocketMask
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -259,23 +258,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!114 &5804682697886815763
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6154813334376968844}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c414a8c87637d7b46a809fb7039783e6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  rocketMask: {fileID: 5259320055156434993}
-  _animator: {fileID: 7537313231566475500}
-  distance: 5
-  speed: 2
-  animationEnvetController: {fileID: 1223415664573393821}
 --- !u!114 &5259320055156434993
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -296,4 +278,9 @@ MonoBehaviour:
   defeatEvent:
     m_PersistentCalls:
       m_Calls: []
-  rocketMaskComtroller: {fileID: 5804682697886815763}
+  distance: 5
+  speed: 2
+  direct:
+    _transform: {fileID: 3023601850290523613}
+    forwardIsRight: 0
+  animationEnvetController: {fileID: 1223415664573393821}
