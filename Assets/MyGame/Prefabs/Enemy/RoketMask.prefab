@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 3158003259517169952}
   - component: {fileID: 7537313231566475500}
   - component: {fileID: 1223415664573393821}
-  - component: {fileID: 8742157525601080728}
   m_Layer: 16
   m_Name: Sprite
   m_TagString: Untagged
@@ -27,13 +26,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2626974671733330698}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3023601850290523613}
-  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &3158003259517169952
 SpriteRenderer:
@@ -120,19 +119,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a7f1a73b9ee4eb409bcfe6e96d397a1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &8742157525601080728
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2626974671733330698}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 95f3fb9c1d596fa408a4ab5e0dfe8a0c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  sharedMaterial: 0
 --- !u!1 &4966095080999273899
 GameObject:
   m_ObjectHideFlags: 0
@@ -157,13 +143,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4966095080999273899}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3023601850290523613}
-  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!61 &7004783040130348696
 BoxCollider2D:
@@ -236,6 +222,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6154813334376968844}
+  serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -244,7 +231,6 @@ Transform:
   - {fileID: 4977168827516952149}
   - {fileID: 5845019457041097875}
   m_Father: {fileID: 0}
-  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!50 &8056068072713770508
 Rigidbody2D:
@@ -302,6 +288,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3694c14dd0c4d348b0c48dc41679840, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  materialController: {fileID: 8742157525601080728}
+  outofCameraDelete: 1
+  m_mainAnimator: {fileID: 7537313231566475500}
+  animSpeed: 1
+  rb: {fileID: 8056068072713770508}
   enemyData: {fileID: 0}
+  defeatEvent:
+    m_PersistentCalls:
+      m_Calls: []
   rocketMaskComtroller: {fileID: 5804682697886815763}
