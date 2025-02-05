@@ -24,6 +24,8 @@ public enum PoolType
     RocketMask,
     Mettoru,
     LiftRed,
+    Recovery,
+    Recovery_Big
 }
 
 public class ObjectManager : SingletonComponent<ObjectManager>
