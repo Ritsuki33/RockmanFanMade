@@ -23,6 +23,7 @@ public enum PoolType
     RoadRoller,
     RocketMask,
     Mettoru,
+    LiftRed,
 }
 
 public class ObjectManager : SingletonComponent<ObjectManager>

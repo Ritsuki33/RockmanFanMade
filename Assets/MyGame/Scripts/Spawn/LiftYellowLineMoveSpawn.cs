@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LiftSpawn : InCameraSpawn
+public class LiftYellowLineMoveSpawn : InCameraSpawn
 {
     [SerializeField] Transform[] liftPoints;
     [SerializeField] float maxSpeed = 5.0f;     // 最大速度 (v)
