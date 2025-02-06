@@ -112,6 +112,7 @@ public partial class StagePlayer : PhysicalObject, IDirect,IBeltConveyorVelocity
 
         exRbHit.onBottomHitStay += OnBottomHitStay;
         exRbHit.onBottomHitExit += OnBottomHitExit;
+        exRbHit.onTopHitEnterBlockTilemap += OnTopHitEnter;
         exRbHit.onTopHitStay += OnTopHitStay;
         exRbHit.onHitEnter += OnHitEnter;
         exRbHit.onHitStayDamageBase += OnHitStay;
@@ -423,6 +424,12 @@ public partial class StagePlayer : PhysicalObject, IDirect,IBeltConveyorVelocity
         jump.Init(tire.JumpPower);
         m_mainStateMachine.TransitReady((int)Main_StateID.Jumping);
         tire.OnSteppedOn();
+    }
+
+    void OnTopHitEnter(BlockTilemap blockTilemap)
+    {
+        // ヒット位置情報が取ってこれないので、ブロックが壊せないｗ
+        Debug.Log("トップヒット");
     }
 
     private void OnTriggerEnter2D(Collider2D collision) => rbCollide.OnTriggerEnter(collision);
