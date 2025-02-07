@@ -6,133 +6,52 @@ using UnityEngine;
 /// 衝突時の取得コンポーネント
 /// スクリプトテンプレートから自動生成
 /// </summary>
-public class Ground : MonoBehaviour, IRbVisitable, IExRbVisitable
+public class Ground : MonoBehaviour, IExRbVisitable
 {
     #region 編集禁止
-    protected virtual void AcceptOnTriggerEnter(IRbVisitor visitor) => visitor.OnTriggerEnter(this);
-    protected virtual void AcceptOnCollisionEnter(IRbVisitor visitor) => visitor.OnCollisionEnter(this);
-    protected virtual void AcceptOnCollisionExit(IRbVisitor visitor) => visitor.OnCollisionExit(this);
-    protected virtual void AcceptOnCollisionStay(IRbVisitor visitor) => visitor.OnCollisionStay(this);
-    protected virtual void AcceptOnTriggerExit(IRbVisitor visitor) => visitor.OnTriggerExit(this);
-    protected virtual void AcceptOnTriggerStay(IRbVisitor visitor) => visitor.OnTriggerStay(this);
+    protected virtual void AcceptOnHitEnter(IExRbVisitor visitor, RaycastHit2D hit) => visitor.OnHitEnter(this, hit);
+    protected virtual void AcceptOnHitStay(IExRbVisitor visitor, RaycastHit2D hit) => visitor.OnHitStay(this, hit);
+    protected virtual void AcceptOnHitExit(IExRbVisitor visitor, RaycastHit2D hit) => visitor.OnHitExit(this, hit);
+    protected virtual void AcceptOnBottomHitEnter(IExRbVisitor visitor, RaycastHit2D hit) => visitor.OnBottomHitEnter(this, hit);
+    protected virtual void AcceptOnBottomHitStay(IExRbVisitor visitor, RaycastHit2D hit) => visitor.OnBottomHitStay(this, hit);
+    protected virtual void AcceptOnBottomHitExit(IExRbVisitor visitor, RaycastHit2D hit) => visitor.OnBottomHitExit(this, hit);
+    protected virtual void AcceptOnTopHitEnter(IExRbVisitor visitor, RaycastHit2D hit) => visitor.OnTopHitEnter(this, hit);
+    protected virtual void AcceptOnTopHitStay(IExRbVisitor visitor, RaycastHit2D hit) => visitor.OnTopHitStay(this, hit);
+    protected virtual void AcceptOnTopHitExit(IExRbVisitor visitor, RaycastHit2D hit) => visitor.OnTopHitExit(this, hit);
+    protected virtual void AcceptOnLeftHitEnter(IExRbVisitor visitor, RaycastHit2D hit) => visitor.OnLeftHitEnter(this, hit);
+    protected virtual void AcceptOnLeftHitStay(IExRbVisitor visitor, RaycastHit2D hit) => visitor.OnLeftHitStay(this, hit);
+    protected virtual void AcceptOnLeftHitExit(IExRbVisitor visitor, RaycastHit2D hit) => visitor.OnLeftHitExit(this, hit);
+    protected virtual void AcceptOnRightHitEnter(IExRbVisitor visitor, RaycastHit2D hit) => visitor.OnRightHitEnter(this, hit);
+    protected virtual void AcceptOnRightHitStay(IExRbVisitor visitor, RaycastHit2D hit) => visitor.OnRightHitStay(this, hit);
+    protected virtual void AcceptOnRightHitExit(IExRbVisitor visitor, RaycastHit2D hit) => visitor.OnRightHitExit(this, hit);
 
-    protected virtual void AcceptOnHitEnter(IExRbVisitor visitor) => visitor.OnHitEnter(this);
-    protected virtual void AcceptOnHitStay(IExRbVisitor visitor) => visitor.OnHitStay(this);
-    protected virtual void AcceptOnHitExit(IExRbVisitor visitor) => visitor.OnHitExit(this);
-    protected virtual void AcceptOnBottomHitEnter(IExRbVisitor visitor) => visitor.OnBottomHitEnter(this);
-    protected virtual void AcceptOnBottomHitStay(IExRbVisitor visitor) => visitor.OnBottomHitStay(this);
-    protected virtual void AcceptOnBottomHitExit(IExRbVisitor visitor) => visitor.OnBottomHitExit(this);
-    protected virtual void AcceptOnTopHitEnter(IExRbVisitor visitor) => visitor.OnTopHitEnter(this);
-    protected virtual void AcceptOnTopHitStay(IExRbVisitor visitor) => visitor.OnTopHitStay(this);
-    protected virtual void AcceptOnTopHitExit(IExRbVisitor visitor) => visitor.OnTopHitExit(this);
-    protected virtual void AcceptOnLeftHitEnter(IExRbVisitor visitor) => visitor.OnLeftHitEnter(this);
-    protected virtual void AcceptOnLeftHitStay(IExRbVisitor visitor) => visitor.OnLeftHitStay(this);
-    protected virtual void AcceptOnLeftHitExit(IExRbVisitor visitor) => visitor.OnLeftHitExit(this);
-    protected virtual void AcceptOnRightHitEnter(IExRbVisitor visitor) => visitor.OnRightHitEnter(this);
-    protected virtual void AcceptOnRightHitStay(IExRbVisitor visitor) => visitor.OnRightHitStay(this);
-    protected virtual void AcceptOnRightHitExit(IExRbVisitor visitor) => visitor.OnRightHitExit(this);
-
-    void IRbVisitable.AcceptOnTriggerEnter(IRbVisitor visitor) => AcceptOnTriggerEnter(visitor);
-    void IRbVisitable.AcceptOnCollisionEnter(IRbVisitor visitor) => AcceptOnCollisionEnter(visitor);
-    void IRbVisitable.AcceptOnCollisionExit(IRbVisitor visitor) => AcceptOnCollisionExit(visitor);
-    void IRbVisitable.AcceptOnCollisionStay(IRbVisitor visitor) => AcceptOnCollisionStay(visitor);
-    void IRbVisitable.AcceptOnTriggerExit(IRbVisitor visitor) => AcceptOnTriggerExit(visitor);
-    void IRbVisitable.AcceptOnTriggerStay(IRbVisitor visitor) => AcceptOnTriggerStay(visitor);
-
-    void IExRbVisitable.AcceptOnHitEnter(IExRbVisitor visitor) => AcceptOnHitEnter(visitor);
-    void IExRbVisitable.AcceptOnHitStay(IExRbVisitor visitor) => AcceptOnHitStay(visitor);
-    void IExRbVisitable.AcceptOnHitExit(IExRbVisitor visitor) => AcceptOnHitExit(visitor);
-    void IExRbVisitable.AcceptOnBottomHitEnter(IExRbVisitor visitor) => AcceptOnBottomHitEnter(visitor);
-    void IExRbVisitable.AcceptOnBottomHitStay(IExRbVisitor visitor) => AcceptOnBottomHitStay(visitor);
-    void IExRbVisitable.AcceptOnBottomHitExit(IExRbVisitor visitor) => AcceptOnBottomHitExit(visitor);
-    void IExRbVisitable.AcceptOnTopHitEnter(IExRbVisitor visitor) => AcceptOnTopHitEnter(visitor);
-    void IExRbVisitable.AcceptOnTopHitStay(IExRbVisitor visitor) => AcceptOnTopHitStay(visitor);
-    void IExRbVisitable.AcceptOnTopHitExit(IExRbVisitor visitor) => AcceptOnTopHitExit(visitor);
-    void IExRbVisitable.AcceptOnLeftHitEnter(IExRbVisitor visitor) => AcceptOnLeftHitEnter(visitor);
-    void IExRbVisitable.AcceptOnLeftHitStay(IExRbVisitor visitor) => AcceptOnLeftHitStay(visitor);
-    void IExRbVisitable.AcceptOnLeftHitExit(IExRbVisitor visitor) => AcceptOnLeftHitExit(visitor);
-    void IExRbVisitable.AcceptOnRightHitEnter(IExRbVisitor visitor) => AcceptOnRightHitEnter(visitor);
-    void IExRbVisitable.AcceptOnRightHitStay(IExRbVisitor visitor) => AcceptOnRightHitStay(visitor);
-    void IExRbVisitable.AcceptOnRightHitExit(IExRbVisitor visitor) => AcceptOnRightHitExit(visitor);
+    void IExRbVisitable.AcceptOnHitEnter(IExRbVisitor visitor, RaycastHit2D hit) => AcceptOnHitEnter(visitor, hit);
+    void IExRbVisitable.AcceptOnHitStay(IExRbVisitor visitor, RaycastHit2D hit) => AcceptOnHitStay(visitor, hit);
+    void IExRbVisitable.AcceptOnHitExit(IExRbVisitor visitor, RaycastHit2D hit) => AcceptOnHitExit(visitor, hit);
+    void IExRbVisitable.AcceptOnBottomHitEnter(IExRbVisitor visitor, RaycastHit2D hit) => AcceptOnBottomHitEnter(visitor, hit);
+    void IExRbVisitable.AcceptOnBottomHitStay(IExRbVisitor visitor, RaycastHit2D hit) => AcceptOnBottomHitStay(visitor, hit);
+    void IExRbVisitable.AcceptOnBottomHitExit(IExRbVisitor visitor, RaycastHit2D hit) => AcceptOnBottomHitExit(visitor, hit);
+    void IExRbVisitable.AcceptOnTopHitEnter(IExRbVisitor visitor, RaycastHit2D hit) => AcceptOnTopHitEnter(visitor, hit);
+    void IExRbVisitable.AcceptOnTopHitStay(IExRbVisitor visitor, RaycastHit2D hit) => AcceptOnTopHitStay(visitor, hit);
+    void IExRbVisitable.AcceptOnTopHitExit(IExRbVisitor visitor, RaycastHit2D hit) => AcceptOnTopHitExit(visitor, hit);
+    void IExRbVisitable.AcceptOnLeftHitEnter(IExRbVisitor visitor, RaycastHit2D hit) => AcceptOnLeftHitEnter(visitor, hit);
+    void IExRbVisitable.AcceptOnLeftHitStay(IExRbVisitor visitor, RaycastHit2D hit) => AcceptOnLeftHitStay(visitor, hit);
+    void IExRbVisitable.AcceptOnLeftHitExit(IExRbVisitor visitor, RaycastHit2D hit) => AcceptOnLeftHitExit(visitor, hit);
+    void IExRbVisitable.AcceptOnRightHitEnter(IExRbVisitor visitor, RaycastHit2D hit) => AcceptOnRightHitEnter(visitor, hit);
+    void IExRbVisitable.AcceptOnRightHitStay(IExRbVisitor visitor, RaycastHit2D hit) => AcceptOnRightHitStay(visitor, hit);
+    void IExRbVisitable.AcceptOnRightHitExit(IExRbVisitor visitor, RaycastHit2D hit) => AcceptOnRightHitExit(visitor, hit);
     #endregion
 
     // ここから定義
-    [SerializeField, Range(0, 1),Header("摩擦力")] float friction;
+    [SerializeField, Range(0, 1), Header("摩擦力")] float friction;
 
     public float Friction => friction;
 }
 
 # region 編集禁止
-public partial interface IRbVisitor : IRbVisitor<Ground>
-{ }
-
-public partial interface IExRbVisitor : IExRbVisitor<Ground>
-{ }
-
-public partial interface IStateRbVisitor<T> : IStateRbVisitor<T, Ground>
-{ }
-
-public partial interface IStateExRbVisitor<T> : IStateExRbVisitor<T, Ground>
-{ }
-
-public partial interface ISubStateRbVisitor<T, PS> : ISubStateRbVisitor<T, PS, Ground>
-{ }
-
-public partial interface ISubStateExRbVisitor<T, PS> : ISubStateExRbVisitor<T, PS, Ground>
-{ }
-
-
-
-public partial class InheritRbState<T, TS, SM, S>
-{
-    virtual protected void OnTriggerEnter(T obj, Ground collision) { }
-    virtual protected void OnTriggerStay(T obj, Ground collision) { }
-    virtual protected void OnTriggerExit(T obj, Ground collision) { }
-
-    virtual protected void OnCollisionEnter(T obj, Ground collision) { }
-    virtual protected void OnCollisionStay(T obj, Ground collision) { }
-    virtual protected void OnCollisionExit(T obj, Ground collision) { }
-
-    void IStateRbVisitor<T, Ground>.OnTriggerEnter(T obj, Ground collision)
-    {
-        OnTriggerEnter(obj, collision);
-        subStateMachine?.OnTriggerEnter(obj, this as TS, collision);
-    }
-
-
-    void IStateRbVisitor<T, Ground>.OnTriggerStay(T obj, Ground collision)
-    {
-        OnTriggerStay(obj, collision);
-        subStateMachine?.OnTriggerStay(obj, this as TS, collision);
-    }
-
-    void IStateRbVisitor<T, Ground>.OnTriggerExit(T obj, Ground collision)
-    {
-        OnTriggerExit(obj, collision);
-        subStateMachine?.OnTriggerExit(obj, this as TS, collision);
-    }
-
-
-    void IStateRbVisitor<T, Ground>.OnCollisionEnter(T obj, Ground collision)
-    {
-        OnCollisionEnter(obj, collision);
-        subStateMachine?.OnCollisionEnter(obj, this as TS, collision);
-    }
-
-    void IStateRbVisitor<T, Ground>.OnCollisionStay(T obj, Ground collision)
-    {
-        OnCollisionStay(obj, collision);
-        subStateMachine?.OnCollisionStay(obj, this as TS, collision);
-    }
-
-    void IStateRbVisitor<T, Ground>.OnCollisionExit(T obj, Ground collision)
-    {
-        OnCollisionExit(obj, collision);
-        subStateMachine?.OnCollisionExit(obj, this as TS, collision);
-    }
-
-}
-
+public partial interface IExRbVisitor : IExRbVisitor<Ground>{ }
+public partial interface IStateExRbVisitor<T> : IStateExRbVisitor<T, Ground>{ }
+public partial interface ISubStateExRbVisitor<T, PS> : ISubStateExRbVisitor<T, PS, Ground>{ }
 
 public partial class InheritExRbState<T, TS, SM, S>
 {
@@ -247,55 +166,6 @@ public partial class InheritExRbState<T, TS, SM, S>
     }
 }
 
-
-public partial class InheritRbSubState<T, TS, PS, SM, S>
-{
-    virtual protected void OnTriggerEnter(T obj, PS parent, Ground collision) { }
-    virtual protected void OnTriggerStay(T obj, PS parent, Ground collision) { }
-    virtual protected void OnTriggerExit(T obj, PS parent, Ground collision) { }
-
-    virtual protected void OnCollisionEnter(T obj, PS parent, Ground collision) { }
-    virtual protected void OnCollisionStay(T obj, PS parent, Ground collision) { }
-    virtual protected void OnCollisionExit(T obj, PS parent, Ground collision) { }
-
-    void ISubStateRbVisitor<T, PS, Ground>.OnTriggerEnter(T obj, PS parent, Ground collision)
-    {
-        OnTriggerEnter(obj, parent, collision);
-        subStateMachine?.OnTriggerEnter(obj, this as TS, collision);
-    }
-
-    void ISubStateRbVisitor<T, PS, Ground>.OnTriggerStay(T obj, PS parent, Ground collision)
-    {
-        OnTriggerStay(obj, parent, collision);
-        subStateMachine?.OnTriggerStay(obj, this as TS, collision);
-    }
-
-    void ISubStateRbVisitor<T, PS, Ground>.OnTriggerExit(T obj, PS parent, Ground collision)
-    {
-        OnTriggerExit(obj, parent, collision);
-        subStateMachine?.OnTriggerExit(obj, this as TS, collision);
-    }
-
-    void ISubStateRbVisitor<T, PS, Ground>.OnCollisionEnter(T obj, PS parent, Ground collision)
-    {
-        OnCollisionEnter(obj, parent, collision);
-        subStateMachine?.OnCollisionEnter(obj, this as TS, collision);
-    }
-
-    void ISubStateRbVisitor<T, PS, Ground>.OnCollisionStay(T obj, PS parent, Ground collision)
-    {
-        OnCollisionStay(obj, parent, collision);
-        subStateMachine?.OnCollisionStay(obj, this as TS, collision);
-    }
-
-    void ISubStateRbVisitor<T, PS, Ground>.OnCollisionExit(T obj, PS parent, Ground collision)
-    {
-        OnCollisionExit(obj, parent, collision);
-        subStateMachine?.OnCollisionExit(obj, this as TS, collision);
-    }
-}
-
-
 public partial class InheritExRbSubState<T, TS, PS, SM, S>
 {
     virtual protected void OnHitEnter(T obj, PS parent, Ground collision) { }
@@ -409,16 +279,6 @@ public partial class InheritExRbSubState<T, TS, PS, SM, S>
     }
 }
 
-public partial class InheritRbStateMachine<T, S>
-{
-    public void OnCollisionEnter(T obj, Ground collision) => curState.OnCollisionEnter(obj, collision);
-    public void OnCollisionExit(T obj, Ground collision) => curState.OnCollisionExit(obj, collision);
-    public void OnCollisionStay(T obj, Ground collision) => curState.OnCollisionStay(obj, collision);
-    public void OnTriggerEnter(T obj, Ground collision) => curState.OnTriggerEnter(obj, collision);
-    public void OnTriggerExit(T obj, Ground collision) => curState.OnTriggerEnter(obj, collision);
-    public void OnTriggerStay(T obj, Ground collision) => curState.OnTriggerEnter(obj, collision);
-}
-
 public partial class InheritExRbStateMachine<T, S>
 {
     public void OnHitEnter(T obj, Ground hit) => curState.OnHitEnter(obj, hit);
@@ -436,16 +296,6 @@ public partial class InheritExRbStateMachine<T, S>
     public void OnTopHitExit(T obj, Ground hit) => curState.OnTopHitExit(obj, hit);
     public void OnLeftHitExit(T obj, Ground hit) => curState.OnLeftHitExit(obj, hit);
     public void OnRightHitExit(T obj, Ground hit) => curState.OnRightHitExit(obj, hit);
-}
-
-public partial class InheritRbSubStateMachine<T, PS, S>
-{
-    public void OnCollisionEnter(T obj, PS parent, Ground collision) => curState?.OnCollisionEnter(obj, parent, collision);
-    public void OnCollisionExit(T obj, PS parent, Ground collision) => curState?.OnCollisionExit(obj, parent, collision);
-    public void OnCollisionStay(T obj, PS parent, Ground collision) => curState?.OnCollisionStay(obj, parent, collision);
-    public void OnTriggerEnter(T obj, PS parent, Ground collision) => curState?.OnTriggerEnter(obj, parent, collision);
-    public void OnTriggerExit(T obj, PS parent, Ground collision) => curState?.OnTriggerExit(obj, parent, collision);
-    public void OnTriggerStay(T obj, PS parent, Ground collision) => curState?.OnTriggerStay(obj, parent, collision);
 }
 
 public partial class InheritExRbSubStateMachine<T, PS, S>
@@ -466,79 +316,5 @@ public partial class InheritExRbSubStateMachine<T, PS, S>
     public void OnLeftHitExit(T obj, PS parent, Ground hit) => curState.OnLeftHitExit(obj, parent, hit);
     public void OnRightHitExit(T obj, PS parent, Ground hit) => curState.OnRightHitExit(obj, parent, hit);
 }
-
-
-public partial class RbCollide
-{
-    void IRbVisitor<Ground>.OnCollisionEnter(Ground collision) => onCollisionEnterGround?.Invoke(collision);
-    void IRbVisitor<Ground>.OnCollisionExit(Ground collision) => onCollisionExitGround?.Invoke(collision);
-    void IRbVisitor<Ground>.OnCollisionStay(Ground collision) => onCollisionStayGround?.Invoke(collision);
-    void IRbVisitor<Ground>.OnTriggerEnter(Ground collision) => onTriggerEnterGround?.Invoke(collision);
-    void IRbVisitor<Ground>.OnTriggerExit(Ground collision) => onTriggerExitGround?.Invoke(collision);
-    void IRbVisitor<Ground>.OnTriggerStay(Ground collision) => onTriggerStayGround?.Invoke(collision);
-
-    public event Action<Ground> onCollisionEnterGround;
-    public event Action<Ground> onCollisionExitGround;
-    public event Action<Ground> onCollisionStayGround;
-    public event Action<Ground> onTriggerEnterGround;
-    public event Action<Ground> onTriggerExitGround;
-    public event Action<Ground> onTriggerStayGround;
-}
-
-public partial class ExRbHit
-{
-    void IExRbVisitor<Ground>.OnHitEnter(Ground hit) => onHitEnterGround?.Invoke(hit);
-    void IExRbVisitor<Ground>.OnBottomHitEnter(Ground hit) => onBottomHitEnterGround?.Invoke(hit);
-    void IExRbVisitor<Ground>.OnTopHitEnter(Ground hit) => onTopHitEnterGround?.Invoke(hit);
-    void IExRbVisitor<Ground>.OnLeftHitEnter(Ground hit) => onLeftHitEnterGround?.Invoke(hit);
-    void IExRbVisitor<Ground>.OnRightHitEnter(Ground hit) => onRightHitEnterGround?.Invoke(hit);
-    void IExRbVisitor<Ground>.OnHitStay(Ground hit) => onHitStayGround?.Invoke(hit);
-    void IExRbVisitor<Ground>.OnBottomHitStay(Ground hit) => onBottomHitStayGround?.Invoke(hit);
-    void IExRbVisitor<Ground>.OnTopHitStay(Ground hit) => onTopHitStayGround?.Invoke(hit);
-    void IExRbVisitor<Ground>.OnLeftHitStay(Ground hit) => onLeftHitStayGround?.Invoke(hit);
-    void IExRbVisitor<Ground>.OnRightHitStay(Ground hit) => onRightHitStayGround?.Invoke(hit);
-    void IExRbVisitor<Ground>.OnHitExit(Ground hit) => onHitExitGround?.Invoke(hit);
-    void IExRbVisitor<Ground>.OnBottomHitExit(Ground hit) => onBottomHitExitGround?.Invoke(hit);
-    void IExRbVisitor<Ground>.OnTopHitExit(Ground hit) => onTopHitExitGround?.Invoke(hit);
-    void IExRbVisitor<Ground>.OnLeftHitExit(Ground hit) => onLeftHitExitGround?.Invoke(hit);
-    void IExRbVisitor<Ground>.OnRightHitExit(Ground hit) => onRightHitExitGround?.Invoke(hit);
-
-    public event Action<Ground> onHitEnterGround;
-    public event Action<Ground> onBottomHitEnterGround;
-    public event Action<Ground> onTopHitEnterGround;
-    public event Action<Ground> onLeftHitEnterGround;
-    public event Action<Ground> onRightHitEnterGround;
-    public event Action<Ground> onHitStayGround;
-    public event Action<Ground> onBottomHitStayGround;
-    public event Action<Ground> onTopHitStayGround;
-    public event Action<Ground> onLeftHitStayGround;
-    public event Action<Ground> onRightHitStayGround;
-    public event Action<Ground> onHitExitGround;
-    public event Action<Ground> onBottomHitExitGround;
-    public event Action<Ground> onTopHitExitGround;
-    public event Action<Ground> onLeftHitExitGround;
-    public event Action<Ground> onRightHitExitGround;
-
-    void SetInterpreterGround(IHitInterpreter hitInterpreter)
-    {
-        onHitEnterGround = hitInterpreter.OnHitEnter;
-        onBottomHitEnterGround = hitInterpreter.OnBottomHitEnter;
-        onTopHitEnterGround = hitInterpreter.OnTopHitEnter;
-        onLeftHitEnterGround = hitInterpreter.OnLeftHitEnter;
-        onRightHitEnterGround = hitInterpreter.OnRightHitEnter;
-        onHitStayGround = hitInterpreter.OnHitStay;
-        onBottomHitStayGround = hitInterpreter.OnBottomHitStay;
-        onTopHitStayGround = hitInterpreter.OnTopHitStay;
-        onLeftHitStayGround = hitInterpreter.OnLeftHitStay;
-        onRightHitStayGround = hitInterpreter.OnRightHitStay;
-        onHitExitGround = hitInterpreter.OnHitExit;
-        onBottomHitExitGround = hitInterpreter.OnBottomHitExit;
-        onTopHitExitGround = hitInterpreter.OnTopHitExit;
-        onLeftHitExitGround = hitInterpreter.OnLeftHitExit;
-        onRightHitExitGround = hitInterpreter.OnRightHitExit;
-    }
-}
-
-public partial interface IHitInterpreter : IHitInterpreter<Ground> { }
 
 #endregion

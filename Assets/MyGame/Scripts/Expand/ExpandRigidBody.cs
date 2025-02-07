@@ -2,7 +2,7 @@
 using UnityEngine;
 
 [Serializable]
-public class ExpandRigidBody : IExRbCallbackSet
+public class ExpandRigidBody
 {
     enum Priority
     {
@@ -335,7 +335,7 @@ public class ExpandRigidBody : IExRbCallbackSet
 
     Vector2 CurrentMovement => velocity * Time.fixedDeltaTime;
 
-    public void Init()
+    public void Init(IHitEvent hitEvent)
     {
         if (boxCollider == null) boxCollider = transform.gameObject.GetComponent<BoxCollider2D>();
         physicalLayer = Physics2D.GetLayerCollisionMask(boxCollider.gameObject.layer);
@@ -349,6 +349,8 @@ public class ExpandRigidBody : IExRbCallbackSet
         rb.gravityScale = 0;
         rb.angularDrag = 0;
         rb.constraints = RigidbodyConstraints2D.FreezeRotation;
+
+        AddOnHitEventCallback(hitEvent);
     }
 
     public void FixedUpdate()
@@ -659,7 +661,7 @@ public class ExpandRigidBody : IExRbCallbackSet
     /// 上下左右ヒット時のコールバック登録
     /// </summary>
     /// <param name="hitEvent"></param>
-    void IExRbCallbackSet.AddOnHitEventCallback(IHitEvent hitEvent)
+    void AddOnHitEventCallback(IHitEvent hitEvent)
     {
         onHitEnter += hitEvent.OnHitEnter;
         onHitBottomEnter += hitEvent.OnBottomHitEnter;
@@ -682,7 +684,7 @@ public class ExpandRigidBody : IExRbCallbackSet
     /// 上下左右ヒット時のコールバック削除
     /// </summary>
     /// <param name="hitEvent"></param>
-    void IExRbCallbackSet.RemoveOnHitEventCallback(IHitEvent hitEvent)
+    void RemoveOnHitEventCallback(IHitEvent hitEvent)
     {
         onHitEnter -= hitEvent.OnHitEnter;
         onHitBottomEnter -= hitEvent.OnBottomHitEnter;

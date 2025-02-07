@@ -12,53 +12,39 @@ public interface IBeltConveyorVelocity
 /// 衝突時の取得コンポーネント
 /// スクリプトテンプレートから自動生成
 /// </summary>
-public class BeltConveyor : PhysicalObject, IRbVisitable, IExRbVisitable
+public class BeltConveyor : PhysicalObject, IExRbVisitable
 {
-    protected virtual void AcceptOnTriggerEnter(IRbVisitor visitor) => visitor.OnTriggerEnter(this);
-    protected virtual void AcceptOnCollisionEnter(IRbVisitor visitor) => visitor.OnCollisionEnter(this);
-    protected virtual void AcceptOnCollisionExit(IRbVisitor visitor) => visitor.OnCollisionExit(this);
-    protected virtual void AcceptOnCollisionStay(IRbVisitor visitor) => visitor.OnCollisionStay(this);
-    protected virtual void AcceptOnTriggerExit(IRbVisitor visitor) => visitor.OnTriggerExit(this);
-    protected virtual void AcceptOnTriggerStay(IRbVisitor visitor) => visitor.OnTriggerStay(this);
+    protected virtual void AcceptOnHitEnter(IExRbVisitor visitor, RaycastHit2D hit) => visitor.OnHitEnter(this, hit);
+    protected virtual void AcceptOnHitStay(IExRbVisitor visitor, RaycastHit2D hit) => visitor.OnHitStay(this, hit);
+    protected virtual void AcceptOnHitExit(IExRbVisitor visitor, RaycastHit2D hit) => visitor.OnHitExit(this, hit);
+    protected virtual void AcceptOnBottomHitEnter(IExRbVisitor visitor, RaycastHit2D hit) => visitor.OnBottomHitEnter(this, hit);
+    protected virtual void AcceptOnBottomHitStay(IExRbVisitor visitor, RaycastHit2D hit) => visitor.OnBottomHitStay(this, hit);
+    protected virtual void AcceptOnBottomHitExit(IExRbVisitor visitor, RaycastHit2D hit) => visitor.OnBottomHitExit(this, hit);
+    protected virtual void AcceptOnTopHitEnter(IExRbVisitor visitor, RaycastHit2D hit) => visitor.OnTopHitEnter(this, hit);
+    protected virtual void AcceptOnTopHitStay(IExRbVisitor visitor, RaycastHit2D hit) => visitor.OnTopHitStay(this, hit);
+    protected virtual void AcceptOnTopHitExit(IExRbVisitor visitor, RaycastHit2D hit) => visitor.OnTopHitExit(this, hit);
+    protected virtual void AcceptOnLeftHitEnter(IExRbVisitor visitor, RaycastHit2D hit) => visitor.OnLeftHitEnter(this, hit);
+    protected virtual void AcceptOnLeftHitStay(IExRbVisitor visitor, RaycastHit2D hit) => visitor.OnLeftHitStay(this, hit);
+    protected virtual void AcceptOnLeftHitExit(IExRbVisitor visitor, RaycastHit2D hit) => visitor.OnLeftHitExit(this, hit);
+    protected virtual void AcceptOnRightHitEnter(IExRbVisitor visitor, RaycastHit2D hit) => visitor.OnRightHitEnter(this, hit);
+    protected virtual void AcceptOnRightHitStay(IExRbVisitor visitor, RaycastHit2D hit) => visitor.OnRightHitStay(this, hit);
+    protected virtual void AcceptOnRightHitExit(IExRbVisitor visitor, RaycastHit2D hit) => visitor.OnRightHitExit(this, hit);
 
-    protected virtual void AcceptOnHitEnter(IExRbVisitor visitor) => visitor.OnHitEnter(this);
-    protected virtual void AcceptOnHitStay(IExRbVisitor visitor) => visitor.OnHitStay(this);
-    protected virtual void AcceptOnHitExit(IExRbVisitor visitor) => visitor.OnHitExit(this);
-    protected virtual void AcceptOnBottomHitEnter(IExRbVisitor visitor) => visitor.OnBottomHitEnter(this);
-    protected virtual void AcceptOnBottomHitStay(IExRbVisitor visitor) => visitor.OnBottomHitStay(this);
-    protected virtual void AcceptOnBottomHitExit(IExRbVisitor visitor) => visitor.OnBottomHitExit(this);
-    protected virtual void AcceptOnTopHitEnter(IExRbVisitor visitor) => visitor.OnTopHitEnter(this);
-    protected virtual void AcceptOnTopHitStay(IExRbVisitor visitor) => visitor.OnTopHitStay(this);
-    protected virtual void AcceptOnTopHitExit(IExRbVisitor visitor) => visitor.OnTopHitExit(this);
-    protected virtual void AcceptOnLeftHitEnter(IExRbVisitor visitor) => visitor.OnLeftHitEnter(this);
-    protected virtual void AcceptOnLeftHitStay(IExRbVisitor visitor) => visitor.OnLeftHitStay(this);
-    protected virtual void AcceptOnLeftHitExit(IExRbVisitor visitor) => visitor.OnLeftHitExit(this);
-    protected virtual void AcceptOnRightHitEnter(IExRbVisitor visitor) => visitor.OnRightHitEnter(this);
-    protected virtual void AcceptOnRightHitStay(IExRbVisitor visitor) => visitor.OnRightHitStay(this);
-    protected virtual void AcceptOnRightHitExit(IExRbVisitor visitor) => visitor.OnRightHitExit(this);
-
-    void IRbVisitable.AcceptOnTriggerEnter(IRbVisitor visitor) => AcceptOnTriggerEnter(visitor);
-    void IRbVisitable.AcceptOnCollisionEnter(IRbVisitor visitor) => AcceptOnCollisionEnter(visitor);
-    void IRbVisitable.AcceptOnCollisionExit(IRbVisitor visitor) => AcceptOnCollisionExit(visitor);
-    void IRbVisitable.AcceptOnCollisionStay(IRbVisitor visitor) => AcceptOnCollisionStay(visitor);
-    void IRbVisitable.AcceptOnTriggerExit(IRbVisitor visitor) => AcceptOnTriggerExit(visitor);
-    void IRbVisitable.AcceptOnTriggerStay(IRbVisitor visitor) => AcceptOnTriggerStay(visitor);
-
-    void IExRbVisitable.AcceptOnHitEnter(IExRbVisitor visitor) => AcceptOnHitEnter(visitor);
-    void IExRbVisitable.AcceptOnHitStay(IExRbVisitor visitor) => AcceptOnHitStay(visitor);
-    void IExRbVisitable.AcceptOnHitExit(IExRbVisitor visitor) => AcceptOnHitExit(visitor);
-    void IExRbVisitable.AcceptOnBottomHitEnter(IExRbVisitor visitor) => AcceptOnBottomHitEnter(visitor);
-    void IExRbVisitable.AcceptOnBottomHitStay(IExRbVisitor visitor) => AcceptOnBottomHitStay(visitor);
-    void IExRbVisitable.AcceptOnBottomHitExit(IExRbVisitor visitor) => AcceptOnBottomHitExit(visitor);
-    void IExRbVisitable.AcceptOnTopHitEnter(IExRbVisitor visitor) => AcceptOnTopHitEnter(visitor);
-    void IExRbVisitable.AcceptOnTopHitStay(IExRbVisitor visitor) => AcceptOnTopHitStay(visitor);
-    void IExRbVisitable.AcceptOnTopHitExit(IExRbVisitor visitor) => AcceptOnTopHitExit(visitor);
-    void IExRbVisitable.AcceptOnLeftHitEnter(IExRbVisitor visitor) => AcceptOnLeftHitEnter(visitor);
-    void IExRbVisitable.AcceptOnLeftHitStay(IExRbVisitor visitor) => AcceptOnLeftHitStay(visitor);
-    void IExRbVisitable.AcceptOnLeftHitExit(IExRbVisitor visitor) => AcceptOnLeftHitExit(visitor);
-    void IExRbVisitable.AcceptOnRightHitEnter(IExRbVisitor visitor) => AcceptOnRightHitEnter(visitor);
-    void IExRbVisitable.AcceptOnRightHitStay(IExRbVisitor visitor) => AcceptOnRightHitStay(visitor);
-    void IExRbVisitable.AcceptOnRightHitExit(IExRbVisitor visitor) => AcceptOnRightHitExit(visitor);
+    void IExRbVisitable.AcceptOnHitEnter(IExRbVisitor visitor, RaycastHit2D hit) => AcceptOnHitEnter(visitor, hit);
+    void IExRbVisitable.AcceptOnHitStay(IExRbVisitor visitor, RaycastHit2D hit) => AcceptOnHitStay(visitor, hit);
+    void IExRbVisitable.AcceptOnHitExit(IExRbVisitor visitor, RaycastHit2D hit) => AcceptOnHitExit(visitor, hit);
+    void IExRbVisitable.AcceptOnBottomHitEnter(IExRbVisitor visitor, RaycastHit2D hit) => AcceptOnBottomHitEnter(visitor, hit);
+    void IExRbVisitable.AcceptOnBottomHitStay(IExRbVisitor visitor, RaycastHit2D hit) => AcceptOnBottomHitStay(visitor, hit);
+    void IExRbVisitable.AcceptOnBottomHitExit(IExRbVisitor visitor, RaycastHit2D hit) => AcceptOnBottomHitExit(visitor, hit);
+    void IExRbVisitable.AcceptOnTopHitEnter(IExRbVisitor visitor, RaycastHit2D hit) => AcceptOnTopHitEnter(visitor, hit);
+    void IExRbVisitable.AcceptOnTopHitStay(IExRbVisitor visitor, RaycastHit2D hit) => AcceptOnTopHitStay(visitor, hit);
+    void IExRbVisitable.AcceptOnTopHitExit(IExRbVisitor visitor, RaycastHit2D hit) => AcceptOnTopHitExit(visitor, hit);
+    void IExRbVisitable.AcceptOnLeftHitEnter(IExRbVisitor visitor, RaycastHit2D hit) => AcceptOnLeftHitEnter(visitor, hit);
+    void IExRbVisitable.AcceptOnLeftHitStay(IExRbVisitor visitor, RaycastHit2D hit) => AcceptOnLeftHitStay(visitor, hit);
+    void IExRbVisitable.AcceptOnLeftHitExit(IExRbVisitor visitor, RaycastHit2D hit) => AcceptOnLeftHitExit(visitor, hit);
+    void IExRbVisitable.AcceptOnRightHitEnter(IExRbVisitor visitor, RaycastHit2D hit) => AcceptOnRightHitEnter(visitor, hit);
+    void IExRbVisitable.AcceptOnRightHitStay(IExRbVisitor visitor, RaycastHit2D hit) => AcceptOnRightHitStay(visitor, hit);
+    void IExRbVisitable.AcceptOnRightHitExit(IExRbVisitor visitor, RaycastHit2D hit) => AcceptOnRightHitExit(visitor, hit);
 
     // ここから定義
     [SerializeField] SpriteRenderer spriteRenderer;
@@ -99,76 +85,14 @@ public class BeltConveyor : PhysicalObject, IRbVisitable, IExRbVisitable
     }
 }
 
-public partial interface IRbVisitor : IRbVisitor<BeltConveyor>
-{ }
-
 public partial interface IExRbVisitor : IExRbVisitor<BeltConveyor>
-{ }
-
-public partial interface IStateRbVisitor<T> : IStateRbVisitor<T, BeltConveyor>
 { }
 
 public partial interface IStateExRbVisitor<T> : IStateExRbVisitor<T, BeltConveyor>
 { }
 
-public partial interface ISubStateRbVisitor<T, PS> : ISubStateRbVisitor<T, PS, BeltConveyor>
-{ }
-
 public partial interface ISubStateExRbVisitor<T, PS> : ISubStateExRbVisitor<T, PS, BeltConveyor>
 { }
-
-
-
-public partial class InheritRbState<T, TS, SM, S>
-{
-    virtual protected void OnTriggerEnter(T obj, BeltConveyor collision) { }
-    virtual protected void OnTriggerStay(T obj, BeltConveyor collision) { }
-    virtual protected void OnTriggerExit(T obj, BeltConveyor collision) { }
-
-    virtual protected void OnCollisionEnter(T obj, BeltConveyor collision) { }
-    virtual protected void OnCollisionStay(T obj, BeltConveyor collision) { }
-    virtual protected void OnCollisionExit(T obj, BeltConveyor collision) { }
-
-    void IStateRbVisitor<T, BeltConveyor>.OnTriggerEnter(T obj, BeltConveyor collision)
-    {
-        OnTriggerEnter(obj, collision);
-        subStateMachine?.OnTriggerEnter(obj, this as TS, collision);
-    }
-
-
-    void IStateRbVisitor<T, BeltConveyor>.OnTriggerStay(T obj, BeltConveyor collision)
-    {
-        OnTriggerStay(obj, collision);
-        subStateMachine?.OnTriggerStay(obj, this as TS, collision);
-    }
-
-    void IStateRbVisitor<T, BeltConveyor>.OnTriggerExit(T obj, BeltConveyor collision)
-    {
-        OnTriggerExit(obj, collision);
-        subStateMachine?.OnTriggerExit(obj, this as TS, collision);
-    }
-
-
-    void IStateRbVisitor<T, BeltConveyor>.OnCollisionEnter(T obj, BeltConveyor collision)
-    {
-        OnCollisionEnter(obj, collision);
-        subStateMachine?.OnCollisionEnter(obj, this as TS, collision);
-    }
-
-    void IStateRbVisitor<T, BeltConveyor>.OnCollisionStay(T obj, BeltConveyor collision)
-    {
-        OnCollisionStay(obj, collision);
-        subStateMachine?.OnCollisionStay(obj, this as TS, collision);
-    }
-
-    void IStateRbVisitor<T, BeltConveyor>.OnCollisionExit(T obj, BeltConveyor collision)
-    {
-        OnCollisionExit(obj, collision);
-        subStateMachine?.OnCollisionExit(obj, this as TS, collision);
-    }
-
-}
-
 
 public partial class InheritExRbState<T, TS, SM, S>
 {
@@ -283,55 +207,6 @@ public partial class InheritExRbState<T, TS, SM, S>
     }
 }
 
-
-public partial class InheritRbSubState<T, TS, PS, SM, S>
-{
-    virtual protected void OnTriggerEnter(T obj, PS parent, BeltConveyor collision) { }
-    virtual protected void OnTriggerStay(T obj, PS parent, BeltConveyor collision) { }
-    virtual protected void OnTriggerExit(T obj, PS parent, BeltConveyor collision) { }
-
-    virtual protected void OnCollisionEnter(T obj, PS parent, BeltConveyor collision) { }
-    virtual protected void OnCollisionStay(T obj, PS parent, BeltConveyor collision) { }
-    virtual protected void OnCollisionExit(T obj, PS parent, BeltConveyor collision) { }
-
-    void ISubStateRbVisitor<T, PS, BeltConveyor>.OnTriggerEnter(T obj, PS parent, BeltConveyor collision)
-    {
-        OnTriggerEnter(obj, parent, collision);
-        subStateMachine?.OnTriggerEnter(obj, this as TS, collision);
-    }
-
-    void ISubStateRbVisitor<T, PS, BeltConveyor>.OnTriggerStay(T obj, PS parent, BeltConveyor collision)
-    {
-        OnTriggerStay(obj, parent, collision);
-        subStateMachine?.OnTriggerStay(obj, this as TS, collision);
-    }
-
-    void ISubStateRbVisitor<T, PS, BeltConveyor>.OnTriggerExit(T obj, PS parent, BeltConveyor collision)
-    {
-        OnTriggerExit(obj, parent, collision);
-        subStateMachine?.OnTriggerExit(obj, this as TS, collision);
-    }
-
-    void ISubStateRbVisitor<T, PS, BeltConveyor>.OnCollisionEnter(T obj, PS parent, BeltConveyor collision)
-    {
-        OnCollisionEnter(obj, parent, collision);
-        subStateMachine?.OnCollisionEnter(obj, this as TS, collision);
-    }
-
-    void ISubStateRbVisitor<T, PS, BeltConveyor>.OnCollisionStay(T obj, PS parent, BeltConveyor collision)
-    {
-        OnCollisionStay(obj, parent, collision);
-        subStateMachine?.OnCollisionStay(obj, this as TS, collision);
-    }
-
-    void ISubStateRbVisitor<T, PS, BeltConveyor>.OnCollisionExit(T obj, PS parent, BeltConveyor collision)
-    {
-        OnCollisionExit(obj, parent, collision);
-        subStateMachine?.OnCollisionExit(obj, this as TS, collision);
-    }
-}
-
-
 public partial class InheritExRbSubState<T, TS, PS, SM, S>
 {
     virtual protected void OnHitEnter(T obj, PS parent, BeltConveyor collision) { }
@@ -445,16 +320,6 @@ public partial class InheritExRbSubState<T, TS, PS, SM, S>
     }
 }
 
-public partial class InheritRbStateMachine<T, S>
-{
-    public void OnCollisionEnter(T obj, BeltConveyor collision) => curState.OnCollisionEnter(obj, collision);
-    public void OnCollisionExit(T obj, BeltConveyor collision) => curState.OnCollisionExit(obj, collision);
-    public void OnCollisionStay(T obj, BeltConveyor collision) => curState.OnCollisionStay(obj, collision);
-    public void OnTriggerEnter(T obj, BeltConveyor collision) => curState.OnTriggerEnter(obj, collision);
-    public void OnTriggerExit(T obj, BeltConveyor collision) => curState.OnTriggerEnter(obj, collision);
-    public void OnTriggerStay(T obj, BeltConveyor collision) => curState.OnTriggerEnter(obj, collision);
-}
-
 public partial class InheritExRbStateMachine<T, S>
 {
     public void OnHitEnter(T obj, BeltConveyor hit) => curState.OnHitEnter(obj, hit);
@@ -472,16 +337,6 @@ public partial class InheritExRbStateMachine<T, S>
     public void OnTopHitExit(T obj, BeltConveyor hit) => curState.OnTopHitExit(obj, hit);
     public void OnLeftHitExit(T obj, BeltConveyor hit) => curState.OnLeftHitExit(obj, hit);
     public void OnRightHitExit(T obj, BeltConveyor hit) => curState.OnRightHitExit(obj, hit);
-}
-
-public partial class InheritRbSubStateMachine<T, PS, S>
-{
-    public void OnCollisionEnter(T obj, PS parent, BeltConveyor collision) => curState?.OnCollisionEnter(obj, parent, collision);
-    public void OnCollisionExit(T obj, PS parent, BeltConveyor collision) => curState?.OnCollisionExit(obj, parent, collision);
-    public void OnCollisionStay(T obj, PS parent, BeltConveyor collision) => curState?.OnCollisionStay(obj, parent, collision);
-    public void OnTriggerEnter(T obj, PS parent, BeltConveyor collision) => curState?.OnTriggerEnter(obj, parent, collision);
-    public void OnTriggerExit(T obj, PS parent, BeltConveyor collision) => curState?.OnTriggerExit(obj, parent, collision);
-    public void OnTriggerStay(T obj, PS parent, BeltConveyor collision) => curState?.OnTriggerStay(obj, parent, collision);
 }
 
 public partial class InheritExRbSubStateMachine<T, PS, S>
@@ -503,76 +358,3 @@ public partial class InheritExRbSubStateMachine<T, PS, S>
     public void OnRightHitExit(T obj, PS parent, BeltConveyor hit) => curState.OnRightHitExit(obj, parent, hit);
 }
 
-
-public partial class RbCollide
-{
-    void IRbVisitor<BeltConveyor>.OnCollisionEnter(BeltConveyor collision) => onCollisionEnterBeltConveyor?.Invoke(collision);
-    void IRbVisitor<BeltConveyor>.OnCollisionExit(BeltConveyor collision) => onCollisionExitBeltConveyor?.Invoke(collision);
-    void IRbVisitor<BeltConveyor>.OnCollisionStay(BeltConveyor collision) => onCollisionStayBeltConveyor?.Invoke(collision);
-    void IRbVisitor<BeltConveyor>.OnTriggerEnter(BeltConveyor collision) => onTriggerEnterBeltConveyor?.Invoke(collision);
-    void IRbVisitor<BeltConveyor>.OnTriggerExit(BeltConveyor collision) => onTriggerExitBeltConveyor?.Invoke(collision);
-    void IRbVisitor<BeltConveyor>.OnTriggerStay(BeltConveyor collision) => onTriggerStayBeltConveyor?.Invoke(collision);
-
-    public event Action<BeltConveyor> onCollisionEnterBeltConveyor;
-    public event Action<BeltConveyor> onCollisionExitBeltConveyor;
-    public event Action<BeltConveyor> onCollisionStayBeltConveyor;
-    public event Action<BeltConveyor> onTriggerEnterBeltConveyor;
-    public event Action<BeltConveyor> onTriggerExitBeltConveyor;
-    public event Action<BeltConveyor> onTriggerStayBeltConveyor;
-}
-
-public partial class ExRbHit
-{
-    void IExRbVisitor<BeltConveyor>.OnHitEnter(BeltConveyor hit) => onHitEnterBeltConveyor?.Invoke(hit);
-    void IExRbVisitor<BeltConveyor>.OnBottomHitEnter(BeltConveyor hit) => onBottomHitEnterBeltConveyor?.Invoke(hit);
-    void IExRbVisitor<BeltConveyor>.OnTopHitEnter(BeltConveyor hit) => onTopHitEnterBeltConveyor?.Invoke(hit);
-    void IExRbVisitor<BeltConveyor>.OnLeftHitEnter(BeltConveyor hit) => onLeftHitEnterBeltConveyor?.Invoke(hit);
-    void IExRbVisitor<BeltConveyor>.OnRightHitEnter(BeltConveyor hit) => onRightHitEnterBeltConveyor?.Invoke(hit);
-    void IExRbVisitor<BeltConveyor>.OnHitStay(BeltConveyor hit) => onHitStayBeltConveyor?.Invoke(hit);
-    void IExRbVisitor<BeltConveyor>.OnBottomHitStay(BeltConveyor hit) => onBottomHitStayBeltConveyor?.Invoke(hit);
-    void IExRbVisitor<BeltConveyor>.OnTopHitStay(BeltConveyor hit) => onTopHitStayBeltConveyor?.Invoke(hit);
-    void IExRbVisitor<BeltConveyor>.OnLeftHitStay(BeltConveyor hit) => onLeftHitStayBeltConveyor?.Invoke(hit);
-    void IExRbVisitor<BeltConveyor>.OnRightHitStay(BeltConveyor hit) => onRightHitStayBeltConveyor?.Invoke(hit);
-    void IExRbVisitor<BeltConveyor>.OnHitExit(BeltConveyor hit) => onHitExitBeltConveyor?.Invoke(hit);
-    void IExRbVisitor<BeltConveyor>.OnBottomHitExit(BeltConveyor hit) => onBottomHitExitBeltConveyor?.Invoke(hit);
-    void IExRbVisitor<BeltConveyor>.OnTopHitExit(BeltConveyor hit) => onTopHitExitBeltConveyor?.Invoke(hit);
-    void IExRbVisitor<BeltConveyor>.OnLeftHitExit(BeltConveyor hit) => onLeftHitExitBeltConveyor?.Invoke(hit);
-    void IExRbVisitor<BeltConveyor>.OnRightHitExit(BeltConveyor hit) => onRightHitExitBeltConveyor?.Invoke(hit);
-
-    public event Action<BeltConveyor> onHitEnterBeltConveyor;
-    public event Action<BeltConveyor> onBottomHitEnterBeltConveyor;
-    public event Action<BeltConveyor> onTopHitEnterBeltConveyor;
-    public event Action<BeltConveyor> onLeftHitEnterBeltConveyor;
-    public event Action<BeltConveyor> onRightHitEnterBeltConveyor;
-    public event Action<BeltConveyor> onHitStayBeltConveyor;
-    public event Action<BeltConveyor> onBottomHitStayBeltConveyor;
-    public event Action<BeltConveyor> onTopHitStayBeltConveyor;
-    public event Action<BeltConveyor> onLeftHitStayBeltConveyor;
-    public event Action<BeltConveyor> onRightHitStayBeltConveyor;
-    public event Action<BeltConveyor> onHitExitBeltConveyor;
-    public event Action<BeltConveyor> onBottomHitExitBeltConveyor;
-    public event Action<BeltConveyor> onTopHitExitBeltConveyor;
-    public event Action<BeltConveyor> onLeftHitExitBeltConveyor;
-    public event Action<BeltConveyor> onRightHitExitBeltConveyor;
-
-    void SetInterpreterBeltConveyor(IHitInterpreter hitInterpreter)
-    {
-        onHitEnterBeltConveyor = hitInterpreter.OnHitEnter;
-        onBottomHitEnterBeltConveyor = hitInterpreter.OnBottomHitEnter;
-        onTopHitEnterBeltConveyor = hitInterpreter.OnTopHitEnter;
-        onLeftHitEnterBeltConveyor = hitInterpreter.OnLeftHitEnter;
-        onRightHitEnterBeltConveyor = hitInterpreter.OnRightHitEnter;
-        onHitStayBeltConveyor = hitInterpreter.OnHitStay;
-        onBottomHitStayBeltConveyor = hitInterpreter.OnBottomHitStay;
-        onTopHitStayBeltConveyor = hitInterpreter.OnTopHitStay;
-        onLeftHitStayBeltConveyor = hitInterpreter.OnLeftHitStay;
-        onRightHitStayBeltConveyor = hitInterpreter.OnRightHitStay;
-        onHitExitBeltConveyor = hitInterpreter.OnHitExit;
-        onBottomHitExitBeltConveyor = hitInterpreter.OnBottomHitExit;
-        onTopHitExitBeltConveyor = hitInterpreter.OnTopHitExit;
-        onLeftHitExitBeltConveyor = hitInterpreter.OnLeftHitExit;
-        onRightHitExitBeltConveyor = hitInterpreter.OnRightHitExit;
-    }
-}
-
-public partial interface IHitInterpreter : IHitInterpreter<BeltConveyor> { }

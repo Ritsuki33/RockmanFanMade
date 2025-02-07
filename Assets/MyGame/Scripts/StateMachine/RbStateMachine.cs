@@ -155,13 +155,6 @@ public partial class InheritRbSubState<T, TS, PS, SM, S> : InheritSubState<T, TS
 public partial class InheritRbStateMachine<T, S> : InheritStateMachine<T, S>
     where S : class, IRbState<T>
 {
-    Dictionary<GameObject, IRbVisitable> cacheCollider = new Dictionary<GameObject, IRbVisitable>();
-
-    public void CacheClear()
-    {
-        cacheCollider?.Clear();
-    }
-
     public void OnCollisionEnter(T obj, Collision2D collision) => curState.OnCollisionEnter(obj, collision);
     public void OnCollisionStay(T obj, Collision2D collision) => curState.OnCollisionStay(obj, collision);
     public void OnCollisionExit(T obj, Collision2D collision) => curState.OnCollisionExit(obj, collision);

@@ -1,14 +1,14 @@
 ﻿using UnityEngine;
 
-public class Batman : StageEnemy
+public class Batman : StageEnemy,IHitEvent, IRbVisitor,IExRbVisitor
 {
     [SerializeField] ExpandRigidBody exRb;
     ExRbStateMachine<Batman> mainStateMachine = new ExRbStateMachine<Batman>();
 
     RaycastSensor sensor;
 
-    RbCollide rbCollide = new RbCollide();
-    ExRbHit exRbHit = new ExRbHit();
+    CachedCollide rbCollide = new CachedCollide();
+    CachedHit exRbHit = new CachedHit();
 
     enum StateID
     {
@@ -29,11 +29,9 @@ public class Batman : StageEnemy
         mainStateMachine.AddState((int)StateID.ToMove, new ToMove());
         mainStateMachine.AddState((int)StateID.Move, new Move());
         mainStateMachine.AddState((int)StateID.ToIdle, new ToIdle());
-        exRb.Init();
-        exRbHit.Init(exRb);
-        exRbHit.onTopHitEnter += OnTopHitEnter;
-        rbCollide.onTriggerEnterRockBusterDamage += OnTriggerEnterRockBusterDamage;
-        rbCollide.onTriggerEnterPlayerTrigger += OnTriggerEnterPlayerTrigger;
+        exRb.Init(this);
+        exRbHit.CacheClear();
+        rbCollide.CacheClear();
     }
 
     protected override void Init()
@@ -66,20 +64,20 @@ public class Batman : StageEnemy
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        rbCollide.OnTriggerEnter(collision);
+        rbCollide.OnTriggerEnter(this,collision);
     }
 
-    private void OnTopHitEnter(RaycastHit2D hit)
+    void IHitEvent.OnTopHitEnter(RaycastHit2D hit)
     {
         mainStateMachine.OnTopHitEnter(this, hit);
     }
 
-    private void OnTriggerEnterRockBusterDamage(RockBusterDamage collision)
+    void IRbVisitor<RockBusterDamage>.OnTriggerEnter(RockBusterDamage collision)
     {
         mainStateMachine.OnTriggerEnter(this, collision);
     }
 
-    private void OnTriggerEnterPlayerTrigger(PlayerTrigger collision)
+    void IRbVisitor<PlayerTrigger>.OnTriggerEnter(PlayerTrigger collision)
     {
         mainStateMachine.OnTriggerEnter(this, collision);
     }

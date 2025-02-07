@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RocketMask : StageEnemy,IDirect
+public class RocketMask : StageEnemy,IDirect,IRbVisitor
 {
     [SerializeField] float distance = 5.0f;
     [SerializeField] float speed = 2.0f;
@@ -14,7 +14,7 @@ public class RocketMask : StageEnemy,IDirect
 
     public bool IsRight => direct.IsRight;
 
-    RbCollide rbCollide = new RbCollide();
+    CachedCollide rbCollide = new CachedCollide();
     enum StateID
     {
         Move,
@@ -29,8 +29,7 @@ public class RocketMask : StageEnemy,IDirect
         m_stateMachine.AddState((int)StateID.Turn, new Turn());
         animationEnvetController.animationEvents.Add(0, TurnFace);
 
-        rbCollide.Init();
-        rbCollide.onTriggerEnterRockBusterDamage += OnTriggerEnterRockBusterDamage;
+        rbCollide.CacheClear();
     }
 
     protected override void Init()
@@ -53,10 +52,10 @@ public class RocketMask : StageEnemy,IDirect
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        rbCollide.OnTriggerEnter(collision);   
+        rbCollide.OnTriggerEnter(this,collision);   
     }
 
-    private void OnTriggerEnterRockBusterDamage(RockBusterDamage damage)
+    void IRbVisitor<RockBusterDamage>.OnTriggerEnter(RockBusterDamage damage)
     {
         m_stateMachine.OnTriggerEnter(this, damage);    
     }

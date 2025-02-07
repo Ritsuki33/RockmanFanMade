@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RoadRoller : StageEnemy,IDirect
+public class RoadRoller : StageEnemy,IDirect,IHitEvent,IRbVisitor,IExRbVisitor
 {
     [SerializeField] AnimationEnvetController aECtr;
     [SerializeField] Gravity gravity;
@@ -17,8 +17,8 @@ public class RoadRoller : StageEnemy,IDirect
 
     ExRbStateMachine<RoadRoller> m_stateMachine = new ExRbStateMachine<RoadRoller>();
 
-    RbCollide rbCollide = new RbCollide();
-    ExRbHit exRbHit = new ExRbHit();
+    CachedCollide rbCollide = new CachedCollide();
+    CachedHit exRbHit = new CachedHit();
 
     enum StateId
     {
@@ -34,16 +34,9 @@ public class RoadRoller : StageEnemy,IDirect
         m_stateMachine.AddState((int)StateId.Float, new Float());
         aECtr.animationEvents.Add(0, TurnFace);
 
-        exRb.Init();
-        rbCollide.Init();
-
-        rbCollide.onTriggerEnterRockBusterDamage += OnTriggerEnterRockBusterDamage;
-        exRbHit.Init(exRb);
-
-        exRbHit.onBottomHitEnter += OnBotomHitEnter;
-        exRbHit.onRightHitStay += OnRightHitStay;
-        exRbHit.onLeftHitStay += OnLeftHitStay;
-
+        exRb.Init(this);
+        rbCollide.CacheClear();
+        exRbHit.CacheClear();
     }
 
     protected override void Init()
@@ -68,29 +61,29 @@ public class RoadRoller : StageEnemy,IDirect
         m_stateMachine.Update(this);
     }
 
-    private void OnBotomHitEnter(RaycastHit2D hit)
+    void IHitEvent.OnBottomHitEnter(RaycastHit2D hit)
     {
         m_stateMachine.OnBottomHitEnter(this, hit);
     }
 
-    private void OnRightHitStay(RaycastHit2D hit)
+    void IHitEvent.OnRightHitStay(RaycastHit2D hit)
     {
         m_stateMachine.OnRightHitStay(this, hit);
     }
 
-    private void OnLeftHitStay(RaycastHit2D hit)
+    void IHitEvent.OnLeftHitStay(RaycastHit2D hit)
     {
         m_stateMachine.OnLeftHitStay(this, hit);
     }
 
-    private void OnTriggerEnterRockBusterDamage(RockBusterDamage damage)
+    void IRbVisitor<RockBusterDamage>.OnTriggerEnter(RockBusterDamage damage)
     {
         m_stateMachine.OnTriggerEnter(this,damage);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        rbCollide.OnTriggerEnter(collision);
+        rbCollide.OnTriggerEnter(this, collision);
     }
 
     class Float : ExRbState<RoadRoller, Float>

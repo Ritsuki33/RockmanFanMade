@@ -6,7 +6,7 @@ using UnityEngine;
 /// 衝突時の取得コンポーネント
 /// スクリプトテンプレートから自動生成
 /// </summary>
-public class Recovery : PhysicalObject, IRbVisitable, IExRbVisitable
+public class Recovery : PhysicalObject, IHitEvent, IRbVisitable, IExRbVisitable
 {
     #region 編集禁止
     protected virtual void AcceptOnTriggerEnter(IRbVisitor visitor) => visitor.OnTriggerEnter(this);
@@ -16,21 +16,21 @@ public class Recovery : PhysicalObject, IRbVisitable, IExRbVisitable
     protected virtual void AcceptOnTriggerExit(IRbVisitor visitor) => visitor.OnTriggerExit(this);
     protected virtual void AcceptOnTriggerStay(IRbVisitor visitor) => visitor.OnTriggerStay(this);
 
-    protected virtual void AcceptOnHitEnter(IExRbVisitor visitor) => visitor.OnHitEnter(this);
-    protected virtual void AcceptOnHitStay(IExRbVisitor visitor) => visitor.OnHitStay(this);
-    protected virtual void AcceptOnHitExit(IExRbVisitor visitor) => visitor.OnHitExit(this);
-    protected virtual void AcceptOnBottomHitEnter(IExRbVisitor visitor) => visitor.OnBottomHitEnter(this);
-    protected virtual void AcceptOnBottomHitStay(IExRbVisitor visitor) => visitor.OnBottomHitStay(this);
-    protected virtual void AcceptOnBottomHitExit(IExRbVisitor visitor) => visitor.OnBottomHitExit(this);
-    protected virtual void AcceptOnTopHitEnter(IExRbVisitor visitor) => visitor.OnTopHitEnter(this);
-    protected virtual void AcceptOnTopHitStay(IExRbVisitor visitor) => visitor.OnTopHitStay(this);
-    protected virtual void AcceptOnTopHitExit(IExRbVisitor visitor) => visitor.OnTopHitExit(this);
-    protected virtual void AcceptOnLeftHitEnter(IExRbVisitor visitor) => visitor.OnLeftHitEnter(this);
-    protected virtual void AcceptOnLeftHitStay(IExRbVisitor visitor) => visitor.OnLeftHitStay(this);
-    protected virtual void AcceptOnLeftHitExit(IExRbVisitor visitor) => visitor.OnLeftHitExit(this);
-    protected virtual void AcceptOnRightHitEnter(IExRbVisitor visitor) => visitor.OnRightHitEnter(this);
-    protected virtual void AcceptOnRightHitStay(IExRbVisitor visitor) => visitor.OnRightHitStay(this);
-    protected virtual void AcceptOnRightHitExit(IExRbVisitor visitor) => visitor.OnRightHitExit(this);
+    protected virtual void AcceptOnHitEnter(IExRbVisitor visitor, RaycastHit2D hit) => visitor.OnHitEnter(this, hit);
+    protected virtual void AcceptOnHitStay(IExRbVisitor visitor, RaycastHit2D hit) => visitor.OnHitStay(this, hit);
+    protected virtual void AcceptOnHitExit(IExRbVisitor visitor, RaycastHit2D hit) => visitor.OnHitExit(this, hit);
+    protected virtual void AcceptOnBottomHitEnter(IExRbVisitor visitor, RaycastHit2D hit) => visitor.OnBottomHitEnter(this, hit);
+    protected virtual void AcceptOnBottomHitStay(IExRbVisitor visitor, RaycastHit2D hit) => visitor.OnBottomHitStay(this, hit);
+    protected virtual void AcceptOnBottomHitExit(IExRbVisitor visitor, RaycastHit2D hit) => visitor.OnBottomHitExit(this, hit);
+    protected virtual void AcceptOnTopHitEnter(IExRbVisitor visitor, RaycastHit2D hit) => visitor.OnTopHitEnter(this, hit);
+    protected virtual void AcceptOnTopHitStay(IExRbVisitor visitor, RaycastHit2D hit) => visitor.OnTopHitStay(this, hit);
+    protected virtual void AcceptOnTopHitExit(IExRbVisitor visitor, RaycastHit2D hit) => visitor.OnTopHitExit(this, hit);
+    protected virtual void AcceptOnLeftHitEnter(IExRbVisitor visitor, RaycastHit2D hit) => visitor.OnLeftHitEnter(this, hit);
+    protected virtual void AcceptOnLeftHitStay(IExRbVisitor visitor, RaycastHit2D hit) => visitor.OnLeftHitStay(this, hit);
+    protected virtual void AcceptOnLeftHitExit(IExRbVisitor visitor, RaycastHit2D hit) => visitor.OnLeftHitExit(this, hit);
+    protected virtual void AcceptOnRightHitEnter(IExRbVisitor visitor, RaycastHit2D hit) => visitor.OnRightHitEnter(this, hit);
+    protected virtual void AcceptOnRightHitStay(IExRbVisitor visitor, RaycastHit2D hit) => visitor.OnRightHitStay(this, hit);
+    protected virtual void AcceptOnRightHitExit(IExRbVisitor visitor, RaycastHit2D hit) => visitor.OnRightHitExit(this, hit);
 
     void IRbVisitable.AcceptOnTriggerEnter(IRbVisitor visitor) => AcceptOnTriggerEnter(visitor);
     void IRbVisitable.AcceptOnCollisionEnter(IRbVisitor visitor) => AcceptOnCollisionEnter(visitor);
@@ -39,40 +39,34 @@ public class Recovery : PhysicalObject, IRbVisitable, IExRbVisitable
     void IRbVisitable.AcceptOnTriggerExit(IRbVisitor visitor) => AcceptOnTriggerExit(visitor);
     void IRbVisitable.AcceptOnTriggerStay(IRbVisitor visitor) => AcceptOnTriggerStay(visitor);
 
-    void IExRbVisitable.AcceptOnHitEnter(IExRbVisitor visitor) => AcceptOnHitEnter(visitor);
-    void IExRbVisitable.AcceptOnHitStay(IExRbVisitor visitor) => AcceptOnHitStay(visitor);
-    void IExRbVisitable.AcceptOnHitExit(IExRbVisitor visitor) => AcceptOnHitExit(visitor);
-    void IExRbVisitable.AcceptOnBottomHitEnter(IExRbVisitor visitor) => AcceptOnBottomHitEnter(visitor);
-    void IExRbVisitable.AcceptOnBottomHitStay(IExRbVisitor visitor) => AcceptOnBottomHitStay(visitor);
-    void IExRbVisitable.AcceptOnBottomHitExit(IExRbVisitor visitor) => AcceptOnBottomHitExit(visitor);
-    void IExRbVisitable.AcceptOnTopHitEnter(IExRbVisitor visitor) => AcceptOnTopHitEnter(visitor);
-    void IExRbVisitable.AcceptOnTopHitStay(IExRbVisitor visitor) => AcceptOnTopHitStay(visitor);
-    void IExRbVisitable.AcceptOnTopHitExit(IExRbVisitor visitor) => AcceptOnTopHitExit(visitor);
-    void IExRbVisitable.AcceptOnLeftHitEnter(IExRbVisitor visitor) => AcceptOnLeftHitEnter(visitor);
-    void IExRbVisitable.AcceptOnLeftHitStay(IExRbVisitor visitor) => AcceptOnLeftHitStay(visitor);
-    void IExRbVisitable.AcceptOnLeftHitExit(IExRbVisitor visitor) => AcceptOnLeftHitExit(visitor);
-    void IExRbVisitable.AcceptOnRightHitEnter(IExRbVisitor visitor) => AcceptOnRightHitEnter(visitor);
-    void IExRbVisitable.AcceptOnRightHitStay(IExRbVisitor visitor) => AcceptOnRightHitStay(visitor);
-    void IExRbVisitable.AcceptOnRightHitExit(IExRbVisitor visitor) => AcceptOnRightHitExit(visitor);
+    void IExRbVisitable.AcceptOnHitEnter(IExRbVisitor visitor, RaycastHit2D hit) => AcceptOnHitEnter(visitor, hit);
+    void IExRbVisitable.AcceptOnHitStay(IExRbVisitor visitor, RaycastHit2D hit) => AcceptOnHitStay(visitor, hit);
+    void IExRbVisitable.AcceptOnHitExit(IExRbVisitor visitor, RaycastHit2D hit) => AcceptOnHitExit(visitor, hit);
+    void IExRbVisitable.AcceptOnBottomHitEnter(IExRbVisitor visitor, RaycastHit2D hit) => AcceptOnBottomHitEnter(visitor, hit);
+    void IExRbVisitable.AcceptOnBottomHitStay(IExRbVisitor visitor, RaycastHit2D hit) => AcceptOnBottomHitStay(visitor, hit);
+    void IExRbVisitable.AcceptOnBottomHitExit(IExRbVisitor visitor, RaycastHit2D hit) => AcceptOnBottomHitExit(visitor, hit);
+    void IExRbVisitable.AcceptOnTopHitEnter(IExRbVisitor visitor, RaycastHit2D hit) => AcceptOnTopHitEnter(visitor, hit);
+    void IExRbVisitable.AcceptOnTopHitStay(IExRbVisitor visitor, RaycastHit2D hit) => AcceptOnTopHitStay(visitor, hit);
+    void IExRbVisitable.AcceptOnTopHitExit(IExRbVisitor visitor, RaycastHit2D hit) => AcceptOnTopHitExit(visitor, hit);
+    void IExRbVisitable.AcceptOnLeftHitEnter(IExRbVisitor visitor, RaycastHit2D hit) => AcceptOnLeftHitEnter(visitor, hit);
+    void IExRbVisitable.AcceptOnLeftHitStay(IExRbVisitor visitor, RaycastHit2D hit) => AcceptOnLeftHitStay(visitor, hit);
+    void IExRbVisitable.AcceptOnLeftHitExit(IExRbVisitor visitor, RaycastHit2D hit) => AcceptOnLeftHitExit(visitor, hit);
+    void IExRbVisitable.AcceptOnRightHitEnter(IExRbVisitor visitor, RaycastHit2D hit) => AcceptOnRightHitEnter(visitor, hit);
+    void IExRbVisitable.AcceptOnRightHitStay(IExRbVisitor visitor, RaycastHit2D hit) => AcceptOnRightHitStay(visitor, hit);
+    void IExRbVisitable.AcceptOnRightHitExit(IExRbVisitor visitor, RaycastHit2D hit) => AcceptOnRightHitExit(visitor, hit);
     #endregion
 
     // ここから定義
-    [SerializeField,Header("回復量")] int amount = 3;
+    [SerializeField, Header("回復量")] int amount = 3;
     [SerializeField] Gravity gravity;
 
     [SerializeField] ExpandRigidBody exRb;
 
     public int Amount => amount;
 
-    ExRbHit exRbHit = new ExRbHit();
-
     protected override void Awake()
     {
-        exRb.Init();
-
-        exRbHit.Init(exRb);
-
-        exRbHit.onBottomHitStay += OnBottomHitStay;
+        exRb.Init(this);
     }
 
     protected override void OnFixedUpdate()
@@ -87,8 +81,7 @@ public class Recovery : PhysicalObject, IRbVisitable, IExRbVisitable
         this.exRb.FixedUpdate();
     }
 
-    
-    private void OnBottomHitStay(RaycastHit2D hit)
+    void IHitEvent.OnBottomHitStay(RaycastHit2D hit)
     {
         gravity.Reset();
     }
@@ -504,77 +497,4 @@ public partial class InheritExRbSubStateMachine<T, PS, S>
     public void OnRightHitExit(T obj, PS parent, Recovery hit) => curState.OnRightHitExit(obj, parent, hit);
 }
 
-
-public partial class RbCollide
-{
-    void IRbVisitor<Recovery>.OnCollisionEnter(Recovery collision) => onCollisionEnterRecovery?.Invoke(collision);
-    void IRbVisitor<Recovery>.OnCollisionExit(Recovery collision) => onCollisionExitRecovery?.Invoke(collision);
-    void IRbVisitor<Recovery>.OnCollisionStay(Recovery collision) => onCollisionStayRecovery?.Invoke(collision);
-    void IRbVisitor<Recovery>.OnTriggerEnter(Recovery collision) => onTriggerEnterRecovery?.Invoke(collision);
-    void IRbVisitor<Recovery>.OnTriggerExit(Recovery collision) => onTriggerExitRecovery?.Invoke(collision);
-    void IRbVisitor<Recovery>.OnTriggerStay(Recovery collision) => onTriggerStayRecovery?.Invoke(collision);
-
-    public event Action<Recovery> onCollisionEnterRecovery;
-    public event Action<Recovery> onCollisionExitRecovery;
-    public event Action<Recovery> onCollisionStayRecovery;
-    public event Action<Recovery> onTriggerEnterRecovery;
-    public event Action<Recovery> onTriggerExitRecovery;
-    public event Action<Recovery> onTriggerStayRecovery;
-}
-
-public partial class ExRbHit
-{
-    void IExRbVisitor<Recovery>.OnHitEnter(Recovery hit) => onHitEnterRecovery?.Invoke(hit);
-    void IExRbVisitor<Recovery>.OnBottomHitEnter(Recovery hit) => onBottomHitEnterRecovery?.Invoke(hit);
-    void IExRbVisitor<Recovery>.OnTopHitEnter(Recovery hit) => onTopHitEnterRecovery?.Invoke(hit);
-    void IExRbVisitor<Recovery>.OnLeftHitEnter(Recovery hit) => onLeftHitEnterRecovery?.Invoke(hit);
-    void IExRbVisitor<Recovery>.OnRightHitEnter(Recovery hit) => onRightHitEnterRecovery?.Invoke(hit);
-    void IExRbVisitor<Recovery>.OnHitStay(Recovery hit) => onHitStayRecovery?.Invoke(hit);
-    void IExRbVisitor<Recovery>.OnBottomHitStay(Recovery hit) => onBottomHitStayRecovery?.Invoke(hit);
-    void IExRbVisitor<Recovery>.OnTopHitStay(Recovery hit) => onTopHitStayRecovery?.Invoke(hit);
-    void IExRbVisitor<Recovery>.OnLeftHitStay(Recovery hit) => onLeftHitStayRecovery?.Invoke(hit);
-    void IExRbVisitor<Recovery>.OnRightHitStay(Recovery hit) => onRightHitStayRecovery?.Invoke(hit);
-    void IExRbVisitor<Recovery>.OnHitExit(Recovery hit) => onHitExitRecovery?.Invoke(hit);
-    void IExRbVisitor<Recovery>.OnBottomHitExit(Recovery hit) => onBottomHitExitRecovery?.Invoke(hit);
-    void IExRbVisitor<Recovery>.OnTopHitExit(Recovery hit) => onTopHitExitRecovery?.Invoke(hit);
-    void IExRbVisitor<Recovery>.OnLeftHitExit(Recovery hit) => onLeftHitExitRecovery?.Invoke(hit);
-    void IExRbVisitor<Recovery>.OnRightHitExit(Recovery hit) => onRightHitExitRecovery?.Invoke(hit);
-
-    public event Action<Recovery> onHitEnterRecovery;
-    public event Action<Recovery> onBottomHitEnterRecovery;
-    public event Action<Recovery> onTopHitEnterRecovery;
-    public event Action<Recovery> onLeftHitEnterRecovery;
-    public event Action<Recovery> onRightHitEnterRecovery;
-    public event Action<Recovery> onHitStayRecovery;
-    public event Action<Recovery> onBottomHitStayRecovery;
-    public event Action<Recovery> onTopHitStayRecovery;
-    public event Action<Recovery> onLeftHitStayRecovery;
-    public event Action<Recovery> onRightHitStayRecovery;
-    public event Action<Recovery> onHitExitRecovery;
-    public event Action<Recovery> onBottomHitExitRecovery;
-    public event Action<Recovery> onTopHitExitRecovery;
-    public event Action<Recovery> onLeftHitExitRecovery;
-    public event Action<Recovery> onRightHitExitRecovery;
-
-    void SetInterpreterRecovery(IHitInterpreter hitInterpreter)
-    {
-        onHitEnterRecovery = hitInterpreter.OnHitEnter;
-        onBottomHitEnterRecovery = hitInterpreter.OnBottomHitEnter;
-        onTopHitEnterRecovery = hitInterpreter.OnTopHitEnter;
-        onLeftHitEnterRecovery = hitInterpreter.OnLeftHitEnter;
-        onRightHitEnterRecovery = hitInterpreter.OnRightHitEnter;
-        onHitStayRecovery = hitInterpreter.OnHitStay;
-        onBottomHitStayRecovery = hitInterpreter.OnBottomHitStay;
-        onTopHitStayRecovery = hitInterpreter.OnTopHitStay;
-        onLeftHitStayRecovery = hitInterpreter.OnLeftHitStay;
-        onRightHitStayRecovery = hitInterpreter.OnRightHitStay;
-        onHitExitRecovery = hitInterpreter.OnHitExit;
-        onBottomHitExitRecovery = hitInterpreter.OnBottomHitExit;
-        onTopHitExitRecovery = hitInterpreter.OnTopHitExit;
-        onLeftHitExitRecovery = hitInterpreter.OnLeftHitExit;
-        onRightHitExitRecovery = hitInterpreter.OnRightHitExit;
-    }
-}
-
-public partial interface IHitInterpreter : IHitInterpreter<Recovery> { }
 #endregion

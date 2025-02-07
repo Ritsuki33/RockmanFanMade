@@ -15,21 +15,21 @@ public class RockBusterDamage : DamageBase
     protected override void AcceptOnTriggerExit(IRbVisitor visitor) => visitor.OnTriggerExit(this);
     protected override void AcceptOnTriggerStay(IRbVisitor visitor) => visitor.OnTriggerStay(this);
 
-    protected override void AcceptOnHitEnter(IExRbVisitor visitor) => visitor.OnHitEnter(this);
-    protected override void AcceptOnHitStay(IExRbVisitor visitor) => visitor.OnHitStay(this);
-    protected override void AcceptOnHitExit(IExRbVisitor visitor) => visitor.OnHitExit(this);
-    protected override void AcceptOnBottomHitEnter(IExRbVisitor visitor) => visitor.OnBottomHitEnter(this);
-    protected override void AcceptOnBottomHitStay(IExRbVisitor visitor) => visitor.OnBottomHitStay(this);
-    protected override void AcceptOnBottomHitExit(IExRbVisitor visitor) => visitor.OnBottomHitExit(this);
-    protected override void AcceptOnTopHitEnter(IExRbVisitor visitor) => visitor.OnTopHitEnter(this);
-    protected override void AcceptOnTopHitStay(IExRbVisitor visitor) => visitor.OnTopHitStay(this);
-    protected override void AcceptOnTopHitExit(IExRbVisitor visitor) => visitor.OnTopHitExit(this);
-    protected override void AcceptOnLeftHitEnter(IExRbVisitor visitor) => visitor.OnLeftHitEnter(this);
-    protected override void AcceptOnLeftHitStay(IExRbVisitor visitor) => visitor.OnLeftHitStay(this);
-    protected override void AcceptOnLeftHitExit(IExRbVisitor visitor) => visitor.OnLeftHitExit(this);
-    protected override void AcceptOnRightHitEnter(IExRbVisitor visitor) => visitor.OnRightHitEnter(this);
-    protected override void AcceptOnRightHitStay(IExRbVisitor visitor) => visitor.OnRightHitStay(this);
-    protected override void AcceptOnRightHitExit(IExRbVisitor visitor) => visitor.OnRightHitExit(this);
+    protected override void AcceptOnHitEnter(IExRbVisitor visitor, RaycastHit2D hit) => visitor.OnHitEnter(this, hit);
+    protected override void AcceptOnHitStay(IExRbVisitor visitor, RaycastHit2D hit) => visitor.OnHitStay(this, hit);
+    protected override void AcceptOnHitExit(IExRbVisitor visitor, RaycastHit2D hit) => visitor.OnHitExit(this, hit);
+    protected override void AcceptOnBottomHitEnter(IExRbVisitor visitor, RaycastHit2D hit) => visitor.OnBottomHitEnter(this, hit);
+    protected override void AcceptOnBottomHitStay(IExRbVisitor visitor, RaycastHit2D hit) => visitor.OnBottomHitStay(this, hit);
+    protected override void AcceptOnBottomHitExit(IExRbVisitor visitor, RaycastHit2D hit) => visitor.OnBottomHitExit(this, hit);
+    protected override void AcceptOnTopHitEnter(IExRbVisitor visitor, RaycastHit2D hit) => visitor.OnTopHitEnter(this, hit);
+    protected override void AcceptOnTopHitStay(IExRbVisitor visitor, RaycastHit2D hit) => visitor.OnTopHitStay(this, hit);
+    protected override void AcceptOnTopHitExit(IExRbVisitor visitor, RaycastHit2D hit) => visitor.OnTopHitExit(this, hit);
+    protected override void AcceptOnLeftHitEnter(IExRbVisitor visitor, RaycastHit2D hit) => visitor.OnLeftHitEnter(this, hit);
+    protected override void AcceptOnLeftHitStay(IExRbVisitor visitor, RaycastHit2D hit) => visitor.OnLeftHitStay(this, hit);
+    protected override void AcceptOnLeftHitExit(IExRbVisitor visitor, RaycastHit2D hit) => visitor.OnLeftHitExit(this, hit);
+    protected override void AcceptOnRightHitEnter(IExRbVisitor visitor, RaycastHit2D hit) => visitor.OnRightHitEnter(this, hit);
+    protected override void AcceptOnRightHitStay(IExRbVisitor visitor, RaycastHit2D hit) => visitor.OnRightHitStay(this, hit);
+    protected override void AcceptOnRightHitExit(IExRbVisitor visitor, RaycastHit2D hit) => visitor.OnRightHitExit(this, hit);
 
     // ここから定義
     [SerializeField] public Projectile projectile;
@@ -441,77 +441,3 @@ public partial class InheritExRbSubStateMachine<T, PS, S>
     public void OnLeftHitExit(T obj, PS parent, RockBusterDamage hit) => curState.OnLeftHitExit(obj, parent, hit);
     public void OnRightHitExit(T obj, PS parent, RockBusterDamage hit) => curState.OnRightHitExit(obj, parent, hit);
 }
-
-
-public partial class RbCollide
-{
-    void IRbVisitor<RockBusterDamage>.OnCollisionEnter(RockBusterDamage collision) => onCollisionEnterRockBusterDamage?.Invoke(collision);
-    void IRbVisitor<RockBusterDamage>.OnCollisionExit(RockBusterDamage collision) => onCollisionExitRockBusterDamage?.Invoke(collision);
-    void IRbVisitor<RockBusterDamage>.OnCollisionStay(RockBusterDamage collision) => onCollisionStayRockBusterDamage?.Invoke(collision);
-    void IRbVisitor<RockBusterDamage>.OnTriggerEnter(RockBusterDamage collision) => onTriggerEnterRockBusterDamage?.Invoke(collision);
-    void IRbVisitor<RockBusterDamage>.OnTriggerExit(RockBusterDamage collision) => onTriggerExitRockBusterDamage?.Invoke(collision);
-    void IRbVisitor<RockBusterDamage>.OnTriggerStay(RockBusterDamage collision) => onTriggerStayRockBusterDamage?.Invoke(collision);
-
-    public event Action<RockBusterDamage> onCollisionEnterRockBusterDamage;
-    public event Action<RockBusterDamage> onCollisionExitRockBusterDamage;
-    public event Action<RockBusterDamage> onCollisionStayRockBusterDamage;
-    public event Action<RockBusterDamage> onTriggerEnterRockBusterDamage;
-    public event Action<RockBusterDamage> onTriggerExitRockBusterDamage;
-    public event Action<RockBusterDamage> onTriggerStayRockBusterDamage;
-}
-
-public partial class ExRbHit
-{
-    void IExRbVisitor<RockBusterDamage>.OnHitEnter(RockBusterDamage hit) => onHitEnterRockBusterDamage?.Invoke(hit);
-    void IExRbVisitor<RockBusterDamage>.OnBottomHitEnter(RockBusterDamage hit) => onBottomHitEnterRockBusterDamage?.Invoke(hit);
-    void IExRbVisitor<RockBusterDamage>.OnTopHitEnter(RockBusterDamage hit) => onTopHitEnterRockBusterDamage?.Invoke(hit);
-    void IExRbVisitor<RockBusterDamage>.OnLeftHitEnter(RockBusterDamage hit) => onLeftHitEnterRockBusterDamage?.Invoke(hit);
-    void IExRbVisitor<RockBusterDamage>.OnRightHitEnter(RockBusterDamage hit) => onRightHitEnterRockBusterDamage?.Invoke(hit);
-    void IExRbVisitor<RockBusterDamage>.OnHitStay(RockBusterDamage hit) => onHitStayRockBusterDamage?.Invoke(hit);
-    void IExRbVisitor<RockBusterDamage>.OnBottomHitStay(RockBusterDamage hit) => onBottomHitStayRockBusterDamage?.Invoke(hit);
-    void IExRbVisitor<RockBusterDamage>.OnTopHitStay(RockBusterDamage hit) => onTopHitStayRockBusterDamage?.Invoke(hit);
-    void IExRbVisitor<RockBusterDamage>.OnLeftHitStay(RockBusterDamage hit) => onLeftHitStayRockBusterDamage?.Invoke(hit);
-    void IExRbVisitor<RockBusterDamage>.OnRightHitStay(RockBusterDamage hit) => onRightHitStayRockBusterDamage?.Invoke(hit);
-    void IExRbVisitor<RockBusterDamage>.OnHitExit(RockBusterDamage hit) => onHitExitRockBusterDamage?.Invoke(hit);
-    void IExRbVisitor<RockBusterDamage>.OnBottomHitExit(RockBusterDamage hit) => onBottomHitExitRockBusterDamage?.Invoke(hit);
-    void IExRbVisitor<RockBusterDamage>.OnTopHitExit(RockBusterDamage hit) => onTopHitExitRockBusterDamage?.Invoke(hit);
-    void IExRbVisitor<RockBusterDamage>.OnLeftHitExit(RockBusterDamage hit) => onLeftHitExitRockBusterDamage?.Invoke(hit);
-    void IExRbVisitor<RockBusterDamage>.OnRightHitExit(RockBusterDamage hit) => onRightHitExitRockBusterDamage?.Invoke(hit);
-
-    public event Action<RockBusterDamage> onHitEnterRockBusterDamage;
-    public event Action<RockBusterDamage> onBottomHitEnterRockBusterDamage;
-    public event Action<RockBusterDamage> onTopHitEnterRockBusterDamage;
-    public event Action<RockBusterDamage> onLeftHitEnterRockBusterDamage;
-    public event Action<RockBusterDamage> onRightHitEnterRockBusterDamage;
-    public event Action<RockBusterDamage> onHitStayRockBusterDamage;
-    public event Action<RockBusterDamage> onBottomHitStayRockBusterDamage;
-    public event Action<RockBusterDamage> onTopHitStayRockBusterDamage;
-    public event Action<RockBusterDamage> onLeftHitStayRockBusterDamage;
-    public event Action<RockBusterDamage> onRightHitStayRockBusterDamage;
-    public event Action<RockBusterDamage> onHitExitRockBusterDamage;
-    public event Action<RockBusterDamage> onBottomHitExitRockBusterDamage;
-    public event Action<RockBusterDamage> onTopHitExitRockBusterDamage;
-    public event Action<RockBusterDamage> onLeftHitExitRockBusterDamage;
-    public event Action<RockBusterDamage> onRightHitExitRockBusterDamage;
-
-    void SetInterpreterRockBusterDamage(IHitInterpreter hitInterpreter)
-    {
-        onHitEnterRockBusterDamage = hitInterpreter.OnHitEnter;
-        onBottomHitEnterRockBusterDamage = hitInterpreter.OnBottomHitEnter;
-        onTopHitEnterRockBusterDamage = hitInterpreter.OnTopHitEnter;
-        onLeftHitEnterRockBusterDamage = hitInterpreter.OnLeftHitEnter;
-        onRightHitEnterRockBusterDamage = hitInterpreter.OnRightHitEnter;
-        onHitStayRockBusterDamage = hitInterpreter.OnHitStay;
-        onBottomHitStayRockBusterDamage = hitInterpreter.OnBottomHitStay;
-        onTopHitStayRockBusterDamage = hitInterpreter.OnTopHitStay;
-        onLeftHitStayRockBusterDamage = hitInterpreter.OnLeftHitStay;
-        onRightHitStayRockBusterDamage = hitInterpreter.OnRightHitStay;
-        onHitExitRockBusterDamage = hitInterpreter.OnHitExit;
-        onBottomHitExitRockBusterDamage = hitInterpreter.OnBottomHitExit;
-        onTopHitExitRockBusterDamage = hitInterpreter.OnTopHitExit;
-        onLeftHitExitRockBusterDamage = hitInterpreter.OnLeftHitExit;
-        onRightHitExitRockBusterDamage = hitInterpreter.OnRightHitExit;
-    }
-}
-
-public partial interface IHitInterpreter : IHitInterpreter<RockBusterDamage> { }

@@ -25,7 +25,8 @@ public enum PoolType
     Mettoru,
     LiftRed,
     Recovery,
-    Recovery_Big
+    Recovery_Big,
+    BlockBreakEffect,
 }
 
 public class ObjectManager : SingletonComponent<ObjectManager>

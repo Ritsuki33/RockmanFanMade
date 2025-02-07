@@ -9,7 +9,6 @@ public class PsObject : BaseObject
 
     private Material _material;
 
-    Action<PsObject> _finishedcallback;
     public  Material Material
     {
         get
@@ -26,24 +25,18 @@ public class PsObject : BaseObject
     public void Setup(Vector3 position)
     {
         this.transform.position = position;
-        //_finishedcallback = finishedcallback;
     }
 
     protected override void OnUpdate()
     {
         if (!m_particleSystem.isPlaying)
         {
-            _finishedcallback?.Invoke(this);
+            Delete();
         }
     }
     protected override void OnPause(bool isPause)
     {
        if(isPause) m_particleSystem.Pause();
         else m_particleSystem.Play();
-    }
-
-    protected override void OnReset()
-    {
-        _finishedcallback?.Invoke(this);
     }
 }
