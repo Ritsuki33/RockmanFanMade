@@ -85,16 +85,6 @@ public partial class StagePlayer
             if (!player.invincible) player.Damaged(collision.baseDamageValue);
         }
 
-        protected override void OnBottomTopHitEnter(StagePlayer player, RaycastHit2D bottom, RaycastHit2D top)
-        {
-            player.Damaged(int.MaxValue);
-        }
-
-        protected override void OnLeftRightHitEnter(StagePlayer player, RaycastHit2D left, RaycastHit2D right)
-        {
-            player.Damaged(int.MaxValue);
-        }
-
         // ==========================================
         class Basic : ExRbSubState<StagePlayer, Basic, Standing>
         {
@@ -207,17 +197,6 @@ public partial class StagePlayer
             if (!player.invincible) player.Damaged(collision.baseDamageValue);
         }
 
-
-        protected override void OnBottomTopHitEnter(StagePlayer player, RaycastHit2D bottom, RaycastHit2D top)
-        {
-            player.Damaged(int.MaxValue);
-        }
-
-        protected override void OnLeftRightHitEnter(StagePlayer player, RaycastHit2D left, RaycastHit2D right)
-        {
-            player.Damaged(int.MaxValue);
-        }
-
         // ============================================================
         class Run : ExRbSubState<StagePlayer, Run, Running>
         {
@@ -324,17 +303,6 @@ public partial class StagePlayer
         protected override void OnTriggerEnter(StagePlayer player, DamageBase collision)
         {
             if (!player.invincible) player.Damaged(collision.baseDamageValue);
-        }
-
-
-        protected override void OnBottomTopHitEnter(StagePlayer player, RaycastHit2D bottom, RaycastHit2D top)
-        {
-            player.Damaged(int.MaxValue);
-        }
-
-        protected override void OnLeftRightHitEnter(StagePlayer player, RaycastHit2D left, RaycastHit2D right)
-        {
-            player.Damaged(int.MaxValue);
         }
 
         class Basic : ExRbSubState<StagePlayer, Basic, Floating>
@@ -450,17 +418,6 @@ public partial class StagePlayer
         protected override void OnTriggerEnter(StagePlayer player, DamageBase collision)
         {
             if (!player.invincible) player.Damaged(collision.baseDamageValue);
-        }
-
-
-        protected override void OnBottomTopHitEnter(StagePlayer player, RaycastHit2D bottom, RaycastHit2D top)
-        {
-            player.Damaged(int.MaxValue);
-        }
-
-        protected override void OnLeftRightHitEnter(StagePlayer player, RaycastHit2D left, RaycastHit2D right)
-        {
-            player.Damaged(int.MaxValue);
         }
 
         class Basic : ExRbSubState<StagePlayer, Basic, Jumping>
