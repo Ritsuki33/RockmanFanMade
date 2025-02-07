@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-public class Grenademan : StageBoss, IDirect
+public class Grenademan : StageBoss, IDirect, IHitEvent, IRbVisitor, IExRbVisitor
 {
     public Action<float> hpParamIncrementAnimation = default;
 
@@ -36,7 +36,7 @@ public class Grenademan : StageBoss, IDirect
     protected override void Awake()
     {
         base.Awake();
-        _exRb.Init();
+        _exRb.Init(this);
 
         stateMachine.AddState((int)StateId.Idle, new Idle());
         stateMachine.AddState((int)StateId.Run, new Run());
@@ -44,15 +44,8 @@ public class Grenademan : StageBoss, IDirect
         stateMachine.AddState((int)StateId.PlaceBomb, new PlaceBomb());
         stateMachine.AddState((int)StateId.Shoot, new Shoot());
         stateMachine.AddState((int)StateId.Appearance, new Appearance());
-        rbCollide.Init();
-        rbCollide.onTriggerEnter += OnTriggerEnterBase;
-        rbCollide.onTriggerEnterRockBusterDamage += OnTriggerEnterRockBusterDamage;
-
-        exRbHit.Init(_exRb);
-        exRbHit.onBottomHitEnter += OnBottomHitEnter;
-        exRbHit.onBottomHitStay += OnBottomHitStay;
-        exRbHit.onLeftHitStay += OnLeftHitStay;
-        exRbHit.onRightHitStay += OnRightHitStay;
+        rbCollide.CacheClear();
+        exRbHit.CacheClear();
     }
 
     protected override void Init()
@@ -81,11 +74,6 @@ public class Grenademan : StageBoss, IDirect
         stateMachine.Update(this);
     }
 
-    public void Visit(GrenademanSpawn acceptable)
-    {
-        throw new NotImplementedException();
-    }
-
     public void Setup(Transform[] placeBombPosArray)
     {
         _placeBombPosArray = placeBombPosArray;
@@ -102,53 +90,47 @@ public class Grenademan : StageBoss, IDirect
         this.stateMachine.TransitReady((int)StateId.Idle);
     }
 
-    private void OnBottomHitEnter(RaycastHit2D hit)
+    void IHitEvent.OnBottomHitEnter(RaycastHit2D hit)
     {
         stateMachine.OnBottomHitEnter(this, hit);
     }
 
-    private void OnBottomHitStay(RaycastHit2D hit)
+    void IHitEvent.OnBottomHitStay(RaycastHit2D hit)
     {
         stateMachine.OnBottomHitStay(this, hit);
     }
 
-    private void OnLeftHitStay(RaycastHit2D hit)
+    void IHitEvent.OnLeftHitStay(RaycastHit2D hit)
     {
         stateMachine.OnLeftHitStay(this, hit);
     }
 
-    private void OnRightHitStay(RaycastHit2D hit)
+    void IHitEvent.OnRightHitStay(RaycastHit2D hit)
     {
         stateMachine.OnRightHitStay(this, hit);
     }
 
-    private void OnTriggerEnterBase(Collider2D collision)
-    {
-        stateMachine.OnTriggerEnter(this, collision);
-
-    }
-
-    private void OnTriggerEnterRockBusterDamage(RockBusterDamage collision)
+    void IRbVisitor<RockBusterDamage>.OnTriggerEnter(RockBusterDamage collision)
     {
         stateMachine.OnTriggerEnter(this, collision);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        rbCollide.OnTriggerEnter(collision);
+        stateMachine.OnTriggerEnter(this, collision);
+        rbCollide.OnTriggerEnter(this, collision);
     }
 
     public override void Damaged(RockBusterDamage damage)
     {
         base.Damaged(damage);
 
-        //hpChangeTrigger?.Invoke((float)currentHp / MaxHp);
         GameMainManager.Instance.GameMainScreenPresenter?.SetEnemyHp((float)currentHp / MaxHp);
     }
 
     public override void OnDead()
     {
-        var deathEffect=ObjectManager.Instance.OnGet<PsObject>(PoolType.PlayerDeathEffect);
+        var deathEffect = ObjectManager.Instance.OnGet<PsObject>(PoolType.PlayerDeathEffect);
         deathEffect.Setup(this.transform.position);
         this.gameObject.SetActive(false);
     }
@@ -568,7 +550,7 @@ public class Grenademan : StageBoss, IDirect
                     (bomb) =>
                     {
                         bomb.Delete();
-                        var explode= ObjectManager.Instance.OnGet<Explode>(PoolType.Explode);
+                        var explode = ObjectManager.Instance.OnGet<Explode>(PoolType.Explode);
                         explode.Setup(Explode.Layer.EnemyAttack, bomb.transform.position, 3);
                     }
                     );
@@ -623,6 +605,4 @@ public class Grenademan : StageBoss, IDirect
     public void TurnTo(bool isRight) => _direct.TurnTo(isRight);
     public void TurnToTarget(Vector2 targetPos) => _direct.TurnToTarget(targetPos);
     public void TurnFace() => _direct.TurnFace();
-
-   
 }

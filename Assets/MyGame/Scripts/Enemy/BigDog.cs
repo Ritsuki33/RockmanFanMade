@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class BigDog : StageEnemy
+public class BigDog : StageEnemy,IRbVisitor
 {
     [SerializeField] Transform _mouth;
 
@@ -33,8 +33,7 @@ public class BigDog : StageEnemy
         stateMachine.AddState((int)StateId.Fire, new Fire());
         stateMachine.AddState((int)StateId.TailFire, new TailFire());
 
-        rbCollide.Init();
-        rbCollide.onTriggerEnterRockBusterDamage += OnTriggerEnterDamagedBase;
+        rbCollide.CacheClear();
     }
 
     protected override void Init()
@@ -53,14 +52,14 @@ public class BigDog : StageEnemy
         stateMachine.Update(this);
     }
 
-    private void OnTriggerEnterDamagedBase(RockBusterDamage damage)
+    void IRbVisitor<RockBusterDamage>.OnTriggerEnter(RockBusterDamage damage)
     {
         stateMachine.OnTriggerEnter(this, damage);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        rbCollide.OnTriggerEnter(collision);    
+        rbCollide.OnTriggerEnter(this, collision);
     }
 
     class Idle : RbState<BigDog, Idle>

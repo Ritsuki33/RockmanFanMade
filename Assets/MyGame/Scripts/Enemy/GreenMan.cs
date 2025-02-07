@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-public class GreenMan : StageEnemy,IDirect
+public class GreenMan : StageEnemy,IDirect,IRbVisitor,IHitEvent
 {
     enum StateId
     {
@@ -39,16 +39,12 @@ public class GreenMan : StageEnemy,IDirect
         stateMachine.AddState((int)StateId.Shooting, new Shooting());
         stateMachine.AddState((int)StateId.Jump, new Jumping());
 
-        exRb.Init();
+        exRb.Init(this);
 
-        rbCollide.Init();
-        exRbHit.Init(exRb);
-
-        rbCollide.onTriggerEnterRockBusterDamage += OnTriggerEnterRuckBusterDamage;
-        exRbHit.onTopHitEnter += OnTopHitEnter;
-        exRbHit.onBottomHitStay += OnBottomHitStay;
-        exRbHit.onBottomHitExit += OnBottomHitExit;
+        rbCollide.CacheClear();
+        exRbHit.CacheClear();
     }
+
 
     protected override void Init()
     {
@@ -77,27 +73,27 @@ public class GreenMan : StageEnemy,IDirect
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        rbCollide.OnTriggerEnter(collision);
+        rbCollide.OnTriggerEnter(this, collision);
     }
 
-    void OnTopHitEnter(RaycastHit2D hit)
+    void IHitEvent.OnTopHitEnter(RaycastHit2D hit)
     {
         stateMachine.OnTopHitEnter(this, hit);
-
     }
-    void OnBottomHitStay(RaycastHit2D hit)
+
+    void IHitEvent.OnBottomHitStay(RaycastHit2D hit)
     {
         stateMachine.OnBottomHitStay(this, hit);
     }
 
-    void OnBottomHitExit(RaycastHit2D hit)
+    void IHitEvent.OnBottomHitExit(RaycastHit2D hit)
     {
         stateMachine.OnBottomHitExit(this, hit);
     }
 
-    void OnTriggerEnterRuckBusterDamage(RockBusterDamage damage)
+    void IRbVisitor<RockBusterDamage>.OnTriggerEnter(RockBusterDamage damage)
     {
-        stateMachine.OnTriggerEnter(this,damage);
+        stateMachine.OnTriggerEnter(this, damage);
     }
 
     class Idle : ExRbState<GreenMan, Idle>

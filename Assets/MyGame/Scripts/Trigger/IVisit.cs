@@ -2,13 +2,13 @@
 
 public interface IRbVisitor<T> where T : IRbVisitable
 {
-    void OnTriggerEnter(T collision);
-    void OnTriggerStay(T collision);
-    void OnTriggerExit(T collision);
+    void OnTriggerEnter(T collision) { }
+    void OnTriggerStay(T collision) { }
+    void OnTriggerExit(T collision) { }
 
-    void OnCollisionEnter(T collision);
-    void OnCollisionStay(T collision);
-    void OnCollisionExit(T collision);
+    void OnCollisionEnter(T collision) { }
+    void OnCollisionStay(T collision) { }
+    void OnCollisionExit(T collision) { }
 }
 
 public partial interface IRbVisitor
@@ -28,21 +28,21 @@ public interface IRbVisitable
 
 public partial interface IExRbVisitor<T>
 {
-    void OnHitEnter(T hit);
-    void OnBottomHitEnter(T hit);
-    void OnTopHitEnter(T hit);
-    void OnLeftHitEnter(T hit);
-    void OnRightHitEnter(T hit);
-    void OnHitStay(T hit);
-    void OnBottomHitStay(T hit);
-    void OnTopHitStay(T hit);
-    void OnLeftHitStay(T hit);
-    void OnRightHitStay(T hit);
-    void OnHitExit(T hit);
-    void OnBottomHitExit(T hit);
-    void OnTopHitExit(T hit);
-    void OnLeftHitExit(T hit);
-    void OnRightHitExit(T hit);
+    void OnHitEnter(T hit){}
+    void OnBottomHitEnter(T hit){}
+    void OnTopHitEnter(T hit){}
+    void OnLeftHitEnter(T hit){}
+    void OnRightHitEnter(T hit){}
+    void OnHitStay(T hit){}
+    void OnBottomHitStay(T hit){}
+    void OnTopHitStay(T hit){}
+    void OnLeftHitStay(T hit){}
+    void OnRightHitStay(T hit){}
+    void OnHitExit(T hit){}
+    void OnBottomHitExit(T hit){}
+    void OnTopHitExit(T hit){}
+    void OnLeftHitExit(T hit){}
+    void OnRightHitExit(T hit){}
 }
 
 public partial interface IExRbVisitor

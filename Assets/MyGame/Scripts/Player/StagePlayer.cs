@@ -2,7 +2,7 @@
 using System.Collections;
 using UnityEngine;
 
-public partial class StagePlayer : PhysicalObject, IDirect,IBeltConveyorVelocity
+public partial class StagePlayer : PhysicalObject, IDirect, IBeltConveyorVelocity, IRbVisitor, IHitEvent, IExRbVisitor
 {
     [SerializeField] ExpandRigidBody exRb;
     [Header("プレイヤー情報")]
@@ -101,25 +101,10 @@ public partial class StagePlayer : PhysicalObject, IDirect,IBeltConveyorVelocity
 
         boxPhysicalCollider = GetComponent<BoxCollider2D>();
 
-        exRb.Init();
+        exRb.Init(this);
 
-        exRbHit.Init(exRb);
-        rbCollide.Init();
-
-        rbCollide.onTriggerEnter += OnTriggerEnterBase;
-        rbCollide.onTriggerEnterDamageBase += OnTriggerStayDamageBase;
-        rbCollide.onTriggerEnterRecovery += OnTriggerStayRecovery;
-
-        exRbHit.onBottomHitStay += OnBottomHitStay;
-        exRbHit.onBottomHitExit += OnBottomHitExit;
-        exRbHit.onTopHitEnterBlockTilemap += OnTopHitEnter;
-        exRbHit.onTopHitStay += OnTopHitStay;
-        exRbHit.onHitEnter += OnHitEnter;
-        exRbHit.onHitStayDamageBase += OnHitStay;
-        exRbHit.onBottomHitStayBeltConveyor += OnBottomHitStay;
-        exRbHit.onBottomHitStayTire += OnBottmHitStay;
-        exRbHit.onBottomHitStayGround += OnBottomHitStay;
-        exRbHit.onBottomHitExitGround += OnBottomHitExit;
+        exRbHit.CacheClear();
+        rbCollide.CacheClear();
 
         m_chargeStateMachine.Clear();
         // チャージの状態セット
@@ -352,90 +337,23 @@ public partial class StagePlayer : PhysicalObject, IDirect,IBeltConveyorVelocity
         });
     }
 
-    private void OnTriggerEnterBase(Collider2D collision)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
         m_mainStateMachine.OnTriggerEnter(this, collision);
+        rbCollide.OnTriggerEnter(this, collision);
     }
 
-    private void OnTriggerStayRecovery(Recovery recovery)
+    private void OnTriggerStay2D(Collider2D collision)
     {
-        RecoverHp(recovery.Amount);
-        recovery.gameObject.SetActive(false);
+        m_mainStateMachine.OnTriggerStay(this, collision);
+        rbCollide.OnTriggerStay(this, collision);
     }
 
-    void OnTriggerStayDamageBase(DamageBase damageBase)
+    private void OnTriggerExit2D(Collider2D collision)
     {
-        m_mainStateMachine.OnTriggerStay(this, damageBase);
+        m_mainStateMachine.OnTriggerExit(this, collision);
+        rbCollide.OnTriggerExit(this, collision);
     }
-
-    void OnBottomHitStay(RaycastHit2D hit)
-    {
-        m_mainStateMachine.OnBottomHitStay(this, hit);
-    }
-
-    void OnBottomHitExit(RaycastHit2D hit)
-    {
-        m_mainStateMachine.OnBottomHitExit(this, hit);
-    }
-
-
-    void OnTopHitStay(RaycastHit2D hit)
-    {
-        m_mainStateMachine.OnTopHitStay(this, hit);
-    }
-
-    void OnCrash(ContactPoint2D a, ContactPoint2D b)
-    {
-        Damaged(int.MaxValue);
-    }
-
-    void OnHitStay(DamageBase damage)
-    {
-        if (!invincible) Damaged(damage.baseDamageValue);
-    }
-
-    void OnHitEnter(RaycastHit2D hit)
-    {
-        if (hit.collider.CompareTag("Door"))
-        {
-            var shutter = hit.collider.GetComponent<ShutterControll>();
-            shutter.Enter();
-        }
-    }
-
-    void OnBottomHitStay(Ground ground)
-    {
-        //m_mainStateMachine.OnBottomHitStay(this, ground);
-        curGround = ground;
-    }
-
-    void OnBottomHitExit(Ground ground)
-    {
-        curGround = default;
-    }
-
-    void OnBottomHitStay(BeltConveyor beltConveyor)
-    {
-        beltConveyor.GetOn(this);
-    }
-
-    void OnBottmHitStay(Tire tire)
-    {
-        jump.Init(tire.JumpPower);
-        m_mainStateMachine.TransitReady((int)Main_StateID.Jumping);
-        tire.OnSteppedOn();
-    }
-
-    void OnTopHitEnter(BlockTilemap blockTilemap)
-    {
-        // ヒット位置情報が取ってこれないので、ブロックが壊せないｗ
-        Debug.Log("トップヒット");
-    }
-
-    private void OnTriggerEnter2D(Collider2D collision) => rbCollide.OnTriggerEnter(collision);
-    private void OnTriggerStay2D(Collider2D collision) => rbCollide.OnTriggerEnter(collision);
-    private void OnTriggerExit2D(Collider2D collision) => rbCollide.OnTriggerExit(collision);
-
 
     private void OnDrawGizmos()
     {
@@ -444,9 +362,140 @@ public partial class StagePlayer : PhysicalObject, IDirect,IBeltConveyorVelocity
 
     public bool IsRight => direct.IsRight;
 
-    Vector2 IBeltConveyorVelocity.velocity { get => exRb.velocity; set => exRb.velocity = value; }
-
     public void TurnTo(bool isRight) => direct.TurnTo(isRight);
     public void TurnToTarget(Vector2 targetPos) => TurnToTarget(targetPos);
     public void TurnFace() => direct.TurnFace();
+
+    Vector2 IBeltConveyorVelocity.velocity { get => exRb.velocity; set => exRb.velocity = value; }
+
+    void IRbVisitor<DamageBase>.OnTriggerEnter(DamageBase damage)
+    {
+        m_mainStateMachine.OnTriggerStay(this, damage);
+    }
+
+    void IRbVisitor<Recovery>.OnTriggerEnter(Recovery recovery)
+    {
+        RecoverHp(recovery.Amount);
+        recovery.gameObject.SetActive(false);
+    }
+
+    void IExRbVisitor<Ground>.OnBottomHitStay(Ground ground)
+    {
+        curGround = ground;
+    }
+
+    void IExRbVisitor<Ground>.OnBottomHitExit(Ground ground)
+    {
+        curGround = default;
+    }
+
+    void IExRbVisitor<BeltConveyor>.OnBottomHitStay(BeltConveyor beltConveyor)
+    {
+        beltConveyor.GetOn(this);
+    }
+
+    void IExRbVisitor<Tire>.OnBottomHitStay(Tire tire)
+    {
+        jump.Init(tire.JumpPower);
+        m_mainStateMachine.TransitReady((int)Main_StateID.Jumping);
+        tire.OnSteppedOn();
+    }
+
+    #region IHitEvent
+    void IHitEvent.OnHitEnter(RaycastHit2D hit)
+    {
+        if (hit.collider.CompareTag("Door"))
+        {
+            var shutter = hit.collider.GetComponent<ShutterControll>();
+            shutter.Enter();
+        }
+
+        m_mainStateMachine.OnHitEnter(this, hit);
+        exRbHit.OnHitEnter(this, hit);
+    }
+
+    void IHitEvent.OnBottomHitEnter(RaycastHit2D hit)
+    {
+        m_mainStateMachine.OnBottomHitEnter(this, hit);
+        exRbHit.OnBottomHitEnter(this, hit);
+    }
+
+    void IHitEvent.OnTopHitEnter(RaycastHit2D hit)
+    {
+        m_mainStateMachine.OnTopHitEnter(this, hit);
+        exRbHit.OnTopHitEnter(this, hit);
+    }
+
+    void IHitEvent.OnLeftHitEnter(RaycastHit2D hit)
+    {
+        m_mainStateMachine.OnLeftHitEnter(this, hit);
+        exRbHit.OnLeftHitEnter(this, hit);
+    }
+
+    void IHitEvent.OnRightHitEnter(RaycastHit2D hit)
+    {
+        m_mainStateMachine.OnRightHitEnter(this, hit);
+        exRbHit.OnRightHitEnter(this, hit);
+    }
+
+    void IHitEvent.OnHitStay(RaycastHit2D hit)
+    {
+        m_mainStateMachine.OnHitStay(this, hit);
+        exRbHit.OnHitStay(this, hit);
+    }
+
+    void IHitEvent.OnBottomHitStay(RaycastHit2D hit)
+    {
+        m_mainStateMachine.OnBottomHitStay(this, hit);
+        exRbHit.OnBottomHitStay(this, hit);
+    }
+
+    void IHitEvent.OnTopHitStay(RaycastHit2D hit)
+    {
+        m_mainStateMachine.OnTopHitStay(this, hit);
+        exRbHit.OnTopHitStay(this, hit);
+    }
+
+    void IHitEvent.OnLeftHitStay(RaycastHit2D hit)
+    {
+        m_mainStateMachine.OnLeftHitStay(this, hit);
+        exRbHit.OnRightHitEnter(this, hit);
+    }
+
+    void IHitEvent.OnRightHitStay(RaycastHit2D hit)
+    {
+        m_mainStateMachine.OnRightHitStay(this, hit);
+        exRbHit.OnRightHitStay(this, hit);
+    }
+
+    void IHitEvent.OnHitExit(RaycastHit2D hit)
+    {
+        m_mainStateMachine.OnHitExit(this, hit);
+        exRbHit.OnHitExit(this, hit);
+    }
+
+    void IHitEvent.OnBottomHitExit(RaycastHit2D hit)
+    {
+        m_mainStateMachine.OnBottomHitExit(this, hit);
+        exRbHit.OnBottomHitExit(this, hit);
+    }
+
+    void IHitEvent.OnTopHitExit(RaycastHit2D hit)
+    {
+        m_mainStateMachine.OnTopHitExit(this, hit);
+        exRbHit.OnTopHitExit(this, hit);
+    }
+
+    void IHitEvent.OnLeftHitExit(RaycastHit2D hit)
+    {
+        m_mainStateMachine.OnLeftHitExit(this, hit);
+        exRbHit.OnLeftHitExit(this, hit);
+    }
+
+    void IHitEvent.OnRightHitExit(RaycastHit2D hit)
+    {
+        m_mainStateMachine.OnRightHitExit(this, hit);
+        exRbHit.OnRightHitExit(this, hit);
+    }
+    #endregion
 }

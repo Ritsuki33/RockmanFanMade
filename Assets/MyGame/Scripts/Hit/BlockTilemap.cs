@@ -7,7 +7,7 @@ using UnityEngine.Tilemaps;
 /// 衝突時の取得コンポーネント
 /// スクリプトテンプレートから自動生成
 /// </summary>
-public class BlockTilemap : MonoBehaviour, IRbVisitable, IExRbVisitable
+public class BlockTilemap : MonoBehaviour, IRbVisitable, IExRbVisitable,IRbVisitor
 {
     #region 編集禁止
     protected virtual void AcceptOnTriggerEnter(IRbVisitor visitor) => visitor.OnTriggerEnter(this);
@@ -66,8 +66,7 @@ public class BlockTilemap : MonoBehaviour, IRbVisitable, IExRbVisitable
 
     private void Awake()
     {
-        rbCollide.Init();
-        rbCollide.onTriggerStayRockBusterDamage += OnTriggerStayRockBusterDamage;
+        rbCollide.CacheClear();
     }
 
     /// <summary>
@@ -95,10 +94,10 @@ public class BlockTilemap : MonoBehaviour, IRbVisitable, IExRbVisitable
 
     private void OnTriggerStay2D(Collider2D collision)
     {
-        rbCollide.OnTriggerStay(collision);
+        rbCollide.OnTriggerStay(this,collision);
     }
 
-    private void OnTriggerStayRockBusterDamage(RockBusterDamage damage)
+    void IRbVisitor<RockBusterDamage>.OnTriggerStay(RockBusterDamage damage)
     {
         if (BreakTileAt(damage.transform.position))
         {
@@ -513,78 +512,6 @@ public partial class InheritExRbSubStateMachine<T, PS, S>
     public void OnTopHitExit(T obj, PS parent, BlockTilemap hit) => curState.OnTopHitExit(obj, parent, hit);
     public void OnLeftHitExit(T obj, PS parent, BlockTilemap hit) => curState.OnLeftHitExit(obj, parent, hit);
     public void OnRightHitExit(T obj, PS parent, BlockTilemap hit) => curState.OnRightHitExit(obj, parent, hit);
-}
-
-
-public partial class RbCollide
-{
-    void IRbVisitor<BlockTilemap>.OnCollisionEnter(BlockTilemap collision) => onCollisionEnterBlockTilemap?.Invoke(collision);
-    void IRbVisitor<BlockTilemap>.OnCollisionExit(BlockTilemap collision) => onCollisionExitBlockTilemap?.Invoke(collision);
-    void IRbVisitor<BlockTilemap>.OnCollisionStay(BlockTilemap collision) => onCollisionStayBlockTilemap?.Invoke(collision);
-    void IRbVisitor<BlockTilemap>.OnTriggerEnter(BlockTilemap collision) => onTriggerEnterBlockTilemap?.Invoke(collision);
-    void IRbVisitor<BlockTilemap>.OnTriggerExit(BlockTilemap collision) => onTriggerExitBlockTilemap?.Invoke(collision);
-    void IRbVisitor<BlockTilemap>.OnTriggerStay(BlockTilemap collision) => onTriggerStayBlockTilemap?.Invoke(collision);
-
-    public event Action<BlockTilemap> onCollisionEnterBlockTilemap;
-    public event Action<BlockTilemap> onCollisionExitBlockTilemap;
-    public event Action<BlockTilemap> onCollisionStayBlockTilemap;
-    public event Action<BlockTilemap> onTriggerEnterBlockTilemap;
-    public event Action<BlockTilemap> onTriggerExitBlockTilemap;
-    public event Action<BlockTilemap> onTriggerStayBlockTilemap;
-}
-
-public partial class ExRbHit
-{
-    void IExRbVisitor<BlockTilemap>.OnHitEnter(BlockTilemap hit) => onHitEnterBlockTilemap?.Invoke(hit);
-    void IExRbVisitor<BlockTilemap>.OnBottomHitEnter(BlockTilemap hit) => onBottomHitEnterBlockTilemap?.Invoke(hit);
-    void IExRbVisitor<BlockTilemap>.OnTopHitEnter(BlockTilemap hit) => onTopHitEnterBlockTilemap?.Invoke(hit);
-    void IExRbVisitor<BlockTilemap>.OnLeftHitEnter(BlockTilemap hit) => onLeftHitEnterBlockTilemap?.Invoke(hit);
-    void IExRbVisitor<BlockTilemap>.OnRightHitEnter(BlockTilemap hit) => onRightHitEnterBlockTilemap?.Invoke(hit);
-    void IExRbVisitor<BlockTilemap>.OnHitStay(BlockTilemap hit) => onHitStayBlockTilemap?.Invoke(hit);
-    void IExRbVisitor<BlockTilemap>.OnBottomHitStay(BlockTilemap hit) => onBottomHitStayBlockTilemap?.Invoke(hit);
-    void IExRbVisitor<BlockTilemap>.OnTopHitStay(BlockTilemap hit) => onTopHitStayBlockTilemap?.Invoke(hit);
-    void IExRbVisitor<BlockTilemap>.OnLeftHitStay(BlockTilemap hit) => onLeftHitStayBlockTilemap?.Invoke(hit);
-    void IExRbVisitor<BlockTilemap>.OnRightHitStay(BlockTilemap hit) => onRightHitStayBlockTilemap?.Invoke(hit);
-    void IExRbVisitor<BlockTilemap>.OnHitExit(BlockTilemap hit) => onHitExitBlockTilemap?.Invoke(hit);
-    void IExRbVisitor<BlockTilemap>.OnBottomHitExit(BlockTilemap hit) => onBottomHitExitBlockTilemap?.Invoke(hit);
-    void IExRbVisitor<BlockTilemap>.OnTopHitExit(BlockTilemap hit) => onTopHitExitBlockTilemap?.Invoke(hit);
-    void IExRbVisitor<BlockTilemap>.OnLeftHitExit(BlockTilemap hit) => onLeftHitExitBlockTilemap?.Invoke(hit);
-    void IExRbVisitor<BlockTilemap>.OnRightHitExit(BlockTilemap hit) => onRightHitExitBlockTilemap?.Invoke(hit);
-
-    public event Action<BlockTilemap> onHitEnterBlockTilemap;
-    public event Action<BlockTilemap> onBottomHitEnterBlockTilemap;
-    public event Action<BlockTilemap> onTopHitEnterBlockTilemap;
-    public event Action<BlockTilemap> onLeftHitEnterBlockTilemap;
-    public event Action<BlockTilemap> onRightHitEnterBlockTilemap;
-    public event Action<BlockTilemap> onHitStayBlockTilemap;
-    public event Action<BlockTilemap> onBottomHitStayBlockTilemap;
-    public event Action<BlockTilemap> onTopHitStayBlockTilemap;
-    public event Action<BlockTilemap> onLeftHitStayBlockTilemap;
-    public event Action<BlockTilemap> onRightHitStayBlockTilemap;
-    public event Action<BlockTilemap> onHitExitBlockTilemap;
-    public event Action<BlockTilemap> onBottomHitExitBlockTilemap;
-    public event Action<BlockTilemap> onTopHitExitBlockTilemap;
-    public event Action<BlockTilemap> onLeftHitExitBlockTilemap;
-    public event Action<BlockTilemap> onRightHitExitBlockTilemap;
-
-    void SetInterpreterBlockTilemap(IHitInterpreter hitInterpreter)
-    {
-        onHitEnterBlockTilemap = hitInterpreter.OnHitEnter;
-        onBottomHitEnterBlockTilemap = hitInterpreter.OnBottomHitEnter;
-        onTopHitEnterBlockTilemap = hitInterpreter.OnTopHitEnter;
-        onLeftHitEnterBlockTilemap = hitInterpreter.OnLeftHitEnter;
-        onRightHitEnterBlockTilemap = hitInterpreter.OnRightHitEnter;
-        onHitStayBlockTilemap = hitInterpreter.OnHitStay;
-        onBottomHitStayBlockTilemap = hitInterpreter.OnBottomHitStay;
-        onTopHitStayBlockTilemap = hitInterpreter.OnTopHitStay;
-        onLeftHitStayBlockTilemap = hitInterpreter.OnLeftHitStay;
-        onRightHitStayBlockTilemap = hitInterpreter.OnRightHitStay;
-        onHitExitBlockTilemap = hitInterpreter.OnHitExit;
-        onBottomHitExitBlockTilemap = hitInterpreter.OnBottomHitExit;
-        onTopHitExitBlockTilemap = hitInterpreter.OnTopHitExit;
-        onLeftHitExitBlockTilemap = hitInterpreter.OnLeftHitExit;
-        onRightHitExitBlockTilemap = hitInterpreter.OnRightHitExit;
-    }
 }
 
 public partial interface IHitInterpreter : IHitInterpreter<BlockTilemap> { }

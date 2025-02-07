@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.WSA;
 
-public partial class Mettoru : StageEnemy,IDirect
+public partial class Mettoru : StageEnemy, IDirect, IHitEvent, IRbVisitor, IExRbVisitor
 {
     [SerializeField] Direct direct;
     [SerializeField] Gravity gravity;
@@ -53,15 +53,10 @@ public partial class Mettoru : StageEnemy,IDirect
 
         m_stateMachine.TransitReady((int)StateID.Hide);
 
-        exRb.Init();
+        exRb.Init(this);
 
-        rbCollide.Init();
-        rbCollide.onTriggerEnterRockBusterDamage += OnTriggerEnterRockBusterDamage;
-
-        exRbHit.Init(exRb);
-        exRbHit.onBottomHitStay += OnBottomHitStay;
-        exRbHit.onLeftHitStay += OnLeftHitStay;
-        exRbHit.onRightHitStay += OnRightHitStay;
+        rbCollide.CacheClear();
+        exRbHit.CacheClear();
     }
 
     /// <summary>
@@ -155,25 +150,25 @@ public partial class Mettoru : StageEnemy,IDirect
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        rbCollide.OnTriggerEnter(collision);
+        rbCollide.OnTriggerEnter(this, collision);
     }
 
-    private void OnTriggerEnterRockBusterDamage(RockBusterDamage damage)
+    void IRbVisitor<RockBusterDamage>.OnTriggerEnter(RockBusterDamage damage)
     {
         m_stateMachine.OnTriggerEnter(this, damage);
     }
 
-    private void OnBottomHitStay(RaycastHit2D hit)
+    void IHitEvent.OnBottomHitStay(RaycastHit2D hit)
     {
         m_stateMachine.OnBottomHitStay(this, hit);
     }
 
-    private void OnLeftHitStay(RaycastHit2D hit)
+    void IHitEvent.OnLeftHitStay(RaycastHit2D hit)
     {
         m_stateMachine.OnLeftHitStay(this, hit);
     }
 
-    private void OnRightHitStay(RaycastHit2D hit)
+    void IHitEvent.OnRightHitStay(RaycastHit2D hit)
     {
         m_stateMachine.OnRightHitStay(this, hit);
     }

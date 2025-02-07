@@ -6,7 +6,7 @@ using UnityEngine;
 /// 衝突時の取得コンポーネント
 /// スクリプトテンプレートから自動生成
 /// </summary>
-public class Recovery : PhysicalObject, IRbVisitable, IExRbVisitable
+public class Recovery : PhysicalObject, IHitEvent, IRbVisitable, IExRbVisitable
 {
     #region 編集禁止
     protected virtual void AcceptOnTriggerEnter(IRbVisitor visitor) => visitor.OnTriggerEnter(this);
@@ -64,15 +64,9 @@ public class Recovery : PhysicalObject, IRbVisitable, IExRbVisitable
 
     public int Amount => amount;
 
-    ExRbHit exRbHit = new ExRbHit();
-
     protected override void Awake()
     {
-        exRb.Init();
-
-        exRbHit.Init(exRb);
-
-        exRbHit.onBottomHitStay += OnBottomHitStay;
+        exRb.Init(this);
     }
 
     protected override void OnFixedUpdate()
@@ -87,8 +81,7 @@ public class Recovery : PhysicalObject, IRbVisitable, IExRbVisitable
         this.exRb.FixedUpdate();
     }
 
-    
-    private void OnBottomHitStay(RaycastHit2D hit)
+    void IHitEvent.OnBottomHitStay(RaycastHit2D hit)
     {
         gravity.Reset();
     }
@@ -502,78 +495,6 @@ public partial class InheritExRbSubStateMachine<T, PS, S>
     public void OnTopHitExit(T obj, PS parent, Recovery hit) => curState.OnTopHitExit(obj, parent, hit);
     public void OnLeftHitExit(T obj, PS parent, Recovery hit) => curState.OnLeftHitExit(obj, parent, hit);
     public void OnRightHitExit(T obj, PS parent, Recovery hit) => curState.OnRightHitExit(obj, parent, hit);
-}
-
-
-public partial class RbCollide
-{
-    void IRbVisitor<Recovery>.OnCollisionEnter(Recovery collision) => onCollisionEnterRecovery?.Invoke(collision);
-    void IRbVisitor<Recovery>.OnCollisionExit(Recovery collision) => onCollisionExitRecovery?.Invoke(collision);
-    void IRbVisitor<Recovery>.OnCollisionStay(Recovery collision) => onCollisionStayRecovery?.Invoke(collision);
-    void IRbVisitor<Recovery>.OnTriggerEnter(Recovery collision) => onTriggerEnterRecovery?.Invoke(collision);
-    void IRbVisitor<Recovery>.OnTriggerExit(Recovery collision) => onTriggerExitRecovery?.Invoke(collision);
-    void IRbVisitor<Recovery>.OnTriggerStay(Recovery collision) => onTriggerStayRecovery?.Invoke(collision);
-
-    public event Action<Recovery> onCollisionEnterRecovery;
-    public event Action<Recovery> onCollisionExitRecovery;
-    public event Action<Recovery> onCollisionStayRecovery;
-    public event Action<Recovery> onTriggerEnterRecovery;
-    public event Action<Recovery> onTriggerExitRecovery;
-    public event Action<Recovery> onTriggerStayRecovery;
-}
-
-public partial class ExRbHit
-{
-    void IExRbVisitor<Recovery>.OnHitEnter(Recovery hit) => onHitEnterRecovery?.Invoke(hit);
-    void IExRbVisitor<Recovery>.OnBottomHitEnter(Recovery hit) => onBottomHitEnterRecovery?.Invoke(hit);
-    void IExRbVisitor<Recovery>.OnTopHitEnter(Recovery hit) => onTopHitEnterRecovery?.Invoke(hit);
-    void IExRbVisitor<Recovery>.OnLeftHitEnter(Recovery hit) => onLeftHitEnterRecovery?.Invoke(hit);
-    void IExRbVisitor<Recovery>.OnRightHitEnter(Recovery hit) => onRightHitEnterRecovery?.Invoke(hit);
-    void IExRbVisitor<Recovery>.OnHitStay(Recovery hit) => onHitStayRecovery?.Invoke(hit);
-    void IExRbVisitor<Recovery>.OnBottomHitStay(Recovery hit) => onBottomHitStayRecovery?.Invoke(hit);
-    void IExRbVisitor<Recovery>.OnTopHitStay(Recovery hit) => onTopHitStayRecovery?.Invoke(hit);
-    void IExRbVisitor<Recovery>.OnLeftHitStay(Recovery hit) => onLeftHitStayRecovery?.Invoke(hit);
-    void IExRbVisitor<Recovery>.OnRightHitStay(Recovery hit) => onRightHitStayRecovery?.Invoke(hit);
-    void IExRbVisitor<Recovery>.OnHitExit(Recovery hit) => onHitExitRecovery?.Invoke(hit);
-    void IExRbVisitor<Recovery>.OnBottomHitExit(Recovery hit) => onBottomHitExitRecovery?.Invoke(hit);
-    void IExRbVisitor<Recovery>.OnTopHitExit(Recovery hit) => onTopHitExitRecovery?.Invoke(hit);
-    void IExRbVisitor<Recovery>.OnLeftHitExit(Recovery hit) => onLeftHitExitRecovery?.Invoke(hit);
-    void IExRbVisitor<Recovery>.OnRightHitExit(Recovery hit) => onRightHitExitRecovery?.Invoke(hit);
-
-    public event Action<Recovery> onHitEnterRecovery;
-    public event Action<Recovery> onBottomHitEnterRecovery;
-    public event Action<Recovery> onTopHitEnterRecovery;
-    public event Action<Recovery> onLeftHitEnterRecovery;
-    public event Action<Recovery> onRightHitEnterRecovery;
-    public event Action<Recovery> onHitStayRecovery;
-    public event Action<Recovery> onBottomHitStayRecovery;
-    public event Action<Recovery> onTopHitStayRecovery;
-    public event Action<Recovery> onLeftHitStayRecovery;
-    public event Action<Recovery> onRightHitStayRecovery;
-    public event Action<Recovery> onHitExitRecovery;
-    public event Action<Recovery> onBottomHitExitRecovery;
-    public event Action<Recovery> onTopHitExitRecovery;
-    public event Action<Recovery> onLeftHitExitRecovery;
-    public event Action<Recovery> onRightHitExitRecovery;
-
-    void SetInterpreterRecovery(IHitInterpreter hitInterpreter)
-    {
-        onHitEnterRecovery = hitInterpreter.OnHitEnter;
-        onBottomHitEnterRecovery = hitInterpreter.OnBottomHitEnter;
-        onTopHitEnterRecovery = hitInterpreter.OnTopHitEnter;
-        onLeftHitEnterRecovery = hitInterpreter.OnLeftHitEnter;
-        onRightHitEnterRecovery = hitInterpreter.OnRightHitEnter;
-        onHitStayRecovery = hitInterpreter.OnHitStay;
-        onBottomHitStayRecovery = hitInterpreter.OnBottomHitStay;
-        onTopHitStayRecovery = hitInterpreter.OnTopHitStay;
-        onLeftHitStayRecovery = hitInterpreter.OnLeftHitStay;
-        onRightHitStayRecovery = hitInterpreter.OnRightHitStay;
-        onHitExitRecovery = hitInterpreter.OnHitExit;
-        onBottomHitExitRecovery = hitInterpreter.OnBottomHitExit;
-        onTopHitExitRecovery = hitInterpreter.OnTopHitExit;
-        onLeftHitExitRecovery = hitInterpreter.OnLeftHitExit;
-        onRightHitExitRecovery = hitInterpreter.OnRightHitExit;
-    }
 }
 
 public partial interface IHitInterpreter : IHitInterpreter<Recovery> { }

@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.Pool;
 
-public class PlacedBomb : AnimObject
+public class PlacedBomb : AnimObject, IHitEvent
 {
     [SerializeField] private BoxCollider2D boxTrigger;
     [SerializeField] private BoxCollider2D boxCollider;
@@ -23,13 +23,11 @@ public class PlacedBomb : AnimObject
     protected override void Awake()
     {
         base.Awake();
-        exRb.Init();
+        exRb.Init(this);
         stateMachine.AddState(0, new Orbit());
         stateMachine.AddState(1, new Boot());
 
-        exRbHit.Init(exRb);
-
-        exRbHit.onBottomHitEnter += OnBottomHitEnter;
+        exRbHit.CacheClear();
     }
 
     protected override void Init()
@@ -53,7 +51,7 @@ public class PlacedBomb : AnimObject
         stateMachine.Update(this);
     }
 
-    void OnBottomHitEnter(RaycastHit2D hit)
+    void IHitEvent.OnBottomHitEnter(RaycastHit2D hit)
     {
         stateMachine.OnBottomHitEnter(this, hit);
     }
