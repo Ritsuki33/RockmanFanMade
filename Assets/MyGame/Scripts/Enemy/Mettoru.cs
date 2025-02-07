@@ -37,9 +37,9 @@ public partial class Mettoru : StageEnemy, IDirect, IHitEvent, IRbVisitor, IExRb
 
     StagePlayer Player => WorldManager.Instance.Player;
 
-    RbCollide rbCollide = new RbCollide();
+    CachedCollide rbCollide = new CachedCollide();
 
-    ExRbHit exRbHit = new ExRbHit();
+    CachedHit exRbHit = new CachedHit();
     protected override void Awake()
     {
         m_stateMachine.AddState((int)StateID.Idle, new Idle());

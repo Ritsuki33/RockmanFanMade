@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-public partial class RbCollide
+public partial class CachedCollide
 {
     Dictionary<GameObject, IRbVisitable> cacheCollider = new Dictionary<GameObject, IRbVisitable>();
 

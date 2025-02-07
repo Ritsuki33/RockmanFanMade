@@ -21,8 +21,8 @@ public class Grenademan : StageBoss, IDirect, IHitEvent, IRbVisitor, IExRbVisito
 
     ExRbStateMachine<Grenademan> stateMachine = new ExRbStateMachine<Grenademan>();
 
-    RbCollide rbCollide = new RbCollide();
-    ExRbHit exRbHit = new ExRbHit();
+    CachedCollide rbCollide = new CachedCollide();
+    CachedHit exRbHit = new CachedHit();
     enum StateId
     {
         Idle,

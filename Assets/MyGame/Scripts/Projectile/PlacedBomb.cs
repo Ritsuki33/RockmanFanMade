@@ -18,7 +18,7 @@ public class PlacedBomb : AnimObject, IHitEvent
 
     ExRbStateMachine<PlacedBomb> stateMachine = new ExRbStateMachine<PlacedBomb>();
 
-    ExRbHit exRbHit = new ExRbHit();
+    CachedHit exRbHit = new CachedHit();
 
     protected override void Awake()
     {

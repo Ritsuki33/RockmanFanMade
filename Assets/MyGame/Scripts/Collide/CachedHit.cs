@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public partial class ExRbHit
+public partial class CachedHit
 {
     Dictionary<RaycastHit2D, IExRbVisitable> onHitCache = new Dictionary<RaycastHit2D, IExRbVisitable>();
 
@@ -15,7 +15,7 @@ public partial class ExRbHit
     {
         var hitv = hit.collider.GetComponent<IExRbVisitable>();
 
-        hitv?.AcceptOnHitEnter(visitor);
+        hitv?.AcceptOnHitEnter(visitor, hit);
 
         // キャッシュ
         if (!onHitCache.ContainsKey(hit)) onHitCache.Add(hit, hitv);
@@ -36,7 +36,7 @@ public partial class ExRbHit
             onHitCache.Add(hit, hitv);
         }
 
-        hitv?.AcceptOnHitStay(visitor);
+        hitv?.AcceptOnHitStay(visitor, hit);
     }
 
     public void OnHitExit(IExRbVisitor visitor,RaycastHit2D hit)
@@ -55,14 +55,14 @@ public partial class ExRbHit
             hitv = hit.collider.GetComponent<IExRbVisitable>();
         }
 
-        hitv?.AcceptOnHitExit(visitor);
+        hitv?.AcceptOnHitExit(visitor, hit);
     }
 
     public void OnBottomHitEnter(IExRbVisitor visitor,RaycastHit2D hit)
     {
         var hitv = hit.collider.GetComponent<IExRbVisitable>();
 
-        hitv?.AcceptOnBottomHitEnter(visitor);
+        hitv?.AcceptOnBottomHitEnter(visitor, hit);
 
         // キャッシュ
         if (!onHitCache.ContainsKey(hit)) onHitCache.Add(hit, hitv);
@@ -85,7 +85,7 @@ public partial class ExRbHit
             onHitCache.Add(hit, hitv);
         }
 
-        hitv?.AcceptOnBottomHitStay(visitor);
+        hitv?.AcceptOnBottomHitStay(visitor, hit);
     }
 
     public void OnBottomHitExit(IExRbVisitor visitor,RaycastHit2D hit)
@@ -104,7 +104,7 @@ public partial class ExRbHit
             hitv = hit.collider.GetComponent<IExRbVisitable>();
         }
 
-        hitv?.AcceptOnBottomHitExit(visitor);
+        hitv?.AcceptOnBottomHitExit(visitor, hit);
 
         // キャッシュを削除
         if (onHitCache.ContainsKey(hit)) onHitCache.Remove(hit);
@@ -114,7 +114,7 @@ public partial class ExRbHit
     {
         var hitv = hit.collider.GetComponent<IExRbVisitable>();
 
-        hitv?.AcceptOnTopHitEnter(visitor);
+        hitv?.AcceptOnTopHitEnter(visitor, hit);
 
         // キャッシュ
         if (!onHitCache.ContainsKey(hit)) onHitCache.Add(hit, hitv);
@@ -136,7 +136,7 @@ public partial class ExRbHit
             onHitCache.Add(hit, hitv);
         }
 
-        hitv?.AcceptOnTopHitStay(visitor);
+        hitv?.AcceptOnTopHitStay(visitor, hit);
     }
 
     public void OnTopHitExit(IExRbVisitor visitor,RaycastHit2D hit)
@@ -155,14 +155,14 @@ public partial class ExRbHit
             hitv = hit.collider.GetComponent<IExRbVisitable>();
         }
 
-        hitv?.AcceptOnTopHitExit(visitor);
+        hitv?.AcceptOnTopHitExit(visitor, hit);
     }
 
     public void OnLeftHitEnter(IExRbVisitor visitor,RaycastHit2D hit)
     {
         var hitv = hit.collider.GetComponent<IExRbVisitable>();
 
-        hitv?.AcceptOnLeftHitEnter(visitor);
+        hitv?.AcceptOnLeftHitEnter(visitor, hit);
 
         // キャッシュ
         if (!onHitCache.ContainsKey(hit)) onHitCache.Add(hit, hitv);
@@ -184,7 +184,7 @@ public partial class ExRbHit
             onHitCache.Add(hit, hitv);
         }
 
-        hitv?.AcceptOnLeftHitStay(visitor);
+        hitv?.AcceptOnLeftHitStay(visitor, hit);
     }
 
     public void OnLeftHitExit(IExRbVisitor visitor,RaycastHit2D hit)
@@ -203,13 +203,13 @@ public partial class ExRbHit
             hitv = hit.collider.GetComponent<IExRbVisitable>();
         }
 
-        hitv?.AcceptOnLeftHitExit(visitor);
+        hitv?.AcceptOnLeftHitExit(visitor, hit);
     }
 
     public void OnRightHitEnter(IExRbVisitor visitor,RaycastHit2D hit)
     {
         var hitv = hit.collider.GetComponent<IExRbVisitable>();
-        hitv?.AcceptOnRightHitEnter(visitor);
+        hitv?.AcceptOnRightHitEnter(visitor, hit);
 
         // キャッシュ
         if (!onHitCache.ContainsKey(hit)) onHitCache.Add(hit, hitv);
@@ -232,7 +232,7 @@ public partial class ExRbHit
             onHitCache.Add(hit, hitv);
         }
 
-        hitv?.AcceptOnRightHitStay(visitor);
+        hitv?.AcceptOnRightHitStay(visitor, hit);
     }
 
     public void OnRightHitExit(IExRbVisitor visitor,RaycastHit2D hit)
@@ -251,7 +251,7 @@ public partial class ExRbHit
             hitv = hit.collider.GetComponent<IExRbVisitable>();
         }
 
-        hitv?.AcceptOnRightHitExit(visitor);
+        hitv?.AcceptOnRightHitExit(visitor, hit);
     }
 }
 

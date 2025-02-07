@@ -54,8 +54,8 @@ public partial class StagePlayer : PhysicalObject, IDirect, IBeltConveyorVelocit
 
     bool invincible = false;
 
-    ExRbHit exRbHit = new ExRbHit();
-    RbCollide rbCollide = new RbCollide();
+    CachedHit exRbHit = new CachedHit();
+    CachedCollide rbCollide = new CachedCollide();
 
     private bool isDead = false;
 
@@ -379,31 +379,36 @@ public partial class StagePlayer : PhysicalObject, IDirect, IBeltConveyorVelocit
         recovery.gameObject.SetActive(false);
     }
 
-    void IExRbVisitor<Ground>.OnBottomHitStay(Ground ground)
+    void IExRbVisitor<Ground>.OnBottomHitStay(Ground ground, RaycastHit2D hit)
     {
         curGround = ground;
     }
 
-    void IExRbVisitor<Ground>.OnBottomHitExit(Ground ground)
+    void IExRbVisitor<Ground>.OnBottomHitExit(Ground ground, RaycastHit2D hit)
     {
         curGround = default;
     }
 
-    void IExRbVisitor<BeltConveyor>.OnBottomHitStay(BeltConveyor beltConveyor)
+    void IExRbVisitor<BeltConveyor>.OnBottomHitStay(BeltConveyor beltConveyor, RaycastHit2D hit)
     {
         beltConveyor.GetOn(this);
     }
 
-    void IExRbVisitor<DamageBase>.OnHitStay(DamageBase damage)
+    void IExRbVisitor<DamageBase>.OnHitStay(DamageBase damage, RaycastHit2D hit)
     {
         m_mainStateMachine.OnTriggerStay(this, damage);
     }
 
-    void IExRbVisitor<Tire>.OnBottomHitStay(Tire tire)
+    void IExRbVisitor<Tire>.OnBottomHitStay(Tire tire, RaycastHit2D hit)
     {
         jump.Init(tire.JumpPower);
         m_mainStateMachine.TransitReady((int)Main_StateID.Jumping);
         tire.OnSteppedOn();
+    }
+
+    void IExRbVisitor<BlockTilemap>.OnTopHitEnter(BlockTilemap map, RaycastHit2D hit)
+    {
+        map.BreakTileAt(hit.point - hit.normal * 0.01f);    // hit.pointだけではタイルがヒットしないので法線を使って微調整
     }
 
     #region IHitEvent

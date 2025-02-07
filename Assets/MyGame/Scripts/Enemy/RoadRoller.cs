@@ -17,8 +17,8 @@ public class RoadRoller : StageEnemy,IDirect,IHitEvent,IRbVisitor,IExRbVisitor
 
     ExRbStateMachine<RoadRoller> m_stateMachine = new ExRbStateMachine<RoadRoller>();
 
-    RbCollide rbCollide = new RbCollide();
-    ExRbHit exRbHit = new ExRbHit();
+    CachedCollide rbCollide = new CachedCollide();
+    CachedHit exRbHit = new CachedHit();
 
     enum StateId
     {

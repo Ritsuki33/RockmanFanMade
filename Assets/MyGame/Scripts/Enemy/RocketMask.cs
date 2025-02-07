@@ -14,7 +14,7 @@ public class RocketMask : StageEnemy,IDirect,IRbVisitor
 
     public bool IsRight => direct.IsRight;
 
-    RbCollide rbCollide = new RbCollide();
+    CachedCollide rbCollide = new CachedCollide();
     enum StateID
     {
         Move,

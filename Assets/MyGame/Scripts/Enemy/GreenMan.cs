@@ -24,8 +24,8 @@ public class GreenMan : StageEnemy,IDirect,IRbVisitor,IHitEvent
 
 
     ExRbStateMachine<GreenMan> stateMachine = new ExRbStateMachine<GreenMan>();
-    RbCollide rbCollide = new RbCollide();
-    ExRbHit exRbHit = new ExRbHit();
+    CachedCollide rbCollide = new CachedCollide();
+    CachedHit exRbHit = new CachedHit();
     public bool IsRight => direct.IsRight;
     public void TurnTo(bool isRight) => direct.TurnTo(isRight);
     public void TurnToTarget(Vector2 targetPos)=>direct.TurnToTarget(targetPos);

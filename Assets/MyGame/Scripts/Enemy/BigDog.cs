@@ -16,7 +16,7 @@ public class BigDog : StageEnemy,IRbVisitor
 
     AmbiguousTimer timer = new AmbiguousTimer();
 
-    RbCollide rbCollide = new RbCollide();
+    CachedCollide rbCollide = new CachedCollide();
     enum StateId
     {
         Idle,

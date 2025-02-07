@@ -7,8 +7,8 @@ public class Batman : StageEnemy,IHitEvent, IRbVisitor,IExRbVisitor
 
     RaycastSensor sensor;
 
-    RbCollide rbCollide = new RbCollide();
-    ExRbHit exRbHit = new ExRbHit();
+    CachedCollide rbCollide = new CachedCollide();
+    CachedHit exRbHit = new CachedHit();
 
     enum StateID
     {

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Block : MonoBehaviour,IRbVisitor
 {
-    RbCollide rbCollide=new RbCollide();
+    CachedCollide rbCollide=new CachedCollide();
 
     private void Awake()
     {
