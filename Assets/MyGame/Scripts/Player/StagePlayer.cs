@@ -394,6 +394,11 @@ public partial class StagePlayer : PhysicalObject, IDirect, IBeltConveyorVelocit
         beltConveyor.GetOn(this);
     }
 
+    void IExRbVisitor<DamageBase>.OnHitStay(DamageBase damage)
+    {
+        m_mainStateMachine.OnTriggerStay(this, damage);
+    }
+
     void IExRbVisitor<Tire>.OnBottomHitStay(Tire tire)
     {
         jump.Init(tire.JumpPower);
