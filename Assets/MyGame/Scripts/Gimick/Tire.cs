@@ -6,15 +6,8 @@ using UnityEngine;
 /// 衝突時の取得コンポーネント
 /// スクリプトテンプレートから自動生成
 /// </summary>
-public class Tire : AnimObject, IRbVisitable, IExRbVisitable
+public class Tire : AnimObject, IExRbVisitable
 {
-    protected virtual void AcceptOnTriggerEnter(IRbVisitor visitor) => visitor.OnTriggerEnter(this);
-    protected virtual void AcceptOnCollisionEnter(IRbVisitor visitor) => visitor.OnCollisionEnter(this);
-    protected virtual void AcceptOnCollisionExit(IRbVisitor visitor) => visitor.OnCollisionExit(this);
-    protected virtual void AcceptOnCollisionStay(IRbVisitor visitor) => visitor.OnCollisionStay(this);
-    protected virtual void AcceptOnTriggerExit(IRbVisitor visitor) => visitor.OnTriggerExit(this);
-    protected virtual void AcceptOnTriggerStay(IRbVisitor visitor) => visitor.OnTriggerStay(this);
-
     protected virtual void AcceptOnHitEnter(IExRbVisitor visitor) => visitor.OnHitEnter(this);
     protected virtual void AcceptOnHitStay(IExRbVisitor visitor) => visitor.OnHitStay(this);
     protected virtual void AcceptOnHitExit(IExRbVisitor visitor) => visitor.OnHitExit(this);
@@ -30,13 +23,6 @@ public class Tire : AnimObject, IRbVisitable, IExRbVisitable
     protected virtual void AcceptOnRightHitEnter(IExRbVisitor visitor) => visitor.OnRightHitEnter(this);
     protected virtual void AcceptOnRightHitStay(IExRbVisitor visitor) => visitor.OnRightHitStay(this);
     protected virtual void AcceptOnRightHitExit(IExRbVisitor visitor) => visitor.OnRightHitExit(this);
-
-    void IRbVisitable.AcceptOnTriggerEnter(IRbVisitor visitor) => AcceptOnTriggerEnter(visitor);
-    void IRbVisitable.AcceptOnCollisionEnter(IRbVisitor visitor) => AcceptOnCollisionEnter(visitor);
-    void IRbVisitable.AcceptOnCollisionExit(IRbVisitor visitor) => AcceptOnCollisionExit(visitor);
-    void IRbVisitable.AcceptOnCollisionStay(IRbVisitor visitor) => AcceptOnCollisionStay(visitor);
-    void IRbVisitable.AcceptOnTriggerExit(IRbVisitor visitor) => AcceptOnTriggerExit(visitor);
-    void IRbVisitable.AcceptOnTriggerStay(IRbVisitor visitor) => AcceptOnTriggerStay(visitor);
 
     void IExRbVisitable.AcceptOnHitEnter(IExRbVisitor visitor) => AcceptOnHitEnter(visitor);
     void IExRbVisitable.AcceptOnHitStay(IExRbVisitor visitor) => AcceptOnHitStay(visitor);
@@ -116,76 +102,14 @@ public class Tire : AnimObject, IRbVisitable, IExRbVisitable
 }
 
 #region 編集禁止
-public partial interface IRbVisitor : IRbVisitor<Tire>
-{ }
-
 public partial interface IExRbVisitor : IExRbVisitor<Tire>
-{ }
-
-public partial interface IStateRbVisitor<T> : IStateRbVisitor<T, Tire>
 { }
 
 public partial interface IStateExRbVisitor<T> : IStateExRbVisitor<T, Tire>
 { }
 
-public partial interface ISubStateRbVisitor<T, PS> : ISubStateRbVisitor<T, PS, Tire>
-{ }
-
 public partial interface ISubStateExRbVisitor<T, PS> : ISubStateExRbVisitor<T, PS, Tire>
 { }
-
-
-
-public partial class InheritRbState<T, TS, SM, S>
-{
-    virtual protected void OnTriggerEnter(T obj, Tire collision) { }
-    virtual protected void OnTriggerStay(T obj, Tire collision) { }
-    virtual protected void OnTriggerExit(T obj, Tire collision) { }
-
-    virtual protected void OnCollisionEnter(T obj, Tire collision) { }
-    virtual protected void OnCollisionStay(T obj, Tire collision) { }
-    virtual protected void OnCollisionExit(T obj, Tire collision) { }
-
-    void IStateRbVisitor<T, Tire>.OnTriggerEnter(T obj, Tire collision)
-    {
-        OnTriggerEnter(obj, collision);
-        subStateMachine?.OnTriggerEnter(obj, this as TS, collision);
-    }
-
-
-    void IStateRbVisitor<T, Tire>.OnTriggerStay(T obj, Tire collision)
-    {
-        OnTriggerStay(obj, collision);
-        subStateMachine?.OnTriggerStay(obj, this as TS, collision);
-    }
-
-    void IStateRbVisitor<T, Tire>.OnTriggerExit(T obj, Tire collision)
-    {
-        OnTriggerExit(obj, collision);
-        subStateMachine?.OnTriggerExit(obj, this as TS, collision);
-    }
-
-
-    void IStateRbVisitor<T, Tire>.OnCollisionEnter(T obj, Tire collision)
-    {
-        OnCollisionEnter(obj, collision);
-        subStateMachine?.OnCollisionEnter(obj, this as TS, collision);
-    }
-
-    void IStateRbVisitor<T, Tire>.OnCollisionStay(T obj, Tire collision)
-    {
-        OnCollisionStay(obj, collision);
-        subStateMachine?.OnCollisionStay(obj, this as TS, collision);
-    }
-
-    void IStateRbVisitor<T, Tire>.OnCollisionExit(T obj, Tire collision)
-    {
-        OnCollisionExit(obj, collision);
-        subStateMachine?.OnCollisionExit(obj, this as TS, collision);
-    }
-
-}
-
 
 public partial class InheritExRbState<T, TS, SM, S>
 {
@@ -300,55 +224,6 @@ public partial class InheritExRbState<T, TS, SM, S>
     }
 }
 
-
-public partial class InheritRbSubState<T, TS, PS, SM, S>
-{
-    virtual protected void OnTriggerEnter(T obj, PS parent, Tire collision) { }
-    virtual protected void OnTriggerStay(T obj, PS parent, Tire collision) { }
-    virtual protected void OnTriggerExit(T obj, PS parent, Tire collision) { }
-
-    virtual protected void OnCollisionEnter(T obj, PS parent, Tire collision) { }
-    virtual protected void OnCollisionStay(T obj, PS parent, Tire collision) { }
-    virtual protected void OnCollisionExit(T obj, PS parent, Tire collision) { }
-
-    void ISubStateRbVisitor<T, PS, Tire>.OnTriggerEnter(T obj, PS parent, Tire collision)
-    {
-        OnTriggerEnter(obj, parent, collision);
-        subStateMachine?.OnTriggerEnter(obj, this as TS, collision);
-    }
-
-    void ISubStateRbVisitor<T, PS, Tire>.OnTriggerStay(T obj, PS parent, Tire collision)
-    {
-        OnTriggerStay(obj, parent, collision);
-        subStateMachine?.OnTriggerStay(obj, this as TS, collision);
-    }
-
-    void ISubStateRbVisitor<T, PS, Tire>.OnTriggerExit(T obj, PS parent, Tire collision)
-    {
-        OnTriggerExit(obj, parent, collision);
-        subStateMachine?.OnTriggerExit(obj, this as TS, collision);
-    }
-
-    void ISubStateRbVisitor<T, PS, Tire>.OnCollisionEnter(T obj, PS parent, Tire collision)
-    {
-        OnCollisionEnter(obj, parent, collision);
-        subStateMachine?.OnCollisionEnter(obj, this as TS, collision);
-    }
-
-    void ISubStateRbVisitor<T, PS, Tire>.OnCollisionStay(T obj, PS parent, Tire collision)
-    {
-        OnCollisionStay(obj, parent, collision);
-        subStateMachine?.OnCollisionStay(obj, this as TS, collision);
-    }
-
-    void ISubStateRbVisitor<T, PS, Tire>.OnCollisionExit(T obj, PS parent, Tire collision)
-    {
-        OnCollisionExit(obj, parent, collision);
-        subStateMachine?.OnCollisionExit(obj, this as TS, collision);
-    }
-}
-
-
 public partial class InheritExRbSubState<T, TS, PS, SM, S>
 {
     virtual protected void OnHitEnter(T obj, PS parent, Tire collision) { }
@@ -462,16 +337,6 @@ public partial class InheritExRbSubState<T, TS, PS, SM, S>
     }
 }
 
-public partial class InheritRbStateMachine<T, S>
-{
-    public void OnCollisionEnter(T obj, Tire collision) => curState.OnCollisionEnter(obj, collision);
-    public void OnCollisionExit(T obj, Tire collision) => curState.OnCollisionExit(obj, collision);
-    public void OnCollisionStay(T obj, Tire collision) => curState.OnCollisionStay(obj, collision);
-    public void OnTriggerEnter(T obj, Tire collision) => curState.OnTriggerEnter(obj, collision);
-    public void OnTriggerExit(T obj, Tire collision) => curState.OnTriggerEnter(obj, collision);
-    public void OnTriggerStay(T obj, Tire collision) => curState.OnTriggerEnter(obj, collision);
-}
-
 public partial class InheritExRbStateMachine<T, S>
 {
     public void OnHitEnter(T obj, Tire hit) => curState.OnHitEnter(obj, hit);
@@ -489,16 +354,6 @@ public partial class InheritExRbStateMachine<T, S>
     public void OnTopHitExit(T obj, Tire hit) => curState.OnTopHitExit(obj, hit);
     public void OnLeftHitExit(T obj, Tire hit) => curState.OnLeftHitExit(obj, hit);
     public void OnRightHitExit(T obj, Tire hit) => curState.OnRightHitExit(obj, hit);
-}
-
-public partial class InheritRbSubStateMachine<T, PS, S>
-{
-    public void OnCollisionEnter(T obj, PS parent, Tire collision) => curState?.OnCollisionEnter(obj, parent, collision);
-    public void OnCollisionExit(T obj, PS parent, Tire collision) => curState?.OnCollisionExit(obj, parent, collision);
-    public void OnCollisionStay(T obj, PS parent, Tire collision) => curState?.OnCollisionStay(obj, parent, collision);
-    public void OnTriggerEnter(T obj, PS parent, Tire collision) => curState?.OnTriggerEnter(obj, parent, collision);
-    public void OnTriggerExit(T obj, PS parent, Tire collision) => curState?.OnTriggerExit(obj, parent, collision);
-    public void OnTriggerStay(T obj, PS parent, Tire collision) => curState?.OnTriggerStay(obj, parent, collision);
 }
 
 public partial class InheritExRbSubStateMachine<T, PS, S>
@@ -519,6 +374,5 @@ public partial class InheritExRbSubStateMachine<T, PS, S>
     public void OnLeftHitExit(T obj, PS parent, Tire hit) => curState.OnLeftHitExit(obj, parent, hit);
     public void OnRightHitExit(T obj, PS parent, Tire hit) => curState.OnRightHitExit(obj, parent, hit);
 }
-public partial interface IHitInterpreter : IHitInterpreter<Tire> { }
 
 #endregion

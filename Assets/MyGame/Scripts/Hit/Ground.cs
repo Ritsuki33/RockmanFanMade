@@ -317,6 +317,4 @@ public partial class InheritExRbSubStateMachine<T, PS, S>
     public void OnRightHitExit(T obj, PS parent, Ground hit) => curState.OnRightHitExit(obj, parent, hit);
 }
 
-public partial interface IHitInterpreter : IHitInterpreter<Ground> { }
-
 #endregion

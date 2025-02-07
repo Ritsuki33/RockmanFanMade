@@ -12,15 +12,8 @@ public interface IBeltConveyorVelocity
 /// 衝突時の取得コンポーネント
 /// スクリプトテンプレートから自動生成
 /// </summary>
-public class BeltConveyor : PhysicalObject, IRbVisitable, IExRbVisitable
+public class BeltConveyor : PhysicalObject, IExRbVisitable
 {
-    protected virtual void AcceptOnTriggerEnter(IRbVisitor visitor) => visitor.OnTriggerEnter(this);
-    protected virtual void AcceptOnCollisionEnter(IRbVisitor visitor) => visitor.OnCollisionEnter(this);
-    protected virtual void AcceptOnCollisionExit(IRbVisitor visitor) => visitor.OnCollisionExit(this);
-    protected virtual void AcceptOnCollisionStay(IRbVisitor visitor) => visitor.OnCollisionStay(this);
-    protected virtual void AcceptOnTriggerExit(IRbVisitor visitor) => visitor.OnTriggerExit(this);
-    protected virtual void AcceptOnTriggerStay(IRbVisitor visitor) => visitor.OnTriggerStay(this);
-
     protected virtual void AcceptOnHitEnter(IExRbVisitor visitor) => visitor.OnHitEnter(this);
     protected virtual void AcceptOnHitStay(IExRbVisitor visitor) => visitor.OnHitStay(this);
     protected virtual void AcceptOnHitExit(IExRbVisitor visitor) => visitor.OnHitExit(this);
@@ -36,13 +29,6 @@ public class BeltConveyor : PhysicalObject, IRbVisitable, IExRbVisitable
     protected virtual void AcceptOnRightHitEnter(IExRbVisitor visitor) => visitor.OnRightHitEnter(this);
     protected virtual void AcceptOnRightHitStay(IExRbVisitor visitor) => visitor.OnRightHitStay(this);
     protected virtual void AcceptOnRightHitExit(IExRbVisitor visitor) => visitor.OnRightHitExit(this);
-
-    void IRbVisitable.AcceptOnTriggerEnter(IRbVisitor visitor) => AcceptOnTriggerEnter(visitor);
-    void IRbVisitable.AcceptOnCollisionEnter(IRbVisitor visitor) => AcceptOnCollisionEnter(visitor);
-    void IRbVisitable.AcceptOnCollisionExit(IRbVisitor visitor) => AcceptOnCollisionExit(visitor);
-    void IRbVisitable.AcceptOnCollisionStay(IRbVisitor visitor) => AcceptOnCollisionStay(visitor);
-    void IRbVisitable.AcceptOnTriggerExit(IRbVisitor visitor) => AcceptOnTriggerExit(visitor);
-    void IRbVisitable.AcceptOnTriggerStay(IRbVisitor visitor) => AcceptOnTriggerStay(visitor);
 
     void IExRbVisitable.AcceptOnHitEnter(IExRbVisitor visitor) => AcceptOnHitEnter(visitor);
     void IExRbVisitable.AcceptOnHitStay(IExRbVisitor visitor) => AcceptOnHitStay(visitor);
@@ -99,76 +85,14 @@ public class BeltConveyor : PhysicalObject, IRbVisitable, IExRbVisitable
     }
 }
 
-public partial interface IRbVisitor : IRbVisitor<BeltConveyor>
-{ }
-
 public partial interface IExRbVisitor : IExRbVisitor<BeltConveyor>
-{ }
-
-public partial interface IStateRbVisitor<T> : IStateRbVisitor<T, BeltConveyor>
 { }
 
 public partial interface IStateExRbVisitor<T> : IStateExRbVisitor<T, BeltConveyor>
 { }
 
-public partial interface ISubStateRbVisitor<T, PS> : ISubStateRbVisitor<T, PS, BeltConveyor>
-{ }
-
 public partial interface ISubStateExRbVisitor<T, PS> : ISubStateExRbVisitor<T, PS, BeltConveyor>
 { }
-
-
-
-public partial class InheritRbState<T, TS, SM, S>
-{
-    virtual protected void OnTriggerEnter(T obj, BeltConveyor collision) { }
-    virtual protected void OnTriggerStay(T obj, BeltConveyor collision) { }
-    virtual protected void OnTriggerExit(T obj, BeltConveyor collision) { }
-
-    virtual protected void OnCollisionEnter(T obj, BeltConveyor collision) { }
-    virtual protected void OnCollisionStay(T obj, BeltConveyor collision) { }
-    virtual protected void OnCollisionExit(T obj, BeltConveyor collision) { }
-
-    void IStateRbVisitor<T, BeltConveyor>.OnTriggerEnter(T obj, BeltConveyor collision)
-    {
-        OnTriggerEnter(obj, collision);
-        subStateMachine?.OnTriggerEnter(obj, this as TS, collision);
-    }
-
-
-    void IStateRbVisitor<T, BeltConveyor>.OnTriggerStay(T obj, BeltConveyor collision)
-    {
-        OnTriggerStay(obj, collision);
-        subStateMachine?.OnTriggerStay(obj, this as TS, collision);
-    }
-
-    void IStateRbVisitor<T, BeltConveyor>.OnTriggerExit(T obj, BeltConveyor collision)
-    {
-        OnTriggerExit(obj, collision);
-        subStateMachine?.OnTriggerExit(obj, this as TS, collision);
-    }
-
-
-    void IStateRbVisitor<T, BeltConveyor>.OnCollisionEnter(T obj, BeltConveyor collision)
-    {
-        OnCollisionEnter(obj, collision);
-        subStateMachine?.OnCollisionEnter(obj, this as TS, collision);
-    }
-
-    void IStateRbVisitor<T, BeltConveyor>.OnCollisionStay(T obj, BeltConveyor collision)
-    {
-        OnCollisionStay(obj, collision);
-        subStateMachine?.OnCollisionStay(obj, this as TS, collision);
-    }
-
-    void IStateRbVisitor<T, BeltConveyor>.OnCollisionExit(T obj, BeltConveyor collision)
-    {
-        OnCollisionExit(obj, collision);
-        subStateMachine?.OnCollisionExit(obj, this as TS, collision);
-    }
-
-}
-
 
 public partial class InheritExRbState<T, TS, SM, S>
 {
@@ -283,55 +207,6 @@ public partial class InheritExRbState<T, TS, SM, S>
     }
 }
 
-
-public partial class InheritRbSubState<T, TS, PS, SM, S>
-{
-    virtual protected void OnTriggerEnter(T obj, PS parent, BeltConveyor collision) { }
-    virtual protected void OnTriggerStay(T obj, PS parent, BeltConveyor collision) { }
-    virtual protected void OnTriggerExit(T obj, PS parent, BeltConveyor collision) { }
-
-    virtual protected void OnCollisionEnter(T obj, PS parent, BeltConveyor collision) { }
-    virtual protected void OnCollisionStay(T obj, PS parent, BeltConveyor collision) { }
-    virtual protected void OnCollisionExit(T obj, PS parent, BeltConveyor collision) { }
-
-    void ISubStateRbVisitor<T, PS, BeltConveyor>.OnTriggerEnter(T obj, PS parent, BeltConveyor collision)
-    {
-        OnTriggerEnter(obj, parent, collision);
-        subStateMachine?.OnTriggerEnter(obj, this as TS, collision);
-    }
-
-    void ISubStateRbVisitor<T, PS, BeltConveyor>.OnTriggerStay(T obj, PS parent, BeltConveyor collision)
-    {
-        OnTriggerStay(obj, parent, collision);
-        subStateMachine?.OnTriggerStay(obj, this as TS, collision);
-    }
-
-    void ISubStateRbVisitor<T, PS, BeltConveyor>.OnTriggerExit(T obj, PS parent, BeltConveyor collision)
-    {
-        OnTriggerExit(obj, parent, collision);
-        subStateMachine?.OnTriggerExit(obj, this as TS, collision);
-    }
-
-    void ISubStateRbVisitor<T, PS, BeltConveyor>.OnCollisionEnter(T obj, PS parent, BeltConveyor collision)
-    {
-        OnCollisionEnter(obj, parent, collision);
-        subStateMachine?.OnCollisionEnter(obj, this as TS, collision);
-    }
-
-    void ISubStateRbVisitor<T, PS, BeltConveyor>.OnCollisionStay(T obj, PS parent, BeltConveyor collision)
-    {
-        OnCollisionStay(obj, parent, collision);
-        subStateMachine?.OnCollisionStay(obj, this as TS, collision);
-    }
-
-    void ISubStateRbVisitor<T, PS, BeltConveyor>.OnCollisionExit(T obj, PS parent, BeltConveyor collision)
-    {
-        OnCollisionExit(obj, parent, collision);
-        subStateMachine?.OnCollisionExit(obj, this as TS, collision);
-    }
-}
-
-
 public partial class InheritExRbSubState<T, TS, PS, SM, S>
 {
     virtual protected void OnHitEnter(T obj, PS parent, BeltConveyor collision) { }
@@ -445,16 +320,6 @@ public partial class InheritExRbSubState<T, TS, PS, SM, S>
     }
 }
 
-public partial class InheritRbStateMachine<T, S>
-{
-    public void OnCollisionEnter(T obj, BeltConveyor collision) => curState.OnCollisionEnter(obj, collision);
-    public void OnCollisionExit(T obj, BeltConveyor collision) => curState.OnCollisionExit(obj, collision);
-    public void OnCollisionStay(T obj, BeltConveyor collision) => curState.OnCollisionStay(obj, collision);
-    public void OnTriggerEnter(T obj, BeltConveyor collision) => curState.OnTriggerEnter(obj, collision);
-    public void OnTriggerExit(T obj, BeltConveyor collision) => curState.OnTriggerEnter(obj, collision);
-    public void OnTriggerStay(T obj, BeltConveyor collision) => curState.OnTriggerEnter(obj, collision);
-}
-
 public partial class InheritExRbStateMachine<T, S>
 {
     public void OnHitEnter(T obj, BeltConveyor hit) => curState.OnHitEnter(obj, hit);
@@ -472,16 +337,6 @@ public partial class InheritExRbStateMachine<T, S>
     public void OnTopHitExit(T obj, BeltConveyor hit) => curState.OnTopHitExit(obj, hit);
     public void OnLeftHitExit(T obj, BeltConveyor hit) => curState.OnLeftHitExit(obj, hit);
     public void OnRightHitExit(T obj, BeltConveyor hit) => curState.OnRightHitExit(obj, hit);
-}
-
-public partial class InheritRbSubStateMachine<T, PS, S>
-{
-    public void OnCollisionEnter(T obj, PS parent, BeltConveyor collision) => curState?.OnCollisionEnter(obj, parent, collision);
-    public void OnCollisionExit(T obj, PS parent, BeltConveyor collision) => curState?.OnCollisionExit(obj, parent, collision);
-    public void OnCollisionStay(T obj, PS parent, BeltConveyor collision) => curState?.OnCollisionStay(obj, parent, collision);
-    public void OnTriggerEnter(T obj, PS parent, BeltConveyor collision) => curState?.OnTriggerEnter(obj, parent, collision);
-    public void OnTriggerExit(T obj, PS parent, BeltConveyor collision) => curState?.OnTriggerExit(obj, parent, collision);
-    public void OnTriggerStay(T obj, PS parent, BeltConveyor collision) => curState?.OnTriggerStay(obj, parent, collision);
 }
 
 public partial class InheritExRbSubStateMachine<T, PS, S>
@@ -503,4 +358,3 @@ public partial class InheritExRbSubStateMachine<T, PS, S>
     public void OnRightHitExit(T obj, PS parent, BeltConveyor hit) => curState.OnRightHitExit(obj, parent, hit);
 }
 
-public partial interface IHitInterpreter : IHitInterpreter<BeltConveyor> { }

@@ -273,13 +273,3 @@ public partial interface IHitInterpreter<T>
     void OnLeftHitExit(T hit) { }
     void OnRightHitExit(T hit) { }
 }
-
-public partial interface IHitInterpreter : IHitInterpreter<RaycastHit2D>
-{
-    public void OnLeftRightHitEnter(RaycastHit2D leftHit, RaycastHit2D rightHit) { }
-    public void OnBottomTopHitEnter(RaycastHit2D bottomHit, RaycastHit2D topHit) { }
-    public void OnLeftRightHitExit(RaycastHit2D leftHit, RaycastHit2D rightHit) { }
-    public void OnBottomToptHitExit(RaycastHit2D bottomHit, RaycastHit2D topHit) { }
-    public void OnLeftRightHitStay(RaycastHit2D leftHit, RaycastHit2D rightHit) { }
-    public void OnBottomToptHitStay(RaycastHit2D bottomHit, RaycastHit2D topHit) { }
-}

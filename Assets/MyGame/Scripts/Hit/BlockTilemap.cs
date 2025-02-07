@@ -7,16 +7,9 @@ using UnityEngine.Tilemaps;
 /// 衝突時の取得コンポーネント
 /// スクリプトテンプレートから自動生成
 /// </summary>
-public class BlockTilemap : MonoBehaviour, IRbVisitable, IExRbVisitable,IRbVisitor
+public class BlockTilemap : MonoBehaviour, IExRbVisitable,IRbVisitor
 {
     #region 編集禁止
-    protected virtual void AcceptOnTriggerEnter(IRbVisitor visitor) => visitor.OnTriggerEnter(this);
-    protected virtual void AcceptOnCollisionEnter(IRbVisitor visitor) => visitor.OnCollisionEnter(this);
-    protected virtual void AcceptOnCollisionExit(IRbVisitor visitor) => visitor.OnCollisionExit(this);
-    protected virtual void AcceptOnCollisionStay(IRbVisitor visitor) => visitor.OnCollisionStay(this);
-    protected virtual void AcceptOnTriggerExit(IRbVisitor visitor) => visitor.OnTriggerExit(this);
-    protected virtual void AcceptOnTriggerStay(IRbVisitor visitor) => visitor.OnTriggerStay(this);
-
     protected virtual void AcceptOnHitEnter(IExRbVisitor visitor) => visitor.OnHitEnter(this);
     protected virtual void AcceptOnHitStay(IExRbVisitor visitor) => visitor.OnHitStay(this);
     protected virtual void AcceptOnHitExit(IExRbVisitor visitor) => visitor.OnHitExit(this);
@@ -32,13 +25,6 @@ public class BlockTilemap : MonoBehaviour, IRbVisitable, IExRbVisitable,IRbVisit
     protected virtual void AcceptOnRightHitEnter(IExRbVisitor visitor) => visitor.OnRightHitEnter(this);
     protected virtual void AcceptOnRightHitStay(IExRbVisitor visitor) => visitor.OnRightHitStay(this);
     protected virtual void AcceptOnRightHitExit(IExRbVisitor visitor) => visitor.OnRightHitExit(this);
-
-    void IRbVisitable.AcceptOnTriggerEnter(IRbVisitor visitor) => AcceptOnTriggerEnter(visitor);
-    void IRbVisitable.AcceptOnCollisionEnter(IRbVisitor visitor) => AcceptOnCollisionEnter(visitor);
-    void IRbVisitable.AcceptOnCollisionExit(IRbVisitor visitor) => AcceptOnCollisionExit(visitor);
-    void IRbVisitable.AcceptOnCollisionStay(IRbVisitor visitor) => AcceptOnCollisionStay(visitor);
-    void IRbVisitable.AcceptOnTriggerExit(IRbVisitor visitor) => AcceptOnTriggerExit(visitor);
-    void IRbVisitable.AcceptOnTriggerStay(IRbVisitor visitor) => AcceptOnTriggerStay(visitor);
 
     void IExRbVisitable.AcceptOnHitEnter(IExRbVisitor visitor) => AcceptOnHitEnter(visitor);
     void IExRbVisitable.AcceptOnHitStay(IExRbVisitor visitor) => AcceptOnHitStay(visitor);
@@ -110,76 +96,12 @@ public class BlockTilemap : MonoBehaviour, IRbVisitable, IExRbVisitable,IRbVisit
 }
 
 # region 編集禁止
-public partial interface IRbVisitor : IRbVisitor<BlockTilemap>
-{ }
-
 public partial interface IExRbVisitor : IExRbVisitor<BlockTilemap>
 { }
-
-public partial interface IStateRbVisitor<T> : IStateRbVisitor<T, BlockTilemap>
-{ }
-
 public partial interface IStateExRbVisitor<T> : IStateExRbVisitor<T, BlockTilemap>
 { }
-
-public partial interface ISubStateRbVisitor<T, PS> : ISubStateRbVisitor<T, PS, BlockTilemap>
-{ }
-
 public partial interface ISubStateExRbVisitor<T, PS> : ISubStateExRbVisitor<T, PS, BlockTilemap>
 { }
-
-
-
-public partial class InheritRbState<T, TS, SM, S>
-{
-    virtual protected void OnTriggerEnter(T obj, BlockTilemap collision) { }
-    virtual protected void OnTriggerStay(T obj, BlockTilemap collision) { }
-    virtual protected void OnTriggerExit(T obj, BlockTilemap collision) { }
-
-    virtual protected void OnCollisionEnter(T obj, BlockTilemap collision) { }
-    virtual protected void OnCollisionStay(T obj, BlockTilemap collision) { }
-    virtual protected void OnCollisionExit(T obj, BlockTilemap collision) { }
-
-    void IStateRbVisitor<T, BlockTilemap>.OnTriggerEnter(T obj, BlockTilemap collision)
-    {
-        OnTriggerEnter(obj, collision);
-        subStateMachine?.OnTriggerEnter(obj, this as TS, collision);
-    }
-
-
-    void IStateRbVisitor<T, BlockTilemap>.OnTriggerStay(T obj, BlockTilemap collision)
-    {
-        OnTriggerStay(obj, collision);
-        subStateMachine?.OnTriggerStay(obj, this as TS, collision);
-    }
-
-    void IStateRbVisitor<T, BlockTilemap>.OnTriggerExit(T obj, BlockTilemap collision)
-    {
-        OnTriggerExit(obj, collision);
-        subStateMachine?.OnTriggerExit(obj, this as TS, collision);
-    }
-
-
-    void IStateRbVisitor<T, BlockTilemap>.OnCollisionEnter(T obj, BlockTilemap collision)
-    {
-        OnCollisionEnter(obj, collision);
-        subStateMachine?.OnCollisionEnter(obj, this as TS, collision);
-    }
-
-    void IStateRbVisitor<T, BlockTilemap>.OnCollisionStay(T obj, BlockTilemap collision)
-    {
-        OnCollisionStay(obj, collision);
-        subStateMachine?.OnCollisionStay(obj, this as TS, collision);
-    }
-
-    void IStateRbVisitor<T, BlockTilemap>.OnCollisionExit(T obj, BlockTilemap collision)
-    {
-        OnCollisionExit(obj, collision);
-        subStateMachine?.OnCollisionExit(obj, this as TS, collision);
-    }
-
-}
-
 
 public partial class InheritExRbState<T, TS, SM, S>
 {
@@ -294,55 +216,6 @@ public partial class InheritExRbState<T, TS, SM, S>
     }
 }
 
-
-public partial class InheritRbSubState<T, TS, PS, SM, S>
-{
-    virtual protected void OnTriggerEnter(T obj, PS parent, BlockTilemap collision) { }
-    virtual protected void OnTriggerStay(T obj, PS parent, BlockTilemap collision) { }
-    virtual protected void OnTriggerExit(T obj, PS parent, BlockTilemap collision) { }
-
-    virtual protected void OnCollisionEnter(T obj, PS parent, BlockTilemap collision) { }
-    virtual protected void OnCollisionStay(T obj, PS parent, BlockTilemap collision) { }
-    virtual protected void OnCollisionExit(T obj, PS parent, BlockTilemap collision) { }
-
-    void ISubStateRbVisitor<T, PS, BlockTilemap>.OnTriggerEnter(T obj, PS parent, BlockTilemap collision)
-    {
-        OnTriggerEnter(obj, parent, collision);
-        subStateMachine?.OnTriggerEnter(obj, this as TS, collision);
-    }
-
-    void ISubStateRbVisitor<T, PS, BlockTilemap>.OnTriggerStay(T obj, PS parent, BlockTilemap collision)
-    {
-        OnTriggerStay(obj, parent, collision);
-        subStateMachine?.OnTriggerStay(obj, this as TS, collision);
-    }
-
-    void ISubStateRbVisitor<T, PS, BlockTilemap>.OnTriggerExit(T obj, PS parent, BlockTilemap collision)
-    {
-        OnTriggerExit(obj, parent, collision);
-        subStateMachine?.OnTriggerExit(obj, this as TS, collision);
-    }
-
-    void ISubStateRbVisitor<T, PS, BlockTilemap>.OnCollisionEnter(T obj, PS parent, BlockTilemap collision)
-    {
-        OnCollisionEnter(obj, parent, collision);
-        subStateMachine?.OnCollisionEnter(obj, this as TS, collision);
-    }
-
-    void ISubStateRbVisitor<T, PS, BlockTilemap>.OnCollisionStay(T obj, PS parent, BlockTilemap collision)
-    {
-        OnCollisionStay(obj, parent, collision);
-        subStateMachine?.OnCollisionStay(obj, this as TS, collision);
-    }
-
-    void ISubStateRbVisitor<T, PS, BlockTilemap>.OnCollisionExit(T obj, PS parent, BlockTilemap collision)
-    {
-        OnCollisionExit(obj, parent, collision);
-        subStateMachine?.OnCollisionExit(obj, this as TS, collision);
-    }
-}
-
-
 public partial class InheritExRbSubState<T, TS, PS, SM, S>
 {
     virtual protected void OnHitEnter(T obj, PS parent, BlockTilemap collision) { }
@@ -456,16 +329,6 @@ public partial class InheritExRbSubState<T, TS, PS, SM, S>
     }
 }
 
-public partial class InheritRbStateMachine<T, S>
-{
-    public void OnCollisionEnter(T obj, BlockTilemap collision) => curState.OnCollisionEnter(obj, collision);
-    public void OnCollisionExit(T obj, BlockTilemap collision) => curState.OnCollisionExit(obj, collision);
-    public void OnCollisionStay(T obj, BlockTilemap collision) => curState.OnCollisionStay(obj, collision);
-    public void OnTriggerEnter(T obj, BlockTilemap collision) => curState.OnTriggerEnter(obj, collision);
-    public void OnTriggerExit(T obj, BlockTilemap collision) => curState.OnTriggerEnter(obj, collision);
-    public void OnTriggerStay(T obj, BlockTilemap collision) => curState.OnTriggerEnter(obj, collision);
-}
-
 public partial class InheritExRbStateMachine<T, S>
 {
     public void OnHitEnter(T obj, BlockTilemap hit) => curState.OnHitEnter(obj, hit);
@@ -483,16 +346,6 @@ public partial class InheritExRbStateMachine<T, S>
     public void OnTopHitExit(T obj, BlockTilemap hit) => curState.OnTopHitExit(obj, hit);
     public void OnLeftHitExit(T obj, BlockTilemap hit) => curState.OnLeftHitExit(obj, hit);
     public void OnRightHitExit(T obj, BlockTilemap hit) => curState.OnRightHitExit(obj, hit);
-}
-
-public partial class InheritRbSubStateMachine<T, PS, S>
-{
-    public void OnCollisionEnter(T obj, PS parent, BlockTilemap collision) => curState?.OnCollisionEnter(obj, parent, collision);
-    public void OnCollisionExit(T obj, PS parent, BlockTilemap collision) => curState?.OnCollisionExit(obj, parent, collision);
-    public void OnCollisionStay(T obj, PS parent, BlockTilemap collision) => curState?.OnCollisionStay(obj, parent, collision);
-    public void OnTriggerEnter(T obj, PS parent, BlockTilemap collision) => curState?.OnTriggerEnter(obj, parent, collision);
-    public void OnTriggerExit(T obj, PS parent, BlockTilemap collision) => curState?.OnTriggerExit(obj, parent, collision);
-    public void OnTriggerStay(T obj, PS parent, BlockTilemap collision) => curState?.OnTriggerStay(obj, parent, collision);
 }
 
 public partial class InheritExRbSubStateMachine<T, PS, S>
@@ -514,5 +367,4 @@ public partial class InheritExRbSubStateMachine<T, PS, S>
     public void OnRightHitExit(T obj, PS parent, BlockTilemap hit) => curState.OnRightHitExit(obj, parent, hit);
 }
 
-public partial interface IHitInterpreter : IHitInterpreter<BlockTilemap> { }
 #endregion

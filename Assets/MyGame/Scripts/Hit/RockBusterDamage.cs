@@ -441,5 +441,3 @@ public partial class InheritExRbSubStateMachine<T, PS, S>
     public void OnLeftHitExit(T obj, PS parent, RockBusterDamage hit) => curState.OnLeftHitExit(obj, parent, hit);
     public void OnRightHitExit(T obj, PS parent, RockBusterDamage hit) => curState.OnRightHitExit(obj, parent, hit);
 }
-
-public partial interface IHitInterpreter : IHitInterpreter<RockBusterDamage> { }
