@@ -147,6 +147,8 @@ public class GameMainManager : BaseManager<GameMainManager>
         PauseManager.Instance.OnPause(isPause);
         GameMainScreenPresenter.OnOpenPauseUi(isPause);
         worldManager?.OnPause(isPause);
+
+        AudioManager.Instance.OnPause(isPause);
     }
 
 
