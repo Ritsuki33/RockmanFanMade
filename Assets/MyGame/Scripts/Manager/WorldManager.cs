@@ -50,6 +50,7 @@ public class WorldManager : SingletonComponent<WorldManager>
 
         _spawns = spawnRoot.GetComponentsInChildren<ISpawn>()?.ToList();
 
+        AudioManager.Instance.PlayBgm(1);
     }
 
     public void OnReset()
