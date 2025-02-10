@@ -213,6 +213,10 @@ MonoBehaviour:
     acbFile: BGM.acb
     awbFile: BGM.awb
     loaderStatus: 0
+  - name: SE
+    acbFile: SE.acb
+    awbFile: 
+    loaderStatus: 0
   dspBusSetting: 
   dontDestroyOnLoad: 0
   dontRemoveExistsCueSheet: 0

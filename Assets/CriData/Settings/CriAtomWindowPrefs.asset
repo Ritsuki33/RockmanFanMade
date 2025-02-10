@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: CriAtomWindowPrefs
   m_EditorClassIdentifier: 
   searchPath: E:/Repository/RockmanFanMade/Assets/StreamingAssets
-  outputAssetsRoot: 
+  outputAssetsRoot: E:/Documents/CRIWARE/CriAtomCraft/projects/sample/Build/Public/Assets
   showPrivateCue: 0
