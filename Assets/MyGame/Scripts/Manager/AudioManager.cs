@@ -88,12 +88,16 @@ public class AudioManager : SingletonComponent<AudioManager>
 
     public void PlaySystem(int id, Action finishCallback = null)
     {
+        // 再生中のものがあれば止める
+        StopSystem();
+
         var playback = systemSoundSource.Play(id);
 
         if (finishCallback != null) registeredFinishCallbacks.Add(playback, finishCallback);
     }
 
     public void StopBGM() => bgmSoundSource.Stop();
+    public void StopSystem() => systemSoundSource.Stop();
 
     /// <summary>
     /// SEとBGMを一時停止

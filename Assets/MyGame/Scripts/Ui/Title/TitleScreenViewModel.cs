@@ -19,10 +19,12 @@ public class TitleScreenViewModel : BaseViewModel<TitleManager.ScreenType>
     {
         if (data.id == 1)
         {
+            AudioManager.Instance.PlaySystem(SECueIDs.start);
             SceneManager.Instance.ChangeManager(ManagerType.BossSelect);
         }
         else
         {
+            AudioManager.Instance.PlaySystem(SECueIDs.error);
             Debug.Log("まだ実装されていません。");
         }
     }

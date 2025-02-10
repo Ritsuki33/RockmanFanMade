@@ -2,22 +2,31 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class SelectController<T,D> : MonoBehaviour where T: BaseSelect<D>
+public enum InputDirection
+{
+    None,
+    Up,
+    Down,
+    Left,
+    Right
+}
+
+public abstract class SelectController<TSelect,TData> : MonoBehaviour where TSelect: BaseSelect<TData>
 {
     [Header("動的生成用 入力")]
     [SerializeField] Transform selectsRoot = default;
-    [SerializeField] T selectPrefab = default;
+    [SerializeField] TSelect selectPrefab = default;
 
     [Header("静的生成用 入力")]
-    [SerializeField] protected List<T> selects = new List<T>();
+    [SerializeField] protected List<TSelect> selects = new List<TSelect>();
     protected int currentIndex = 0;
     protected int preIndex = 0;
 
     public int CurrentIndex => currentIndex;
 
-    Action<D> selectCallback;
+    Action<TData> selectCallback;
 
-    public virtual void Init(int index, Action<D> selectCallback)
+    public virtual void Init(int index, Action<TData> selectCallback)
     {
         foreach (var item in selects)
         {
@@ -29,13 +38,13 @@ public abstract class SelectController<T,D> : MonoBehaviour where T: BaseSelect<
         this.selectCallback = selectCallback;
     }
 
-    public virtual void Init(D[] data, Action<D> selectCallback)
+    public virtual void Init(TData[] data, Action<TData> selectCallback)
     {
         for (int i = 0; i < data.Length; i++)
         {
-            BaseSelect<D> select = GameObject.Instantiate(selectPrefab, selectsRoot);
+            BaseSelect<TData> select = GameObject.Instantiate(selectPrefab, selectsRoot);
             select.Setup(data[i], Selected);
-            selects.Add((T)select);
+            selects.Add((TSelect)select);
         }
 
         UpdateCursor(currentIndex);
@@ -52,6 +61,7 @@ public abstract class SelectController<T,D> : MonoBehaviour where T: BaseSelect<
 
         selects.Clear();
     }
+
     public void OnDestroy()
     {
         Clear();
@@ -61,7 +71,7 @@ public abstract class SelectController<T,D> : MonoBehaviour where T: BaseSelect<
     /// コントローラー
     /// </summary>
     /// <param name="info"></param>
-    public abstract void InputUpdate(InputInfo info);
+    public abstract void InputUpdate(InputDirection info);
    
     /// <summary>
     /// モデル
@@ -75,11 +85,10 @@ public abstract class SelectController<T,D> : MonoBehaviour where T: BaseSelect<
         DisplayCursor();
     }
 
-    public  void Selected(D data)
+    private void Selected(TData data)
     {
         this.selectCallback.Invoke(data);
     }
-
 
     /// <summary>
     /// ビュー

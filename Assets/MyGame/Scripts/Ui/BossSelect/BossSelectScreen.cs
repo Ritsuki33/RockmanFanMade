@@ -65,14 +65,33 @@ public class BossSelectScreenPresenter : BaseScreenPresenter<BossSelectScreen, B
 
     protected override void InputUpdate(InputInfo info)
     {
-        m_screen.BossSelectController.InputUpdate(info);
+        var dir = GetInputDirection(info);
+        if (dir != InputDirection.None)
+        {
+            m_screen.BossSelectController.InputUpdate(dir);
+            AudioManager.Instance.PlaySystem(SECueIDs.select);
+        }
+        else if (info.decide)
+        {
+            m_screen.BossSelectController.Selected();
+        }
     }
 
     private void Selected(SelectInfo info)
     {
+        AudioManager.Instance.PlaySystem(SECueIDs.start);
         m_screen.Selected();
     }
 
+
+    private InputDirection GetInputDirection(InputInfo info)
+    {
+        if (info.up) return InputDirection.Up;
+        else if (info.down) return InputDirection.Down;
+        else if (info.left) return InputDirection.Left;
+        else if (info.right) return InputDirection.Right;
+        else return InputDirection.None;
+    }
  
 }
 

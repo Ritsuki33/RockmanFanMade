@@ -15,4 +15,6 @@
     public static readonly int teleportout = 13;
     public static readonly int hprecover = 14;
     public static readonly int minishot = 15;
+    public static readonly int start = 16;
+    public static readonly int error = 17;
 }

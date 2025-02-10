@@ -11,33 +11,35 @@ public abstract class GridSelectController<T, D> : SelectController<T, D> where 
     /// コントローラー
     /// </summary>
     /// <param name="info"></param>
-    public override void InputUpdate(InputInfo info)
+    public override void InputUpdate(InputDirection dir)
     {
         int next = currentIndex;
-        if (info.up)
+        switch (dir)
         {
-            next -= ColumnCount;
-        }
-        else if (info.down)
-        {
+            case InputDirection.Up:
+                next -= ColumnCount;
+                break;
+            case InputDirection.Down:
             next += ColumnCount;
-        }
-        else if (info.left)
-        {
+                break;
+            case InputDirection.Left:
             next -= 1;
-        }
-        else if (info.right)
-        {
+                break;
+            case InputDirection.Right:
             next += 1;
+                break;
+            default:
+                break;
         }
+
         if (next != currentIndex && (0 <= next && next < selects.Count))
         {
             UpdateCursor(next);
         }
+    }
 
-        if (info.decide)
-        {
-            selects[currentIndex].Selected();
-        }
+    public void Selected()
+    {
+        selects[currentIndex].Selected();
     }
 }
