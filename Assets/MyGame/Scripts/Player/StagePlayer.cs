@@ -333,10 +333,13 @@ public partial class StagePlayer : PhysicalObject, IDirect, IBeltConveyorVelocit
 
         // ポーズを掛ける
         WorldManager.Instance.OnPause(true);
+        var hpPlayback = AudioManager.Instance.PlaySe(SECueIDs.hprecover);
         GameMainManager.Instance.GameMainScreenPresenter.PlayerHpIncrementAnimation(startParam, hp.Value, Hp, () =>
         {
             WorldManager.Instance.OnPause(false);
             invincible = false;
+
+            hpPlayback.Stop();
         });
     }
 
