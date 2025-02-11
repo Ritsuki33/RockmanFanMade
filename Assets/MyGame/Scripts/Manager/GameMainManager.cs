@@ -124,6 +124,8 @@ public class GameMainManager : BaseManager<GameMainManager>
 
     IEnumerator DeathExecuteCo(Action action)
     {
+
+        AudioManager.Instance.StopBGM();
         yield return new WaitForSeconds(4.0f);
 
         bool isfade = true;

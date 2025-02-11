@@ -8176,11 +8176,11 @@ PrefabInstance:
       objectReference: {fileID: 111051566}
     - target: {fileID: 1026608322413802908, guid: 2d01bd91de6524046b299eda0c554985, type: 3}
       propertyPath: seCueSheetName
-      value: BGM
+      value: SE
       objectReference: {fileID: 0}
     - target: {fileID: 1026608322413802908, guid: 2d01bd91de6524046b299eda0c554985, type: 3}
       propertyPath: bgmCueSheetName
-      value: SE
+      value: BGM
       objectReference: {fileID: 0}
     - target: {fileID: 1026608322413802908, guid: 2d01bd91de6524046b299eda0c554985, type: 3}
       propertyPath: systemCueSheetName

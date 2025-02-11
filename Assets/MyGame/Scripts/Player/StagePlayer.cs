@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CriWare;
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -288,6 +289,8 @@ public partial class StagePlayer : PhysicalObject, IDirect, IBeltConveyorVelocit
         else
         {
             m_mainStateMachine.TransitReady((int)Main_StateID.Damaged);
+
+            AudioManager.Instance.PlaySe(SECueIDs.damage);
         }
     }
 

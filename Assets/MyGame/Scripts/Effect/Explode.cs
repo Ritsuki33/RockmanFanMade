@@ -23,6 +23,11 @@ public class Explode : AnimObject
         boxCollider = GetComponent<BoxCollider2D>();
     }
 
+    protected override void Init()
+    {
+        AudioManager.Instance.PlaySe(SECueIDs.explosion);
+    }
+
     protected override void OnUpdate()
     {
         if (!MainAnimator.IsPlayingCurrentAnimation())

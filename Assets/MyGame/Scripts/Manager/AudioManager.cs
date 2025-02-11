@@ -47,46 +47,50 @@ public class AudioManager : SingletonComponent<AudioManager>
     }
 
     // SE再生
-    public void PlaySe(string cue, Action finishCallback = null)
+    public CriAtomExPlayback PlaySe(string cue, Action finishCallback = null)
     {
-        var playback = seSoundSource.Play(cue);
+        CriAtomExPlayback playback = seSoundSource.Play(cue);
 
         if (finishCallback != null) registeredFinishCallbacks.Add(playback, finishCallback);
+        return playback;
     }
 
-    public void PlaySe(int id, Action finishCallback = null)
+    public CriAtomExPlayback PlaySe(int id, Action finishCallback = null)
     {
-        var playback = seSoundSource.Play(id);
-
+        CriAtomExPlayback playback = seSoundSource.Play(id);
         if (finishCallback != null) registeredFinishCallbacks.Add(playback, finishCallback);
+        return playback;
     }
 
     // BGM再生
-    public void PlayBgm(string cue, bool loop = true, Action finishCallback = null)
+    public CriAtomExPlayback PlayBgm(string cue, bool loop = true, Action finishCallback = null)
     {
         bgmSoundSource.loop = loop;
         var playback = bgmSoundSource.Play(cue);
 
         if (finishCallback != null) registeredFinishCallbacks.Add(playback, finishCallback);
+        return playback;
     }
 
-    public void PlayBgm(int id, bool loop = true, Action finishCallback = null)
+    public CriAtomExPlayback PlayBgm(int id, bool loop = true, Action finishCallback = null)
     {
         bgmSoundSource.loop = loop;
         var playback = bgmSoundSource.Play(id);
 
         if (finishCallback != null) registeredFinishCallbacks.Add(playback, finishCallback);
+        return playback;
     }
 
     // システム音再生
-    public void PlaySystem(string cue, Action finishCallback = null)
+    public CriAtomExPlayback PlaySystem(string cue, Action finishCallback = null)
     {
         var playback = systemSoundSource.Play(cue);
 
         if (finishCallback != null) registeredFinishCallbacks.Add(playback, finishCallback);
+        return playback;
     }
 
-    public void PlaySystem(int id, Action finishCallback = null)
+    public CriAtomExPlayback PlaySystem(int id, Action finishCallback = null)
     {
         // 再生中のものがあれば止める
         StopSystem();
@@ -94,6 +98,7 @@ public class AudioManager : SingletonComponent<AudioManager>
         var playback = systemSoundSource.Play(id);
 
         if (finishCallback != null) registeredFinishCallbacks.Add(playback, finishCallback);
+        return playback;
     }
 
     public void StopBGM() => bgmSoundSource.Stop();

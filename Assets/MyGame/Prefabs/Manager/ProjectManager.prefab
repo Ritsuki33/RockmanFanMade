@@ -233,9 +233,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   audioSources: {fileID: 8603483511570586827}
-  seCueSheetName: CueSheet_0
-  bgmCueSheetName: CueSheet_1
-  systemCueSheetName: CueSheet_1
+  seCueSheetName: SE
+  bgmCueSheetName: BGM
+  systemCueSheetName: SE
 --- !u!1 &3773238838844876143
 GameObject:
   m_ObjectHideFlags: 0

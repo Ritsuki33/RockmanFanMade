@@ -17,4 +17,8 @@
     public static readonly int minishot = 15;
     public static readonly int start = 16;
     public static readonly int error = 17;
+    public static readonly int blockbreak = 18;
+    public static readonly int damage = 19;
+    public static readonly int thiun = 20;
+    public static readonly int boostmini = 21;
 }

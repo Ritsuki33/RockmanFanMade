@@ -41,6 +41,8 @@ public class StageEnemy : PhysicalObject
         {
             DamagedEffect();
             damageVal.DeleteBuster();
+
+            AudioManager.Instance.PlaySe(SECueIDs.athit);
         }
     }
 
