@@ -125,7 +125,7 @@ public class BigDog : StageEnemy,IRbVisitor
                         new Vector3(ctr._mouth.position.x, ctr._mouth.position.y, -1),
                          false,
                          3,
-                         null,
+                         (rb) => { AudioManager.Instance.PlaySe(SECueIDs.boostmini); },
                          (rb) =>
                          {
                              rb.SetVelocty(BezierCurveBeheviorHelper.GetStrobe(rb.transform.position, mouthPos, pointA, pointB, time));
@@ -198,6 +198,8 @@ public class BigDog : StageEnemy,IRbVisitor
             protected override void Enter(BigDog ctr, TailFire parent, int preId, int subId)
             {
                 float gravityScale = 1;
+
+                AudioManager.Instance.PlaySe(SECueIDs.explosion);
 
                 var bom = ObjectManager.Instance.OnGet<Projectile>(PoolType.Bom);
                 bom.Setup(

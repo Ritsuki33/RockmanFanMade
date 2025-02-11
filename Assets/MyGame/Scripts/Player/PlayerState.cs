@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using CriWare;
+using UnityEngine;
 
 public partial class StagePlayer
 {
@@ -292,6 +293,11 @@ public partial class StagePlayer
                     ctr.Dead();
                 }
             }
+        }
+
+        protected override void OnBottomHitEnter(StagePlayer obj, RaycastHit2D collision)
+        {
+            AudioManager.Instance.PlaySe(SECueIDs.tyakuti);
         }
 
         protected override void OnBottomHitStay(StagePlayer player, RaycastHit2D hit)
@@ -606,6 +612,9 @@ public partial class StagePlayer
 
             var deathEffect = ObjectManager.Instance.OnGet<PsObject>(PoolType.PlayerDeathEffect);
             deathEffect.Setup(player.transform.position);
+
+            if (player.chargePlayback.status == CriAtomExPlayback.Status.Playing) player.chargePlayback.Stop();
+            AudioManager.Instance.PlaySe(SECueIDs.thiun);
         }
     }
 
@@ -643,6 +652,7 @@ public partial class StagePlayer
         protected override void Enter(StagePlayer player, int preId, int subId)
         {
             player.MainAnimator.Play(animationHash);
+            AudioManager.Instance.PlaySe(SECueIDs.teleportin);
         }
 
         protected override void Update(StagePlayer player)
@@ -672,6 +682,9 @@ public partial class StagePlayer
             player.MainAnimator.Play(animationHash);
 
             TransitSubReady(0);
+
+            AudioManager.Instance.PlaySe(SECueIDs.teleportout);
+
         }
 
         class Start : ExRbSubState<StagePlayer, Start, Repatriation>

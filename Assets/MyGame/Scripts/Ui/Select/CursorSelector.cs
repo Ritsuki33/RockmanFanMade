@@ -2,19 +2,19 @@
 using TMPro;
 using UnityEngine;
 
-public abstract class BaseSelect<D> : MonoBehaviour
+public abstract class BaseSelect<TData> : MonoBehaviour
 {
-    protected Action<D> selected = default;
-    [SerializeField] protected D data;
+    protected Action<TData> selected = default;
+    [SerializeField] protected TData data;
 
-    public void Setup(Action<D> selected)
+    public void Setup(Action<TData> selected)
     {
         this.selected = selected;
 
         OnSetup(data);
     }
 
-    public void Setup(D data, Action<D> selected)
+    public void Setup(TData data, Action<TData> selected)
     {
         this.data = data;
         this.selected = selected;
@@ -22,7 +22,7 @@ public abstract class BaseSelect<D> : MonoBehaviour
         OnSetup(data);
     }
 
-    protected abstract void OnSetup(D data);
+    protected abstract void OnSetup(TData data);
 
     public void Selected()
     {

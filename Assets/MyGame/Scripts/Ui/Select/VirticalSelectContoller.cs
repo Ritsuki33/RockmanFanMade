@@ -1,33 +1,34 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public abstract class VirticalSelectContoller<T, D> : SelectController<T, D> where T : BaseSelect<D>
+﻿public abstract class VirticalSelectContoller<TSelect, TData> : SelectController<TSelect, TData> where TSelect : BaseSelect<TData>
 {
     /// <summary>
     /// コントローラー
     /// </summary>
     /// <param name="info"></param>
-    public override void InputUpdate(InputInfo info)
+    public override void InputUpdate(InputDirection dir)
     {
         int next= currentIndex;
-        if (info.up)
+
+        switch (dir)
         {
-            next -= 1;
-        }
-        else if (info.down)
-        {
-            next += 1;
+            case InputDirection.Up:
+                next -= 1;
+                break;
+            case InputDirection.Down:
+                next += 1;
+                break;
+            default:
+                break;
         }
 
         if (next != currentIndex && (0 <= next && next < selects.Count))
         {
             UpdateCursor(next);
         }
+    }
 
-        if (info.decide)
-        {
-            selects[currentIndex].Selected();
-        }
+
+    public void Selected()
+    {
+        selects[currentIndex].Selected();
     }
 }

@@ -72,6 +72,7 @@ public class BlockTilemap : MonoBehaviour, IExRbVisitable, IRbVisitor
             effect.transform.position_xy(tileCenter);
             tilemap.SetTile(cellPosition, null);
 
+            AudioManager.Instance.PlaySe(SECueIDs.blockbreak);
             return true;
         }
 

@@ -11,7 +11,23 @@
 
     protected override void InputUpdate(InputInfo info)
     {
-        _screen.Select.InputUpdate(info);
+
+        var dir = GetInputDirection(info);
+        if (dir != InputDirection.None)
+        {
+            _screen.Select.InputUpdate(dir);
+            AudioManager.Instance.PlaySystem(SECueIDs.select);
+        }
+        else if (info.decide)
+        {
+            _screen.Select.Selected();
+        }
     }
 
+    private InputDirection GetInputDirection(InputInfo info)
+    {
+        if (info.up) return InputDirection.Up;
+        else if (info.down) return InputDirection.Down;
+        else return InputDirection.None;
+    }
 }

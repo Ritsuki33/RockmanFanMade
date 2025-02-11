@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CriWare;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -21,6 +22,7 @@ public partial class StagePlayer
 
     float chargeAnimSpeed;
 
+    CriAtomExPlayback chargePlayback = default;
     enum Chage_StateID
     {
         None,
@@ -73,6 +75,8 @@ public partial class StagePlayer
             player.m_charge_animator.Play(animationHash);
             player.LimLightChaging();
             chargeStartTime = 1.0f;
+
+            player.chargePlayback = AudioManager.Instance.PlaySe(SECueIDs.charge);
         }
 
         protected override void Update(StagePlayer player)
@@ -115,6 +119,7 @@ public partial class StagePlayer
         m_charge_animator.gameObject.SetActive(false);
         isLaunchTrigger = false;
         m_chargeStateMachine.TransitReady((int)Chage_StateID.None);
+        if (chargePlayback.status == CriAtomExPlayback.Status.Playing) chargePlayback.Stop();
     }
 
     public void LaunchTrigger(bool trigger, Action callbackAfterLaunch)
@@ -166,20 +171,26 @@ public partial class StagePlayer
             launcher.position, isRight, 1, null, (rb) => rb.velocity = direction * speed
             );
         curMameNum++;
+
+        AudioManager.Instance.PlaySe(SECueIDs.buster);
     }
 
     void LaunchMiddle(bool isRight)
     {
+        if (chargePlayback.status == CriAtomExPlayback.Status.Playing) chargePlayback.Stop();
         Vector2 direction = (isRight) ? Vector2.right : Vector2.left;
         float speed = 16;
         var projectile = ObjectManager.OnGet<Projectile>(PoolType.ChargeShotSmall);
         projectile.Setup(
            launcher.position, isRight, 2, null, (rb) => rb.velocity = direction * speed
            );
+
+        AudioManager.Instance.PlaySe(SECueIDs.buster);
     }
 
     void LaunchBig(bool isRight)
     {
+        if (chargePlayback.status == CriAtomExPlayback.Status.Playing) chargePlayback.Stop();
         Vector2 direction = (isRight) ? Vector2.right : Vector2.left;
         float speed = 24;
 
@@ -187,6 +198,8 @@ public partial class StagePlayer
         projectile.Setup(
            launcher.position, isRight, 3, null, (rb) => rb.velocity = direction * speed
            );
+
+        AudioManager.Instance.PlaySe(SECueIDs.chargeshot);
     }
 
     public void StopRimLight()

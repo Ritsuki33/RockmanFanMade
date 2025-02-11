@@ -124,6 +124,8 @@ public class GameMainManager : BaseManager<GameMainManager>
 
     IEnumerator DeathExecuteCo(Action action)
     {
+
+        AudioManager.Instance.StopBGM();
         yield return new WaitForSeconds(4.0f);
 
         bool isfade = true;
@@ -147,6 +149,8 @@ public class GameMainManager : BaseManager<GameMainManager>
         PauseManager.Instance.OnPause(isPause);
         GameMainScreenPresenter.OnOpenPauseUi(isPause);
         worldManager?.OnPause(isPause);
+
+        AudioManager.Instance.OnPause(isPause);
     }
 
 
@@ -168,5 +172,8 @@ public class GameMainManager : BaseManager<GameMainManager>
     {
         Destroy(worldManager.gameObject);
         worldManager = null;
+
+        AudioManager.Instance.StopBGM();
+        AudioManager.Instance.StopSe();
     }
 }

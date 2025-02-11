@@ -49,7 +49,6 @@ public class WorldManager : SingletonComponent<WorldManager>
         _player = ObjectManager.Instance.OnLoad<StagePlayer>("Prefabs/Player");
 
         _spawns = spawnRoot.GetComponentsInChildren<ISpawn>()?.ToList();
-
     }
 
     public void OnReset()
@@ -111,6 +110,10 @@ public class WorldManager : SingletonComponent<WorldManager>
         });
 
         startAction.StartEvent();
+
+
+        AudioManager.Instance.StopSe();
+        AudioManager.Instance.PlayBgm(BGMCueIDs.StageBGM);
     }
 
     public Vector2 GetPlayerTransferPostion()

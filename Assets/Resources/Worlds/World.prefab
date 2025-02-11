@@ -33683,7 +33683,7 @@ Transform:
   m_GameObject: {fileID: 3866963660743570153}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 2.5, y: 4.1, z: -1.0413888}
+  m_LocalPosition: {x: 3.4, y: 4.1, z: -1.0413888}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -74814,6 +74814,10 @@ MonoBehaviour:
       data:
         delayTime: 0
         actions:
+        - type: 28
+          remarks: 
+          action:
+            rid: 3039216421665505290
         - type: 24
           remarks: 
           action:
@@ -74911,6 +74915,10 @@ MonoBehaviour:
         objs:
         - {fileID: 1543887266324164333}
         isActive: 0
+    - rid: 3039216421665505290
+      type: {class: ActionChainExecuter/PlayBGM, ns: , asm: Assembly-CSharp}
+      data:
+        bgmName: Battle1
     - rid: 6618942727087456259
       type: {class: ActionChainExecuter/SpawnAction, ns: , asm: Assembly-CSharp}
       data:
@@ -74950,6 +74958,10 @@ MonoBehaviour:
       remarks: 
       action:
         rid: 115822631400243279
+    - type: 29
+      remarks: 
+      action:
+        rid: 3039216421665505291
     _next:
       rid: 115822631400243276
   references:
@@ -74994,6 +75006,9 @@ MonoBehaviour:
         actions: []
         _next:
           rid: -2
+    - rid: 3039216421665505291
+      type: {class: ActionChainExecuter/StopBGM, ns: , asm: Assembly-CSharp}
+      data: 
     - rid: 6618942864199778304
       type: {class: ActionChainExecuter/GameStageEnd, ns: , asm: Assembly-CSharp}
       data:

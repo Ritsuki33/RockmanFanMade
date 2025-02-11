@@ -29,6 +29,7 @@ public class ShutterControll : MonoBehaviour
             _animator.enabled = true;
             _animator.Play(animationOpenHash);
 
+            AudioManager.Instance.PlaySe(SECueIDs.shatter);
             while (_animator.IsPlayingCurrentAnimation(animationOpenHash)) yield return null;
 
             boxCollider.enabled = false;
@@ -44,7 +45,7 @@ public class ShutterControll : MonoBehaviour
         IEnumerator ShutterCloseCo()
         {
             _animator.Play(animationCloseHash);
-
+            AudioManager.Instance.PlaySe(SECueIDs.shatter);
             while (_animator.IsPlayingCurrentAnimation(animationCloseHash)) yield return null;
             boxCollider.enabled = true;
 
