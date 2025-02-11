@@ -133,6 +133,7 @@ public class Grenademan : StageBoss, IDirect, IHitEvent, IRbVisitor, IExRbVisito
         var deathEffect = ObjectManager.Instance.OnGet<PsObject>(PoolType.PlayerDeathEffect);
         deathEffect.Setup(this.transform.position);
         this.gameObject.SetActive(false);
+        AudioManager.Instance.PlaySe(SECueIDs.thiun);
     }
 
     class Appearance : ExRbState<Grenademan, Appearance>
@@ -388,6 +389,9 @@ public class Grenademan : StageBoss, IDirect, IHitEvent, IRbVisitor, IExRbVisito
                         }
                         );
                 }
+
+                AudioManager.Instance.PlaySe(SECueIDs.tstrike);
+
             }
         }
 
@@ -456,6 +460,8 @@ public class Grenademan : StageBoss, IDirect, IHitEvent, IRbVisitor, IExRbVisito
                 ctr.MainAnimator.Play(AnimationNameHash.Run);
                 targetPos = WorldManager.Instance.Player.transform.position;
                 prePos = ctr.transform.position;
+
+                AudioManager.Instance.PlaySe(SECueIDs.block);
             }
             protected override void FixedUpdate(Grenademan ctr, Run parent)
             {

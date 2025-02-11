@@ -40,6 +40,8 @@ public class ActionChainExecuter : MonoBehaviour
         PlayerActive,
         PlayerMove,
         GameMainUIChange,
+        PlayBGM,
+        StopBGM,
     }
 
     [Serializable]
@@ -488,6 +490,28 @@ public class ActionChainExecuter : MonoBehaviour
         }
     }
 
+    [Serializable]
+    class PlayBGM : BaseAction
+    {
+        [SerializeField] string bgmName;
+
+        public override void Execute(Action finishCallback)
+        {
+            AudioManager.Instance.PlayBgm(bgmName);
+            finishCallback.Invoke();
+        }
+    }
+
+    [Serializable]
+    class StopBGM : BaseAction
+    {
+        public override void Execute(Action finishCallback)
+        {
+            AudioManager.Instance.StopBGM();
+            finishCallback.Invoke();
+        }
+    }
+
     [SerializeField] Element element;
 
     private void OnValidate()
@@ -673,6 +697,18 @@ public class ActionChainExecuter : MonoBehaviour
                     if (ae.action is not GameMainUIChange)
                     {
                         ae.action = new GameMainUIChange();
+                    }
+                    break;
+                case ActionType.PlayBGM:
+                    if (ae.action is not PlayBGM)
+                    {
+                        ae.action = new PlayBGM();
+                    }
+                    break;
+                case ActionType.StopBGM:
+                    if (ae.action is not StopBGM)
+                    {
+                        ae.action = new StopBGM();
                     }
                     break;
                 default:

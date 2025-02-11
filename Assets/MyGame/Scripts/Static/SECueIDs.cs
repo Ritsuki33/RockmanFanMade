@@ -21,4 +21,5 @@
     public static readonly int damage = 19;
     public static readonly int thiun = 20;
     public static readonly int boostmini = 21;
+    public static readonly int tstrike = 22;
 }

@@ -111,6 +111,8 @@ public class WorldManager : SingletonComponent<WorldManager>
 
         startAction.StartEvent();
 
+
+        AudioManager.Instance.StopSe();
         AudioManager.Instance.PlayBgm(BGMCueIDs.StageBGM);
     }
 

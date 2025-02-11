@@ -101,6 +101,7 @@ public class AudioManager : SingletonComponent<AudioManager>
         return playback;
     }
 
+    public void StopSe() => seSoundSource.Stop();
     public void StopBGM() => bgmSoundSource.Stop();
     public void StopSystem() => systemSoundSource.Stop();
 

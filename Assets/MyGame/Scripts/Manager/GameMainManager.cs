@@ -172,5 +172,8 @@ public class GameMainManager : BaseManager<GameMainManager>
     {
         Destroy(worldManager.gameObject);
         worldManager = null;
+
+        AudioManager.Instance.StopBGM();
+        AudioManager.Instance.StopSe();
     }
 }

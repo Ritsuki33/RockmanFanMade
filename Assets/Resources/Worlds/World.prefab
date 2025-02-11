@@ -33683,7 +33683,7 @@ Transform:
   m_GameObject: {fileID: 3866963660743570153}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 2.5, y: 4.1, z: -1.0413888}
+  m_LocalPosition: {x: 225.4, y: -10.9, z: -1.0413888}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -72212,7 +72212,7 @@ MonoBehaviour:
   startAction: {fileID: 3042793139968518822}
   defaultCheckPoint:
     position: {fileID: 2778216731557678149}
-    virtualCamera: {fileID: 6969944698531743235}
+    virtualCamera: {fileID: 7077015859779081719}
   spawnRoot: {fileID: 3821792001746930927}
 --- !u!114 &3042793139968518822
 MonoBehaviour:
@@ -74105,17 +74105,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 50db6328845417f428e76f577eadc620, type: 3}
---- !u!114 &6969944698531743235 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 5107075163451444145, guid: 50db6328845417f428e76f577eadc620, type: 3}
-  m_PrefabInstance: {fileID: 2766844093175975346}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 45e653bab7fb20e499bda25e1b646fea, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &7579468368048290512 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5713485015685773154, guid: 50db6328845417f428e76f577eadc620, type: 3}
@@ -74814,6 +74803,10 @@ MonoBehaviour:
       data:
         delayTime: 0
         actions:
+        - type: 28
+          remarks: 
+          action:
+            rid: 3039216421665505290
         - type: 24
           remarks: 
           action:
@@ -74911,6 +74904,10 @@ MonoBehaviour:
         objs:
         - {fileID: 1543887266324164333}
         isActive: 0
+    - rid: 3039216421665505290
+      type: {class: ActionChainExecuter/PlayBGM, ns: , asm: Assembly-CSharp}
+      data:
+        bgmName: Battle1
     - rid: 6618942727087456259
       type: {class: ActionChainExecuter/SpawnAction, ns: , asm: Assembly-CSharp}
       data:
@@ -74950,6 +74947,10 @@ MonoBehaviour:
       remarks: 
       action:
         rid: 115822631400243279
+    - type: 29
+      remarks: 
+      action:
+        rid: 3039216421665505291
     _next:
       rid: 115822631400243276
   references:
@@ -74994,6 +74995,9 @@ MonoBehaviour:
         actions: []
         _next:
           rid: -2
+    - rid: 3039216421665505291
+      type: {class: ActionChainExecuter/StopBGM, ns: , asm: Assembly-CSharp}
+      data: 
     - rid: 6618942864199778304
       type: {class: ActionChainExecuter/GameStageEnd, ns: , asm: Assembly-CSharp}
       data:
