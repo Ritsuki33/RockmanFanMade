@@ -33683,7 +33683,7 @@ Transform:
   m_GameObject: {fileID: 3866963660743570153}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 3.4, y: 4.1, z: -1.0413888}
+  m_LocalPosition: {x: 2.9, y: 4.3, z: -1.0413888}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -74919,6 +74919,7 @@ MonoBehaviour:
       type: {class: ActionChainExecuter/PlayBGM, ns: , asm: Assembly-CSharp}
       data:
         bgmName: Battle1
+        waitFinish: 0
     - rid: 6618942727087456259
       type: {class: ActionChainExecuter/SpawnAction, ns: , asm: Assembly-CSharp}
       data:
@@ -75039,6 +75040,7 @@ MonoBehaviour:
       type: {class: ActionChainExecuter/PlayBGM, ns: , asm: Assembly-CSharp}
       data:
         bgmName: victory
+        waitFinish: 1
     - rid: 3039216449573093391
       type: {class: ActionChainExecuter/PlayerInputProhibit, ns: , asm: Assembly-CSharp}
       data: 

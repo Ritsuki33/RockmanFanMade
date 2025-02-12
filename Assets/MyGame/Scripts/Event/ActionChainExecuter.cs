@@ -306,7 +306,8 @@ public class ActionChainExecuter : MonoBehaviour
     {
         override public void Execute(Action finishCallback)
         {
-            WorldManager.Instance.Player.InputProhibit(finishCallback);
+            WorldManager.Instance.Player.InputProhibit(null);
+            finishCallback.Invoke();
         }
     }
 
