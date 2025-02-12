@@ -79,6 +79,7 @@ public class TitleManager : BaseManager<TitleManager>
 
     protected override void Terminate()
     {
+        screenContainer.Close(true);
         screenContainer.Clear();
     }
 }
