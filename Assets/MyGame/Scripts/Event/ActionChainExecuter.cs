@@ -500,11 +500,18 @@ public class ActionChainExecuter : MonoBehaviour
     class PlayBGM : BaseAction
     {
         [SerializeField] string bgmName;
-
+        [SerializeField] bool waitFinish = false;
         public override void Execute(Action finishCallback)
         {
-            AudioManager.Instance.PlayBgm(bgmName);
-            finishCallback.Invoke();
+            if (waitFinish)
+            {
+                AudioManager.Instance.PlayBgm(bgmName, false, finishCallback);
+            }
+            else
+            {
+                AudioManager.Instance.PlayBgm(bgmName);
+                finishCallback.Invoke();
+            }
         }
     }
 
