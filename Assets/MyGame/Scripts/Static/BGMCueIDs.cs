@@ -2,4 +2,6 @@
 {
     public static readonly int Battle1 = 0;
     public static readonly int StageBGM = 1;
+    public static readonly int start8 = 2;
+    public static readonly int victory = 3;
 }
