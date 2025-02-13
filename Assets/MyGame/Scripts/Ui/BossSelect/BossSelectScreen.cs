@@ -63,6 +63,16 @@ public class BossSelectScreenPresenter : BaseScreenPresenter<BossSelectScreen, B
         m_screen.BossSelectController.Init(4, Selected);
     }
 
+    protected override void Open()
+    {
+        AudioManager.Instance.PlayBgm(BGMCueIDs.bossselect);
+    }
+
+    protected override void Hide()
+    {
+        AudioManager.Instance.StopBGM();
+    }
+
     protected override void InputUpdate(InputInfo info)
     {
         var dir = GetInputDirection(info);

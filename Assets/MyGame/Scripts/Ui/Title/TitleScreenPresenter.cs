@@ -27,6 +27,7 @@
         if (dir != InputDirection.None)
         {
             _screen.Select.InputUpdate(dir);
+             AudioManager.Instance.PlaySystem(SECueIDs.select);
         }
         else if (info.decide)
         {

@@ -19,7 +19,7 @@ public class BossIntroScreen : BaseScreen<BossIntroScreen, BossIntroScreenPresen
     protected override IEnumerator OpenCoroutine()
     {
         bool isComplete2 = false;
-        AudioManager.Instance.PlayBgm(BGMCueIDs.start8, false, () => { isComplete2 = true; });
+        AudioManager.Instance.PlayBgm(BGMCueIDs.start8, () => { isComplete2 = true; });
 
         bossAnimator.Play(AnimationNameHash.Pause);
         while (bossAnimator.IsPlayingCurrentAnimation(AnimationNameHash.Pause)) yield return null;

@@ -63,18 +63,16 @@ public class AudioManager : SingletonComponent<AudioManager>
     }
 
     // BGM再生
-    public CriAtomExPlayback PlayBgm(string cue, bool loop = true, Action finishCallback = null)
+    public CriAtomExPlayback PlayBgm(string cue, Action finishCallback = null)
     {
-        bgmSoundSource.loop = loop;
         var playback = bgmSoundSource.Play(cue);
 
         if (finishCallback != null) registeredFinishCallbacks.Add(playback, finishCallback);
         return playback;
     }
 
-    public CriAtomExPlayback PlayBgm(int id, bool loop = true, Action finishCallback = null)
+    public CriAtomExPlayback PlayBgm(int id, Action finishCallback = null)
     {
-        bgmSoundSource.loop = loop;
         var playback = bgmSoundSource.Play(id);
 
         if (finishCallback != null) registeredFinishCallbacks.Add(playback, finishCallback);

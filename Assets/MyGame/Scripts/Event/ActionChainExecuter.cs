@@ -506,7 +506,7 @@ public class ActionChainExecuter : MonoBehaviour
         {
             if (waitFinish)
             {
-                AudioManager.Instance.PlayBgm(bgmName, false, finishCallback);
+                AudioManager.Instance.PlayBgm(bgmName, finishCallback);
             }
             else
             {
