@@ -35,6 +35,9 @@ public interface IScreenPresenter<T> where T : Enum
 {
     public IEnumerator Configure(IScreen<T> screen);
 
+    public void Open();
+    public void Hide();
+
     public void Deinitialize();
 
     public void InputUpdate(InputInfo info);
@@ -123,10 +126,15 @@ public class BaseScreenPresenter<S, SP, VM, T>: IScreenPresenter<T>
     }
     void IScreenPresenter<T>.InputUpdate(InputInfo info) => InputUpdate(info);
     void IScreenPresenter<T>.Deinitialize() => Deinitialize();
+    void IScreenPresenter<T>.Open() => Open();
+    void IScreenPresenter<T>.Hide() => Hide();
 
     protected virtual void Initialize(S screen, VM viewModel) { }
+    protected virtual void Open() { }
+    protected virtual void Hide() { }
     protected virtual void InputUpdate(InputInfo info) { }
     protected virtual void Deinitialize() { }
+
 
 }
 
@@ -237,6 +245,7 @@ public class ScreenContainer<T> where T: Enum
         if (immediately)
         {
             curScreen?.Hide();
+            curScreen?.ScreenPresenter?.Hide();
             curScreen?.Deinitialize();
 
             yield return newScreen.Configure();
@@ -250,10 +259,12 @@ public class ScreenContainer<T> where T: Enum
 
             curScreen = newScreen;
 
+            curScreen?.ScreenPresenter?.Open();
             curScreen.Open();
         }
         else
         {
+            curScreen?.ScreenPresenter?.Hide();
             yield return curScreen?.HideCoroutine();
             curScreen?.Deinitialize();
 
@@ -268,6 +279,7 @@ public class ScreenContainer<T> where T: Enum
 
             curScreen = newScreen;
 
+            curScreen?.ScreenPresenter?.Open();
             yield return curScreen?.OpenCoroutine();
         }
 
@@ -283,6 +295,8 @@ public class ScreenContainer<T> where T: Enum
 
         IEnumerator CloseCo()
         {
+            curScreen?.ScreenPresenter?.Hide();
+
             if (immediately)
             {
                 curScreen?.Hide();

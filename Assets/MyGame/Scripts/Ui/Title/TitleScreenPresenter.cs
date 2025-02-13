@@ -7,6 +7,17 @@
     {
         _screen = screen;
         _model = viewModel;
+
+    }
+
+    protected override void Open()
+    {
+        AudioManager.Instance.PlayBgm(BGMCueIDs.title8);
+    }
+
+    protected override void Hide()
+    {
+        AudioManager.Instance.StopBGM();
     }
 
     protected override void InputUpdate(InputInfo info)
@@ -16,7 +27,7 @@
         if (dir != InputDirection.None)
         {
             _screen.Select.InputUpdate(dir);
-            AudioManager.Instance.PlaySystem(SECueIDs.select);
+             AudioManager.Instance.PlaySystem(SECueIDs.select);
         }
         else if (info.decide)
         {

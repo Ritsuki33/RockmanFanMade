@@ -33683,7 +33683,7 @@ Transform:
   m_GameObject: {fileID: 3866963660743570153}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 3.4, y: 4.1, z: -1.0413888}
+  m_LocalPosition: {x: 3.9, y: 4.8, z: -1.0413888}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -74919,6 +74919,7 @@ MonoBehaviour:
       type: {class: ActionChainExecuter/PlayBGM, ns: , asm: Assembly-CSharp}
       data:
         bgmName: Battle1
+        waitFinish: 0
     - rid: 6618942727087456259
       type: {class: ActionChainExecuter/SpawnAction, ns: , asm: Assembly-CSharp}
       data:
@@ -74954,14 +74955,14 @@ MonoBehaviour:
   element:
     delayTime: 0
     actions:
-    - type: 14
-      remarks: 
-      action:
-        rid: 115822631400243279
     - type: 29
       remarks: 
       action:
-        rid: 3039216421665505291
+        rid: 3039216449573093382
+    - type: 12
+      remarks: 
+      action:
+        rid: 3039216449573093391
     _next:
       rid: 115822631400243276
   references:
@@ -74972,18 +74973,37 @@ MonoBehaviour:
     - rid: 115822631400243276
       type: {class: ActionChainExecuter/Element, ns: , asm: Assembly-CSharp}
       data:
+        delayTime: 3
+        actions:
+        - type: 28
+          remarks: 
+          action:
+            rid: 3039216449573093390
+        _next:
+          rid: 115822631400243281
+    - rid: 115822631400243281
+      type: {class: ActionChainExecuter/Element, ns: , asm: Assembly-CSharp}
+      data:
+        delayTime: 0
+        actions:
+        - type: 14
+          remarks: 
+          action:
+            rid: 3039216449573093387
+        _next:
+          rid: 115822631400243287
+    - rid: 115822631400243287
+      type: {class: ActionChainExecuter/Element, ns: , asm: Assembly-CSharp}
+      data:
         delayTime: 0
         actions:
         - type: 4
           remarks: 
           action:
-            rid: 115822631400243282
+            rid: 3039216449573093386
         _next:
-          rid: 115822631400243281
-    - rid: 115822631400243279
-      type: {class: ActionChainExecuter/PlayerRepatriate, ns: , asm: Assembly-CSharp}
-      data: 
-    - rid: 115822631400243281
+          rid: 3039216449573093377
+    - rid: 3039216449573093377
       type: {class: ActionChainExecuter/Element, ns: , asm: Assembly-CSharp}
       data:
         delayTime: 0
@@ -74991,28 +75011,39 @@ MonoBehaviour:
         - type: 22
           remarks: 
           action:
-            rid: 6618942864199778304
+            rid: 3039216449573093385
         _next:
-          rid: 115822631400243287
-    - rid: 115822631400243282
-      type: {class: ActionChainExecuter/FadeOutScreen, ns: , asm: Assembly-CSharp}
-      data:
-        fadeTime: 0.4
-        color: {r: 0, g: 0, b: 0, a: 1}
-    - rid: 115822631400243287
+          rid: 3039216449573093384
+    - rid: 3039216449573093382
+      type: {class: ActionChainExecuter/StopBGM, ns: , asm: Assembly-CSharp}
+      data: 
+    - rid: 3039216449573093384
       type: {class: ActionChainExecuter/Element, ns: , asm: Assembly-CSharp}
       data:
         delayTime: 0
         actions: []
         _next:
           rid: -2
-    - rid: 3039216421665505291
-      type: {class: ActionChainExecuter/StopBGM, ns: , asm: Assembly-CSharp}
-      data: 
-    - rid: 6618942864199778304
+    - rid: 3039216449573093385
       type: {class: ActionChainExecuter/GameStageEnd, ns: , asm: Assembly-CSharp}
       data:
         type: 0
+    - rid: 3039216449573093386
+      type: {class: ActionChainExecuter/FadeOutScreen, ns: , asm: Assembly-CSharp}
+      data:
+        fadeTime: 0.4
+        color: {r: 0, g: 0, b: 0, a: 1}
+    - rid: 3039216449573093387
+      type: {class: ActionChainExecuter/PlayerRepatriate, ns: , asm: Assembly-CSharp}
+      data: 
+    - rid: 3039216449573093390
+      type: {class: ActionChainExecuter/PlayBGM, ns: , asm: Assembly-CSharp}
+      data:
+        bgmName: victory
+        waitFinish: 1
+    - rid: 3039216449573093391
+      type: {class: ActionChainExecuter/PlayerInputProhibit, ns: , asm: Assembly-CSharp}
+      data: 
 --- !u!114 &6305037950173554580 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3773642662828391238, guid: 50db6328845417f428e76f577eadc620, type: 3}

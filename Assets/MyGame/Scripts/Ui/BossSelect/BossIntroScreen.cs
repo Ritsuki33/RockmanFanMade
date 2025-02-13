@@ -18,13 +18,16 @@ public class BossIntroScreen : BaseScreen<BossIntroScreen, BossIntroScreenPresen
 
     protected override IEnumerator OpenCoroutine()
     {
-        bossAnimator.Play(AnimationNameHash.Pause);
+        bool isComplete2 = false;
+        AudioManager.Instance.PlayBgm(BGMCueIDs.start8, () => { isComplete2 = true; });
 
+        bossAnimator.Play(AnimationNameHash.Pause);
         while (bossAnimator.IsPlayingCurrentAnimation(AnimationNameHash.Pause)) yield return null;
 
         bool isComplete = false;
         letterRevealText.Play(0.1f, () => { isComplete = true; });
-        while (!isComplete) yield return null;
+
+        while (!isComplete|| !isComplete2) yield return null;
 
         SceneManager.Instance.ChangeManager(ManagerType.GameMain);
     }
