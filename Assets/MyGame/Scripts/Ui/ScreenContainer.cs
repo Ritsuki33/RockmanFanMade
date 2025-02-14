@@ -157,7 +157,7 @@ public class ScreenContainer<T> where T: Enum
 
     public void OnUpdate()
     {
-        curScreen.OnUpdate();
+        if (curScreen != null) curScreen.OnUpdate();
     }
 
     public IEnumerator Initialize(T request,bool immediately)
