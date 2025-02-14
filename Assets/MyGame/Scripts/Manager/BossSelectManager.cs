@@ -23,6 +23,7 @@ public class BossSelectManager : BaseManager<BossSelectManager>
 
     protected override void OnUpdate()
     {
+        ScreenContainer.OnUpdate();
     }
 
     protected override void Terminate()

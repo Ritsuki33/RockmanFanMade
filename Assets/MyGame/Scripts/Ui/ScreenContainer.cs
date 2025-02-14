@@ -18,6 +18,7 @@ public interface IScreen<T> where T : Enum
     public void Open();   // 表示
     public void Hide();         // 非表示
 
+    public void OnUpdate();
     public IEnumerator OpenCoroutine(); // 表示
     public IEnumerator HideCoroutine();   // 非表示
 
@@ -69,7 +70,7 @@ public class BaseScreen<S, SP, VM, T> : MonoBehaviour, IScreen<T>
         yield return screenPresenter.Configure(this);
     }
 
-    private void Update()
+    void IScreen<T>.OnUpdate()
     {
         InputInfo inputInfo = default;
         inputInfo.SetInput(InputController);
@@ -81,8 +82,8 @@ public class BaseScreen<S, SP, VM, T> : MonoBehaviour, IScreen<T>
 
     public void TransitScreen(T request, bool immediate) => container.TransitScreen(request, immediate);
 
-    void IScreen<T>.Open() { }
-    void IScreen<T>.Hide() { }
+    void IScreen<T>.Open() => Open();
+    void IScreen<T>.Hide() => Hide();
     IEnumerator IScreen<T>.OpenCoroutine() { yield return OpenCoroutine(); }
     IEnumerator IScreen<T>.HideCoroutine() { yield return HideCoroutine(); }
     void IScreen<T>.SetActive(bool isActive) => gameObject.SetActive(isActive);
@@ -153,6 +154,11 @@ public class ScreenContainer<T> where T: Enum
     IScreen<T> curScreen = default;
 
     Coroutine coroutine = null;
+
+    public void OnUpdate()
+    {
+        curScreen.OnUpdate();
+    }
 
     public IEnumerator Initialize(T request,bool immediately)
     {

@@ -76,6 +76,8 @@ public class GameMainManager : BaseManager<GameMainManager>
 
     protected override void OnUpdate()
     {
+        ScreenContainer.OnUpdate();
+
         InputInfo inputInfo = default;
         inputInfo.SetInput(InputController);
 
