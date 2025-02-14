@@ -23,7 +23,7 @@ public class BossSelectScreen : BaseScreen<BossSelectScreen, BossSelectScreenPre
 
     public void OpenBossIntroScreen()
     {
-        TransitScreen(BossSelectManager.UI.BossIntro, false);
+        TransitScreen(BossSelectManager.UI.BossIntro, true);
     }
 
     public void Selected()
