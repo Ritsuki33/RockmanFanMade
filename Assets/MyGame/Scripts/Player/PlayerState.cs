@@ -343,7 +343,7 @@ public partial class StagePlayer
             {
                 if (time < 0)
                 {
-                    player.m_mainStateMachine.TransitReady((int)SubStateID.Shoot);
+                    parent.TransitSubReady((int)SubStateID.Basic);
                 }
 
                 player.LaunchTrigger(player.inputInfo.fire, () => { time = 0.15f; });
