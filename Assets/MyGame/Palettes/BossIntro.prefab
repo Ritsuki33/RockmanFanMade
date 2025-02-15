@@ -122,6 +122,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   director: {fileID: 187856240597272661}
   bossHolder: {fileID: 3414571438718558530}
+  text: {fileID: 8682847328074756918}
 --- !u!1 &83381013416284316
 GameObject:
   m_ObjectHideFlags: 0
@@ -219,7 +220,13 @@ PlayableDirector:
   - key: {fileID: -839317958266673304, guid: b4ca26e95bcd5d34082a37ffa48e501f, type: 2}
     value: {fileID: 966896258093543376}
   m_ExposedReferences:
-    m_References: []
+    m_References:
+    - 4ae3736104028d9418250ec9bf09e014: {fileID: 8682847328074756918}
+    - 7966a2a4692941f4f85c35c2f3eb21cd: {fileID: 8682847328074756918}
+    - 15b751ad68115ed45b03306845689586: {fileID: 8682847328074756918}
+    - d1a22f607d3bf504b964428e5a1fd1a3: {fileID: 8682847328074756918}
+    - bb64c59c4084082429f5b70bfb8a5da2: {fileID: 8682847328074756918}
+    - 24230b0737325e84386ed7b99a1895cf: {fileID: 8682847328074756918}
 --- !u!1 &3414571438718558530
 GameObject:
   m_ObjectHideFlags: 0

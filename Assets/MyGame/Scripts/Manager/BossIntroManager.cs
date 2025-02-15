@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Playables;
 using UnityEngine.Timeline;
@@ -14,6 +15,7 @@ public class BossIntroManager : MonoBehaviour
     [SerializeField] PlayableDirector director;
     [SerializeField] GameObject bossHolder;
 
+    [SerializeField] TextMeshProUGUI text;
     Action _finishCallback;
 
     Animator model = default;
