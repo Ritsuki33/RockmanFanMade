@@ -72,12 +72,12 @@ public partial class StagePlayer : PhysicalObject, IDirect, IBeltConveyorVelocit
         Jumping,
         ClimbUp,
         ClimbDown,
-        Death,
         Transfer,
         Transfered,
         AutoMove,
         Repatriate,
         Damaged,
+        Death,
     }
 
     protected override void Awake()
@@ -93,12 +93,12 @@ public partial class StagePlayer : PhysicalObject, IDirect, IBeltConveyorVelocit
         m_mainStateMachine.AddState((int)Main_StateID.Jumping, new Jumping());
         m_mainStateMachine.AddState((int)Main_StateID.ClimbUp, new ClimbUp());
         m_mainStateMachine.AddState((int)Main_StateID.ClimbDown, new ClimbDown());
-        m_mainStateMachine.AddState((int)Main_StateID.Death, new Death());
         m_mainStateMachine.AddState((int)Main_StateID.Transfer, new Transfer());
         m_mainStateMachine.AddState((int)Main_StateID.Transfered, new Transfered());
         m_mainStateMachine.AddState((int)Main_StateID.AutoMove, new AutoMove());
         m_mainStateMachine.AddState((int)Main_StateID.Repatriate, new Repatriation());
         m_mainStateMachine.AddState((int)Main_StateID.Damaged, new DamagedState());
+        m_mainStateMachine.AddState((int)Main_StateID.Death, new Death());
 
         boxPhysicalCollider = GetComponent<BoxCollider2D>();
 
