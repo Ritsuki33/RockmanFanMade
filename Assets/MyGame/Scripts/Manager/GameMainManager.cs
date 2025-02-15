@@ -83,7 +83,7 @@ public class GameMainManager : BaseManager<GameMainManager>
 
         if (!isPause)
         {
-            worldManager.Player.UpdateInput(inputInfo);
+            worldManager.Player?.UpdateInput(inputInfo);
             worldManager.OnUpdate();
         }
 

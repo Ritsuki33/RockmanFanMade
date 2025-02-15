@@ -219,7 +219,7 @@ public class CommonStateMachine<T, S> where S : class
 
     public void TransitReady(int id, bool reset = false, int subId = -1)
     {
-        if (states.ContainsKey(id))
+        if (states.ContainsKey(id) && requestId <= id)
         {
             requestId = id;
             requestSubId = subId;

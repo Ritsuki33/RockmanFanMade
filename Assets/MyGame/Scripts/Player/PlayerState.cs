@@ -343,7 +343,7 @@ public partial class StagePlayer
             {
                 if (time < 0)
                 {
-                    player.m_mainStateMachine.TransitReady((int)SubStateID.Shoot);
+                    parent.TransitSubReady((int)SubStateID.Basic);
                 }
 
                 player.LaunchTrigger(player.inputInfo.fire, () => { time = 0.15f; });
@@ -608,8 +608,7 @@ public partial class StagePlayer
     {
         protected override void Enter(StagePlayer player, int preId, int subId)
         {
-            player.gameObject.SetActive(false);
-
+            player.Delete();
             var deathEffect = ObjectManager.Instance.OnGet<PsObject>(PoolType.PlayerDeathEffect);
             deathEffect.Setup(player.transform.position);
 
