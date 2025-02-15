@@ -25,8 +25,11 @@ public class WorldManager : SingletonComponent<WorldManager>
     {
         get
         {
-            if (!_player) Debug.LogError("Playerがロードされていません");
-
+            if (!_player)
+            {
+                Debug.LogError("Player is NULL");
+                _player = null;
+            }
             return _player;
         }
     }

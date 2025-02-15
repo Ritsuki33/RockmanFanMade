@@ -608,8 +608,7 @@ public partial class StagePlayer
     {
         protected override void Enter(StagePlayer player, int preId, int subId)
         {
-            player.gameObject.SetActive(false);
-
+            player.Delete();
             var deathEffect = ObjectManager.Instance.OnGet<PsObject>(PoolType.PlayerDeathEffect);
             deathEffect.Setup(player.transform.position);
 

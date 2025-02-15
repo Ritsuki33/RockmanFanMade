@@ -132,6 +132,8 @@ public partial class StagePlayer : PhysicalObject, IDirect, IBeltConveyorVelocit
     {
         exRb.DeleteCache();
         hp.Dispose();
+
+        ChargeInit();
     }
 
     protected override void OnFixedUpdate()
