@@ -8,28 +8,28 @@ using UnityEngine.Animations;
 /// </summary>
 public class BossIntroScreen : BaseScreen<BossIntroScreen, BossIntroScreenPresenter, BossIntroScreenViewModel, BossSelectManager.UI>
 {
-    [SerializeField] Animator bossAnimator = default;
-    [SerializeField] LetterRevealText letterRevealText = default;
+    //[SerializeField] Animator bossAnimator = default;
+    //[SerializeField] LetterRevealText letterRevealText = default;
+
+    [SerializeField] BossIntroManager bossIntro;
 
     protected override void Initialize(BossIntroScreenViewModel viewModel)
     {
-        letterRevealText.Init();
+        //letterRevealText.Init();
     }
 
-    protected override IEnumerator OpenCoroutine()
+    protected override void Open()
     {
-        bool isComplete2 = false;
-        AudioManager.Instance.PlayBgm(BGMCueIDs.start8, () => { isComplete2 = true; });
+        bossIntro.Play("Grenademan", () =>
+        {
+            BossSelectManager.Instance.TransitToGameMain();
+        });
+    }
 
-        bossAnimator.Play(AnimationNameHash.Pause);
-        while (bossAnimator.IsPlayingCurrentAnimation(AnimationNameHash.Pause)) yield return null;
-
-        bool isComplete = false;
-        letterRevealText.Play(0.1f, () => { isComplete = true; });
-
-        while (!isComplete|| !isComplete2) yield return null;
-
-        SceneManager.Instance.ChangeManager(ManagerType.GameMain);
+    protected override void Hide()
+    {
+        FadeInManager.Instance.FadeOutImmediate();
+        bossIntro.Terminate();
     }
 
     protected override IEnumerator HideCoroutine()

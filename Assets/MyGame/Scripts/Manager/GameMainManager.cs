@@ -76,6 +76,8 @@ public class GameMainManager : BaseManager<GameMainManager>
 
     protected override void OnUpdate()
     {
+        ScreenContainer.OnUpdate();
+
         InputInfo inputInfo = default;
         inputInfo.SetInput(InputController);
 
@@ -103,7 +105,7 @@ public class GameMainManager : BaseManager<GameMainManager>
 
         IEnumerator RestartCo()
         {
-            screenContainer.Close(true);
+            screenContainer.Close(true, null);
             MainCameraControll.OnReset();
             worldManager.OnReset();
 

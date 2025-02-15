@@ -20,7 +20,7 @@ public class TitleScreenViewModel : BaseViewModel<TitleManager.ScreenType>
         if (data.id == 1)
         {
             AudioManager.Instance.PlaySystem(SECueIDs.start);
-            SceneManager.Instance.ChangeManager(ManagerType.BossSelect);
+            TitleManager.Instance.TransitToBossSelect();
         }
         else
         {

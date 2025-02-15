@@ -18,15 +18,24 @@ public class BossSelectManager : BaseManager<BossSelectManager>
         screenContainer.Add(UI.BossSelect, m_bossSelectScreen);
         screenContainer.Add(UI.BossIntro, m_bossIntroScreen);
 
-        screenContainer.TransitScreen(UI.BossSelect, false);
+        screenContainer.TransitScreen(UI.BossSelect, true);
     }
 
     protected override void OnUpdate()
     {
+        ScreenContainer.OnUpdate();
     }
 
     protected override void Terminate()
     {
         screenContainer.Clear();
+    }
+
+    public void TransitToGameMain()
+    {
+        screenContainer.Close(true, () =>
+        {
+            SceneManager.Instance.ChangeManager(ManagerType.GameMain);
+        });
     }
 }
