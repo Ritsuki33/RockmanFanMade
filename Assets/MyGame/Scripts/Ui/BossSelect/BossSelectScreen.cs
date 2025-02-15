@@ -26,6 +26,11 @@ public class BossSelectScreen : BaseScreen<BossSelectScreen, BossSelectScreenPre
         TransitScreen(BossSelectManager.UI.BossIntro, true);
     }
 
+    protected override void Open()
+    {
+        FadeInManager.Instance.FadeInImmediate();
+    }
+
     public void Selected()
     {
         StartCoroutine(FlashEffectCo());

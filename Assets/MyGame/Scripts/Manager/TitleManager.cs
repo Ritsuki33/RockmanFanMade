@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Unity.VisualScripting;
+using UnityEngine;
 
 public class TitleManager : BaseManager<TitleManager>
 {
@@ -27,7 +28,14 @@ public class TitleManager : BaseManager<TitleManager>
 
     protected override void Terminate()
     {
-        screenContainer.Close(true);
         screenContainer.Clear();
+    }
+
+    public void TransitToBossSelect()
+    {
+        screenContainer.Close(true, () =>
+        {
+            SceneManager.Instance.ChangeManager(ManagerType.BossSelect);
+        });
     }
 }

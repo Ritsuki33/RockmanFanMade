@@ -292,7 +292,7 @@ public class ScreenContainer<T> where T: Enum
         coroutine = null;
     }
 
-    public void Close(bool immediately)
+    public void Close(bool immediately, Action closeCallback)
     {
         if (coroutine == null)
         {
@@ -317,6 +317,8 @@ public class ScreenContainer<T> where T: Enum
             coroutine = null;
 
             curScreen = null;
+
+            closeCallback?.Invoke();
         }
     }
 }

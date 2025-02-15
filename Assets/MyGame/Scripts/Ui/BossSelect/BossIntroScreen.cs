@@ -18,33 +18,17 @@ public class BossIntroScreen : BaseScreen<BossIntroScreen, BossIntroScreenPresen
         //letterRevealText.Init();
     }
 
-    //protected override IEnumerator OpenCoroutine()
-    //{
-
-    //    bool isComplete2 = false;
-    //    AudioManager.Instance.PlayBgm(BGMCueIDs.start8, () => { isComplete2 = true; });
-
-    //    bossAnimator.Play(AnimationNameHash.Pause);
-    //    while (bossAnimator.IsPlayingCurrentAnimation(AnimationNameHash.Pause)) yield return null;
-
-    //    bool isComplete = false;
-    //    letterRevealText.Play(0.1f, () => { isComplete = true; });
-
-    //    while (!isComplete || !isComplete2) yield return null;
-    //    yield return null;
-    //    SceneManager.Instance.ChangeManager(ManagerType.GameMain);
-    //}
-
     protected override void Open()
     {
         bossIntro.Play("Grenademan", () =>
         {
-            SceneManager.Instance.ChangeManager(ManagerType.GameMain);
+            BossSelectManager.Instance.TransitToGameMain();
         });
     }
 
     protected override void Hide()
     {
+        FadeInManager.Instance.FadeOutImmediate();
         bossIntro.Terminate();
     }
 

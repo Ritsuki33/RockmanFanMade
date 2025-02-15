@@ -105,7 +105,7 @@ public class GameMainManager : BaseManager<GameMainManager>
 
         IEnumerator RestartCo()
         {
-            screenContainer.Close(true);
+            screenContainer.Close(true, null);
             MainCameraControll.OnReset();
             worldManager.OnReset();
 
