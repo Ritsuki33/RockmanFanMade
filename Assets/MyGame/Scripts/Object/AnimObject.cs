@@ -29,6 +29,11 @@ public class AnimObject : BaseObject
         if (m_mainAnimator != null) _mainMaterial = m_mainAnimator.gameObject.GetComponent<Renderer>().material;
     }
 
+    public void SetAnimSpeed(float speed)
+    {
+        m_mainAnimator.speed = animSpeed = speed;
+    }
+
     protected override void Init()
     {
         if (m_mainAnimator != null) m_mainAnimator.speed = animSpeed;

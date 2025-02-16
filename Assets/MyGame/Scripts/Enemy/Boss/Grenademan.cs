@@ -132,7 +132,8 @@ public class Grenademan : StageBoss, IDirect, IHitEvent, IRbVisitor, IExRbVisito
     {
         var deathEffect = ObjectManager.Instance.OnGet<PsObject>(PoolType.PlayerDeathEffect);
         deathEffect.Setup(this.transform.position);
-        this.gameObject.SetActive(false);
+
+        Delete();
         AudioManager.Instance.PlaySe(SECueIDs.thiun);
     }
 
