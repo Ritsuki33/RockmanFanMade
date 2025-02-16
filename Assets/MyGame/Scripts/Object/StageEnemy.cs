@@ -54,7 +54,6 @@ public class StageEnemy : PhysicalObject
     {
         OnDead();
 
-        Delete();
         defeatEvent?.Invoke();
         EventTriggerManager.Instance.Notify(EnemyEventType.Defeated, this);
     }
@@ -63,6 +62,9 @@ public class StageEnemy : PhysicalObject
     {
         var explode=ObjectManager.Instance.OnGet<Explode>(PoolType.Explode);
         explode.Setup(Explode.Layer.None, this.transform.position, 0);
+
+        Delete();
+       
     }
 
     /// <summary>

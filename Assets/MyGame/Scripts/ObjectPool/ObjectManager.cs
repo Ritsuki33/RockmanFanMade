@@ -27,6 +27,7 @@ public enum PoolType
     Recovery,
     Recovery_Big,
     BlockBreakEffect,
+    ExplodeParticleSystem,
 }
 
 public class ObjectManager : SingletonComponent<ObjectManager>

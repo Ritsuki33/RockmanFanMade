@@ -1,12 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UIElements;
 
 public class BigDog : StageEnemy,IRbVisitor
 {
     [SerializeField] Transform _mouth;
-
+    [SerializeField] BoxCollider2D _boxPhysicalCollider;
     [Header("しっぽ攻撃")]
     [SerializeField] Transform _tale;
 
@@ -22,6 +24,7 @@ public class BigDog : StageEnemy,IRbVisitor
         Idle,
         Fire,
         TailFire,
+        Death,
     }
 
     RbStateMachine<BigDog> stateMachine=new RbStateMachine<BigDog>();
@@ -32,6 +35,7 @@ public class BigDog : StageEnemy,IRbVisitor
         stateMachine.AddState((int)StateId.Idle, new Idle());
         stateMachine.AddState((int)StateId.Fire, new Fire());
         stateMachine.AddState((int)StateId.TailFire, new TailFire());
+        stateMachine.AddState((int)StateId.Death, new Death());
 
         rbCollide.CacheClear();
     }
@@ -39,6 +43,7 @@ public class BigDog : StageEnemy,IRbVisitor
     protected override void Init()
     {
         base.Init();
+        _boxPhysicalCollider.enabled = true;
         stateMachine.TransitReady((int)StateId.Idle);
     }
 
@@ -50,6 +55,11 @@ public class BigDog : StageEnemy,IRbVisitor
     protected override void OnUpdate()
     {
         stateMachine.Update(this);
+    }
+
+    public override void OnDead()
+    {
+        stateMachine.TransitReady((int)StateId.Death);
     }
 
     void IRbVisitor<RockBusterDamage>.OnTriggerEnter(RockBusterDamage damage)
@@ -255,6 +265,21 @@ public class BigDog : StageEnemy,IRbVisitor
         protected override void OnTriggerEnter(BigDog ctr, RockBusterDamage collision)
         {
             ctr.Damaged(collision);
+        }
+    }
+
+    class Death : RbState<BigDog, Death>
+    {
+        protected override void Enter(BigDog ctr, int preId, int subId)
+        {
+            ctr.SetAnimSpeed(0);
+            ctr._boxPhysicalCollider.enabled = false;
+            var effect = ObjectManager.Instance.OnGet<ExplodeParticleSystem>(PoolType.ExplodeParticleSystem);
+            effect.transform.position = new Vector3(ctr.transform.position.x, ctr.transform.position.y, -1) + (Vector3)ctr._boxPhysicalCollider.offset;
+            effect.Play(ctr._boxPhysicalCollider.size, 3, 7, () =>
+            {
+                ctr.Delete();
+            });
         }
     }
 }
