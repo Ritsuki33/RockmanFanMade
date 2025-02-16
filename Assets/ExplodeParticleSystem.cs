@@ -7,6 +7,12 @@ public class ExplodeParticleSystem : PsObject
 {
     private Coroutine coroutine = null;
 
+
+    protected override void Init()
+    {
+        base.Init();
+        EventTriggerManager.Instance.VoidEventTriggers.Subscribe(EventType.ChangeCameraStart, Delete);
+    }
     /// <summary>
     /// 爆発パーティクルシステムの実行
     /// </summary>
@@ -49,5 +55,6 @@ public class ExplodeParticleSystem : PsObject
     protected override void Destroy()
     {
         if (coroutine != null) StopCoroutine(coroutine);
+        EventTriggerManager.Instance.VoidEventTriggers.Unsubscribe(EventType.ChangeCameraStart, Delete);
     }
 }
