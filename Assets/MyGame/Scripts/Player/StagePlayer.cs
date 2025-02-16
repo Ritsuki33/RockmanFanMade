@@ -14,7 +14,7 @@ public partial class StagePlayer : PhysicalObject, IDirect, IBeltConveyorVelocit
     [SerializeField] Move move;
     [SerializeField] Jump jump;
     [SerializeField] Direct direct;
-
+    [SerializeField] CameraBoundLimiter cameraBoundLimiter;
     ExRbStateMachine<StagePlayer> m_mainStateMachine = new ExRbStateMachine<StagePlayer>();
     StateMachine<StagePlayer> m_chargeStateMachine = new StateMachine<StagePlayer>();
 
@@ -156,6 +156,11 @@ public partial class StagePlayer : PhysicalObject, IDirect, IBeltConveyorVelocit
     {
         m_mainStateMachine.Update(this);
         m_chargeStateMachine.Update(this);
+    }
+
+    protected override void OnLateUpdate()
+    {
+        cameraBoundLimiter.ForceAdjustPosition(boxPhysicalCollider);
     }
 
     protected override void OnPause(bool isPause)
