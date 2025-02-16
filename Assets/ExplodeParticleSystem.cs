@@ -42,7 +42,6 @@ public class ExplodeParticleSystem : PsObject
                 yield return PauseManager.Instance.PausableWaitForSeconds(emitPerSecond);
 
                 curTime += Time.deltaTime + emitPerSecond;
-                Debug.Log(curTime);
             }
 
             callback?.Invoke();
