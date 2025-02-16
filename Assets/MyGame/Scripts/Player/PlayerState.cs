@@ -38,6 +38,15 @@ public partial class StagePlayer
 
         protected override void Update(StagePlayer player)
         {
+            if (GameMainManager.Instance.MainCameraControll.CheckOutOfView(player.gameObject, out MainCameraControll.OutOfViewType outOfViewType))
+            {
+                if (outOfViewType == MainCameraControll.OutOfViewType.Bottom)
+                {
+                    player.Dead();
+                    return;
+                }
+            }
+
             if (player.inputInfo.left)
             {
                 player.m_mainStateMachine.TransitReady((int)Main_StateID.Running);
@@ -171,6 +180,15 @@ public partial class StagePlayer
 
         protected override void Update(StagePlayer player)
         {
+            if (GameMainManager.Instance.MainCameraControll.CheckOutOfView(player.gameObject, out MainCameraControll.OutOfViewType outOfViewType))
+            {
+                if (outOfViewType == MainCameraControll.OutOfViewType.Bottom)
+                {
+                    player.Dead();
+                    return;
+                }
+            }
+
             if (!player.inputInfo.left && !player.inputInfo.right)
             {
                 player.m_mainStateMachine.TransitReady((int)Main_StateID.Standing);
@@ -313,12 +331,9 @@ public partial class StagePlayer
 
         class Basic : ExRbSubState<StagePlayer, Basic, Floating>
         {
-            int animationHash = 0;
-            public Basic() { animationHash = Animator.StringToHash("Float"); }
-
             protected override void Enter(StagePlayer player, Floating parent, int preId, int subId)
             {
-                player.MainAnimator.Play(animationHash);
+                player.MainAnimator.Play(AnimationNameHash.Float);
             }
 
             protected override void Update(StagePlayer player, Floating parent)
@@ -511,6 +526,14 @@ public partial class StagePlayer
 
         protected override void Update(StagePlayer player)
         {
+            if (GameMainManager.Instance.MainCameraControll.CheckOutOfView(player.gameObject, out MainCameraControll.OutOfViewType outOfViewType))
+            {
+                if (outOfViewType == MainCameraControll.OutOfViewType.Bottom)
+                {
+                    player.Dead();
+                    return;
+                }
+            }
 
             if (player.bodyLadder == null)
             {
@@ -628,6 +651,17 @@ public partial class StagePlayer
             player.MainAnimator.Play(animationHash);
         }
 
+        protected override void Update(StagePlayer ctr)
+        {
+            if (GameMainManager.Instance.MainCameraControll.CheckOutOfView(ctr.gameObject, out MainCameraControll.OutOfViewType outOfViewType))
+            {
+                if (outOfViewType == MainCameraControll.OutOfViewType.Bottom)
+                {
+                    ctr.Dead();
+                }
+            }
+        }
+
         protected override void FixedUpdate(StagePlayer player)
         {
             player.exRb.velocity = Vector2.down * 26;
@@ -645,18 +679,15 @@ public partial class StagePlayer
 
     class Transfered : ExRbState<StagePlayer, Transfered>
     {
-        int animationHash = 0;
-        public Transfered() { animationHash = Animator.StringToHash("Transfered"); }
-
         protected override void Enter(StagePlayer player, int preId, int subId)
         {
-            player.MainAnimator.Play(animationHash);
+            player.MainAnimator.Play(AnimationNameHash.Transfered);
             AudioManager.Instance.PlaySe(SECueIDs.teleportin);
         }
 
         protected override void Update(StagePlayer player)
         {
-            if (!player.MainAnimator.IsPlayingCurrentAnimation(animationHash))
+            if (!player.MainAnimator.IsPlayingCurrentAnimation(AnimationNameHash.Transfered))
             {
                 player.m_mainStateMachine.TransitReady((int)(Main_StateID.Standing));
                 player.ActionFinishNotify();
@@ -666,19 +697,16 @@ public partial class StagePlayer
 
     class Repatriation : ExRbState<StagePlayer, Repatriation>
     {
-        int animationHash = 0;
         public Repatriation()
         {
-            animationHash = Animator.StringToHash("Repatriation");
             AddSubState(0, new Start());
             AddSubState(1, new Rise());
-
         }
 
         protected override void Enter(StagePlayer player, int preId, int subId)
         {
             player.boxPhysicalCollider.enabled = false;
-            player.MainAnimator.Play(animationHash);
+            player.MainAnimator.Play(AnimationNameHash.Repatriation);
 
             TransitSubReady(0);
 
@@ -690,7 +718,7 @@ public partial class StagePlayer
         {
             protected override void Update(StagePlayer player, Repatriation parent)
             {
-                if (!player.MainAnimator.IsPlayingCurrentAnimation(parent.animationHash))
+                if (!player.MainAnimator.IsPlayingCurrentAnimation(AnimationNameHash.Repatriation))
                 {
                     parent.TransitSubReady(1);
                 }
@@ -730,6 +758,7 @@ public partial class StagePlayer
             AddSubState((int)SubStateId.Run, new Run());
             AddSubState((int)SubStateId.Wait, new Wait());
         }
+
         protected override void Enter(StagePlayer player, int preId, int subId)
         {
             player.bottomHit = default;
@@ -762,12 +791,11 @@ public partial class StagePlayer
 
         class Float : ExRbSubState<StagePlayer, Float, AutoMove>
         {
-            int animationHash = Animator.StringToHash("Float");
             bool isWait = false;
 
             protected override void Enter(StagePlayer player, AutoMove parent, int preId, int subId)
             {
-                player.MainAnimator.Play(animationHash);
+                player.MainAnimator.Play(AnimationNameHash.Float);
                 if (preId == (int)SubStateId.Wait)
                 {
                     isWait = true;
@@ -790,7 +818,6 @@ public partial class StagePlayer
         class Run : ExRbSubState<StagePlayer, Run, AutoMove>
         {
             float bamili_x; // x軸だけ利用
-            int animationHash = Animator.StringToHash("Run");
 
             float preViousX = 0;
 
@@ -802,7 +829,7 @@ public partial class StagePlayer
                 }
                 preViousX = player.transform.position.x;
 
-                player.MainAnimator.Play(animationHash);
+                player.MainAnimator.Play(AnimationNameHash.Run);
             }
 
             protected override void OnBottomHitStay(StagePlayer player, AutoMove parent, RaycastHit2D hit)
@@ -856,8 +883,6 @@ public partial class StagePlayer
 
         class Wait : ExRbSubState<StagePlayer, Wait, AutoMove>
         {
-            int animationHash = Animator.StringToHash("Idle");
-
             protected override void Enter(StagePlayer player, AutoMove parent, int preId, int subId)
             {
                 // 通知する
@@ -865,7 +890,7 @@ public partial class StagePlayer
 
                 player.bamili = null;
 
-                player.MainAnimator.Play(animationHash);
+                player.MainAnimator.Play(AnimationNameHash.Idle);
             }
 
             protected override void OnBottomHitExit(StagePlayer player, AutoMove parent, RaycastHit2D hit)
@@ -874,13 +899,12 @@ public partial class StagePlayer
             }
         }
     }
+
     class DamagedState : ExRbState<StagePlayer, DamagedState>
     {
-        int animationHash = Animator.StringToHash("Damaged");
-
         protected override void Enter(StagePlayer player, int preId, int subId)
         {
-            player.MainAnimator.Play(animationHash);
+            player.MainAnimator.Play(AnimationNameHash.Damaged);
             player.timer.Start(0.6f, 0.6f);
         }
 
@@ -900,6 +924,15 @@ public partial class StagePlayer
         protected override void Exit(StagePlayer player, int nextId)
         {
             player.InvincibleState();
+        }
+    }
+
+
+    class WarpIn : ExRbState<StagePlayer, WarpIn>
+    {
+        protected override void Enter(StagePlayer player, int preId, int subId)
+        {
+            player.MainAnimator.Play(AnimationNameHash.Repatriation);
         }
     }
 }
