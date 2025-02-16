@@ -932,7 +932,47 @@ public partial class StagePlayer
     {
         protected override void Enter(StagePlayer player, int preId, int subId)
         {
+            player.MainAnimator.Play(AnimationNameHash.Transfered);
+            AudioManager.Instance.PlaySe(SECueIDs.teleportin);
+        }
+
+        protected override void Update(StagePlayer player)
+        {
+            if (!player.MainAnimator.IsPlayingCurrentAnimation(AnimationNameHash.Transfered))
+            {
+                player.m_mainStateMachine.TransitReady((int)Main_StateID.Standing);
+            }
+        }
+    }
+
+    class Warping : ExRbState<StagePlayer, WarpOut>
+    {
+        protected override void Enter(StagePlayer player, int preId, int subId)
+        {
+            player.actionFinishCallback.Invoke();
+            player.gameObject.SetActive(false);
+        }
+
+        protected override void Exit(StagePlayer player, int nextId)
+        {
+            player.gameObject.SetActive(true);
+        }
+    }
+
+    class WarpOut : ExRbState<StagePlayer, WarpOut>
+    {
+        protected override void Enter(StagePlayer player, int preId, int subId)
+        {
             player.MainAnimator.Play(AnimationNameHash.Repatriation);
+            AudioManager.Instance.PlaySe(SECueIDs.teleportout);
+        }
+
+        protected override void Update(StagePlayer player)
+        {
+            if (!player.MainAnimator.IsPlayingCurrentAnimation(AnimationNameHash.Repatriation))
+            {
+                player.m_mainStateMachine.TransitReady((int)Main_StateID.Warping);
+            }
         }
     }
 }
