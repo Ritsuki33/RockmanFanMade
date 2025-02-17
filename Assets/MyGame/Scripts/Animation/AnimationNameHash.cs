@@ -14,4 +14,7 @@ static public class AnimationNameHash
     static public int Fire = Animator.StringToHash("Fire");
     static public int Shoot = Animator.StringToHash("Shoot");
     static public int Shooting = Animator.StringToHash("Shooting");
+    static public int Repatriation = Animator.StringToHash("Repatriation");
+    static public int Transfered = Animator.StringToHash("Transfered");
+    static public int Damaged = Animator.StringToHash("Damaged");
 }

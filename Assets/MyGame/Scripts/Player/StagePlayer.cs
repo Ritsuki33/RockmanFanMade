@@ -14,7 +14,7 @@ public partial class StagePlayer : PhysicalObject, IDirect, IBeltConveyorVelocit
     [SerializeField] Move move;
     [SerializeField] Jump jump;
     [SerializeField] Direct direct;
-
+    [SerializeField] CameraBoundLimiter cameraBoundLimiter;
     ExRbStateMachine<StagePlayer> m_mainStateMachine = new ExRbStateMachine<StagePlayer>();
     StateMachine<StagePlayer> m_chargeStateMachine = new StateMachine<StagePlayer>();
 
@@ -77,6 +77,9 @@ public partial class StagePlayer : PhysicalObject, IDirect, IBeltConveyorVelocit
         AutoMove,
         Repatriate,
         Damaged,
+        WarpIn,
+        Warping,
+        WarpOut,
         Death,
     }
 
@@ -98,6 +101,9 @@ public partial class StagePlayer : PhysicalObject, IDirect, IBeltConveyorVelocit
         m_mainStateMachine.AddState((int)Main_StateID.AutoMove, new AutoMove());
         m_mainStateMachine.AddState((int)Main_StateID.Repatriate, new Repatriation());
         m_mainStateMachine.AddState((int)Main_StateID.Damaged, new DamagedState());
+        m_mainStateMachine.AddState((int)Main_StateID.WarpIn, new WarpIn());
+        m_mainStateMachine.AddState((int)Main_StateID.Warping, new Warping());
+        m_mainStateMachine.AddState((int)Main_StateID.WarpOut, new WarpOut());
         m_mainStateMachine.AddState((int)Main_StateID.Death, new Death());
 
         boxPhysicalCollider = GetComponent<BoxCollider2D>();
@@ -156,6 +162,13 @@ public partial class StagePlayer : PhysicalObject, IDirect, IBeltConveyorVelocit
     {
         m_mainStateMachine.Update(this);
         m_chargeStateMachine.Update(this);
+    }
+
+    protected override void OnLateUpdate()
+    {
+        if (m_mainStateMachine.CurId < (int)Main_StateID.WarpIn
+            && m_mainStateMachine.CurId > (int)Main_StateID.WarpOut)
+        cameraBoundLimiter.ForceAdjustPosition(boxPhysicalCollider);
     }
 
     protected override void OnPause(bool isPause)
@@ -343,6 +356,17 @@ public partial class StagePlayer : PhysicalObject, IDirect, IBeltConveyorVelocit
 
             hpPlayback.Stop();
         });
+    }
+
+    public void TransitToWarpOut(Action finishCalback)
+    {
+        this.actionFinishCallback = finishCalback;
+        m_mainStateMachine.TransitReady((int)Main_StateID.WarpOut);
+    }
+
+    public void TransitToWarpIn()
+    {
+        m_mainStateMachine.TransitReady((int)Main_StateID.WarpIn);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

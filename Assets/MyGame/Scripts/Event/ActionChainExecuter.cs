@@ -42,6 +42,7 @@ public class ActionChainExecuter : MonoBehaviour
         GameMainUIChange,
         PlayBGM,
         StopBGM,
+        PlayerWarp,
     }
 
     [Serializable]
@@ -526,6 +527,22 @@ public class ActionChainExecuter : MonoBehaviour
         }
     }
 
+    [Serializable]
+    class PlayerWarp : BaseAction
+    {
+        [SerializeField] CinemachineVirtualCamera nextVirtualCamera;
+        [SerializeField] Transform warpDestination;
+        public override void Execute(Action finishCallback)
+        {
+            WorldManager.Instance.Player.TransitToWarpOut(() =>
+            {
+                if (nextVirtualCamera != null) GameMainManager.Instance.MainCameraControll.ChangePlayerCamera(nextVirtualCamera, Style.Cut, 0, finishCallback);
+                WorldManager.Instance.Player.transform.position = warpDestination.position;
+                WorldManager.Instance.Player.TransitToWarpIn();
+            });
+        }
+    }
+
     [SerializeField] Element element;
 
     private void OnValidate()
@@ -723,6 +740,12 @@ public class ActionChainExecuter : MonoBehaviour
                     if (ae.action is not StopBGM)
                     {
                         ae.action = new StopBGM();
+                    }
+                    break;
+                case ActionType.PlayerWarp:
+                    if (ae.action is not PlayerWarp)
+                    {
+                        ae.action = new PlayerWarp();
                     }
                     break;
                 default:
