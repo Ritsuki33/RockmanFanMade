@@ -1,0 +1,105 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: EffectAssets
+  m_EditorClassIdentifier: 
+  m_GroupName: EffectAssets
+  m_Data:
+    m_SerializedData: []
+  m_GUID: ce7bf23668e72c643b1291530d35bdeb
+  m_SerializeEntries:
+  - m_GUID: 0d4ac890bab492847aa4b625e33dfc78
+    m_Address: ExplodeParticleSystem
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 32cff727000d20a4ba82288462a1ad98
+    m_Address: Fire
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 3aa76ed7d8599b14d8ea3aac03793f44
+    m_Address: RockBuster
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 53916ad1597b3d64592af5fdbb8d766f
+    m_Address: PlayerDeathEffect
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 5b402fdff79be974092b09fc5dbcb1a3
+    m_Address: SpriteScrollObject
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 671117b7ff1462048a598b3559ed65a4
+    m_Address: Explode2
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 738101ea82959744ebc7803fc660f962
+    m_Address: MettoruFire
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 80528f24b62fd1047bbddc695ffa1899
+    m_Address: TrailBulled
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 815c91568b93b2b4f98c3c7a9ecf15f7
+    m_Address: CrashBomb
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 8b59b79d95cbf8a4cafe3d136260d47b
+    m_Address: Bom
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 8e07ca485353f2c40ace185dce97eb94
+    m_Address: ChargeShotSmall
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 92ffe6b60fa07f1439296c5360805848
+    m_Address: ChargeShot
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 9e9fd118df68a0d48bbb4d53776f7084
+    m_Address: PlacedBomb
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c5eb6c4a144a9024e85251cccde3a79b
+    m_Address: Explode
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: dd49b9024d2abe9499ec4254797ad8e5
+    m_Address: Laser
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: effff05d140d3ec48b3556708ea87b44
+    m_Address: BlockBreakEffect
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: 91f1231d9f6342e4499a71d8d87e2171, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: 810f602ce52823547acbcbaee8542f09, type: 2}
+    - {fileID: 11400000, guid: a65b76b3e807a74458af19369e48715f, type: 2}

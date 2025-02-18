@@ -27,13 +27,13 @@ public class ObjectPoolWrapper<E> where E : Enum
         // アセットの読み込み
         if (master.isAddressables)
         {
-            path = $"Prefabs/{master.addPath}{master.type.ToString()}";
+            path = $"{master.addPath}{master.type.ToString()}";
             //res = Resources.Load<BaseObject>(path);
             assetLoad = new AddressableLoad();
         }
         else
         {
-            path = $"{master.addPath}{master.type.ToString()}";
+            path = $"Prefabs/{master.addPath}{master.type.ToString()}";
             assetLoad = new ResoucesLoad();
         }
 
