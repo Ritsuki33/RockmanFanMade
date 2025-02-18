@@ -158,7 +158,7 @@ public class GameMainManager : BaseManager<GameMainManager>
 
     WorldManager CreateWorldManager()
     {
-        var res = Resources.Load<WorldManager>("Worlds/World");
+        var res = AddressableAssetLoadUtility.LoadPrefab<WorldManager>("GrenademanStage");
 
         if (res != null)
         {

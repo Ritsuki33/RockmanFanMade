@@ -35,7 +35,7 @@ public class BossIntroManager : MonoBehaviour
     {
         try
         {
-            var modelData = Resources.Load<Animator>($"{path}/{bossName}");
+            var modelData = AddressableAssetLoadUtility.LoadPrefab<Animator>($"{bossName}Intro");
 
             model = Instantiate(modelData, bossHolder.transform);
 

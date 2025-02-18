@@ -77,7 +77,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 95bbefa4cced56e4aaabad02d07b4209, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  path: Prefabs/Grenademan
+  path: Grenademan
   id: 100
   _placeBombPosArray:
   - {fileID: 1992267844250635506}
@@ -82794,7 +82794,7 @@ GameObject:
   - component: {fileID: 6684821510125548934}
   - component: {fileID: 3042793139968518822}
   m_Layer: 0
-  m_Name: World
+  m_Name: GrenademanStage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -83686,7 +83686,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 531a1f16254222649a6bc317192ef086, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  path: Prefabs/BigDog
+  path: BigDog
   id: 10
 --- !u!1001 &725505875951875454
 PrefabInstance:

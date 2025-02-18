@@ -1,0 +1,55 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: GimmickAssets
+  m_EditorClassIdentifier: 
+  m_GroupName: GimmickAssets
+  m_Data:
+    m_SerializedData: []
+  m_GUID: bcfde60b1b506d746872370bdc1d5b40
+  m_SerializeEntries:
+  - m_GUID: 27df030b53ee85548b198eaca9c6e3f0
+    m_Address: LiftBlue
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 34c93f4f66effcf49840873b785a5668
+    m_Address: LiftYellow_LineMove
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 79c4ac458fcf67347a5a7d9e5936d9e2
+    m_Address: LiftYellow_CircleMove
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 8465c0da40b029e4e8353dcd21bec2d0
+    m_Address: Tire
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: ade41b22ed8c0a94faae6912d8bdccc7
+    m_Address: LiftRed
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d27c9c5a65b024c43b0db804db996c80
+    m_Address: BeltConveyer
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: 91f1231d9f6342e4499a71d8d87e2171, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: ecc65fb373a936c4784d958b459d5c9f, type: 2}
+    - {fileID: 11400000, guid: 4f398bb9a8430b64db0c4f6640e8d6c6, type: 2}

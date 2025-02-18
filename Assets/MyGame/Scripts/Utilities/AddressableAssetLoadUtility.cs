@@ -11,7 +11,7 @@ public static class AddressableAssetLoadUtility
     /// <typeparam name="T"></typeparam>
     /// <param name="address"></param>
     /// <returns></returns>
-    public static T LoadPrefab<T>(string address) where T : MonoBehaviour
+    public static T LoadPrefab<T>(string address) where T : UnityEngine.Object
     {
         var handle = Addressables.LoadAssetAsync<GameObject>(address);
         var prefab = handle.WaitForCompletion();
@@ -38,7 +38,7 @@ public static class AddressableAssetLoadUtility
     /// <typeparam name="T"></typeparam>
     /// <param name="address"></param>
     /// <returns></returns>
-    public static void LoadPrefabAsync<T>(string address, Action<T> successed, Action failed = null) where T : MonoBehaviour
+    public static void LoadPrefabAsync<T>(string address, Action<T> successed, Action failed = null) where T : UnityEngine.Object
     {
         var handle = Addressables.LoadAssetAsync<GameObject>(address);
         handle.Completed += (handle) =>
