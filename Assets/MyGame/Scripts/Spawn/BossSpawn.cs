@@ -8,6 +8,6 @@ public class BossSpawn : Spawn<StageBoss>
     [SerializeField] int id;
     protected override StageBoss OnGetResource()
     {
-        return ObjectManager.Instance.OnLoad<StageBoss>(path, id);
+        return ObjectManager.Instance.OnResouceLoad<StageBoss>(path, id);
     }
 }

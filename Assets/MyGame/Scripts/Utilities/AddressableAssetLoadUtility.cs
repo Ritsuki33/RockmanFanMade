@@ -106,4 +106,6 @@ public static class AddressableAssetLoadUtility
             }
         };
     }
+
+    public static void Release(GameObject obj) => Addressables.Release(obj);
 }

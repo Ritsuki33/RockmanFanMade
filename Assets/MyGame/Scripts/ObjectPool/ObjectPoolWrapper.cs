@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 using UnityEngine.Pool;
 
 [Serializable]
@@ -11,20 +12,34 @@ public class ObjectPoolWrapper<E> where E : Enum
     Transform _root;
 
     public ObjectPool<BaseObject> Pool { get; private set; }
-    BaseObject res = null;
+    BaseObject asset = null;
 
     List<BaseObject> caches = new List<BaseObject>();
+
+    IAssetLoad assetLoad = null;
     /// <summary>
     /// 初期化
     /// </summary>
-    public void Init(GenericPoolData<E> master,Transform root)
+    public void Init(GenericPoolData<E> master, Transform root)
     {
-        // リソースの読み込み
-        string path = $"Prefabs/{master.addPath}{master.type.ToString()}";
-        res = Resources.Load<BaseObject>(path);
+        string path = default;
 
+        // アセットの読み込み
+        if (master.isAddressables)
+        {
+            path = $"Prefabs/{master.addPath}{master.type.ToString()}";
+            //res = Resources.Load<BaseObject>(path);
+            assetLoad = new AddressableLoad();
+        }
+        else
+        {
+            path = $"{master.addPath}{master.type.ToString()}";
+            assetLoad = new ResoucesLoad();
+        }
+
+        asset = assetLoad.Load<BaseObject>(path);
         _root = root;
-        if (res == null)
+        if (asset == null)
         {
             Debug.LogError($"リソースのロードに失敗しました(path:{path})");
             return;
@@ -50,7 +65,7 @@ public class ObjectPoolWrapper<E> where E : Enum
         }
     }
 
-    public void Clear()
+    public void Destory()
     {
         // 削除だけなので逆ループでおｋ
         for(int i= caches.Count - 1; i >= 0; i--)
@@ -59,6 +74,9 @@ public class ObjectPoolWrapper<E> where E : Enum
         }
 
         Pool.Clear();
+
+        // アセットのリリース
+        assetLoad.Release(asset);
     }
 
     /// <summary>
@@ -87,7 +105,7 @@ public class ObjectPoolWrapper<E> where E : Enum
 
     BaseObject OnCreateToPool()
     {
-        BaseObject gameObject = GameObject.Instantiate(res, _root);
+        BaseObject gameObject = GameObject.Instantiate(asset, _root);
         return gameObject;
     }
 
@@ -106,5 +124,39 @@ public class ObjectPoolWrapper<E> where E : Enum
     void OnDestroyFromPool(BaseObject obj)
     {
         GameObject.Destroy(obj.gameObject);
+    }
+
+    interface IAssetLoad
+    {
+        T Load<T>(string str) where T : BaseObject;
+        void Release(BaseObject asset);
+    }
+
+    class ResoucesLoad : IAssetLoad
+    {
+        public T Load<T>(string str) where T : BaseObject
+        {
+            return Resources.Load<T>(str);
+        }
+
+        public void Release(BaseObject asset)
+        {
+            // オブジェクトやコンポーネントに対しては使えない
+            //Resources.UnloadAsset(asset);
+            Resources.UnloadUnusedAssets();
+        }
+    }
+
+    class AddressableLoad : IAssetLoad
+    {
+        public T Load<T>(string str) where T : BaseObject
+        {
+            return AddressableAssetLoadUtility.LoadPrefab<T>(str);
+        }
+
+        public void Release(BaseObject asset)
+        {
+            AddressableAssetLoadUtility.Release(asset.gameObject);
+        }
     }
 }

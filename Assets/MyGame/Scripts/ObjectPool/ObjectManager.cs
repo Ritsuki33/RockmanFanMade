@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Security.Cryptography;
 using UnityEngine;
 
 public enum PoolType
@@ -65,10 +66,10 @@ public class ObjectManager : SingletonComponent<ObjectManager>
         objectPoolList.Init(this.transform);
     }
 
-    public void Clear()
+    public void Destroy()
     {
         updateList.AllDelete();
-        objectPoolList.Clear();
+        objectPoolList.Destroy();
     }
 
     /// <summary>
@@ -151,7 +152,7 @@ public class ObjectManager : SingletonComponent<ObjectManager>
     /// <param name="id"></param>
     /// <param name="deleteCallback"></param>
     /// <returns></returns>
-    public T OnLoad<T>(string path, int id, Action<T> deleteCallback = null) where T : BaseObject, IObjectInterpreter
+    private T OnLoad<T>(string path, int id, Func<string, T> onLoadCallback, Action<GameObject> onReleaseCallback, Action<T> deleteCallback = null) where T : BaseObject, IObjectInterpreter
     {
         if (id != 0 && CheckExitIdInActiveObject(id))
         {
@@ -159,7 +160,8 @@ public class ObjectManager : SingletonComponent<ObjectManager>
             return null;
         }
 
-        T res = Resources.Load<T>(path);
+        //T res = Resources.Load<T>(path);
+        T res = onLoadCallback.Invoke(path);
 
         if (res == null)
         {
@@ -178,11 +180,26 @@ public class ObjectManager : SingletonComponent<ObjectManager>
 
             // そのまま破棄
             Destroy(obj.gameObject);
+           
+            onReleaseCallback.Invoke(res.gameObject);
         };
 
         // オブジェクトの登録
         updateList.Add(obj);
         return obj;
+    }
+
+
+
+    /// <summary>
+    /// オブジェクトをロードして取得
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="path"></param>
+    /// <returns></returns>
+    public T OnResouceLoad<T>(string path, Action<T> deleteCallback = null) where T : BaseObject, IObjectInterpreter
+    {
+        return OnResouceLoad<T>(path, 0, deleteCallback);
     }
 
     /// <summary>
@@ -191,9 +208,47 @@ public class ObjectManager : SingletonComponent<ObjectManager>
     /// <typeparam name="T"></typeparam>
     /// <param name="path"></param>
     /// <returns></returns>
-    public T OnLoad<T>(string path, Action<T> deleteCallback = null) where T : BaseObject, IObjectInterpreter
+    public T OnAddressableLoad<T>(string path, Action<T> deleteCallback = null) where T : BaseObject, IObjectInterpreter
     {
-        return OnLoad<T>(path, 0, deleteCallback);
+        return OnAddressableLoad<T>(path, 0, deleteCallback);
+    }
+
+    /// <summary>
+    /// オブジェクトをResourcesからロードして取得(idは0とする)
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="path"></param>
+    /// <param name="id"></param>
+    /// <param name="deleteCallback"></param>
+    /// <returns></returns>
+    public T OnResouceLoad<T>(string path, int id, Action<T> deleteCallback = null) where T : BaseObject, IObjectInterpreter
+    {
+        return OnLoad(
+            path,
+            id,
+            Resources.Load<T>,
+            (obj) => { Resources.UnloadUnusedAssets(); },
+            deleteCallback
+            );
+    }
+
+    /// <summary>
+    /// オブジェクトをAddressablesからロードして取得(idは0とする)
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="path"></param>
+    /// <param name="id"></param>
+    /// <param name="deleteCallback"></param>
+    /// <returns></returns>
+    public T OnAddressableLoad<T>(string path, int id, Action<T> deleteCallback = null) where T : BaseObject, IObjectInterpreter
+    {
+        return OnLoad(
+           path,
+           id,
+           AddressableAssetLoadUtility.LoadPrefab<T>,
+           AddressableAssetLoadUtility.Release,
+           deleteCallback
+           );
     }
 
     /// <summary>

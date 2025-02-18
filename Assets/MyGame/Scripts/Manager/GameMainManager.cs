@@ -139,7 +139,7 @@ public class GameMainManager : BaseManager<GameMainManager>
 
     public void GameStageEnd()
     {
-        ObjectManager.Instance.Clear();
+        ObjectManager.Instance.Destroy();
         DestroyWorld();
         SceneManager.Instance.ChangeManager(ManagerType.BossSelect);
     }
