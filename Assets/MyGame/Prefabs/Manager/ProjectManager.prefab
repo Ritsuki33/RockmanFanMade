@@ -170,7 +170,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 423614492675568265}
-  - component: {fileID: 2508999021239504843}
+  - component: {fileID: 8188794432935793251}
   - component: {fileID: 1026608322413802908}
   m_Layer: 0
   m_Name: AudioManager
@@ -195,7 +195,7 @@ Transform:
   - {fileID: 2109927523098593630}
   m_Father: {fileID: 8783223942164981467}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2508999021239504843
+--- !u!114 &8188794432935793251
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -204,22 +204,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 3735522997596355609}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 91f529aa944b914449d62b8c40f188fe, type: 3}
+  m_Script: {fileID: 11500000, guid: 6fe880b4dd4ce42fa9f0b72c2fb15765, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  acfFile: sample.acf
-  cueSheets:
-  - name: BGM
-    acbFile: BGM.acb
-    awbFile: BGM.awb
-    loaderStatus: 0
-  - name: SE
-    acbFile: SE.acb
-    awbFile: 
-    loaderStatus: 0
+  acfAsset: {fileID: -6750239444755058063, guid: 6164f982443596d4b8134d737fa23ce6, type: 3}
   dspBusSetting: 
-  dontDestroyOnLoad: 0
-  dontRemoveExistsCueSheet: 0
+  acbAssets: []
 --- !u!114 &1026608322413802908
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -236,6 +226,9 @@ MonoBehaviour:
   seCueSheetName: SE
   bgmCueSheetName: BGM
   systemCueSheetName: SE
+  bgmSoundSource: {fileID: 8640497607828548598}
+  seSoundSource: {fileID: 4211386556322484718}
+  systemSoundSource: {fileID: 4718250814246742140}
 --- !u!1 &3773238838844876143
 GameObject:
   m_ObjectHideFlags: 0
@@ -508,6 +501,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2109927523098593630}
+  - component: {fileID: 8640497607828548598}
+  - component: {fileID: 4211386556322484718}
+  - component: {fileID: 4718250814246742140}
   m_Layer: 0
   m_Name: AudioSources
   m_TagString: Untagged
@@ -530,6 +526,108 @@ Transform:
   m_Children: []
   m_Father: {fileID: 423614492675568265}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8640497607828548598
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8603483511570586827}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c1406b3e082f8497eb73ee9f4c314365, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _playOnStart: 0
+  _regionOnStart: {fileID: 0}
+  _listenerOnStart: {fileID: 0}
+  _use3dPositioning: 1
+  _freezeOrientation: 0
+  _loop: 0
+  _volume: 1
+  _pitch: 0
+  _androidUseLowLatencyVoicePool: 0
+  need_to_player_update_all: 1
+  _use3dRandomization: 0
+  _randomPositionListMaxLength: 0
+  randomize3dConfig:
+    followsOriginalSource: 0
+    calculationType: 0
+    calculationParameters:
+    - 0
+    - 0
+    - 0
+  cue:
+    acbAsset: {fileID: -6750239444755058063, guid: 64d7dc4df7c7db8488965c11ccc414dd, type: 3}
+    cueId: 0
+--- !u!114 &4211386556322484718
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8603483511570586827}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c1406b3e082f8497eb73ee9f4c314365, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _playOnStart: 0
+  _regionOnStart: {fileID: 0}
+  _listenerOnStart: {fileID: 0}
+  _use3dPositioning: 1
+  _freezeOrientation: 0
+  _loop: 0
+  _volume: 1
+  _pitch: 0
+  _androidUseLowLatencyVoicePool: 0
+  need_to_player_update_all: 1
+  _use3dRandomization: 0
+  _randomPositionListMaxLength: 0
+  randomize3dConfig:
+    followsOriginalSource: 0
+    calculationType: 0
+    calculationParameters:
+    - 0
+    - 0
+    - 0
+  cue:
+    acbAsset: {fileID: -6750239444755058063, guid: 1ef497055a1f918429df2d341d8142b8, type: 3}
+    cueId: 0
+--- !u!114 &4718250814246742140
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8603483511570586827}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c1406b3e082f8497eb73ee9f4c314365, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _playOnStart: 0
+  _regionOnStart: {fileID: 0}
+  _listenerOnStart: {fileID: 0}
+  _use3dPositioning: 1
+  _freezeOrientation: 0
+  _loop: 0
+  _volume: 1
+  _pitch: 0
+  _androidUseLowLatencyVoicePool: 0
+  need_to_player_update_all: 1
+  _use3dRandomization: 0
+  _randomPositionListMaxLength: 0
+  randomize3dConfig:
+    followsOriginalSource: 0
+    calculationType: 0
+    calculationParameters:
+    - 0
+    - 0
+    - 0
+  cue:
+    acbAsset: {fileID: -6750239444755058063, guid: 1ef497055a1f918429df2d341d8142b8, type: 3}
+    cueId: 0
 --- !u!1 &8984039048571896366
 GameObject:
   m_ObjectHideFlags: 0

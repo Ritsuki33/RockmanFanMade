@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2779968144405232688}
-  - component: {fileID: 8063782589850557}
+  - component: {fileID: 8015281947624129923}
   m_Layer: 0
   m_Name: IntroBgm
   m_TagString: Untagged
@@ -36,7 +36,7 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &8063782589850557
+--- !u!114 &8015281947624129923
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -45,7 +45,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 48710501320386481}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d1e631c3b9947b54c823c6853a05529c, type: 3}
+  m_Script: {fileID: 11500000, guid: c1406b3e082f8497eb73ee9f4c314365, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _playOnStart: 0
@@ -67,8 +67,9 @@ MonoBehaviour:
     - 0
     - 0
     - 0
-  _cueName: start8
-  _cueSheet: BGM
+  cue:
+    acbAsset: {fileID: -6750239444755058063, guid: 64d7dc4df7c7db8488965c11ccc414dd, type: 3}
+    cueId: 2
 --- !u!1 &66094925226217234
 GameObject:
   m_ObjectHideFlags: 0
@@ -210,7 +211,7 @@ PlayableDirector:
   m_InitialTime: 0
   m_SceneBindings:
   - key: {fileID: 4018440486980429050, guid: b4ca26e95bcd5d34082a37ffa48e501f, type: 2}
-    value: {fileID: 8063782589850557}
+    value: {fileID: 8015281947624129923}
   - key: {fileID: -544548083381405786, guid: b4ca26e95bcd5d34082a37ffa48e501f, type: 2}
     value: {fileID: 0}
   - key: {fileID: 7489297636990349475, guid: b4ca26e95bcd5d34082a37ffa48e501f, type: 2}

@@ -1,4 +1,5 @@
 ﻿using CriWare;
+using CriWare.Assets;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,23 +12,11 @@ public class AudioManager : SingletonComponent<AudioManager>
     [SerializeField, Header("BGMのキューシート")] string bgmCueSheetName = "CueSheet_1";
     [SerializeField, Header("システムのキューシート")] string systemCueSheetName = "CueSheet_1";
 
-    private CriAtomSource seSoundSource;
-    private CriAtomSource bgmSoundSource;
-    private CriAtomSource systemSoundSource;
+    [SerializeField]private CriAtomSourceForAsset bgmSoundSource;
+    [SerializeField]private CriAtomSourceForAsset seSoundSource;
+    [SerializeField]private CriAtomSourceForAsset systemSoundSource;
 
     Dictionary<CriAtomExPlayback, Action> registeredFinishCallbacks = new Dictionary<CriAtomExPlayback, Action>();
-
-    protected override void Awake()
-    {
-        base.Awake();
-
-        seSoundSource = audioSources.AddComponent<CriAtomSource>();
-        seSoundSource.cueSheet = seCueSheetName;
-        bgmSoundSource = audioSources.AddComponent<CriAtomSource>();
-        bgmSoundSource.cueSheet = bgmCueSheetName;
-        systemSoundSource = audioSources.AddComponent<CriAtomSource>();
-        systemSoundSource.cueSheet = systemCueSheetName;
-    }
 
     public void Update()
     {
