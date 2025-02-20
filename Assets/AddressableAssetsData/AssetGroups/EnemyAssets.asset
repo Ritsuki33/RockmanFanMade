@@ -1,0 +1,55 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: EnemyAssets
+  m_EditorClassIdentifier: 
+  m_GroupName: EnemyAssets
+  m_Data:
+    m_SerializedData: []
+  m_GUID: 18a77a2b8f6900447b437706734874a6
+  m_SerializeEntries:
+  - m_GUID: 02002bc0e59fc0a448f3078644fa345a
+    m_Address: RocketMask
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 5079bc52b7a629142b7d21060646dfb9
+    m_Address: RoadRoller
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 5f9c283f18ea8ec41a97486e3b0fd088
+    m_Address: Mettoru
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 81a233442836f094ca136820ddb4439f
+    m_Address: BigDog
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 8d7d5b80c3f69694897cc3837f71a546
+    m_Address: GreenMan
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d892c8ea022d1154f973a3c0c5c7422f
+    m_Address: Batman
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: 91f1231d9f6342e4499a71d8d87e2171, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: 1833bc53255052f4faf7ece95dff900d, type: 2}
+    - {fileID: 11400000, guid: fde7edd6aea738148a8b7ae99f993ed1, type: 2}

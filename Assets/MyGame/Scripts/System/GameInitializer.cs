@@ -6,6 +6,13 @@ public class GameInitializer : MonoBehaviour
 {
     private void Start()
     {
-        SceneManager.Instance.ChangeManager(ManagerType.Title);
+        StartCoroutine(StartCo());
+
+        IEnumerator StartCo()
+        {
+            yield return AudioManager.Instance.Configure();
+
+            SceneManager.Instance.ChangeManager(ManagerType.Title);
+        }
     }
 }

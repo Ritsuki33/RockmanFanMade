@@ -8,6 +8,6 @@ public class ObjectSpawn : Spawn<BaseObject>
     [SerializeField] int id;
     protected override BaseObject OnGetResource()
     {
-        return ObjectManager.Instance.OnLoad<BaseObject>(path, id);
+        return ObjectManager.Instance.OnAddressableLoad<BaseObject>(path, id);
     }
 }

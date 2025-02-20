@@ -41,11 +41,11 @@ public class ObjectPoolList<E> where E : struct, Enum
         }
     }
 
-    public void Clear()
+    public void Destroy()
     {
         foreach(var pool in poolDic.Values)
         {
-            pool.Clear();
+            pool.Destory();
         }
 
         poolDic.Clear();

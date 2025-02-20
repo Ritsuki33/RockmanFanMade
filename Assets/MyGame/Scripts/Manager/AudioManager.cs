@@ -1,5 +1,7 @@
 ﻿using CriWare;
+using CriWare.Assets;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -7,26 +9,31 @@ using UnityEngine;
 public class AudioManager : SingletonComponent<AudioManager>
 {
     [SerializeField] GameObject audioSources;
-    [SerializeField, Header("SEのキューシート")] string seCueSheetName = "CueSheet_0";
     [SerializeField, Header("BGMのキューシート")] string bgmCueSheetName = "CueSheet_1";
+    [SerializeField, Header("SEのキューシート")] string seCueSheetName = "CueSheet_0";
     [SerializeField, Header("システムのキューシート")] string systemCueSheetName = "CueSheet_1";
 
-    private CriAtomSource seSoundSource;
-    private CriAtomSource bgmSoundSource;
-    private CriAtomSource systemSoundSource;
+    //[SerializeField]private CriAtomSourceForAsset bgmSoundSource;
+    //[SerializeField]private CriAtomSourceForAsset seSoundSource;
+    //[SerializeField]private CriAtomSourceForAsset systemSoundSource;
 
     Dictionary<CriAtomExPlayback, Action> registeredFinishCallbacks = new Dictionary<CriAtomExPlayback, Action>();
 
-    protected override void Awake()
-    {
-        base.Awake();
+    SoundPlayHandler bgmHandler;
+    SoundPlayHandler seHandler;
+    SoundPlayHandler systemHandler;
 
-        seSoundSource = audioSources.AddComponent<CriAtomSource>();
-        seSoundSource.cueSheet = seCueSheetName;
-        bgmSoundSource = audioSources.AddComponent<CriAtomSource>();
-        bgmSoundSource.cueSheet = bgmCueSheetName;
-        systemSoundSource = audioSources.AddComponent<CriAtomSource>();
-        systemSoundSource.cueSheet = systemCueSheetName;
+    public IEnumerator Configure()
+    {
+        bgmHandler = new SoundPlayHandler(false);
+        seHandler = new SoundPlayHandler(false);
+        systemHandler = new SoundPlayHandler(false);
+
+        bgmHandler.LoadSoundSource(bgmCueSheetName);
+        seHandler.LoadSoundSource(seCueSheetName);
+        systemHandler.LoadSoundSource(systemCueSheetName);
+
+        while (!bgmHandler.Loaded || !seHandler.Loaded|| !systemHandler.Loaded) yield return null;
     }
 
     public void Update()
@@ -49,7 +56,7 @@ public class AudioManager : SingletonComponent<AudioManager>
     // SE再生
     public CriAtomExPlayback PlaySe(string cue, Action finishCallback = null)
     {
-        CriAtomExPlayback playback = seSoundSource.Play(cue);
+        CriAtomExPlayback playback = seHandler.Play(cue);
 
         if (finishCallback != null) registeredFinishCallbacks.Add(playback, finishCallback);
         return playback;
@@ -57,7 +64,7 @@ public class AudioManager : SingletonComponent<AudioManager>
 
     public CriAtomExPlayback PlaySe(int id, Action finishCallback = null)
     {
-        CriAtomExPlayback playback = seSoundSource.Play(id);
+        CriAtomExPlayback playback = seHandler.Play(id);
         if (finishCallback != null) registeredFinishCallbacks.Add(playback, finishCallback);
         return playback;
     }
@@ -65,7 +72,7 @@ public class AudioManager : SingletonComponent<AudioManager>
     // BGM再生
     public CriAtomExPlayback PlayBgm(string cue, Action finishCallback = null)
     {
-        var playback = bgmSoundSource.Play(cue);
+        var playback = bgmHandler.Play(cue);
 
         if (finishCallback != null) registeredFinishCallbacks.Add(playback, finishCallback);
         return playback;
@@ -73,7 +80,7 @@ public class AudioManager : SingletonComponent<AudioManager>
 
     public CriAtomExPlayback PlayBgm(int id, Action finishCallback = null)
     {
-        var playback = bgmSoundSource.Play(id);
+        var playback = bgmHandler.Play(id);
 
         if (finishCallback != null) registeredFinishCallbacks.Add(playback, finishCallback);
         return playback;
@@ -82,7 +89,7 @@ public class AudioManager : SingletonComponent<AudioManager>
     // システム音再生
     public CriAtomExPlayback PlaySystem(string cue, Action finishCallback = null)
     {
-        var playback = systemSoundSource.Play(cue);
+        var playback = systemHandler.Play(cue);
 
         if (finishCallback != null) registeredFinishCallbacks.Add(playback, finishCallback);
         return playback;
@@ -93,15 +100,15 @@ public class AudioManager : SingletonComponent<AudioManager>
         // 再生中のものがあれば止める
         StopSystem();
 
-        var playback = systemSoundSource.Play(id);
+        var playback = systemHandler.Play(id);
 
         if (finishCallback != null) registeredFinishCallbacks.Add(playback, finishCallback);
         return playback;
     }
 
-    public void StopSe() => seSoundSource.Stop();
-    public void StopBGM() => bgmSoundSource.Stop();
-    public void StopSystem() => systemSoundSource.Stop();
+    public void StopSe() => seHandler.Stop();
+    public void StopBGM() => bgmHandler.Stop();
+    public void StopSystem() => systemHandler.Stop();
 
     /// <summary>
     /// SEとBGMを一時停止
@@ -109,8 +116,8 @@ public class AudioManager : SingletonComponent<AudioManager>
     /// <param name="isPause"></param>
     public void OnPause(bool isPause)
     {
-        seSoundSource.Pause(isPause);
-        bgmSoundSource.Pause(isPause);
+        seHandler.Pause(isPause);
+        bgmHandler.Pause(isPause);
     }
 
     /// <summary>
@@ -119,6 +126,6 @@ public class AudioManager : SingletonComponent<AudioManager>
     /// <param name="isPause"></param>
     public void OnPauseSe(bool isPause)
     {
-        seSoundSource.Pause(isPause);
+        seHandler.Pause(isPause);
     }
 }

@@ -139,7 +139,7 @@ public class GameMainManager : BaseManager<GameMainManager>
 
     public void GameStageEnd()
     {
-        ObjectManager.Instance.Clear();
+        ObjectManager.Instance.Destroy();
         DestroyWorld();
         SceneManager.Instance.ChangeManager(ManagerType.BossSelect);
     }
@@ -158,7 +158,7 @@ public class GameMainManager : BaseManager<GameMainManager>
 
     WorldManager CreateWorldManager()
     {
-        var res = Resources.Load<WorldManager>("Worlds/World");
+        var res = AddressableAssetLoadUtility.LoadPrefab<WorldManager>("GrenademanStage");
 
         if (res != null)
         {

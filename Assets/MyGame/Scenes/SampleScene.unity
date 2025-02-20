@@ -5607,6 +5607,37 @@ MonoBehaviour:
   m_Spacing: {x: 200, y: 100}
   m_Constraint: 1
   m_ConstraintCount: 3
+--- !u!1 &1559458778
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1559458780}
+  m_Layer: 0
+  m_Name: GameObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1559458780
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1559458778}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1611133419
 GameObject:
   m_ObjectHideFlags: 0
@@ -7901,6 +7932,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ProjectManager
       objectReference: {fileID: 0}
+    - target: {fileID: 8188794432935793251, guid: 2d01bd91de6524046b299eda0c554985, type: 3}
+      propertyPath: acfAsset
+      value: 
+      objectReference: {fileID: -6750239444755058063, guid: 6164f982443596d4b8134d737fa23ce6, type: 3}
     - target: {fileID: 8783223942164981467, guid: 2d01bd91de6524046b299eda0c554985, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -7959,3 +7994,4 @@ SceneRoots:
   - {fileID: 111051565}
   - {fileID: 510379786}
   - {fileID: 7688125627853884111}
+  - {fileID: 1559458780}

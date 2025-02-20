@@ -49,7 +49,7 @@ public class WorldManager : SingletonComponent<WorldManager>
         currentCheckPointData = defaultCheckPoint;
         isPause = false;
 
-        _player = ObjectManager.Instance.OnLoad<StagePlayer>("Prefabs/Player");
+        _player = ObjectManager.Instance.OnAddressableLoad<StagePlayer>("Player");
 
         _spawns = spawnRoot.GetComponentsInChildren<ISpawn>()?.ToList();
     }
@@ -58,7 +58,7 @@ public class WorldManager : SingletonComponent<WorldManager>
     {
         ObjectManager.Instance.AllDelete();
 
-        _player = ObjectManager.Instance.OnLoad<StagePlayer>("Prefabs/Player");
+        _player = ObjectManager.Instance.OnAddressableLoad<StagePlayer>("Player");
 
         _spawns.ForEach(spawn =>
         {
