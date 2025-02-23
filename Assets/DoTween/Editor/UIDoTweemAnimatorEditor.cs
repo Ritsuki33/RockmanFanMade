@@ -54,9 +54,30 @@ public class UIDoTweemAnimatorEditor : Editor
 [CustomEditor(typeof(UIDoTweenGroupAnimator))]
 public class UIDoTweenGroupAnimatorEditor : Editor
 {
+    SerializedProperty openTweensProperty;
+    SerializedProperty isReverseProperty;
+    SerializedProperty closeTweensProperty;
+
+    void OnEnable()
+    {
+        openTweensProperty = serializedObject.FindProperty("m_openSeq");
+        isReverseProperty = serializedObject.FindProperty("isReverse");
+        closeTweensProperty = serializedObject.FindProperty("m_closeSeq");
+    }
+
     public override void OnInspectorGUI()
     {
-        base.OnInspectorGUI();
+        serializedObject.Update();
+
+        EditorGUILayout.PropertyField(openTweensProperty);
+        EditorGUILayout.PropertyField(isReverseProperty);
+
+        // isReverseがtrueの場合、closeTweensを無効化して表示
+        EditorGUI.BeginDisabledGroup(isReverseProperty.boolValue);
+        EditorGUILayout.PropertyField(closeTweensProperty);
+        EditorGUI.EndDisabledGroup();
+
+        serializedObject.ApplyModifiedProperties();
 
         UIDoTweenGroupAnimator animator = (UIDoTweenGroupAnimator)target;
         EditorGUILayout.BeginHorizontal();

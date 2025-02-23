@@ -36,18 +36,18 @@ public class UIDoTweemAnimator : MonoBehaviour
         sequence.Play()
         .OnStart(() => gameObject.SetActive(true))
         .OnComplete(() => finishCallback?.Invoke())
-        .OnKill(() => Reset());
+        .OnKill(() => ResetStatus());
     }
 
     public void PlayClose(Action finishCallback = null)
     {
         if (sequence != null) sequence.Kill(true);
-        sequence = CreateCloseSequence();
+        sequence = CreateCloseSequence(isReverse);
 
         sequence.Play()
         .OnStart(() => gameObject.SetActive(true))
         .OnComplete(() => finishCallback?.Invoke())
-        .OnKill(() => { Reset(); gameObject.SetActive(false); });
+        .OnKill(() => { ResetStatus(); gameObject.SetActive(false); });
     }
 
     [SerializeField, Header("オープン　アニメーション")] List<TweenElement> openTweens = new List<TweenElement>();
@@ -371,11 +371,11 @@ public class UIDoTweemAnimator : MonoBehaviour
     }
 
     public Sequence CreateOpenSequence() => CreateSequence(openTweens);
-    public Sequence CreateCloseSequence()
+    public Sequence CreateCloseSequence(bool isReverse)
     {
         if (isReverse)
         {
-            return CreateSequence(openTweens, true);
+            return CreateSequence(openTweens, isReverse);
         }
         else
         {
@@ -403,7 +403,7 @@ public class UIDoTweemAnimator : MonoBehaviour
         cacheFade = m_canvasGroup.alpha;
     }
 
-    public void Reset()
+    public void ResetStatus()
     {
         m_rectTransform.anchoredPosition = cacheLocalPostion;
         m_rectTransform.localRotation = cacheLocalRatote;

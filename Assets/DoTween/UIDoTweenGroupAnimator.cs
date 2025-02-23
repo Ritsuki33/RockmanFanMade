@@ -8,6 +8,8 @@ using UnityEngine.Events;
 public class UIDoTweenGroupAnimator : MonoBehaviour
 {
     [SerializeField] private List<SeqItem> m_openSeq;
+
+    [SerializeField] private bool isReverse;
     [SerializeField] private List<SeqItem> m_closeSeq;
 
     Sequence sequence = default;
@@ -25,6 +27,7 @@ public class UIDoTweenGroupAnimator : MonoBehaviour
     {
         [SerializeField] public SeqType m_ConnectType;
         [SerializeReference] public BaseSeq baseSeq;
+        public void ResetStatus() => baseSeq.ResetStatus();
 
         public void OnValidate()
         {
@@ -50,15 +53,16 @@ public class UIDoTweenGroupAnimator : MonoBehaviour
         }
 
         public void SetOpenSequence(Sequence sequence) => baseSeq.SetOpenSequence(sequence);
-        public void SetCloseSequence(Sequence sequence) => baseSeq.SetCloseSequence(sequence);
+        public void SetCloseSequence(Sequence sequence, bool isReverse = false) => baseSeq.SetCloseSequence(sequence, isReverse);
     }
 
     [Serializable]
     abstract class BaseSeq
     {
         [SerializeField] public float delay;
+        public virtual void ResetStatus() { }
         public abstract void SetOpenSequence(Sequence sequence);
-        public abstract void SetCloseSequence(Sequence sequence);
+        public abstract void SetCloseSequence(Sequence sequence, bool isReverse);
     }
 
     [Serializable]
@@ -66,14 +70,16 @@ public class UIDoTweenGroupAnimator : MonoBehaviour
     {
         [SerializeField] public UIDoTweemAnimator m_Animator;
 
+        public override void ResetStatus() => m_Animator.ResetStatus();
+
         public override void SetOpenSequence(Sequence sequence)
         {
             sequence.Join(m_Animator.CreateOpenSequence()).SetDelay(delay);
         }
 
-        public override void SetCloseSequence(Sequence sequence)
+        public override void SetCloseSequence(Sequence sequence, bool isReverse)
         {
-            sequence.Join(m_Animator.CreateCloseSequence()).SetDelay(delay);
+            sequence.Join(m_Animator.CreateCloseSequence(isReverse)).SetDelay(delay);
         }
     }
 
@@ -81,14 +87,16 @@ public class UIDoTweenGroupAnimator : MonoBehaviour
     class AppendSeq : BaseSeq
     {
         [SerializeField] public UIDoTweemAnimator m_Animator;
+        public override void ResetStatus() => m_Animator.ResetStatus();
+
         public override void SetOpenSequence(Sequence sequence)
         {
             sequence.Append(m_Animator.CreateOpenSequence()).SetDelay(delay);
         }
 
-        public override void SetCloseSequence(Sequence sequence)
+        public override void SetCloseSequence(Sequence sequence, bool isReverse)
         {
-            sequence.Append(m_Animator.CreateCloseSequence()).SetDelay(delay);
+            sequence.Append(m_Animator.CreateCloseSequence(isReverse)).SetDelay(delay);
         }
     }
 
@@ -101,7 +109,7 @@ public class UIDoTweenGroupAnimator : MonoBehaviour
             sequence.AppendCallback(() => { m_Event.Invoke(); }).SetDelay(delay);
         }
 
-        public override void SetCloseSequence(Sequence sequence)
+        public override void SetCloseSequence(Sequence sequence, bool isReverse)
         {
             sequence.AppendCallback(() => { m_Event.Invoke(); }).SetDelay(delay);
         }
@@ -116,7 +124,7 @@ public class UIDoTweenGroupAnimator : MonoBehaviour
             sequence.JoinCallback(() => { m_Event.Invoke(); }).SetDelay(delay);
         }
 
-        public override void SetCloseSequence(Sequence sequence)
+        public override void SetCloseSequence(Sequence sequence, bool isReverse)
         {
             sequence.JoinCallback(() => { m_Event.Invoke(); }).SetDelay(delay);
         }
@@ -151,7 +159,10 @@ public class UIDoTweenGroupAnimator : MonoBehaviour
             item.SetOpenSequence(sequence);
         }
 
-        sequence.Play().onComplete += () => { finishCallback?.Invoke(); };
+        sequence.Play()
+        .OnStart(() => { gameObject.SetActive(true); })
+        .OnComplete(() => { finishCallback?.Invoke(); })
+        .OnKill(() => { ResetStatus(); });
     }
 
     public void PlayClose(Action finishCallback = null)
@@ -159,16 +170,22 @@ public class UIDoTweenGroupAnimator : MonoBehaviour
         if (sequence != null) sequence.Kill(true);
         sequence = DOTween.Sequence();
 
-        foreach (var item in m_closeSeq)
+        foreach (var item in m_openSeq)
         {
-            item.SetCloseSequence(sequence);
+            item.SetCloseSequence(sequence, isReverse);
         }
 
-        sequence.Play().onComplete += () => { finishCallback?.Invoke(); };
+        sequence.Play()
+        .OnStart(() => { gameObject.SetActive(true); })
+        .OnComplete(() => { finishCallback?.Invoke(); })
+        .OnKill(() => { ResetStatus(); gameObject.SetActive(false); });
     }
 
-    public void Test()
+    void ResetStatus()
     {
-        Debug.Log("Test");
+        foreach (var item in m_openSeq)
+        {
+            item.ResetStatus();
+        }
     }
 }
