@@ -97,11 +97,32 @@ public class UIDoTweenGroupAnimatorEditor : Editor
 
 
 [CustomEditor(typeof(UIDoTweenSelecterAnimator))]
-public class UIDoTweenSelectsAnimatorEditor : Editor
+public class UIDoTweenSelecterAnimatorEditor : Editor
 {
+    SerializedProperty listProperty;
+    SerializedProperty spaceProperty;
+    SerializedProperty offsetStepProperty;
+    SerializedProperty delayProperty;
+
+    SerializedProperty openTweensProperty;
+
+    void OnEnable()
+    {
+        listProperty = serializedObject.FindProperty("list");
+        spaceProperty = serializedObject.FindProperty("space");
+        offsetStepProperty = serializedObject.FindProperty("offsetStep");
+        delayProperty = serializedObject.FindProperty("delay");
+
+        openTweensProperty = serializedObject.FindProperty("openTweens");
+    }
+
     public override void OnInspectorGUI()
     {
-        base.OnInspectorGUI();
+        serializedObject.Update();
+
+        EditorGUILayout.PropertyField(listProperty);
+        EditorGUILayout.PropertyField(spaceProperty);
+        EditorGUILayout.PropertyField(offsetStepProperty);
 
         UIDoTweenSelecterAnimator animator = (UIDoTweenSelecterAnimator)target;
 
@@ -117,13 +138,19 @@ public class UIDoTweenSelectsAnimatorEditor : Editor
         }
         EditorGUILayout.EndHorizontal();
 
+        EditorGUILayout.Space(50);
 
+        EditorGUILayout.PropertyField(delayProperty);
+
+
+        EditorGUILayout.PropertyField(openTweensProperty);
+
+        serializedObject.ApplyModifiedProperties();
         EditorGUILayout.BeginHorizontal();
         if (GUILayout.Button("Play Open (runtime only) ▶▶"))
         {
             animator.PlayOpen(() => Debug.Log("完了"));
         }
-
 
         if (GUILayout.Button("Play Close (runtime only) ◀◀"))
         {

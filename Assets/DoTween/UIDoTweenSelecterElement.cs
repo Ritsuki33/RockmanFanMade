@@ -6,7 +6,7 @@ public class UIDoTweenSelecterElement : MonoBehaviour
     [SerializeField] RectTransform m_rectTransform;
     [SerializeField] CanvasGroup m_canvasGroup;
 
-    public RectTransform RectTransform=>m_rectTransform;
+    public RectTransform RectTransform => m_rectTransform;
     public CanvasGroup CanvasGroup => m_canvasGroup;
 
     private Vector3 cacheLocalPostion = default;
@@ -25,7 +25,7 @@ public class UIDoTweenSelecterElement : MonoBehaviour
         cacheFade = m_canvasGroup.alpha;
     }
 
-    public void Reset()
+    public void ResetStatus()
     {
         m_rectTransform.anchoredPosition = cacheLocalPostion;
         m_rectTransform.localRotation = cacheLocalRatote;

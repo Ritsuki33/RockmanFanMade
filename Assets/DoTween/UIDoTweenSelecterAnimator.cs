@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class UIDoTweenSelecterAnimator : MonoBehaviour
 {
-    
+
     [SerializeField] private List<UIDoTweenSelecterElement> list = new List<UIDoTweenSelecterElement>();
 
     [SerializeField] private float space = 0.0f;
@@ -14,9 +14,14 @@ public class UIDoTweenSelecterAnimator : MonoBehaviour
 
     [SerializeField] float delay = 0.0f;
 
+    void Awake()
+    {
+        CreateCache();
+    }
+
     public void AutoRayout(bool isHorizonal)
     {
-       
+
         if (isHorizonal)
         {
             // サイズの決定
@@ -42,7 +47,7 @@ public class UIDoTweenSelecterAnimator : MonoBehaviour
                 if (i == 0) arrangement += new Vector2(obj.RectTransform.rect.width / 2, 0);
                 else
                 {
-                    arrangement += new Vector2(obj.RectTransform.rect.width + space ,-offsetStep);
+                    arrangement += new Vector2(obj.RectTransform.rect.width + space, -offsetStep);
                 }
                 obj.transform.localPosition = arrangement;
             }
@@ -94,8 +99,7 @@ public class UIDoTweenSelecterAnimator : MonoBehaviour
         Append
     }
 
-    [SerializeField] List<TweenElement> openTweens = new List<TweenElement>();
-    [SerializeField] List<TweenElement> closeTweens = new List<TweenElement>();
+    [SerializeField, Header("オープン　アニメーション")] List<TweenElement> openTweens = new List<TweenElement>();
 
     [Serializable]
     class TweenElement
@@ -104,7 +108,80 @@ public class UIDoTweenSelecterAnimator : MonoBehaviour
         [SerializeField] TweenType tweenType;
         [SerializeReference] BaseTween tween;
 
-        public Tween Do(RectTransform _rectTransform, CanvasGroup m_canvasGroup) => tween.Do(_rectTransform, m_canvasGroup);
+        public Tween Do(RectTransform _rectTransform, CanvasGroup m_canvasGroup)
+        {
+            switch (tweenType)
+            {
+                case TweenType.Move:
+                    if (tween is MoveTween)
+                    {
+                        var moveTween = tween as MoveTween;
+                        return moveTween.Do(_rectTransform);
+                    }
+
+                    break;
+                case TweenType.Rotate:
+                    if (tween is RotateTween)
+                    {
+                        var rotateTween = tween as RotateTween;
+                        return rotateTween.Do(_rectTransform);
+                    }
+                    break;
+                case TweenType.Scale:
+                    if (tween is ScaleTween)
+                    {
+                        var scaleTween = tween as ScaleTween;
+                        return scaleTween.Do(_rectTransform);
+                    }
+                    break;
+                case TweenType.Fade:
+                    if (tween is FadeTween)
+                    {
+                        var fadeTween = tween as FadeTween;
+                        return fadeTween.Do(m_canvasGroup);
+                    }
+                    break;
+            }
+            return null;
+        }
+
+        public Tween Reverse(RectTransform _rectTransform, CanvasGroup m_canvasGroup)
+        {
+            switch (tweenType)
+            {
+                case TweenType.Move:
+                    if (tween is MoveTween)
+                    {
+                        var moveTween = tween as MoveTween;
+                        return moveTween.Reverse(_rectTransform);
+                    }
+
+                    break;
+                case TweenType.Rotate:
+                    if (tween is RotateTween)
+                    {
+                        var rotateTween = tween as RotateTween;
+                        return rotateTween.Reverse(_rectTransform);
+                    }
+                    break;
+                case TweenType.Scale:
+                    if (tween is ScaleTween)
+                    {
+                        var scaleTween = tween as ScaleTween;
+                        return scaleTween.Reverse(_rectTransform);
+                    }
+                    break;
+                case TweenType.Fade:
+                    if (tween is FadeTween)
+                    {
+                        var fadeTween = tween as FadeTween;
+                        return fadeTween.Reverse(m_canvasGroup);
+                    }
+                    break;
+            }
+            return null;
+        }
+
         public void OnValidate()
         {
             switch (tweenType)
@@ -136,20 +213,23 @@ public class UIDoTweenSelecterAnimator : MonoBehaviour
         [SerializeField] public float delay;
         [SerializeField] public float duration = 1.0f;
         [SerializeField] public Ease ease = Ease.OutQuad;
-        abstract public Tween Do(RectTransform _rectTransform, CanvasGroup m_canvasGroup);
     }
 
 
     [Serializable]
     class MoveTween : BaseTween
     {
-        [SerializeField] bool isFrom = true;
         [SerializeField] public Vector3 offset;
 
-        public override Tween Do(RectTransform _rectTransform, CanvasGroup m_canvasGroup)
+        public Tween Do(RectTransform _rectTransform)
+        {
+            var tween = _rectTransform.DOAnchorPos(_rectTransform.localPosition + offset, duration).SetDelay(delay).From();
+            return tween;
+        }
+
+        public Tween Reverse(RectTransform _rectTransform)
         {
             var tween = _rectTransform.DOAnchorPos(_rectTransform.localPosition + offset, duration).SetDelay(delay);
-            if (isFrom) tween = tween.From();
             return tween;
         }
     }
@@ -160,22 +240,32 @@ public class UIDoTweenSelecterAnimator : MonoBehaviour
         [SerializeField] public Vector3 startValue;
         [SerializeField] RotateMode rotateMode;
 
-        public override Tween Do(RectTransform _rectTransform, CanvasGroup m_canvasGroup)
+        public Tween Do(RectTransform _rectTransform)
         {
             return _rectTransform.DORotate(startValue, duration, rotateMode).SetEase(ease).SetDelay(delay).From();
+        }
+
+        public Tween Reverse(RectTransform _rectTransform)
+        {
+            var tween = _rectTransform.DORotate(startValue, duration, rotateMode).SetEase(ease).SetDelay(delay);
+            return tween;
         }
     }
 
     [Serializable]
     class ScaleTween : BaseTween
     {
-        [SerializeField] bool isFrom = true;
         [SerializeField] public Vector3 startValue;
 
-        public override Tween Do(RectTransform _rectTransform, CanvasGroup m_canvasGroup)
+        public Tween Do(RectTransform _rectTransform)
         {
             var tween = _rectTransform.DOScale(startValue, duration).SetEase(ease).SetDelay(delay);
-            if (isFrom) tween = tween.From();
+            return tween;
+        }
+
+        public Tween Reverse(RectTransform _rectTransform)
+        {
+            var tween = _rectTransform.DOScale(startValue, duration).SetEase(ease).SetDelay(delay);
             return tween;
         }
     }
@@ -184,9 +274,14 @@ public class UIDoTweenSelecterAnimator : MonoBehaviour
     class FadeTween : BaseTween
     {
         [SerializeField] public float startValue;
-        public override Tween Do(RectTransform _rectTransform, CanvasGroup m_canvasGroup)
+        public Tween Do(CanvasGroup m_canvasGroup)
         {
             return m_canvasGroup.DOFade(startValue, duration).SetEase(ease).SetDelay(delay).From();
+        }
+
+        public Tween Reverse(CanvasGroup m_canvasGroup)
+        {
+            return m_canvasGroup.DOFade(startValue, duration).SetEase(ease).SetDelay(delay);
         }
     }
 
@@ -194,40 +289,47 @@ public class UIDoTweenSelecterAnimator : MonoBehaviour
 
     public void PlayOpen(Action finishCallback = null)
     {
-        // 修正案:
-        CreateCachePosition(); // スペル修正
-
         if (sequence != null) sequence.Kill(true);
         sequence = CreateOpenSequence();
 
-        sequence.Play().OnComplete(() => finishCallback?.Invoke()); 
+        sequence.Play()
+        .OnStart(() => gameObject.SetActive(true))
+        .OnComplete(() =>
+        {
+            finishCallback?.Invoke();
+            sequence.Kill(true);
+        })
+        .OnKill(ResetPosition);
     }
 
     public void PlayClose(Action finishCallback = null)
     {
-
         if (sequence != null) sequence.Kill(true);
         sequence = CreateCloseSequence();
 
-        sequence.Play().OnComplete(() =>
+        sequence.Play()
+        .OnStart(() => gameObject.SetActive(true))
+        .OnComplete(() =>
         {
             finishCallback?.Invoke();
-            sequence.Kill(true);
 
-        }).OnKill(ResetPosition);
+        }).OnKill(() =>
+        {
+            ResetPosition();
+            gameObject.SetActive(false);
+        });
     }
 
 
-    public Sequence CreateOpenSequence() => CreateSequence(openTweens);
-    public Sequence CreateCloseSequence() => CreateSequence(closeTweens);
+    public Sequence CreateOpenSequence() => CreateSequence(false);
 
-    
+    public Sequence CreateCloseSequence() => CreateSequence(true);
 
     /// <summary>
     /// シーケンスの作成
     /// </summary>
     /// <param name="finishCallback"></param>
-    private Sequence CreateSequence(List<TweenElement> tweens)
+    private Sequence CreateSequence(bool isReverse)
     {
         var seq = DOTween.Sequence();
         float totalDelay = 0;
@@ -239,21 +341,41 @@ public class UIDoTweenSelecterAnimator : MonoBehaviour
 
             if (subSequence != null) subSequence.Kill(true);
             subSequence = DOTween.Sequence();
-
-            foreach (var tween in tweens)
+            if (!isReverse)
             {
-                switch (tween.connectType)
+                foreach (var tween in openTweens)
                 {
-                    case ConnectType.Join:
-                        subSequence.Join(tween.Do(obj.RectTransform, obj.CanvasGroup));
-                        break;
-                    case ConnectType.Append:
-                        subSequence.Append(tween.Do(obj.RectTransform, obj.CanvasGroup));
-                        break;
-                    default:
-                        break;
+                    switch (tween.connectType)
+                    {
+                        case ConnectType.Join:
+                            subSequence.Join(tween.Do(obj.RectTransform, obj.CanvasGroup));
+                            break;
+                        case ConnectType.Append:
+                            subSequence.Append(tween.Do(obj.RectTransform, obj.CanvasGroup));
+                            break;
+                        default:
+                            break;
+                    }
                 }
             }
+            else
+            {
+                foreach (var tween in openTweens)
+                {
+                    switch (tween.connectType)
+                    {
+                        case ConnectType.Join:
+                            subSequence.Join(tween.Reverse(obj.RectTransform, obj.CanvasGroup));
+                            break;
+                        case ConnectType.Append:
+                            subSequence.Append(tween.Reverse(obj.RectTransform, obj.CanvasGroup));
+                            break;
+                        default:
+                            break;
+                    }
+                }
+            }
+
             seq.Join(subSequence.SetDelay(totalDelay));
             totalDelay += delay;
         }
@@ -261,10 +383,17 @@ public class UIDoTweenSelecterAnimator : MonoBehaviour
         return seq;
     }
 
+    public void OnValidate()
+    {
+        foreach (var obj in openTweens)
+        {
+            obj.OnValidate();
+        }
+    }
     /// <summary>
     /// 各要素の位置を保存
     /// </summary>
-    private void CreateCachePosition()
+    private void CreateCache()
     {
         foreach (var obj in list)
         {
@@ -276,7 +405,7 @@ public class UIDoTweenSelecterAnimator : MonoBehaviour
     {
         foreach (var obj in list)
         {
-            obj.Reset();
+            obj.ResetStatus();
         }
     }
 }

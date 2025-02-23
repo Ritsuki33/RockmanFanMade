@@ -7,9 +7,9 @@ using UnityEngine.Events;
 
 public class UIDoTweenGroupAnimator : MonoBehaviour
 {
-    [SerializeField] private List<SeqItem> m_openSeq;
+    [SerializeField, Header("オープン　アニメーション")] private List<SeqItem> m_openSeq;
 
-    [SerializeField] private bool isReverse;
+    [SerializeField, Header("クローズ　アニメーション")] private bool isReverse;
     [SerializeField] private List<SeqItem> m_closeSeq;
 
     Sequence sequence = default;
