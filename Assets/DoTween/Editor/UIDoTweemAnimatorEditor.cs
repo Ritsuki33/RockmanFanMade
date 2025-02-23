@@ -7,9 +7,30 @@ using UnityEngine;
 [CustomEditor(typeof(UIDoTweemAnimator))]
 public class UIDoTweemAnimatorEditor : Editor
 {
+    SerializedProperty openTweensProperty;
+    SerializedProperty isReverseProperty;
+    SerializedProperty closeTweensProperty;
+
+    void OnEnable()
+    {
+        openTweensProperty = serializedObject.FindProperty("openTweens");
+        isReverseProperty = serializedObject.FindProperty("isReverse");
+        closeTweensProperty = serializedObject.FindProperty("closeTweens");
+    }
+
     public override void OnInspectorGUI()
     {
-        base.OnInspectorGUI();
+        serializedObject.Update();
+
+        EditorGUILayout.PropertyField(openTweensProperty);
+        EditorGUILayout.PropertyField(isReverseProperty);
+
+        // isReverseがtrueの場合、closeTweensを無効化して表示
+        EditorGUI.BeginDisabledGroup(isReverseProperty.boolValue);
+        EditorGUILayout.PropertyField(closeTweensProperty);
+        EditorGUI.EndDisabledGroup();
+
+        serializedObject.ApplyModifiedProperties();
 
         UIDoTweemAnimator animator = (UIDoTweemAnimator)target;
 
