@@ -16,13 +16,13 @@ public class FadeInManager : SingletonComponent<FadeInManager>
     public void FadeIn(float fadeTime, Color color, Action callback)
     {
         image.color = color;
-        blackOut.DOFade(0, fadeTime).OnComplete(() => callback?.Invoke());
+        blackOut.DOFade(0, fadeTime).OnComplete(() => callback?.Invoke()).Play();
     }
 
     public void FadeOut(float fadeTime, Color color, Action callback)
     {
         image.color = color;
-        blackOut.DOFade(1, fadeTime).OnComplete(() => callback?.Invoke());
+        blackOut.DOFade(1, fadeTime).OnComplete(() => callback?.Invoke()).Play();
     }
 
     public void FadeInImmediate()
