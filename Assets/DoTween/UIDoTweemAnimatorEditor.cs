@@ -52,3 +52,42 @@ public class UIDoTweenGroupAnimatorEditor : Editor
         EditorGUILayout.EndHorizontal();
     }
 }
+
+
+[CustomEditor(typeof(UIDoTweenSelecterAnimator))]
+public class UIDoTweenSelectsAnimatorEditor : Editor
+{
+    public override void OnInspectorGUI()
+    {
+        base.OnInspectorGUI();
+
+        UIDoTweenSelecterAnimator animator = (UIDoTweenSelecterAnimator)target;
+
+        EditorGUILayout.BeginHorizontal();
+        if (GUILayout.Button("Auto Vertical Rayout"))
+        {
+            animator.AutoRayout(false);
+        }
+
+        if (GUILayout.Button("Auto Horizon Rayout"))
+        {
+            animator.AutoRayout(true);
+        }
+        EditorGUILayout.EndHorizontal();
+
+
+        EditorGUILayout.BeginHorizontal();
+        if (GUILayout.Button("Play Open (runtime only) ▶▶"))
+        {
+            animator.PlayOpen(() => Debug.Log("完了"));
+        }
+
+
+        if (GUILayout.Button("Play Close (runtime only) ◀◀"))
+        {
+            animator.PlayClose();
+        }
+
+        EditorGUILayout.EndHorizontal();
+    }
+}
