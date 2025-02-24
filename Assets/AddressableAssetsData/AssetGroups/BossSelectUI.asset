@@ -17,6 +17,11 @@ MonoBehaviour:
     m_SerializedData: []
   m_GUID: e80fde43f3c623c4e8efde36d39f7656
   m_SerializeEntries:
+  - m_GUID: 0e530838a64f7ca41885c37af51806e2
+    m_Address: BossSelectPanel
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 98e67f242dcf9584a84fe2b55bd3643b
     m_Address: GrenademanIntro
     m_ReadOnly: 0
