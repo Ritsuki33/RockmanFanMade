@@ -1,9 +1,9 @@
 fileFormatVersion: 2
-guid: 4a848c4d511bba94f8563a70bde7b4a9
+guid: c2d4d8d371439174f8e171ae8b2a5827
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
-  serializedVersion: 12
+  serializedVersion: 13
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -69,7 +69,7 @@ TextureImporter:
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
-    maxTextureSize: 256
+    maxTextureSize: 64
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 0
@@ -110,85 +110,85 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Rockman4_0
+      name: fire-bom_0
       rect:
         serializedVersion: 2
-        x: 2
-        y: 0
-        width: 37
+        x: 0
+        y: 32
+        width: 32
         height: 32
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 060df44f0abfe8a4c81b723a7291c075
-      internalID: 809471611
+      spriteID: 9bb01fe80555e6847b87c1b37ac5a54c
+      internalID: 1644817897
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Rockman4_1
+      name: fire-bom_1
       rect:
         serializedVersion: 2
-        x: 44
-        y: 0
-        width: 36
+        x: 32
+        y: 32
+        width: 32
         height: 32
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 4ac984a2ba2748c43bb7d580ababb8e4
-      internalID: 1847966586
+      spriteID: 1fcf58f04e973b04b8a6ddbe09e79a4b
+      internalID: -1426572634
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Rockman4_2
+      name: fire-bom_2
       rect:
         serializedVersion: 2
-        x: 81
-        y: 0
-        width: 37
-        height: 32
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 704f6463b7b0674428e9674d4641aee6
-      internalID: -1013530018
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Rockman4_3
-      rect:
-        serializedVersion: 2
-        x: 125
+        x: 0
         y: 0
         width: 32
         height: 32
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a51027cb8e7264d49af3d5c5d6e7c17b
-      internalID: 1828457778
+      spriteID: 22b6ea84b922c8f4cb049a26df89d4d0
+      internalID: 640874528
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fire-bom_3
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d7772153b11e7b54183f2788f5f60862
+      internalID: -1126747072
       vertices: []
       indices: 
       edges: []
@@ -204,10 +204,10 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Rockman4_0: 809471611
-      Rockman4_1: 1847966586
-      Rockman4_2: -1013530018
-      Rockman4_3: 1828457778
+      fire-bom_0: 1644817897
+      fire-bom_1: -1426572634
+      fire-bom_2: 640874528
+      fire-bom_3: -1126747072
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

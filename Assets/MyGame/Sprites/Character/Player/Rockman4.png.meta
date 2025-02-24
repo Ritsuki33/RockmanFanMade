@@ -1,9 +1,9 @@
 fileFormatVersion: 2
-guid: 4f536c1b64193a94c91e1695a42d3163
+guid: 4a848c4d511bba94f8563a70bde7b4a9
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
-  serializedVersion: 12
+  serializedVersion: 13
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -110,64 +110,85 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: ChargeShotSmall_0
+      name: Rockman4_0
       rect:
         serializedVersion: 2
-        x: 0
+        x: 2
         y: 0
-        width: 32
+        width: 37
         height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 1d27ed93bee9c7d4c9af50ca17f9fb10
-      internalID: 2139895307
+      spriteID: 060df44f0abfe8a4c81b723a7291c075
+      internalID: 809471611
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: ChargeShotSmall_1
+      name: Rockman4_1
       rect:
         serializedVersion: 2
-        x: 32
+        x: 44
         y: 0
-        width: 32
+        width: 36
         height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b0019f69b2ab2a146be8c4ad94acd32a
-      internalID: -319404621
+      spriteID: 4ac984a2ba2748c43bb7d580ababb8e4
+      internalID: 1847966586
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: ChargeShotSmall_2
+      name: Rockman4_2
       rect:
         serializedVersion: 2
-        x: 64
+        x: 81
         y: 0
-        width: 32
+        width: 37
         height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: eb5cf48551a13c34984a55437afefc2f
-      internalID: 1859968801
+      spriteID: 704f6463b7b0674428e9674d4641aee6
+      internalID: -1013530018
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Rockman4_3
+      rect:
+        serializedVersion: 2
+        x: 125
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a51027cb8e7264d49af3d5c5d6e7c17b
+      internalID: 1828457778
       vertices: []
       indices: 
       edges: []
@@ -183,9 +204,10 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      ChargeShotSmall_0: 2139895307
-      ChargeShotSmall_1: -319404621
-      ChargeShotSmall_2: 1859968801
+      Rockman4_0: 809471611
+      Rockman4_1: 1847966586
+      Rockman4_2: -1013530018
+      Rockman4_3: 1828457778
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

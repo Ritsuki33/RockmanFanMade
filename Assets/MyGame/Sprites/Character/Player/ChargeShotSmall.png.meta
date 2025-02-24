@@ -1,9 +1,9 @@
 fileFormatVersion: 2
-guid: 0ba8d149448e57f4c937ccff941135f3
+guid: 4f536c1b64193a94c91e1695a42d3163
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
-  serializedVersion: 12
+  serializedVersion: 13
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -110,7 +110,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: charging_Blue_0
+      name: ChargeShotSmall_0
       rect:
         serializedVersion: 2
         x: 0
@@ -124,14 +124,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 1c19a8f31d950fe49834c6075e7b6860
-      internalID: -1294847420
+      spriteID: 1d27ed93bee9c7d4c9af50ca17f9fb10
+      internalID: 2139895307
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: charging_Blue_1
+      name: ChargeShotSmall_1
       rect:
         serializedVersion: 2
         x: 32
@@ -145,14 +145,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 3b925b13eaa3b954b91c84c90fa0dc19
-      internalID: 844387350
+      spriteID: b0019f69b2ab2a146be8c4ad94acd32a
+      internalID: -319404621
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: charging_Blue_2
+      name: ChargeShotSmall_2
       rect:
         serializedVersion: 2
         x: 64
@@ -166,8 +166,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 42010742db01f2140a3e904c06662159
-      internalID: 566226193
+      spriteID: eb5cf48551a13c34984a55437afefc2f
+      internalID: 1859968801
       vertices: []
       indices: 
       edges: []
@@ -183,9 +183,9 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      charging_Blue_0: -1294847420
-      charging_Blue_1: 844387350
-      charging_Blue_2: 566226193
+      ChargeShotSmall_0: 2139895307
+      ChargeShotSmall_1: -319404621
+      ChargeShotSmall_2: 1859968801
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

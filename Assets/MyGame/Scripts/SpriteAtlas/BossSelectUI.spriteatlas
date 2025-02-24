@@ -1,0 +1,88 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!687078895 &4343727234628468602
+SpriteAtlas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: BossSelectUI
+  m_EditorData:
+    serializedVersion: 2
+    textureSettings:
+      serializedVersion: 2
+      anisoLevel: 1
+      compressionQuality: 50
+      maxTextureSize: 2048
+      textureCompression: 0
+      filterMode: 0
+      generateMipMaps: 0
+      readable: 0
+      crunchedCompression: 0
+      sRGB: 1
+    platformSettings:
+    - serializedVersion: 3
+      m_BuildTarget: DefaultTexturePlatform
+      m_MaxTextureSize: 2048
+      m_ResizeAlgorithm: 0
+      m_TextureFormat: -1
+      m_TextureCompression: 0
+      m_CompressionQuality: 50
+      m_CrunchedCompression: 0
+      m_AllowsAlphaSplitting: 0
+      m_Overridden: 0
+      m_IgnorePlatformSupport: 0
+      m_AndroidETC2FallbackOverride: 0
+      m_ForceMaximumCompressionQuality_BC6H_BC7: 0
+    packingSettings:
+      serializedVersion: 2
+      padding: 4
+      blockOffset: 1
+      allowAlphaSplitting: 0
+      enableRotation: 1
+      enableTightPacking: 1
+      enableAlphaDilation: 0
+    secondaryTextureSettings: {}
+    variantMultiplier: 1
+    packables:
+    - {fileID: 102900000, guid: 0fa41d03f821a134c93a864aeba8a670, type: 3}
+    bindAsDefault: 1
+    isAtlasV2: 0
+    cachedData: {fileID: 0}
+    packedSpriteRenderDataKeys:
+    - 72ec57b2fd2157345b036d52ce732adf: 1123834117
+    - 72ec57b2fd2157345b036d52ce732adf: 1764654749
+    - 72ec57b2fd2157345b036d52ce732adf: 1277214170
+    - 72ec57b2fd2157345b036d52ce732adf: -1387629123
+    - 30958f45cc4c48642bf539b4a9878e9d: 21300000
+    - 001ba2a547b5e2c4a87568f19a69f528: 21300000
+    - de1e3887266fb7f40a2b1982a51cb2f3: 21300000
+    - a9f7d34856f2d5746ab9cc04ac6aa288: 21300000
+    - 0904628b4c5397245bc7d33ff82a16b7: 21300000
+    - 7cc86ccf8cdc4f94295a66b1d78880a3: 21300000
+  m_MasterAtlas: {fileID: 0}
+  m_PackedSprites:
+  - {fileID: 1123834117, guid: 72ec57b2fd2157345b036d52ce732adf, type: 3}
+  - {fileID: 1764654749, guid: 72ec57b2fd2157345b036d52ce732adf, type: 3}
+  - {fileID: 1277214170, guid: 72ec57b2fd2157345b036d52ce732adf, type: 3}
+  - {fileID: -1387629123, guid: 72ec57b2fd2157345b036d52ce732adf, type: 3}
+  - {fileID: 21300000, guid: 30958f45cc4c48642bf539b4a9878e9d, type: 3}
+  - {fileID: 21300000, guid: 001ba2a547b5e2c4a87568f19a69f528, type: 3}
+  - {fileID: 21300000, guid: de1e3887266fb7f40a2b1982a51cb2f3, type: 3}
+  - {fileID: 21300000, guid: a9f7d34856f2d5746ab9cc04ac6aa288, type: 3}
+  - {fileID: 21300000, guid: 0904628b4c5397245bc7d33ff82a16b7, type: 3}
+  - {fileID: 21300000, guid: 7cc86ccf8cdc4f94295a66b1d78880a3, type: 3}
+  m_PackedSpriteNamesToIndex:
+  - BossSelectCursor_3
+  - BossSelectCursor_2
+  - BossSelectCursor_1
+  - BossSelectCursor_0
+  - RockmanPanel
+  - BossIntroBack
+  - GrenademanPanel
+  - BossFrame
+  - prohibitPanel
+  - StageSelectBack
+  m_RenderDataMap: {}
+  m_Tag: BossSelectUI
+  m_IsVariant: 0

@@ -1,9 +1,9 @@
 fileFormatVersion: 2
-guid: f8ec676f286a68548b1b653a07c82996
+guid: e97d7197e2e75c04687ac2875057136e
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
-  serializedVersion: 12
+  serializedVersion: 13
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -110,7 +110,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: ChargeShot_0
+      name: Explode2-Sheet_0
       rect:
         serializedVersion: 2
         x: 0
@@ -124,14 +124,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: fce8e3714dfb86a488606f4e8a3aefaf
-      internalID: -1698884433
+      spriteID: d177ec033c6f4ab47b628ac8a83a13e4
+      internalID: -936195957
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: ChargeShot_1
+      name: Explode2-Sheet_1
       rect:
         serializedVersion: 2
         x: 32
@@ -145,14 +145,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 3d1482ddbdba8e14785b6e820be694b5
-      internalID: 1396121871
+      spriteID: 2d0ceb6c5a18b2544af667e7502742a3
+      internalID: -180107202
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: ChargeShot_2
+      name: Explode2-Sheet_2
       rect:
         serializedVersion: 2
         x: 64
@@ -166,14 +166,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 4c3a46a04a5b4e1499208d2d9bbcd3fe
-      internalID: 781814476
+      spriteID: a7174b4fa38dea247baa0ff1e72a0969
+      internalID: -141461587
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: ChargeShot_3
+      name: Explode2-Sheet_3
       rect:
         serializedVersion: 2
         x: 96
@@ -187,8 +187,50 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a23a996d372003f48b734ab784145c64
-      internalID: 969547817
+      spriteID: b2275a78cf28b4d40839727874709cf2
+      internalID: 453947660
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Explode2-Sheet_4
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2cc217761b96c954f935aabec69c2e35
+      internalID: -1263283236
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Explode2-Sheet_5
+      rect:
+        serializedVersion: 2
+        x: 160
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: db1106fc186df754eaf1b6c426a5f8b1
+      internalID: 377079932
       vertices: []
       indices: 
       edges: []
@@ -204,10 +246,12 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      ChargeShot_0: -1698884433
-      ChargeShot_1: 1396121871
-      ChargeShot_2: 781814476
-      ChargeShot_3: 969547817
+      Explode2-Sheet_0: -936195957
+      Explode2-Sheet_1: -180107202
+      Explode2-Sheet_2: -141461587
+      Explode2-Sheet_3: 453947660
+      Explode2-Sheet_4: -1263283236
+      Explode2-Sheet_5: 377079932
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

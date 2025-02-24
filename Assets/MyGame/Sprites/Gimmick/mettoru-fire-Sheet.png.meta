@@ -1,9 +1,9 @@
 fileFormatVersion: 2
-guid: e6a32c36e758cf64ba246931c481dc13
+guid: 3e396a11ea8522c48a4f9141e53c49ef
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
-  serializedVersion: 12
+  serializedVersion: 13
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -110,7 +110,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: transfer-Sheet_0
+      name: mettoru-fire-Sheet_0
       rect:
         serializedVersion: 2
         x: 0
@@ -124,14 +124,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: bc9b793ad53ced94d905fd144106c98e
-      internalID: -1552472801
+      spriteID: 007192940bfc8a34e868595cdbf6de26
+      internalID: 1389204187
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: transfer-Sheet_1
+      name: mettoru-fire-Sheet_1
       rect:
         serializedVersion: 2
         x: 32
@@ -145,14 +145,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 5e47300e4b8748346acf479e300212f4
-      internalID: 1154771400
+      spriteID: 38af63d9cf7d40548980675cda783185
+      internalID: -1711545226
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: transfer-Sheet_2
+      name: mettoru-fire-Sheet_2
       rect:
         serializedVersion: 2
         x: 64
@@ -166,8 +166,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 4cb4d8accbfa4674b93e59e49098fab4
-      internalID: -1390609634
+      spriteID: 0981d9b45c2679041ae2a4c1258d4f61
+      internalID: 386455202
       vertices: []
       indices: 
       edges: []
@@ -183,9 +183,9 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      transfer-Sheet_0: -1552472801
-      transfer-Sheet_1: 1154771400
-      transfer-Sheet_2: -1390609634
+      mettoru-fire-Sheet_0: 1389204187
+      mettoru-fire-Sheet_1: -1711545226
+      mettoru-fire-Sheet_2: 386455202
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
