@@ -45,7 +45,7 @@ SpriteAtlas:
     secondaryTextureSettings: {}
     variantMultiplier: 1
     packables:
-    - {fileID: 102900000, guid: 0fa41d03f821a134c93a864aeba8a670, type: 3}
+    - {fileID: 102900000, guid: b2635cee74cf2c743b9b0cdb15110ffc, type: 3}
     bindAsDefault: 1
     isAtlasV2: 0
     cachedData: {fileID: 0}
@@ -54,11 +54,8 @@ SpriteAtlas:
     - 72ec57b2fd2157345b036d52ce732adf: 1764654749
     - 72ec57b2fd2157345b036d52ce732adf: 1277214170
     - 72ec57b2fd2157345b036d52ce732adf: -1387629123
-    - 30958f45cc4c48642bf539b4a9878e9d: 21300000
     - 001ba2a547b5e2c4a87568f19a69f528: 21300000
-    - de1e3887266fb7f40a2b1982a51cb2f3: 21300000
     - a9f7d34856f2d5746ab9cc04ac6aa288: 21300000
-    - 0904628b4c5397245bc7d33ff82a16b7: 21300000
     - 7cc86ccf8cdc4f94295a66b1d78880a3: 21300000
   m_MasterAtlas: {fileID: 0}
   m_PackedSprites:
@@ -66,22 +63,16 @@ SpriteAtlas:
   - {fileID: 1764654749, guid: 72ec57b2fd2157345b036d52ce732adf, type: 3}
   - {fileID: 1277214170, guid: 72ec57b2fd2157345b036d52ce732adf, type: 3}
   - {fileID: -1387629123, guid: 72ec57b2fd2157345b036d52ce732adf, type: 3}
-  - {fileID: 21300000, guid: 30958f45cc4c48642bf539b4a9878e9d, type: 3}
   - {fileID: 21300000, guid: 001ba2a547b5e2c4a87568f19a69f528, type: 3}
-  - {fileID: 21300000, guid: de1e3887266fb7f40a2b1982a51cb2f3, type: 3}
   - {fileID: 21300000, guid: a9f7d34856f2d5746ab9cc04ac6aa288, type: 3}
-  - {fileID: 21300000, guid: 0904628b4c5397245bc7d33ff82a16b7, type: 3}
   - {fileID: 21300000, guid: 7cc86ccf8cdc4f94295a66b1d78880a3, type: 3}
   m_PackedSpriteNamesToIndex:
   - BossSelectCursor_3
   - BossSelectCursor_2
   - BossSelectCursor_1
   - BossSelectCursor_0
-  - RockmanPanel
   - BossIntroBack
-  - GrenademanPanel
   - BossFrame
-  - prohibitPanel
   - StageSelectBack
   m_RenderDataMap: {}
   m_Tag: BossSelectUI
