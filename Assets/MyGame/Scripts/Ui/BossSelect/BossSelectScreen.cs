@@ -9,24 +9,16 @@ using UnityEngine.UI;
 /// スクリーンのスクリプトテンプレート
 /// Enum型はそれぞれ適切な列挙型を指定
 /// </summary>
-public class BossSelectScreen : BaseScreen<BossSelectScreen, BossSelectScreenPresenter, BossSelectScreenViewModel, BossSelectManager.UI>
+public class BossSelectScreen : BaseScreen<BossSelectScreen, BossSelectScreenPresenter, BossSelectManager.UI>
 {
     [SerializeField] BossSelectController bossSelectController = default;
     [SerializeField] Image flash = default;
 
     public BossSelectController BossSelectController => bossSelectController;
 
-    protected override void Initialize(BossSelectScreenViewModel viewModel)
-    {
-        base.Initialize(viewModel);
-
-        flash.gameObject.SetActive(false);
-    }
-
-
-
     protected override void Open()
     {
+        flash.gameObject.SetActive(false);
         FadeInManager.Instance.FadeInImmediate();
     }
 

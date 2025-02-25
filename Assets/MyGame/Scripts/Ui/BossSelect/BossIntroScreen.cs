@@ -6,7 +6,7 @@ using UnityEngine.Animations;
 /// <summary>
 /// ボスイントロスクリーン
 /// </summary>
-public class BossIntroScreen : BaseScreen<BossIntroScreen, BossIntroScreenPresenter, BossIntroScreenViewModel, BossSelectManager.UI>
+public class BossIntroScreen : BaseScreen<BossIntroScreen, BossIntroScreenPresenter, BossSelectManager.UI>
 {
     //[SerializeField] Animator bossAnimator = default;
     //[SerializeField] LetterRevealText letterRevealText = default;
@@ -14,10 +14,6 @@ public class BossIntroScreen : BaseScreen<BossIntroScreen, BossIntroScreenPresen
     [SerializeField] BossIntroManager bossIntro;
 
     public BossIntroManager BossIntro => bossIntro;
-    protected override void Initialize(BossIntroScreenViewModel viewModel)
-    {
-        //letterRevealText.Init();
-    }
 
     protected override void Open()
     {

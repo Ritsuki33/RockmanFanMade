@@ -6,7 +6,7 @@ using UnityEngine;
 /// スクリーンのスクリプトテンプレート
 /// Enum型はそれぞれ適切な列挙型を指定
 /// </summary>
-public class GameMainScreen : BaseScreen<GameMainScreen, GameMainScreenPresenter, GameMainScreenViewModel, GameMainManager.UI>
+public class GameMainScreen : BaseScreen<GameMainScreen, GameMainScreenPresenter, GameMainManager.UI>
 {
     [SerializeField] ReadyUi readyUi = default;
     [SerializeField] HpBar enemyHpBar = default;
@@ -17,11 +17,6 @@ public class GameMainScreen : BaseScreen<GameMainScreen, GameMainScreenPresenter
     public HpBar EnemyHpBar => enemyHpBar;
     public HpBar HpBar => hpBar;
     public GameObject PauseUi => pauseUi;
-
-    protected override void Initialize(GameMainScreenViewModel viewModel)
-    {
-        HpBar.SetParam(WorldManager.Instance.Player.CurrentHp);
-    }
 
     protected override void Open()
     {
@@ -56,6 +51,11 @@ public class GameMainScreen : BaseScreen<GameMainScreen, GameMainScreenPresenter
 
 public class GameMainScreenPresenter : BaseScreenPresenter<GameMainScreen, GameMainScreenPresenter, GameMainScreenViewModel, GameMainManager.UI>
 {
+    protected override void Initialize()
+    {
+        m_screen.HpBar.SetParam(WorldManager.Instance.Player.CurrentHp);
+    }
+
     protected override void InputUpdate(InputInfo info)
     {
         if (m_screen.PauseUi.activeSelf)

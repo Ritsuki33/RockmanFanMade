@@ -24,7 +24,6 @@ public interface IScreen<T> where T : Enum
 
     public void SetActive(bool isActive);
 
-    public void Initialize(IViewModel<T> viewModel);
     public void Deinitialize();
 
     public void SetSiblingIndex();
@@ -49,10 +48,9 @@ public interface IViewModel<T> where T : Enum
     public IEnumerator Configure();
 }
 
-public class BaseScreen<S, SP, VM, T> : MonoBehaviour, IScreen<T>
+public class BaseScreen<S, SP, T> : MonoBehaviour, IScreen<T>
     where S : IScreen<T>, new()
     where SP : IScreenPresenter<T>, new()
-    where VM : IViewModel<T>, new()
     where T : Enum
 {
     ScreenContainer<T> container;
@@ -86,7 +84,6 @@ public class BaseScreen<S, SP, VM, T> : MonoBehaviour, IScreen<T>
     IEnumerator IScreen<T>.OpenCoroutine() { yield return OpenCoroutine(); }
     IEnumerator IScreen<T>.HideCoroutine() { yield return HideCoroutine(); }
     void IScreen<T>.SetActive(bool isActive) => gameObject.SetActive(isActive);
-    void IScreen<T>.Initialize(IViewModel<T> viewModel) => Initialize((VM)viewModel);
     void IScreen<T>.SetSiblingIndex() => transform.SetSiblingIndex(transform.parent.childCount - 1);
     void IScreen<T>.Deinitialize()
     {
@@ -96,7 +93,6 @@ public class BaseScreen<S, SP, VM, T> : MonoBehaviour, IScreen<T>
 
     protected virtual void Open() { }
     protected virtual void Hide() { }
-    protected virtual void Initialize(VM viewModel) { }
     protected virtual void Deinitialize() { }
     protected virtual void OnUpdate() { }
     protected virtual IEnumerator OpenCoroutine() { yield return null; }
@@ -122,11 +118,8 @@ public class BaseScreenPresenter<S, SP, VM, T> : IScreenPresenter<T>
         yield return m_viewModel.Configure();
 
         m_screen = (S)screen;
-        // コントローラーの初期化
+        // プレゼンターの初期化
         Initialize();
-
-        // シーンの初期化
-        screen.Initialize(m_viewModel);
     }
 
     ScreenContainer<T> IScreenPresenter<T>.Container { set => container = value; }
