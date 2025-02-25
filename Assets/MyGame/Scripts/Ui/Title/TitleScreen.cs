@@ -1,15 +1,10 @@
 ﻿using UnityEngine;
 
-public class TitleScreen : BaseScreen<TitleScreen, TitleScreenPresenter, TitleScreenViewModel, TitleManager.ScreenType>
+public class TitleScreen : BaseScreen<TitleScreen, TitleScreenPresenter, TitleManager.ScreenType>
 {
     [SerializeField] MainMenuColorSelect select;
 
     public MainMenuColorSelect Select => select;
-
-    protected override void Initialize(TitleScreenViewModel viewModel)
-    {
-        select.Init(viewModel.Selects.ToArray(), viewModel.Selected);
-    }
 
     protected override void Open()
     {

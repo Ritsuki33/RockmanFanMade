@@ -6,7 +6,7 @@ using UnityEngine;
 /// スクリーンのスクリプトテンプレート
 /// Enum型はそれぞれ適切な列挙型を指定
 /// </summary>
-public class GameMainScreen : BaseScreen<GameMainScreen, GameMainScreenPresenter, GameMainScreenViewModel, GameMainManager.UI>
+public class GameMainScreen : BaseScreen<GameMainScreen, GameMainScreenPresenter, GameMainManager.UI>
 {
     [SerializeField] ReadyUi readyUi = default;
     [SerializeField] HpBar enemyHpBar = default;
@@ -17,11 +17,6 @@ public class GameMainScreen : BaseScreen<GameMainScreen, GameMainScreenPresenter
     public HpBar EnemyHpBar => enemyHpBar;
     public HpBar HpBar => hpBar;
     public GameObject PauseUi => pauseUi;
-
-    protected override void Initialize(GameMainScreenViewModel viewModel)
-    {
-        HpBar.SetParam(WorldManager.Instance.Player.CurrentHp);
-    }
 
     protected override void Open()
     {
@@ -56,18 +51,14 @@ public class GameMainScreen : BaseScreen<GameMainScreen, GameMainScreenPresenter
 
 public class GameMainScreenPresenter : BaseScreenPresenter<GameMainScreen, GameMainScreenPresenter, GameMainScreenViewModel, GameMainManager.UI>
 {
-    GameMainScreen _screen;
-    GameMainScreenViewModel _viewModel;
-
-    protected override void Initialize(GameMainScreen screen, GameMainScreenViewModel viewModel)
+    protected override void Initialize()
     {
-        _screen = screen;
-        _viewModel = viewModel;
+        m_screen.HpBar.SetParam(WorldManager.Instance.Player.CurrentHp);
     }
 
     protected override void InputUpdate(InputInfo info)
     {
-        if (_screen.PauseUi.activeSelf)
+        if (m_screen.PauseUi.activeSelf)
         {
             // ステージ離脱
             if (info.decide)
@@ -88,22 +79,22 @@ public class GameMainScreenPresenter : BaseScreenPresenter<GameMainScreen, GameM
 
     private void SetPlayerHp(float hp)
     {
-        _screen.HpBar.SetParam(hp);
+        m_screen.HpBar.SetParam(hp);
     }
 
     public void SetEnemyHp(float hp)
     {
-        _screen.EnemyHpBar.SetParam(hp);
+        m_screen.EnemyHpBar.SetParam(hp);
     }
 
     public void PlayerHpActive(bool isActive)
     {
-        _screen.HpBar.gameObject.SetActive(isActive);
+        m_screen.HpBar.gameObject.SetActive(isActive);
     }
 
     public void EnemyHpActive(bool isActive)
     {
-        _screen.EnemyHpBar.gameObject.SetActive(isActive);
+        m_screen.EnemyHpBar.gameObject.SetActive(isActive);
     }
 
     public void HpIncrementAnimation(HpBar hpbar, float startParam, float endParam, IReadOnlyReactiveProperty<float> hp, Action finishCallback)
@@ -121,7 +112,7 @@ public class GameMainScreenPresenter : BaseScreenPresenter<GameMainScreen, GameM
     /// <param name="finishCallback"></param>
     public void PlayerHpIncrementAnimation(float startParam, float endParam, IReadOnlyReactiveProperty<float> hp, Action finishCallback)
     {
-        HpIncrementAnimation(_screen.HpBar, startParam, endParam, hp,()=>
+        HpIncrementAnimation(m_screen.HpBar, startParam, endParam, hp, () =>
         {
             // プレイヤーHpの監視登録
             hp.Subscribe(SetPlayerHp);
@@ -138,7 +129,7 @@ public class GameMainScreenPresenter : BaseScreenPresenter<GameMainScreen, GameM
     /// <param name="finishCallback"></param>
     public void EnemyHpIncrementAnimation(float startParam, float endParam, IReadOnlyReactiveProperty<float> hp, Action finishCallback)
     {
-        HpIncrementAnimation(_screen.EnemyHpBar, startParam, endParam, hp, () =>
+        HpIncrementAnimation(m_screen.EnemyHpBar, startParam, endParam, hp, () =>
         {
             // 敵Hpの監視登録
             hp.Subscribe(SetEnemyHp);
@@ -149,12 +140,12 @@ public class GameMainScreenPresenter : BaseScreenPresenter<GameMainScreen, GameM
 
     public void ReadyUiPlay(Action finishCallback)
     {
-        _screen.ReadyUi.Play(finishCallback);
+        m_screen.ReadyUi.Play(finishCallback);
     }
 
     public void OnOpenPauseUi(bool isOpen)
     {
-        _screen.PauseUi.SetActive(isOpen);
+        m_screen.PauseUi.SetActive(isOpen);
     }
 }
 

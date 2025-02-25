@@ -1,37 +1,28 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.U2D;
 using UnityEngine.UI;
 
 /// <summary>
 /// スクリーンのスクリプトテンプレート
 /// Enum型はそれぞれ適切な列挙型を指定
 /// </summary>
-public class BossSelectScreen : BaseScreen<BossSelectScreen, BossSelectScreenPresenter, BossSelectScreenViewModel, BossSelectManager.UI>
+public class BossSelectScreen : BaseScreen<BossSelectScreen, BossSelectScreenPresenter, BossSelectManager.UI>
 {
     [SerializeField] BossSelectController bossSelectController = default;
     [SerializeField] Image flash = default;
 
     public BossSelectController BossSelectController => bossSelectController;
 
-    protected override void Initialize(BossSelectScreenViewModel viewModel)
-    {
-        base.Initialize(viewModel);
-
-        flash.gameObject.SetActive(false);
-    }
-
-    public void OpenBossIntroScreen()
-    {
-        TransitScreen(BossSelectManager.UI.BossIntro, true);
-    }
-
     protected override void Open()
     {
+        flash.gameObject.SetActive(false);
         FadeInManager.Instance.FadeInImmediate();
     }
 
-    public void Selected()
+    public void FlashEffect(Action callback)
     {
         StartCoroutine(FlashEffectCo());
         IEnumerator FlashEffectCo()
@@ -49,23 +40,17 @@ public class BossSelectScreen : BaseScreen<BossSelectScreen, BossSelectScreenPre
             }
             while (count < 3);
 
-
-            OpenBossIntroScreen();
+            callback?.Invoke();
         }
     }
 }
 
 public class BossSelectScreenPresenter : BaseScreenPresenter<BossSelectScreen, BossSelectScreenPresenter, BossSelectScreenViewModel, BossSelectManager.UI>
 {
-    BossSelectScreen m_screen;
-    BossSelectScreenViewModel m_viewModel;
 
-    protected override void Initialize(BossSelectScreen screen, BossSelectScreenViewModel viewModel)
+    protected override void Initialize()
     {
-        m_screen = screen;
-        m_viewModel = viewModel;
-
-        m_screen.BossSelectController.Init(4, Selected);
+        m_screen.BossSelectController.Init(4, m_viewModel.bossSelectInfos.ToArray(), Selected);
     }
 
     protected override void Open()
@@ -92,10 +77,21 @@ public class BossSelectScreenPresenter : BaseScreenPresenter<BossSelectScreen, B
         }
     }
 
-    private void Selected(SelectInfo info)
+    private void Selected(BossSelectInfo info)
     {
-        AudioManager.Instance.PlaySystem(SECueIDs.start);
-        m_screen.Selected();
+        if (info.selectable)
+        {
+            AudioManager.Instance.PlaySystem(SECueIDs.start);
+            m_screen.FlashEffect(() =>
+            {
+                m_viewModel.SetBossId(info.id, info.panelName);
+                OpenBossIntroScreen();
+            });
+        }
+        else
+        {
+            AudioManager.Instance.PlaySystem(SECueIDs.error);
+        }
     }
 
 
@@ -107,14 +103,49 @@ public class BossSelectScreenPresenter : BaseScreenPresenter<BossSelectScreen, B
         else if (info.right) return InputDirection.Right;
         else return InputDirection.None;
     }
- 
+    private void OpenBossIntroScreen()
+    {
+        TransitToScreen(BossSelectManager.UI.BossIntro, true);
+    }
 }
 
 public class BossSelectScreenViewModel : BaseViewModel<BossSelectManager.UI>
 {
-
+    public List<BossSelectInfo> bossSelectInfos = new List<BossSelectInfo>();
+    BossSelectData bossSelectData;
+    SpriteAtlas spriteAtlas;
+    private readonly string addressableBossSelectDataPath = "BossSelectData";
+    private readonly string addressableSpriteAtlasPath = "BossSelectPanel";
     protected override IEnumerator Configure()
     {
+        bossSelectData = AddressableAssetLoadUtility.LoadAsset<BossSelectData>(addressableBossSelectDataPath);
+        spriteAtlas = AddressableAssetLoadUtility.LoadAsset<SpriteAtlas>(addressableSpriteAtlasPath);
+
+        foreach (var item in bossSelectData.bossInfoList)
+        {
+            var info = new BossSelectInfo();
+            info.id = item.id;
+            info.panelName = item.panelName;
+            info.panelSprite = spriteAtlas.GetSprite(item.panelSprite);
+            info.selectable = item.selectable;
+            bossSelectInfos.Add(info);
+        }
+
+        // ボス未選択は‐1とする
+        GameState.bossId = -1;
+        GameState.bossName = "";
         yield return null;
+    }
+
+    public void SetBossId(int id, string name)
+    {
+        GameState.bossId = id;
+        GameState.bossName = name;
+    }
+
+    public void Destroy()
+    {
+        AddressableAssetLoadUtility.Release(bossSelectData);
+        AddressableAssetLoadUtility.Release(spriteAtlas);
     }
 }

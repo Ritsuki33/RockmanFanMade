@@ -36,10 +36,6 @@ public partial class StagePlayer : PhysicalObject, IDirect, IBeltConveyorVelocit
     }
     public int MaxHp => maxHp;
 
-
-    //public Action<float> hpChangeTrigger;
-
-
     Collider2D bodyLadder = null;
 
     BoxCollider2D boxPhysicalCollider = null;
@@ -168,7 +164,7 @@ public partial class StagePlayer : PhysicalObject, IDirect, IBeltConveyorVelocit
     {
         if (m_mainStateMachine.CurId < (int)Main_StateID.WarpIn
             && m_mainStateMachine.CurId > (int)Main_StateID.WarpOut)
-        cameraBoundLimiter.ForceAdjustPosition(boxPhysicalCollider);
+            cameraBoundLimiter.ForceAdjustPosition(boxPhysicalCollider);
     }
 
     protected override void OnPause(bool isPause)
@@ -202,6 +198,7 @@ public partial class StagePlayer : PhysicalObject, IDirect, IBeltConveyorVelocit
     public void Dead()
     {
         if (isDead) return;
+        hp.Value = 0;
         isDead = true;
         m_mainStateMachine.TransitReady((int)Main_StateID.Death);
         GameMainManager.Instance.DeathNotification();

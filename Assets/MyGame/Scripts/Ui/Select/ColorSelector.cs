@@ -1,7 +1,7 @@
 ﻿using TMPro;
 using UnityEngine;
 
-public class ColorSelector : BaseSelect<SelectInfo>
+public class ColorSelector : BaseSelector<SelectInfo>
 {
     [SerializeField] Color normal;
     [SerializeField] Color highLight;

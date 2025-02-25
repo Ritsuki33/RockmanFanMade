@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BossSelectController : GridSelectController<CursorSelector, SelectInfo>
+public class BossSelectController : GridSelectController<BossSelectCursorSelector, BossSelectInfo>
 {
     [SerializeField] Transform cursor = default;
 

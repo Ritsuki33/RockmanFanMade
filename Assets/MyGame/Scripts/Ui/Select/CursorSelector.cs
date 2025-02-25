@@ -2,7 +2,7 @@
 using TMPro;
 using UnityEngine;
 
-public abstract class BaseSelect<TData> : MonoBehaviour
+public abstract class BaseSelector<TData> : MonoBehaviour
 {
     protected Action<TData> selected = default;
     [SerializeField] protected TData data;
@@ -30,28 +30,10 @@ public abstract class BaseSelect<TData> : MonoBehaviour
     }
 }
 
-[Serializable]
-public struct SelectInfo
-{
-    public int id;
-    public string text;
 
-    public SelectInfo(int id, string text)
-    {
-        this.id = id;
-        this.text = text;
-    }
-}
-
-public class CursorSelector : BaseSelect<SelectInfo>
+public abstract class CursorSelector<TData> : BaseSelector<TData>
 {
     [SerializeField] Transform cursorPtr = default;
-    [SerializeField] TextMeshProUGUI text = default;
-
-    protected override void OnSetup(SelectInfo data)
-    {
-        if (this.text) this.text.text = data.text;
-    }
 
     public void SetCursor(Transform cursor)
     {

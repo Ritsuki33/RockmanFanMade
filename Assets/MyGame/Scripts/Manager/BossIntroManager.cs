@@ -18,6 +18,7 @@ public class BossIntroManager : MonoBehaviour
     [SerializeField] TextMeshProUGUI text;
     Action _finishCallback;
 
+    Animator modelData = default;
     Animator model = default;
     void Start()
     {
@@ -31,12 +32,15 @@ public class BossIntroManager : MonoBehaviour
         director.stopped -= OnPlayableDirectorStopped;
     }
 
-    public void Play(string bossName, Action finishCallback)
+    public void Setup(Animator modelData)
+    {
+        this.modelData = modelData;
+    }
+
+    public void Play(Action finishCallback)
     {
         try
         {
-            var modelData = AddressableAssetLoadUtility.LoadPrefab<Animator>($"{bossName}Intro");
-
             model = Instantiate(modelData, bossHolder.transform);
 
             var trackBindings = director.playableAsset.outputs;
@@ -87,7 +91,7 @@ public class BossIntroManager : MonoBehaviour
             this._finishCallback = finishCallback;
             director.Play();
         }
-        catch(InvalidOperationException e)
+        catch (InvalidOperationException e)
         {
             finishCallback.Invoke();
             if (model != null) Destroy(model.gameObject);
