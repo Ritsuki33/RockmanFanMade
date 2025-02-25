@@ -27,9 +27,8 @@ public interface IScreen<T> where T : Enum
     public void Initialize(IViewModel<T> viewModel);
     public void Deinitialize();
 
-    public ScreenContainer<T> Container { set; }
-
     public void SetSiblingIndex();
+
 }
 
 public interface IScreenPresenter<T> where T : Enum
@@ -42,6 +41,7 @@ public interface IScreenPresenter<T> where T : Enum
     public void Deinitialize();
 
     public void InputUpdate(InputInfo info);
+    public ScreenContainer<T> Container { set; }
 }
 
 public interface IViewModel<T> where T : Enum
@@ -62,7 +62,7 @@ public class BaseScreen<S, SP, VM, T> : MonoBehaviour, IScreen<T>
     IScreenPresenter<T> IScreen<T>.ScreenPresenter => screenPresenter;
 
     public SP ScreenPresenter => (SP)screenPresenter;
-    
+
     public IEnumerator Configure()
     {
         if (screenPresenter == null) screenPresenter = new SP();
@@ -80,15 +80,12 @@ public class BaseScreen<S, SP, VM, T> : MonoBehaviour, IScreen<T>
         OnUpdate();
     }
 
-    public void TransitScreen(T request, bool immediate) => container.TransitScreen(request, immediate);
-
     void IScreen<T>.Open() => Open();
     void IScreen<T>.Hide() => Hide();
     IEnumerator IScreen<T>.OpenCoroutine() { yield return OpenCoroutine(); }
     IEnumerator IScreen<T>.HideCoroutine() { yield return HideCoroutine(); }
     void IScreen<T>.SetActive(bool isActive) => gameObject.SetActive(isActive);
     void IScreen<T>.Initialize(IViewModel<T> viewModel) => Initialize((VM)viewModel);
-    ScreenContainer<T> IScreen<T>.Container { set => container = value; }
     void IScreen<T>.SetSiblingIndex() => transform.SetSiblingIndex(transform.parent.childCount - 1);
     void IScreen<T>.Deinitialize()
     {
@@ -107,12 +104,13 @@ public class BaseScreen<S, SP, VM, T> : MonoBehaviour, IScreen<T>
 
 }
 
-public class BaseScreenPresenter<S, SP, VM, T>: IScreenPresenter<T>
+public class BaseScreenPresenter<S, SP, VM, T> : IScreenPresenter<T>
     where S : IScreen<T>, new()
     where SP : IScreenPresenter<T>, new()
     where VM : IViewModel<T>, new()
     where T : Enum
 {
+    ScreenContainer<T> container;
     IEnumerator IScreenPresenter<T>.Configure(IScreen<T> screen)
     {
         // モデルの構成
@@ -123,12 +121,20 @@ public class BaseScreenPresenter<S, SP, VM, T>: IScreenPresenter<T>
         Initialize((S)screen, viewModel);
 
         // シーンの初期化
-       screen.Initialize(viewModel);
+        screen.Initialize(viewModel);
     }
+
+    ScreenContainer<T> IScreenPresenter<T>.Container { set => container = value; }
+
     void IScreenPresenter<T>.InputUpdate(InputInfo info) => InputUpdate(info);
     void IScreenPresenter<T>.Deinitialize() => Deinitialize();
     void IScreenPresenter<T>.Open() => Open();
     void IScreenPresenter<T>.Hide() => Hide();
+
+    protected void TransitToScreen(T nextScreen, bool immediate = false)
+    {
+        container.TransitScreen(nextScreen, immediate);
+    }
 
     protected virtual void Initialize(S screen, VM viewModel) { }
     protected virtual void Open() { }
@@ -147,7 +153,7 @@ public class BaseViewModel<T> : IViewModel<T>
     protected virtual IEnumerator Configure() { yield return null; }
 }
 
-public class ScreenContainer<T> where T: Enum
+public class ScreenContainer<T> where T : Enum
 {
     Dictionary<T, IScreen<T>> list = new Dictionary<T, IScreen<T>>();
 
@@ -160,7 +166,7 @@ public class ScreenContainer<T> where T: Enum
         if (curScreen != null) curScreen.OnUpdate();
     }
 
-    public IEnumerator Initialize(T request,bool immediately)
+    public IEnumerator Initialize(T request, bool immediately)
     {
         if (!list.ContainsKey(request))
         {
@@ -187,7 +193,6 @@ public class ScreenContainer<T> where T: Enum
             list.Add(id, screen);
             if (screen != null)
             {
-                screen.Container = this;
                 screen.SetActive(false);
             }
             else
@@ -196,7 +201,6 @@ public class ScreenContainer<T> where T: Enum
             }
 
         }
-
         else
         {
             Debug.Log($"{id} キーは既に登録されています。");
@@ -264,8 +268,11 @@ public class ScreenContainer<T> where T: Enum
             curScreen?.SetActive(false);
 
             curScreen = newScreen;
-
-            curScreen?.ScreenPresenter?.Open();
+            if (curScreen?.ScreenPresenter != null)
+            {
+                curScreen.ScreenPresenter.Container = this;
+                curScreen.ScreenPresenter.Open();
+            }
             curScreen.Open();
         }
         else

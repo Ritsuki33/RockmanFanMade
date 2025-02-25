@@ -23,17 +23,14 @@ public class BossSelectScreen : BaseScreen<BossSelectScreen, BossSelectScreenPre
         flash.gameObject.SetActive(false);
     }
 
-    public void OpenBossIntroScreen()
-    {
-        TransitScreen(BossSelectManager.UI.BossIntro, true);
-    }
+
 
     protected override void Open()
     {
         FadeInManager.Instance.FadeInImmediate();
     }
 
-    public void Selected()
+    public void FlashEffect(Action callback)
     {
         StartCoroutine(FlashEffectCo());
         IEnumerator FlashEffectCo()
@@ -51,8 +48,7 @@ public class BossSelectScreen : BaseScreen<BossSelectScreen, BossSelectScreenPre
             }
             while (count < 3);
 
-
-            OpenBossIntroScreen();
+            callback?.Invoke();
         }
     }
 }
@@ -99,7 +95,7 @@ public class BossSelectScreenPresenter : BaseScreenPresenter<BossSelectScreen, B
         if (info.selectable)
         {
             AudioManager.Instance.PlaySystem(SECueIDs.start);
-            m_screen.Selected();
+            m_screen.FlashEffect(OpenBossIntroScreen);
         }
         else
         {
@@ -116,7 +112,10 @@ public class BossSelectScreenPresenter : BaseScreenPresenter<BossSelectScreen, B
         else if (info.right) return InputDirection.Right;
         else return InputDirection.None;
     }
-
+    private void OpenBossIntroScreen()
+    {
+        TransitToScreen(BossSelectManager.UI.BossIntro, true);
+    }
 }
 
 public class BossSelectScreenViewModel : BaseViewModel<BossSelectManager.UI>
