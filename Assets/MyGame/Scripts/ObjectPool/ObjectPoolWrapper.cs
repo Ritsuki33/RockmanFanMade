@@ -68,7 +68,7 @@ public class ObjectPoolWrapper<E> where E : Enum
     public void Destory()
     {
         // 削除だけなので逆ループでおｋ
-        for(int i= caches.Count - 1; i >= 0; i--)
+        for (int i = caches.Count - 1; i >= 0; i--)
         {
             Release(caches[i]);
         }
@@ -100,7 +100,7 @@ public class ObjectPoolWrapper<E> where E : Enum
 
     public void Release(BaseObject obj)
     {
-        if(caches.Contains(obj))Pool.Release(obj);
+        if (caches.Contains(obj)) Pool.Release(obj);
     }
 
     BaseObject OnCreateToPool()
@@ -156,7 +156,7 @@ public class ObjectPoolWrapper<E> where E : Enum
 
         public void Release(BaseObject asset)
         {
-            AddressableAssetLoadUtility.Release(asset.gameObject);
+            AddressableAssetLoadUtility.Release(asset);
         }
     }
 }

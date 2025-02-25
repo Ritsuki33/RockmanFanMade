@@ -13,6 +13,7 @@ public class BossIntroScreen : BaseScreen<BossIntroScreen, BossIntroScreenPresen
 
     [SerializeField] BossIntroManager bossIntro;
 
+    public BossIntroManager BossIntro => bossIntro;
     protected override void Initialize(BossIntroScreenViewModel viewModel)
     {
         //letterRevealText.Init();
@@ -20,7 +21,7 @@ public class BossIntroScreen : BaseScreen<BossIntroScreen, BossIntroScreenPresen
 
     protected override void Open()
     {
-        bossIntro.Play("Grenademan", () =>
+        bossIntro.Play(() =>
         {
             BossSelectManager.Instance.TransitToGameMain();
         });
@@ -29,7 +30,6 @@ public class BossIntroScreen : BaseScreen<BossIntroScreen, BossIntroScreenPresen
     protected override void Hide()
     {
         FadeInManager.Instance.FadeOutImmediate();
-        bossIntro.Terminate();
     }
 
     protected override IEnumerator HideCoroutine()
@@ -39,19 +39,15 @@ public class BossIntroScreen : BaseScreen<BossIntroScreen, BossIntroScreenPresen
 
     protected override void Deinitialize()
     {
-        base.Deinitialize();
+        bossIntro.Terminate();
     }
 }
 
 public class BossIntroScreenPresenter : BaseScreenPresenter<BossIntroScreen, BossIntroScreenPresenter, BossIntroScreenViewModel, BossSelectManager.UI>
 {
-    BossIntroScreen m_screen;
-    BossIntroScreenViewModel m_viewModel;
-
-    protected override void Initialize(BossIntroScreen screen, BossIntroScreenViewModel viewModel)
+    protected override void Initialize()
     {
-        m_screen = screen;
-        m_viewModel = viewModel;
+        m_screen.BossIntro.Setup(m_viewModel.modelData);
     }
 
     protected override void InputUpdate(InputInfo info)
@@ -59,14 +55,27 @@ public class BossIntroScreenPresenter : BaseScreenPresenter<BossIntroScreen, Bos
         base.InputUpdate(info);
 
     }
-
+    protected override void DeInitialize()
+    {
+        m_viewModel.Destroy();
+    }
 }
 
 public class BossIntroScreenViewModel : BaseViewModel<BossSelectManager.UI>
 {
+    public string bossName { get; private set; }
+    public Animator modelData { get; private set; }
 
     protected override IEnumerator Configure()
     {
+        bossName = GameState.bossName;
+
+        modelData = AddressableAssetLoadUtility.LoadPrefab<Animator>($"{bossName}Intro");
         yield return null;
+    }
+
+    public void Destroy()
+    {
+        AddressableAssetLoadUtility.Release(modelData);
     }
 }

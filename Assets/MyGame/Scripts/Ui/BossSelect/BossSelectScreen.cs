@@ -55,14 +55,9 @@ public class BossSelectScreen : BaseScreen<BossSelectScreen, BossSelectScreenPre
 
 public class BossSelectScreenPresenter : BaseScreenPresenter<BossSelectScreen, BossSelectScreenPresenter, BossSelectScreenViewModel, BossSelectManager.UI>
 {
-    BossSelectScreen m_screen;
-    BossSelectScreenViewModel m_viewModel;
 
-    protected override void Initialize(BossSelectScreen screen, BossSelectScreenViewModel viewModel)
+    protected override void Initialize()
     {
-        m_screen = screen;
-        m_viewModel = viewModel;
-
         m_screen.BossSelectController.Init(4, m_viewModel.bossSelectInfos.ToArray(), Selected);
     }
 
@@ -95,7 +90,11 @@ public class BossSelectScreenPresenter : BaseScreenPresenter<BossSelectScreen, B
         if (info.selectable)
         {
             AudioManager.Instance.PlaySystem(SECueIDs.start);
-            m_screen.FlashEffect(OpenBossIntroScreen);
+            m_screen.FlashEffect(() =>
+            {
+                m_viewModel.SetBossId(info.id, info.panelName);
+                OpenBossIntroScreen();
+            });
         }
         else
         {
@@ -121,14 +120,14 @@ public class BossSelectScreenPresenter : BaseScreenPresenter<BossSelectScreen, B
 public class BossSelectScreenViewModel : BaseViewModel<BossSelectManager.UI>
 {
     public List<BossSelectInfo> bossSelectInfos = new List<BossSelectInfo>();
-
-
+    BossSelectData bossSelectData;
+    SpriteAtlas spriteAtlas;
     private readonly string addressableBossSelectDataPath = "BossSelectData";
     private readonly string addressableSpriteAtlasPath = "BossSelectPanel";
     protected override IEnumerator Configure()
     {
-        BossSelectData bossSelectData = AddressableAssetLoadUtility.LoadAsset<BossSelectData>(addressableBossSelectDataPath);
-        SpriteAtlas spriteAtlas = AddressableAssetLoadUtility.LoadAsset<SpriteAtlas>(addressableSpriteAtlasPath);
+        bossSelectData = AddressableAssetLoadUtility.LoadAsset<BossSelectData>(addressableBossSelectDataPath);
+        spriteAtlas = AddressableAssetLoadUtility.LoadAsset<SpriteAtlas>(addressableSpriteAtlasPath);
 
         foreach (var item in bossSelectData.bossInfoList)
         {
@@ -140,6 +139,21 @@ public class BossSelectScreenViewModel : BaseViewModel<BossSelectManager.UI>
             bossSelectInfos.Add(info);
         }
 
+        // ボス未選択は‐1とする
+        GameState.bossId = -1;
+        GameState.bossName = "";
         yield return null;
+    }
+
+    public void SetBossId(int id, string name)
+    {
+        GameState.bossId = id;
+        GameState.bossName = name;
+    }
+
+    public void Destroy()
+    {
+        AddressableAssetLoadUtility.Release(bossSelectData);
+        AddressableAssetLoadUtility.Release(spriteAtlas);
     }
 }

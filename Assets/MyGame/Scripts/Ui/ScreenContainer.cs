@@ -48,6 +48,7 @@ public interface IViewModel<T> where T : Enum
 {
     public IEnumerator Configure();
 }
+
 public class BaseScreen<S, SP, VM, T> : MonoBehaviour, IScreen<T>
     where S : IScreen<T>, new()
     where SP : IScreenPresenter<T>, new()
@@ -111,23 +112,27 @@ public class BaseScreenPresenter<S, SP, VM, T> : IScreenPresenter<T>
     where T : Enum
 {
     ScreenContainer<T> container;
+    protected S m_screen;
+    protected VM m_viewModel;
+
     IEnumerator IScreenPresenter<T>.Configure(IScreen<T> screen)
     {
         // モデルの構成
-        VM viewModel = new VM();
-        yield return viewModel.Configure();
+        m_viewModel = new VM();
+        yield return m_viewModel.Configure();
 
+        m_screen = (S)screen;
         // コントローラーの初期化
-        Initialize((S)screen, viewModel);
+        Initialize();
 
         // シーンの初期化
-        screen.Initialize(viewModel);
+        screen.Initialize(m_viewModel);
     }
 
     ScreenContainer<T> IScreenPresenter<T>.Container { set => container = value; }
 
     void IScreenPresenter<T>.InputUpdate(InputInfo info) => InputUpdate(info);
-    void IScreenPresenter<T>.Deinitialize() => Deinitialize();
+    void IScreenPresenter<T>.Deinitialize() => DeInitialize();
     void IScreenPresenter<T>.Open() => Open();
     void IScreenPresenter<T>.Hide() => Hide();
 
@@ -136,13 +141,11 @@ public class BaseScreenPresenter<S, SP, VM, T> : IScreenPresenter<T>
         container.TransitScreen(nextScreen, immediate);
     }
 
-    protected virtual void Initialize(S screen, VM viewModel) { }
+    protected virtual void Initialize() { }
     protected virtual void Open() { }
     protected virtual void Hide() { }
     protected virtual void InputUpdate(InputInfo info) { }
-    protected virtual void Deinitialize() { }
-
-
+    protected virtual void DeInitialize() { }
 }
 
 public class BaseViewModel<T> : IViewModel<T>
@@ -151,6 +154,7 @@ public class BaseViewModel<T> : IViewModel<T>
     IEnumerator IViewModel<T>.Configure() => Configure();
 
     protected virtual IEnumerator Configure() { yield return null; }
+
 }
 
 public class ScreenContainer<T> where T : Enum

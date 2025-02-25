@@ -1,15 +1,5 @@
 ﻿public class TitleScreenPresenter : BaseScreenPresenter<TitleScreen, TitleScreenPresenter, TitleScreenViewModel, TitleManager.ScreenType>
 {
-    private TitleScreen _screen;
-    private TitleScreenViewModel _model;
-
-    protected override void Initialize(TitleScreen screen, TitleScreenViewModel viewModel)
-    {
-        _screen = screen;
-        _model = viewModel;
-
-    }
-
     protected override void Open()
     {
         AudioManager.Instance.PlayBgm(BGMCueIDs.title8);
@@ -26,12 +16,12 @@
         var dir = GetInputDirection(info);
         if (dir != InputDirection.None)
         {
-            _screen.Select.InputUpdate(dir);
-             AudioManager.Instance.PlaySystem(SECueIDs.select);
+            m_screen.Select.InputUpdate(dir);
+            AudioManager.Instance.PlaySystem(SECueIDs.select);
         }
         else if (info.decide)
         {
-            _screen.Select.Selected();
+            m_screen.Select.Selected();
         }
     }
 
