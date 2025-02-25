@@ -8,7 +8,7 @@ public class TitleScreen : BaseScreen<TitleScreen, TitleScreenPresenter, TitleSc
 
     protected override void Initialize(TitleScreenViewModel viewModel)
     {
-        select.Init(viewModel.Selects.ToArray(), viewModel.Selected);
+        select.Init(0, viewModel.Selects.ToArray(), viewModel.Selected);
     }
 
     protected override void Open()

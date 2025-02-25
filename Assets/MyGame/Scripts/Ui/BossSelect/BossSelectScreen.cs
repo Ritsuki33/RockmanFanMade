@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.U2D;
 using UnityEngine.UI;
 
 /// <summary>
@@ -65,7 +67,7 @@ public class BossSelectScreenPresenter : BaseScreenPresenter<BossSelectScreen, B
         m_screen = screen;
         m_viewModel = viewModel;
 
-        m_screen.BossSelectController.Init(4, Selected);
+        m_screen.BossSelectController.Init(4, m_viewModel.bossSelectInfos.ToArray(), Selected);
     }
 
     protected override void Open()
@@ -92,10 +94,17 @@ public class BossSelectScreenPresenter : BaseScreenPresenter<BossSelectScreen, B
         }
     }
 
-    private void Selected(SelectInfo info)
+    private void Selected(BossSelectInfo info)
     {
-        AudioManager.Instance.PlaySystem(SECueIDs.start);
-        m_screen.Selected();
+        if (info.selectable)
+        {
+            AudioManager.Instance.PlaySystem(SECueIDs.start);
+            m_screen.Selected();
+        }
+        else
+        {
+            AudioManager.Instance.PlaySystem(SECueIDs.error);
+        }
     }
 
 
@@ -107,14 +116,31 @@ public class BossSelectScreenPresenter : BaseScreenPresenter<BossSelectScreen, B
         else if (info.right) return InputDirection.Right;
         else return InputDirection.None;
     }
- 
+
 }
 
 public class BossSelectScreenViewModel : BaseViewModel<BossSelectManager.UI>
 {
+    public List<BossSelectInfo> bossSelectInfos = new List<BossSelectInfo>();
 
+
+    private readonly string addressableBossSelectDataPath = "BossSelectData";
+    private readonly string addressableSpriteAtlasPath = "BossSelectPanel";
     protected override IEnumerator Configure()
     {
+        BossSelectData bossSelectData = AddressableAssetLoadUtility.LoadAsset<BossSelectData>(addressableBossSelectDataPath);
+        SpriteAtlas spriteAtlas = AddressableAssetLoadUtility.LoadAsset<SpriteAtlas>(addressableSpriteAtlasPath);
+
+        foreach (var item in bossSelectData.bossInfoList)
+        {
+            var info = new BossSelectInfo();
+            info.id = item.id;
+            info.panelName = item.panelName;
+            info.panelSprite = spriteAtlas.GetSprite(item.panelSprite);
+            info.selectable = item.selectable;
+            bossSelectInfos.Add(info);
+        }
+
         yield return null;
     }
 }

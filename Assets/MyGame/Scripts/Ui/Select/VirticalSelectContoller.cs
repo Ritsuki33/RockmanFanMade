@@ -1,4 +1,4 @@
-﻿public abstract class VirticalSelectContoller<TSelect, TData> : SelectController<TSelect, TData> where TSelect : BaseSelect<TData>
+﻿public abstract class VirticalSelectContoller<TSelect, TData> : SelectController<TSelect, TData> where TSelect : BaseSelector<TData>
 {
     /// <summary>
     /// コントローラー
@@ -6,7 +6,7 @@
     /// <param name="info"></param>
     public override void InputUpdate(InputDirection dir)
     {
-        int next= currentIndex;
+        int next = currentIndex;
 
         switch (dir)
         {

@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-public abstract class GridSelectController<T, D> : SelectController<T, D> where T : BaseSelect<D>
+public abstract class GridSelectController<TSelector, TData> : SelectController<TSelector, TData> where TSelector : BaseSelector<TData>
 {
     [SerializeField] GridLayoutGroup gridLayoutGroup = default;
 
@@ -20,13 +20,13 @@ public abstract class GridSelectController<T, D> : SelectController<T, D> where 
                 next -= ColumnCount;
                 break;
             case InputDirection.Down:
-            next += ColumnCount;
+                next += ColumnCount;
                 break;
             case InputDirection.Left:
-            next -= 1;
+                next -= 1;
                 break;
             case InputDirection.Right:
-            next += 1;
+                next += 1;
                 break;
             default:
                 break;

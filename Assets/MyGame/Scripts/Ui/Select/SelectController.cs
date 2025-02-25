@@ -11,7 +11,7 @@ public enum InputDirection
     Right
 }
 
-public abstract class SelectController<TSelect,TData> : MonoBehaviour where TSelect: BaseSelect<TData>
+public abstract class SelectController<TSelect, TData> : MonoBehaviour where TSelect : BaseSelector<TData>
 {
     [Header("動的生成用 入力")]
     [SerializeField] Transform selectsRoot = default;
@@ -26,6 +26,13 @@ public abstract class SelectController<TSelect,TData> : MonoBehaviour where TSel
 
     Action<TData> selectCallback;
 
+    public List<TSelect> Selects => selects;
+
+    /// <summary>
+    /// 静的に要素がある場合はこちらで初期化
+    /// </summary>
+    /// <param name="index"></param>
+    /// <param name="selectCallback"></param>
     public virtual void Init(int index, Action<TData> selectCallback)
     {
         foreach (var item in selects)
@@ -38,16 +45,29 @@ public abstract class SelectController<TSelect,TData> : MonoBehaviour where TSel
         this.selectCallback = selectCallback;
     }
 
-    public virtual void Init(TData[] data, Action<TData> selectCallback)
+    /// <summary>
+    /// 動的に要素がある場合はこちらで初期化
+    /// </summary>
+    /// <param name="startIndex"></param>
+    /// <param name="data"></param>
+    /// <param name="selectCallback"></param>
+    public virtual void Init(int startIndex, TData[] data, Action<TData> selectCallback)
     {
+        // 静的に生成した要素を削除
+        foreach (var item in selects)
+        {
+            Destroy(item.gameObject);
+        }
+        selects.Clear();
+
         for (int i = 0; i < data.Length; i++)
         {
-            BaseSelect<TData> select = GameObject.Instantiate(selectPrefab, selectsRoot);
+            BaseSelector<TData> select = GameObject.Instantiate(selectPrefab, selectsRoot);
             select.Setup(data[i], Selected);
             selects.Add((TSelect)select);
         }
 
-        UpdateCursor(currentIndex);
+        UpdateCursor(startIndex);
 
         this.selectCallback = selectCallback;
     }
@@ -72,7 +92,7 @@ public abstract class SelectController<TSelect,TData> : MonoBehaviour where TSel
     /// </summary>
     /// <param name="info"></param>
     public abstract void InputUpdate(InputDirection info);
-   
+
     /// <summary>
     /// モデル
     /// </summary>
