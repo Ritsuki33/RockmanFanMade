@@ -61,17 +61,19 @@ public class BossIntroScreenViewModel : BaseViewModel<BossSelectManager.UI>
 {
     public string bossName { get; private set; }
     public Animator modelData { get; private set; }
+    public int modelDataId { get; private set; }
 
     protected override IEnumerator Configure()
     {
         bossName = GameState.bossName;
 
-        modelData = AddressableAssetLoadUtility.LoadPrefab<Animator>($"{bossName}Intro");
+        (modelData, modelDataId) = AddressableAssetLoadUtility.LoadPrefab<Animator>($"{bossName}Intro");
+
         yield return null;
     }
 
     public void Destroy()
     {
-        AddressableAssetLoadUtility.Release(modelData);
+        AddressableAssetLoadUtility.ReleasePrefab(modelDataId);
     }
 }

@@ -19,7 +19,6 @@ public class BossIntroManager : MonoBehaviour
     Action _finishCallback;
 
     Animator modelData = default;
-    Animator model = default;
     void Start()
     {
         // PlayableDirectorの終了時にOnPlayableDirectorStoppedを実行する
@@ -41,28 +40,28 @@ public class BossIntroManager : MonoBehaviour
     {
         try
         {
-            model = Instantiate(modelData, bossHolder.transform);
-
+            modelData.transform.SetParent(bossHolder.transform, false);
+            modelData.transform.localPosition = Vector3.zero;
             var trackBindings = director.playableAsset.outputs;
-            if (model == null)
+            if (modelData == null)
             {
-                throw new InvalidOperationException($"オブジェクトからAnimatorコンポーネントを取得できませんでした。(Object Name={model.name})");
+                throw new InvalidOperationException($"オブジェクトからAnimatorコンポーネントを取得できませんでした。(Object Name={modelData.name})");
             }
 
             foreach (var binding in trackBindings)
             {
                 if (binding.streamName == modelTrackName)  // Timeline上のオブジェクト名
                 {
-                    director.SetGenericBinding(binding.sourceObject, model);
+                    director.SetGenericBinding(binding.sourceObject, modelData);
                 }
                 else if (binding.streamName.Equals(modelAnimTrackName))
                 {
-                    director.SetGenericBinding(binding.sourceObject, model);
+                    director.SetGenericBinding(binding.sourceObject, modelData);
                 }
             }
 
             // Animator Controller から AnimationClip を取得
-            AnimationClip[] clips = model.runtimeAnimatorController.animationClips;
+            AnimationClip[] clips = modelData.runtimeAnimatorController.animationClips;
 
             AnimationClip pauseClip = clips.Where(clip => clip.name.Equals(pauseClipName)).DefaultIfEmpty(null).First();
 
@@ -94,14 +93,14 @@ public class BossIntroManager : MonoBehaviour
         catch (InvalidOperationException e)
         {
             finishCallback.Invoke();
-            if (model != null) Destroy(model.gameObject);
+            if (modelData != null) Destroy(modelData.gameObject);
             Debug.LogError(e.Message);
         }
     }
 
     public void Terminate()
     {
-        if (model != null) Destroy(model.gameObject);
+        if (modelData != null) Destroy(modelData.gameObject);
     }
 
     void OnPlayableDirectorStopped(PlayableDirector aDirector)
