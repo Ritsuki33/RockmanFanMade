@@ -55,6 +55,7 @@ public class BossSelectScreenPresenter : BaseScreenPresenter<BossSelectScreen, B
 
     protected override void Open()
     {
+        AudioManager.Instance.OnPause(false);
         AudioManager.Instance.PlayBgm(BGMCueIDs.bossselect);
     }
 
@@ -107,6 +108,11 @@ public class BossSelectScreenPresenter : BaseScreenPresenter<BossSelectScreen, B
     {
         TransitToScreen(BossSelectManager.UI.BossIntro, true);
     }
+
+    protected override void DeInitialize()
+    {
+        m_screen.BossSelectController.OnDestroy();
+    }
 }
 
 public class BossSelectScreenViewModel : BaseViewModel<BossSelectManager.UI>
@@ -145,7 +151,7 @@ public class BossSelectScreenViewModel : BaseViewModel<BossSelectManager.UI>
 
     public void Destroy()
     {
-        AddressableAssetLoadUtility.Release(bossSelectData);
-        AddressableAssetLoadUtility.Release(spriteAtlas);
+        AddressableAssetLoadUtility.ReleaseAsset(bossSelectData);
+        AddressableAssetLoadUtility.ReleaseAsset(spriteAtlas);
     }
 }
