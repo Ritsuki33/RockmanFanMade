@@ -17,7 +17,7 @@ public class BossSelectController : GridSelectController<BossSelectCursorSelecto
 
     public override void OnDestroy()
     {
-        cursor.SetParent(cursorRoot);
+        cursor.SetParent(cursorRoot, false);
         base.OnDestroy();
     }
 }

@@ -166,3 +166,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cursorPtr: {fileID: 8614279789286908659}
   image: {fileID: 9115338295119743568}
+  m_rectTransform: {fileID: 8614279789286908659}
