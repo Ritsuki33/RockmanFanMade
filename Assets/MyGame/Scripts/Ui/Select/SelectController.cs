@@ -100,8 +100,10 @@ public abstract class SelectController<TSelect, TData> : MonoBehaviour where TSe
     protected void UpdateCursor(int index)
     {
         preIndex = currentIndex;
+        selects[preIndex].OnCursorExit();
         currentIndex = Mathf.Clamp(index, 0, selects.Count - 1);
 
+        selects[currentIndex].OnCursorEnter();
         DisplayCursor();
     }
 

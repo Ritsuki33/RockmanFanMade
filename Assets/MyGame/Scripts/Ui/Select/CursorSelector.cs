@@ -28,6 +28,13 @@ public abstract class BaseSelector<TData> : MonoBehaviour
     {
         selected.Invoke(data);
     }
+
+    /// <summary>
+    /// カーソルが合わさったとき
+    /// </summary>
+    public virtual void OnCursorEnter() { }
+
+    public virtual void OnCursorExit() { }
 }
 
 
@@ -37,7 +44,7 @@ public abstract class CursorSelector<TData> : BaseSelector<TData>
 
     public void SetCursor(Transform cursor)
     {
-        cursor.SetParent(cursorPtr);
+        cursor.SetParent(cursorPtr, false);
         cursor.localPosition = Vector3.zero;
     }
 }
