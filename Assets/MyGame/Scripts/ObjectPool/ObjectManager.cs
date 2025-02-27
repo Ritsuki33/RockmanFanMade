@@ -104,7 +104,7 @@ public class ObjectManager : SingletonComponent<ObjectManager>
     /// <param name="id"></param>
     /// <param name="deleteCallback"></param>
     /// <returns></returns>
-    public T OnGet<T>(PoolType type,int id, Action<T> deleteCallback = null) where T : BaseObject, IObjectInterpreter
+    public T OnGet<T>(PoolType type, int id, Action<T> deleteCallback = null) where T : BaseObject, IObjectInterpreter
     {
         if (id != 0 && CheckExitIdInActiveObject(id))
         {
@@ -115,7 +115,7 @@ public class ObjectManager : SingletonComponent<ObjectManager>
         T obj = objectPoolList.OnGet<T>(type);
 
         if (obj == null) return null;
-        
+
         obj.Id = id;
         obj.onDeleteCallback = () =>
         {
@@ -139,7 +139,7 @@ public class ObjectManager : SingletonComponent<ObjectManager>
     /// <typeparam name="T"></typeparam>
     /// <param name="obj"></param>
     /// <returns></returns>
-    public T OnGet<T>(PoolType type, Action<T> deleteCallback=null) where T : BaseObject, IObjectInterpreter
+    public T OnGet<T>(PoolType type, Action<T> deleteCallback = null) where T : BaseObject, IObjectInterpreter
     {
         return OnGet<T>(type, 0, deleteCallback);
     }
@@ -152,44 +152,18 @@ public class ObjectManager : SingletonComponent<ObjectManager>
     /// <param name="id"></param>
     /// <param name="deleteCallback"></param>
     /// <returns></returns>
-    private T OnLoad<T>(string path, int id, Func<string, T> onLoadCallback, Action<GameObject> onReleaseCallback, Action<T> deleteCallback = null) where T : BaseObject, IObjectInterpreter
+
+    /// <summary>
+    /// オブジェクトをロードして取得
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="path"></param>
+    /// <param name="deleteCallback"></param>
+    /// <returns></returns>
+    public T OnAddressableLoad<T>(string path, Action<T> deleteCallback = null) where T : BaseObject, IObjectInterpreter
     {
-        if (id != 0 && CheckExitIdInActiveObject(id))
-        {
-            Debug.LogError("指定したIdが使われているため、取得できません。");
-            return null;
-        }
-
-        //T res = Resources.Load<T>(path);
-        T res = onLoadCallback.Invoke(path);
-
-        if (res == null)
-        {
-            Debug.LogError($"リソースをロードできませんでした。(path:{path})");
-            return null;
-        }
-
-        T obj = Instantiate(res, this.transform);
-        obj.Id = id;
-        obj.onDeleteCallback = () =>
-        {
-            deleteCallback?.Invoke(obj);
-
-            // オブジェクトの退会
-            updateList.Remove(obj);
-
-            // そのまま破棄
-            Destroy(obj.gameObject);
-           
-            onReleaseCallback.Invoke(res.gameObject);
-        };
-
-        // オブジェクトの登録
-        updateList.Add(obj);
-        return obj;
+        return OnAddressableLoad<T>(path, 0, deleteCallback);
     }
-
-
 
     /// <summary>
     /// オブジェクトをロードして取得
@@ -208,9 +182,41 @@ public class ObjectManager : SingletonComponent<ObjectManager>
     /// <typeparam name="T"></typeparam>
     /// <param name="path"></param>
     /// <returns></returns>
-    public T OnAddressableLoad<T>(string path, Action<T> deleteCallback = null) where T : BaseObject, IObjectInterpreter
+    public T OnAddressableLoad<T>(string path, int id, Action<T> deleteCallback = null) where T : BaseObject, IObjectInterpreter
     {
-        return OnAddressableLoad<T>(path, 0, deleteCallback);
+        if (id != 0 && CheckExitIdInActiveObject(id))
+        {
+            Debug.LogError("指定したIdが使われているため、取得できません。");
+            return null;
+        }
+
+        //T res = Resources.Load<T>(path);
+        (T obj, int assetId) = AddressableAssetLoadUtility.LoadPrefab<T>(path);
+
+        if (obj == null)
+        {
+            Debug.LogError($"リソースをロードできませんでした。(pathl:{path})");
+            return null;
+        }
+        obj.transform.SetParent(this.transform);
+        obj.Id = id;
+        obj.onDeleteCallback = () =>
+        {
+            deleteCallback?.Invoke(obj);
+
+            // オブジェクトの退会
+            updateList.Remove(obj);
+
+            // そのまま破棄
+            Destroy(obj.gameObject);
+
+            AddressableAssetLoadUtility.ReleasePrefab(assetId);
+        };
+
+        // オブジェクトの登録
+        updateList.Add(obj);
+        return obj;
+        // return OnAddressableLoad<T>(path, 0, deleteCallback);
     }
 
     /// <summary>
@@ -223,32 +229,39 @@ public class ObjectManager : SingletonComponent<ObjectManager>
     /// <returns></returns>
     public T OnResouceLoad<T>(string path, int id, Action<T> deleteCallback = null) where T : BaseObject, IObjectInterpreter
     {
-        return OnLoad(
-            path,
-            id,
-            Resources.Load<T>,
-            (obj) => { Resources.UnloadUnusedAssets(); },
-            deleteCallback
-            );
-    }
+        if (id != 0 && CheckExitIdInActiveObject(id))
+        {
+            Debug.LogError("指定したIdが使われているため、取得できません。");
+            return null;
+        }
 
-    /// <summary>
-    /// オブジェクトをAddressablesからロードして取得(idは0とする)
-    /// </summary>
-    /// <typeparam name="T"></typeparam>
-    /// <param name="path"></param>
-    /// <param name="id"></param>
-    /// <param name="deleteCallback"></param>
-    /// <returns></returns>
-    public T OnAddressableLoad<T>(string path, int id, Action<T> deleteCallback = null) where T : BaseObject, IObjectInterpreter
-    {
-        return OnLoad(
-           path,
-           id,
-           AddressableAssetLoadUtility.LoadPrefab<T>,
-           AddressableAssetLoadUtility.Release,
-           deleteCallback
-           );
+        //T res = Resources.Load<T>(path);
+        T res = Resources.Load<T>(path);
+
+        if (res == null)
+        {
+            Debug.LogError($"リソースをロードできませんでした。(path:{path})");
+            return null;
+        }
+
+        T obj = Instantiate(res, this.transform);
+        obj.Id = id;
+        obj.onDeleteCallback = () =>
+        {
+            deleteCallback?.Invoke(obj);
+
+            // オブジェクトの退会
+            updateList.Remove(obj);
+
+            // そのまま破棄
+            Destroy(obj.gameObject);
+
+            Resources.UnloadUnusedAssets();
+        };
+
+        // オブジェクトの登録
+        updateList.Add(obj);
+        return obj;
     }
 
     /// <summary>
@@ -264,7 +277,7 @@ public class ObjectManager : SingletonComponent<ObjectManager>
 
             if (id == updateList[i].Id)
             {
-               return true;
+                return true;
             }
         }
 

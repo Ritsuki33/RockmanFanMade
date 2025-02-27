@@ -38,7 +38,7 @@ public abstract class CursorSelector<TData> : BaseSelector<TData>
     public void SetCursor(Transform cursor)
     {
         cursor.SetParent(cursorPtr);
-
+        Debug.Log(cursor.gameObject.activeSelf);
         cursor.localPosition = Vector3.zero;
     }
 }

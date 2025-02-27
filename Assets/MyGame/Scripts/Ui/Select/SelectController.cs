@@ -82,7 +82,7 @@ public abstract class SelectController<TSelect, TData> : MonoBehaviour where TSe
         selects.Clear();
     }
 
-    public void OnDestroy()
+    public virtual void OnDestroy()
     {
         Clear();
     }

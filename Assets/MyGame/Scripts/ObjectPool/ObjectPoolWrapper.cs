@@ -22,26 +22,27 @@ public class ObjectPoolWrapper<E> where E : Enum
     /// </summary>
     public void Init(GenericPoolData<E> master, Transform root)
     {
-        string path = default;
+        string str = default;
 
         // アセットの読み込み
         if (master.isAddressables)
         {
-            path = $"{master.addPath}{master.type.ToString()}";
+            str = $"{master.addPath}{master.type.ToString()}";
             //res = Resources.Load<BaseObject>(path);
             assetLoad = new AddressableLoad();
         }
         else
         {
-            path = $"Prefabs/{master.addPath}{master.type.ToString()}";
+            str = $"Prefabs/{master.addPath}{master.type.ToString()}";
             assetLoad = new ResoucesLoad();
         }
 
-        asset = assetLoad.Load<BaseObject>(path);
+        var obj = assetLoad.Load(str);
+        asset = obj.GetComponent<BaseObject>();
         _root = root;
         if (asset == null)
         {
-            Debug.LogError($"リソースのロードに失敗しました(path:{path})");
+            Debug.LogError($"リソースのロードに失敗しました(path:{str})");
             return;
         }
 
@@ -128,15 +129,15 @@ public class ObjectPoolWrapper<E> where E : Enum
 
     interface IAssetLoad
     {
-        T Load<T>(string str) where T : BaseObject;
+        GameObject Load(string str);
         void Release(BaseObject asset);
     }
 
     class ResoucesLoad : IAssetLoad
     {
-        public T Load<T>(string str) where T : BaseObject
+        public GameObject Load(string str)
         {
-            return Resources.Load<T>(str);
+            return Resources.Load<GameObject>(str);
         }
 
         public void Release(BaseObject asset)
@@ -149,14 +150,14 @@ public class ObjectPoolWrapper<E> where E : Enum
 
     class AddressableLoad : IAssetLoad
     {
-        public T Load<T>(string str) where T : BaseObject
+        public GameObject Load(string str)
         {
-            return AddressableAssetLoadUtility.LoadPrefab<T>(str);
+            return AddressableAssetLoadUtility.LoadAsset<GameObject>(str);
         }
 
         public void Release(BaseObject asset)
         {
-            AddressableAssetLoadUtility.Release(asset);
+            AddressableAssetLoadUtility.ReleaseAsset(asset.gameObject);
         }
     }
 }

@@ -28,8 +28,9 @@ public class GameMainManager : BaseManager<GameMainManager>
 
     [SerializeField] MainCameraControll m_mainCameraControll = default;
     [SerializeField] GameMainScreen m_gameMainScreen = default;
-    [SerializeField] Transform worldRoot= default;
+    [SerializeField] Transform worldRoot = default;
     WorldManager worldManager = default;
+    int worldInstanceId = 0;
 
     private IInput InputController => InputManager.Instance;
     private CameraControllArea currentCameraControllArea;
@@ -52,12 +53,16 @@ public class GameMainManager : BaseManager<GameMainManager>
         {
             FadeInManager.Instance.FadeOutImmediate();
 
-            worldManager = CreateWorldManager();
+            var res = AddressableAssetLoadUtility.LoadPrefab<WorldManager>("GrenademanStage", this.worldRoot);
+
+            worldManager = res.Item1;
             if (worldManager == null)
             {
                 Debug.LogError("ワールドの読み込みに失敗しました");
                 yield break;
             }
+
+            worldInstanceId = res.Item2;
 
             // ワールドの初期化
             worldManager.Init();
@@ -117,7 +122,7 @@ public class GameMainManager : BaseManager<GameMainManager>
         }
     }
 
-   
+
 
     public void DeathNotification()
     {
@@ -131,7 +136,7 @@ public class GameMainManager : BaseManager<GameMainManager>
         yield return new WaitForSeconds(4.0f);
 
         bool isfade = true;
-        FadeInManager.Instance.FadeOut(0.4f, Color.black, ()=>{ isfade = false; });
+        FadeInManager.Instance.FadeOut(0.4f, Color.black, () => { isfade = false; });
         while (isfade) yield return null;
 
         action.Invoke();
@@ -156,23 +161,11 @@ public class GameMainManager : BaseManager<GameMainManager>
     }
 
 
-    WorldManager CreateWorldManager()
-    {
-        var res = AddressableAssetLoadUtility.LoadPrefab<WorldManager>("GrenademanStage");
-
-        if (res != null)
-        {
-            return Instantiate(res, this.worldRoot);
-        }
-        else
-        {
-            return null;
-        }
-    }
 
     void DestroyWorld()
     {
         Destroy(worldManager.gameObject);
+        AddressableAssetLoadUtility.ReleasePrefab(worldInstanceId);
         worldManager = null;
 
         AudioManager.Instance.StopBGM();

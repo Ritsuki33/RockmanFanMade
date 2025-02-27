@@ -1,9 +1,11 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class BossSelectController : GridSelectController<BossSelectCursorSelector, BossSelectInfo>
 {
+    [SerializeField] Transform cursorRoot = default;
     [SerializeField] Transform cursor = default;
 
     public override void DisplayCursor()
@@ -11,5 +13,11 @@ public class BossSelectController : GridSelectController<BossSelectCursorSelecto
         cursor.gameObject.SetActive(true);
 
         selects[currentIndex].SetCursor(cursor);
+    }
+
+    public override void OnDestroy()
+    {
+        cursor.SetParent(cursorRoot);
+        base.OnDestroy();
     }
 }
