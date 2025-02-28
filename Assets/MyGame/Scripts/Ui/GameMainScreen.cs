@@ -42,11 +42,6 @@ public class GameMainScreen : BaseScreen<GameMainScreen, GameMainScreenPresenter
     {
         return base.HideCoroutine();
     }
-
-    protected override void Deinitialize()
-    {
-        base.Deinitialize();
-    }
 }
 
 public class GameMainScreenPresenter : BaseScreenPresenter<GameMainScreen, GameMainScreenPresenter, GameMainScreenViewModel, GameMainManager.UI>

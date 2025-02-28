@@ -36,4 +36,9 @@
         else if (info.down) return InputDirection.Down;
         else return InputDirection.None;
     }
+
+    protected override void Destroy()
+    {
+        m_screen.Select.Clear();
+    }
 }

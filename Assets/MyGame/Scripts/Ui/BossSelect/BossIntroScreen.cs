@@ -32,11 +32,6 @@ public class BossIntroScreen : BaseScreen<BossIntroScreen, BossIntroScreenPresen
     {
         return base.HideCoroutine();
     }
-
-    protected override void Deinitialize()
-    {
-        bossIntro.Terminate();
-    }
 }
 
 public class BossIntroScreenPresenter : BaseScreenPresenter<BossIntroScreen, BossIntroScreenPresenter, BossIntroScreenViewModel, BossSelectManager.UI>
@@ -50,10 +45,6 @@ public class BossIntroScreenPresenter : BaseScreenPresenter<BossIntroScreen, Bos
     {
         base.InputUpdate(info);
 
-    }
-    protected override void DeInitialize()
-    {
-        m_viewModel.Destroy();
     }
 }
 
@@ -72,8 +63,9 @@ public class BossIntroScreenViewModel : BaseViewModel<BossSelectManager.UI>
         yield return null;
     }
 
-    public void Destroy()
+    protected override IEnumerator Destroy()
     {
         AddressableAssetLoadUtility.ReleasePrefab(modelDataId);
+        yield return null;
     }
 }

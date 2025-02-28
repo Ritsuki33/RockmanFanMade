@@ -15,9 +15,4 @@ public class TitleScreen : BaseScreen<TitleScreen, TitleScreenPresenter, TitleMa
     {
         FadeInManager.Instance.FadeOutImmediate();
     }
-
-    protected override void Deinitialize()
-    {
-        select.Clear();
-    }
 }

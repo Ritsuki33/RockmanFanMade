@@ -4,8 +4,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public abstract class BaseTweemAnimator : MonoBehaviour
+{
+    public abstract void PlayOpen(Action finishCallback = null);
+    public abstract void PlayClose(Action finishCallback = null);
+}
+
 [RequireComponent(typeof(CanvasGroup))]
-public class UIDoTweemAnimator : MonoBehaviour
+public class UIDoTweemAnimator : BaseTweemAnimator
 {
     enum TweenType
     {
@@ -28,21 +34,21 @@ public class UIDoTweemAnimator : MonoBehaviour
 
     Sequence sequence = default;
 
-    public void PlayOpen(Action finishCallback = null)
+    public override void PlayOpen(Action finishCallback = null)
     {
         if (sequence != null) sequence.Kill(true);
         sequence = CreateOpenSequence();
-
+        gameObject.SetActive(false);
         sequence.Play()
         .OnStart(() => gameObject.SetActive(true))
         .OnComplete(() => finishCallback?.Invoke())
         .OnKill(() => ResetStatus());
     }
 
-    public void PlayClose(Action finishCallback = null)
+    public override void PlayClose(Action finishCallback = null)
     {
         if (sequence != null) sequence.Kill(true);
-        sequence = CreateCloseSequence(isReverse);
+        sequence = CreateCloseSequence();
 
         sequence.Play()
         .OnStart(() => gameObject.SetActive(true))
@@ -371,7 +377,7 @@ public class UIDoTweemAnimator : MonoBehaviour
     }
 
     public Sequence CreateOpenSequence() => CreateSequence(openTweens);
-    public Sequence CreateCloseSequence(bool isReverse)
+    public Sequence CreateCloseSequence()
     {
         if (isReverse)
         {
