@@ -1,9 +1,10 @@
-Shader "Custom/WhiteSilhouetteShader"
+Shader "Custom/ColorSilhouetteShader"
 {
     Properties
     {
         _MainTex ("Texture", 2D) = "white" {}
 
+        _ChangeColor("ChangeColor",Color)=(1,1,1,1)
         _IsFadeWhite("IsFadeWhite",Range(0,1)) = 0
     }
     SubShader
@@ -36,6 +37,8 @@ Shader "Custom/WhiteSilhouetteShader"
             sampler2D _MainTex;
             float4 _MainTex_ST;
 
+            float4 _ChangeColor;
+
             uniform float _IsFadeWhite;
             v2f vert (appdata v)
             {
@@ -49,7 +52,7 @@ Shader "Custom/WhiteSilhouetteShader"
             {
                 fixed4 col = tex2D(_MainTex, i.uv);
 
-                float4 newCol = lerp(col, float4(1,1,1,col.a), _IsFadeWhite);
+                float4 newCol = lerp(col, float4(_ChangeColor.rgb,col.a), _IsFadeWhite);
                 return newCol;
             }
             ENDCG
