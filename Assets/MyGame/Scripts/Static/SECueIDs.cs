@@ -22,4 +22,5 @@
     public static readonly int thiun = 20;
     public static readonly int boostmini = 21;
     public static readonly int tstrike = 22;
+    public static readonly int shakin = 23;
 }

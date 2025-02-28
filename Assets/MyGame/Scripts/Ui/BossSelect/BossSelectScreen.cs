@@ -109,7 +109,7 @@ public class BossSelectScreenPresenter : BaseScreenPresenter<BossSelectScreen, B
         TransitToScreen(BossSelectManager.UI.BossIntro, true);
     }
 
-    protected override void DeInitialize()
+    protected override void Destroy()
     {
         m_screen.BossSelectController.OnDestroy();
     }
@@ -149,9 +149,10 @@ public class BossSelectScreenViewModel : BaseViewModel<BossSelectManager.UI>
         GameState.bossName = name;
     }
 
-    public void Destroy()
+    protected override IEnumerator Destroy()
     {
         AddressableAssetLoadUtility.ReleaseAsset(bossSelectData);
         AddressableAssetLoadUtility.ReleaseAsset(spriteAtlas);
+        yield return null;
     }
 }

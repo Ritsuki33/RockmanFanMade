@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
-public class UIDoTweenSelecterAnimator : MonoBehaviour
+public class UIDoTweenSelecterAnimator : BaseTweemAnimator
 {
 
     [SerializeField] private List<UIDoTweenSelecterElement> list = new List<UIDoTweenSelecterElement>();
@@ -287,7 +287,7 @@ public class UIDoTweenSelecterAnimator : MonoBehaviour
 
     Sequence sequence = default;
 
-    public void PlayOpen(Action finishCallback = null)
+    public override void PlayOpen(Action finishCallback = null)
     {
         if (sequence != null) sequence.Kill(true);
         sequence = CreateOpenSequence();
@@ -302,7 +302,7 @@ public class UIDoTweenSelecterAnimator : MonoBehaviour
         .OnKill(ResetPosition);
     }
 
-    public void PlayClose(Action finishCallback = null)
+    public override void PlayClose(Action finishCallback = null)
     {
         if (sequence != null) sequence.Kill(true);
         sequence = CreateCloseSequence();

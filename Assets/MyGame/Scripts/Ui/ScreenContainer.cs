@@ -15,6 +15,9 @@ public interface IScreen<T> where T : Enum
     /// <returns></returns>
     public IEnumerator Configure();
 
+    public IEnumerator PlayOpen();
+    public IEnumerator PlayHide();
+
     public void Open();   // 表示
     public void Hide();         // 非表示
 
@@ -24,7 +27,7 @@ public interface IScreen<T> where T : Enum
 
     public void SetActive(bool isActive);
 
-    public void Deinitialize();
+    public IEnumerator Destroy();
 
     public void SetSiblingIndex();
 
@@ -34,10 +37,15 @@ public interface IScreenPresenter<T> where T : Enum
 {
     public IEnumerator Configure(IScreen<T> screen);
 
+    public void BeforeOpen();
     public void Open();
-    public void Hide();
+    public void AfterOpen();
 
-    public void Deinitialize();
+    public void BeforeHide();
+    public void Hide();
+    public void AfterHide();
+
+    public IEnumerator Destroy();
 
     public void InputUpdate(InputInfo info);
     public ScreenContainer<T> Container { set; }
@@ -46,6 +54,8 @@ public interface IScreenPresenter<T> where T : Enum
 public interface IViewModel<T> where T : Enum
 {
     public IEnumerator Configure();
+
+    public IEnumerator Destroy();
 }
 
 public class BaseScreen<S, SP, T> : MonoBehaviour, IScreen<T>
@@ -53,7 +63,32 @@ public class BaseScreen<S, SP, T> : MonoBehaviour, IScreen<T>
     where SP : IScreenPresenter<T>, new()
     where T : Enum
 {
-    ScreenContainer<T> container;
+    [SerializeField] BaseTweemAnimator tweemAnimator = default;
+
+    public IEnumerator PlayOpen()
+    {
+        if (tweemAnimator == null) yield break;
+
+        bool completed = false;
+        tweemAnimator.PlayOpen(() => completed = true);
+        while (!completed)
+        {
+            yield return null;
+        }
+    }
+
+    public IEnumerator PlayHide()
+    {
+        if (tweemAnimator == null) yield break;
+
+        bool completed = false;
+        tweemAnimator.PlayClose(() => completed = true);
+        while (!completed)
+        {
+            yield return null;
+        }
+    }
+
     IScreenPresenter<T> screenPresenter = null;
 
     private IInput InputController => InputManager.Instance;
@@ -85,15 +120,13 @@ public class BaseScreen<S, SP, T> : MonoBehaviour, IScreen<T>
     IEnumerator IScreen<T>.HideCoroutine() { yield return HideCoroutine(); }
     void IScreen<T>.SetActive(bool isActive) => gameObject.SetActive(isActive);
     void IScreen<T>.SetSiblingIndex() => transform.SetSiblingIndex(transform.parent.childCount - 1);
-    void IScreen<T>.Deinitialize()
+    public IEnumerator Destroy()
     {
-        screenPresenter.Deinitialize();
-        Deinitialize();
+        yield return screenPresenter.Destroy();
     }
 
     protected virtual void Open() { }
     protected virtual void Hide() { }
-    protected virtual void Deinitialize() { }
     protected virtual void OnUpdate() { }
     protected virtual IEnumerator OpenCoroutine() { yield return null; }
     protected virtual IEnumerator HideCoroutine() { yield return null; }
@@ -125,9 +158,20 @@ public class BaseScreenPresenter<S, SP, VM, T> : IScreenPresenter<T>
     ScreenContainer<T> IScreenPresenter<T>.Container { set => container = value; }
 
     void IScreenPresenter<T>.InputUpdate(InputInfo info) => InputUpdate(info);
-    void IScreenPresenter<T>.Deinitialize() => DeInitialize();
+    IEnumerator IScreenPresenter<T>.Destroy()
+    {
+        yield return m_viewModel.Destroy();
+
+        // プレゼンターの終了処理
+        Destroy();
+    }
+
+    void IScreenPresenter<T>.BeforeOpen() => BeforeOpen();
     void IScreenPresenter<T>.Open() => Open();
+    void IScreenPresenter<T>.AfterOpen() => AfterOpen();
+    void IScreenPresenter<T>.BeforeHide() => BeforeHide();
     void IScreenPresenter<T>.Hide() => Hide();
+    void IScreenPresenter<T>.AfterHide() => AfterHide();
 
     protected void TransitToScreen(T nextScreen, bool immediate = false)
     {
@@ -135,19 +179,24 @@ public class BaseScreenPresenter<S, SP, VM, T> : IScreenPresenter<T>
     }
 
     protected virtual void Initialize() { }
+    protected virtual void BeforeOpen() { }
     protected virtual void Open() { }
+    protected virtual void AfterOpen() { }
+    protected virtual void BeforeHide() { }
     protected virtual void Hide() { }
+    protected virtual void AfterHide() { }
     protected virtual void InputUpdate(InputInfo info) { }
-    protected virtual void DeInitialize() { }
+    protected virtual void Destroy() { }
 }
 
 public class BaseViewModel<T> : IViewModel<T>
     where T : Enum
 {
     IEnumerator IViewModel<T>.Configure() => Configure();
+    IEnumerator IViewModel<T>.Destroy() => Destroy();
 
     protected virtual IEnumerator Configure() { yield return null; }
-
+    protected virtual IEnumerator Destroy() { yield return null; }
 }
 
 public class ScreenContainer<T> where T : Enum
@@ -251,17 +300,19 @@ public class ScreenContainer<T> where T : Enum
     {
         if (immediately)
         {
+            curScreen?.ScreenPresenter?.BeforeHide();
+
+            yield return curScreen?.PlayHide();
             curScreen?.Hide();
             curScreen?.ScreenPresenter?.Hide();
-            curScreen?.Deinitialize();
+            curScreen?.ScreenPresenter?.AfterHide();
+
+            yield return curScreen?.Destroy();
 
             yield return newScreen.Configure();
 
             newScreen.SetSiblingIndex();
             newScreen.SetActive(true);
-
-            yield return null;
-
             curScreen?.SetActive(false);
 
             curScreen = newScreen;
@@ -270,13 +321,20 @@ public class ScreenContainer<T> where T : Enum
                 curScreen.ScreenPresenter.Container = this;
                 curScreen.ScreenPresenter.Open();
             }
+            curScreen?.ScreenPresenter?.BeforeOpen();
             curScreen.Open();
+            yield return curScreen.PlayOpen();
+            curScreen?.ScreenPresenter?.AfterOpen();
         }
         else
         {
-            curScreen?.ScreenPresenter?.Hide();
+            curScreen?.ScreenPresenter?.BeforeHide();
+            yield return curScreen?.PlayHide();
             yield return curScreen?.HideCoroutine();
-            curScreen?.Deinitialize();
+            curScreen?.ScreenPresenter?.Hide();
+            curScreen?.ScreenPresenter?.AfterHide();
+
+            yield return curScreen?.Destroy();
 
             yield return newScreen.Configure();
 
@@ -289,8 +347,11 @@ public class ScreenContainer<T> where T : Enum
 
             curScreen = newScreen;
 
+            curScreen?.ScreenPresenter?.BeforeOpen();
             curScreen?.ScreenPresenter?.Open();
             yield return curScreen?.OpenCoroutine();
+            yield return curScreen?.PlayOpen();
+            curScreen?.ScreenPresenter?.AfterOpen();
         }
 
         coroutine = null;
@@ -305,6 +366,8 @@ public class ScreenContainer<T> where T : Enum
 
         IEnumerator CloseCo()
         {
+            curScreen?.ScreenPresenter?.BeforeHide();
+            yield return curScreen?.PlayHide();
             curScreen?.ScreenPresenter?.Hide();
 
             if (immediately)
@@ -316,7 +379,9 @@ public class ScreenContainer<T> where T : Enum
                 yield return curScreen?.HideCoroutine();
             }
 
-            curScreen?.Deinitialize();
+            curScreen?.ScreenPresenter?.AfterHide();
+
+            yield return curScreen?.Destroy();
 
             coroutine = null;
 
