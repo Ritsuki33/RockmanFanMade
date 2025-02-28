@@ -96,6 +96,8 @@ public class GameMainManager : BaseManager<GameMainManager>
         {
             isPause = !isPause;
             OnPause(isPause);
+
+            AudioManager.Instance.PlaySystem(SECueIDs.menu);
         }
     }
 
