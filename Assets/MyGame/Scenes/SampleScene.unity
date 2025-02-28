@@ -5130,25 +5130,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee311f7abb59b0f4287bc152bd20b573, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  openTweens:
-  - interval: 0
-    connectType: 0
-    tweenType: 0
-    tween:
-      rid: 3039216802326642694
+  openTweens: []
   isReverse: 0
   closeTweens: []
   references:
     version: 2
-    RefIds:
-    - rid: 3039216802326642694
-      type: {class: UIDoTweemAnimator/MoveTween, ns: , asm: Assembly-CSharp}
-      data:
-        delay: 0
-        duration: 1
-        ease: 6
-        startValue: {x: 0, y: 0, z: 0}
-        endValue: {x: 0, y: 0, z: 0}
+    RefIds: []
 --- !u!225 &1386729112
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -6018,6 +6005,7 @@ MonoBehaviour:
   tweemAnimator: {fileID: 1846452835}
   select: {fileID: 1386729110}
   flashImage: {fileID: 2115452642}
+  guide: {fileID: 8930513}
 --- !u!114 &1846452835
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6042,11 +6030,11 @@ MonoBehaviour:
       rid: 3039216802326642693
   - m_ConnectType: 1
     baseSeq:
-      rid: 3039216802326642697
-  - m_ConnectType: 0
+      rid: 3039216808076771328
+  - m_ConnectType: 1
     baseSeq:
-      rid: 3039216802326642698
-  isReverse: 1
+      rid: 3039216802326642697
+  isReverse: 0
   m_closeSeq: []
   references:
     version: 2
@@ -6083,10 +6071,10 @@ MonoBehaviour:
     - rid: 3039216802326642697
       type: {class: UIDoTweenGroupAnimator/AppendSeq, ns: , asm: Assembly-CSharp}
       data:
-        delay: 1
+        delay: 0
         m_Animator: {fileID: 1386729111}
-    - rid: 3039216802326642698
-      type: {class: UIDoTweenGroupAnimator/JoinSeq, ns: , asm: Assembly-CSharp}
+    - rid: 3039216808076771328
+      type: {class: UIDoTweenGroupAnimator/AppendSeq, ns: , asm: Assembly-CSharp}
       data:
         delay: 1
         m_Animator: {fileID: 8930512}
