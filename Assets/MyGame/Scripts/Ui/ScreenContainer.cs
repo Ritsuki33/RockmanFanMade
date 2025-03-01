@@ -301,7 +301,6 @@ public class ScreenContainer<T> where T : Enum
         if (immediately)
         {
             curScreen?.ScreenPresenter?.BeforeHide();
-
             yield return curScreen?.PlayHide();
             curScreen?.Hide();
             curScreen?.ScreenPresenter?.Hide();
@@ -316,11 +315,10 @@ public class ScreenContainer<T> where T : Enum
             curScreen?.SetActive(false);
 
             curScreen = newScreen;
-            if (curScreen?.ScreenPresenter != null)
-            {
-                curScreen.ScreenPresenter.Container = this;
-                curScreen.ScreenPresenter.Open();
-            }
+
+            if (curScreen?.ScreenPresenter != null) curScreen.ScreenPresenter.Container = this;
+
+            curScreen?.ScreenPresenter?.Open();
             curScreen?.ScreenPresenter?.BeforeOpen();
             curScreen.Open();
             yield return curScreen.PlayOpen();
