@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HpBar : MonoBehaviour
+public class GaugeBar : MonoBehaviour
 {
     [SerializeField] Transform root;
     List<GameObject> list = new List<GameObject>();

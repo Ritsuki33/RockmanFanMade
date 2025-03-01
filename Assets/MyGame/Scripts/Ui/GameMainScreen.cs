@@ -9,13 +9,13 @@ using UnityEngine;
 public class GameMainScreen : BaseScreen<GameMainScreen, GameMainScreenPresenter, GameMainManager.UI>
 {
     [SerializeField] ReadyUi readyUi = default;
-    [SerializeField] HpBar enemyHpBar = default;
-    [SerializeField] HpBar hpBar = default;
+    [SerializeField] GaugeBar enemyHpBar = default;
+    [SerializeField] GaugeBar hpBar = default;
     [SerializeField] GameObject pauseUi = default;
 
     public ReadyUi ReadyUi => readyUi;
-    public HpBar EnemyHpBar => enemyHpBar;
-    public HpBar HpBar => hpBar;
+    public GaugeBar EnemyHpBar => enemyHpBar;
+    public GaugeBar HpBar => hpBar;
     public GameObject PauseUi => pauseUi;
 
     protected override void Open()
@@ -92,7 +92,7 @@ public class GameMainScreenPresenter : BaseScreenPresenter<GameMainScreen, GameM
         m_screen.EnemyHpBar.gameObject.SetActive(isActive);
     }
 
-    public void HpIncrementAnimation(HpBar hpbar, float startParam, float endParam, IReadOnlyReactiveProperty<float> hp, Action finishCallback)
+    public void HpIncrementAnimation(GaugeBar hpbar, float startParam, float endParam, IReadOnlyReactiveProperty<float> hp, Action finishCallback)
     {
         hpbar.gameObject.SetActive(true);
         hpbar.SetParam(startParam);
