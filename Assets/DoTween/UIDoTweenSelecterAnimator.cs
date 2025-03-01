@@ -299,7 +299,7 @@ public class UIDoTweenSelecterAnimator : BaseTweemAnimator
             finishCallback?.Invoke();
             sequence.Kill(true);
         })
-        .OnKill(ResetPosition);
+        .OnKill(ResetStatus);
     }
 
     public override void PlayClose(Action finishCallback = null)
@@ -315,15 +315,15 @@ public class UIDoTweenSelecterAnimator : BaseTweemAnimator
 
         }).OnKill(() =>
         {
-            ResetPosition();
+            ResetStatus();
             gameObject.SetActive(false);
         });
     }
 
 
-    public Sequence CreateOpenSequence() => CreateSequence(false);
+    public override Sequence CreateOpenSequence() => CreateSequence(false);
 
-    public Sequence CreateCloseSequence() => CreateSequence(true);
+    public override Sequence CreateCloseSequence() => CreateSequence(true);
 
     /// <summary>
     /// シーケンスの作成
@@ -401,7 +401,7 @@ public class UIDoTweenSelecterAnimator : BaseTweemAnimator
         }
     }
 
-    private void ResetPosition()
+    public override void ResetStatus()
     {
         foreach (var obj in list)
         {

@@ -68,7 +68,7 @@ public class UIDoTweenGroupAnimator : BaseTweemAnimator
     [Serializable]
     class JoinSeq : BaseSeq
     {
-        [SerializeField] public UIDoTweemAnimator m_Animator;
+        [SerializeField] public BaseTweemAnimator m_Animator;
 
         public override void ResetStatus() => m_Animator.ResetStatus();
 
@@ -97,7 +97,7 @@ public class UIDoTweenGroupAnimator : BaseTweemAnimator
     [Serializable]
     class AppendSeq : BaseSeq
     {
-        [SerializeField] public UIDoTweemAnimator m_Animator;
+        [SerializeField] public BaseTweemAnimator m_Animator;
         public override void ResetStatus() => m_Animator.ResetStatus();
 
         public override void SetOpenSequence(Sequence sequence)
@@ -171,25 +171,19 @@ public class UIDoTweenGroupAnimator : BaseTweemAnimator
         }
     }
 
-    public override void PlayOpen(Action finishCallback = null)
+    public override Sequence CreateOpenSequence()
     {
-        if (sequence != null) sequence.Kill(true);
-        sequence = DOTween.Sequence();
-
+        var sequence = DOTween.Sequence();
         foreach (var item in m_openSeq)
         {
             item.SetOpenSequence(sequence);
         }
-
-        sequence.Play()
-        .OnComplete(() => { finishCallback?.Invoke(); })
-        .OnKill(() => { ResetStatus(); });
+        return sequence;
     }
 
-    public override void PlayClose(Action finishCallback = null)
+    public override Sequence CreateCloseSequence()
     {
-        if (sequence != null) sequence.Kill(true);
-        sequence = DOTween.Sequence();
+        var sequence = DOTween.Sequence();
 
         if (isReverse)
         {
@@ -205,13 +199,30 @@ public class UIDoTweenGroupAnimator : BaseTweemAnimator
                 item.SetCloseSequence(sequence);
             }
         }
+        return sequence;
+    }
+
+    public override void PlayOpen(Action finishCallback = null)
+    {
+        if (sequence != null) sequence.Kill(true);
+        sequence = CreateOpenSequence();
 
         sequence.Play()
         .OnComplete(() => { finishCallback?.Invoke(); })
         .OnKill(() => { ResetStatus(); });
     }
 
-    void ResetStatus()
+    public override void PlayClose(Action finishCallback = null)
+    {
+        if (sequence != null) sequence.Kill(true);
+        sequence = CreateCloseSequence();
+
+        sequence.Play()
+        .OnComplete(() => { finishCallback?.Invoke(); })
+        .OnKill(() => { ResetStatus(); });
+    }
+
+    public override void ResetStatus()
     {
         foreach (var item in m_openSeq)
         {

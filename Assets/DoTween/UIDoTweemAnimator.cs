@@ -8,6 +8,10 @@ public abstract class BaseTweemAnimator : MonoBehaviour
 {
     public abstract void PlayOpen(Action finishCallback = null);
     public abstract void PlayClose(Action finishCallback = null);
+
+    public abstract void ResetStatus();
+    public abstract Sequence CreateOpenSequence();
+    public abstract Sequence CreateCloseSequence();
 }
 
 [RequireComponent(typeof(CanvasGroup))]
@@ -376,8 +380,8 @@ public class UIDoTweemAnimator : BaseTweemAnimator
         return seq;
     }
 
-    public Sequence CreateOpenSequence() => CreateSequence(openTweens);
-    public Sequence CreateCloseSequence()
+    public override Sequence CreateOpenSequence() => CreateSequence(openTweens);
+    public override Sequence CreateCloseSequence()
     {
         if (isReverse)
         {
@@ -409,7 +413,7 @@ public class UIDoTweemAnimator : BaseTweemAnimator
         cacheFade = m_canvasGroup.alpha;
     }
 
-    public void ResetStatus()
+    public override void ResetStatus()
     {
         m_rectTransform.anchoredPosition = cacheLocalPostion;
         m_rectTransform.localRotation = cacheLocalRatote;
