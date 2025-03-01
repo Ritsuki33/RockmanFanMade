@@ -15,6 +15,7 @@ public enum InputType
     Cancel = 16,
     Decide = 32,
     Start = 64,
+    Select = 128,
 }
 public interface IInput
 {
@@ -51,6 +52,10 @@ public class InputManager : SingletonComponent<InputManager>, IInput
         playerInput.Player.Start.performed += OnStart;
         playerInput.Player.Start.canceled += OffStart;
         playerInput.Player.Start.Enable();
+
+        playerInput.Player.Select.performed += OnSelect;
+        playerInput.Player.Select.canceled += OffSelect;
+        playerInput.Player.Select.Enable();
 
     }
 
@@ -148,6 +153,16 @@ public class InputManager : SingletonComponent<InputManager>, IInput
     void OffStart(InputAction.CallbackContext context)
     {
         OffInputBit(InputType.Start);
+    }
+
+    void OnSelect(InputAction.CallbackContext context)
+    {
+        OnInputBit(InputType.Select);
+    }
+
+    void OffSelect(InputAction.CallbackContext context)
+    {
+        OffInputBit(InputType.Select);
     }
 
     /// <summary>
