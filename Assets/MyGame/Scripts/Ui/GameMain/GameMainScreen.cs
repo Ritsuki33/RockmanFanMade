@@ -16,7 +16,6 @@ public class GameMainScreen : BaseScreen<GameMainScreen, GameMainScreenPresenter
     public ReadyUi ReadyUi => readyUi;
     public GaugeBar EnemyHpBar => enemyHpBar;
     public GaugeBar HpBar => hpBar;
-    public GameObject PauseUi => pauseUi;
 
     protected override void Open()
     {
@@ -53,13 +52,10 @@ public class GameMainScreenPresenter : BaseScreenPresenter<GameMainScreen, GameM
 
     protected override void InputUpdate(InputInfo info)
     {
-        if (m_screen.PauseUi.activeSelf)
+        if (info.start)
         {
-            // ステージ離脱
-            if (info.decide)
-            {
-                GameMainManager.Instance.GameStageEnd();
-            }
+            GameMainManager.Instance.TransitToPause();
+            AudioManager.Instance.PlaySystem(SECueIDs.menu);
         }
     }
 
@@ -136,11 +132,6 @@ public class GameMainScreenPresenter : BaseScreenPresenter<GameMainScreen, GameM
     public void ReadyUiPlay(Action finishCallback)
     {
         m_screen.ReadyUi.Play(finishCallback);
-    }
-
-    public void OnOpenPauseUi(bool isOpen)
-    {
-        m_screen.PauseUi.SetActive(isOpen);
     }
 }
 

@@ -23,17 +23,18 @@ public class GameMainManager : BaseManager<GameMainManager>
     public enum UI
     {
         GameMain,
+        Pause,
     }
 
 
     [SerializeField] MainCameraControll m_mainCameraControll = default;
     [SerializeField] GameMainScreen m_gameMainScreen = default;
+    [SerializeField] PauseScreen m_pauseScreen = default;
     [SerializeField] Transform worldRoot = default;
     WorldManager worldManager = default;
     int worldInstanceId = 0;
 
     private IInput InputController => InputManager.Instance;
-    private CameraControllArea currentCameraControllArea;
     public MainCameraControll MainCameraControll => m_mainCameraControll;
 
 
@@ -71,6 +72,7 @@ public class GameMainManager : BaseManager<GameMainManager>
             ObjectManager.Instance.Init();
 
             screenContainer.Add(UI.GameMain, m_gameMainScreen);
+            screenContainer.Add(UI.Pause, m_pauseScreen);
             yield return screenContainer.Initialize(UI.GameMain, true);
 
             OnPause(false);
@@ -90,14 +92,6 @@ public class GameMainManager : BaseManager<GameMainManager>
         {
             worldManager.Player?.UpdateInput(inputInfo);
             worldManager.OnUpdate();
-        }
-
-        if (Pausable && inputInfo.start)
-        {
-            isPause = !isPause;
-            OnPause(isPause);
-
-            AudioManager.Instance.PlaySystem(SECueIDs.menu);
         }
     }
 
@@ -151,12 +145,21 @@ public class GameMainManager : BaseManager<GameMainManager>
         SceneManager.Instance.ChangeManager(ManagerType.BossSelect);
     }
 
-    void OnPause(bool isPause)
+    public void TransitToPause()
+    {
+        screenContainer.TransitScreen(UI.Pause, true);
+    }
+
+    public void TransitToGameMain()
+    {
+        screenContainer.TransitScreen(UI.GameMain, true);
+    }
+
+    public void OnPause(bool isPause)
     {
         this.isPause = isPause;
 
         PauseManager.Instance.OnPause(isPause);
-        GameMainScreenPresenter.OnOpenPauseUi(isPause);
         worldManager?.OnPause(isPause);
 
         AudioManager.Instance.OnPause(isPause);

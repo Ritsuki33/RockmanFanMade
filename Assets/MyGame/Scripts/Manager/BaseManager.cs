@@ -2,7 +2,7 @@
 
 public struct InputInfo
 {
-    public bool decide, up, down, left, right;
+    public bool decide, up, down, left, right, start;
     public void SetInput(IInput input = null)
     {
         decide = input.GetDownInput(InputType.Decide);
@@ -10,9 +10,10 @@ public struct InputInfo
         down = input.GetDownInput(InputType.Down);
         left = input.GetDownInput(InputType.Left);
         right = input.GetDownInput(InputType.Right);
+        start = input.GetDownInput(InputType.Start);
     }
 
-    public bool IsInput => decide | up | down | left | right;
+    public bool IsInput => decide | up | down | left | right | start;
 }
 public interface IManager
 {
