@@ -86,7 +86,11 @@ public class UIDoTweenGroupAnimator : BaseTweemAnimator
         public override void SetCloseSequence(Sequence sequence)
         {
             m_Animator.gameObject.SetActive(true);
-            sequence.Join(m_Animator.CreateCloseSequence().SetDelay(delay));
+            sequence.Join(
+                m_Animator.CreateCloseSequence()
+                .SetDelay(delay)
+                .AppendCallback(() => m_Animator.gameObject.SetActive(false))
+                );
         }
     }
 
@@ -110,7 +114,11 @@ public class UIDoTweenGroupAnimator : BaseTweemAnimator
         public override void SetCloseSequence(Sequence sequence)
         {
             m_Animator.gameObject.SetActive(true);
-            sequence.Append(m_Animator.CreateCloseSequence().SetDelay(delay));
+            sequence.Append(
+                m_Animator.CreateCloseSequence()
+                .SetDelay(delay)
+                .AppendCallback(() => m_Animator.gameObject.SetActive(false))
+                );
         }
     }
 
