@@ -57,6 +57,11 @@ public class GameMainScreenPresenter : BaseScreenPresenter<GameMainScreen, GameM
             GameMainManager.Instance.TransitToPause();
             AudioManager.Instance.PlaySystem(SECueIDs.menu);
         }
+        else if (info.select)
+        {
+            GameMainManager.Instance.TransitToGameMenu();
+            AudioManager.Instance.PlaySystem(SECueIDs.menu);
+        }
     }
 
     /// <summary>

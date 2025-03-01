@@ -24,12 +24,14 @@ public class GameMainManager : BaseManager<GameMainManager>
     {
         GameMain,
         Pause,
+        GameMenu,
     }
 
 
     [SerializeField] MainCameraControll m_mainCameraControll = default;
     [SerializeField] GameMainScreen m_gameMainScreen = default;
     [SerializeField] PauseScreen m_pauseScreen = default;
+    [SerializeField] GameMenuScreen m_gameMenuScreen = default;
     [SerializeField] Transform worldRoot = default;
     WorldManager worldManager = default;
     int worldInstanceId = 0;
@@ -73,6 +75,8 @@ public class GameMainManager : BaseManager<GameMainManager>
 
             screenContainer.Add(UI.GameMain, m_gameMainScreen);
             screenContainer.Add(UI.Pause, m_pauseScreen);
+            screenContainer.Add(UI.GameMenu, m_gameMenuScreen);
+
             yield return screenContainer.Initialize(UI.GameMain, true);
 
             OnPause(false);
@@ -145,6 +149,11 @@ public class GameMainManager : BaseManager<GameMainManager>
         SceneManager.Instance.ChangeManager(ManagerType.BossSelect);
     }
 
+    public void TransitToGameMenu()
+    {
+        screenContainer.TransitScreen(UI.GameMenu, true);
+    }
+
     public void TransitToPause()
     {
         screenContainer.TransitScreen(UI.Pause, true);
@@ -155,14 +164,14 @@ public class GameMainManager : BaseManager<GameMainManager>
         screenContainer.TransitScreen(UI.GameMain, true);
     }
 
-    public void OnPause(bool isPause)
+    public void OnPause(bool isPause, bool isGameMenu = false)
     {
         this.isPause = isPause;
 
         PauseManager.Instance.OnPause(isPause);
         worldManager?.OnPause(isPause);
 
-        AudioManager.Instance.OnPause(isPause);
+        if (!isGameMenu) AudioManager.Instance.OnPause(isPause);
     }
 
 
