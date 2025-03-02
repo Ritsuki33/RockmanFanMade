@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: EnemyGram
+  m_Name: HorizontalPlayerGram
   m_Shader: {fileID: 4800000, guid: a0a4c33af3b0e6147af182d126fb7db6, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -83,8 +83,8 @@ Material:
     - _ZWrite: 1
     - _grayScale: 0
     m_Colors:
-    - _ChangeColor: {r: 0.6745098, g: 0.19607845, b: 0.19607845, a: 1}
-    - _ChangeColor2: {r: 0.9058824, g: 0.4039216, b: 0.4039216, a: 1}
+    - _ChangeColor: {r: 0.9843138, g: 0.9568628, b: 0.39607847, a: 1}
+    - _ChangeColor2: {r: 0.9921569, g: 0.9843138, b: 0.8235295, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _TargetColor: {r: 0.81568635, g: 0.81568635, b: 0.81568635, a: 1}

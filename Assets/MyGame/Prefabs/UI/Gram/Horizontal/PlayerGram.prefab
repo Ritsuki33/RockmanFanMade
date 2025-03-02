@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 2126853852843399745}
   - component: {fileID: 8906396596816262738}
   m_Layer: 0
-  m_Name: Gram
+  m_Name: PlayerGram
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -57,7 +57,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Material: {fileID: 2100000, guid: ec09e69d93394284bba81cb43868c7e3, type: 2}
+  m_Material: {fileID: 2100000, guid: 14b4dee650cba284da737b44033c6526, type: 2}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
