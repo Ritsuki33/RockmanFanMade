@@ -172,6 +172,7 @@ public class GameMainManager : BaseManager<GameMainManager>
         worldManager?.OnPause(isPause);
 
         if (!isGameMenu) AudioManager.Instance.OnPause(isPause);
+        else AudioManager.Instance.OnPauseSe(isPause);
     }
 
 

@@ -35,11 +35,17 @@ public class GameMenuScreenPresenter : BaseScreenPresenter<GameMenuScreen, GameM
     protected override void InputUpdate(InputInfo info)
     {
         if (!inputable) return;
-        var dir = GetInputDirection(info);
-        m_screen.GaugeSelectController.InputUpdate(dir);
+
         if (info.select)
         {
             GameMainManager.Instance.TransitToGameMain();
+            AudioManager.Instance.PlaySe(SECueIDs.menu);
+        }
+        else
+        {
+            var dir = GetInputDirection(info);
+            m_screen.GaugeSelectController.InputUpdate(dir);
+            AudioManager.Instance.PlaySystem(SECueIDs.select);
         }
 
     }
