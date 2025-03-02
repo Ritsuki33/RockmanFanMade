@@ -2,8 +2,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
-public class HpBar : MonoBehaviour
+public class GaugeBar : MonoBehaviour
 {
     [SerializeField] Transform root;
     List<GameObject> list = new List<GameObject>();
@@ -12,7 +13,7 @@ public class HpBar : MonoBehaviour
     float realHp = 0;   // 実質HP
     Coroutine coroutine = null;
 
-    private void Awake()
+    protected virtual void Awake()
     {
         // 子オブジェクトをすべて取得
         for (int i = 0; i < root.childCount; i++)

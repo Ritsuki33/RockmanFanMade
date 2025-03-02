@@ -9,14 +9,13 @@ using UnityEngine;
 public class GameMainScreen : BaseScreen<GameMainScreen, GameMainScreenPresenter, GameMainManager.UI>
 {
     [SerializeField] ReadyUi readyUi = default;
-    [SerializeField] HpBar enemyHpBar = default;
-    [SerializeField] HpBar hpBar = default;
+    [SerializeField] GaugeBar enemyHpBar = default;
+    [SerializeField] GaugeBar hpBar = default;
     [SerializeField] GameObject pauseUi = default;
 
     public ReadyUi ReadyUi => readyUi;
-    public HpBar EnemyHpBar => enemyHpBar;
-    public HpBar HpBar => hpBar;
-    public GameObject PauseUi => pauseUi;
+    public GaugeBar EnemyHpBar => enemyHpBar;
+    public GaugeBar HpBar => hpBar;
 
     protected override void Open()
     {
@@ -53,13 +52,15 @@ public class GameMainScreenPresenter : BaseScreenPresenter<GameMainScreen, GameM
 
     protected override void InputUpdate(InputInfo info)
     {
-        if (m_screen.PauseUi.activeSelf)
+        if (info.start)
         {
-            // ステージ離脱
-            if (info.decide)
-            {
-                GameMainManager.Instance.GameStageEnd();
-            }
+            GameMainManager.Instance.TransitToPause();
+            AudioManager.Instance.PlaySystem(SECueIDs.menu);
+        }
+        else if (info.select)
+        {
+            GameMainManager.Instance.TransitToGameMenu();
+            AudioManager.Instance.PlaySystem(SECueIDs.menu);
         }
     }
 
@@ -92,7 +93,7 @@ public class GameMainScreenPresenter : BaseScreenPresenter<GameMainScreen, GameM
         m_screen.EnemyHpBar.gameObject.SetActive(isActive);
     }
 
-    public void HpIncrementAnimation(HpBar hpbar, float startParam, float endParam, IReadOnlyReactiveProperty<float> hp, Action finishCallback)
+    public void HpIncrementAnimation(GaugeBar hpbar, float startParam, float endParam, IReadOnlyReactiveProperty<float> hp, Action finishCallback)
     {
         hpbar.gameObject.SetActive(true);
         hpbar.SetParam(startParam);
@@ -136,11 +137,6 @@ public class GameMainScreenPresenter : BaseScreenPresenter<GameMainScreen, GameM
     public void ReadyUiPlay(Action finishCallback)
     {
         m_screen.ReadyUi.Play(finishCallback);
-    }
-
-    public void OnOpenPauseUi(bool isOpen)
-    {
-        m_screen.PauseUi.SetActive(isOpen);
     }
 }
 

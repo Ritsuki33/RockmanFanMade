@@ -50,18 +50,24 @@ SpriteAtlas:
     isAtlasV2: 0
     cachedData: {fileID: 0}
     packedSpriteRenderDataKeys:
-    - 3a85d6d34e30b2349b46701693284e8f: 21300000
+    - f6b0f100c066d5c49b33f6c4dfbdcea0: 21300000
+    - 60fe1e744ab5d22459afc6caf4f2b785: 21300000
+    - 213ea7676dbacd54a9d17c3c65aba800: 21300000
+    - 75ff95195d4bc074583aa8d3d3866223: 21300000
     - bd83d6ec444296743a3ceb88c12f9472: 21300000
-    - e711847d15ee2784bbfa97f926b7fc5b: 21300000
   m_MasterAtlas: {fileID: 0}
   m_PackedSprites:
-  - {fileID: 21300000, guid: 3a85d6d34e30b2349b46701693284e8f, type: 3}
+  - {fileID: 21300000, guid: f6b0f100c066d5c49b33f6c4dfbdcea0, type: 3}
+  - {fileID: 21300000, guid: 60fe1e744ab5d22459afc6caf4f2b785, type: 3}
+  - {fileID: 21300000, guid: 213ea7676dbacd54a9d17c3c65aba800, type: 3}
+  - {fileID: 21300000, guid: 75ff95195d4bc074583aa8d3d3866223, type: 3}
   - {fileID: 21300000, guid: bd83d6ec444296743a3ceb88c12f9472, type: 3}
-  - {fileID: 21300000, guid: e711847d15ee2784bbfa97f926b7fc5b, type: 3}
   m_PackedSpriteNamesToIndex:
-  - Hpgram
+  - Gram
+  - HorizontalGram
+  - HorizontalGuageBar
+  - MenuPanel
   - Hpbar
-  - Hpgram2
   m_RenderDataMap: {}
   m_Tag: GameMainUI
   m_IsVariant: 0

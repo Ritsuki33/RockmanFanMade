@@ -10,6 +10,15 @@ public enum InputDirection
     Left,
     Right
 }
+static class InputDirectionExtensions
+{
+    public static InputDirection GetInputDirection(this InputDirection dir, InputInfo info)
+    {
+        if (info.up) return InputDirection.Up;
+        else if (info.down) return InputDirection.Down;
+        else return InputDirection.None;
+    }
+}
 
 public abstract class SelectController<TSelect, TData> : MonoBehaviour where TSelect : BaseSelector<TData>
 {
@@ -38,6 +47,7 @@ public abstract class SelectController<TSelect, TData> : MonoBehaviour where TSe
         foreach (var item in selects)
         {
             item.Setup(Selected);
+            item.OnCursorExit();
         }
 
         UpdateCursor(index);
@@ -63,6 +73,7 @@ public abstract class SelectController<TSelect, TData> : MonoBehaviour where TSe
         for (int i = 0; i < data.Length; i++)
         {
             BaseSelector<TData> select = GameObject.Instantiate(selectPrefab, selectsRoot);
+            select.OnCursorExit();
             select.Setup(data[i], Selected);
             selects.Add((TSelect)select);
         }

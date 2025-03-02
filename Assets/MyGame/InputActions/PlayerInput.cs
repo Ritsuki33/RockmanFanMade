@@ -15,7 +15,7 @@ using System.Collections.Generic;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Utilities;
 
-public partial class @PlayerInput: IInputActionCollection2, IDisposableReactiveProperty
+public partial class @PlayerInput: IInputActionCollection2, IDisposable
 {
     public InputActionAsset asset { get; }
     public @PlayerInput()
@@ -58,6 +58,15 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposableReactiveP
                     ""name"": ""Start"",
                     ""type"": ""Button"",
                     ""id"": ""1cd01e7e-3d3b-4f42-9290-564d3d567127"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Select"",
+                    ""type"": ""Button"",
+                    ""id"": ""6333a740-a65a-43a3-ba42-602881098d71"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
@@ -207,6 +216,17 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposableReactiveP
                     ""action"": ""Start"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""8294b577-91c1-4761-9ec4-be9cb4851a29"",
+                    ""path"": ""<Keyboard>/tab"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Select"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -280,6 +300,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposableReactiveP
         m_Player_Cancel = m_Player.FindAction("Cancel", throwIfNotFound: true);
         m_Player_Decide = m_Player.FindAction("Decide", throwIfNotFound: true);
         m_Player_Start = m_Player.FindAction("Start", throwIfNotFound: true);
+        m_Player_Select = m_Player.FindAction("Select", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -345,6 +366,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposableReactiveP
     private readonly InputAction m_Player_Cancel;
     private readonly InputAction m_Player_Decide;
     private readonly InputAction m_Player_Start;
+    private readonly InputAction m_Player_Select;
     public struct PlayerActions
     {
         private @PlayerInput m_Wrapper;
@@ -353,6 +375,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposableReactiveP
         public InputAction @Cancel => m_Wrapper.m_Player_Cancel;
         public InputAction @Decide => m_Wrapper.m_Player_Decide;
         public InputAction @Start => m_Wrapper.m_Player_Start;
+        public InputAction @Select => m_Wrapper.m_Player_Select;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -374,6 +397,9 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposableReactiveP
             @Start.started += instance.OnStart;
             @Start.performed += instance.OnStart;
             @Start.canceled += instance.OnStart;
+            @Select.started += instance.OnSelect;
+            @Select.performed += instance.OnSelect;
+            @Select.canceled += instance.OnSelect;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -390,6 +416,9 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposableReactiveP
             @Start.started -= instance.OnStart;
             @Start.performed -= instance.OnStart;
             @Start.canceled -= instance.OnStart;
+            @Select.started -= instance.OnSelect;
+            @Select.performed -= instance.OnSelect;
+            @Select.canceled -= instance.OnSelect;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -458,5 +487,6 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposableReactiveP
         void OnCancel(InputAction.CallbackContext context);
         void OnDecide(InputAction.CallbackContext context);
         void OnStart(InputAction.CallbackContext context);
+        void OnSelect(InputAction.CallbackContext context);
     }
 }
