@@ -7,9 +7,9 @@ using UnityEngine;
 /// </summary>
 public class GameMenuScreen : BaseScreen<GameMenuScreen, GameMenuScreenPresenter, GameMainManager.UI>
 {
-    [SerializeField] MenuGaugeSelectController gaugeSelectController;
+    [SerializeField] GameMenuGaugeSelectController gaugeSelectController;
 
-    public MenuGaugeSelectController GaugeSelectController => gaugeSelectController;
+    public GameMenuGaugeSelectController GaugeSelectController => gaugeSelectController;
 }
 
 public class GameMenuScreenPresenter : BaseScreenPresenter<GameMenuScreen, GameMenuScreenPresenter, GameMenuScreenViewModel, GameMainManager.UI>
@@ -41,6 +41,10 @@ public class GameMenuScreenPresenter : BaseScreenPresenter<GameMenuScreen, GameM
             GameMainManager.Instance.TransitToGameMain();
             AudioManager.Instance.PlaySe(SECueIDs.menu);
         }
+        else if (info.decide)
+        {
+            m_screen.GaugeSelectController.Selected();
+        }
         else
         {
             var dir = GetInputDirection(info);
@@ -65,6 +69,8 @@ public class GameMenuScreenPresenter : BaseScreenPresenter<GameMenuScreen, GameM
     private void Selected(SelectInfo info)
     {
         Debug.Log(info.id);
+        GameMainManager.Instance.TransitToGameMain();
+        AudioManager.Instance.PlaySe(SECueIDs.menu);
     }
 }
 
