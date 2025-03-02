@@ -46,7 +46,8 @@ public class ActionChainExecuter : MonoBehaviour
     }
 
     [Serializable]
-    abstract class AElement {
+    abstract class AElement
+    {
         abstract public void Execute(ActionChainExecuter eventControll);
         abstract public List<ActionElement> Actions { get; }
     }
@@ -166,7 +167,7 @@ public class ActionChainExecuter : MonoBehaviour
     }
 
     [Serializable]
-    class StageObjectTurn:BaseAction
+    class StageObjectTurn : BaseAction
     {
         [SerializeField] Spawn spawn;
         [SerializeField] bool isRight = true;
@@ -196,7 +197,7 @@ public class ActionChainExecuter : MonoBehaviour
         [SerializeField] Color color = Color.black;
         public override void Execute(Action finishCallback)
         {
-            FadeInManager.Instance.FadeOut(fadeTime, color,finishCallback);
+            FadeInManager.Instance.FadeOut(fadeTime, color, finishCallback);
         }
     }
 
@@ -254,7 +255,7 @@ public class ActionChainExecuter : MonoBehaviour
         override public void Execute(Action finishCallback)
         {
             var hpPlayback = AudioManager.Instance.PlaySe(SECueIDs.hprecover);
-            GameMainManager.Instance.GameMainScreenPresenter.EnemyHpIncrementAnimation(0, (float)spawn.Obj.CurrentHp / spawn.Obj.MaxHp, spawn.Obj.Hp, ()=>
+            GameMainManager.Instance.GameMainScreenPresenter.EnemyHpIncrementAnimation(0, (float)spawn.Obj.CurrentHp / spawn.Obj.MaxHp, spawn.Obj.Hp, () =>
             {
                 finishCallback.Invoke();
 
@@ -275,9 +276,9 @@ public class ActionChainExecuter : MonoBehaviour
     }
 
     [Serializable]
-    class ExternalAction:BaseAction
+    class ExternalAction : BaseAction
     {
-        [SerializeField,Header("※メソッドの登録は１つだけ")] UnityEvent<Action> action;
+        [SerializeField, Header("※メソッドの登録は１つだけ")] UnityEvent<Action> action;
 
         public override void Execute(Action finishCallback)
         {
@@ -296,7 +297,7 @@ public class ActionChainExecuter : MonoBehaviour
                 // 最初のリスナー以外を削除
                 for (int i = listenerCount - 1; i >= 1; i--)
                 {
-                    UnityEditor.Events.UnityEventTools.RemovePersistentListener(action,i);
+                    UnityEditor.Events.UnityEventTools.RemovePersistentListener(action, i);
                 }
             }
         }
@@ -446,7 +447,7 @@ public class ActionChainExecuter : MonoBehaviour
             switch (type)
             {
                 case CondtionType.DefeatTargetEnemyCondition:
-                    if(enemyCondition is not DefeatTargetEnemyCondition)
+                    if (enemyCondition is not DefeatTargetEnemyCondition)
                     {
                         enemyCondition = new DefeatTargetEnemyCondition();
                     }
@@ -493,7 +494,7 @@ public class ActionChainExecuter : MonoBehaviour
                 presenter.PlayerHpActive(playerHpGuage);
                 presenter.EnemyHpActive(enemyHpGuage);
             }
-        
+
             finishCallback.Invoke();
         }
     }
@@ -723,7 +724,7 @@ public class ActionChainExecuter : MonoBehaviour
                     {
                         ae.action = new SpawnAction();
                     }
-                    break; 
+                    break;
                 case ActionType.GameMainUIChange:
                     if (ae.action is not GameMainUIChange)
                     {

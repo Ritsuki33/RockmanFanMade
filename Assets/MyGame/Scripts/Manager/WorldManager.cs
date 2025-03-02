@@ -105,7 +105,7 @@ public class WorldManager : SingletonComponent<WorldManager>
     {
         EventTriggerManager.Instance.Init();
 
-        GameMainManager.Instance.GameMainScreenPresenter.BindPlayerHp(Player.Hp);
+        // GameMainManager.Instance.GameMainScreenPresenter.BindPlayerHp(Player.Hp);
 
         _spawns.ForEach(spawn =>
         {

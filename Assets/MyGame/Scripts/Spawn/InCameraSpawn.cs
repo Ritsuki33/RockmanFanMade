@@ -47,7 +47,7 @@ public class InCameraSpawn : Spawn<BaseObject>, ISpawn
 
     protected override BaseObject OnGetResource()
     {
-        return ObjectManager.Instance.OnGet<BaseObject>(type, (obj)=> { OnDelete(); });
+        return ObjectManager.Instance.OnGet<BaseObject>(type, (obj) => { OnDelete(); });
     }
 
     /// <summary>
@@ -57,8 +57,8 @@ public class InCameraSpawn : Spawn<BaseObject>, ISpawn
     {
         if (dropItem == 0) return;
         Probability.BranchMethods(
-            (90, null),
-            (10, OnDropItem)
+            (0, null),
+            (100, OnDropItem)
             );
     }
 

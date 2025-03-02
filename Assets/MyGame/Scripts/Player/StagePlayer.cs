@@ -2,12 +2,26 @@
 using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Playables;
+
+public interface IPlayerEnvironment
+{
+    int MaxHp { get; set; }
+    int CurrentHp { get; set; }
+
+    public ReactiveProperty<float> hp { get; set; }
+    // IReadOnlyReactiveProperty<float> Hp { get; }
+
+    ReactiveProperty<int> recovery { get; set; }
+    public Action hpRecoveryAnimationFinish { get; set; }
+}
+
 
 public partial class StagePlayer : PhysicalObject, IDirect, IBeltConveyorVelocity, IRbVisitor, IHitEvent, IExRbVisitor
 {
     [SerializeField] ExpandRigidBody exRb;
     [Header("プレイヤー情報")]
-    [SerializeField] int maxHp = 27;
+    // [SerializeField] int maxHp = 27;
     [SerializeField] SpriteRenderer spriteRenderer;
     [SerializeField] int mameMax = 3;
     [SerializeField] Gravity gravity;
@@ -18,23 +32,27 @@ public partial class StagePlayer : PhysicalObject, IDirect, IBeltConveyorVelocit
     ExRbStateMachine<StagePlayer> m_mainStateMachine = new ExRbStateMachine<StagePlayer>();
     StateMachine<StagePlayer> m_chargeStateMachine = new StateMachine<StagePlayer>();
 
-    ReactiveProperty<float> hp = new ReactiveProperty<float>(0);
-    public IReadOnlyReactiveProperty<float> Hp => hp;
-    int currentHp = 0;
+    // ReactiveProperty<float> hp = new ReactiveProperty<float>(0);
+    // public IReadOnlyReactiveProperty<float> Hp => hp;
 
-    public int CurrentHp
-    {
-        get
-        {
-            return currentHp;
-        }
-        set
-        {
-            currentHp = value;
-            hp.Value = (float)currentHp / MaxHp;
-        }
-    }
-    public int MaxHp => maxHp;
+    IPlayerEnvironment playerEnv => Environment.Instance;
+
+    int maxHp => playerEnv.MaxHp;
+    int CurrentHp { get => playerEnv.CurrentHp; set => playerEnv.CurrentHp = value; }
+
+    ReactiveProperty<float> hp => playerEnv.hp;
+    // public int CurrentHp
+    // {
+    //     get
+    //     {
+    //         return playerEnv.CurrentHp;
+    //     }
+    //     set
+    //     {
+    //         currentHp = value;
+    //         hp.Value = (float)currentHp / MaxHp;
+    //     }
+    // }
 
     Collider2D bodyLadder = null;
 
@@ -128,6 +146,8 @@ public partial class StagePlayer : PhysicalObject, IDirect, IBeltConveyorVelocit
 
         bottomHit = default;
         curGround = default;
+
+        CurrentHp = maxHp;
     }
 
     protected override void Destroy()
@@ -334,25 +354,31 @@ public partial class StagePlayer : PhysicalObject, IDirect, IBeltConveyorVelocit
 
     public void RecoverHp(int val)
     {
-        // GUIとの切り離し
-        hp.Dispose();
+        // // GUIとの切り離し
+        // hp.Dispose();
 
-        float startParam = hp.Value;
-        SetHp(CurrentHp + val);
-
-        // 無敵
+        // float startParam = hp.Value;
+        // SetHp(CurrentHp + val);
+        playerEnv.recovery.Value = val;
+        // // 無敵
         invincible = true;
 
-        // ポーズを掛ける
-        WorldManager.Instance.OnPause(true);
-        var hpPlayback = AudioManager.Instance.PlaySe(SECueIDs.hprecover);
-        GameMainManager.Instance.GameMainScreenPresenter.PlayerHpIncrementAnimation(startParam, hp.Value, Hp, () =>
+        playerEnv.hpRecoveryAnimationFinish = () =>
         {
-            WorldManager.Instance.OnPause(false);
             invincible = false;
+            playerEnv.hpRecoveryAnimationFinish = null;
+        };
 
-            hpPlayback.Stop();
-        });
+        // // ポーズを掛ける
+        // WorldManager.Instance.OnPause(true);
+        // var hpPlayback = AudioManager.Instance.PlaySe(SECueIDs.hprecover);
+        // GameMainManager.Instance.GameMainScreenPresenter.PlayerHpIncrementAnimation(startParam, hp.Value, hp, () =>
+        // {
+        //     WorldManager.Instance.OnPause(false);
+        //     
+
+        //     hpPlayback.Stop();
+        // });
     }
 
     public void TransitToWarpOut(Action finishCalback)
