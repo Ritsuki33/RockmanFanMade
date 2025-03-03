@@ -6,7 +6,7 @@ using UnityEngine;
 public abstract class StageBoss : StageEnemy
 {
     ReactiveProperty<float> hp = new ReactiveProperty<float>(0);
-    public IReadOnlyReactiveProperty<float> Hp => hp;
+    public ISubsribeOnlyReactiveProperty<float> Hp => hp;
 
     public override int CurrentHp
     {

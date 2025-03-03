@@ -49,9 +49,10 @@ public class GameMainScreenPresenter : BaseScreenPresenter<GameMainScreen, GameM
     {
         // m_screen.HpBar.SetParam(WorldManager.Instance.Player.CurrentHp);
         // m_screen.HpBar.SetParam(m_viewModel.PlayerEnv.hp.Value);
-        m_viewModel.PlayerEnv.hp.Subscribe(SetPlayerHp);
+        m_viewModel.PlayerObserver.Hp.Subscribe(SetPlayerHp);
+        m_viewModel.PlayerObserver.Recovery.Subscribe(OnGetRecovery);
 
-        m_viewModel.PlayerEnv.recovery.Subscribe(OnGetRecovery);
+        m_viewModel.PlayerObserver.Hp.Refresh();
     }
 
     protected override void InputUpdate(InputInfo info)
@@ -68,11 +69,16 @@ public class GameMainScreenPresenter : BaseScreenPresenter<GameMainScreen, GameM
         }
     }
 
+    protected override void Destroy()
+    {
+        m_viewModel.PlayerObserver.Hp.Dispose(SetPlayerHp);
+        m_viewModel.PlayerObserver.Recovery.Dispose(OnGetRecovery);
+    }
     /// <summary>
     /// プレイヤーHpの監視登録
     /// </summary>
     /// <param name="hp"></param>
-    public void BindPlayerHp(IReadOnlyReactiveProperty<float> hp)
+    public void BindPlayerHp(ISubsribeOnlyReactiveProperty<float> hp)
     {
         hp.Subscribe(SetPlayerHp);
     }
@@ -104,25 +110,30 @@ public class GameMainScreenPresenter : BaseScreenPresenter<GameMainScreen, GameM
     public void OnGetRecovery(int recovery)
     {
         // GUIとの切り離し
-        m_viewModel.PlayerEnv.hp.Dispose();
+        m_viewModel.PlayerObserver.Hp.Dispose(SetPlayerHp);
+        m_viewModel.PlayerObserver.Hp.Subscribe(ParamChangeAnimation);
+        // PlayerHpIncrementAnimation(startParam, m_viewModel.PlayerEnv.hp.Value, m_viewModel.PlayerEnv.hp, () =>
+        // {
+        //     WorldManager.Instance.OnPause(false);
+        //     hpPlayback.Stop();
 
-        float startParam = m_viewModel.PlayerEnv.hp.Value;
-        int nextHp = m_viewModel.PlayerEnv.CurrentHp + recovery;
-        // SetHp(CurrentHp + val);
+        //     // 回復アニメーション終了コールバック
+        //     m_viewModel.NotifyPlayerHpRecoveryAnimationFinish();
+        // });
+    }
 
-        // 実質の回復（UIではまだ見れない）
-        m_viewModel.SetPlayerHp(nextHp);
-
+    private void ParamChangeAnimation(float hp)
+    {
         // ポーズを掛けて回復アニメーションさせる
         WorldManager.Instance.OnPause(true);
         var hpPlayback = AudioManager.Instance.PlaySe(SECueIDs.hprecover);
-        PlayerHpIncrementAnimation(startParam, m_viewModel.PlayerEnv.hp.Value, m_viewModel.PlayerEnv.hp, () =>
+        m_screen.HpBar.ParamChangeAnimation(hp, () =>
         {
             WorldManager.Instance.OnPause(false);
             hpPlayback.Stop();
 
-            // 回復アニメーション終了コールバック
-            m_viewModel.NotifyPlayerHpRecoveryAnimationFinish();
+            m_viewModel.PlayerObserver.Hp.Dispose(ParamChangeAnimation);
+            m_viewModel.PlayerObserver.Hp.Subscribe(SetPlayerHp);
         });
     }
 
@@ -139,7 +150,7 @@ public class GameMainScreenPresenter : BaseScreenPresenter<GameMainScreen, GameM
     /// <param name="param"></param>
     /// <param name="hp"></param>
     /// <param name="finishCallback"></param>
-    public void PlayerHpIncrementAnimation(float startParam, float endParam, IReadOnlyReactiveProperty<float> hp, Action finishCallback)
+    public void PlayerHpIncrementAnimation(float startParam, float endParam, ISubsribeOnlyReactiveProperty<float> hp, Action finishCallback)
     {
         HpIncrementAnimation(m_screen.HpBar, startParam, endParam, () =>
         {
@@ -156,7 +167,7 @@ public class GameMainScreenPresenter : BaseScreenPresenter<GameMainScreen, GameM
     /// <param name="val"></param>
     /// <param name="hpChangeTrigger"></param>
     /// <param name="finishCallback"></param>
-    public void EnemyHpIncrementAnimation(float startParam, float endParam, IReadOnlyReactiveProperty<float> hp, Action finishCallback)
+    public void EnemyHpIncrementAnimation(float startParam, float endParam, ISubsribeOnlyReactiveProperty<float> hp, Action finishCallback)
     {
         HpIncrementAnimation(m_screen.EnemyHpBar, startParam, endParam, () =>
         {
@@ -175,26 +186,13 @@ public class GameMainScreenPresenter : BaseScreenPresenter<GameMainScreen, GameM
 
 public class GameMainScreenViewModel : BaseViewModel<GameMainManager.UI>
 {
-    public IPlayerEnvironment PlayerEnv { get; set; } = null;
+    private IPlayerObserver playerObserver { get; set; } = null;
 
-
+    public IPlayerObserver PlayerObserver => playerObserver;
     protected override IEnumerator Configure()
     {
-        PlayerEnv = Environment.Instance;
+        playerObserver = GameMainObserver.Instance.playerObserver;
 
         yield return null;
-    }
-
-    public void SetPlayerHp(int hp)
-    {
-        PlayerEnv.CurrentHp = hp;
-    }
-
-    /// <summary>
-    /// 回復アニメーション終了通知
-    /// </summary>
-    public void NotifyPlayerHpRecoveryAnimationFinish()
-    {
-        PlayerEnv.hpRecoveryAnimationFinish?.Invoke();
     }
 }

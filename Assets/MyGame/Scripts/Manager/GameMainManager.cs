@@ -52,12 +52,6 @@ public class GameMainManager : BaseManager<GameMainManager>
     {
         FadeInManager.Instance.FadeOutImmediate();
 
-        screenContainer.Add(UI.GameMain, m_gameMainScreen);
-        screenContainer.Add(UI.Pause, m_pauseScreen);
-        screenContainer.Add(UI.GameMenu, m_gameMenuScreen);
-
-        yield return screenContainer.Initialize(UI.GameMain, true);
-
         var res = AddressableAssetLoadUtility.LoadPrefab<WorldManager>("GrenademanStage", this.worldRoot);
 
         worldManager = res.Item1;
@@ -75,11 +69,16 @@ public class GameMainManager : BaseManager<GameMainManager>
         // オブジェクトマネージャー初期化
         ObjectManager.Instance.Init();
 
+        screenContainer.Add(UI.GameMain, m_gameMainScreen);
+        screenContainer.Add(UI.Pause, m_pauseScreen);
+        screenContainer.Add(UI.GameMenu, m_gameMenuScreen);
+
         OnPause(false);
     }
 
     protected override IEnumerator OnStart()
     {
+        yield return screenContainer.Initialize(UI.GameMain, true);
         worldManager.StartStage();
         yield return null;
     }
@@ -116,9 +115,10 @@ public class GameMainManager : BaseManager<GameMainManager>
             screenContainer.Close(true, () => { isClose = true; });
             while (!isClose) yield return null;
 
-            yield return screenContainer.Initialize(UI.GameMain, true);
 
             worldManager.OnReset();
+
+            yield return screenContainer.Initialize(UI.GameMain, true);
             worldManager.StartStage();
             OnPause(false);
         }

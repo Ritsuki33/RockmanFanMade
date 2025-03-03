@@ -4,8 +4,16 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public class Environment : Singleton<Environment>, IPlayerEnvironment
+public interface IPlayerObserver
 {
+    ISubsribeOnlyReactiveProperty<float> Hp { get; }
+    ISubsribeOnlyReactiveProperty<int> Recovery { get; }
+}
+
+
+public class GameMainObserver : Singleton<GameMainObserver>
+{
+    public IPlayerObserver playerObserver => WorldManager.Instance.Player;
     /// <summary>
     /// プレイヤーの最大体力
     /// </summary>
