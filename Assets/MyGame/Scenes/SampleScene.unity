@@ -2065,7 +2065,6 @@ MonoBehaviour:
   readyUi: {fileID: 1051947885}
   enemyHpBar: {fileID: 1121050118}
   hpBar: {fileID: 1768048631065539294}
-  pauseUi: {fileID: 1208605279}
 --- !u!1001 &245523415
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -13256,8 +13255,8 @@ MonoBehaviour:
   m_UpdateMethod: 2
   m_BlendUpdateMethod: 1
   m_DefaultBlend:
-    m_Style: 0
-    m_Time: 0
+    m_Style: 6
+    m_Time: 0.8
     m_CustomCurve:
       serializedVersion: 2
       m_Curve: []

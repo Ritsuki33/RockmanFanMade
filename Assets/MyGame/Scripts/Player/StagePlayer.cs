@@ -6,7 +6,7 @@ using UnityEngine.Playables;
 
 
 
-public partial class StagePlayer : PhysicalObject, IDirect, IBeltConveyorVelocity, IRbVisitor, IHitEvent, IExRbVisitor, IPlayerObserver
+public partial class StagePlayer : PhysicalObject, IDirect, IBeltConveyorVelocity, IRbVisitor, IHitEvent, IExRbVisitor, IPlayerSubject
 {
     [SerializeField] ExpandRigidBody exRb;
     [Header("プレイヤー情報")]
@@ -31,8 +31,8 @@ public partial class StagePlayer : PhysicalObject, IDirect, IBeltConveyorVelocit
     ReactiveProperty<int> recovery = new ReactiveProperty<int>(0);
     Action hpRecoveryAnimationFinish = null;
 
-    ISubsribeOnlyReactiveProperty<float> IPlayerObserver.Hp => hp;
-    ISubsribeOnlyReactiveProperty<int> IPlayerObserver.Recovery => recovery;
+    ISubsribeOnlyReactiveProperty<float> IPlayerSubject.Hp => hp;
+    ISubsribeOnlyReactiveProperty<int> IPlayerSubject.Recovery => recovery;
 
     public int CurrentHp
     {

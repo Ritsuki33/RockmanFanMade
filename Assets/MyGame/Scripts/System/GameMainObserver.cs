@@ -3,46 +3,28 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public interface IGameMainSubject
+{
+    ISubsribeOnlyReactiveProperty<StageBoss> BossHolder { get; }
+}
 
-public interface IPlayerObserver
+public interface IPlayerSubject
 {
     ISubsribeOnlyReactiveProperty<float> Hp { get; }
     ISubsribeOnlyReactiveProperty<int> Recovery { get; }
 }
 
-
-public class GameMainObserver : Singleton<GameMainObserver>
+public interface IBossSubject
 {
-    public IPlayerObserver playerObserver => WorldManager.Instance.Player;
-    /// <summary>
-    /// プレイヤーの最大体力
-    /// </summary>
-    public int MaxHp { get; set; } = 27;
+    ISubsribeOnlyReactiveProperty<float> Hp { get; }
+    ISubsribeOnlyReactiveProperty<int> Recovery { get; }
 
-    /// <summary>
-    /// プレイヤーの現在の体力
-    /// </summary>
-    int currentPlayerHp = 0;
-    public int CurrentHp
-    {
-        get
-        {
-            return currentPlayerHp;
-        }
-        set
-        {
-            currentPlayerHp = Mathf.Clamp(value, 0, MaxHp);
-            hp.Value = (float)currentPlayerHp / MaxHp;
-        }
-    }
+    Action AnimationFinishCallback { get; }
+}
 
-    /// <summary>
-    /// プレイヤーの体力（0~1）
-    /// </summary>
-    public ReactiveProperty<float> hp { get; set; } = new ReactiveProperty<float>(0);
-
-    public ReactiveProperty<int> recovery { get; set; } = new ReactiveProperty<int>(0);
-
-    private Action _hpRecoveryAnimationFinish = null;
-    public Action hpRecoveryAnimationFinish { get => _hpRecoveryAnimationFinish; set => _hpRecoveryAnimationFinish = value; }
+public class UIObserver : Singleton<UIObserver>
+{
+    public IGameMainSubject GameMainObserver => GameMainManager.Instance;
+    public IPlayerSubject playerObserver => WorldManager.Instance.Player;
+    public IBossSubject bossObserver = null;
 }

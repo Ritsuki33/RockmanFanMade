@@ -255,12 +255,17 @@ public class ActionChainExecuter : MonoBehaviour
         override public void Execute(Action finishCallback)
         {
             var hpPlayback = AudioManager.Instance.PlaySe(SECueIDs.hprecover);
-            GameMainManager.Instance.GameMainScreenPresenter.EnemyHpIncrementAnimation(0, (float)spawn.Obj.CurrentHp / spawn.Obj.MaxHp, spawn.Obj.Hp, () =>
-            {
-                finishCallback.Invoke();
 
-                hpPlayback.Stop();
-            });
+            GameMainManager.Instance.SetBoss(spawn.Obj);
+
+            spawn.Obj.SetHp(0);
+            spawn.Obj.MaxRecovery(finishCallback);
+            // GameMainManager.Instance.GameMainScreenPresenter.EnemyHpIncrementAnimation(0, (float)spawn.Obj.CurrentHp / spawn.Obj.MaxHp, spawn.Obj.Hp, () =>
+            // {
+            //     finishCallback.Invoke();
+
+            //     hpPlayback.Stop();
+            // });
         }
     }
 

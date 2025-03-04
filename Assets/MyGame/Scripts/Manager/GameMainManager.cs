@@ -2,7 +2,7 @@
 using System.Collections;
 using UnityEngine;
 
-public class GameMainManager : BaseManager<GameMainManager>
+public class GameMainManager : BaseManager<GameMainManager>, IGameMainSubject
 {
     public struct InputInfo
     {
@@ -48,6 +48,11 @@ public class GameMainManager : BaseManager<GameMainManager>
     private bool isPause = false;
     //ポーズ可否　
     public bool Pausable { get; set; } = true;
+
+
+    ReactiveProperty<StageBoss> bossHolder = new ReactiveProperty<StageBoss>(null);
+    ISubsribeOnlyReactiveProperty<StageBoss> IGameMainSubject.BossHolder => bossHolder;
+
     protected override IEnumerator Init()
     {
         FadeInManager.Instance.FadeOutImmediate();
@@ -187,5 +192,10 @@ public class GameMainManager : BaseManager<GameMainManager>
 
         AudioManager.Instance.StopBGM();
         AudioManager.Instance.StopSe();
+    }
+
+    public void SetBoss(StageBoss boss)
+    {
+        bossHolder.Value = boss;
     }
 }
