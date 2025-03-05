@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections;
 using UnityEngine;
 
@@ -15,10 +15,10 @@ public class GameMenuScreen : BaseScreen<GameMenuScreen, GameMenuScreenPresenter
 
 
     [SerializeField] GameMenuGaugeSelectController gaugeSelectController;
-    [SerializeField] EkanSelectController ekanSelectController;
+    [SerializeField] ItemSelectController itemSelectController;
 
     public GameMenuGaugeSelectController GaugeSelectController => gaugeSelectController;
-    public EkanSelectController EkanSelectController => ekanSelectController;
+    public ItemSelectController ItemSelectController => itemSelectController;
 
     public GameMenuGaugeBar PlayerHpBar => gaugeSelectController.Selects[(int)Gauge.PlayerHp].GaugeBar;
     public GameMenuGaugeBar OtherBar => gaugeSelectController.Selects[(int)Gauge.Other].GaugeBar;
@@ -38,9 +38,9 @@ public class GameMenuScreen : BaseScreen<GameMenuScreen, GameMenuScreenPresenter
         gaugeSelectController.InputUpdate(dir);
     }
 
-    public void UpdateEkanSelect(InputDirection dir)
+    public void UpdateItemSelect(InputDirection dir)
     {
-        ekanSelectController.InputUpdate(dir);
+        itemSelectController.InputUpdate(dir);
     }
 
     public void DisabledGaugeSelect(bool isDisabled)
@@ -50,7 +50,7 @@ public class GameMenuScreen : BaseScreen<GameMenuScreen, GameMenuScreenPresenter
 
     public void DisabledEkanSelect(bool isDisabled)
     {
-        ekanSelectController.Disabled(isDisabled);
+        itemSelectController.Disabled(isDisabled);
     }
 }
 
@@ -72,11 +72,11 @@ public class GameMenuScreenPresenter : BaseScreenPresenter<GameMenuScreen, GameM
             m_viewModel.PlayerStatusParam.OnRefresh();
         }
 
-        m_screen.EkanSelectController.Init(0, SelectedEkan);
+        m_screen.ItemSelectController.Init(0, SelectedEkan);
 
         isCursorInWeapon = true;
         m_screen.GaugeSelectController.Disabled(!isCursorInWeapon);
-        m_screen.EkanSelectController.Disabled(isCursorInWeapon);
+        m_screen.ItemSelectController.Disabled(isCursorInWeapon);
     }
 
     protected override void Open()
@@ -101,19 +101,26 @@ public class GameMenuScreenPresenter : BaseScreenPresenter<GameMenuScreen, GameM
         else if (info.decide)
         {
             if (isCursorInWeapon) m_screen.GaugeSelectController.Selected();
-            else m_screen.EkanSelectController.Selected();
+            else m_screen.ItemSelectController.Selected();
         }
         else if (info.down || info.up)
         {
             var dir = GetInputDirection(info);
-            m_screen.UpdateGaugeSelect(dir);
+            if (isCursorInWeapon)
+            {
+                m_screen.UpdateGaugeSelect(dir);
+            }
+            else
+            {
+                m_screen.UpdateItemSelect(dir);
+            }
             AudioManager.Instance.PlaySystem(SECueIDs.select);
         }
         else if (info.left || info.right)
         {
             isCursorInWeapon = !isCursorInWeapon;
             m_screen.GaugeSelectController.Disabled(!isCursorInWeapon);
-            m_screen.EkanSelectController.Disabled(isCursorInWeapon);
+            m_screen.ItemSelectController.Disabled(isCursorInWeapon);
         }
     }
     private void SetPlayerHp(int hp, int maxHp)
@@ -167,6 +174,11 @@ public class GameMenuScreenPresenter : BaseScreenPresenter<GameMenuScreen, GameM
             {
                 inputable = true;
             });
+        }
+        else if (info.id == 1)
+        {
+            // ステージ離脱
+            GameMainManager.Instance.GameStageEnd();
         }
     }
 }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class EkanSelector : BaseSelector<SelectInfo>
+public class ItemSelector : BaseSelector<SelectInfo>
 {
     [SerializeField] Image image;
 

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EkanSelectController : VirticalSelectContoller<EkanSelector, SelectInfo>
+public class ItemSelectController : VirticalSelectContoller<ItemSelector, SelectInfo>
 {
     public override void DisplayCursor() { }
 
