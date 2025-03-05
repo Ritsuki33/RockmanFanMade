@@ -7,28 +7,27 @@ public class StageEnemy : PhysicalObject
 {
     [SerializeField] EnemyData enemyData = default;
 
-    [SerializeField,Header("討伐後発生イベントを直接指定")] UnityEvent defeatEvent = default;
+    [SerializeField, Header("討伐後発生イベントを直接指定")] UnityEvent defeatEvent = default;
 
     private Material material;
 
-    protected int currentHp = 0;
-
-    public virtual int CurrentHp { get; set; }
     public int MaxHp => (enemyData != null) ? enemyData.Hp : 3;
 
+    public ParamStatus statusParam = null;
 
     protected override void Init()
     {
         base.Init();
         MainMaterial.SetFloat(ShaderPropertyId.IsFadeColorID, 0);
-        CurrentHp = MaxHp;
+
+        statusParam = new ParamStatus(MaxHp, MaxHp);
     }
 
 
     public virtual void Damaged(RockBusterDamage damageVal)
     {
-        CurrentHp = Mathf.Clamp(CurrentHp - damageVal.baseDamageValue, 0, MaxHp);
-        if (CurrentHp <= 0)
+        statusParam.OnDamage(damageVal.baseDamageValue);
+        if (statusParam.Hp <= 0)
         {
             Dead();
 
@@ -60,11 +59,11 @@ public class StageEnemy : PhysicalObject
 
     public virtual void OnDead()
     {
-        var explode=ObjectManager.Instance.OnGet<Explode>(PoolType.Explode);
+        var explode = ObjectManager.Instance.OnGet<Explode>(PoolType.Explode);
         explode.Setup(Explode.Layer.None, this.transform.position, 0);
 
         Delete();
-       
+
     }
 
     /// <summary>

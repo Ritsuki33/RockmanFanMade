@@ -44,19 +44,20 @@ public class GameMainScreen : BaseScreen<GameMainScreen, GameMainScreenPresenter
 
 public class GameMainScreenPresenter : BaseScreenPresenter<GameMainScreen, GameMainScreenPresenter, GameMainScreenViewModel, GameMainManager.UI>
 {
-    private IBossSubject m_bossObserver { get; set; } = null;
-
+    public IParamStatusSubject bossStatusParam = null;
 
     protected override void Initialize()
     {
-        // m_screen.HpBar.SetParam(WorldManager.Instance.Player.CurrentHp);
-        // m_screen.HpBar.SetParam(m_viewModel.PlayerEnv.hp.Value);
-        m_viewModel.PlayerObserver.Hp.Subscribe(SetPlayerHp);
-        m_viewModel.PlayerObserver.Recovery.Subscribe(OnPlayerGetRecovery);
+        m_viewModel.PlayerStatusParam.HpChangeCallback += SetPlayerHp;
+        m_viewModel.PlayerStatusParam.OnDamageCallback += SetPlayerHp;
+        m_viewModel.PlayerStatusParam.OnRecoveryCallback += PlyaerParamChangeAnimation;
 
-        m_viewModel.PlayerObserver.Hp.Refresh();
+        m_viewModel.StageInfoSubject.OnSetBossHolder += SetBossSubject;
+    }
 
-        m_viewModel.GameMainSubject.BossHolder.Subscribe(SetBossSubject);
+    protected override void Open()
+    {
+        m_viewModel.PlayerStatusParam.OnRefresh();
     }
 
     protected override void InputUpdate(InputInfo info)
@@ -75,26 +76,29 @@ public class GameMainScreenPresenter : BaseScreenPresenter<GameMainScreen, GameM
 
     protected override void Destroy()
     {
-        m_viewModel.PlayerObserver.Hp.Dispose(SetPlayerHp);
-        m_viewModel.PlayerObserver.Recovery.Dispose(OnPlayerGetRecovery);
-    }
-    /// <summary>
-    /// プレイヤーHpの監視登録
-    /// </summary>
-    /// <param name="hp"></param>
-    public void BindPlayerHp(ISubsribeOnlyReactiveProperty<float> hp)
-    {
-        hp.Subscribe(SetPlayerHp);
+        if (m_viewModel.PlayerStatusParam != null)
+        {
+            m_viewModel.PlayerStatusParam.HpChangeCallback -= SetPlayerHp;
+            m_viewModel.PlayerStatusParam.OnDamageCallback -= SetPlayerHp;
+            m_viewModel.PlayerStatusParam.OnRecoveryCallback -= PlyaerParamChangeAnimation;
+        }
+
+        if (bossStatusParam != null)
+        {
+            bossStatusParam.HpChangeCallback -= SetEnemyHp;
+            bossStatusParam.OnDamageCallback -= SetEnemyHp;
+            bossStatusParam.OnRecoveryCallback -= BossParamChangeAnimation;
+        }
     }
 
-    private void SetPlayerHp(float hp)
+    private void SetPlayerHp(int hp, int maxHp)
     {
-        m_screen.HpBar.SetParam(hp);
+        m_screen.HpBar.SetParam((float)hp / maxHp);
     }
 
-    public void SetEnemyHp(float hp)
+    public void SetEnemyHp(int hp, int maxHp)
     {
-        m_screen.EnemyHpBar.SetParam(hp);
+        m_screen.EnemyHpBar.SetParam((float)hp / maxHp);
     }
 
     public void PlayerHpActive(bool isActive)
@@ -107,59 +111,29 @@ public class GameMainScreenPresenter : BaseScreenPresenter<GameMainScreen, GameM
         m_screen.EnemyHpBar.gameObject.SetActive(isActive);
     }
 
-    /// <summary>
-    /// 回復アイテム取得時
-    /// </summary>
-    /// <param name="recovery"></param>
-    private void OnPlayerGetRecovery(int recovery)
-    {
-        // GUIとの切り離し
-        m_viewModel.PlayerObserver.Hp.Dispose(SetPlayerHp);
-        m_viewModel.PlayerObserver.Hp.Subscribe(PlyaerParamChangeAnimation);
-        // PlayerHpIncrementAnimation(startParam, m_viewModel.PlayerEnv.hp.Value, m_viewModel.PlayerEnv.hp, () =>
-        // {
-        //     WorldManager.Instance.OnPause(false);
-        //     hpPlayback.Stop();
-
-        //     // 回復アニメーション終了コールバック
-        //     m_viewModel.NotifyPlayerHpRecoveryAnimationFinish();
-        // });
-    }
-
-    private void OnBossGetRecovery(int recovery)
-    {
-        // GUIとの切り離し
-        this.m_bossObserver.Hp.Dispose(SetEnemyHp);
-        this.m_bossObserver.Hp.Subscribe(BossParamChangeAnimation);
-    }
-
-    private void PlyaerParamChangeAnimation(float hp)
+    private void PlyaerParamChangeAnimation(int hp, int maxHp, Action callback)
     {
         // ポーズを掛けて回復アニメーションさせる
         WorldManager.Instance.OnPause(true);
         var hpPlayback = AudioManager.Instance.PlaySe(SECueIDs.hprecover);
-        m_screen.HpBar.ParamChangeAnimation(hp, () =>
+        m_screen.HpBar.ParamChangeAnimation((float)hp / maxHp, () =>
         {
             WorldManager.Instance.OnPause(false);
             hpPlayback.Stop();
 
-            m_viewModel.PlayerObserver.Hp.Dispose(PlyaerParamChangeAnimation);
-            m_viewModel.PlayerObserver.Hp.Subscribe(SetPlayerHp);
+            callback?.Invoke();
         });
     }
 
-    private void BossParamChangeAnimation(float hp)
+    private void BossParamChangeAnimation(int hp, int maxHp, Action callback)
     {
         m_screen.EnemyHpBar.gameObject.SetActive(true);
         var hpPlayback = AudioManager.Instance.PlaySe(SECueIDs.hprecover);
-        m_screen.EnemyHpBar.ParamChangeAnimation(hp, () =>
+        m_screen.EnemyHpBar.ParamChangeAnimation((float)hp / maxHp, () =>
         {
             hpPlayback.Stop();
 
-            this.m_bossObserver.Hp.Dispose(BossParamChangeAnimation);
-            this.m_bossObserver.Hp.Dispose(SetEnemyHp);
-
-            this.m_bossObserver.AnimationFinishCallback?.Invoke();
+            callback?.Invoke();
         });
     }
 
@@ -168,69 +142,21 @@ public class GameMainScreenPresenter : BaseScreenPresenter<GameMainScreen, GameM
         m_screen.ReadyUi.Play(finishCallback);
     }
 
-    // public void HpIncrementAnimation(GaugeBar hpbar, float startParam, float endParam, Action finishCallback)
-    // {
-    //     hpbar.gameObject.SetActive(true);
-    //     hpbar.SetParam(startParam);
-    //     hpbar.ParamChangeAnimation(endParam, finishCallback);
-    // }
 
-    // /// <summary>
-    // /// プレイヤーの体力
-    // /// </summary>
-    // /// <param name="param"></param>
-    // /// <param name="hp"></param>
-    // /// <param name="finishCallback"></param>
-    // public void PlayerHpIncrementAnimation(float startParam, float endParam, ISubsribeOnlyReactiveProperty<float> hp, Action finishCallback)
-    // {
-    //     HpIncrementAnimation(m_screen.HpBar, startParam, endParam, () =>
-    //     {
-    //         // プレイヤーHpの監視登録
-    //         hp.Subscribe(SetPlayerHp);
-
-    //         finishCallback.Invoke();
-    //     });
-    // }
-
-    // /// <summary>
-    // /// ボスの体力上昇アニメーション（敵体力の監視登録も行う）
-    // /// </summary>
-    // /// <param name="val"></param>
-    // /// <param name="hpChangeTrigger"></param>
-    // /// <param name="finishCallback"></param>
-    // public void EnemyHpIncrementAnimation(float startParam, float endParam, ISubsribeOnlyReactiveProperty<float> hp, Action finishCallback)
-    // {
-    //     HpIncrementAnimation(m_screen.EnemyHpBar, startParam, endParam, () =>
-    //     {
-    //         // 敵Hpの監視登録
-    //         hp.Subscribe(SetEnemyHp);
-
-    //         finishCallback.Invoke();
-    //     });
-    // }
-
-    private void SetBossSubject(IBossSubject bossObserver)
+    private void SetBossSubject(StageBoss boss)
     {
-        this.m_bossObserver = bossObserver;
+        this.bossStatusParam = boss.statusParam;
 
-        this.m_bossObserver.Hp.Subscribe(SetEnemyHp);
-        this.m_bossObserver.Recovery.Subscribe(OnBossGetRecovery);
+        this.bossStatusParam.HpChangeCallback += SetEnemyHp;
+        this.bossStatusParam.OnDamageCallback += SetEnemyHp;
+        this.bossStatusParam.OnRecoveryCallback += BossParamChangeAnimation;
     }
 
 }
 
 public class GameMainScreenViewModel : BaseViewModel<GameMainManager.UI>
 {
-    private IPlayerSubject playerSubject { get; set; } = null;
-    private IGameMainSubject gameMainSubject;
+    public IParamStatusSubject PlayerStatusParam => ProjectManager.Instance.RDH.PlayerInfo.StatusParam;
 
-    public IPlayerSubject PlayerObserver => playerSubject;
-
-    public IGameMainSubject GameMainSubject => gameMainSubject;
-    protected override IEnumerator Configure()
-    {
-        playerSubject = UIObserver.Instance.playerObserver;
-        gameMainSubject = GameMainManager.Instance;
-        yield return null;
-    }
+    public IStageInfoSubject StageInfoSubject => ProjectManager.Instance.RDH.StageInfo;
 }

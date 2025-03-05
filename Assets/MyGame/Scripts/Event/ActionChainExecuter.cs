@@ -252,21 +252,16 @@ public class ActionChainExecuter : MonoBehaviour
     {
         [SerializeField] BossSpawn spawn;
 
+        StageInfo StageInfo => ProjectManager.Instance.RDH.StageInfo;
         override public void Execute(Action finishCallback)
         {
             var hpPlayback = AudioManager.Instance.PlaySe(SECueIDs.hprecover);
 
-            GameMainManager.Instance.SetBoss(spawn.Obj);
-
+            StageInfo.SetBossHolder(spawn.Obj);
             spawn.Obj.SetHp(0);
             spawn.Obj.MaxRecovery(finishCallback);
-            // GameMainManager.Instance.GameMainScreenPresenter.EnemyHpIncrementAnimation(0, (float)spawn.Obj.CurrentHp / spawn.Obj.MaxHp, spawn.Obj.Hp, () =>
-            // {
-            //     finishCallback.Invoke();
-
-            //     hpPlayback.Stop();
-            // });
         }
+
     }
 
     [Serializable]

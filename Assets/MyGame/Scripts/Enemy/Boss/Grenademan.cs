@@ -121,13 +121,6 @@ public class Grenademan : StageBoss, IDirect, IHitEvent, IRbVisitor, IExRbVisito
         rbCollide.OnTriggerEnter(this, collision);
     }
 
-    public override void Damaged(RockBusterDamage damage)
-    {
-        base.Damaged(damage);
-
-        GameMainManager.Instance.GameMainScreenPresenter?.SetEnemyHp((float)currentHp / MaxHp);
-    }
-
     public override void OnDead()
     {
         var deathEffect = ObjectManager.Instance.OnGet<PsObject>(PoolType.PlayerDeathEffect);
