@@ -17,6 +17,7 @@ Shader "Custom/GaugeGramShader"
         Tags { "RenderType" = "Transparent"  "Queue"="Transparent"}
         Blend SrcAlpha OneMinusSrcAlpha
         Cull Off
+        ZWrite Off
 
         Pass
         {

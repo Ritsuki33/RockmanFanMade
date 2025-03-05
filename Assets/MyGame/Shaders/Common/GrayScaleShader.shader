@@ -3,7 +3,7 @@ Shader "Custom/GrayScaleShader"
     Properties
     {
         [PerRendererData] _MainTex ("Main Tex", 2D) = "white" {}
-        _ratio ("ratio", Range(0, 1)) = 1
+        _GrayScale ("_GrayScale", Range(0, 1)) = 1
     }
 
     SubShader
@@ -45,10 +45,11 @@ Shader "Custom/GrayScaleShader"
 
             sampler2D _MainTex;
 
-            float _ratio;
+            float _GrayScale;
             fixed4 Grayscale(fixed4 color)
             {
-                return dot(color.rgb, float3(0.3, 0.59, 0.11)) * color.a;
+                float gray = dot(color.rgb, float3(0.3, 0.59, 0.11));
+                return float4(gray, gray, gray, color.a);
             }
 
             v2f vert(appdata_t v)
@@ -64,7 +65,8 @@ Shader "Custom/GrayScaleShader"
             {
                 fixed4 tex = tex2D(_MainTex, i.texcoord);
                 fixed4 grayScale = Grayscale(tex);
-                return lerp(tex, grayScale, _ratio);
+                
+                return lerp(tex, grayScale, _GrayScale);
             }
     
         ENDCG
