@@ -35,14 +35,16 @@ public class UIDoTweemAnimatorEditor : Editor
         UIDoTweemAnimator animator = (UIDoTweemAnimator)target;
 
         EditorGUILayout.BeginHorizontal();
-        if (GUILayout.Button("Play Open (runtime only) ▶▶"))
+        if (GUILayout.Button("Play Open (Runtime only) ▶▶"))
         {
+            if (!Application.isPlaying) return;
             animator.PlayOpen();
         }
 
 
-        if (GUILayout.Button("Play Close (runtime only) ◀◀"))
+        if (GUILayout.Button("Play Close (Runtime only) ◀◀"))
         {
+            if (!Application.isPlaying) return;
             animator.PlayClose();
         }
 
@@ -81,13 +83,15 @@ public class UIDoTweenGroupAnimatorEditor : Editor
 
         UIDoTweenGroupAnimator animator = (UIDoTweenGroupAnimator)target;
         EditorGUILayout.BeginHorizontal();
-        if (GUILayout.Button("Play Open (runtime only) ▶▶"))
+        if (GUILayout.Button("Play Open (Runtime only) ▶▶"))
         {
+            if (!Application.isPlaying) return;
             animator.PlayOpen();
         }
 
-        if (GUILayout.Button("Play Close (runtime only) ◀◀"))
+        if (GUILayout.Button("Play Close (Runtime only) ◀◀"))
         {
+            if (!Application.isPlaying) return;
             animator.PlayClose();
         }
 
@@ -147,13 +151,15 @@ public class UIDoTweenSelecterAnimatorEditor : Editor
 
         serializedObject.ApplyModifiedProperties();
         EditorGUILayout.BeginHorizontal();
-        if (GUILayout.Button("Play Open (runtime only) ▶▶"))
+        if (GUILayout.Button("Play Open (Runtime only) ▶▶"))
         {
+            if (!Application.isPlaying) return;
             animator.PlayOpen(() => Debug.Log("完了"));
         }
 
-        if (GUILayout.Button("Play Close (runtime only) ◀◀"))
+        if (GUILayout.Button("Play Close (Runtime only) ◀◀"))
         {
+            if (!Application.isPlaying) return;
             animator.PlayClose();
         }
 
