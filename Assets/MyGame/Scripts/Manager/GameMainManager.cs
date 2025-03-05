@@ -63,7 +63,10 @@ public class GameMainManager : BaseManager<GameMainManager>
         }
 
         worldInstanceId = res.Item2;
+    }
 
+    protected override IEnumerator OnStart()
+    {
         // ワールドの初期化
         worldManager.Init();
 
@@ -75,10 +78,7 @@ public class GameMainManager : BaseManager<GameMainManager>
         screenContainer.Add(UI.GameMenu, m_gameMenuScreen);
 
         OnPause(false);
-    }
 
-    protected override IEnumerator OnStart()
-    {
         yield return screenContainer.Initialize(UI.GameMain, true);
         worldManager.StartStage();
         yield return null;
