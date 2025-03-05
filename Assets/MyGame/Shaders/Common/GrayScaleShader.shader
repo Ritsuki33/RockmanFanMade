@@ -20,7 +20,7 @@ Shader "Custom/GrayScaleShader"
         Cull Off
         Lighting Off
         ZWrite Off
-        Blend One OneMinusSrcAlpha
+        Blend SrcAlpha OneMinusSrcAlpha
 
         Pass
         {
@@ -66,7 +66,7 @@ Shader "Custom/GrayScaleShader"
                 fixed4 tex = tex2D(_MainTex, i.texcoord);
                 fixed4 grayScale = Grayscale(tex);
                 
-                return lerp(tex, grayScale, _GrayScale);
+                return lerp(tex, grayScale, _GrayScale)  * i.color;
             }
     
         ENDCG
