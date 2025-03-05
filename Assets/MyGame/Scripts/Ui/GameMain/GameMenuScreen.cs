@@ -7,9 +7,18 @@ using UnityEngine;
 /// </summary>
 public class GameMenuScreen : BaseScreen<GameMenuScreen, GameMenuScreenPresenter, GameMainManager.UI>
 {
+    enum Gauge
+    {
+        PlayerHp,
+        Other,
+    }
+
     [SerializeField] GameMenuGaugeSelectController gaugeSelectController;
 
     public GameMenuGaugeSelectController GaugeSelectController => gaugeSelectController;
+
+    public GameMenuGaugeBar PlayerHpBar => gaugeSelectController.Selects[(int)Gauge.PlayerHp].GaugeBar;
+    public GameMenuGaugeBar OtherBar => gaugeSelectController.Selects[(int)Gauge.Other].GaugeBar;
 }
 
 public class GameMenuScreenPresenter : BaseScreenPresenter<GameMenuScreen, GameMenuScreenPresenter, GameMenuScreenViewModel, GameMainManager.UI>
@@ -20,7 +29,15 @@ public class GameMenuScreenPresenter : BaseScreenPresenter<GameMenuScreen, GameM
     {
         inputable = false;
         m_screen.GaugeSelectController.Init(0, Selected);
+
+        if (m_viewModel.PlayerStatusParam != null)
+        {
+            m_viewModel.PlayerStatusParam.HpChangeCallback += SetPlayerHp;
+            m_viewModel.PlayerStatusParam.OnRefresh();
+        }
     }
+
+
 
     protected override void Open()
     {
@@ -53,12 +70,22 @@ public class GameMenuScreenPresenter : BaseScreenPresenter<GameMenuScreen, GameM
         }
 
     }
-
+    private void SetPlayerHp(int hp, int maxHp)
+    {
+        m_screen.PlayerHpBar.SetParam((float)hp / maxHp);
+    }
     protected override void Hide()
     {
         GameMainManager.Instance.OnPause(false, true);
     }
 
+    protected override void Destroy()
+    {
+        if (m_viewModel.PlayerStatusParam != null)
+        {
+            m_viewModel.PlayerStatusParam.HpChangeCallback -= SetPlayerHp;
+        }
+    }
     private InputDirection GetInputDirection(InputInfo info)
     {
         if (info.up) return InputDirection.Up;
@@ -76,5 +103,6 @@ public class GameMenuScreenPresenter : BaseScreenPresenter<GameMenuScreen, GameM
 
 public class GameMenuScreenViewModel : BaseViewModel<GameMainManager.UI>
 {
+    public IParamStatusSubject PlayerStatusParam => ProjectManager.Instance.RDH.PlayerInfo.StatusParam;
 
 }

@@ -5,6 +5,8 @@ using UnityEngine;
 public class MenuGuageSelector : BaseSelector<SelectInfo>
 {
     [SerializeField] GameMenuGaugeBar gaugeBar;
+
+    public GameMenuGaugeBar GaugeBar => gaugeBar;
     protected override void OnSetup(SelectInfo data)
     {
     }

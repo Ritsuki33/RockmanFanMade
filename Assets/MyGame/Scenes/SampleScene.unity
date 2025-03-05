@@ -13255,8 +13255,8 @@ MonoBehaviour:
   m_UpdateMethod: 2
   m_BlendUpdateMethod: 1
   m_DefaultBlend:
-    m_Style: 6
-    m_Time: 0.8
+    m_Style: 0
+    m_Time: 0
     m_CustomCurve:
       serializedVersion: 2
       m_Curve: []
@@ -13819,7 +13819,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a4e08ce609b10f4fa62e37151b28465, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  root: {fileID: 1322798087}
+  root: {fileID: 813147031}
   gram: {fileID: 1601138081}
 --- !u!1 &1925011423
 GameObject:
@@ -13958,7 +13958,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a4e08ce609b10f4fa62e37151b28465, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  root: {fileID: 1322798087}
+  root: {fileID: 687392865}
   gram: {fileID: 2082595346}
 --- !u!1001 &1933148514
 PrefabInstance:
