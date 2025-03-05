@@ -44,7 +44,6 @@ public class GameMainScreen : BaseScreen<GameMainScreen, GameMainScreenPresenter
 
 public class GameMainScreenPresenter : BaseScreenPresenter<GameMainScreen, GameMainScreenPresenter, GameMainScreenViewModel, GameMainManager.UI>
 {
-    public IParamStatusSubject bossStatusParam = null;
 
     protected override void Initialize()
     {
@@ -53,6 +52,13 @@ public class GameMainScreenPresenter : BaseScreenPresenter<GameMainScreen, GameM
         m_viewModel.PlayerStatusParam.OnRecoveryCallback += PlyaerParamChangeAnimation;
 
         m_viewModel.StageInfoSubject.OnSetBossHolder += SetBossSubject;
+
+        if (m_viewModel.BossStatusParam != null)
+        {
+            m_viewModel.BossStatusParam.HpChangeCallback += SetEnemyHp;
+            m_viewModel.BossStatusParam.OnDamageCallback += SetEnemyHp;
+            m_viewModel.BossStatusParam.OnRecoveryCallback += BossParamChangeAnimation;
+        }
     }
 
     protected override void Open()
@@ -83,11 +89,13 @@ public class GameMainScreenPresenter : BaseScreenPresenter<GameMainScreen, GameM
             m_viewModel.PlayerStatusParam.OnRecoveryCallback -= PlyaerParamChangeAnimation;
         }
 
-        if (bossStatusParam != null)
+        m_viewModel.StageInfoSubject.OnSetBossHolder -= SetBossSubject;
+
+        if (m_viewModel.BossStatusParam != null)
         {
-            bossStatusParam.HpChangeCallback -= SetEnemyHp;
-            bossStatusParam.OnDamageCallback -= SetEnemyHp;
-            bossStatusParam.OnRecoveryCallback -= BossParamChangeAnimation;
+            m_viewModel.BossStatusParam.HpChangeCallback -= SetEnemyHp;
+            m_viewModel.BossStatusParam.OnDamageCallback -= SetEnemyHp;
+            m_viewModel.BossStatusParam.OnRecoveryCallback -= BossParamChangeAnimation;
         }
     }
 
@@ -143,20 +151,18 @@ public class GameMainScreenPresenter : BaseScreenPresenter<GameMainScreen, GameM
     }
 
 
-    private void SetBossSubject(StageBoss boss)
+    private void SetBossSubject()
     {
-        this.bossStatusParam = boss.statusParam;
-
-        this.bossStatusParam.HpChangeCallback += SetEnemyHp;
-        this.bossStatusParam.OnDamageCallback += SetEnemyHp;
-        this.bossStatusParam.OnRecoveryCallback += BossParamChangeAnimation;
+        m_viewModel.BossStatusParam.HpChangeCallback += SetEnemyHp;
+        m_viewModel.BossStatusParam.OnDamageCallback += SetEnemyHp;
+        m_viewModel.BossStatusParam.OnRecoveryCallback += BossParamChangeAnimation;
     }
 
 }
 
 public class GameMainScreenViewModel : BaseViewModel<GameMainManager.UI>
 {
-    public IParamStatusSubject PlayerStatusParam => ProjectManager.Instance.RDH.PlayerInfo.StatusParam;
-
+    public IParamStatus PlayerStatusParam => ProjectManager.Instance.RDH.PlayerInfo.StatusParam;
+    public IParamStatus BossStatusParam => ProjectManager.Instance.RDH.StageInfo.StageBossParam;
     public IStageInfoSubject StageInfoSubject => ProjectManager.Instance.RDH.StageInfo;
 }

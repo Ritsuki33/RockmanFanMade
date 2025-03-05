@@ -23,6 +23,16 @@ public class GameMenuScreen : BaseScreen<GameMenuScreen, GameMenuScreenPresenter
     public GameMenuGaugeBar PlayerHpBar => gaugeSelectController.Selects[(int)Gauge.PlayerHp].GaugeBar;
     public GameMenuGaugeBar OtherBar => gaugeSelectController.Selects[(int)Gauge.Other].GaugeBar;
 
+    public void SetPlayerHp(float hp)
+    {
+        PlayerHpBar.SetParam(hp);
+    }
+
+    public void ParamChangeAnimation(float hp, Action callback)
+    {
+        PlayerHpBar.ParamChangeAnimation(hp, callback);
+    }
+
     public void UpdateGaugeSelect(InputDirection dir)
     {
         gaugeSelectController.InputUpdate(dir);
@@ -46,13 +56,6 @@ public class GameMenuScreen : BaseScreen<GameMenuScreen, GameMenuScreenPresenter
 
 public class GameMenuScreenPresenter : BaseScreenPresenter<GameMenuScreen, GameMenuScreenPresenter, GameMenuScreenViewModel, GameMainManager.UI>
 {
-    private enum SelectionMode
-    {
-        Weapon,
-        Ekan
-    }
-    private SelectionMode currentMode = SelectionMode.Weapon;
-
     bool inputable = false;
 
     bool isCursorInWeapon = true;
@@ -64,6 +67,8 @@ public class GameMenuScreenPresenter : BaseScreenPresenter<GameMenuScreen, GameM
         if (m_viewModel.PlayerStatusParam != null)
         {
             m_viewModel.PlayerStatusParam.HpChangeCallback += SetPlayerHp;
+            m_viewModel.PlayerStatusParam.OnDamageCallback += SetPlayerHp;
+            m_viewModel.PlayerStatusParam.OnRecoveryCallback += PlyaerParamChangeAnimation;
             m_viewModel.PlayerStatusParam.OnRefresh();
         }
 
@@ -113,8 +118,21 @@ public class GameMenuScreenPresenter : BaseScreenPresenter<GameMenuScreen, GameM
     }
     private void SetPlayerHp(int hp, int maxHp)
     {
-        m_screen.PlayerHpBar.SetParam((float)hp / maxHp);
+        m_screen.SetPlayerHp((float)hp / maxHp);
     }
+
+    private void PlyaerParamChangeAnimation(int hp, int maxHp, Action callback)
+    {
+        // ポーズを掛けて回復アニメーションさせる
+        var hpPlayback = AudioManager.Instance.PlaySe(SECueIDs.hprecover);
+        m_screen.ParamChangeAnimation((float)hp / maxHp, () =>
+        {
+            hpPlayback.Stop();
+
+            callback?.Invoke();
+        });
+    }
+
     protected override void Hide()
     {
         GameMainManager.Instance.OnPause(false, true);
@@ -142,14 +160,24 @@ public class GameMenuScreenPresenter : BaseScreenPresenter<GameMenuScreen, GameM
     }
     private void SelectedEkan(SelectInfo info)
     {
-        Debug.Log(info.id);
-        GameMainManager.Instance.TransitToGameMain();
-        AudioManager.Instance.PlaySe(SECueIDs.menu);
+        if (info.id == 0)
+        {
+            inputable = false;
+            m_viewModel.OnRecovery(m_viewModel.PlayerStatusParam.MaxHp, () =>
+            {
+                inputable = true;
+            });
+        }
     }
 }
 
 public class GameMenuScreenViewModel : BaseViewModel<GameMainManager.UI>
 {
-    public IParamStatusSubject PlayerStatusParam => ProjectManager.Instance.RDH.PlayerInfo.StatusParam;
+    public IParamStatus PlayerStatusParam => ProjectManager.Instance.RDH.PlayerInfo.StatusParam;
 
+
+    public void OnRecovery(int recovery, Action callback)
+    {
+        PlayerStatusParam.OnRecovery(recovery, callback);
+    }
 }
