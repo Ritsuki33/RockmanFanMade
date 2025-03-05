@@ -1,16 +1,15 @@
 ﻿using System;
 
-public interface IDisposableReactiveProperty
+
+public interface ISubsribeOnlyReactiveProperty<T>
 {
-    void Dispose();
+    void Subscribe(Action<T> onChangePropertyCallback);
+    void Dispose(Action<T> onChangePropertyCallback = null);
+
+    void Refresh();
 }
 
-public interface IReadOnlyReactiveProperty<T>
-{
-    IDisposableReactiveProperty Subscribe(Action<T> onChangePropertyCallback);
-}
-
-public class ReactiveProperty<T> : IReadOnlyReactiveProperty<T>, IDisposableReactiveProperty
+public class ReactiveProperty<T> : ISubsribeOnlyReactiveProperty<T>
 {
     T value;
 
@@ -29,16 +28,20 @@ public class ReactiveProperty<T> : IReadOnlyReactiveProperty<T>, IDisposableReac
         }
     }
 
-    public IDisposableReactiveProperty Subscribe(Action<T> onChangePropertyCallback)
+    public void Subscribe(Action<T> onChangePropertyCallback)
     {
-        _onChangePropertyCallback = onChangePropertyCallback;
-
-        return this;
+        _onChangePropertyCallback += onChangePropertyCallback;
     }
 
-    public void Dispose()
+    public void Dispose(Action<T> onChangePropertyCallback = null)
     {
-        _onChangePropertyCallback = null;
+        if (onChangePropertyCallback == null) _onChangePropertyCallback = null;
+        else _onChangePropertyCallback -= onChangePropertyCallback;
+    }
+
+    public void Refresh()
+    {
+        _onChangePropertyCallback?.Invoke(value);
     }
 
     event Action<T> _onChangePropertyCallback = default;

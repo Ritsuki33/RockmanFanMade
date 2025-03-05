@@ -51,22 +51,28 @@ SpriteAtlas:
     cachedData: {fileID: 0}
     packedSpriteRenderDataKeys:
     - f6b0f100c066d5c49b33f6c4dfbdcea0: 21300000
+    - c9cdad83dc9600b4a9d17e123d0d7f7e: 21300000
     - 60fe1e744ab5d22459afc6caf4f2b785: 21300000
     - 213ea7676dbacd54a9d17c3c65aba800: 21300000
     - 75ff95195d4bc074583aa8d3d3866223: 21300000
+    - 1a21977b7d24390408fa89b495aabb52: 21300000
     - bd83d6ec444296743a3ceb88c12f9472: 21300000
   m_MasterAtlas: {fileID: 0}
   m_PackedSprites:
   - {fileID: 21300000, guid: f6b0f100c066d5c49b33f6c4dfbdcea0, type: 3}
+  - {fileID: 21300000, guid: c9cdad83dc9600b4a9d17e123d0d7f7e, type: 3}
   - {fileID: 21300000, guid: 60fe1e744ab5d22459afc6caf4f2b785, type: 3}
   - {fileID: 21300000, guid: 213ea7676dbacd54a9d17c3c65aba800, type: 3}
   - {fileID: 21300000, guid: 75ff95195d4bc074583aa8d3d3866223, type: 3}
+  - {fileID: 21300000, guid: 1a21977b7d24390408fa89b495aabb52, type: 3}
   - {fileID: 21300000, guid: bd83d6ec444296743a3ceb88c12f9472, type: 3}
   m_PackedSpriteNamesToIndex:
   - Gram
+  - Exit
   - HorizontalGram
   - HorizontalGuageBar
   - MenuPanel
+  - E_kan
   - Hpbar
   m_RenderDataMap: {}
   m_Tag: GameMainUI

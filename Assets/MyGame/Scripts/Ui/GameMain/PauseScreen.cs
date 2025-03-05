@@ -16,11 +16,7 @@ public class PauseScreenPresenter : BaseScreenPresenter<PauseScreen, PauseScreen
 
     protected override void InputUpdate(InputInfo info)
     {
-        if (info.decide)
-        {
-            GameMainManager.Instance.GameStageEnd();
-        }
-        else if (info.start)
+        if (info.start)
         {
             GameMainManager.Instance.TransitToGameMain();
         }

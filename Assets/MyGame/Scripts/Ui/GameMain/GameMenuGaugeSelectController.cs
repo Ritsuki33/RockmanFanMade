@@ -1,11 +1,16 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
 using UnityEngine;
 
-public class MenuGaugeSelectController : VirticalSelectContoller<MenuGuageSelector, SelectInfo>
+[Serializable]
+public struct GameMenuGaugeInfo
 {
-    public override void DisplayCursor()
-    {
+    public int id;
+    public string text;
+}
 
-    }
+
+
+public class GameMenuGaugeSelectController : VirticalSelectContoller<MenuGuageSelector, SelectInfo>
+{
+    public override void DisplayCursor() { }
 }

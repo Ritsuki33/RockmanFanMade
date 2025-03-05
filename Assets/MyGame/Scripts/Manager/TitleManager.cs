@@ -1,4 +1,5 @@
-﻿using Unity.VisualScripting;
+﻿using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class TitleManager : BaseManager<TitleManager>
@@ -12,13 +13,14 @@ public class TitleManager : BaseManager<TitleManager>
 
     private IInput InputController => InputManager.Instance;
 
-    private ScreenContainer<ScreenType> screenContainer= new ScreenContainer<ScreenType>();
+    private ScreenContainer<ScreenType> screenContainer = new ScreenContainer<ScreenType>();
 
-    protected override void Init()
+    protected override IEnumerator Init()
     {
         screenContainer.Add(ScreenType.Top, title);
 
         screenContainer.TransitScreen(ScreenType.Top, true);
+        yield return null;
     }
 
     protected override void OnUpdate()
@@ -26,9 +28,10 @@ public class TitleManager : BaseManager<TitleManager>
         screenContainer.OnUpdate();
     }
 
-    protected override void Terminate()
+    protected override IEnumerator Dispose()
     {
         screenContainer.Clear();
+        yield return null;
     }
 
     public void TransitToBossSelect()

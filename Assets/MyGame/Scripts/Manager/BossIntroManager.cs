@@ -98,7 +98,7 @@ public class BossIntroManager : MonoBehaviour
         }
     }
 
-    public void Terminate()
+    public void Destroy()
     {
         if (modelData != null) Destroy(modelData.gameObject);
     }

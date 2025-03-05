@@ -11,7 +11,6 @@ public class GameMainScreen : BaseScreen<GameMainScreen, GameMainScreenPresenter
     [SerializeField] ReadyUi readyUi = default;
     [SerializeField] GaugeBar enemyHpBar = default;
     [SerializeField] GaugeBar hpBar = default;
-    [SerializeField] GameObject pauseUi = default;
 
     public ReadyUi ReadyUi => readyUi;
     public GaugeBar EnemyHpBar => enemyHpBar;
@@ -45,9 +44,26 @@ public class GameMainScreen : BaseScreen<GameMainScreen, GameMainScreenPresenter
 
 public class GameMainScreenPresenter : BaseScreenPresenter<GameMainScreen, GameMainScreenPresenter, GameMainScreenViewModel, GameMainManager.UI>
 {
+
     protected override void Initialize()
     {
-        m_screen.HpBar.SetParam(WorldManager.Instance.Player.CurrentHp);
+        m_viewModel.PlayerStatusParam.HpChangeCallback += SetPlayerHp;
+        m_viewModel.PlayerStatusParam.OnDamageCallback += SetPlayerHp;
+        m_viewModel.PlayerStatusParam.OnRecoveryCallback += PlyaerParamChangeAnimation;
+
+        m_viewModel.StageInfoSubject.OnSetBossHolder += SetBossSubject;
+
+        if (m_viewModel.BossStatusParam != null)
+        {
+            m_viewModel.BossStatusParam.HpChangeCallback += SetEnemyHp;
+            m_viewModel.BossStatusParam.OnDamageCallback += SetEnemyHp;
+            m_viewModel.BossStatusParam.OnRecoveryCallback += BossParamChangeAnimation;
+        }
+    }
+
+    protected override void Open()
+    {
+        m_viewModel.PlayerStatusParam.OnRefresh();
     }
 
     protected override void InputUpdate(InputInfo info)
@@ -64,23 +80,33 @@ public class GameMainScreenPresenter : BaseScreenPresenter<GameMainScreen, GameM
         }
     }
 
-    /// <summary>
-    /// プレイヤーHpの監視登録
-    /// </summary>
-    /// <param name="hp"></param>
-    public void BindPlayerHp(IReadOnlyReactiveProperty<float> hp)
+    protected override void Destroy()
     {
-        hp.Subscribe(SetPlayerHp);
+        if (m_viewModel.PlayerStatusParam != null)
+        {
+            m_viewModel.PlayerStatusParam.HpChangeCallback -= SetPlayerHp;
+            m_viewModel.PlayerStatusParam.OnDamageCallback -= SetPlayerHp;
+            m_viewModel.PlayerStatusParam.OnRecoveryCallback -= PlyaerParamChangeAnimation;
+        }
+
+        m_viewModel.StageInfoSubject.OnSetBossHolder -= SetBossSubject;
+
+        if (m_viewModel.BossStatusParam != null)
+        {
+            m_viewModel.BossStatusParam.HpChangeCallback -= SetEnemyHp;
+            m_viewModel.BossStatusParam.OnDamageCallback -= SetEnemyHp;
+            m_viewModel.BossStatusParam.OnRecoveryCallback -= BossParamChangeAnimation;
+        }
     }
 
-    private void SetPlayerHp(float hp)
+    private void SetPlayerHp(int hp, int maxHp)
     {
-        m_screen.HpBar.SetParam(hp);
+        m_screen.HpBar.SetParam((float)hp / maxHp);
     }
 
-    public void SetEnemyHp(float hp)
+    public void SetEnemyHp(int hp, int maxHp)
     {
-        m_screen.EnemyHpBar.SetParam(hp);
+        m_screen.EnemyHpBar.SetParam((float)hp / maxHp);
     }
 
     public void PlayerHpActive(bool isActive)
@@ -93,44 +119,29 @@ public class GameMainScreenPresenter : BaseScreenPresenter<GameMainScreen, GameM
         m_screen.EnemyHpBar.gameObject.SetActive(isActive);
     }
 
-    public void HpIncrementAnimation(GaugeBar hpbar, float startParam, float endParam, IReadOnlyReactiveProperty<float> hp, Action finishCallback)
+    private void PlyaerParamChangeAnimation(int hp, int maxHp, Action callback)
     {
-        hpbar.gameObject.SetActive(true);
-        hpbar.SetParam(startParam);
-        hpbar.ParamChangeAnimation(endParam, finishCallback);
-    }
-
-    /// <summary>
-    /// プレイヤーの体力
-    /// </summary>
-    /// <param name="param"></param>
-    /// <param name="hp"></param>
-    /// <param name="finishCallback"></param>
-    public void PlayerHpIncrementAnimation(float startParam, float endParam, IReadOnlyReactiveProperty<float> hp, Action finishCallback)
-    {
-        HpIncrementAnimation(m_screen.HpBar, startParam, endParam, hp, () =>
+        // ポーズを掛けて回復アニメーションさせる
+        WorldManager.Instance.OnPause(true);
+        var hpPlayback = AudioManager.Instance.PlaySe(SECueIDs.hprecover);
+        m_screen.HpBar.ParamChangeAnimation((float)hp / maxHp, () =>
         {
-            // プレイヤーHpの監視登録
-            hp.Subscribe(SetPlayerHp);
+            WorldManager.Instance.OnPause(false);
+            hpPlayback.Stop();
 
-            finishCallback.Invoke();
+            callback?.Invoke();
         });
     }
 
-    /// <summary>
-    /// ボスの体力上昇アニメーション（敵体力の監視登録も行う）
-    /// </summary>
-    /// <param name="val"></param>
-    /// <param name="hpChangeTrigger"></param>
-    /// <param name="finishCallback"></param>
-    public void EnemyHpIncrementAnimation(float startParam, float endParam, IReadOnlyReactiveProperty<float> hp, Action finishCallback)
+    private void BossParamChangeAnimation(int hp, int maxHp, Action callback)
     {
-        HpIncrementAnimation(m_screen.EnemyHpBar, startParam, endParam, hp, () =>
+        m_screen.EnemyHpBar.gameObject.SetActive(true);
+        var hpPlayback = AudioManager.Instance.PlaySe(SECueIDs.hprecover);
+        m_screen.EnemyHpBar.ParamChangeAnimation((float)hp / maxHp, () =>
         {
-            // 敵Hpの監視登録
-            hp.Subscribe(SetEnemyHp);
+            hpPlayback.Stop();
 
-            finishCallback.Invoke();
+            callback?.Invoke();
         });
     }
 
@@ -138,7 +149,20 @@ public class GameMainScreenPresenter : BaseScreenPresenter<GameMainScreen, GameM
     {
         m_screen.ReadyUi.Play(finishCallback);
     }
+
+
+    private void SetBossSubject()
+    {
+        m_viewModel.BossStatusParam.HpChangeCallback += SetEnemyHp;
+        m_viewModel.BossStatusParam.OnDamageCallback += SetEnemyHp;
+        m_viewModel.BossStatusParam.OnRecoveryCallback += BossParamChangeAnimation;
+    }
+
 }
 
 public class GameMainScreenViewModel : BaseViewModel<GameMainManager.UI>
-{ }
+{
+    public IParamStatus PlayerStatusParam => ProjectManager.Instance.RDH.PlayerInfo.StatusParam;
+    public IParamStatus BossStatusParam => ProjectManager.Instance.RDH.StageInfo.StageBossParam;
+    public IStageInfoSubject StageInfoSubject => ProjectManager.Instance.RDH.StageInfo;
+}

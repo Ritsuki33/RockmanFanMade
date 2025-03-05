@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
 public struct InputInfo
 {
@@ -18,40 +19,28 @@ public struct InputInfo
 }
 public interface IManager
 {
-    public void Init();
-    public void OnUpdate();
-    public void Terminate();
-
-    public void SetActive(bool active);
+    IEnumerator Init();
+    IEnumerator OnStart();
+    void OnUpdate();
+    IEnumerator Dispose();
+    IEnumerator OnEnd();
+    void SetActive(bool active);
 }
 
 public abstract class BaseManager<T> : SingletonComponent<T>, IManager where T : MonoBehaviour
 {
-    void IManager.Init()
-    {
-        Init();
-    }
-
-    void IManager.OnUpdate()
-    {
-        OnUpdate();
-    }
-
-    void IManager.Terminate()
-    {
-        Terminate();
-    }
-
-    void IManager.SetActive(bool active)
-    {
-        gameObject.SetActive(active);
-    }
+    IEnumerator IManager.Init() { yield return Init(); }
+    IEnumerator IManager.OnStart() { yield return OnStart(); }
+    void IManager.OnUpdate() => OnUpdate();
+    IEnumerator IManager.OnEnd() { yield return OnEnd(); }
+    IEnumerator IManager.Dispose() { yield return Dispose(); }
+    void IManager.SetActive(bool active) => gameObject.SetActive(active);
 
 
-    protected abstract void Init();
-
+    protected abstract IEnumerator Init();
+    protected virtual IEnumerator OnStart() { yield return null; }
     protected virtual void OnFixedUpdate() { }
     protected abstract void OnUpdate();
-
-    protected abstract void Terminate();
+    protected abstract IEnumerator Dispose();
+    protected virtual IEnumerator OnEnd() { yield return null; }
 }

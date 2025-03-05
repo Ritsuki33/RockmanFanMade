@@ -10,6 +10,7 @@ Shader "Custom/FlashShader"
     {
         Tags { "RenderType" = "Transparent"  "Queue"="Transparent"}
         Blend SrcAlpha OneMinusSrcAlpha
+        ZWrite Off
         Cull Off
 
         Pass

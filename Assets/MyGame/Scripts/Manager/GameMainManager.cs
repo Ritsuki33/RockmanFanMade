@@ -48,41 +48,40 @@ public class GameMainManager : BaseManager<GameMainManager>
     private bool isPause = false;
     //ポーズ可否　
     public bool Pausable { get; set; } = true;
-    protected override void Init()
+
+    protected override IEnumerator Init()
     {
-        StartCoroutine(Initialize());
+        FadeInManager.Instance.FadeOutImmediate();
 
-        IEnumerator Initialize()
+        var res = AddressableAssetLoadUtility.LoadPrefab<WorldManager>("GrenademanStage", this.worldRoot);
+
+        worldManager = res.Item1;
+        if (worldManager == null)
         {
-            FadeInManager.Instance.FadeOutImmediate();
-
-            var res = AddressableAssetLoadUtility.LoadPrefab<WorldManager>("GrenademanStage", this.worldRoot);
-
-            worldManager = res.Item1;
-            if (worldManager == null)
-            {
-                Debug.LogError("ワールドの読み込みに失敗しました");
-                yield break;
-            }
-
-            worldInstanceId = res.Item2;
-
-            // ワールドの初期化
-            worldManager.Init();
-
-            // オブジェクトマネージャー初期化
-            ObjectManager.Instance.Init();
-
-            screenContainer.Add(UI.GameMain, m_gameMainScreen);
-            screenContainer.Add(UI.Pause, m_pauseScreen);
-            screenContainer.Add(UI.GameMenu, m_gameMenuScreen);
-
-            yield return screenContainer.Initialize(UI.GameMain, true);
-
-            OnPause(false);
-
-            worldManager.StartStage();
+            Debug.LogError("ワールドの読み込みに失敗しました");
+            yield break;
         }
+
+        worldInstanceId = res.Item2;
+
+        // ワールドの初期化
+        worldManager.Init();
+
+        // オブジェクトマネージャー初期化
+        ObjectManager.Instance.Init();
+
+        screenContainer.Add(UI.GameMain, m_gameMainScreen);
+        screenContainer.Add(UI.Pause, m_pauseScreen);
+        screenContainer.Add(UI.GameMenu, m_gameMenuScreen);
+
+        OnPause(false);
+    }
+
+    protected override IEnumerator OnStart()
+    {
+        yield return screenContainer.Initialize(UI.GameMain, true);
+        worldManager.StartStage();
+        yield return null;
     }
 
     protected override void OnUpdate()
@@ -99,9 +98,10 @@ public class GameMainManager : BaseManager<GameMainManager>
         }
     }
 
-    protected override void Terminate()
+    protected override IEnumerator Dispose()
     {
         screenContainer.Clear();
+        yield return null;
     }
 
     public void StageReStart()
@@ -110,15 +110,18 @@ public class GameMainManager : BaseManager<GameMainManager>
 
         IEnumerator RestartCo()
         {
-            screenContainer.Close(true, null);
             MainCameraControll.OnReset();
+
+            bool isClose = false;
+            screenContainer.Close(true, () => { isClose = true; });
+            while (!isClose) yield return null;
+
+
             worldManager.OnReset();
 
             yield return screenContainer.Initialize(UI.GameMain, true);
-
-            OnPause(false);
-
             worldManager.StartStage();
+            OnPause(false);
         }
     }
 

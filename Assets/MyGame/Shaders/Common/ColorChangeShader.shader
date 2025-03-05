@@ -15,6 +15,7 @@ Shader "Custom/ColorChangeShader"
         Tags { "RenderType" = "Transparent"  "Queue"="Transparent"}
         Blend SrcAlpha OneMinusSrcAlpha
         Cull Off
+        ZWrite Off
 
         Pass
         {

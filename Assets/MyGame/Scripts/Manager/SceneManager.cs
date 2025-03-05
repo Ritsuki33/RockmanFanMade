@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
@@ -22,6 +23,7 @@ public class SceneManager : SingletonComponent<SceneManager>
 
     Dictionary<ManagerType, IManager> managerList = new Dictionary<ManagerType, IManager>();
 
+    Coroutine couroutine = null;
     private void Start()
     {
         managerList.Add(ManagerType.Title, titleManager);
@@ -35,23 +37,32 @@ public class SceneManager : SingletonComponent<SceneManager>
     {
         if (request != ManagerType.None)
         {
+            couroutine = StartCoroutine(CoChangeManager(request));
+            request = ManagerType.None;
+        }
+
+        if (couroutine == null) manager?.OnUpdate();
+
+
+        IEnumerator CoChangeManager(ManagerType request)
+        {
             if (manager != null)
             {
-                manager.Terminate();
+                yield return manager.OnEnd();
                 manager.SetActive(false);
+                yield return manager.Dispose();
             }
 
             if (managerList.ContainsKey(request))
             {
                 manager = managerList[request];
+                yield return manager.Init();
                 manager.SetActive(true);
-                manager.Init();
+
+                yield return manager.OnStart();
             }
-
-            request = ManagerType.None;
+            couroutine = null;
         }
-
-        manager?.OnUpdate();
     }
 
     public void ChangeManager(ManagerType type)

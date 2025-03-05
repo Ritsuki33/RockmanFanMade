@@ -46,6 +46,11 @@ public class BossIntroScreenPresenter : BaseScreenPresenter<BossIntroScreen, Bos
         base.InputUpdate(info);
 
     }
+
+    protected override void Destroy()
+    {
+        m_screen.BossIntro.Destroy();
+    }
 }
 
 public class BossIntroScreenViewModel : BaseViewModel<BossSelectManager.UI>

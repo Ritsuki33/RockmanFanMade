@@ -13,6 +13,7 @@ Shader "Custom/LightingShader"
         LOD 100
         Blend SrcAlpha OneMinusSrcAlpha
         Cull off
+        ZWrite Off
 
         Pass
         {

@@ -2,12 +2,15 @@
 using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Playables;
+
+
 
 public partial class StagePlayer : PhysicalObject, IDirect, IBeltConveyorVelocity, IRbVisitor, IHitEvent, IExRbVisitor
 {
     [SerializeField] ExpandRigidBody exRb;
     [Header("プレイヤー情報")]
-    [SerializeField] int maxHp = 27;
+    // [SerializeField] int maxHp = 27;
     [SerializeField] SpriteRenderer spriteRenderer;
     [SerializeField] int mameMax = 3;
     [SerializeField] Gravity gravity;
@@ -18,23 +21,7 @@ public partial class StagePlayer : PhysicalObject, IDirect, IBeltConveyorVelocit
     ExRbStateMachine<StagePlayer> m_mainStateMachine = new ExRbStateMachine<StagePlayer>();
     StateMachine<StagePlayer> m_chargeStateMachine = new StateMachine<StagePlayer>();
 
-    ReactiveProperty<float> hp = new ReactiveProperty<float>(0);
-    public IReadOnlyReactiveProperty<float> Hp => hp;
-    int currentHp = 0;
-
-    public int CurrentHp
-    {
-        get
-        {
-            return currentHp;
-        }
-        set
-        {
-            currentHp = value;
-            hp.Value = (float)currentHp / MaxHp;
-        }
-    }
-    public int MaxHp => maxHp;
+    public ParamStatus paramStatus = new ParamStatus(0, 27);
 
     Collider2D bodyLadder = null;
 
@@ -133,8 +120,6 @@ public partial class StagePlayer : PhysicalObject, IDirect, IBeltConveyorVelocit
     protected override void Destroy()
     {
         exRb.DeleteCache();
-        hp.Dispose();
-
         ChargeInit();
     }
 
@@ -187,7 +172,7 @@ public partial class StagePlayer : PhysicalObject, IDirect, IBeltConveyorVelocit
 
     public void SetHp(int hp)
     {
-        this.CurrentHp = Mathf.Clamp(hp, 0, maxHp);
+        paramStatus.OnChangeHp(hp);
     }
 
     public void UpdateInput(GameMainManager.InputInfo input)
@@ -198,7 +183,7 @@ public partial class StagePlayer : PhysicalObject, IDirect, IBeltConveyorVelocit
     public void Dead()
     {
         if (isDead) return;
-        hp.Value = 0;
+        paramStatus.OnChangeHp(0);
         isDead = true;
         m_mainStateMachine.TransitReady((int)Main_StateID.Death);
         GameMainManager.Instance.DeathNotification();
@@ -292,9 +277,8 @@ public partial class StagePlayer : PhysicalObject, IDirect, IBeltConveyorVelocit
 
     public void Damaged(int val)
     {
-        SetHp(CurrentHp - val);
-
-        if (CurrentHp <= 0)
+        paramStatus.OnDamage(val);
+        if (paramStatus.Hp <= 0)
         {
             Dead();
         }
@@ -334,25 +318,7 @@ public partial class StagePlayer : PhysicalObject, IDirect, IBeltConveyorVelocit
 
     public void RecoverHp(int val)
     {
-        // GUIとの切り離し
-        hp.Dispose();
-
-        float startParam = hp.Value;
-        SetHp(CurrentHp + val);
-
-        // 無敵
-        invincible = true;
-
-        // ポーズを掛ける
-        WorldManager.Instance.OnPause(true);
-        var hpPlayback = AudioManager.Instance.PlaySe(SECueIDs.hprecover);
-        GameMainManager.Instance.GameMainScreenPresenter.PlayerHpIncrementAnimation(startParam, hp.Value, Hp, () =>
-        {
-            WorldManager.Instance.OnPause(false);
-            invincible = false;
-
-            hpPlayback.Stop();
-        });
+        paramStatus.OnRecovery(val, null);
     }
 
     public void TransitToWarpOut(Action finishCalback)
