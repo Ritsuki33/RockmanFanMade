@@ -12,8 +12,5 @@ public struct GameMenuGaugeInfo
 
 public class GameMenuGaugeSelectController : VirticalSelectContoller<MenuGuageSelector, SelectInfo>
 {
-    public override void DisplayCursor()
-    {
-
-    }
+    public override void DisplayCursor() { }
 }

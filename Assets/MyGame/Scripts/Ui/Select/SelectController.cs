@@ -37,6 +37,7 @@ public abstract class SelectController<TSelect, TData> : MonoBehaviour where TSe
 
     public List<TSelect> Selects => selects;
 
+    bool m_isDisabled = false;
     /// <summary>
     /// 静的に要素がある場合はこちらで初期化
     /// </summary>
@@ -110,6 +111,7 @@ public abstract class SelectController<TSelect, TData> : MonoBehaviour where TSe
     /// <param name="index"></param>
     protected void UpdateCursor(int index)
     {
+        if (m_isDisabled) return;
         preIndex = currentIndex;
         selects[preIndex].OnCursorExit();
         currentIndex = Mathf.Clamp(index, 0, selects.Count - 1);
@@ -123,6 +125,21 @@ public abstract class SelectController<TSelect, TData> : MonoBehaviour where TSe
         this.selectCallback.Invoke(data);
     }
 
+    public void Disabled(bool isDisabled)
+    {
+        if (isDisabled)
+        {
+            foreach (var select in selects)
+            {
+                select.OnCursorExit();
+            }
+        }
+        else
+        {
+            selects[currentIndex].OnCursorEnter();
+        }
+        m_isDisabled = isDisabled;
+    }
     /// <summary>
     /// ビュー
     /// </summary>

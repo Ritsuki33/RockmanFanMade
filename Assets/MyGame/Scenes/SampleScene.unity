@@ -4203,6 +4203,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tweemAnimator: {fileID: 577391379}
   gaugeSelectController: {fileID: 1322798089}
+  ekanSelectController: {fileID: 997545019}
 --- !u!114 &577391379
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5888,6 +5889,7 @@ GameObject:
   - component: {fileID: 746598485}
   - component: {fileID: 746598487}
   - component: {fileID: 746598486}
+  - component: {fileID: 746598488}
   m_Layer: 0
   m_Name: EkanInfo
   m_TagString: Untagged
@@ -5942,6 +5944,22 @@ CanvasGroup:
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
+--- !u!114 &746598488
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 746598484}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 833dd97f3432e0946b2dd96f881624ad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  data:
+    id: 0
+    text: 
+  image: {fileID: 919452323}
 --- !u!1001 &791542554
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7305,7 +7323,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 2100000, guid: 0f9c567c253d5f04189ce65c0466d863, type: 2}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
@@ -7595,6 +7613,7 @@ GameObject:
   m_Component:
   - component: {fileID: 997545017}
   - component: {fileID: 997545018}
+  - component: {fileID: 997545019}
   m_Layer: 0
   m_Name: Contents
   m_TagString: Untagged
@@ -7667,6 +7686,22 @@ MonoBehaviour:
         duration: 0.15
         ease: 6
         startValue: 0
+--- !u!114 &997545019
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 997545016}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0f7cac720f8e3484fb52e6e6fcd1996b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  selectsRoot: {fileID: 0}
+  selectPrefab: {fileID: 0}
+  selects:
+  - {fileID: 746598488}
 --- !u!1001 &1015594702
 PrefabInstance:
   m_ObjectHideFlags: 0
