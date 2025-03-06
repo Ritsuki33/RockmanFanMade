@@ -4,6 +4,6 @@ using UnityEngine;
 
 public class PlayerInfo
 {
-    public ParamStatus StatusParam => (WorldManager.Instance.Player == null) ? null : WorldManager.Instance.Player.paramStatus;
+    public PlayerParamStatus StatusParam => (WorldManager.Instance.Player == null) ? null : WorldManager.Instance.Player.paramStatus;
 
 }

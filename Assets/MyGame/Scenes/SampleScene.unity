@@ -14888,7 +14888,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   data:
     id: 0
-    text: 
+    weaponType: 0
   gaugeBar: {fileID: 1910355745}
 --- !u!114 &1910355745
 MonoBehaviour:
@@ -15027,7 +15027,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   data:
     id: 1
-    text: 
+    weaponType: 1
   gaugeBar: {fileID: 1925011430}
 --- !u!114 &1925011430
 MonoBehaviour:

@@ -10,7 +10,7 @@ public class GameMenuScreen : BaseScreen<GameMenuScreen, GameMenuScreenPresenter
     enum Gauge
     {
         PlayerHp,
-        Other,
+        ThunderBolt,
     }
 
 
@@ -21,7 +21,7 @@ public class GameMenuScreen : BaseScreen<GameMenuScreen, GameMenuScreenPresenter
     public ItemSelectController ItemSelectController => itemSelectController;
 
     public GameMenuGaugeBar PlayerHpBar => gaugeSelectController.Selects[(int)Gauge.PlayerHp].GaugeBar;
-    public GameMenuGaugeBar OtherBar => gaugeSelectController.Selects[(int)Gauge.Other].GaugeBar;
+    public GameMenuGaugeBar ThunderBoltBar => gaugeSelectController.Selects[(int)Gauge.ThunderBolt].GaugeBar;
 
     public void SetPlayerHp(float hp)
     {
@@ -64,12 +64,12 @@ public class GameMenuScreenPresenter : BaseScreenPresenter<GameMenuScreen, GameM
         inputable = false;
         m_screen.GaugeSelectController.Init(0, SelectedWeapon);
 
-        if (m_viewModel.PlayerStatusParam != null)
+        if (m_viewModel.PlayerParamStatus != null)
         {
-            m_viewModel.PlayerStatusParam.HpChangeCallback += SetPlayerHp;
-            m_viewModel.PlayerStatusParam.OnDamageCallback += SetPlayerHp;
-            m_viewModel.PlayerStatusParam.OnRecoveryCallback += PlyaerParamChangeAnimation;
-            m_viewModel.PlayerStatusParam.OnRefresh();
+            m_viewModel.PlayerParamStatus.HpChangeCallback += SetPlayerHp;
+            m_viewModel.PlayerParamStatus.OnDamageCallback += SetPlayerHp;
+            m_viewModel.PlayerParamStatus.OnRecoveryCallback += PlyaerParamChangeAnimation;
+            m_viewModel.PlayerParamStatus.OnRefresh();
         }
 
         m_screen.ItemSelectController.Init(0, SelectedEkan);
@@ -147,9 +147,9 @@ public class GameMenuScreenPresenter : BaseScreenPresenter<GameMenuScreen, GameM
 
     protected override void Destroy()
     {
-        if (m_viewModel.PlayerStatusParam != null)
+        if (m_viewModel.PlayerParamStatus != null)
         {
-            m_viewModel.PlayerStatusParam.HpChangeCallback -= SetPlayerHp;
+            m_viewModel.PlayerParamStatus.HpChangeCallback -= SetPlayerHp;
         }
     }
     private InputDirection GetInputDirection(InputInfo info)
@@ -159,9 +159,18 @@ public class GameMenuScreenPresenter : BaseScreenPresenter<GameMenuScreen, GameM
         else return InputDirection.None;
     }
 
-    private void SelectedWeapon(SelectInfo info)
+    private void SelectedWeapon(GameMenuGaugeInfo info)
     {
-        Debug.Log(info.id);
+        for (int i = 0; i < m_viewModel.PlayerWeaponInfo.PlayerWeaponListData.Count; i++)
+        {
+            var weapon = m_viewModel.PlayerWeaponInfo.PlayerWeaponListData[i];
+            if (weapon.WeaponType == info.weaponType)
+            {
+                m_viewModel.PlayerParamStatus.OnChangeWeapon(weapon);
+                break;
+            }
+        }
+
         GameMainManager.Instance.TransitToGameMain();
         AudioManager.Instance.PlaySe(SECueIDs.menu);
     }
@@ -170,7 +179,7 @@ public class GameMenuScreenPresenter : BaseScreenPresenter<GameMenuScreen, GameM
         if (info.id == 0)
         {
             inputable = false;
-            m_viewModel.OnRecovery(m_viewModel.PlayerStatusParam.MaxHp, () =>
+            m_viewModel.OnRecovery(m_viewModel.PlayerParamStatus.MaxHp, () =>
             {
                 inputable = true;
             });
@@ -185,11 +194,12 @@ public class GameMenuScreenPresenter : BaseScreenPresenter<GameMenuScreen, GameM
 
 public class GameMenuScreenViewModel : BaseViewModel<GameMainManager.UI>
 {
-    public IParamStatus PlayerStatusParam => ProjectManager.Instance.RDH.PlayerInfo.StatusParam;
+    public IPlayerParamStatus PlayerParamStatus => ProjectManager.Instance.RDH.PlayerInfo.StatusParam;
 
+    public PlayerWeaponInfo PlayerWeaponInfo => ProjectManager.Instance.RDH.PlayerWeaponInfo;
 
     public void OnRecovery(int recovery, Action callback)
     {
-        PlayerStatusParam.OnRecovery(recovery, callback);
+        PlayerParamStatus.OnRecovery(recovery, callback);
     }
 }

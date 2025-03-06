@@ -10,4 +10,11 @@ public class RuntimeDataHolder
 
     public StageInfo StageInfo => stageInfo;
 
+    private PlayerWeaponInfo playerWeaponInfo = new PlayerWeaponInfo();
+    public PlayerWeaponInfo PlayerWeaponInfo => playerWeaponInfo;
+
+    public void Initialize()
+    {
+        playerWeaponInfo.LoadPlayerWeaponData();
+    }
 }

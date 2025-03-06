@@ -108,7 +108,7 @@ public partial class StagePlayer
 
             protected override void Update(StagePlayer player, Standing parent)
             {
-                player.LaunchTrigger(player.inputInfo.fire, () => { parent.TransitSubReady((int)SubStateID.Shoot); });
+                player.playerWeapon.LaunchTrigger(player.inputInfo.fire, () => { parent.TransitSubReady((int)SubStateID.Shoot); });
             }
         }
 
@@ -133,7 +133,7 @@ public partial class StagePlayer
                     parent.TransitSubReady((int)SubStateID.Basic);
                 }
 
-                player.LaunchTrigger(player.inputInfo.fire, () => { time = 0.3f; });
+                player.playerWeapon.LaunchTrigger(player.inputInfo.fire, () => { time = 0.3f; });
                 time -= Time.deltaTime;
             }
         }
@@ -229,7 +229,7 @@ public partial class StagePlayer
 
             protected override void Update(StagePlayer player, Running parent)
             {
-                player.LaunchTrigger(player.inputInfo.fire, () => { parent.TransitSubReady((int)SubStateID.Shoot); });
+                player.playerWeapon.LaunchTrigger(player.inputInfo.fire, () => { parent.TransitSubReady((int)SubStateID.Shoot); });
             }
         }
 
@@ -252,7 +252,7 @@ public partial class StagePlayer
                     parent.TransitSubReady((int)SubStateID.Run);
                 }
 
-                player.LaunchTrigger(player.inputInfo.fire, () => { time = 0.3f; });
+                player.playerWeapon.LaunchTrigger(player.inputInfo.fire, () => { time = 0.3f; });
                 time -= Time.deltaTime;
             }
         }
@@ -338,7 +338,7 @@ public partial class StagePlayer
 
             protected override void Update(StagePlayer player, Floating parent)
             {
-                player.LaunchTrigger(player.inputInfo.fire, () => { parent.TransitSubReady((int)SubStateID.Shoot); });
+                player.playerWeapon.LaunchTrigger(player.inputInfo.fire, () => { parent.TransitSubReady((int)SubStateID.Shoot); });
             }
         }
 
@@ -361,7 +361,7 @@ public partial class StagePlayer
                     parent.TransitSubReady((int)SubStateID.Basic);
                 }
 
-                player.LaunchTrigger(player.inputInfo.fire, () => { time = 0.15f; });
+                player.playerWeapon.LaunchTrigger(player.inputInfo.fire, () => { time = 0.15f; });
 
                 time -= Time.deltaTime;
             }
@@ -453,7 +453,7 @@ public partial class StagePlayer
 
             protected override void Update(StagePlayer player, Jumping parent)
             {
-                player.LaunchTrigger(player.inputInfo.fire, () => { parent.TransitSubReady((int)SubStateID.Shoot); });
+                player.playerWeapon.LaunchTrigger(player.inputInfo.fire, () => { parent.TransitSubReady((int)SubStateID.Shoot); });
             }
         }
 
@@ -476,7 +476,7 @@ public partial class StagePlayer
                     parent.TransitSubReady((int)SubStateID.Basic);
                 }
 
-                player.LaunchTrigger(player.inputInfo.fire, () => { time = 0.3f; });
+                player.playerWeapon.LaunchTrigger(player.inputInfo.fire, () => { time = 0.3f; });
 
                 time -= Time.deltaTime;
             }
