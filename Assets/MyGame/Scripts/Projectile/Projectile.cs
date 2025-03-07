@@ -4,7 +4,7 @@ using UnityEngine.Pool;
 
 
 
-public class Projectile : PhysicalObject,IDirect
+public class Projectile : PhysicalObject, IDirect
 {
     [SerializeField] private BoxCollider2D boxTrigger;
     [SerializeField] private BoxCollider2D boxCollider;
@@ -18,9 +18,6 @@ public class Projectile : PhysicalObject,IDirect
     public int AttackPower => attackPower;
     public Vector2 CurVelocity => rb.velocity;
     public float CurSpeed => rb.velocity.magnitude;
-
-
-    private IObjectPool<Projectile> pool = null;
 
     protected override void Init()
     {

@@ -22,6 +22,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 31496985b945bf84095fda9d16628e20
+    m_Address: ThunderBolt
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 32cff727000d20a4ba82288462a1ad98
     m_Address: Fire
     m_ReadOnly: 0
@@ -39,6 +44,11 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 5b402fdff79be974092b09fc5dbcb1a3
     m_Address: SpriteScrollObject
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 611184c706b44e94184d755c0666a377
+    m_Address: ThunderBoltMini
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0

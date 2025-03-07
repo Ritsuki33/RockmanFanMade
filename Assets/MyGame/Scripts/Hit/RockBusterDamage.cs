@@ -33,9 +33,12 @@ public class RockBusterDamage : DamageBase
 
     // ここから定義
     [SerializeField] public Projectile projectile;
-
-    public void DeleteBuster() => projectile.Delete();
-
+    [SerializeField] private bool penetration = false;
+    public void DeleteBuster()
+    {
+        if (penetration) return;
+        else projectile.Delete();
+    }
 }
 
 public partial interface IRbVisitor : IRbVisitor<RockBusterDamage>

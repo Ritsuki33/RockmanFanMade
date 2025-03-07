@@ -470,6 +470,7 @@ public partial class StagePlayer : PhysicalObject, IDirect, IBeltConveyorVelocit
         this.MainMaterial.SetColor(ChangeColor2Id, color2);
 
         this.playerWeapon = weapon;
+        this.playerWeapon.ChargeInit();
     }
 
     #region IHitEvent
