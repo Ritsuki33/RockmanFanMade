@@ -112,7 +112,7 @@ public partial class StagePlayer : PhysicalObject, IDirect, IBeltConveyorVelocit
         exRbHit.CacheClear();
         rbCollide.CacheClear();
 
-        playerWeapon = new RockBuster(this);
+        playerWeapon = new RockBusterWeapon(this);
 
         chargeAnimSpeed = m_charge_animator.speed;
 

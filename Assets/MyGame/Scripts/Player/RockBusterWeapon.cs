@@ -11,7 +11,7 @@ public interface IPlayerWeapon
     void Update();
 }
 
-public class RockBuster : IPlayerWeapon
+public class RockBusterWeapon : IPlayerWeapon
 {
     enum Chage_StateID
     {
@@ -21,30 +21,30 @@ public class RockBuster : IPlayerWeapon
         ChargeBig
     }
 
-    StateMachine<RockBuster> m_stateMachine = new StateMachine<RockBuster>();
+    StateMachine<RockBusterWeapon> m_stateMachine = new StateMachine<RockBusterWeapon>();
     bool isLaunchTrigger = false;
 
     int curMameNum = 0;
     int mameMax = 3;
 
-    class None : State<RockBuster, None>
+    class None : State<RockBusterWeapon, None>
     {
-        protected override void Enter(RockBuster buster, int preId, int subId)
+        protected override void Enter(RockBusterWeapon buster, int preId, int subId)
         {
             buster.m_player.StopRimLight();
             buster.m_player.ChargeAnimator.gameObject.SetActive(false);
         }
     }
 
-    class ChargeSmall : State<RockBuster, ChargeSmall>
+    class ChargeSmall : State<RockBusterWeapon, ChargeSmall>
     {
         float chargeStartTime = 1.0f;
-        protected override void Enter(RockBuster buster, int preId, int subId)
+        protected override void Enter(RockBusterWeapon buster, int preId, int subId)
         {
             chargeStartTime = 1.0f;
         }
 
-        protected override void Update(RockBuster buster)
+        protected override void Update(RockBusterWeapon buster)
         {
             if (buster.isLaunchTrigger)
             {
@@ -58,14 +58,14 @@ public class RockBuster : IPlayerWeapon
         }
     }
 
-    class ChargeMiddle : State<RockBuster, ChargeMiddle>
+    class ChargeMiddle : State<RockBusterWeapon, ChargeMiddle>
     {
         int animationHash = 0;
         float chargeStartTime = 1.0f;
 
         public ChargeMiddle() { animationHash = Animator.StringToHash("ChargingBlue"); }
 
-        protected override void Enter(RockBuster buster, int preId, int subId)
+        protected override void Enter(RockBusterWeapon buster, int preId, int subId)
         {
             buster.m_player.ChargeAnimator.gameObject.SetActive(true);
             buster.m_player.ChargeAnimator.Play(animationHash);
@@ -75,7 +75,7 @@ public class RockBuster : IPlayerWeapon
             buster.m_player.chargePlayback = AudioManager.Instance.PlaySe(SECueIDs.charge);
         }
 
-        protected override void Update(RockBuster buster)
+        protected override void Update(RockBusterWeapon buster)
         {
             if (buster.isLaunchTrigger)
             {
@@ -90,18 +90,18 @@ public class RockBuster : IPlayerWeapon
         }
     }
 
-    class ChargeBig : State<RockBuster, ChargeBig>
+    class ChargeBig : State<RockBusterWeapon, ChargeBig>
     {
         int animationHash = 0;
         public ChargeBig() { animationHash = Animator.StringToHash("ChargingYellow"); }
 
-        protected override void Enter(RockBuster buster, int preId, int subId)
+        protected override void Enter(RockBusterWeapon buster, int preId, int subId)
         {
             buster.m_player.ChargeAnimator.gameObject.SetActive(true);
             buster.m_player.ChargeAnimator.Play(animationHash);
         }
 
-        protected override void Update(RockBuster buster)
+        protected override void Update(RockBusterWeapon buster)
         {
             if (!buster.isLaunchTrigger)
             {
@@ -111,7 +111,7 @@ public class RockBuster : IPlayerWeapon
     }
 
     StagePlayer m_player;
-    public RockBuster(StagePlayer player)
+    public RockBusterWeapon(StagePlayer player)
     {
         m_player = player;
         m_stateMachine.AddState((int)Chage_StateID.None, new None());
