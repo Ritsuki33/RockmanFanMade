@@ -52,7 +52,7 @@ public class RockBuster : PlayerAttack, IDirect
     public void Setup(Vector3 position, bool isRight, int attackPower, float speed)
     {
         Vector2 direction = isRight ? Vector2.right : Vector2.left;
-        simpleProjectile.Setup(position, 1, null, (rb) => rb.velocity = direction * speed);
+        simpleProjectile.Setup(position, attackPower, null, (rb) => rb.velocity = direction * speed);
         direct.TurnTo(isRight);
     }
 

@@ -91,6 +91,11 @@ public class GreenMan : StageEnemy, IDirect, IRbVisitor, IHitEvent
         stateMachine.OnBottomHitExit(this, hit);
     }
 
+    void IRbVisitor.OnTriggerEnter(PlayerAttack damage)
+    {
+        stateMachine.OnTriggerEnter(this, damage);
+    }
+
     void IRbVisitor.OnTriggerEnter(RockBuster damage)
     {
         stateMachine.OnTriggerEnter(this, damage);
@@ -130,6 +135,7 @@ public class GreenMan : StageEnemy, IDirect, IRbVisitor, IHitEvent
                 ));
             });
         }
+
 
         protected override void OnTriggerEnter(GreenMan greenMan, RockBuster collision)
         {
@@ -193,6 +199,11 @@ public class GreenMan : StageEnemy, IDirect, IRbVisitor, IHitEvent
             }
         }
 
+        protected override void OnTriggerEnter(GreenMan greenMan, PlayerAttack collision)
+        {
+            greenMan.Damaged(collision);
+        }
+
         protected override void OnTriggerEnter(GreenMan greenMan, RockBuster collision)
         {
             greenMan.Damaged(collision);
@@ -241,6 +252,11 @@ public class GreenMan : StageEnemy, IDirect, IRbVisitor, IHitEvent
                               }
                 ));
             });
+        }
+
+        protected override void OnTriggerEnter(GreenMan greenMan, PlayerAttack collision)
+        {
+            greenMan.Damaged(collision);
         }
 
         protected override void OnTriggerEnter(GreenMan greenMan, RockBuster collision)
@@ -295,15 +311,15 @@ public class GreenMan : StageEnemy, IDirect, IRbVisitor, IHitEvent
         }
     }
 
-    private void Defense(RockBuster damage)
+    private void Defense(RockBuster rockBuster)
     {
-        if (damage.AttackPower == 1)
+        if (rockBuster.Type == RockBuster.BusterType.Mame)
         {
-            ReflectBuster(damage);
+            ReflectBuster(rockBuster);
         }
         else
         {
-            damage.Delete();
+            rockBuster.Delete();
         }
     }
 

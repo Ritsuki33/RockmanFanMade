@@ -368,7 +368,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   _mouth: {fileID: 4301025023829562369}
-  _boxPhysicalCollider: {fileID: 0}
+  _boxPhysicalCollider: {fileID: 3260812547877067743}
   _tale: {fileID: 2743160207768399927}
   pointA: {fileID: 1653133130679327031}
   pointB: {fileID: 2973222785239507428}

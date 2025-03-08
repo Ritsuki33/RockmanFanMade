@@ -62,6 +62,11 @@ public class BigDog : StageEnemy, IRbVisitor
         stateMachine.TransitReady((int)StateId.Death);
     }
 
+    void IRbVisitor.OnTriggerEnter(PlayerAttack damage)
+    {
+        stateMachine.OnTriggerEnter(this, damage);
+    }
+
     void IRbVisitor.OnTriggerEnter(RockBuster damage)
     {
         stateMachine.OnTriggerEnter(this, damage);
@@ -99,6 +104,11 @@ public class BigDog : StageEnemy, IRbVisitor
                     ));
                 }
                 );
+        }
+
+        protected override void OnTriggerEnter(BigDog ctr, PlayerAttack collision)
+        {
+            ctr.Damaged(collision);
         }
 
         protected override void OnTriggerEnter(BigDog ctr, RockBuster collision)
@@ -162,6 +172,11 @@ public class BigDog : StageEnemy, IRbVisitor
                     }
                     );
             }
+        }
+
+        protected override void OnTriggerEnter(BigDog ctr, PlayerAttack collision)
+        {
+            ctr.Damaged(collision);
         }
 
         protected override void OnTriggerEnter(BigDog ctr, RockBuster collision)
@@ -260,6 +275,11 @@ public class BigDog : StageEnemy, IRbVisitor
                 );
             }
 
+        }
+
+        protected override void OnTriggerEnter(BigDog ctr, PlayerAttack collision)
+        {
+            ctr.Damaged(collision);
         }
 
         protected override void OnTriggerEnter(BigDog ctr, RockBuster collision)

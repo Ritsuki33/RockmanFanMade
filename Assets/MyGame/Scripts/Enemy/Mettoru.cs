@@ -153,6 +153,11 @@ public partial class Mettoru : StageEnemy, IDirect, IHitEvent, IRbVisitor, IExRb
         rbCollide.OnTriggerEnter(this, collision);
     }
 
+    void IRbVisitor.OnTriggerEnter(PlayerAttack damage)
+    {
+        m_stateMachine.OnTriggerEnter(this, damage);
+    }
+
     void IRbVisitor.OnTriggerEnter(RockBuster damage)
     {
         m_stateMachine.OnTriggerEnter(this, damage);

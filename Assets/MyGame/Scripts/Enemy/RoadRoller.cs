@@ -81,6 +81,11 @@ public class RoadRoller : StageEnemy, IDirect, IHitEvent, IRbVisitor, IExRbVisit
         m_stateMachine.OnTriggerEnter(this, damage);
     }
 
+    void IRbVisitor.OnTriggerEnter(PlayerAttack damage)
+    {
+        m_stateMachine.OnTriggerEnter(this, damage);
+    }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         rbCollide.OnTriggerEnter(this, collision);
@@ -105,6 +110,11 @@ public class RoadRoller : StageEnemy, IDirect, IHitEvent, IRbVisitor, IExRbVisit
         }
 
         protected override void OnTriggerEnter(RoadRoller roller, RockBuster collision)
+        {
+            roller.Damaged(collision);
+        }
+
+        protected override void OnTriggerEnter(RoadRoller roller, PlayerAttack collision)
         {
             roller.Damaged(collision);
         }
@@ -144,6 +154,11 @@ public class RoadRoller : StageEnemy, IDirect, IHitEvent, IRbVisitor, IExRbVisit
         {
             roller.Damaged(collision);
         }
+
+        protected override void OnTriggerEnter(RoadRoller roller, PlayerAttack collision)
+        {
+            roller.Damaged(collision);
+        }
     }
 
     class Turn : ExRbState<RoadRoller, Turn>
@@ -163,6 +178,11 @@ public class RoadRoller : StageEnemy, IDirect, IHitEvent, IRbVisitor, IExRbVisit
         }
 
         protected override void OnTriggerEnter(RoadRoller roller, RockBuster collision)
+        {
+            roller.Damaged(collision);
+        }
+
+        protected override void OnTriggerEnter(RoadRoller roller, PlayerAttack collision)
         {
             roller.Damaged(collision);
         }

@@ -55,6 +55,12 @@ public class RocketMask : StageEnemy, IDirect, IRbVisitor
         rbCollide.OnTriggerEnter(this, collision);
     }
 
+
+    void IRbVisitor.OnTriggerEnter(PlayerAttack damage)
+    {
+        m_stateMachine.OnTriggerEnter(this, damage);
+    }
+
     void IRbVisitor.OnTriggerEnter(RockBuster damage)
     {
         m_stateMachine.OnTriggerEnter(this, damage);
@@ -98,6 +104,11 @@ public class RocketMask : StageEnemy, IDirect, IRbVisitor
         {
             rocketMask.Atacked(collision);
         }
+
+        protected override void OnTriggerEnter(RocketMask rocketMask, PlayerAttack collision)
+        {
+            rocketMask.Damaged(collision);
+        }
     }
 
     class Turn : RbState<RocketMask, Turn>
@@ -120,6 +131,10 @@ public class RocketMask : StageEnemy, IDirect, IRbVisitor
         protected override void OnTriggerEnter(RocketMask rocketMask, RockBuster collision)
         {
             rocketMask.Atacked(collision);
+        }
+        protected override void OnTriggerEnter(RocketMask rocketMask, PlayerAttack collision)
+        {
+            rocketMask.Damaged(collision);
         }
     }
 

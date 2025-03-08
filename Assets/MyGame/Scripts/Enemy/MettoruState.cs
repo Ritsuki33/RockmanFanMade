@@ -51,11 +51,17 @@ public partial class Mettoru
                        }
                    });
         }
+        protected override void OnTriggerEnter(Mettoru mettoru, PlayerAttack collision)
+        {
+            mettoru.Damaged(collision);
+        }
 
         protected override void OnTriggerEnter(Mettoru mettoru, RockBuster collision)
         {
             mettoru.Damaged(collision);
         }
+
+
     }
 
     class Walk : ExRbState<Mettoru, Walk>
@@ -101,6 +107,11 @@ public partial class Mettoru
                   {
                       mettoru.m_stateMachine.TransitReady((int)StateID.Hide);
                   });
+        }
+
+        protected override void OnTriggerEnter(Mettoru mettoru, PlayerAttack collision)
+        {
+            mettoru.Damaged(collision);
         }
 
         protected override void OnTriggerEnter(Mettoru mettoru, RockBuster collision)
@@ -232,6 +243,11 @@ public partial class Mettoru
             }
         }
 
+        protected override void OnTriggerEnter(Mettoru mettoru, PlayerAttack collision)
+        {
+            mettoru.Damaged(collision);
+        }
+
         protected override void OnTriggerEnter(Mettoru mettoru, RockBuster collision)
         {
             mettoru.Damaged(collision);
@@ -277,6 +293,11 @@ public partial class Mettoru
                    });
         }
 
+        protected override void OnTriggerEnter(Mettoru mettoru, PlayerAttack collision)
+        {
+            mettoru.Damaged(collision);
+        }
+
         protected override void OnTriggerEnter(Mettoru mettoru, RockBuster collision)
         {
             mettoru.Damaged(collision);
@@ -312,6 +333,11 @@ public partial class Mettoru
             }
         }
 
+        protected override void OnTriggerEnter(Mettoru mettoru, PlayerAttack collision)
+        {
+            mettoru.Damaged(collision);
+        }
+
         protected override void OnTriggerEnter(Mettoru mettoru, RockBuster collision)
         {
             mettoru.Damaged(collision);
@@ -338,6 +364,11 @@ public partial class Mettoru
         protected override void OnBottomHitStay(Mettoru mettoru, RaycastHit2D hit)
         {
             mettoru.m_stateMachine.TransitReady((int)StateID.Idle);
+        }
+
+        protected override void OnTriggerEnter(Mettoru mettoru, PlayerAttack collision)
+        {
+            mettoru.Damaged(collision);
         }
 
         protected override void OnTriggerEnter(Mettoru mettoru, RockBuster collision)
