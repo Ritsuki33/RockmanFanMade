@@ -27,8 +27,19 @@ public class #SCRIPTNAME# : MonoBehaviour, IRbVisitable
     // ここから定義
 }
 
+// デフォルトを親クラスとして実行したいときはコメントを外して親クラス名を指定
+public partial interface IRbVisitor
+{
+    void OnTriggerEnter(#SCRIPTNAME# collision) { /*OnTriggerEnter(collision as #PARENTCLASSNAME#); */}
+    void OnTriggerStay(#SCRIPTNAME# collision) { /*OnTriggerStay(collision as #PARENTCLASSNAME#);*/ }
+    void OnTriggerExit(#SCRIPTNAME# collision) { /*OnTriggerExit(collision as #PARENTCLASSNAME#);*/ }
+
+    void OnCollisionEnter(#SCRIPTNAME# collision) { /*OnCollisionEnter(collision as #PARENTCLASSNAME#);*/ }
+    void OnCollisionStay(#SCRIPTNAME# collision) { /*OnCollisionStay(collision as #PARENTCLASSNAME#);*/ }
+    void OnCollisionExit(#SCRIPTNAME# collision) { /*OnCollisionExit(collision as #PARENTCLASSNAME#);*/ }
+}
+
 # region 編集禁止
-public partial interface IRbVisitor : IRbVisitor<#SCRIPTNAME#>{ }
 public partial interface IStateRbVisitor<T> : IStateRbVisitor<T, #SCRIPTNAME#>{ }
 public partial interface ISubStateRbVisitor<T, PS> : ISubStateRbVisitor<T, PS, #SCRIPTNAME#>{ }
 

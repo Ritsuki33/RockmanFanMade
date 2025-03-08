@@ -85,8 +85,24 @@ public class BeltConveyor : PhysicalObject, IExRbVisitable
     }
 }
 
-public partial interface IExRbVisitor : IExRbVisitor<BeltConveyor>
-{ }
+public partial interface IExRbVisitor
+{
+    void OnHitEnter(BeltConveyor obj, RaycastHit2D hit) { }
+    void OnBottomHitEnter(BeltConveyor obj, RaycastHit2D hit) { }
+    void OnTopHitEnter(BeltConveyor obj, RaycastHit2D hit) { }
+    void OnLeftHitEnter(BeltConveyor obj, RaycastHit2D hit) { }
+    void OnRightHitEnter(BeltConveyor obj, RaycastHit2D hit) { }
+    void OnHitStay(BeltConveyor obj, RaycastHit2D hit) { }
+    void OnBottomHitStay(BeltConveyor obj, RaycastHit2D hit) { }
+    void OnTopHitStay(BeltConveyor obj, RaycastHit2D hit) { }
+    void OnLeftHitStay(BeltConveyor obj, RaycastHit2D hit) { }
+    void OnRightHitStay(BeltConveyor obj, RaycastHit2D hit) { }
+    void OnHitExit(BeltConveyor obj, RaycastHit2D hit) { }
+    void OnBottomHitExit(BeltConveyor obj, RaycastHit2D hit) { }
+    void OnTopHitExit(BeltConveyor obj, RaycastHit2D hit) { }
+    void OnLeftHitExit(BeltConveyor obj, RaycastHit2D hit) { }
+    void OnRightHitExit(BeltConveyor obj, RaycastHit2D hit) { }
+}
 
 public partial interface IStateExRbVisitor<T> : IStateExRbVisitor<T, BeltConveyor>
 { }

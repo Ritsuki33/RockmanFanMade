@@ -12,71 +12,76 @@ public partial class CachedCollide
 
     public void OnCollisionEnter(IRbVisitor visitor, Collision2D collision)
     {
-        collision.gameObject.TryGetComponent(out IRbVisitable collide);
+        var parent = collision.gameObject.transform.parent.gameObject;
+        parent.TryGetComponent(out IRbVisitable collide);
 
         // キャッシュ
-        if (!cacheCollider.ContainsKey(collision.gameObject)) cacheCollider.Add(collision.gameObject, collide);
+        if (!cacheCollider.ContainsKey(parent)) cacheCollider.Add(parent, collide);
         collide?.AcceptOnCollisionEnter(visitor);
     }
 
     public void OnCollisionStay(IRbVisitor visitor, Collision2D collision)
     {
+        var parent = collision.gameObject.transform.parent.gameObject;
         IRbVisitable collide = null;
 
-        if (cacheCollider.ContainsKey(collision.gameObject))
+        if (cacheCollider.ContainsKey(parent))
         {
-            collide = cacheCollider[collision.gameObject];
+            collide = cacheCollider[parent];
         }
         else
         {
             // キャッシュがない場合は改めて取得して再キャッシュ
-            collision.gameObject.TryGetComponent(out collide);
-            cacheCollider.Add(collision.gameObject, collide);
+            parent.TryGetComponent(out collide);
+            cacheCollider.Add(parent, collide);
         }
         collide?.AcceptOnCollisionStay(visitor);
     }
 
     public void OnCollisionExit(IRbVisitor visitor, Collision2D collision)
     {
+        var parent = collision.gameObject.transform.parent.gameObject;
         IRbVisitable collide = null;
 
-        if (cacheCollider.ContainsKey(collision.gameObject))
+        if (cacheCollider.ContainsKey(parent))
         {
-            collide = cacheCollider[collision.gameObject];
+            collide = cacheCollider[parent];
         }
         else
         {
             // キャッシュがない場合は改めて取得
-            collide = collision.gameObject.GetComponent<IRbVisitable>();
+            collision.gameObject.TryGetComponent(out collide);
         }
         collide?.AcceptOnCollisionExit(visitor);
 
-        if (cacheCollider.ContainsKey(collision.gameObject)) cacheCollider.Remove(collision.gameObject);
+        if (cacheCollider.ContainsKey(parent)) cacheCollider.Remove(parent);
     }
 
     public void OnTriggerEnter(IRbVisitor visitor, Collider2D collision)
     {
-        var collide = collision.gameObject.GetComponent<IRbVisitable>();
+        var parent = collision.gameObject.transform.parent.gameObject;
+        parent.TryGetComponent(out IRbVisitable collide);
 
         // キャッシュ
-        if (!cacheCollider.ContainsKey(collision.gameObject)) cacheCollider.Add(collision.gameObject, collide);
+        if (!cacheCollider.ContainsKey(parent)) cacheCollider.Add(parent, collide);
 
         collide?.AcceptOnTriggerEnter(visitor);
     }
 
     public void OnTriggerStay(IRbVisitor visitor, Collider2D collision)
     {
+        var parent = collision.gameObject.transform.parent.gameObject;
         IRbVisitable collide = null;
 
-        if (cacheCollider.ContainsKey(collision.gameObject))
+        if (cacheCollider.ContainsKey(parent))
         {
-            collide = cacheCollider[collision.gameObject];
+            collide = cacheCollider[parent];
         }
         else
         {
             // キャッシュがない場合は改めて取得して再キャッシュ
-            collide = collision.gameObject.GetComponent<IRbVisitable>();
-            cacheCollider.Add(collision.gameObject, collide);
+            parent.TryGetComponent(out collide);
+            cacheCollider.Add(parent, collide);
         }
 
         collide?.AcceptOnTriggerStay(visitor);
@@ -84,20 +89,21 @@ public partial class CachedCollide
 
     public void OnTriggerExit(IRbVisitor visitor, Collider2D collision)
     {
+        var parent = collision.gameObject.transform.parent.gameObject;
         IRbVisitable collide = null;
 
-        if (cacheCollider.ContainsKey(collision.gameObject))
+        if (cacheCollider.ContainsKey(parent))
         {
-            collide = cacheCollider[collision.gameObject];
+            collide = cacheCollider[parent];
         }
         else
         {
             // キャッシュがない場合は改めて取得
-            collide = collision.gameObject.GetComponent<IRbVisitable>();
+            parent.TryGetComponent(out collide);
         }
         collide?.AcceptOnTriggerExit(visitor);
 
         // キャッシュの削除
-        if (cacheCollider.ContainsKey(collision.gameObject)) cacheCollider.Remove(collision.gameObject);
+        if (cacheCollider.ContainsKey(parent)) cacheCollider.Remove(parent);
     }
 }

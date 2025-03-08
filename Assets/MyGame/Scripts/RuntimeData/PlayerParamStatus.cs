@@ -28,7 +28,7 @@ public class PlayerParamStatus : ParamStatus, IPlayerParamStatus
                     playerWeaponDic.Add(PlayerWeaponListData[i].WeaponType, new RockBusterWeapon(player));
                     break;
                 case PlayerWeaponType.ThunderBolt:
-                    playerWeaponDic.Add(PlayerWeaponListData[i].WeaponType, new ThunderBolt(player));
+                    playerWeaponDic.Add(PlayerWeaponListData[i].WeaponType, new ThunderBoltWeapon(player));
                     break;
             }
         }

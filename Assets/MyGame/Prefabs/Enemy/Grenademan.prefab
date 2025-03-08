@@ -116,7 +116,6 @@ GameObject:
   m_Component:
   - component: {fileID: 6005358465960329142}
   - component: {fileID: 5645384775487718883}
-  - component: {fileID: 1855264807442991453}
   m_Layer: 18
   m_Name: TriggerBody
   m_TagString: Untagged
@@ -184,19 +183,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.85014343, y: 1.4087138}
   m_EdgeRadius: 0
---- !u!114 &1855264807442991453
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1993637880150684617}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a4758d776e32bd746946ac1c5adfe135, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  baseDamageValue: 6
 --- !u!1 &7503813855612530439
 GameObject:
   m_ObjectHideFlags: 0
@@ -239,6 +225,7 @@ GameObject:
   - component: {fileID: 5708097803326260318}
   - component: {fileID: 4184061222935920490}
   - component: {fileID: 7702470370791481816}
+  - component: {fileID: 6499659326277172383}
   m_Layer: 16
   m_Name: Grenademan
   m_TagString: Untagged
@@ -337,6 +324,19 @@ MonoBehaviour:
       serializedVersion: 2
       m_Bits: 768
   _placeBombPosArray: []
+--- !u!114 &6499659326277172383
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7658575806862354690}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a4758d776e32bd746946ac1c5adfe135, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  baseDamageValue: 6
 --- !u!1 &8096674225689860548
 GameObject:
   m_ObjectHideFlags: 0

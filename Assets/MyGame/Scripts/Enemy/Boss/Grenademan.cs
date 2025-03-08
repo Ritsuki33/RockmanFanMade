@@ -110,7 +110,12 @@ public class Grenademan : StageBoss, IDirect, IHitEvent, IRbVisitor, IExRbVisito
         stateMachine.OnRightHitStay(this, hit);
     }
 
-    void IRbVisitor<RockBusterDamage>.OnTriggerEnter(RockBusterDamage collision)
+    void IRbVisitor.OnTriggerEnter(RockBuster collision)
+    {
+        stateMachine.OnTriggerEnter(this, collision);
+    }
+
+    void IRbVisitor.OnTriggerEnter(PlayerAttack collision)
     {
         stateMachine.OnTriggerEnter(this, collision);
     }
@@ -256,7 +261,12 @@ public class Grenademan : StageBoss, IDirect, IHitEvent, IRbVisitor, IExRbVisito
             ctr._gravity.Reset();
         }
 
-        protected override void OnTriggerEnter(Grenademan ctr, RockBusterDamage collision)
+        protected override void OnTriggerEnter(Grenademan ctr, PlayerAttack collision)
+        {
+            ctr.Damaged(collision);
+        }
+
+        protected override void OnTriggerEnter(Grenademan ctr, RockBuster collision)
         {
             ctr.Damaged(collision);
         }
@@ -313,7 +323,12 @@ public class Grenademan : StageBoss, IDirect, IHitEvent, IRbVisitor, IExRbVisito
             ctr.stateMachine.TransitReady((int)StateId.Idle);
         }
 
-        protected override void OnTriggerEnter(Grenademan ctr, RockBusterDamage collision)
+        protected override void OnTriggerEnter(Grenademan ctr, PlayerAttack collision)
+        {
+            ctr.Damaged(collision);
+        }
+
+        protected override void OnTriggerEnter(Grenademan ctr, RockBuster collision)
         {
             ctr.Damaged(collision);
         }
@@ -394,7 +409,12 @@ public class Grenademan : StageBoss, IDirect, IHitEvent, IRbVisitor, IExRbVisito
             ctr.stateMachine.TransitReady((int)StateId.Idle);
         }
 
-        protected override void OnTriggerEnter(Grenademan ctr, RockBusterDamage collision)
+        protected override void OnTriggerEnter(Grenademan ctr, PlayerAttack collision)
+        {
+            ctr.Damaged(collision);
+        }
+
+        protected override void OnTriggerEnter(Grenademan ctr, RockBuster collision)
         {
             ctr.Damaged(collision);
         }
@@ -487,7 +507,12 @@ public class Grenademan : StageBoss, IDirect, IHitEvent, IRbVisitor, IExRbVisito
             }
         }
 
-        protected override void OnTriggerEnter(Grenademan ctr, RockBusterDamage collision)
+        protected override void OnTriggerEnter(Grenademan ctr, PlayerAttack collision)
+        {
+            ctr.Damaged(collision);
+        }
+
+        protected override void OnTriggerEnter(Grenademan ctr, RockBuster collision)
         {
             ctr.Damaged(collision);
         }
@@ -537,7 +562,7 @@ public class Grenademan : StageBoss, IDirect, IHitEvent, IRbVisitor, IExRbVisito
                 Vector2 dir = (ctr.IsRight) ? Vector2.right : Vector2.left;
                 dir = dir.normalized;
 
-                var projectile = ObjectManager.Instance.OnGet<Projectile>(PoolType.CrashBomb);
+                var projectile = ObjectManager.Instance.OnGet<SimpleProjectileComponent>(PoolType.CrashBomb);
                 projectile.Setup(
                     new Vector3(ctr.buster.transform.position.x, ctr.buster.transform.position.y, -2),
                     ctr.IsRight,
@@ -589,7 +614,12 @@ public class Grenademan : StageBoss, IDirect, IHitEvent, IRbVisitor, IExRbVisito
             }
         }
 
-        protected override void OnTriggerEnter(Grenademan ctr, RockBusterDamage collision)
+        protected override void OnTriggerEnter(Grenademan ctr, PlayerAttack collision)
+        {
+            ctr.Damaged(collision);
+        }
+
+        protected override void OnTriggerEnter(Grenademan ctr, RockBuster collision)
         {
             ctr.Damaged(collision);
         }

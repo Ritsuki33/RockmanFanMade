@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 15149004280749181}
   - component: {fileID: 3210309767230225672}
-  - component: {fileID: 7523525178139720629}
+  - component: {fileID: 6400591330507293487}
   m_Layer: 19
   m_Name: TriggerBox
   m_TagString: Untagged
@@ -78,21 +78,33 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &7523525178139720629
-MonoBehaviour:
+--- !u!50 &6400591330507293487
+Rigidbody2D:
+  serializedVersion: 4
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1038377753302092129}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 14fb7cb58105d59489660e75b7e274a6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  baseDamageValue: 1
-  projectile: {fileID: 7172392781686603923}
-  penetration: 1
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
 --- !u!1 &1939072834331137278
 GameObject:
   m_ObjectHideFlags: 0
@@ -164,15 +176,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 1939072834331137278}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3a7b01ea1b7b4b5469f87aaa998e091a, type: 3}
+  m_Script: {fileID: 11500000, guid: 35fa9c40eb066cf4a97379fc1800fee9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   outofCameraDelete: 1
   m_mainAnimator: {fileID: 5059450586348957532}
   animSpeed: 1
   rb: {fileID: 4330935965374414089}
-  boxTrigger: {fileID: 3210309767230225672}
-  boxCollider: {fileID: 0}
   direct:
     _transform: {fileID: 6861716816183204909}
     forwardIsRight: 0

@@ -1,16 +1,5 @@
 ﻿using UnityEngine;
 
-public interface IRbVisitor<T> where T : IRbVisitable
-{
-    void OnTriggerEnter(T collision) { }
-    void OnTriggerStay(T collision) { }
-    void OnTriggerExit(T collision) { }
-
-    void OnCollisionEnter(T collision) { }
-    void OnCollisionStay(T collision) { }
-    void OnCollisionExit(T collision) { }
-}
-
 public partial interface IRbVisitor
 { }
 
@@ -23,26 +12,6 @@ public interface IRbVisitable
     void AcceptOnCollisionEnter(IRbVisitor visitor);
     void AcceptOnCollisionStay(IRbVisitor visitor);
     void AcceptOnCollisionExit(IRbVisitor visitor);
-}
-
-
-public partial interface IExRbVisitor<T>
-{
-    void OnHitEnter(T obj, RaycastHit2D hit){}
-    void OnBottomHitEnter(T obj, RaycastHit2D hit){}
-    void OnTopHitEnter(T obj, RaycastHit2D hit){}
-    void OnLeftHitEnter(T obj, RaycastHit2D hit){}
-    void OnRightHitEnter(T obj, RaycastHit2D hit){}
-    void OnHitStay(T obj, RaycastHit2D hit){}
-    void OnBottomHitStay(T obj, RaycastHit2D hit){}
-    void OnTopHitStay(T obj, RaycastHit2D hit){}
-    void OnLeftHitStay(T obj, RaycastHit2D hit){}
-    void OnRightHitStay(T obj, RaycastHit2D hit){}
-    void OnHitExit(T obj, RaycastHit2D hit){}
-    void OnBottomHitExit(T obj, RaycastHit2D hit){}
-    void OnTopHitExit(T obj, RaycastHit2D hit){}
-    void OnLeftHitExit(T obj, RaycastHit2D hit){}
-    void OnRightHitExit(T obj, RaycastHit2D hit){}
 }
 
 public partial interface IExRbVisitor

@@ -49,9 +49,26 @@ public class Ground : MonoBehaviour, IExRbVisitable
 }
 
 # region 編集禁止
-public partial interface IExRbVisitor : IExRbVisitor<Ground>{ }
-public partial interface IStateExRbVisitor<T> : IStateExRbVisitor<T, Ground>{ }
-public partial interface ISubStateExRbVisitor<T, PS> : ISubStateExRbVisitor<T, PS, Ground>{ }
+public partial interface IExRbVisitor
+{
+    void OnHitEnter(Ground obj, RaycastHit2D hit) { }
+    void OnBottomHitEnter(Ground obj, RaycastHit2D hit) { }
+    void OnTopHitEnter(Ground obj, RaycastHit2D hit) { }
+    void OnLeftHitEnter(Ground obj, RaycastHit2D hit) { }
+    void OnRightHitEnter(Ground obj, RaycastHit2D hit) { }
+    void OnHitStay(Ground obj, RaycastHit2D hit) { }
+    void OnBottomHitStay(Ground obj, RaycastHit2D hit) { }
+    void OnTopHitStay(Ground obj, RaycastHit2D hit) { }
+    void OnLeftHitStay(Ground obj, RaycastHit2D hit) { }
+    void OnRightHitStay(Ground obj, RaycastHit2D hit) { }
+    void OnHitExit(Ground obj, RaycastHit2D hit) { }
+    void OnBottomHitExit(Ground obj, RaycastHit2D hit) { }
+    void OnTopHitExit(Ground obj, RaycastHit2D hit) { }
+    void OnLeftHitExit(Ground obj, RaycastHit2D hit) { }
+    void OnRightHitExit(Ground obj, RaycastHit2D hit) { }
+}
+public partial interface IStateExRbVisitor<T> : IStateExRbVisitor<T, Ground> { }
+public partial interface ISubStateExRbVisitor<T, PS> : ISubStateExRbVisitor<T, PS, Ground> { }
 
 public partial class InheritExRbState<T, TS, SM, S>
 {

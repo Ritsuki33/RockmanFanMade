@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public partial class Mettoru 
+public partial class Mettoru
 {
     class Idle : ExRbState<Mettoru, Idle>
     {
@@ -52,7 +52,7 @@ public partial class Mettoru
                    });
         }
 
-        protected override void OnTriggerEnter(Mettoru mettoru, RockBusterDamage collision)
+        protected override void OnTriggerEnter(Mettoru mettoru, RockBuster collision)
         {
             mettoru.Damaged(collision);
         }
@@ -75,7 +75,7 @@ public partial class Mettoru
             mettoru.gravity.OnUpdate();
             mettoru.exRb.velocity = mettoru.gravity.CurrentVelocity;
 
-            if (mettoru.move.Hit || !mettoru.groundChecker.CheckGround(mettoru.transform.position,mettoru.exRb.PhysicalBoxSize, mettoru.IsRight))
+            if (mettoru.move.Hit || !mettoru.groundChecker.CheckGround(mettoru.transform.position, mettoru.exRb.PhysicalBoxSize, mettoru.IsRight))
             {
                 mettoru.TurnFace();
             }
@@ -103,7 +103,7 @@ public partial class Mettoru
                   });
         }
 
-        protected override void OnTriggerEnter(Mettoru mettoru, RockBusterDamage collision)
+        protected override void OnTriggerEnter(Mettoru mettoru, RockBuster collision)
         {
             mettoru.Damaged(collision);
         }
@@ -143,7 +143,7 @@ public partial class Mettoru
             }
         }
 
-        protected override void OnTriggerEnter(Mettoru mettoru, RockBusterDamage collision)
+        protected override void OnTriggerEnter(Mettoru mettoru, RockBuster collision)
         {
             mettoru.Defense(collision);
         }
@@ -192,7 +192,7 @@ public partial class Mettoru
             }
         }
 
-        protected override void OnTriggerEnter(Mettoru mettoru, RockBusterDamage collision)
+        protected override void OnTriggerEnter(Mettoru mettoru, RockBuster collision)
         {
             mettoru.Defense(collision);
         }
@@ -232,7 +232,7 @@ public partial class Mettoru
             }
         }
 
-        protected override void OnTriggerEnter(Mettoru mettoru, RockBusterDamage collision)
+        protected override void OnTriggerEnter(Mettoru mettoru, RockBuster collision)
         {
             mettoru.Damaged(collision);
         }
@@ -277,7 +277,7 @@ public partial class Mettoru
                    });
         }
 
-        protected override void OnTriggerEnter(Mettoru mettoru, RockBusterDamage collision)
+        protected override void OnTriggerEnter(Mettoru mettoru, RockBuster collision)
         {
             mettoru.Damaged(collision);
         }
@@ -312,7 +312,7 @@ public partial class Mettoru
             }
         }
 
-        protected override void OnTriggerEnter(Mettoru mettoru, RockBusterDamage collision)
+        protected override void OnTriggerEnter(Mettoru mettoru, RockBuster collision)
         {
             mettoru.Damaged(collision);
         }
@@ -340,7 +340,7 @@ public partial class Mettoru
             mettoru.m_stateMachine.TransitReady((int)StateID.Idle);
         }
 
-        protected override void OnTriggerEnter(Mettoru mettoru, RockBusterDamage collision)
+        protected override void OnTriggerEnter(Mettoru mettoru, RockBuster collision)
         {
             mettoru.Damaged(collision);
         }

@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 7690334316104389653}
   - component: {fileID: 2478137116597086615}
   - component: {fileID: 2728003768869186676}
+  - component: {fileID: 1500649302249205045}
   m_Layer: 16
   m_Name: Batman
   m_TagString: Untagged
@@ -140,7 +141,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: feb06d398bc157f46999f7596ae3576d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  outofCameraDelete: 1
   m_mainAnimator: {fileID: 7417334609489879742}
+  animSpeed: 1
   rb: {fileID: 7690334316104389653}
   enemyData: {fileID: 0}
   defeatEvent:
@@ -158,6 +161,19 @@ MonoBehaviour:
     throughFloorLayer:
       serializedVersion: 2
       m_Bits: 768
+--- !u!114 &1500649302249205045
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4617759762714419291}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a4758d776e32bd746946ac1c5adfe135, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  baseDamageValue: 6
 --- !u!1 &5926959085142508283
 GameObject:
   m_ObjectHideFlags: 0
@@ -168,7 +184,6 @@ GameObject:
   m_Component:
   - component: {fileID: 431874789048566670}
   - component: {fileID: 8048110088103879847}
-  - component: {fileID: 6927256354232289214}
   m_Layer: 18
   m_Name: TriggerBody
   m_TagString: Untagged
@@ -236,19 +251,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.72, y: 0.8}
   m_EdgeRadius: 0
---- !u!114 &6927256354232289214
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5926959085142508283}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a4758d776e32bd746946ac1c5adfe135, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  baseDamageValue: 6
 --- !u!1 &8782044432343788298
 GameObject:
   m_ObjectHideFlags: 0

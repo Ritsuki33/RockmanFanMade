@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-public class GreenMan : StageEnemy,IDirect,IRbVisitor,IHitEvent
+public class GreenMan : StageEnemy, IDirect, IRbVisitor, IHitEvent
 {
     enum StateId
     {
@@ -28,7 +28,7 @@ public class GreenMan : StageEnemy,IDirect,IRbVisitor,IHitEvent
     CachedHit exRbHit = new CachedHit();
     public bool IsRight => direct.IsRight;
     public void TurnTo(bool isRight) => direct.TurnTo(isRight);
-    public void TurnToTarget(Vector2 targetPos)=>direct.TurnToTarget(targetPos);
+    public void TurnToTarget(Vector2 targetPos) => direct.TurnToTarget(targetPos);
     public void TurnFace() => TurnFace();
 
     protected override void Awake()
@@ -91,7 +91,7 @@ public class GreenMan : StageEnemy,IDirect,IRbVisitor,IHitEvent
         stateMachine.OnBottomHitExit(this, hit);
     }
 
-    void IRbVisitor<RockBusterDamage>.OnTriggerEnter(RockBusterDamage damage)
+    void IRbVisitor.OnTriggerEnter(RockBuster damage)
     {
         stateMachine.OnTriggerEnter(this, damage);
     }
@@ -131,7 +131,7 @@ public class GreenMan : StageEnemy,IDirect,IRbVisitor,IHitEvent
             });
         }
 
-        protected override void OnTriggerEnter(GreenMan greenMan, RockBusterDamage collision)
+        protected override void OnTriggerEnter(GreenMan greenMan, RockBuster collision)
         {
             greenMan.Defense(collision);
         }
@@ -161,7 +161,7 @@ public class GreenMan : StageEnemy,IDirect,IRbVisitor,IHitEvent
             greenMan.exRb.velocity = greenMan.gravity.CurrentVelocity;
         }
 
-        protected override void OnTriggerEnter(GreenMan greenMan, RockBusterDamage collision)
+        protected override void OnTriggerEnter(GreenMan greenMan, RockBuster collision)
         {
             greenMan.Defense(collision);
         }
@@ -193,7 +193,7 @@ public class GreenMan : StageEnemy,IDirect,IRbVisitor,IHitEvent
             }
         }
 
-        protected override void OnTriggerEnter(GreenMan greenMan, RockBusterDamage collision)
+        protected override void OnTriggerEnter(GreenMan greenMan, RockBuster collision)
         {
             greenMan.Damaged(collision);
         }
@@ -243,7 +243,7 @@ public class GreenMan : StageEnemy,IDirect,IRbVisitor,IHitEvent
             });
         }
 
-        protected override void OnTriggerEnter(GreenMan greenMan, RockBusterDamage collision)
+        protected override void OnTriggerEnter(GreenMan greenMan, RockBuster collision)
         {
             greenMan.Damaged(collision);
         }
@@ -279,7 +279,7 @@ public class GreenMan : StageEnemy,IDirect,IRbVisitor,IHitEvent
             }
         }
 
-        protected override void OnTriggerEnter(GreenMan greenMan, RockBusterDamage collision)
+        protected override void OnTriggerEnter(GreenMan greenMan, RockBuster collision)
         {
             greenMan.Defense(collision);
         }
@@ -295,19 +295,19 @@ public class GreenMan : StageEnemy,IDirect,IRbVisitor,IHitEvent
         }
     }
 
-    private void Defense(RockBusterDamage damage)
+    private void Defense(RockBuster damage)
     {
-        if (damage.baseDamageValue == 1)
+        if (damage.AttackPower == 1)
         {
-            ReflectBuster(damage.projectile);
+            ReflectBuster(damage);
         }
         else
         {
-            damage.DeleteBuster();
+            damage.Delete();
         }
     }
 
-    public void ReflectBuster(Projectile projectile)
+    public void ReflectBuster(RockBuster projectile)
     {
         if (defense != null) StopCoroutine(defense);
         defense = StartCoroutine(DefenseRockBuster());
@@ -332,14 +332,14 @@ public class GreenMan : StageEnemy,IDirect,IRbVisitor,IHitEvent
         }
     }
 
-    
+
 
     void Atack()
     {
         Vector2 direction = IsRight ? Vector2.right : Vector2.left;
         float speed = 5;
 
-        var projectile = ObjectManager.Instance.OnGet<Projectile>(PoolType.MettoruFire);
+        var projectile = ObjectManager.Instance.OnGet<SimpleProjectileComponent>(PoolType.MettoruFire);
 
         projectile.Setup(
             launcher.transform.position,

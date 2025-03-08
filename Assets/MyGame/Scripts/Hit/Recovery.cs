@@ -93,11 +93,35 @@ public class Recovery : PhysicalObject, IHitEvent, IRbVisitable, IExRbVisitable
 }
 
 # region 編集禁止
-public partial interface IRbVisitor : IRbVisitor<Recovery>
-{ }
+public partial interface IRbVisitor
+{
+    void OnTriggerEnter(Recovery collision) { }
+    void OnTriggerStay(Recovery collision) { }
+    void OnTriggerExit(Recovery collision) { }
 
-public partial interface IExRbVisitor : IExRbVisitor<Recovery>
-{ }
+    void OnCollisionEnter(Recovery collision) { }
+    void OnCollisionStay(Recovery collision) { }
+    void OnCollisionExit(Recovery collision) { }
+}
+
+public partial interface IExRbVisitor
+{
+    void OnHitEnter(Recovery obj, RaycastHit2D hit) { }
+    void OnBottomHitEnter(Recovery obj, RaycastHit2D hit) { }
+    void OnTopHitEnter(Recovery obj, RaycastHit2D hit) { }
+    void OnLeftHitEnter(Recovery obj, RaycastHit2D hit) { }
+    void OnRightHitEnter(Recovery obj, RaycastHit2D hit) { }
+    void OnHitStay(Recovery obj, RaycastHit2D hit) { }
+    void OnBottomHitStay(Recovery obj, RaycastHit2D hit) { }
+    void OnTopHitStay(Recovery obj, RaycastHit2D hit) { }
+    void OnLeftHitStay(Recovery obj, RaycastHit2D hit) { }
+    void OnRightHitStay(Recovery obj, RaycastHit2D hit) { }
+    void OnHitExit(Recovery obj, RaycastHit2D hit) { }
+    void OnBottomHitExit(Recovery obj, RaycastHit2D hit) { }
+    void OnTopHitExit(Recovery obj, RaycastHit2D hit) { }
+    void OnLeftHitExit(Recovery obj, RaycastHit2D hit) { }
+    void OnRightHitExit(Recovery obj, RaycastHit2D hit) { }
+}
 
 public partial interface IStateRbVisitor<T> : IStateRbVisitor<T, Recovery>
 { }

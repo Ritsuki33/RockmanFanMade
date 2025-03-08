@@ -168,7 +168,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.15, y: 0.15}
   m_EdgeRadius: 0
---- !u!1 &7853139695464942195
+--- !u!1 &6435064413027616045
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -176,42 +176,38 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 7931631627222397922}
-  - component: {fileID: 2438691774211883270}
-  - component: {fileID: 2569209746247142054}
-  - component: {fileID: 5120203927495478303}
-  - component: {fileID: 2065087388781239814}
-  m_Layer: 20
-  m_Name: MettoruFire
+  - component: {fileID: 9174415052036118164}
+  - component: {fileID: 108918433777522338}
+  - component: {fileID: 1821206542507602395}
+  m_Layer: 0
+  m_Name: sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &7931631627222397922
+--- !u!4 &9174415052036118164
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7853139695464942195}
+  m_GameObject: {fileID: 6435064413027616045}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 6442114721497297017}
-  - {fileID: 2477207110749845692}
-  m_Father: {fileID: 0}
+  m_Children: []
+  m_Father: {fileID: 7931631627222397922}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!212 &2438691774211883270
+--- !u!212 &108918433777522338
 SpriteRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7853139695464942195}
+  m_GameObject: {fileID: 6435064413027616045}
   m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
@@ -257,14 +253,14 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!95 &2569209746247142054
+--- !u!95 &1821206542507602395
 Animator:
   serializedVersion: 5
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7853139695464942195}
+  m_GameObject: {fileID: 6435064413027616045}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 9100000, guid: ace08e72b6bc1eb4bb6baa33ec4158b3, type: 2}
@@ -278,6 +274,42 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!1 &7853139695464942195
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7931631627222397922}
+  - component: {fileID: 5120203927495478303}
+  - component: {fileID: 2065087388781239814}
+  m_Layer: 20
+  m_Name: MettoruFire
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7931631627222397922
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7853139695464942195}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 6442114721497297017}
+  - {fileID: 2477207110749845692}
+  - {fileID: 9174415052036118164}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!50 &5120203927495478303
 Rigidbody2D:
   serializedVersion: 4
@@ -314,13 +346,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 7853139695464942195}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3a7b01ea1b7b4b5469f87aaa998e091a, type: 3}
+  m_Script: {fileID: 11500000, guid: f555f42bb23b32f459b0b6ab9612064b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_mainAnimator: {fileID: 2569209746247142054}
+  outofCameraDelete: 1
+  m_mainAnimator: {fileID: 1821206542507602395}
+  animSpeed: 1
   rb: {fileID: 5120203927495478303}
-  boxTrigger: {fileID: 599299022976932114}
-  boxCollider: {fileID: 112198139898908581}
   direct:
     _transform: {fileID: 7931631627222397922}
     forwardIsRight: 0

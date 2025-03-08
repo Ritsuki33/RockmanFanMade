@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RoadRoller : StageEnemy,IDirect,IHitEvent,IRbVisitor,IExRbVisitor
+public class RoadRoller : StageEnemy, IDirect, IHitEvent, IRbVisitor, IExRbVisitor
 {
     [SerializeField] AnimationEnvetController aECtr;
     [SerializeField] Gravity gravity;
@@ -76,9 +76,9 @@ public class RoadRoller : StageEnemy,IDirect,IHitEvent,IRbVisitor,IExRbVisitor
         m_stateMachine.OnLeftHitStay(this, hit);
     }
 
-    void IRbVisitor<RockBusterDamage>.OnTriggerEnter(RockBusterDamage damage)
+    void IRbVisitor.OnTriggerEnter(RockBuster damage)
     {
-        m_stateMachine.OnTriggerEnter(this,damage);
+        m_stateMachine.OnTriggerEnter(this, damage);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -104,7 +104,7 @@ public class RoadRoller : StageEnemy,IDirect,IHitEvent,IRbVisitor,IExRbVisitor
             roller.m_stateMachine.TransitReady((int)StateId.Move);
         }
 
-        protected override void OnTriggerEnter(RoadRoller roller, RockBusterDamage collision)
+        protected override void OnTriggerEnter(RoadRoller roller, RockBuster collision)
         {
             roller.Damaged(collision);
         }
@@ -140,7 +140,7 @@ public class RoadRoller : StageEnemy,IDirect,IHitEvent,IRbVisitor,IExRbVisitor
             if (!roller.IsRight) { roller.m_stateMachine.TransitReady((int)StateId.Turn); }
         }
 
-        protected override void OnTriggerEnter(RoadRoller roller, RockBusterDamage collision)
+        protected override void OnTriggerEnter(RoadRoller roller, RockBuster collision)
         {
             roller.Damaged(collision);
         }
@@ -162,7 +162,7 @@ public class RoadRoller : StageEnemy,IDirect,IHitEvent,IRbVisitor,IExRbVisitor
             }
         }
 
-        protected override void OnTriggerEnter(RoadRoller roller, RockBusterDamage collision)
+        protected override void OnTriggerEnter(RoadRoller roller, RockBuster collision)
         {
             roller.Damaged(collision);
         }

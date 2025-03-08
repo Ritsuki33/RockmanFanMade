@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RocketMask : StageEnemy,IDirect,IRbVisitor
+public class RocketMask : StageEnemy, IDirect, IRbVisitor
 {
     [SerializeField] float distance = 5.0f;
     [SerializeField] float speed = 2.0f;
@@ -52,12 +52,12 @@ public class RocketMask : StageEnemy,IDirect,IRbVisitor
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        rbCollide.OnTriggerEnter(this,collision);   
+        rbCollide.OnTriggerEnter(this, collision);
     }
 
-    void IRbVisitor<RockBusterDamage>.OnTriggerEnter(RockBusterDamage damage)
+    void IRbVisitor.OnTriggerEnter(RockBuster damage)
     {
-        m_stateMachine.OnTriggerEnter(this, damage);    
+        m_stateMachine.OnTriggerEnter(this, damage);
     }
 
     class Move : RbState<RocketMask, Move>
@@ -94,7 +94,7 @@ public class RocketMask : StageEnemy,IDirect,IRbVisitor
             }
         }
 
-        protected override void OnTriggerEnter(RocketMask rocketMask, RockBusterDamage collision)
+        protected override void OnTriggerEnter(RocketMask rocketMask, RockBuster collision)
         {
             rocketMask.Atacked(collision);
         }
@@ -117,13 +117,13 @@ public class RocketMask : StageEnemy,IDirect,IRbVisitor
             }
         }
 
-        protected override void OnTriggerEnter(RocketMask rocketMask, RockBusterDamage collision)
+        protected override void OnTriggerEnter(RocketMask rocketMask, RockBuster collision)
         {
             rocketMask.Atacked(collision);
         }
     }
 
-    public void Atacked(RockBusterDamage damage)
+    public void Atacked(RockBuster damage)
     {
         if ((!IsRight && (this.transform.position.x > damage.transform.position.x))
            || (IsRight && (this.transform.position.x < damage.transform.position.x)))
@@ -136,33 +136,33 @@ public class RocketMask : StageEnemy,IDirect,IRbVisitor
         }
     }
 
-    public void Defense(RockBusterDamage rockBuster)
+    public void Defense(RockBuster rockBuster)
     {
-        if (rockBuster.baseDamageValue == 1)
+        if (rockBuster.AttackPower == 1)
         {
             ReflectBuster(rockBuster);
         }
-        else if (rockBuster.baseDamageValue > 1)
+        else if (rockBuster.AttackPower > 1)
         {
-            rockBuster.DeleteBuster();
+            rockBuster.Delete();
         }
     }
 
-    public void ReflectBuster(RockBusterDamage rockBuster)
+    public void ReflectBuster(RockBuster rockBuster)
     {
         if (defense != null) StopCoroutine(defense);
         defense = StartCoroutine(DefenseRockBuster(rockBuster));
     }
 
-    IEnumerator DefenseRockBuster(RockBusterDamage rockBuster)
+    IEnumerator DefenseRockBuster(RockBuster rockBuster)
     {
-        Vector2 reflection = rockBuster.projectile.CurVelocity;
-        float speed = rockBuster.projectile.CurSpeed;
+        Vector2 reflection = rockBuster.CurVelocity;
+        float speed = rockBuster.CurSpeed;
         reflection.x *= -1;
         reflection = new Vector2(reflection.x, 0).normalized;
         reflection += Vector2.up;
         reflection = reflection.normalized;
-        rockBuster.projectile.ChangeBehavior(
+        rockBuster.ChangeBehavior(
             0,
             null,
             (rb) =>
@@ -176,7 +176,7 @@ public class RocketMask : StageEnemy,IDirect,IRbVisitor
 
     public void TurnTo(bool isRight) => direct.TurnTo(isRight);
 
-    public void TurnToTarget(Vector2 targetPos)=> direct.TurnToTarget(targetPos);
+    public void TurnToTarget(Vector2 targetPos) => direct.TurnToTarget(targetPos);
 
     public void TurnFace() => direct.TurnFace();
 }

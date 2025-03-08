@@ -60,11 +60,35 @@ public class DamageBase : MonoBehaviour, IRbVisitable, IExRbVisitable
     [SerializeField] public int baseDamageValue = 3;
 }
 
-public partial interface IRbVisitor : IRbVisitor<DamageBase>
-{ }
 
-public partial interface IExRbVisitor : IExRbVisitor<DamageBase>
-{ }
+public partial interface IRbVisitor
+{
+    void OnTriggerEnter(DamageBase collision) { }
+    void OnTriggerStay(DamageBase collision) { }
+    void OnTriggerExit(DamageBase collision) { }
+
+    void OnCollisionEnter(DamageBase collision) { }
+    void OnCollisionStay(DamageBase collision) { }
+    void OnCollisionExit(DamageBase collision) { }
+}
+public partial interface IExRbVisitor
+{
+    void OnHitEnter(DamageBase obj, RaycastHit2D hit) { }
+    void OnBottomHitEnter(DamageBase obj, RaycastHit2D hit) { }
+    void OnTopHitEnter(DamageBase obj, RaycastHit2D hit) { }
+    void OnLeftHitEnter(DamageBase obj, RaycastHit2D hit) { }
+    void OnRightHitEnter(DamageBase obj, RaycastHit2D hit) { }
+    void OnHitStay(DamageBase obj, RaycastHit2D hit) { }
+    void OnBottomHitStay(DamageBase obj, RaycastHit2D hit) { }
+    void OnTopHitStay(DamageBase obj, RaycastHit2D hit) { }
+    void OnLeftHitStay(DamageBase obj, RaycastHit2D hit) { }
+    void OnRightHitStay(DamageBase obj, RaycastHit2D hit) { }
+    void OnHitExit(DamageBase obj, RaycastHit2D hit) { }
+    void OnBottomHitExit(DamageBase obj, RaycastHit2D hit) { }
+    void OnTopHitExit(DamageBase obj, RaycastHit2D hit) { }
+    void OnLeftHitExit(DamageBase obj, RaycastHit2D hit) { }
+    void OnRightHitExit(DamageBase obj, RaycastHit2D hit) { }
+}
 
 public partial interface IStateRbVisitor<T> : IStateRbVisitor<T, DamageBase>
 { }

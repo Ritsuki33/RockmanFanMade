@@ -102,8 +102,24 @@ public class Tire : AnimObject, IExRbVisitable
 }
 
 #region 編集禁止
-public partial interface IExRbVisitor : IExRbVisitor<Tire>
-{ }
+public partial interface IExRbVisitor
+{
+    void OnHitEnter(Tire obj, RaycastHit2D hit) { }
+    void OnBottomHitEnter(Tire obj, RaycastHit2D hit) { }
+    void OnTopHitEnter(Tire obj, RaycastHit2D hit) { }
+    void OnLeftHitEnter(Tire obj, RaycastHit2D hit) { }
+    void OnRightHitEnter(Tire obj, RaycastHit2D hit) { }
+    void OnHitStay(Tire obj, RaycastHit2D hit) { }
+    void OnBottomHitStay(Tire obj, RaycastHit2D hit) { }
+    void OnTopHitStay(Tire obj, RaycastHit2D hit) { }
+    void OnLeftHitStay(Tire obj, RaycastHit2D hit) { }
+    void OnRightHitStay(Tire obj, RaycastHit2D hit) { }
+    void OnHitExit(Tire obj, RaycastHit2D hit) { }
+    void OnBottomHitExit(Tire obj, RaycastHit2D hit) { }
+    void OnTopHitExit(Tire obj, RaycastHit2D hit) { }
+    void OnLeftHitExit(Tire obj, RaycastHit2D hit) { }
+    void OnRightHitExit(Tire obj, RaycastHit2D hit) { }
+}
 
 public partial interface IStateExRbVisitor<T> : IStateExRbVisitor<T, Tire>
 { }

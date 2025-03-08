@@ -84,21 +84,38 @@ public class BlockTilemap : MonoBehaviour, IExRbVisitable, IRbVisitor
         rbCollide.OnTriggerStay(this, collision);
     }
 
-    void IRbVisitor<RockBusterDamage>.OnTriggerStay(RockBusterDamage damage)
+    void IRbVisitor.OnTriggerStay(RockBuster damage)
     {
         if (BreakTileAt(damage.transform.position))
         {
-            if (damage.baseDamageValue == 1)
+            if (damage.AttackPower == 1)
             {
-                damage.projectile.Delete();
+                damage.Delete();
             }
         }
     }
 }
 
+public partial interface IExRbVisitor
+{
+    void OnHitEnter(BlockTilemap obj, RaycastHit2D hit) { }
+    void OnBottomHitEnter(BlockTilemap obj, RaycastHit2D hit) { }
+    void OnTopHitEnter(BlockTilemap obj, RaycastHit2D hit) { }
+    void OnLeftHitEnter(BlockTilemap obj, RaycastHit2D hit) { }
+    void OnRightHitEnter(BlockTilemap obj, RaycastHit2D hit) { }
+    void OnHitStay(BlockTilemap obj, RaycastHit2D hit) { }
+    void OnBottomHitStay(BlockTilemap obj, RaycastHit2D hit) { }
+    void OnTopHitStay(BlockTilemap obj, RaycastHit2D hit) { }
+    void OnLeftHitStay(BlockTilemap obj, RaycastHit2D hit) { }
+    void OnRightHitStay(BlockTilemap obj, RaycastHit2D hit) { }
+    void OnHitExit(BlockTilemap obj, RaycastHit2D hit) { }
+    void OnBottomHitExit(BlockTilemap obj, RaycastHit2D hit) { }
+    void OnTopHitExit(BlockTilemap obj, RaycastHit2D hit) { }
+    void OnLeftHitExit(BlockTilemap obj, RaycastHit2D hit) { }
+    void OnRightHitExit(BlockTilemap obj, RaycastHit2D hit) { }
+}
+
 # region 編集禁止
-public partial interface IExRbVisitor : IExRbVisitor<BlockTilemap>
-{ }
 public partial interface IStateExRbVisitor<T> : IStateExRbVisitor<T, BlockTilemap>
 { }
 public partial interface ISubStateExRbVisitor<T, PS> : ISubStateExRbVisitor<T, PS, BlockTilemap>

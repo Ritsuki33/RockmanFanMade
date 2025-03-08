@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 3441184939640542002}
   - component: {fileID: 3629008528181579886}
   - component: {fileID: 5950899104789406071}
+  - component: {fileID: 3910875094455656560}
   m_Layer: 16
   m_Name: GreenMan
   m_TagString: Untagged
@@ -150,6 +151,19 @@ MonoBehaviour:
   direct:
     _transform: {fileID: 5412021727086774027}
     forwardIsRight: 0
+--- !u!114 &3910875094455656560
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2946115964517513461}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a4758d776e32bd746946ac1c5adfe135, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  baseDamageValue: 6
 --- !u!1 &5532927641908652158
 GameObject:
   m_ObjectHideFlags: 0
@@ -160,7 +174,6 @@ GameObject:
   m_Component:
   - component: {fileID: 5371710468809663233}
   - component: {fileID: 5355417215810628789}
-  - component: {fileID: 7626684563294178792}
   m_Layer: 18
   m_Name: TriggerBody
   m_TagString: Untagged
@@ -228,19 +241,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1.041205, y: 1.25324}
   m_EdgeRadius: 0
---- !u!114 &7626684563294178792
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5532927641908652158}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a4758d776e32bd746946ac1c5adfe135, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  baseDamageValue: 6
 --- !u!1 &5620596311297198031
 GameObject:
   m_ObjectHideFlags: 0

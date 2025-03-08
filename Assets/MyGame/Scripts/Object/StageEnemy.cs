@@ -9,8 +9,6 @@ public class StageEnemy : PhysicalObject
 
     [SerializeField, Header("討伐後発生イベントを直接指定")] UnityEvent defeatEvent = default;
 
-    private Material material;
-
     public int MaxHp => (enemyData != null) ? enemyData.Hp : 3;
 
     public ParamStatus statusParam = null;
@@ -23,23 +21,36 @@ public class StageEnemy : PhysicalObject
         statusParam = new ParamStatus(MaxHp, MaxHp);
     }
 
-
-    public virtual void Damaged(RockBusterDamage damageVal)
+    public virtual void Damaged(PlayerAttack playerAttack)
     {
-        statusParam.OnDamage(damageVal.baseDamageValue);
+        statusParam.OnDamage(playerAttack.AttackPower);
+        if (statusParam.Hp <= 0)
+        {
+            Dead();
+        }
+        else
+        {
+            DamagedEffect();
+            AudioManager.Instance.PlaySe(SECueIDs.athit);
+        }
+    }
+
+    public virtual void Damaged(RockBuster rockBuster)
+    {
+        statusParam.OnDamage(rockBuster.AttackPower);
         if (statusParam.Hp <= 0)
         {
             Dead();
 
-            if (damageVal.baseDamageValue == 1)
+            if (rockBuster.Type == RockBuster.BusterType.Mame)
             {
-                damageVal.DeleteBuster();
+                rockBuster.Delete();
             }
         }
         else
         {
             DamagedEffect();
-            damageVal.DeleteBuster();
+            rockBuster.Delete();
 
             AudioManager.Instance.PlaySe(SECueIDs.athit);
         }
