@@ -2,12 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MenuGuageSelector : BaseSelector<SelectInfo>
+public class MenuGuageSelector : BaseSelector<GameMenuGaugeInfo>
 {
     [SerializeField] GameMenuGaugeBar gaugeBar;
 
     public GameMenuGaugeBar GaugeBar => gaugeBar;
-    protected override void OnSetup(SelectInfo data)
+    protected override void OnSetup(GameMenuGaugeInfo data)
     {
     }
 

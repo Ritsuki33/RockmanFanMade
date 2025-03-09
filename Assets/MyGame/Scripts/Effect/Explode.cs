@@ -6,21 +6,13 @@ public class Explode : AnimObject
 {
     [SerializeField] DamageBase damage = default;
 
-    BoxCollider2D boxCollider;
-    IObjectPool<Explode> pool = null;
+    [SerializeField] BoxCollider2D boxCollider;
 
-    //Action<Explode> _finishCallback = default;
     public enum Layer
     {
         PlayerAttack = 19,
         EnemyAttack = 20,
         None = 21,
-    }
-
-    protected override void Awake()
-    {
-        base.Awake();
-        boxCollider = GetComponent<BoxCollider2D>();
     }
 
     protected override void Init()
@@ -41,6 +33,7 @@ public class Explode : AnimObject
         boxCollider.enabled = true;
 
         gameObject.layer = (int)layer;
+        boxCollider.gameObject.layer = (int)layer;
         this.transform.position = position;
         damage.baseDamageValue = damageVal;
 

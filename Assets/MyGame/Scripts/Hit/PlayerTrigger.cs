@@ -28,8 +28,16 @@ public class PlayerTrigger : MonoBehaviour, IRbVisitable
 
 }
 
-public partial interface IRbVisitor : IRbVisitor<PlayerTrigger>
-{ }
+public partial interface IRbVisitor
+{
+    void OnTriggerEnter(PlayerTrigger collision) { }
+    void OnTriggerStay(PlayerTrigger collision) { }
+    void OnTriggerExit(PlayerTrigger collision) { }
+
+    void OnCollisionEnter(PlayerTrigger collision) { }
+    void OnCollisionStay(PlayerTrigger collision) { }
+    void OnCollisionExit(PlayerTrigger collision) { }
+}
 
 
 public partial interface IStateRbVisitor<T> : IStateRbVisitor<T, PlayerTrigger>

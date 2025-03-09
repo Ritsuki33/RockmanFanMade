@@ -4,8 +4,9 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody2D))]
 public class PhysicalObject : AnimObject
 {
-    [SerializeField]protected Rigidbody2D rb;
+    [SerializeField] protected Rigidbody2D rb;
 
+    public Rigidbody2D Rb => rb;
     protected override void OnPause(bool isPause)
     {
         base.OnPause(isPause);

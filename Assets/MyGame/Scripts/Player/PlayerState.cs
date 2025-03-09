@@ -94,7 +94,10 @@ public partial class StagePlayer
         {
             if (!player.invincible) player.Damaged(collision.baseDamageValue);
         }
-
+        protected override void OnTriggerEnter(StagePlayer player, SimpleProjectileComponent collision)
+        {
+            if (!player.invincible) player.Damaged(collision.AttackPower);
+        }
         // ==========================================
         class Basic : ExRbSubState<StagePlayer, Basic, Standing>
         {
@@ -108,7 +111,7 @@ public partial class StagePlayer
 
             protected override void Update(StagePlayer player, Standing parent)
             {
-                player.LaunchTrigger(player.inputInfo.fire, () => { parent.TransitSubReady((int)SubStateID.Shoot); });
+                player.paramStatus.CurrentWeapon.LaunchTrigger(player.inputInfo.fire, () => { parent.TransitSubReady((int)SubStateID.Shoot); });
             }
         }
 
@@ -133,7 +136,7 @@ public partial class StagePlayer
                     parent.TransitSubReady((int)SubStateID.Basic);
                 }
 
-                player.LaunchTrigger(player.inputInfo.fire, () => { time = 0.3f; });
+                player.paramStatus.CurrentWeapon.LaunchTrigger(player.inputInfo.fire, () => { time = 0.3f; });
                 time -= Time.deltaTime;
             }
         }
@@ -215,7 +218,10 @@ public partial class StagePlayer
         {
             if (!player.invincible) player.Damaged(collision.baseDamageValue);
         }
-
+        protected override void OnTriggerEnter(StagePlayer player, SimpleProjectileComponent collision)
+        {
+            if (!player.invincible) player.Damaged(collision.AttackPower);
+        }
         // ============================================================
         class Run : ExRbSubState<StagePlayer, Run, Running>
         {
@@ -229,7 +235,7 @@ public partial class StagePlayer
 
             protected override void Update(StagePlayer player, Running parent)
             {
-                player.LaunchTrigger(player.inputInfo.fire, () => { parent.TransitSubReady((int)SubStateID.Shoot); });
+                player.paramStatus.CurrentWeapon.LaunchTrigger(player.inputInfo.fire, () => { parent.TransitSubReady((int)SubStateID.Shoot); });
             }
         }
 
@@ -252,7 +258,7 @@ public partial class StagePlayer
                     parent.TransitSubReady((int)SubStateID.Run);
                 }
 
-                player.LaunchTrigger(player.inputInfo.fire, () => { time = 0.3f; });
+                player.paramStatus.CurrentWeapon.LaunchTrigger(player.inputInfo.fire, () => { time = 0.3f; });
                 time -= Time.deltaTime;
             }
         }
@@ -328,7 +334,10 @@ public partial class StagePlayer
         {
             if (!player.invincible) player.Damaged(collision.baseDamageValue);
         }
-
+        protected override void OnTriggerEnter(StagePlayer player, SimpleProjectileComponent collision)
+        {
+            if (!player.invincible) player.Damaged(collision.AttackPower);
+        }
         class Basic : ExRbSubState<StagePlayer, Basic, Floating>
         {
             protected override void Enter(StagePlayer player, Floating parent, int preId, int subId)
@@ -338,7 +347,7 @@ public partial class StagePlayer
 
             protected override void Update(StagePlayer player, Floating parent)
             {
-                player.LaunchTrigger(player.inputInfo.fire, () => { parent.TransitSubReady((int)SubStateID.Shoot); });
+                player.paramStatus.CurrentWeapon.LaunchTrigger(player.inputInfo.fire, () => { parent.TransitSubReady((int)SubStateID.Shoot); });
             }
         }
 
@@ -361,7 +370,7 @@ public partial class StagePlayer
                     parent.TransitSubReady((int)SubStateID.Basic);
                 }
 
-                player.LaunchTrigger(player.inputInfo.fire, () => { time = 0.15f; });
+                player.paramStatus.CurrentWeapon.LaunchTrigger(player.inputInfo.fire, () => { time = 0.15f; });
 
                 time -= Time.deltaTime;
             }
@@ -440,7 +449,10 @@ public partial class StagePlayer
         {
             if (!player.invincible) player.Damaged(collision.baseDamageValue);
         }
-
+        protected override void OnTriggerEnter(StagePlayer player, SimpleProjectileComponent collision)
+        {
+            if (!player.invincible) player.Damaged(collision.AttackPower);
+        }
         class Basic : ExRbSubState<StagePlayer, Basic, Jumping>
         {
             int animationHash = 0;
@@ -453,7 +465,7 @@ public partial class StagePlayer
 
             protected override void Update(StagePlayer player, Jumping parent)
             {
-                player.LaunchTrigger(player.inputInfo.fire, () => { parent.TransitSubReady((int)SubStateID.Shoot); });
+                player.paramStatus.CurrentWeapon.LaunchTrigger(player.inputInfo.fire, () => { parent.TransitSubReady((int)SubStateID.Shoot); });
             }
         }
 
@@ -476,7 +488,7 @@ public partial class StagePlayer
                     parent.TransitSubReady((int)SubStateID.Basic);
                 }
 
-                player.LaunchTrigger(player.inputInfo.fire, () => { time = 0.3f; });
+                player.paramStatus.CurrentWeapon.LaunchTrigger(player.inputInfo.fire, () => { time = 0.3f; });
 
                 time -= Time.deltaTime;
             }

@@ -59,9 +59,37 @@ public class #SCRIPTNAME# : MonoBehaviour, IRbVisitable, IExRbVisitable
     // ここから定義
 }
 
+// デフォルトを親クラスとして実行したいときはコメントを外して親クラス名を指定
+public partial interface IRbVisitor
+{
+    void OnTriggerEnter(#SCRIPTNAME# collision) { /*OnTriggerEnter(collision as #PARENTCLASSNAME#); */}
+    void OnTriggerStay(#SCRIPTNAME# collision) { /*OnTriggerStay(collision as #PARENTCLASSNAME#);*/ }
+    void OnTriggerExit(#SCRIPTNAME# collision) { /*OnTriggerExit(collision as #PARENTCLASSNAME#);*/ }
+
+    void OnCollisionEnter(#SCRIPTNAME# collision) { /*OnCollisionEnter(collision as #PARENTCLASSNAME#);*/ }
+    void OnCollisionStay(#SCRIPTNAME# collision) { /*OnCollisionStay(collision as #PARENTCLASSNAME#);*/ }
+    void OnCollisionExit(#SCRIPTNAME# collision) { /*OnCollisionExit(collision as #PARENTCLASSNAME#);*/ }
+}
+
+public partial interface IExRbVisitor {
+    void OnHitEnter(#SCRIPTNAME# obj, RaycastHit2D hit) {/*OnHitEnter(obj as #PARENTCLASSNAME#, hit);*/  }
+    void OnBottomHitEnter(#SCRIPTNAME# obj, RaycastHit2D hit) {/*OnBottomHitEnter(obj as #PARENTCLASSNAME#, hit);*/  }
+    void OnTopHitEnter(#SCRIPTNAME# obj, RaycastHit2D hit) {/*OnTopHitEnter(obj as #PARENTCLASSNAME#, hit);*/  }
+    void OnLeftHitEnter(#SCRIPTNAME# obj, RaycastHit2D hit) {/*OnLeftHitEnter(obj as #PARENTCLASSNAME#, hit);*/  }
+    void OnRightHitEnter(#SCRIPTNAME# obj, RaycastHit2D hit) {/*OnRightHitEnter(obj as #PARENTCLASSNAME#, hit);*/  }
+    void OnHitStay(#SCRIPTNAME# obj, RaycastHit2D hit) {/*OnHitStay(obj as #PARENTCLASSNAME#, hit);*/  }
+    void OnBottomHitStay(#SCRIPTNAME# obj, RaycastHit2D hit) {/*OnBottomHitStay(obj as #PARENTCLASSNAME#, hit);*/  }
+    void OnTopHitStay(#SCRIPTNAME# obj, RaycastHit2D hit) {/*OnTopHitStay(obj as #PARENTCLASSNAME#, hit);*/  }
+    void OnLeftHitStay(#SCRIPTNAME# obj, RaycastHit2D hit) {/*OnLeftHitStay(obj as #PARENTCLASSNAME#, hit);*/  }
+    void OnRightHitStay(#SCRIPTNAME# obj, RaycastHit2D hit) {/*OnRightHitStay(obj as #PARENTCLASSNAME#, hit);*/  }
+    void OnHitExit(#SCRIPTNAME# obj, RaycastHit2D hit) {/*OnHitExit(obj as #PARENTCLASSNAME#, hit);*/  }
+    void OnBottomHitExit(#SCRIPTNAME# obj, RaycastHit2D hit) {/*OnBottomHitExit(obj as #PARENTCLASSNAME#, hit);*/  }
+    void OnTopHitExit(#SCRIPTNAME# obj, RaycastHit2D hit) {/*OnTopHitExit(obj as #PARENTCLASSNAME#, hit);*/  }
+    void OnLeftHitExit(#SCRIPTNAME# obj, RaycastHit2D hit) {/*OnLeftHitExit(obj as #PARENTCLASSNAME#, hit);*/  }
+    void OnRightHitExit(#SCRIPTNAME# obj, RaycastHit2D hit) {/*OnRightHitExit(obj as #PARENTCLASSNAME#, hit);*/  }
+}
+
 # region 編集禁止
-public partial interface IRbVisitor : IRbVisitor<#SCRIPTNAME#>{ }
-public partial interface IExRbVisitor : IExRbVisitor<#SCRIPTNAME#>{ }
 public partial interface IStateRbVisitor<T> : IStateRbVisitor<T, #SCRIPTNAME#>{ }
 public partial interface IStateExRbVisitor<T> : IStateExRbVisitor<T, #SCRIPTNAME#>{ }
 public partial interface ISubStateRbVisitor<T, PS> : ISubStateRbVisitor<T, PS, #SCRIPTNAME#>{ }

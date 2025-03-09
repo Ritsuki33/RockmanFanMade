@@ -84,7 +84,7 @@ public partial class Mettoru : StageEnemy, IDirect, IHitEvent, IRbVisitor, IExRb
         m_stateMachine.Update(this);
     }
 
-    IEnumerator DefenseRockBuster(Projectile projectile)
+    IEnumerator DefenseRockBuster(RockBuster projectile)
     {
         Vector2 reflection = projectile.CurVelocity;
         float speed = projectile.CurSpeed;
@@ -110,7 +110,7 @@ public partial class Mettoru : StageEnemy, IDirect, IHitEvent, IRbVisitor, IExRb
     /// </summary>
     public void Fire()
     {
-        var fire = ObjectManager.Instance.OnGet<Projectile>(PoolType.MettoruFire);
+        var fire = ObjectManager.Instance.OnGet<SimpleProjectileComponent>(PoolType.MettoruFire);
         Vector2 direction = IsRight ? Vector2.right : Vector2.left;
         float speed = 5;
         fire.Setup(
@@ -125,23 +125,23 @@ public partial class Mettoru : StageEnemy, IDirect, IHitEvent, IRbVisitor, IExRb
            );
     }
 
-    public void Defense(RockBusterDamage collision)
+    public void Defense(RockBuster collision)
     {
-        if (collision.baseDamageValue == 1)
+        if (collision.AttackPower == 1)
         {
             ReflectBuster(collision);
         }
-        else if (collision.baseDamageValue > 1)
+        else if (collision.AttackPower > 1)
         {
-            collision.projectile.Delete();
+            collision.Delete();
         }
     }
 
 
-    public void ReflectBuster(RockBusterDamage collision)
+    public void ReflectBuster(RockBuster collision)
     {
         if (defense != null) StopCoroutine(defense);
-        defense = StartCoroutine(DefenseRockBuster(collision.projectile));
+        defense = StartCoroutine(DefenseRockBuster(collision));
     }
 
     public void TurnFace() => direct.TurnFace();
@@ -153,7 +153,12 @@ public partial class Mettoru : StageEnemy, IDirect, IHitEvent, IRbVisitor, IExRb
         rbCollide.OnTriggerEnter(this, collision);
     }
 
-    void IRbVisitor<RockBusterDamage>.OnTriggerEnter(RockBusterDamage damage)
+    void IRbVisitor.OnTriggerEnter(PlayerAttack damage)
+    {
+        m_stateMachine.OnTriggerEnter(this, damage);
+    }
+
+    void IRbVisitor.OnTriggerEnter(RockBuster damage)
     {
         m_stateMachine.OnTriggerEnter(this, damage);
     }

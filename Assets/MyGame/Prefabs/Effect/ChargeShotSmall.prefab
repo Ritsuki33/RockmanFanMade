@@ -146,14 +146,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 88640322734735704}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3a7b01ea1b7b4b5469f87aaa998e091a, type: 3}
+  m_Script: {fileID: 11500000, guid: 14fb7cb58105d59489660e75b7e274a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   outofCameraDelete: 1
   m_mainAnimator: {fileID: 9207079288770869027}
+  animSpeed: 1
   rb: {fileID: 7653836454619443432}
-  boxTrigger: {fileID: 9164642648087310750}
-  boxCollider: {fileID: 4889863036634415680}
+  type: 1
   direct:
     _transform: {fileID: 5736933279683153212}
     forwardIsRight: 1
@@ -167,7 +167,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4774041234754706059}
   - component: {fileID: 9164642648087310750}
-  - component: {fileID: 4644833936413011520}
   m_Layer: 19
   m_Name: TriggerBody
   m_TagString: ChargeShot
@@ -235,20 +234,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.35006213, y: 0.24955633}
   m_EdgeRadius: 0
---- !u!114 &4644833936413011520
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2349547040294884484}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 14fb7cb58105d59489660e75b7e274a6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  baseDamageValue: 2
-  projectile: {fileID: 8925780559723995537}
 --- !u!1 &8005054857083094304
 GameObject:
   m_ObjectHideFlags: 0

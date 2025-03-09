@@ -111,6 +111,19 @@ SpriteAtlas:
     - 502474f828fb9db4ca56c505cfc19cb9: -421492181
     - 502474f828fb9db4ca56c505cfc19cb9: 1104541803
     - 502474f828fb9db4ca56c505cfc19cb9: -710390951
+    - 99a43629b0de76a4aa2932e9ce4380f1: -464868180
+    - 99a43629b0de76a4aa2932e9ce4380f1: 80361784
+    - 99a43629b0de76a4aa2932e9ce4380f1: -794809950
+    - 99a43629b0de76a4aa2932e9ce4380f1: -2056843281
+    - 99a43629b0de76a4aa2932e9ce4380f1: 1460389324
+    - 99a43629b0de76a4aa2932e9ce4380f1: 1287676647
+    - 99a43629b0de76a4aa2932e9ce4380f1: 1119232603
+    - 99a43629b0de76a4aa2932e9ce4380f1: 2140557615
+    - 99a43629b0de76a4aa2932e9ce4380f1: 768926681
+    - 99a43629b0de76a4aa2932e9ce4380f1: 208827689
+    - 99a43629b0de76a4aa2932e9ce4380f1: 1816560366
+    - 99a43629b0de76a4aa2932e9ce4380f1: 1234859114
+    - 99a43629b0de76a4aa2932e9ce4380f1: -667337929
     - b4e32659cc36b924b911187243006f99: 21300000
     - db8b4cc9cdd55f144ac20bd18265c650: 21300000
     - 97c9d84a74f249f41927681664507357: 721507986
@@ -221,6 +234,19 @@ SpriteAtlas:
   - {fileID: -421492181, guid: 502474f828fb9db4ca56c505cfc19cb9, type: 3}
   - {fileID: 1104541803, guid: 502474f828fb9db4ca56c505cfc19cb9, type: 3}
   - {fileID: -710390951, guid: 502474f828fb9db4ca56c505cfc19cb9, type: 3}
+  - {fileID: -464868180, guid: 99a43629b0de76a4aa2932e9ce4380f1, type: 3}
+  - {fileID: 80361784, guid: 99a43629b0de76a4aa2932e9ce4380f1, type: 3}
+  - {fileID: -794809950, guid: 99a43629b0de76a4aa2932e9ce4380f1, type: 3}
+  - {fileID: -2056843281, guid: 99a43629b0de76a4aa2932e9ce4380f1, type: 3}
+  - {fileID: 1460389324, guid: 99a43629b0de76a4aa2932e9ce4380f1, type: 3}
+  - {fileID: 1287676647, guid: 99a43629b0de76a4aa2932e9ce4380f1, type: 3}
+  - {fileID: 1119232603, guid: 99a43629b0de76a4aa2932e9ce4380f1, type: 3}
+  - {fileID: 2140557615, guid: 99a43629b0de76a4aa2932e9ce4380f1, type: 3}
+  - {fileID: 768926681, guid: 99a43629b0de76a4aa2932e9ce4380f1, type: 3}
+  - {fileID: 208827689, guid: 99a43629b0de76a4aa2932e9ce4380f1, type: 3}
+  - {fileID: 1816560366, guid: 99a43629b0de76a4aa2932e9ce4380f1, type: 3}
+  - {fileID: 1234859114, guid: 99a43629b0de76a4aa2932e9ce4380f1, type: 3}
+  - {fileID: -667337929, guid: 99a43629b0de76a4aa2932e9ce4380f1, type: 3}
   - {fileID: 21300000, guid: b4e32659cc36b924b911187243006f99, type: 3}
   - {fileID: 21300000, guid: db8b4cc9cdd55f144ac20bd18265c650, type: 3}
   - {fileID: 721507986, guid: 97c9d84a74f249f41927681664507357, type: 3}
@@ -330,6 +356,19 @@ SpriteAtlas:
   - Lift1-Sheet_3
   - Lift1-Sheet_0
   - Lift1-Sheet_1
+  - Thunder_8
+  - Thunder_9
+  - Thunder_2
+  - Thunder_3
+  - Thunder_0
+  - Thunder_1
+  - Thunder_6
+  - Thunder_7
+  - Thunder_4
+  - Thunder_5
+  - Thunder_11
+  - Thunder_10
+  - Thunder_12
   - Needle
   - bulled
   - Tire-Sheet_2

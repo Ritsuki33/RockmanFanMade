@@ -207,6 +207,7 @@ GameObject:
   - component: {fileID: 3023601850290523613}
   - component: {fileID: 8056068072713770508}
   - component: {fileID: 5259320055156434993}
+  - component: {fileID: 4413717173420046743}
   m_Layer: 16
   m_Name: RocketMask
   m_TagString: Untagged
@@ -284,3 +285,16 @@ MonoBehaviour:
     _transform: {fileID: 3023601850290523613}
     forwardIsRight: 0
   animationEnvetController: {fileID: 1223415664573393821}
+--- !u!114 &4413717173420046743
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6154813334376968844}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a4758d776e32bd746946ac1c5adfe135, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  baseDamageValue: 5

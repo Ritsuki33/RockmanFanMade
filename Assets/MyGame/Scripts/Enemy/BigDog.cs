@@ -5,7 +5,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class BigDog : StageEnemy,IRbVisitor
+public class BigDog : StageEnemy, IRbVisitor
 {
     [SerializeField] Transform _mouth;
     [SerializeField] BoxCollider2D _boxPhysicalCollider;
@@ -27,7 +27,7 @@ public class BigDog : StageEnemy,IRbVisitor
         Death,
     }
 
-    RbStateMachine<BigDog> stateMachine=new RbStateMachine<BigDog>();
+    RbStateMachine<BigDog> stateMachine = new RbStateMachine<BigDog>();
     StagePlayer Player => WorldManager.Instance.Player;
 
     protected override void Awake()
@@ -62,7 +62,12 @@ public class BigDog : StageEnemy,IRbVisitor
         stateMachine.TransitReady((int)StateId.Death);
     }
 
-    void IRbVisitor<RockBusterDamage>.OnTriggerEnter(RockBusterDamage damage)
+    void IRbVisitor.OnTriggerEnter(PlayerAttack damage)
+    {
+        stateMachine.OnTriggerEnter(this, damage);
+    }
+
+    void IRbVisitor.OnTriggerEnter(RockBuster damage)
     {
         stateMachine.OnTriggerEnter(this, damage);
     }
@@ -78,7 +83,7 @@ public class BigDog : StageEnemy,IRbVisitor
         protected override void Enter(BigDog ctr, int preId, int subId)
         {
             ctr.MainAnimator.Play(animationHash);
-            ctr.timer.Start(1, 3);
+            ctr.timer.Start(0.2f, 0.7f);
         }
 
         protected override void Update(BigDog ctr)
@@ -101,7 +106,12 @@ public class BigDog : StageEnemy,IRbVisitor
                 );
         }
 
-        protected override void OnTriggerEnter(BigDog ctr, RockBusterDamage collision)
+        protected override void OnTriggerEnter(BigDog ctr, PlayerAttack collision)
+        {
+            ctr.Damaged(collision);
+        }
+
+        protected override void OnTriggerEnter(BigDog ctr, RockBuster collision)
         {
             ctr.Damaged(collision);
         }
@@ -111,26 +121,24 @@ public class BigDog : StageEnemy,IRbVisitor
     class Fire : RbState<BigDog, Fire>
     {
         static int animationHash = Animator.StringToHash("Fire");
+        Coroutine coroutine = null;
 
-        bool finished = false;
         protected override void Enter(BigDog ctr, int preId, int subId)
         {
             ctr.MainAnimator.Play(animationHash);
-            ctr.timer.Start(1, 1);
-            finished = false;
-
-            ctr.StartCoroutine(StartFire());
+            ctr.timer.Start(0.5f, 0.5f);
+            coroutine = ctr.StartCoroutine(StartFire());
 
             IEnumerator StartFire()
             {
                 int count = 0;
-                while (count < 7)
+                while (count < 5)
                 {
                     float time = 0;
-                    var projectile = ObjectManager.Instance.OnGet<Projectile>(PoolType.Fire);
+                    var projectile = ObjectManager.Instance.OnGet<SimpleProjectileComponent>(PoolType.Fire);
                     Vector2 mouthPos = ctr._mouth.position;
                     Vector2 pointA = ctr.pointA.position;
-                    Vector2 pointB = WorldManager.Instance.Player.transform.position;
+                    Vector2 pointB = ctr.pointB.position;
                     projectile.Setup(
                         new Vector3(ctr._mouth.position.x, ctr._mouth.position.y, -1),
                          false,
@@ -143,17 +151,16 @@ public class BigDog : StageEnemy,IRbVisitor
                          },
                          null
                         );
-                    yield return PauseManager.Instance.PausableWaitForSeconds(0.07f);
+                    yield return PauseManager.Instance.PausableWaitForSeconds(0.12f);
                     count++;
                 }
-
-                finished = true;
+                coroutine = null;
             }
         }
 
         protected override void Update(BigDog ctr)
         {
-            if (finished)
+            if (coroutine == null)
             {
                 ctr.timer.MoveAheadTime(Time.deltaTime,
                     () =>
@@ -164,7 +171,12 @@ public class BigDog : StageEnemy,IRbVisitor
             }
         }
 
-        protected override void OnTriggerEnter(BigDog ctr, RockBusterDamage collision)
+        protected override void OnTriggerEnter(BigDog ctr, PlayerAttack collision)
+        {
+            ctr.Damaged(collision);
+        }
+
+        protected override void OnTriggerEnter(BigDog ctr, RockBuster collision)
         {
             ctr.Damaged(collision);
         }
@@ -205,20 +217,22 @@ public class BigDog : StageEnemy,IRbVisitor
 
         class Fire : RbSubState<BigDog, Fire, TailFire>
         {
+            Vector2 targetPos;
             protected override void Enter(BigDog ctr, TailFire parent, int preId, int subId)
             {
                 float gravityScale = 1;
 
                 AudioManager.Instance.PlaySe(SECueIDs.explosion);
 
-                var bom = ObjectManager.Instance.OnGet<Projectile>(PoolType.Bom);
+                var bom = ObjectManager.Instance.OnGet<SimpleProjectileComponent>(PoolType.Bom);
+                if (ctr.Player != null) targetPos = ctr.Player.transform.position;
                 bom.Setup(
                     new Vector3(ctr._tale.position.x, ctr._tale.position.y, -1),
                     false,
                     3,
                     (rb) =>
                     {
-                        Vector2 startVec = ParabolicBehaviorHelper.Start(ctr.Player.transform.position, ctr._tale.position, 60, gravityScale, () => { Debug.Log("発射失敗"); });
+                        Vector2 startVec = ParabolicBehaviorHelper.Start(targetPos, ctr._tale.position, 60, gravityScale, () => { Debug.Log("発射失敗"); });
                         rb.velocity = startVec;
                     },
                     (rb) =>
@@ -232,22 +246,23 @@ public class BigDog : StageEnemy,IRbVisitor
                         GameMainManager.Instance.StartCoroutine(ExplodeCo());
                         IEnumerator ExplodeCo()
                         {
-                            var explode=ObjectManager.Instance.OnGet<Explode>(PoolType.Explode);
-                            explode.Setup(Explode.Layer.EnemyAttack, projectile.transform.position, 3);
+                            Vector3 exlpodePos = projectile.transform.position;
+                            var explode = ObjectManager.Instance.OnGet<Explode>(PoolType.Explode);
+                            explode.Setup(Explode.Layer.EnemyAttack, exlpodePos, 3);
 
                             yield return PauseManager.Instance.PausableWaitForSeconds(0.1f);
                             var explode1 = ObjectManager.Instance.OnGet<Explode>(PoolType.Explode);
-                            explode1.Setup(Explode.Layer.EnemyAttack, projectile.transform.position + Vector3.up, 3);
+                            explode1.Setup(Explode.Layer.EnemyAttack, exlpodePos + Vector3.up * 1.5f, 3);
                             var explode2 = ObjectManager.Instance.OnGet<Explode>(PoolType.Explode);
-                            explode2.Setup(Explode.Layer.EnemyAttack, projectile.transform.position + Vector3.down, 3);
+                            explode2.Setup(Explode.Layer.EnemyAttack, exlpodePos + Vector3.down * 1.5f, 3);
                             var explode3 = ObjectManager.Instance.OnGet<Explode>(PoolType.Explode);
-                            explode3.Setup(Explode.Layer.EnemyAttack, projectile.transform.position + Vector3.right, 3);
+                            explode3.Setup(Explode.Layer.EnemyAttack, exlpodePos + Vector3.right * 1.5f, 3);
                             var explode4 = ObjectManager.Instance.OnGet<Explode>(PoolType.Explode);
-                            explode4.Setup(Explode.Layer.EnemyAttack, projectile.transform.position + Vector3.left, 3);
+                            explode4.Setup(Explode.Layer.EnemyAttack, exlpodePos + Vector3.left * 1.5f, 3);
                         }
                     }
                     );
-                ctr.timer.Start(1, 1);
+                ctr.timer.Start(0.5f, 0.5f);
             }
 
             protected override void Update(BigDog ctr, TailFire parent)
@@ -262,7 +277,12 @@ public class BigDog : StageEnemy,IRbVisitor
 
         }
 
-        protected override void OnTriggerEnter(BigDog ctr, RockBusterDamage collision)
+        protected override void OnTriggerEnter(BigDog ctr, PlayerAttack collision)
+        {
+            ctr.Damaged(collision);
+        }
+
+        protected override void OnTriggerEnter(BigDog ctr, RockBuster collision)
         {
             ctr.Damaged(collision);
         }

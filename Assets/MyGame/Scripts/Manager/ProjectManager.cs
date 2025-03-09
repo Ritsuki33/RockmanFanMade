@@ -13,6 +13,7 @@ public class ProjectManager : SingletonComponent<ProjectManager>
     public RuntimeDataHolder RDH => rdh;
     private void Start()
     {
+        rdh.Initialize();
         DontDestroyOnLoad(gameObject);
     }
 }

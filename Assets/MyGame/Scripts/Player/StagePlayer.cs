@@ -9,8 +9,6 @@ using UnityEngine.Playables;
 public partial class StagePlayer : PhysicalObject, IDirect, IBeltConveyorVelocity, IRbVisitor, IHitEvent, IExRbVisitor
 {
     [SerializeField] ExpandRigidBody exRb;
-    [Header("プレイヤー情報")]
-    // [SerializeField] int maxHp = 27;
     [SerializeField] SpriteRenderer spriteRenderer;
     [SerializeField] int mameMax = 3;
     [SerializeField] Gravity gravity;
@@ -18,10 +16,15 @@ public partial class StagePlayer : PhysicalObject, IDirect, IBeltConveyorVelocit
     [SerializeField] Jump jump;
     [SerializeField] Direct direct;
     [SerializeField] CameraBoundLimiter cameraBoundLimiter;
-    ExRbStateMachine<StagePlayer> m_mainStateMachine = new ExRbStateMachine<StagePlayer>();
-    StateMachine<StagePlayer> m_chargeStateMachine = new StateMachine<StagePlayer>();
 
-    public ParamStatus paramStatus = new ParamStatus(0, 27);
+    [SerializeField] Animator m_charge_animator;
+    [SerializeField] Transform launcher;
+
+    ExRbStateMachine<StagePlayer> m_mainStateMachine = new ExRbStateMachine<StagePlayer>();
+    // StateMachine<StagePlayer> m_chargeStateMachine = new StateMachine<StagePlayer>();
+
+    public PlayerParamStatus paramStatus = new PlayerParamStatus(0, 27);
+    public PlayerWeaponStatus playerWeaponStatus = new PlayerWeaponStatus();
 
     Collider2D bodyLadder = null;
 
@@ -46,6 +49,20 @@ public partial class StagePlayer : PhysicalObject, IDirect, IBeltConveyorVelocit
     RaycastHit2D bottomHit = default;
 
     Ground curGround = default;
+
+
+
+    readonly int rimLightColorId = Shader.PropertyToID("_RimLightColor");
+    readonly int FadeLightId = Shader.PropertyToID("_FadeLight");
+    readonly int ChangeColorId = Shader.PropertyToID("_ChangeColor");
+    readonly int ChangeColor2Id = Shader.PropertyToID("_ChangeColor2");
+
+    Coroutine chargingCo = default;
+
+    float chargeAnimSpeed;
+
+    public CriAtomExPlayback chargePlayback = default;
+
     enum Main_StateID
     {
         Standing = 0,
@@ -96,13 +113,11 @@ public partial class StagePlayer : PhysicalObject, IDirect, IBeltConveyorVelocit
         exRbHit.CacheClear();
         rbCollide.CacheClear();
 
-        m_chargeStateMachine.Clear();
-        // チャージの状態セット
-        m_chargeStateMachine.AddState((int)Chage_StateID.None, new None());
-        m_chargeStateMachine.AddState((int)Chage_StateID.ChargeSmall, new ChargeSmall());
-        m_chargeStateMachine.AddState((int)Chage_StateID.ChargeMiddle, new ChargeMiddle());
-        m_chargeStateMachine.AddState((int)Chage_StateID.ChargeBig, new ChargeBig());
+
         chargeAnimSpeed = m_charge_animator.speed;
+
+        paramStatus.Initialize(this);
+        playerWeaponStatus.Initialize(this);
     }
 
     protected override void Init()
@@ -111,22 +126,25 @@ public partial class StagePlayer : PhysicalObject, IDirect, IBeltConveyorVelocit
 
         invincible = false;
         isDead = false;
-        ChargeInit();
 
         bottomHit = default;
         curGround = default;
+        paramStatus.ChangeWeaponCallback += ChangePlayerColor;
+        paramStatus.OnChangeWeapon(PlayerWeaponType.RockBuster);
+        paramStatus.CurrentWeapon.ChargeInit();
     }
 
     protected override void Destroy()
     {
         exRb.DeleteCache();
-        ChargeInit();
+        paramStatus.ChangeWeaponCallback -= ChangePlayerColor;
+        paramStatus.CurrentWeapon.ChargeInit();
     }
 
     protected override void OnFixedUpdate()
     {
         m_mainStateMachine.FixedUpdate(this);
-        m_chargeStateMachine.FixedUpdate(this);
+        // m_chargeStateMachine.FixedUpdate(this);
     }
 
     protected override void OnLateFixedUpdate()
@@ -142,13 +160,14 @@ public partial class StagePlayer : PhysicalObject, IDirect, IBeltConveyorVelocit
     protected override void OnUpdate()
     {
         m_mainStateMachine.Update(this);
-        m_chargeStateMachine.Update(this);
+        paramStatus.CurrentWeapon.Update();
+        // m_chargeStateMachine.Update(this);
     }
 
     protected override void OnLateUpdate()
     {
         if (m_mainStateMachine.CurId < (int)Main_StateID.WarpIn
-            && m_mainStateMachine.CurId > (int)Main_StateID.WarpOut)
+            || m_mainStateMachine.CurId > (int)Main_StateID.WarpOut)
             cameraBoundLimiter.ForceAdjustPosition(boxPhysicalCollider);
     }
 
@@ -363,47 +382,96 @@ public partial class StagePlayer : PhysicalObject, IDirect, IBeltConveyorVelocit
 
     Vector2 IBeltConveyorVelocity.velocity { get => exRb.velocity; set => exRb.velocity = value; }
 
-    void IRbVisitor<DamageBase>.OnTriggerEnter(DamageBase damage)
+    void IRbVisitor.OnTriggerEnter(DamageBase damage)
     {
         m_mainStateMachine.OnTriggerStay(this, damage);
     }
 
-    void IRbVisitor<Recovery>.OnTriggerEnter(Recovery recovery)
+    void IRbVisitor.OnTriggerEnter(SimpleProjectileComponent damage)
+    {
+        m_mainStateMachine.OnTriggerStay(this, damage);
+    }
+
+    void IRbVisitor.OnTriggerEnter(Recovery recovery)
     {
         RecoverHp(recovery.Amount);
         recovery.gameObject.SetActive(false);
     }
 
-    void IExRbVisitor<Ground>.OnBottomHitStay(Ground ground, RaycastHit2D hit)
+    void IExRbVisitor.OnBottomHitStay(Ground ground, RaycastHit2D hit)
     {
         curGround = ground;
     }
 
-    void IExRbVisitor<Ground>.OnBottomHitExit(Ground ground, RaycastHit2D hit)
+    void IExRbVisitor.OnBottomHitExit(Ground ground, RaycastHit2D hit)
     {
         curGround = default;
     }
 
-    void IExRbVisitor<BeltConveyor>.OnBottomHitStay(BeltConveyor beltConveyor, RaycastHit2D hit)
+    void IExRbVisitor.OnBottomHitStay(BeltConveyor beltConveyor, RaycastHit2D hit)
     {
         beltConveyor.GetOn(this);
     }
 
-    void IExRbVisitor<DamageBase>.OnHitStay(DamageBase damage, RaycastHit2D hit)
+    void IExRbVisitor.OnHitStay(DamageBase damage, RaycastHit2D hit)
     {
         m_mainStateMachine.OnTriggerStay(this, damage);
     }
 
-    void IExRbVisitor<Tire>.OnBottomHitStay(Tire tire, RaycastHit2D hit)
+    void IExRbVisitor.OnBottomHitStay(Tire tire, RaycastHit2D hit)
     {
         jump.Init(tire.JumpPower);
         m_mainStateMachine.TransitReady((int)Main_StateID.Jumping);
         tire.OnSteppedOn();
     }
 
-    void IExRbVisitor<BlockTilemap>.OnTopHitEnter(BlockTilemap map, RaycastHit2D hit)
+    void IExRbVisitor.OnTopHitEnter(BlockTilemap map, RaycastHit2D hit)
     {
         map.BreakTileAt(hit.point - hit.normal * 0.01f);    // hit.pointだけではタイルがヒットしないので法線を使って微調整
+    }
+
+    public void StopRimLight()
+    {
+        if (chargingCo != null) StopCoroutine(chargingCo);
+        MainMaterial.SetFloat(FadeLightId, 0);
+        chargingCo = null;
+    }
+
+    public void LimLightChaging()
+    {
+        if (chargingCo != null) StopCoroutine(chargingCo);
+
+        chargingCo = StartCoroutine(ChagingMiddleCo());
+        IEnumerator ChagingMiddleCo()
+        {
+            if (ColorUtility.TryParseHtmlString("#81C3FF", out Color color))
+            {
+                MainMaterial.SetColor(rimLightColorId, color);
+                while (true)
+                {
+                    MainMaterial.SetFloat(FadeLightId, 1);
+
+                    yield return PauseManager.Instance.PausableWaitForSeconds(0.05f);
+
+                    MainMaterial.SetFloat(FadeLightId, 0);
+
+                    yield return PauseManager.Instance.PausableWaitForSeconds(0.05f);
+                }
+            }
+        }
+    }
+
+    /// <summary>
+    /// プレイヤーカラーチェンジ
+    /// </summary>
+    /// <param name="weapon"></param>
+    /// <param name="color1"></param>
+    /// <param name="color2"></param>
+    public void ChangePlayerColor(PlayerWeaponData weaponData)
+    {
+        // プレイヤーの配色を変更
+        this.MainMaterial.SetColor(ChangeColorId, weaponData.Color1);
+        this.MainMaterial.SetColor(ChangeColor2Id, weaponData.Color2);
     }
 
     #region IHitEvent
@@ -503,4 +571,9 @@ public partial class StagePlayer : PhysicalObject, IDirect, IBeltConveyorVelocit
         exRbHit.OnRightHitExit(this, hit);
     }
     #endregion
+
+
+    public Animator ChargeAnimator => m_charge_animator;
+
+    public Transform Launcher => launcher;
 }

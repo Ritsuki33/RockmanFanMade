@@ -5,12 +5,12 @@ using UnityEngine;
 public struct GameMenuGaugeInfo
 {
     public int id;
-    public string text;
+    public PlayerWeaponType weaponType;
 }
 
 
 
-public class GameMenuGaugeSelectController : VirticalSelectContoller<MenuGuageSelector, SelectInfo>
+public class GameMenuGaugeSelectController : VirticalSelectContoller<MenuGuageSelector, GameMenuGaugeInfo>
 {
     public override void DisplayCursor() { }
 }

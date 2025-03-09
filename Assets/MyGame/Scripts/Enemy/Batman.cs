@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class Batman : StageEnemy,IHitEvent, IRbVisitor,IExRbVisitor
+public class Batman : StageEnemy, IHitEvent, IRbVisitor, IExRbVisitor
 {
     [SerializeField] ExpandRigidBody exRb;
     ExRbStateMachine<Batman> mainStateMachine = new ExRbStateMachine<Batman>();
@@ -64,7 +64,7 @@ public class Batman : StageEnemy,IHitEvent, IRbVisitor,IExRbVisitor
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        rbCollide.OnTriggerEnter(this,collision);
+        rbCollide.OnTriggerEnter(this, collision);
     }
 
     void IHitEvent.OnTopHitEnter(RaycastHit2D hit)
@@ -72,12 +72,12 @@ public class Batman : StageEnemy,IHitEvent, IRbVisitor,IExRbVisitor
         mainStateMachine.OnTopHitEnter(this, hit);
     }
 
-    void IRbVisitor<RockBusterDamage>.OnTriggerEnter(RockBusterDamage collision)
+    void IRbVisitor.OnTriggerEnter(RockBuster collision)
     {
         mainStateMachine.OnTriggerEnter(this, collision);
     }
 
-    void IRbVisitor<PlayerTrigger>.OnTriggerEnter(PlayerTrigger collision)
+    void IRbVisitor.OnTriggerEnter(PlayerTrigger collision)
     {
         mainStateMachine.OnTriggerEnter(this, collision);
     }
@@ -103,7 +103,7 @@ public class Batman : StageEnemy,IHitEvent, IRbVisitor,IExRbVisitor
             }
             , true);
         }
-        protected override void OnTriggerEnter(Batman batman, RockBusterDamage collision)
+        protected override void OnTriggerEnter(Batman batman, RockBuster collision)
         {
             batman.Damaged(collision);
         }
@@ -130,7 +130,7 @@ public class Batman : StageEnemy,IHitEvent, IRbVisitor,IExRbVisitor
             }
         }
 
-        protected override void OnTriggerEnter(Batman batman, RockBusterDamage collision)
+        protected override void OnTriggerEnter(Batman batman, RockBuster collision)
         {
             batman.Damaged(collision);
         }
@@ -153,7 +153,7 @@ public class Batman : StageEnemy,IHitEvent, IRbVisitor,IExRbVisitor
             batman.exRb.velocity = speed * move.normalized;
         }
 
-        protected override void OnTriggerEnter(Batman batman, RockBusterDamage collision)
+        protected override void OnTriggerEnter(Batman batman, RockBuster collision)
         {
             batman.Damaged(collision);
         }
@@ -187,7 +187,7 @@ public class Batman : StageEnemy,IHitEvent, IRbVisitor,IExRbVisitor
             batman.mainStateMachine.TransitReady((int)StateID.Idle);
         }
 
-        protected override void OnTriggerEnter(Batman batman, RockBusterDamage collision)
+        protected override void OnTriggerEnter(Batman batman, RockBuster collision)
         {
             batman.Damaged(collision);
         }
