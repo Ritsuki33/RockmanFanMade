@@ -167,7 +167,7 @@ public partial class StagePlayer : PhysicalObject, IDirect, IBeltConveyorVelocit
     protected override void OnLateUpdate()
     {
         if (m_mainStateMachine.CurId < (int)Main_StateID.WarpIn
-            && m_mainStateMachine.CurId > (int)Main_StateID.WarpOut)
+            || m_mainStateMachine.CurId > (int)Main_StateID.WarpOut)
             cameraBoundLimiter.ForceAdjustPosition(boxPhysicalCollider);
     }
 
