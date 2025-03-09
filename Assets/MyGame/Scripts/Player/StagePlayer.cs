@@ -387,6 +387,11 @@ public partial class StagePlayer : PhysicalObject, IDirect, IBeltConveyorVelocit
         m_mainStateMachine.OnTriggerStay(this, damage);
     }
 
+    void IRbVisitor.OnTriggerEnter(SimpleProjectileComponent damage)
+    {
+        m_mainStateMachine.OnTriggerStay(this, damage);
+    }
+
     void IRbVisitor.OnTriggerEnter(Recovery recovery)
     {
         RecoverHp(recovery.Amount);

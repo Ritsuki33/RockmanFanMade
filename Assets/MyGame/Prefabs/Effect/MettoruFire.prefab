@@ -271,7 +271,6 @@ GameObject:
   - component: {fileID: 7931631627222397922}
   - component: {fileID: 5120203927495478303}
   - component: {fileID: 2065087388781239814}
-  - component: {fileID: 5638877901090912849}
   m_Layer: 20
   m_Name: MettoruFire
   m_TagString: Untagged
@@ -343,16 +342,3 @@ MonoBehaviour:
   direct:
     _transform: {fileID: 7931631627222397922}
     forwardIsRight: 0
---- !u!114 &5638877901090912849
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7853139695464942195}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a4758d776e32bd746946ac1c5adfe135, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  baseDamageValue: 3

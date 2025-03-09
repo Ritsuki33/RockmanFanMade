@@ -252,13 +252,13 @@ public class BigDog : StageEnemy, IRbVisitor
 
                             yield return PauseManager.Instance.PausableWaitForSeconds(0.1f);
                             var explode1 = ObjectManager.Instance.OnGet<Explode>(PoolType.Explode);
-                            explode1.Setup(Explode.Layer.EnemyAttack, projectile.transform.position + Vector3.up, 3);
+                            explode1.Setup(Explode.Layer.EnemyAttack, projectile.transform.position + Vector3.up * 1.5f, 3);
                             var explode2 = ObjectManager.Instance.OnGet<Explode>(PoolType.Explode);
-                            explode2.Setup(Explode.Layer.EnemyAttack, projectile.transform.position + Vector3.down, 3);
+                            explode2.Setup(Explode.Layer.EnemyAttack, projectile.transform.position + Vector3.down * 1.5f, 3);
                             var explode3 = ObjectManager.Instance.OnGet<Explode>(PoolType.Explode);
-                            explode3.Setup(Explode.Layer.EnemyAttack, projectile.transform.position + Vector3.right, 3);
+                            explode3.Setup(Explode.Layer.EnemyAttack, projectile.transform.position + Vector3.right * 1.5f, 3);
                             var explode4 = ObjectManager.Instance.OnGet<Explode>(PoolType.Explode);
-                            explode4.Setup(Explode.Layer.EnemyAttack, projectile.transform.position + Vector3.left, 3);
+                            explode4.Setup(Explode.Layer.EnemyAttack, projectile.transform.position + Vector3.left * 1.5f, 3);
                         }
                     }
                     );

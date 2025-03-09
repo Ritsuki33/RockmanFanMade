@@ -94,7 +94,10 @@ public partial class StagePlayer
         {
             if (!player.invincible) player.Damaged(collision.baseDamageValue);
         }
-
+        protected override void OnTriggerEnter(StagePlayer player, SimpleProjectileComponent collision)
+        {
+            if (!player.invincible) player.Damaged(collision.AttackPower);
+        }
         // ==========================================
         class Basic : ExRbSubState<StagePlayer, Basic, Standing>
         {
@@ -215,7 +218,10 @@ public partial class StagePlayer
         {
             if (!player.invincible) player.Damaged(collision.baseDamageValue);
         }
-
+        protected override void OnTriggerEnter(StagePlayer player, SimpleProjectileComponent collision)
+        {
+            if (!player.invincible) player.Damaged(collision.AttackPower);
+        }
         // ============================================================
         class Run : ExRbSubState<StagePlayer, Run, Running>
         {
@@ -328,7 +334,10 @@ public partial class StagePlayer
         {
             if (!player.invincible) player.Damaged(collision.baseDamageValue);
         }
-
+        protected override void OnTriggerEnter(StagePlayer player, SimpleProjectileComponent collision)
+        {
+            if (!player.invincible) player.Damaged(collision.AttackPower);
+        }
         class Basic : ExRbSubState<StagePlayer, Basic, Floating>
         {
             protected override void Enter(StagePlayer player, Floating parent, int preId, int subId)
@@ -440,7 +449,10 @@ public partial class StagePlayer
         {
             if (!player.invincible) player.Damaged(collision.baseDamageValue);
         }
-
+        protected override void OnTriggerEnter(StagePlayer player, SimpleProjectileComponent collision)
+        {
+            if (!player.invincible) player.Damaged(collision.AttackPower);
+        }
         class Basic : ExRbSubState<StagePlayer, Basic, Jumping>
         {
             int animationHash = 0;

@@ -24,18 +24,10 @@ public class SimpleProjectileComponent : PhysicalObject, IDirect, IRbVisitable
     #endregion
 
     // ここから定義
-    private SimpleProjectile<SimpleProjectileComponent> simpleProjectile;
     [SerializeField] private Direct direct;
-    // [SerializeField] private Direct direct;
-    // Action<Rigidbody2D> fixedUpdate;
+    private SimpleProjectile<SimpleProjectileComponent> simpleProjectile;
+    public int AttackPower => simpleProjectile.AttackPower;
 
-    // Action<Projectile> onCollision;
-
-    // int attackPower = 1;
-
-    // public int AttackPower => attackPower;
-    // public Vector2 CurVelocity => rb.velocity;
-    // public float CurSpeed => rb.velocity.magnitude;
 
     protected override void Awake()
     {
