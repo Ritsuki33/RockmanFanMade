@@ -235,6 +235,7 @@ MonoBehaviour:
   m_mainAnimator: {fileID: 5273433326026941729}
   animSpeed: 1
   damage: {fileID: 7495311639948491161}
+  boxCollider: {fileID: 7916921299528311278}
 --- !u!61 &3977287986553611516
 BoxCollider2D:
   m_ObjectHideFlags: 0
