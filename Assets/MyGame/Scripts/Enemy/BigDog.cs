@@ -132,7 +132,7 @@ public class BigDog : StageEnemy, IRbVisitor
             IEnumerator StartFire()
             {
                 int count = 0;
-                while (count < 7)
+                while (count < 5)
                 {
                     float time = 0;
                     var projectile = ObjectManager.Instance.OnGet<SimpleProjectileComponent>(PoolType.Fire);
@@ -151,7 +151,7 @@ public class BigDog : StageEnemy, IRbVisitor
                          },
                          null
                         );
-                    yield return PauseManager.Instance.PausableWaitForSeconds(0.07f);
+                    yield return PauseManager.Instance.PausableWaitForSeconds(0.12f);
                     count++;
                 }
                 coroutine = null;
