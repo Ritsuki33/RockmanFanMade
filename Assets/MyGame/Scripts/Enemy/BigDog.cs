@@ -83,7 +83,7 @@ public class BigDog : StageEnemy, IRbVisitor
         protected override void Enter(BigDog ctr, int preId, int subId)
         {
             ctr.MainAnimator.Play(animationHash);
-            ctr.timer.Start(1, 3);
+            ctr.timer.Start(0.2f, 0.7f);
         }
 
         protected override void Update(BigDog ctr)
@@ -121,15 +121,13 @@ public class BigDog : StageEnemy, IRbVisitor
     class Fire : RbState<BigDog, Fire>
     {
         static int animationHash = Animator.StringToHash("Fire");
+        Coroutine coroutine = null;
 
-        bool finished = false;
         protected override void Enter(BigDog ctr, int preId, int subId)
         {
             ctr.MainAnimator.Play(animationHash);
-            ctr.timer.Start(1, 1);
-            finished = false;
-
-            ctr.StartCoroutine(StartFire());
+            ctr.timer.Start(0.5f, 0.5f);
+            coroutine = ctr.StartCoroutine(StartFire());
 
             IEnumerator StartFire()
             {
@@ -140,7 +138,7 @@ public class BigDog : StageEnemy, IRbVisitor
                     var projectile = ObjectManager.Instance.OnGet<SimpleProjectileComponent>(PoolType.Fire);
                     Vector2 mouthPos = ctr._mouth.position;
                     Vector2 pointA = ctr.pointA.position;
-                    Vector2 pointB = WorldManager.Instance.Player.transform.position;
+                    Vector2 pointB = ctr.pointB.position;
                     projectile.Setup(
                         new Vector3(ctr._mouth.position.x, ctr._mouth.position.y, -1),
                          false,
@@ -156,14 +154,13 @@ public class BigDog : StageEnemy, IRbVisitor
                     yield return PauseManager.Instance.PausableWaitForSeconds(0.07f);
                     count++;
                 }
-
-                finished = true;
+                coroutine = null;
             }
         }
 
         protected override void Update(BigDog ctr)
         {
-            if (finished)
+            if (coroutine == null)
             {
                 ctr.timer.MoveAheadTime(Time.deltaTime,
                     () =>
@@ -220,6 +217,7 @@ public class BigDog : StageEnemy, IRbVisitor
 
         class Fire : RbSubState<BigDog, Fire, TailFire>
         {
+            Vector2 targetPos;
             protected override void Enter(BigDog ctr, TailFire parent, int preId, int subId)
             {
                 float gravityScale = 1;
@@ -227,13 +225,14 @@ public class BigDog : StageEnemy, IRbVisitor
                 AudioManager.Instance.PlaySe(SECueIDs.explosion);
 
                 var bom = ObjectManager.Instance.OnGet<SimpleProjectileComponent>(PoolType.Bom);
+                if (ctr.Player != null) targetPos = ctr.Player.transform.position;
                 bom.Setup(
                     new Vector3(ctr._tale.position.x, ctr._tale.position.y, -1),
                     false,
                     3,
                     (rb) =>
                     {
-                        Vector2 startVec = ParabolicBehaviorHelper.Start(ctr.Player.transform.position, ctr._tale.position, 60, gravityScale, () => { Debug.Log("発射失敗"); });
+                        Vector2 startVec = ParabolicBehaviorHelper.Start(targetPos, ctr._tale.position, 60, gravityScale, () => { Debug.Log("発射失敗"); });
                         rb.velocity = startVec;
                     },
                     (rb) =>
@@ -262,7 +261,7 @@ public class BigDog : StageEnemy, IRbVisitor
                         }
                     }
                     );
-                ctr.timer.Start(1, 1);
+                ctr.timer.Start(0.5f, 0.5f);
             }
 
             protected override void Update(BigDog ctr, TailFire parent)
