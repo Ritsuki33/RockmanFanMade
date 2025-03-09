@@ -4,7 +4,7 @@ using UnityEngine;
 
 public enum PlayerWeaponType
 {
-    RockBuster,
+    RockBuster = 0,
     ThunderBolt,
 }
 

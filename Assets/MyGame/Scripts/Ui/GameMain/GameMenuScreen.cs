@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
@@ -20,9 +21,8 @@ public class GameMenuScreen : BaseScreen<GameMenuScreen, GameMenuScreenPresenter
     public GameMenuGaugeSelectController GaugeSelectController => gaugeSelectController;
     public ItemSelectController ItemSelectController => itemSelectController;
 
-    public GameMenuGaugeBar PlayerHpBar => gaugeSelectController.Selects[(int)Gauge.PlayerHp].GaugeBar;
-    public GameMenuGaugeBar ThunderBoltBar => gaugeSelectController.Selects[(int)Gauge.ThunderBolt].GaugeBar;
-
+    public GameMenuGaugeBar PlayerHpBar => gaugeSelectController.Selects[(int)PlayerWeaponType.RockBuster].GaugeBar;
+    public List<MenuGuageSelector> MenuGuageSelectorList => gaugeSelectController.Selects;
     public void SetPlayerHp(float hp)
     {
         PlayerHpBar.SetParam(hp);
@@ -62,17 +62,38 @@ public class GameMenuScreenPresenter : BaseScreenPresenter<GameMenuScreen, GameM
     protected override void Initialize()
     {
         inputable = false;
-        m_screen.GaugeSelectController.Init(0, SelectedWeapon);
+        m_screen.GaugeSelectController.Init(DefaultIndex, SelectedWeapon);
 
         if (m_viewModel.PlayerParamStatus != null)
         {
             m_viewModel.PlayerParamStatus.HpChangeCallback += SetPlayerHp;
             m_viewModel.PlayerParamStatus.OnDamageCallback += SetPlayerHp;
             m_viewModel.PlayerParamStatus.OnRecoveryCallback += PlyaerParamChangeAnimation;
+
+            if (m_viewModel.PlayerWeaponStatus != null)
+            {
+                foreach (var gauge in m_screen.MenuGuageSelectorList)
+                {
+                    if (gauge.GaugeBar.Type == PlayerWeaponType.RockBuster) continue;
+
+                    var weapon = m_viewModel.PlayerWeaponStatus.GetPlayerWeapon(gauge.GaugeBar.Type);
+                    if (weapon != null)
+                    {
+                        weapon.EnergyChangeCallback += gauge.GaugeBar.SetParam;
+                        weapon.EnergyRecoveryCallback += gauge.GaugeBar.ParamChangeAnimation;
+
+                        gauge.gameObject.SetActive(true);
+                    }
+                    else
+                    {
+                        gauge.gameObject.SetActive(false);
+                    }
+                }
+            }
             m_viewModel.PlayerParamStatus.OnRefresh();
         }
 
-        m_screen.ItemSelectController.Init(0, SelectedEkan);
+        m_screen.ItemSelectController.Init(0, SelectedItem);
 
         isCursorInWeapon = true;
         m_screen.GaugeSelectController.Disabled(!isCursorInWeapon);
@@ -150,6 +171,31 @@ public class GameMenuScreenPresenter : BaseScreenPresenter<GameMenuScreen, GameM
         if (m_viewModel.PlayerParamStatus != null)
         {
             m_viewModel.PlayerParamStatus.HpChangeCallback -= SetPlayerHp;
+            m_viewModel.PlayerParamStatus.OnDamageCallback -= SetPlayerHp;
+            m_viewModel.PlayerParamStatus.OnRecoveryCallback -= PlyaerParamChangeAnimation;
+
+            m_viewModel.PlayerParamStatus.OnRefresh();
+        }
+
+        if (m_viewModel.PlayerWeaponStatus != null)
+        {
+            foreach (var gauge in m_screen.MenuGuageSelectorList)
+            {
+                if (gauge.GaugeBar.Type == PlayerWeaponType.RockBuster) continue;
+
+                var weapon = m_viewModel.PlayerWeaponStatus.GetPlayerWeapon(gauge.GaugeBar.Type);
+                if (weapon != null)
+                {
+                    weapon.EnergyChangeCallback -= gauge.GaugeBar.SetParam;
+                    weapon.EnergyRecoveryCallback -= gauge.GaugeBar.ParamChangeAnimation;
+
+                    gauge.gameObject.SetActive(true);
+                }
+                else
+                {
+                    gauge.gameObject.SetActive(false);
+                }
+            }
         }
     }
     private InputDirection GetInputDirection(InputInfo info)
@@ -161,20 +207,13 @@ public class GameMenuScreenPresenter : BaseScreenPresenter<GameMenuScreen, GameM
 
     private void SelectedWeapon(GameMenuGaugeInfo info)
     {
-        for (int i = 0; i < m_viewModel.PlayerWeaponInfo.PlayerWeaponListData.Count; i++)
-        {
-            var weapon = m_viewModel.PlayerWeaponInfo.PlayerWeaponListData[i];
-            if (weapon.WeaponType == info.weaponType)
-            {
-                m_viewModel.PlayerParamStatus.OnChangeWeapon(weapon);
-                break;
-            }
-        }
+        m_viewModel.PlayerParamStatus.OnChangeWeapon(info.weaponType);
+
 
         GameMainManager.Instance.TransitToGameMain();
         AudioManager.Instance.PlaySe(SECueIDs.menu);
     }
-    private void SelectedEkan(SelectInfo info)
+    private void SelectedItem(SelectInfo info)
     {
         if (info.id == 0)
         {
@@ -190,11 +229,31 @@ public class GameMenuScreenPresenter : BaseScreenPresenter<GameMenuScreen, GameM
             GameMainManager.Instance.GameStageEnd();
         }
     }
+
+    private int DefaultIndex
+    {
+        get
+        {
+            int index = 0;
+            for (index = 0; index < m_screen.MenuGuageSelectorList.Count; index++)
+            {
+                var gauge = m_screen.MenuGuageSelectorList[index];
+                if (gauge.GaugeBar.Type == m_viewModel.PlayerParamStatus.CurrentWeapon.Type)
+                {
+                    return index;
+                }
+            }
+
+            return 0;
+        }
+    }
 }
 
 public class GameMenuScreenViewModel : BaseViewModel<GameMainManager.UI>
 {
     public IPlayerParamStatus PlayerParamStatus => ProjectManager.Instance.RDH.PlayerInfo.StatusParam;
+
+    public IPlayerWeaponStatus PlayerWeaponStatus => ProjectManager.Instance.RDH.PlayerInfo.PlayerWeaponStatus;
 
     public PlayerWeaponInfo PlayerWeaponInfo => ProjectManager.Instance.RDH.PlayerWeaponInfo;
 

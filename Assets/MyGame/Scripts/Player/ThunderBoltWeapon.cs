@@ -1,17 +1,17 @@
 ﻿using System;
 using UnityEngine;
 
-public class ThunderBoltWeapon : IPlayerWeapon
+public class ThunderBoltWeapon : BasePlayerWeapon, IPlayerWeapon
 {
     private bool isLaunchTrigger;
 
-    ObjectManager ObjectManager => ObjectManager.Instance;
     int num = 0;
     StagePlayer m_player;
 
     public ThunderBoltWeapon(StagePlayer player)
     {
         m_player = player;
+        Energy = EnergyMax;
     }
 
     public void ChargeInit()
@@ -34,6 +34,8 @@ public class ThunderBoltWeapon : IPlayerWeapon
 
     private void OnLaunch(bool isRight)
     {
+        if (Energy <= 0) return;
+        ConsumeEnergy(1);
         var thunderBolt = ObjectManager.OnGet<ThunderBolt>(PoolType.ThunderBolt, (pjt) => { if (num > 0) num--; });
 
         thunderBolt.Setup(m_player.Launcher.position, isRight, 2);
@@ -41,4 +43,8 @@ public class ThunderBoltWeapon : IPlayerWeapon
 
         AudioManager.Instance.PlaySe(SECueIDs.buster);
     }
+
+
+    ObjectManager ObjectManager => ObjectManager.Instance;
+    public PlayerWeaponType Type => PlayerWeaponType.ThunderBolt;
 }

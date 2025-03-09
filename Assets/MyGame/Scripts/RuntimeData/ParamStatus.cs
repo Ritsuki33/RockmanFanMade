@@ -67,7 +67,7 @@ public class ParamStatus : IParamStatus
         OnRecoveryCallback?.Invoke(m_hp, m_maxHp, callback);
     }
 
-    public void OnRefresh()
+    public virtual void OnRefresh()
     {
         OnChangeHp(m_hp);
     }

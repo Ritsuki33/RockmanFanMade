@@ -13,6 +13,7 @@ public class GaugeBar : MonoBehaviour
     float realHp = 0;   // 実質HP
     Coroutine coroutine = null;
 
+
     protected virtual void Awake()
     {
         // 子オブジェクトをすべて取得
@@ -27,6 +28,7 @@ public class GaugeBar : MonoBehaviour
         realHp = 0;
     }
 
+    public void SetParam(int val, int maxVal) => SetParam((float)val / maxVal);
     /// <summary>
     /// パラメータの更新(アニメーションなし)
     /// </summary>
@@ -34,8 +36,8 @@ public class GaugeBar : MonoBehaviour
     public void SetParam(float val)
     {
 
-        int start = (int)Mathf.Ceil((Mathf.Min(hpParam, val) * list.Count));  // 開始位置は小さい方
-        int end = (int)Mathf.Ceil((Mathf.Max(hpParam, val) * list.Count));    // 終了位置は大きい方
+        int start = (int)Mathf.Ceil(Mathf.Min(hpParam, val) * list.Count);  // 開始位置は小さい方
+        int end = (int)Mathf.Ceil(Mathf.Max(hpParam, val) * list.Count);    // 終了位置は大きい方
         bool isIncreasing = val > hpParam;    // 増減フラグ
 
         for (int i = start; i < end && i < list.Count; i++)
@@ -46,6 +48,18 @@ public class GaugeBar : MonoBehaviour
         hpParam = val;
     }
 
+    public void SetGramMaterial(Color color1, Color color2)
+    {
+        Material gramMaterial = list[0].GetComponent<Image>().material;
+
+        gramMaterial.SetColor("_ChangeColor", color1);
+        gramMaterial.SetColor("_ChangeColor2", color2);
+    }
+
+    public void ParamChangeAnimation(int val, int maxVal, Action fisnihCallback = null)
+    {
+        ParamChangeAnimation((float)val / maxVal, fisnihCallback);
+    }
 
     /// <summary>
     /// パラメータの更新アニメーション

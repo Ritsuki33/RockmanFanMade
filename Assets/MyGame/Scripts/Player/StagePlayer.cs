@@ -24,6 +24,7 @@ public partial class StagePlayer : PhysicalObject, IDirect, IBeltConveyorVelocit
     // StateMachine<StagePlayer> m_chargeStateMachine = new StateMachine<StagePlayer>();
 
     public PlayerParamStatus paramStatus = new PlayerParamStatus(0, 27);
+    public PlayerWeaponStatus playerWeaponStatus = new PlayerWeaponStatus();
 
     Collider2D bodyLadder = null;
 
@@ -49,7 +50,7 @@ public partial class StagePlayer : PhysicalObject, IDirect, IBeltConveyorVelocit
 
     Ground curGround = default;
 
-    IPlayerWeapon playerWeapon = null;
+
 
     readonly int rimLightColorId = Shader.PropertyToID("_RimLightColor");
     readonly int FadeLightId = Shader.PropertyToID("_FadeLight");
@@ -112,11 +113,11 @@ public partial class StagePlayer : PhysicalObject, IDirect, IBeltConveyorVelocit
         exRbHit.CacheClear();
         rbCollide.CacheClear();
 
-        playerWeapon = new RockBusterWeapon(this);
 
         chargeAnimSpeed = m_charge_animator.speed;
 
         paramStatus.Initialize(this);
+        playerWeaponStatus.Initialize(this);
     }
 
     protected override void Init()
@@ -125,16 +126,19 @@ public partial class StagePlayer : PhysicalObject, IDirect, IBeltConveyorVelocit
 
         invincible = false;
         isDead = false;
-        playerWeapon.ChargeInit();
 
         bottomHit = default;
         curGround = default;
+        paramStatus.ChangeWeaponCallback += ChangePlayerColor;
+        paramStatus.OnChangeWeapon(PlayerWeaponType.RockBuster);
+        paramStatus.CurrentWeapon.ChargeInit();
     }
 
     protected override void Destroy()
     {
         exRb.DeleteCache();
-        playerWeapon.ChargeInit();
+        paramStatus.ChangeWeaponCallback -= ChangePlayerColor;
+        paramStatus.CurrentWeapon.ChargeInit();
     }
 
     protected override void OnFixedUpdate()
@@ -156,7 +160,7 @@ public partial class StagePlayer : PhysicalObject, IDirect, IBeltConveyorVelocit
     protected override void OnUpdate()
     {
         m_mainStateMachine.Update(this);
-        playerWeapon.Update();
+        paramStatus.CurrentWeapon.Update();
         // m_chargeStateMachine.Update(this);
     }
 
@@ -421,10 +425,6 @@ public partial class StagePlayer : PhysicalObject, IDirect, IBeltConveyorVelocit
         map.BreakTileAt(hit.point - hit.normal * 0.01f);    // hit.pointだけではタイルがヒットしないので法線を使って微調整
     }
 
-
-
-
-
     public void StopRimLight()
     {
         if (chargingCo != null) StopCoroutine(chargingCo);
@@ -457,20 +457,16 @@ public partial class StagePlayer : PhysicalObject, IDirect, IBeltConveyorVelocit
     }
 
     /// <summary>
-    /// 武器チェンジ
+    /// プレイヤーカラーチェンジ
     /// </summary>
     /// <param name="weapon"></param>
     /// <param name="color1"></param>
     /// <param name="color2"></param>
-    public void ChangeWeapon(IPlayerWeapon weapon, Color color1, Color color2)
+    public void ChangePlayerColor(PlayerWeaponData weaponData)
     {
-
         // プレイヤーの配色を変更
-        this.MainMaterial.SetColor(ChangeColorId, color1);
-        this.MainMaterial.SetColor(ChangeColor2Id, color2);
-
-        this.playerWeapon = weapon;
-        this.playerWeapon.ChargeInit();
+        this.MainMaterial.SetColor(ChangeColorId, weaponData.Color1);
+        this.MainMaterial.SetColor(ChangeColor2Id, weaponData.Color2);
     }
 
     #region IHitEvent

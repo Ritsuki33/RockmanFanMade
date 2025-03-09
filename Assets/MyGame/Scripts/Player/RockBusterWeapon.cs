@@ -6,7 +6,49 @@ public interface IPlayerWeapon
 {
     void ChargeInit();
     void LaunchTrigger(bool trigger, Action callbackAfterLaunch);
+    int Energy { get; }
     void Update();
+    int EnergyMax { get; }
+
+    event Action<int, int> EnergyChangeCallback;
+    event Action<int, int, Action> EnergyRecoveryCallback;
+    void RecoveryEnergy(int amount, Action callback);
+
+    void OnRefresh();
+
+    PlayerWeaponType Type { get; }
+}
+public class BasePlayerWeapon
+{
+    public int Energy { get; protected set; } = 0;
+    public int EnergyMax { get; protected set; } = 27;
+    public event Action<int, int> EnergyChangeCallback;
+    public event Action<int, int, Action> EnergyRecoveryCallback;
+
+    public void ConsumeEnergy(int amount)
+    {
+        Energy -= amount;
+        if (Energy < 0) Energy = 0;
+        EnergyChangeCallback?.Invoke(Energy, EnergyMax);
+    }
+
+    public void RecoveryEnergy(int amount, Action callback)
+    {
+        Energy += amount;
+        if (Energy > EnergyMax) Energy = EnergyMax;
+
+        var hpPlayback = AudioManager.Instance.PlaySe(SECueIDs.hprecover);
+        EnergyRecoveryCallback?.Invoke(Energy, EnergyMax, () =>
+        {
+            hpPlayback.Stop();
+            callback?.Invoke();
+        });
+    }
+
+    public void OnRefresh()
+    {
+        EnergyChangeCallback?.Invoke(Energy, EnergyMax);
+    }
 }
 
 public class RockBusterWeapon : IPlayerWeapon
@@ -24,6 +66,12 @@ public class RockBusterWeapon : IPlayerWeapon
 
     int curMameNum = 0;
     int mameMax = 3;
+
+    public int Energy { get; private set; } = 0;
+    public int EnergyMax { get; private set; } = 0;
+
+    public event Action<int, int> EnergyChangeCallback;
+    public event Action<int, int, Action> EnergyRecoveryCallback;
 
     class None : State<RockBusterWeapon, None>
     {
@@ -197,6 +245,14 @@ public class RockBusterWeapon : IPlayerWeapon
         AudioManager.Instance.PlaySe(SECueIDs.chargeshot);
     }
 
+    public void ConsumeEnergy(int amount) { /*特になし*/ }
+
+
+    public void RecoveryEnergy(int amount, Action callback) { /*特になし*/ }
+
+    public void OnRefresh() { }
+
     ObjectManager ObjectManager => ObjectManager.Instance;
+    public PlayerWeaponType Type => PlayerWeaponType.RockBuster;
 
 }

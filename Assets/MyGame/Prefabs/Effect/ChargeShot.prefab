@@ -307,7 +307,7 @@ MonoBehaviour:
   m_mainAnimator: {fileID: 5264032448341594800}
   animSpeed: 1
   rb: {fileID: 6681407226516014065}
-  type: 0
+  type: 2
   direct:
     _transform: {fileID: 3172450265035474752}
     forwardIsRight: 1
