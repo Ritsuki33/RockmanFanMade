@@ -13,16 +13,16 @@ using UnityEngine;
 public class UpdateList
 {
     // 現在のリスト
-    private List<IObjectInterpreter> list= new List<IObjectInterpreter>();
+    private List<IObjectInterpreter> list = new List<IObjectInterpreter>();
 
     // Update中にリストの増減が発生するとループ分がエラーになるため、Update終了後にlistの更新に入る
     // 追加分のリスト
-    private List<IObjectInterpreter> addList= new List<IObjectInterpreter>();
+    private List<IObjectInterpreter> addList = new List<IObjectInterpreter>();
 
     // 削除分のリスト
-    private List<IObjectInterpreter> removeList= new List<IObjectInterpreter>();
+    private List<IObjectInterpreter> removeList = new List<IObjectInterpreter>();
 
-    public int Count=>list.Count;
+    public int Count => list.Count;
 
     // アップデート中か
     private bool isUpdating = true;
@@ -105,7 +105,7 @@ public class UpdateList
     public void AllDelete()
     {
         // 要素が減っていくので逆順で実行
-        for(int i = list.Count - 1; i >= 0; i--)
+        for (int i = list.Count - 1; i >= 0; i--)
         {
             list[i].Delete();
         }
@@ -113,7 +113,7 @@ public class UpdateList
 
     public void OnPause(bool isPause)
     {
-        foreach(IObjectInterpreter e in list)
+        foreach (IObjectInterpreter e in list)
         {
             e.RequestPause(isPause);
         }
@@ -127,6 +127,12 @@ public class UpdateList
     {
         if (isUpdating)
         {
+            // 既に削除予約オブジェクトにある場合はリストから削除
+            if (removeList.Contains(obj))
+            {
+                removeList.Remove(obj);
+            }
+
             // アップデートの場合は予約
             if (!addList.Contains(obj))
             {
@@ -153,6 +159,12 @@ public class UpdateList
     {
         if (isUpdating)
         {
+            // 既に削除予約オブジェクトにある場合はリストから削除
+            if (addList.Contains(obj))
+            {
+                addList.Remove(obj);
+            }
+
             // アップデートの場合は予約
             if (!removeList.Contains(obj))
             {
@@ -176,7 +188,7 @@ public class UpdateList
     /// </summary>
     private void FixedList()
     {
-        foreach(var e in addList)
+        foreach (var e in addList)
         {
             if (!list.Contains(e))
             {
@@ -184,7 +196,7 @@ public class UpdateList
             }
         }
 
-        foreach(var e in removeList)
+        foreach (var e in removeList)
         {
             if (list.Contains(e))
             {
