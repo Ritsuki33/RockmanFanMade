@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 /*
@@ -12,15 +13,27 @@ using UnityEngine;
 
 public class UpdateList
 {
+    enum ExecType
+    {
+        Add,
+        Remove
+    }
+    class ExecTarget
+    {
+        public ExecTarget(IObjectInterpreter obj, ExecType execType)
+        {
+            this.obj = obj;
+            this.execType = execType;
+        }
+
+        public IObjectInterpreter obj;
+        public ExecType execType;
+    }
+
     // 現在のリスト
     private List<IObjectInterpreter> list = new List<IObjectInterpreter>();
 
-    // Update中にリストの増減が発生するとループ分がエラーになるため、Update終了後にlistの更新に入る
-    // 追加分のリスト
-    private List<IObjectInterpreter> addList = new List<IObjectInterpreter>();
-
-    // 削除分のリスト
-    private List<IObjectInterpreter> removeList = new List<IObjectInterpreter>();
+    private List<ExecTarget> execTargets = new List<ExecTarget>();
 
     public int Count => list.Count;
 
@@ -127,17 +140,16 @@ public class UpdateList
     {
         if (isUpdating)
         {
-            // 既に削除予約オブジェクトにある場合はリストから削除
-            if (removeList.Contains(obj))
-            {
-                removeList.Remove(obj);
-            }
-
-            // アップデートの場合は予約
-            if (!addList.Contains(obj))
+            int index = execTargets.FindIndex(e => e.obj == obj);
+            if (index >= 0 && execTargets[index].execType != ExecType.Add)
             {
                 obj.Init();
-                addList.Add(obj);
+                execTargets[index].execType = ExecType.Add;
+            }
+            else
+            {
+                obj.Init();
+                execTargets.Add(new ExecTarget(obj, ExecType.Add));
             }
         }
         else
@@ -159,17 +171,16 @@ public class UpdateList
     {
         if (isUpdating)
         {
-            // 既に削除予約オブジェクトにある場合はリストから削除
-            if (addList.Contains(obj))
-            {
-                addList.Remove(obj);
-            }
-
-            // アップデートの場合は予約
-            if (!removeList.Contains(obj))
+            int index = execTargets.FindIndex(e => e.obj == obj);
+            if (index >= 0 && execTargets[index].execType != ExecType.Remove)
             {
                 obj.Destroy();
-                removeList.Add(obj);
+                execTargets[index].execType = ExecType.Remove;
+            }
+            else
+            {
+                obj.Destroy();
+                execTargets.Add(new ExecTarget(obj, ExecType.Remove));
             }
         }
         else
@@ -188,24 +199,33 @@ public class UpdateList
     /// </summary>
     private void FixedList()
     {
-        foreach (var e in addList)
+        foreach (var target in execTargets)
         {
-            if (!list.Contains(e))
+            switch (target.execType)
             {
-                list.Add(e);
+                case ExecType.Add:
+                    if (target.execType == ExecType.Add)
+                    {
+                        if (!list.Contains(target.obj))
+                        {
+                            list.Add(target.obj);
+                        }
+                    }
+                    break;
+                case ExecType.Remove:
+                    if (target.execType == ExecType.Add)
+                    {
+                        if (list.Contains(target.obj))
+                        {
+                            target.obj.Destroy();
+                            list.Remove(target.obj);
+                        }
+                    }
+                    break;
             }
         }
 
-        foreach (var e in removeList)
-        {
-            if (list.Contains(e))
-            {
-                list.Remove(e);
-            }
-        }
-
-        if (addList.Count > 0) addList.Clear();
-        if (removeList.Count > 0) removeList.Clear();
+        if (execTargets.Count > 0) execTargets.Clear();
     }
 
     /// <summary>
