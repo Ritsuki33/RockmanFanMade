@@ -17,12 +17,24 @@ public class GameMenuScreen : BaseScreen<GameMenuScreen, GameMenuScreenPresenter
 
     [SerializeField] GameMenuGaugeSelectController gaugeSelectController;
     [SerializeField] ItemSelectController itemSelectController;
+    [SerializeField] FooterUI footerUI;
 
     public GameMenuGaugeSelectController GaugeSelectController => gaugeSelectController;
     public ItemSelectController ItemSelectController => itemSelectController;
 
     public GameMenuGaugeBar PlayerHpBar => gaugeSelectController.Selects[(int)PlayerWeaponType.RockBuster].GaugeBar;
     public List<MenuGuageSelector> MenuGuageSelectorList => gaugeSelectController.Selects;
+
+    protected override void Open()
+    {
+        ProjectManager.Instance.FooterUi.Open();
+    }
+
+
+    protected override void Hide()
+    {
+        ProjectManager.Instance.FooterUi.Close();
+    }
     public void SetPlayerHp(float hp)
     {
         PlayerHpBar.SetParam(hp);
@@ -61,6 +73,8 @@ public class GameMenuScreenPresenter : BaseScreenPresenter<GameMenuScreen, GameM
     bool isCursorInWeapon = true;
     protected override void Initialize()
     {
+        ProjectManager.Instance.FooterUi.Setup(m_viewModel.KeyGuides);
+
         inputable = false;
         m_screen.GaugeSelectController.Init(DefaultIndex, SelectedWeapon);
 
@@ -257,6 +271,16 @@ public class GameMenuScreenViewModel : BaseViewModel<GameMainManager.UI>
 
     public PlayerWeaponInfo PlayerWeaponInfo => ProjectManager.Instance.RDH.PlayerWeaponInfo;
 
+    public (KeyGuideType, string)[] KeyGuides;
+    protected override IEnumerator Configure()
+    {
+        KeyGuides = new (KeyGuideType, string)[] {
+            (KeyGuideType.WASD, "移動"),
+            (KeyGuideType.L, "決定"),
+            (KeyGuideType.TAB, "閉じる"),
+             };
+        yield return null;
+    }
     public void OnRecovery(int recovery, Action callback)
     {
         PlayerParamStatus.OnRecovery(recovery, callback);

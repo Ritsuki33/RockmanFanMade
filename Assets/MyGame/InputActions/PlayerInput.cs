@@ -187,7 +187,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""ce1f32fc-014b-4a07-a1fe-7a26b60a8f11"",
-                    ""path"": ""<Keyboard>/comma"",
+                    ""path"": ""<Keyboard>/m"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
