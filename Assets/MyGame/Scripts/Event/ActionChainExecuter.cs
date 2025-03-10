@@ -8,6 +8,7 @@ using static Cinemachine.CinemachineBlendDefinition;
 
 public class ActionChainExecuter : MonoBehaviour
 {
+    [SerializeField] bool eventFlag = true;
     Action eventFinishCallback = default;
 
     enum ActionType
@@ -69,6 +70,7 @@ public class ActionChainExecuter : MonoBehaviour
             {
                 if (actions == null || actions.Count == 0) yield break;
 
+                if (eventControll.eventFlag) GameMainManager.Instance.ChangeGameState(GameMainState.Event);
                 if (delayTime > 0) yield return new WaitForSeconds(delayTime);
 
                 int actionNum = actions.Count;
@@ -91,6 +93,7 @@ public class ActionChainExecuter : MonoBehaviour
                     // イベント終了の通知
                     eventControll.eventFinishCallback?.Invoke();
                     eventControll.eventFinishCallback = null;
+                    if (eventControll.eventFlag) GameMainManager.Instance.ChangeGameState(GameMainState.Playing);
                 }
             }
         }

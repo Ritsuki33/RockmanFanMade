@@ -49,8 +49,10 @@ public class GameMainManager : BaseManager<GameMainManager>
     //ポーズ可否　
     public bool Pausable { get; set; } = true;
 
+    public GameMainStateParam gameMainStateParam = new GameMainStateParam();
     protected override IEnumerator Init()
     {
+        ChangeGameState(GameMainState.None);
         FadeInManager.Instance.FadeOutImmediate();
 
         var res = AddressableAssetLoadUtility.LoadPrefab<WorldManager>("GrenademanStage", this.worldRoot);
@@ -179,7 +181,6 @@ public class GameMainManager : BaseManager<GameMainManager>
     }
 
 
-
     void DestroyWorld()
     {
         Destroy(worldManager.gameObject);
@@ -189,4 +190,7 @@ public class GameMainManager : BaseManager<GameMainManager>
         AudioManager.Instance.StopBGM();
         AudioManager.Instance.StopSe();
     }
+
+
+    public void ChangeGameState(GameMainState gameMainState) => gameMainStateParam.ChangeStatus(gameMainState);
 }

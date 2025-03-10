@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 
 /// <summary>
@@ -17,30 +18,34 @@ public class GameMainScreen : BaseScreen<GameMainScreen, GameMainScreenPresenter
     public GaugeBar EnemyHpBar => enemyHpBar;
     public GaugeBar HpBar => hpBar;
     public GaugeBar WeaponGaugeBar => weaponGaugeBar;
-    protected override void Open()
-    {
-        base.Open();
-    }
-
-    protected override IEnumerator OpenCoroutine()
-    {
-        return base.OpenCoroutine();
-    }
-
-    protected override void OnUpdate()
-    {
-        base.OnUpdate();
-    }
 
     protected override void Hide()
     {
-        base.Hide();
+        if (FooterUi.gameObject.activeSelf) ProjectManager.Instance.FooterUi.Close();
     }
 
     protected override IEnumerator HideCoroutine()
     {
         return base.HideCoroutine();
     }
+
+    public void ShowFooterUI(GameMainState gameMainState)
+    {
+        switch (gameMainState)
+        {
+            case GameMainState.None:
+                FooterUi.Close();
+                break;
+            case GameMainState.Playing:
+                FooterUi.Open();
+                break;
+            case GameMainState.Event:
+                FooterUi.Close();
+                break;
+        }
+    }
+
+    FooterUI FooterUi => ProjectManager.Instance.FooterUi;
 }
 
 public class GameMainScreenPresenter : BaseScreenPresenter<GameMainScreen, GameMainScreenPresenter, GameMainScreenViewModel, GameMainManager.UI>
@@ -48,6 +53,7 @@ public class GameMainScreenPresenter : BaseScreenPresenter<GameMainScreen, GameM
 
     protected override void Initialize()
     {
+        ProjectManager.Instance.FooterUi.Setup(m_viewModel.KeyGuides);
         m_viewModel.PlayerStatusParam.HpChangeCallback += SetPlayerHp;
         m_viewModel.PlayerStatusParam.OnDamageCallback += SetPlayerHp;
         m_viewModel.PlayerStatusParam.OnRecoveryCallback += PlayerParamChangeAnimation;
@@ -63,6 +69,12 @@ public class GameMainScreenPresenter : BaseScreenPresenter<GameMainScreen, GameM
 
 
         m_viewModel.PlayerStatusParam.ChangeWeaponCallback += ShowWeaponGauge;
+
+        if (m_viewModel.GameMainStateParam != null)
+        {
+            m_viewModel.GameMainStateParam.OnChangeGameMainState += m_screen.ShowFooterUI;
+            m_viewModel.GameMainStateParam.OnRefresh();
+        }
     }
 
     protected override void Open()
@@ -105,7 +117,10 @@ public class GameMainScreenPresenter : BaseScreenPresenter<GameMainScreen, GameM
             m_viewModel.BossStatusParam.OnRecoveryCallback -= BossParamChangeAnimation;
         }
 
-
+        if (m_viewModel.GameMainStateParam != null)
+        {
+            m_viewModel.GameMainStateParam.OnChangeGameMainState -= m_screen.ShowFooterUI;
+        }
     }
 
     private void SetPlayerHp(int hp, int maxHp)
@@ -186,7 +201,7 @@ public class GameMainScreenPresenter : BaseScreenPresenter<GameMainScreen, GameM
         m_viewModel.BossStatusParam.OnRecoveryCallback += BossParamChangeAnimation;
     }
 
-    public void ShowWeaponGauge(PlayerWeaponData weaponData)
+    private void ShowWeaponGauge(PlayerWeaponData weaponData)
     {
         if (weaponData.WeaponType != PlayerWeaponType.RockBuster)
         {
@@ -203,6 +218,8 @@ public class GameMainScreenPresenter : BaseScreenPresenter<GameMainScreen, GameM
             m_viewModel.PlayerStatusParam.CurrentWeaponGuageRecoveryCallback -= WeaponParamChangeAnimation;
         }
     }
+
+
 }
 
 public class GameMainScreenViewModel : BaseViewModel<GameMainManager.UI>
@@ -210,4 +227,20 @@ public class GameMainScreenViewModel : BaseViewModel<GameMainManager.UI>
     public IPlayerParamStatus PlayerStatusParam => ProjectManager.Instance.RDH.PlayerInfo.StatusParam;
     public IParamStatus BossStatusParam => ProjectManager.Instance.RDH.StageInfo.StageBossParam;
     public IStageInfoSubject StageInfoSubject => ProjectManager.Instance.RDH.StageInfo;
+
+    public IGameMainStateParam GameMainStateParam => ProjectManager.Instance.RDH.GameStateInfo.GameMainStateParam;
+
+    public (KeyGuideType, string)[] KeyGuides;
+
+    protected override IEnumerator Configure()
+    {
+        KeyGuides = new (KeyGuideType, string)[] {
+            (KeyGuideType.WASD, "移動"),
+            (KeyGuideType.L, "攻撃"),
+            (KeyGuideType.M, "ジャンプ"),
+            (KeyGuideType.TAB, "メニュー"),
+            (KeyGuideType.SPACE, "ポーズ"),
+             };
+        yield return null;
+    }
 }

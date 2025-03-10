@@ -82582,6 +82582,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f5e676c01ac35744dbd6282f9459d76d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  eventFlag: 1
   element:
     delayTime: 0
     actions:
@@ -82853,6 +82854,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f5e676c01ac35744dbd6282f9459d76d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  eventFlag: 1
   element:
     delayTime: 0
     actions:
@@ -85224,6 +85226,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f5e676c01ac35744dbd6282f9459d76d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  eventFlag: 0
   element:
     delayTime: 0
     actions:
@@ -85411,6 +85414,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f5e676c01ac35744dbd6282f9459d76d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  eventFlag: 1
   element:
     delayTime: 0
     actions:
@@ -85568,6 +85572,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f5e676c01ac35744dbd6282f9459d76d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  eventFlag: 1
   element:
     delayTime: 0
     actions:
@@ -85889,6 +85894,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f5e676c01ac35744dbd6282f9459d76d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  eventFlag: 1
   element:
     delayTime: 0
     actions:
@@ -86046,6 +86052,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f5e676c01ac35744dbd6282f9459d76d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  eventFlag: 1
   element:
     delayTime: 0
     actions:

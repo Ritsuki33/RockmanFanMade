@@ -51,17 +51,20 @@ public class BossSelectScreenPresenter : BaseScreenPresenter<BossSelectScreen, B
     protected override void Initialize()
     {
         m_screen.BossSelectController.Init(4, m_viewModel.bossSelectInfos.ToArray(), Selected);
+        ProjectManager.Instance.FooterUi.Setup(m_viewModel.KeyGuides);
     }
 
     protected override void Open()
     {
         AudioManager.Instance.OnPause(false);
         AudioManager.Instance.PlayBgm(BGMCueIDs.bossselect);
+        ProjectManager.Instance.FooterUi.Open();
     }
 
     protected override void Hide()
     {
         AudioManager.Instance.StopBGM();
+        ProjectManager.Instance.FooterUi.Close();
     }
 
     protected override void InputUpdate(InputInfo info)
@@ -122,6 +125,9 @@ public class BossSelectScreenViewModel : BaseViewModel<BossSelectManager.UI>
     SpriteAtlas spriteAtlas;
     private readonly string addressableBossSelectDataPath = "BossSelectData";
     private readonly string addressableSpriteAtlasPath = "BossSelectPanel";
+
+    public (KeyGuideType, string)[] KeyGuides;
+
     protected override IEnumerator Configure()
     {
         bossSelectData = AddressableAssetLoadUtility.LoadAsset<BossSelectData>(addressableBossSelectDataPath);
@@ -141,6 +147,11 @@ public class BossSelectScreenViewModel : BaseViewModel<BossSelectManager.UI>
         GameState.bossId = -1;
         GameState.bossName = "";
         yield return null;
+
+        KeyGuides = new (KeyGuideType, string)[] {
+            (KeyGuideType.WASD, "移動"),
+            (KeyGuideType.L, "決定"),
+             };
     }
 
     public void SetBossId(int id, string name)
