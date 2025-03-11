@@ -31,6 +31,7 @@ public enum PoolType
     ExplodeParticleSystem,
     ThunderBolt,
     ThunderBoltMini,
+    Tire,
 }
 
 public class ObjectManager : SingletonComponent<ObjectManager>
