@@ -41,7 +41,7 @@ public class ThunderBoltWeapon : BasePlayerWeapon, IPlayerWeapon
         thunderBolt.Setup(m_player.Launcher.position, isRight, 2);
         num++;
 
-        AudioManager.Instance.PlaySe(SECueIDs.buster);
+        AudioManager.Instance.PlaySe(SECueIDs.thunder);
     }
 
 
