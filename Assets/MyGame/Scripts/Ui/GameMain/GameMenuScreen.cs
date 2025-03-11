@@ -81,7 +81,7 @@ public class GameMenuScreenPresenter : BaseScreenPresenter<GameMenuScreen, GameM
         {
             m_viewModel.PlayerParamStatus.HpChangeCallback += SetPlayerHp;
             m_viewModel.PlayerParamStatus.OnDamageCallback += SetPlayerHp;
-            m_viewModel.PlayerParamStatus.OnRecoveryCallback += PlyaerParamChangeAnimation;
+            m_viewModel.PlayerParamStatus.OnRecoveryCallback += PlayerParamChangeAnimation;
 
             if (m_viewModel.PlayerWeaponStatus != null)
             {
@@ -155,6 +155,7 @@ public class GameMenuScreenPresenter : BaseScreenPresenter<GameMenuScreen, GameM
             isCursorInWeapon = !isCursorInWeapon;
             m_screen.GaugeSelectController.Disabled(!isCursorInWeapon);
             m_screen.ItemSelectController.Disabled(isCursorInWeapon);
+            AudioManager.Instance.PlaySystem(SECueIDs.select);
         }
     }
     private void SetPlayerHp(int hp, int maxHp)
@@ -162,10 +163,9 @@ public class GameMenuScreenPresenter : BaseScreenPresenter<GameMenuScreen, GameM
         m_screen.SetPlayerHp((float)hp / maxHp);
     }
 
-    private void PlyaerParamChangeAnimation(int hp, int maxHp, Action callback)
+    private void PlayerParamChangeAnimation(int hp, int maxHp, Action callback)
     {
-        // ポーズを掛けて回復アニメーションさせる
-        var hpPlayback = AudioManager.Instance.PlaySe(SECueIDs.hprecover);
+        var hpPlayback = AudioManager.Instance.PlaySystem(SECueIDs.hprecover);
         m_screen.ParamChangeAnimation((float)hp / maxHp, () =>
         {
             hpPlayback.Stop();
@@ -185,7 +185,7 @@ public class GameMenuScreenPresenter : BaseScreenPresenter<GameMenuScreen, GameM
         {
             m_viewModel.PlayerParamStatus.HpChangeCallback -= SetPlayerHp;
             m_viewModel.PlayerParamStatus.OnDamageCallback -= SetPlayerHp;
-            m_viewModel.PlayerParamStatus.OnRecoveryCallback -= PlyaerParamChangeAnimation;
+            m_viewModel.PlayerParamStatus.OnRecoveryCallback -= PlayerParamChangeAnimation;
 
             m_viewModel.PlayerParamStatus.OnRefresh();
         }
@@ -231,6 +231,7 @@ public class GameMenuScreenPresenter : BaseScreenPresenter<GameMenuScreen, GameM
         if (info.id == 0)
         {
             inputable = false;
+
             m_viewModel.OnRecovery(m_viewModel.PlayerParamStatus.MaxHp, () =>
             {
                 inputable = true;
