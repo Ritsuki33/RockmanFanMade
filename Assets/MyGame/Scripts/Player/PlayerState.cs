@@ -28,9 +28,9 @@ public partial class StagePlayer
             player.exRb.velocity = player.gravity.CurrentVelocity;
 
             Move.InputType type = default;
-            if (player.inputInfo.left == true) type = Move.InputType.Left;
-            else if (player.inputInfo.right == true) type = Move.InputType.Right;
-            player.move.OnUpdate(player.bottomHit.normal.Verticalize(), type, (player.curGround == null) ? 1.0f : player.curGround.Friction);
+            if (player.inputInfo.left) type = Move.InputType.Left;
+            else if (player.inputInfo.right) type = Move.InputType.Right;
+            player.move.OnUpdate(player.bottomHit ? player.bottomHit.normal.Verticalize() : Vector2.right, type, (player.curGround == null) ? 1.0f : player.curGround.Friction);
             Vector2 moveV = player.move.CurrentVelocity;
             player.exRb.velocity += moveV;
 
@@ -929,7 +929,14 @@ public partial class StagePlayer
         {
             player.timer.MoveAheadTime(Time.deltaTime, () =>
             {
-                player.m_mainStateMachine.TransitReady((int)Main_StateID.Standing);
+                if (player.curGround == null)
+                {
+                    player.m_mainStateMachine.TransitReady((int)Main_StateID.Floating);
+                }
+                else
+                {
+                    player.m_mainStateMachine.TransitReady((int)Main_StateID.Standing);
+                }
             });
         }
 

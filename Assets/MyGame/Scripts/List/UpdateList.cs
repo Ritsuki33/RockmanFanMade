@@ -44,7 +44,6 @@ public class UpdateList
     {
         isUpdating = true;
 
-        FixedList();
         int nullCount = 0;
 
         foreach (IObjectInterpreter e in list)
@@ -62,6 +61,8 @@ public class UpdateList
 
         // nullがあった場合は削除
         if (nullCount > 0) list.RemoveAll(item => item == null);
+
+        FixedList();
 
         isUpdating = false;
     }
@@ -81,7 +82,6 @@ public class UpdateList
     {
         isUpdating = true;
 
-        FixedList();
         int nullCount = 0;
         foreach (IObjectInterpreter e in list)
         {
@@ -99,6 +99,7 @@ public class UpdateList
         // nullがあった場合は削除
         if (nullCount > 0) list.RemoveAll(item => item == null);
 
+        FixedList();
         isUpdating = false;
     }
 

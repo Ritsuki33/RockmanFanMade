@@ -64,6 +64,8 @@ public class ThunderBolt : PlayerAttack, IDirect, IRbVisitable
                 // 上下に飛散
                 pjt1.SetupMini(pjt.transform.position, isRight, 1, Vector2.up);
                 pjt2.SetupMini(pjt.transform.position, isRight, 1, Vector2.down);
+
+                AudioManager.Instance.PlaySe(SECueIDs.tstrike);
             }
             );
         direct.TurnTo(isRight);

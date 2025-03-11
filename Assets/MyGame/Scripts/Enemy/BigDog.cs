@@ -54,6 +54,7 @@ public class BigDog : StageEnemy, IRbVisitor
 
     protected override void OnUpdate()
     {
+        base.OnUpdate();
         stateMachine.Update(this);
     }
 
