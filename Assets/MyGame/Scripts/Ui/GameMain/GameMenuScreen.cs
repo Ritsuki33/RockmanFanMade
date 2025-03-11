@@ -17,7 +17,6 @@ public class GameMenuScreen : BaseScreen<GameMenuScreen, GameMenuScreenPresenter
 
     [SerializeField] GameMenuGaugeSelectController gaugeSelectController;
     [SerializeField] ItemSelectController itemSelectController;
-    [SerializeField] FooterUI footerUI;
 
     public GameMenuGaugeSelectController GaugeSelectController => gaugeSelectController;
     public ItemSelectController ItemSelectController => itemSelectController;
