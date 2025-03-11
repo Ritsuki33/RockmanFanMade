@@ -127,6 +127,8 @@ public partial class Mettoru : StageEnemy, IDirect, IHitEvent, IRbVisitor, IExRb
 
     public void Defense(RockBuster collision)
     {
+        AudioManager.Instance.PlaySe(SECueIDs.kin);
+
         if (collision.AttackPower == 1)
         {
             ReflectBuster(collision);
