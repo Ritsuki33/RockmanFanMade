@@ -34,8 +34,7 @@ public class RocketMastSpawn : InCameraSpawn
     {
         base.OnDrawGizmos();
         Gizmos.color = Color.red;
-        Vector3 halfVec = Vector3.right * distance / 2;
-        Gizmos.DrawLine(this.transform.position - halfVec, this.transform.position + halfVec);
+        Gizmos.DrawLine(this.transform.position, this.transform.position - Vector3.right * distance);
     }
 
 }
