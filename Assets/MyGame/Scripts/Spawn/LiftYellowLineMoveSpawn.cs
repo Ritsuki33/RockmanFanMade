@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class LiftYellowLineMoveSpawn : InCameraSpawn
@@ -29,5 +30,19 @@ public class LiftYellowLineMoveSpawn : InCameraSpawn
     {
         base.InitializeObject();
         Obj.Setup(liftPoints, maxSpeed, accelerate);
+    }
+
+    protected override void OnDrawGizmos()
+    {
+        base.OnDrawGizmos();
+
+        Gizmos.color = Color.blue;
+
+        Gizmos.color = Color.red;
+
+        for (int i = 0; i < liftPoints.Length && i + 1 < liftPoints.Length; i++)
+        {
+            Gizmos.DrawLine(liftPoints[i].transform.position, liftPoints[i + 1].transform.position);
+        }
     }
 }

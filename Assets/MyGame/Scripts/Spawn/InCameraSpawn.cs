@@ -126,4 +126,10 @@ public class InCameraSpawn : Spawn<BaseObject>, ISpawn
             }
         }
     }
+
+    protected virtual void OnDrawGizmos()
+    {
+        Gizmos.color = Color.green;
+        Gizmos.DrawCube(this.transform.position, Vector3.one * 0.4f);
+    }
 }

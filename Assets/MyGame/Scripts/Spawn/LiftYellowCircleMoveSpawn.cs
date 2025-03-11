@@ -29,4 +29,15 @@ public class LiftYellowCircleMoveSpawn : InCameraSpawn
         base.InitializeObject();
         Obj.Setup(_center, speed);
     }
+
+    protected override void OnDrawGizmos()
+    {
+        base.OnDrawGizmos();
+
+        Gizmos.color = Color.blue;
+
+        Gizmos.DrawSphere(this._center.position, 0.3f);
+        Gizmos.color = Color.red;
+        Gizmos.DrawLine(this.transform.position, this._center.position);
+    }
 }
