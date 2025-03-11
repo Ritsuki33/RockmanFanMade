@@ -258,11 +258,12 @@ public class ActionChainExecuter : MonoBehaviour
         StageInfo StageInfo => ProjectManager.Instance.RDH.StageInfo;
         override public void Execute(Action finishCallback)
         {
-            var hpPlayback = AudioManager.Instance.PlaySe(SECueIDs.hprecover);
-
             StageInfo.SetBossHolder(spawn.Obj);
             spawn.Obj.SetHp(0);
-            spawn.Obj.MaxRecovery(finishCallback);
+            spawn.Obj.MaxRecovery(() =>
+            {
+                finishCallback.Invoke();
+            });
         }
 
     }
