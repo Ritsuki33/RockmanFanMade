@@ -32,6 +32,12 @@ public class RocketMask : StageEnemy, IDirect, IRbVisitor
         rbCollide.CacheClear();
     }
 
+    public void Setup(float distance, float speed)
+    {
+        this.distance = distance;
+        this.speed = speed;
+    }
+
     protected override void Init()
     {
         base.Init();
