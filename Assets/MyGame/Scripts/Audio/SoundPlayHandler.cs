@@ -12,13 +12,14 @@ using UnityEngine.AddressableAssets;
 public class SoundPlayHandler
 {
     private CriAtomExPlayer m_player;
-    private CriAtomAcbAsset m_crtAtomAbcAsset;
+    private CriAtomAcbAsset m_criAtomAbcAsset;
     private CriAtomExPlayback m_playback;
 
+    public CriAtomExAcb Acb => m_criAtomAbcAsset ? m_criAtomAbcAsset.Handle : null;
     /// <summary>
     /// ロード中かどうか
     /// </summary>
-    public bool Loaded => m_crtAtomAbcAsset != null && m_crtAtomAbcAsset.Loaded;
+    public bool Loaded => m_criAtomAbcAsset != null && m_criAtomAbcAsset.Loaded;
 
     public SoundPlayHandler(bool enableAudioSyncedTimer)
     {
@@ -37,10 +38,10 @@ public class SoundPlayHandler
         {
             if (handle.Status == UnityEngine.ResourceManagement.AsyncOperations.AsyncOperationStatus.Succeeded)
             {
-                m_crtAtomAbcAsset = handle.Result;
+                m_criAtomAbcAsset = handle.Result;
 
                 // 音源登録
-                CriAtomAssetsLoader.AddCueSheet(m_crtAtomAbcAsset);
+                CriAtomAssetsLoader.AddCueSheet(m_criAtomAbcAsset);
             }
             else
             {
@@ -54,28 +55,28 @@ public class SoundPlayHandler
     /// </summary>
     public void ReleaseSoundSource()
     {
-        if (m_crtAtomAbcAsset != null)
+        if (m_criAtomAbcAsset != null)
         {
             // 音源削除
-            CriAtomAssetsLoader.ReleaseCueSheet(m_crtAtomAbcAsset);
+            CriAtomAssetsLoader.ReleaseCueSheet(m_criAtomAbcAsset);
 
             // リリース
-            Addressables.Release(m_crtAtomAbcAsset);
+            Addressables.Release(m_criAtomAbcAsset);
         }
 
-        m_crtAtomAbcAsset = null;
+        m_criAtomAbcAsset = null;
     }
 
     // サウンドの事前ロード
     public IEnumerator PreparePlay(int cueId)
     {
         // キューシートの読み込み待ち
-        while (m_crtAtomAbcAsset == null || !m_crtAtomAbcAsset.Loaded)
+        while (m_criAtomAbcAsset == null || !m_criAtomAbcAsset.Loaded)
         {
             yield return null;
         }
 
-        m_player.SetCue(m_crtAtomAbcAsset.Handle, cueId);
+        m_player.SetCue(m_criAtomAbcAsset.Handle, cueId);
 
         m_player.SetStartTime(0);
 
@@ -95,13 +96,13 @@ public class SoundPlayHandler
 
     public CriAtomExPlayback Play(int cueId)
     {
-        if (m_crtAtomAbcAsset.Handle == null)
+        if (m_criAtomAbcAsset.Handle == null)
         {
             Debug.LogError("CriAtomAcbAsset are not Load!!");
             return default;
         }
 
-        m_player.SetCue(m_crtAtomAbcAsset.Handle, cueId);
+        m_player.SetCue(m_criAtomAbcAsset.Handle, cueId);
 
         m_player.SetStartTime(0);
         return m_player.Start();
@@ -109,13 +110,13 @@ public class SoundPlayHandler
 
     public CriAtomExPlayback Play(string cueName)
     {
-        if (m_crtAtomAbcAsset.Handle == null)
+        if (m_criAtomAbcAsset.Handle == null)
         {
             Debug.LogError("CriAtomAcbAsset are not Load!!");
             return default;
         }
 
-        m_player.SetCue(m_crtAtomAbcAsset.Handle, cueName);
+        m_player.SetCue(m_criAtomAbcAsset.Handle, cueName);
 
         m_player.SetStartTime(0);
         return m_player.Start();

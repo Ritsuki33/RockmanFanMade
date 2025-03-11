@@ -4,17 +4,16 @@ using UnityEditor;
 using System.IO;
 using System.Text;
 using CriWare;
+using System.Collections;
 
 
-public class CriAtomCueIDGenerator :EditorWindow
+public class CriAtomCueIDGenerator : EditorWindow
 {
     private string acbFileName = "sampleAcb";
-    private string awbFileName = "SampleAwb";
     private string className = "CriAtomCueIDs";
     private string outputPath = "Assets/MyGame/Scripts";
 
     private const string PrefKeyAcb = "CriAtomCueID_AcbFileName";
-    private const string PrefKeyAwb = "CriAtomCueID_AwbFileName";
     private const string PrefKeyClass = "CriAtomCueID_ClassName";
     private const string PrefKeyPath = "CriAtomCueID_OutputPath";
 
@@ -22,7 +21,6 @@ public class CriAtomCueIDGenerator :EditorWindow
     {
         // エディタを開いたときにキャッシュを読み込む
         acbFileName = EditorPrefs.GetString(PrefKeyAcb, "sampleAcb");
-        awbFileName = EditorPrefs.GetString(PrefKeyAwb, "SampleAwb");
         className = EditorPrefs.GetString(PrefKeyClass, "CriAtomCueIDs");
         outputPath = EditorPrefs.GetString(PrefKeyPath, "Assets/MyGame/Scripts");
     }
@@ -52,13 +50,11 @@ public class CriAtomCueIDGenerator :EditorWindow
         GUILayout.Label("CRI Atom CueID Genarator", EditorStyles.boldLabel);
 
         acbFileName = EditorGUILayout.TextField("ACB File Name", acbFileName);
-        awbFileName = EditorGUILayout.TextField("AWB File Name", awbFileName);
         className = EditorGUILayout.TextField("Class Name", className);
         outputPath = EditorGUILayout.TextField("Output Path", outputPath);
 
         // 入力内容をキャッシュ
         EditorPrefs.SetString(PrefKeyAcb, acbFileName);
-        EditorPrefs.SetString(PrefKeyAwb, awbFileName);
         EditorPrefs.SetString(PrefKeyClass, className);
         EditorPrefs.SetString(PrefKeyPath, outputPath);
 
@@ -77,32 +73,39 @@ public class CriAtomCueIDGenerator :EditorWindow
 
     public void GenerateCueIDScript()
     {
-        string acbPath = Path.Combine(Application.streamingAssetsPath, acbFileName);
-        string awbPath = (string.IsNullOrEmpty(awbFileName)) ? null : Path.Combine(Application.streamingAssetsPath, awbFileName);
-        CriAtomExAcb acb = CriAtomExAcb.LoadAcbFile(null, acbPath, awbPath);
+        AudioManager.Instance.StartCoroutine(CoGenerateCueIDScript());
 
-        if (acb == null)
+        IEnumerator CoGenerateCueIDScript()
         {
-            Debug.LogError("");
+            SoundPlayHandler handler = new SoundPlayHandler(false);
+            handler.LoadSoundSource(acbFileName);
+            while (!handler.Loaded) yield return null;
+
+            CriAtomExAcb acb = handler.Acb;
+
+            if (acb == null)
+            {
+                Debug.LogError("Not found CriAtomExAcb");
+            }
+            StringBuilder sb = new StringBuilder();
+
+            sb.AppendLine($"public static class {className}");
+            sb.AppendLine("{");
+
+            CriAtomEx.CueInfo[] cueInfos = acb.GetCueInfoList();
+            foreach (var cue in cueInfos)
+            {
+                sb.AppendLine($"    public static readonly int {cue.name} = {cue.id};");
+            }
+
+            sb.AppendLine("}");
+
+            string path = $"{outputPath}/{className}.cs";
+            File.WriteAllText(path, sb.ToString(), Encoding.UTF8);
+
+            Debug.Log($"{className}.csを作成しました: {outputPath}");
+            AssetDatabase.Refresh();
         }
-        StringBuilder sb = new StringBuilder();
-
-        sb.AppendLine($"public static class {className}");
-        sb.AppendLine("{");
-
-        CriAtomEx.CueInfo[] cueInfos = acb.GetCueInfoList();
-        foreach (var cue in cueInfos)
-        {
-            sb.AppendLine($"    public static readonly int {cue.name} = {cue.id};");
-        }
-
-        sb.AppendLine("}");
-
-        string path = $"{outputPath}/{className}.cs";
-        File.WriteAllText(path, sb.ToString(), Encoding.UTF8);
-
-        Debug.Log($"{className}.csを作成しました: {outputPath}");
-        AssetDatabase.Refresh();
     }
 }
 #endif

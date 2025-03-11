@@ -213,11 +213,10 @@ public class UpdateList
                     }
                     break;
                 case ExecType.Remove:
-                    if (target.execType == ExecType.Add)
+                    if (target.execType == ExecType.Remove)
                     {
                         if (list.Contains(target.obj))
                         {
-                            target.obj.Destroy();
                             list.Remove(target.obj);
                         }
                     }

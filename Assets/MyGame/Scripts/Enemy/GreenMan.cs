@@ -313,6 +313,7 @@ public class GreenMan : StageEnemy, IDirect, IRbVisitor, IHitEvent
 
     private void Defense(RockBuster rockBuster)
     {
+        AudioManager.Instance.PlaySe(SECueIDs.kin);
         if (rockBuster.Type == RockBuster.BusterType.Mame)
         {
             ReflectBuster(rockBuster);
