@@ -61,9 +61,9 @@ public class RoadRoller : StageEnemy, IDirect, IHitEvent, IRbVisitor, IExRbVisit
         m_stateMachine.Update(this);
     }
 
-    void IHitEvent.OnBottomHitEnter(RaycastHit2D hit)
+    void IHitEvent.OnBottomHitStay(RaycastHit2D hit)
     {
-        m_stateMachine.OnBottomHitEnter(this, hit);
+        m_stateMachine.OnBottomHitStay(this, hit);
     }
 
     void IHitEvent.OnRightHitStay(RaycastHit2D hit)
@@ -104,7 +104,7 @@ public class RoadRoller : StageEnemy, IDirect, IHitEvent, IRbVisitor, IExRbVisit
             roller.exRb.velocity = roller.gravity.CurrentVelocity;
         }
 
-        protected override void OnBottomHitEnter(RoadRoller roller, RaycastHit2D hit)
+        protected override void OnBottomHitStay(RoadRoller roller, RaycastHit2D hit)
         {
             roller.m_stateMachine.TransitReady((int)StateId.Move);
         }
