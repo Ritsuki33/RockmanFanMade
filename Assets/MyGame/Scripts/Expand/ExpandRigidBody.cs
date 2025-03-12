@@ -449,7 +449,7 @@ public class ExpandRigidBody
                 else currentVelocity.y += correct;
             }
 
-            if (casheCollideTop)
+            if (!casheCollideTop)
             {
                 onHitTopEnter?.Invoke(topHit);
                 onHitEnter?.Invoke(topHit);
