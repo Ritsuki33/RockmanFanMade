@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8739075ca11f31242b289cbdf6d904c1, type: 3}
   m_Name: LiftYellow_CircleMove
   m_EditorClassIdentifier: 
-  type: 27
-  isAddressables: 0
+  type: 14
+  isAddressables: 1
   addPath: 
   defaultCapacity: 10
   maxSize: 10

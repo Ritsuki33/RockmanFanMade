@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Tire
   m_EditorClassIdentifier: 
   type: 27
-  isAddressables: 0
+  isAddressables: 1
   addPath: 
   defaultCapacity: 10
   maxSize: 10
