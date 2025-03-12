@@ -279,7 +279,7 @@ MonoBehaviour:
     length: 1
     groundLayer:
       serializedVersion: 2
-      m_Bits: 64
+      m_Bits: 131136
 --- !u!61 &1872480928021921810
 BoxCollider2D:
   m_ObjectHideFlags: 0
