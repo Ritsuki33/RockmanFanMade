@@ -3,6 +3,8 @@
 public class Batman : StageEnemy, IHitEvent, IRbVisitor, IExRbVisitor
 {
     [SerializeField] ExpandRigidBody exRb;
+
+    [SerializeField] float speed = 1;
     ExRbStateMachine<Batman> mainStateMachine = new ExRbStateMachine<Batman>();
 
     RaycastSensor sensor;
@@ -139,7 +141,6 @@ public class Batman : StageEnemy, IHitEvent, IRbVisitor, IExRbVisitor
     class Move : ExRbState<Batman, Move>
     {
         static int anmationHash = Animator.StringToHash("Move");
-        float speed = 1;
 
         Transform PlayerPos => WorldManager.Instance.Player.transform;
         protected override void Enter(Batman batman, int preId, int subId)
@@ -150,7 +151,7 @@ public class Batman : StageEnemy, IHitEvent, IRbVisitor, IExRbVisitor
         protected override void FixedUpdate(Batman batman)
         {
             Vector2 move = PlayerPos.position - batman.transform.position;
-            batman.exRb.velocity = speed * move.normalized;
+            batman.exRb.velocity = batman.speed * move.normalized;
         }
 
         protected override void OnTriggerEnter(Batman batman, RockBuster collision)
