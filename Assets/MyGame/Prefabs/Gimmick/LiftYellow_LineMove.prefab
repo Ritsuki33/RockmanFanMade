@@ -257,7 +257,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff41c30c2c293fa499d8a7480c9c28a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  outofCameraDelete: 1
+  outofCameraDelete: 0
   m_mainAnimator: {fileID: 2013140588083846850}
   animSpeed: 1
   rb: {fileID: 1157633437391631242}
