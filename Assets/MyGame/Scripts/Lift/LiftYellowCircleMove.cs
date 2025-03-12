@@ -2,7 +2,7 @@
 
 public class LiftYellowCircleMove : PhysicalObject
 {
-    [SerializeField] Transform  _center;
+    [SerializeField] Transform _center;
     [SerializeField] float speed = 2.0f;   // 加速、減速(v/s)
     StateMachine<LiftYellowCircleMove> _stateMachine = new StateMachine<LiftYellowCircleMove>();
 
@@ -18,7 +18,7 @@ public class LiftYellowCircleMove : PhysicalObject
         _stateMachine.TransitReady(0);
         base.Init();
     }
-    
+
     protected override void OnFixedUpdate()
     {
         _stateMachine.FixedUpdate(this);
@@ -26,10 +26,11 @@ public class LiftYellowCircleMove : PhysicalObject
 
     protected override void OnUpdate()
     {
+        base.OnUpdate();
         _stateMachine.Update(this);
     }
 
-    public void Setup(Transform center,float speed)
+    public void Setup(Transform center, float speed)
     {
         _center = center;
     }
@@ -48,10 +49,10 @@ public class LiftYellowCircleMove : PhysicalObject
         {
             lift.rb.SetVelocty(CircleBehaviorHelper.GetStrobe(lift._center.position, radius, radian));
 
-            radian +=lift.speed * Time.fixedDeltaTime;
+            radian += lift.speed * Time.fixedDeltaTime;
 
             // 0から2πの範囲でループさせる
-            if(radian> 2 * Mathf.PI) radian = Mathf.Repeat(radian, 2 * Mathf.PI);
+            if (radian > 2 * Mathf.PI) radian = Mathf.Repeat(radian, 2 * Mathf.PI);
         }
     }
 
