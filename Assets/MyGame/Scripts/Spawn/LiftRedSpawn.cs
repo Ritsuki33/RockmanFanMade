@@ -32,4 +32,12 @@ public class LiftRedSpawn : InCameraSpawn
         base.InitializeObject();
         Obj.Setup(start, end, idleSpeed, maxSpeed, accelerate);
     }
+
+    protected override void OnDrawGizmos()
+    {
+        base.OnDrawGizmos();
+
+        Gizmos.color = Color.red;
+        Gizmos.DrawLine(start.transform.position, end.transform.position);
+    }
 }

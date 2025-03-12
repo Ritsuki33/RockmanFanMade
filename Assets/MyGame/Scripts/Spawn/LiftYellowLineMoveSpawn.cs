@@ -36,8 +36,6 @@ public class LiftYellowLineMoveSpawn : InCameraSpawn
     {
         base.OnDrawGizmos();
 
-        Gizmos.color = Color.blue;
-
         Gizmos.color = Color.red;
 
         for (int i = 0; i < liftPoints.Length && i + 1 < liftPoints.Length; i++)
