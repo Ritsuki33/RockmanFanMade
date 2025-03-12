@@ -101,7 +101,7 @@ public class InCameraSpawn : Spawn<BaseObject>, ISpawn
     {
         protected override void Update(InCameraSpawn ctr)
         {
-            if (!GameMainManager.Instance.MainCameraControll.CheckOutOfView(ctr.gameObject))
+            if (!GameMainManager.Instance.MainCameraControll.CheckInView(ctr.gameObject, 0.05f))
             {
                 ctr.stateMachine.TransitReady((int)StateID.InCamera);
             }

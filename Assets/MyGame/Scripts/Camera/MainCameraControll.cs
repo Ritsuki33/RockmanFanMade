@@ -8,7 +8,7 @@ public class MainCameraControll : MonoBehaviour
     [SerializeField] Camera _camera;
     [SerializeField] CinemachineBrain m_cinemachineBrain = default;
 
-    [SerializeField,Range(0,1)] float outOfViewOffset = 1.0f;
+    [SerializeField, Range(0, 1)] float outOfViewOffset = 1.0f;
     public CinemachineBrain CinemachineBrain => m_cinemachineBrain;
 
     private Vector3 deltaMove = default;
@@ -53,10 +53,10 @@ public class MainCameraControll : MonoBehaviour
     /// <param name="style"></param>
     /// <param name="blendTime"></param>
     /// <param name="finishCallback"></param>
-    public void ChangePlayerCamera(CinemachineVirtualCamera virtualCamera, CinemachineBlendDefinition.Style style,float blendTime, Action finishCallback)
+    public void ChangePlayerCamera(CinemachineVirtualCamera virtualCamera, CinemachineBlendDefinition.Style style, float blendTime, Action finishCallback)
     {
         StartCoroutine(ChangeCameraCo());
-      
+
         IEnumerator ChangeCameraCo()
         {
             if (virtualCamera != null && !Equal(virtualCamera))
@@ -102,7 +102,13 @@ public class MainCameraControll : MonoBehaviour
 
     public enum OutOfViewType
     {
-        None,Top, Bottom,Left,Right
+        None, Top, Bottom, Left, Right
+    }
+
+    public bool CheckInView(GameObject gameObject, float offset)
+    {
+        OutOfViewType outOfViewType = GetOutOfViewInfo(gameObject, offset);
+        return outOfViewType != OutOfViewType.None;
     }
 
     public bool CheckOutOfView(GameObject gameObject)
@@ -117,7 +123,7 @@ public class MainCameraControll : MonoBehaviour
         return outOfViewType != OutOfViewType.None;
     }
 
-    private OutOfViewType GetOutOfViewInfo(GameObject gameObject)
+    private OutOfViewType GetOutOfViewInfo(GameObject gameObject, float offset = 0)
     {
         OutOfViewType outOfViewType = OutOfViewType.None;
 
@@ -125,12 +131,10 @@ public class MainCameraControll : MonoBehaviour
         Vector3 screenPoint = _camera.WorldToViewportPoint(gameObject.transform.position);
 
         // ビュー範囲外かどうかを判定
-        bool isOutOfView = screenPoint.x + outOfViewOffset < 0 || screenPoint.x - outOfViewOffset > 1 || screenPoint.y + outOfViewOffset < 0 || screenPoint.y - outOfViewOffset > 1;
-
-        if (screenPoint.x + outOfViewOffset < 0) outOfViewType = OutOfViewType.Left;
-        else if (screenPoint.x - outOfViewOffset > 1) outOfViewType = OutOfViewType.Right;
-        else if(screenPoint.y + outOfViewOffset < 0) outOfViewType = OutOfViewType.Bottom;
-        else if(screenPoint.y - outOfViewOffset > 1) outOfViewType = OutOfViewType.Top;
+        if (screenPoint.x + (outOfViewOffset - offset) < 0) outOfViewType = OutOfViewType.Left;
+        else if (screenPoint.x - (outOfViewOffset - offset) > 1) outOfViewType = OutOfViewType.Right;
+        else if (screenPoint.y + (outOfViewOffset - offset) < 0) outOfViewType = OutOfViewType.Bottom;
+        else if (screenPoint.y - (outOfViewOffset - offset) > 1) outOfViewType = OutOfViewType.Top;
 
         return outOfViewType;
     }
