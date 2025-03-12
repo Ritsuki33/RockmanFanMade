@@ -5,254 +5,239 @@ using UnityEngine;
 
 public partial class CachedHit
 {
-    Dictionary<RaycastHit2D, IExRbVisitable> onHitCache = new Dictionary<RaycastHit2D, IExRbVisitable>();
+    enum Hit
+    {
+        Top,
+        Bottom,
+        Right,
+        Left,
+        All
+    }
+
+    class HitCache
+    {
+        public RaycastHit2D hit;
+        public IExRbVisitable visitable;
+    }
+    Dictionary<Hit, HitCache> hitCache = new Dictionary<Hit, HitCache>{
+        {Hit.Top, new HitCache()},
+        {Hit.Bottom, new HitCache()},
+        {Hit.Right, new HitCache()},
+        {Hit.Left, new HitCache()},
+        {Hit.All, new HitCache()},
+    };
 
     public void CacheClear()
     {
-        onHitCache.Clear();
+        hitCache = new Dictionary<Hit, HitCache>{
+        {Hit.Top, new HitCache()},
+        {Hit.Bottom, new HitCache()},
+        {Hit.Right, new HitCache()},
+        {Hit.Left, new HitCache()},
+        {Hit.All, new HitCache()},
+    };
     }
 
     public void OnHitEnter(IExRbVisitor visitor, RaycastHit2D hit)
     {
         var hitv = hit.collider.transform.parent.GetComponent<IExRbVisitable>();
-
         hitv?.AcceptOnHitEnter(visitor, hit);
-
         // キャッシュ
-        if (!onHitCache.ContainsKey(hit)) onHitCache.Add(hit, hitv);
+        hitCache[Hit.All].hit = hit;
+        hitCache[Hit.All].visitable = hitv;
     }
 
     public void OnHitStay(IExRbVisitor visitor, RaycastHit2D hit)
     {
-        IExRbVisitable hitv = null;
-        if (onHitCache.ContainsKey(hit))
+        if (hitCache[Hit.All].hit.collider != hit.collider)
         {
-            hitv = onHitCache[hit];
-        }
-        else
-        {
-            hitv = hit.collider.transform.parent.GetComponent<IExRbVisitable>();
+            hitCache[Hit.All].visitable?.AcceptOnHitExit(visitor, hitCache[Hit.All].hit);
 
-            // キャッシュ
-            onHitCache.Add(hit, hitv);
+            var hitv = hit.collider.transform.parent.GetComponent<IExRbVisitable>();
+            hitv?.AcceptOnHitEnter(visitor, hit);
+            hitCache[Hit.All].hit = hit;
+            hitCache[Hit.All].visitable = hitv;
         }
 
-        hitv?.AcceptOnHitStay(visitor, hit);
+        hitCache[Hit.All].visitable?.AcceptOnHitStay(visitor, hit);
     }
 
     public void OnHitExit(IExRbVisitor visitor, RaycastHit2D hit)
     {
-        IExRbVisitable hitv = null;
-
-        if (onHitCache.ContainsKey(hit))
+        if (hitCache[Hit.All].hit)
         {
-            hitv = onHitCache[hit];
-
-            // キャッシュを削除
-            onHitCache.Remove(hit);
+            hitCache[Hit.All].visitable?.AcceptOnHitExit(visitor, hitCache[Hit.All].hit);
         }
         else
         {
-            hitv = hit.collider.transform.parent.GetComponent<IExRbVisitable>();
+            var hitv = hit.collider.transform.parent.GetComponent<IExRbVisitable>();
+            hitv?.AcceptOnHitEnter(visitor, hit);
         }
 
-        hitv?.AcceptOnHitExit(visitor, hit);
+        hitCache[Hit.All].hit = default;
+        hitCache[Hit.All].visitable = default;
+
     }
 
     public void OnBottomHitEnter(IExRbVisitor visitor, RaycastHit2D hit)
     {
-        var hitv = hit.collider.transform.parent.transform.parent.GetComponent<IExRbVisitable>();
-
+        var hitv = hit.collider.transform.parent.GetComponent<IExRbVisitable>();
         hitv?.AcceptOnBottomHitEnter(visitor, hit);
-
         // キャッシュ
-        if (!onHitCache.ContainsKey(hit)) onHitCache.Add(hit, hitv);
+        hitCache[Hit.Bottom].hit = hit;
+        hitCache[Hit.Bottom].visitable = hitv;
     }
-
 
     public void OnBottomHitStay(IExRbVisitor visitor, RaycastHit2D hit)
     {
-        IExRbVisitable hitv = null;
-
-        if (onHitCache.ContainsKey(hit))
+        if (hitCache[Hit.Bottom].hit.collider != hit.collider)
         {
-            hitv = onHitCache[hit];
-        }
-        else
-        {
-            hitv = hit.collider.transform.parent.GetComponent<IExRbVisitable>();
+            hitCache[Hit.Bottom].visitable?.AcceptOnBottomHitExit(visitor, hitCache[Hit.Bottom].hit);
 
-            // キャッシュ
-            onHitCache.Add(hit, hitv);
+            var hitv = hit.collider.transform.parent.GetComponent<IExRbVisitable>();
+            hitv?.AcceptOnBottomHitEnter(visitor, hit);
+            hitCache[Hit.Bottom].hit = hit;
+            hitCache[Hit.Bottom].visitable = hitv;
         }
 
-        hitv?.AcceptOnBottomHitStay(visitor, hit);
+        hitCache[Hit.Bottom].visitable?.AcceptOnBottomHitStay(visitor, hit);
     }
 
     public void OnBottomHitExit(IExRbVisitor visitor, RaycastHit2D hit)
     {
-        IExRbVisitable hitv = null;
-
-        if (onHitCache.ContainsKey(hit))
+        if (hitCache[Hit.Bottom].hit)
         {
-            hitv = onHitCache[hit];
-
-            // キャッシュを削除
-            onHitCache.Remove(hit);
+            hitCache[Hit.Bottom].visitable?.AcceptOnBottomHitExit(visitor, hitCache[Hit.Bottom].hit);
         }
         else
         {
-            hitv = hit.collider.transform.parent.GetComponent<IExRbVisitable>();
+            var hitv = hit.collider.transform.parent.GetComponent<IExRbVisitable>();
+            hitv?.AcceptOnBottomHitEnter(visitor, hit);
         }
 
-        hitv?.AcceptOnBottomHitExit(visitor, hit);
+        hitCache[Hit.Bottom].hit = default;
+        hitCache[Hit.Bottom].visitable = default;
 
-        // キャッシュを削除
-        if (onHitCache.ContainsKey(hit)) onHitCache.Remove(hit);
     }
 
     public void OnTopHitEnter(IExRbVisitor visitor, RaycastHit2D hit)
     {
         var hitv = hit.collider.transform.parent.GetComponent<IExRbVisitable>();
-
         hitv?.AcceptOnTopHitEnter(visitor, hit);
-
         // キャッシュ
-        if (!onHitCache.ContainsKey(hit)) onHitCache.Add(hit, hitv);
+        hitCache[Hit.Top].hit = hit;
+        hitCache[Hit.Top].visitable = hitv;
     }
 
     public void OnTopHitStay(IExRbVisitor visitor, RaycastHit2D hit)
     {
-        IExRbVisitable hitv = null;
-
-        if (onHitCache.ContainsKey(hit))
+        if (hitCache[Hit.Top].hit.collider != hit.collider)
         {
-            hitv = onHitCache[hit];
-        }
-        else
-        {
-            hitv = hit.collider.transform.parent.GetComponent<IExRbVisitable>();
+            hitCache[Hit.Top].visitable?.AcceptOnBottomHitExit(visitor, hitCache[Hit.Top].hit);
 
-            // キャッシュ
-            onHitCache.Add(hit, hitv);
+            var hitv = hit.collider.transform.parent.GetComponent<IExRbVisitable>();
+            hitv?.AcceptOnTopHitEnter(visitor, hit);
+            hitCache[Hit.Top].hit = hit;
+            hitCache[Hit.Top].visitable = hitv;
         }
 
-        hitv?.AcceptOnTopHitStay(visitor, hit);
+        hitCache[Hit.Bottom].visitable?.AcceptOnTopHitStay(visitor, hit);
     }
 
     public void OnTopHitExit(IExRbVisitor visitor, RaycastHit2D hit)
     {
-        IExRbVisitable hitv = null;
-
-        if (onHitCache.ContainsKey(hit))
+        if (hitCache[Hit.Top].hit)
         {
-            hitv = onHitCache[hit];
-
-            // キャッシュを削除
-            onHitCache.Remove(hit);
+            hitCache[Hit.Top].visitable?.AcceptOnTopHitExit(visitor, hitCache[Hit.Top].hit);
         }
         else
         {
-            hitv = hit.collider.transform.parent.GetComponent<IExRbVisitable>();
+            var hitv = hit.collider.transform.parent.GetComponent<IExRbVisitable>();
+            hitv?.AcceptOnTopHitEnter(visitor, hit);
         }
 
-        hitv?.AcceptOnTopHitExit(visitor, hit);
+        hitCache[Hit.Top].hit = default;
+        hitCache[Hit.Top].visitable = default;
     }
 
     public void OnLeftHitEnter(IExRbVisitor visitor, RaycastHit2D hit)
     {
         var hitv = hit.collider.transform.parent.GetComponent<IExRbVisitable>();
-
         hitv?.AcceptOnLeftHitEnter(visitor, hit);
-
         // キャッシュ
-        if (!onHitCache.ContainsKey(hit)) onHitCache.Add(hit, hitv);
+        hitCache[Hit.Left].hit = hit;
+        hitCache[Hit.Left].visitable = hitv;
     }
 
     public void OnLeftHitStay(IExRbVisitor visitor, RaycastHit2D hit)
     {
-        IExRbVisitable hitv = null;
-
-        if (onHitCache.ContainsKey(hit))
+        if (hitCache[Hit.Left].hit.collider != hit.collider)
         {
-            hitv = onHitCache[hit];
-        }
-        else
-        {
-            hitv = hit.collider.transform.parent.GetComponent<IExRbVisitable>();
+            hitCache[Hit.Left].visitable?.AcceptOnBottomHitExit(visitor, hitCache[Hit.Left].hit);
 
-            // キャッシュ
-            onHitCache.Add(hit, hitv);
+            var hitv = hit.collider.transform.parent.GetComponent<IExRbVisitable>();
+            hitv?.AcceptOnLeftHitEnter(visitor, hit);
+            hitCache[Hit.Left].hit = hit;
+            hitCache[Hit.Left].visitable = hitv;
         }
 
-        hitv?.AcceptOnLeftHitStay(visitor, hit);
+        hitCache[Hit.Bottom].visitable?.AcceptOnLeftHitStay(visitor, hit);
     }
 
     public void OnLeftHitExit(IExRbVisitor visitor, RaycastHit2D hit)
     {
-        IExRbVisitable hitv = null;
-
-        if (onHitCache.ContainsKey(hit))
+        if (hitCache[Hit.Left].hit)
         {
-            hitv = onHitCache[hit];
-
-            // キャッシュを削除
-            onHitCache.Remove(hit);
+            hitCache[Hit.Left].visitable?.AcceptOnLeftHitExit(visitor, hitCache[Hit.Left].hit);
         }
         else
         {
-            hitv = hit.collider.transform.parent.GetComponent<IExRbVisitable>();
+            var hitv = hit.collider.transform.parent.GetComponent<IExRbVisitable>();
+            hitv?.AcceptOnLeftHitEnter(visitor, hit);
         }
 
-        hitv?.AcceptOnLeftHitExit(visitor, hit);
+        hitCache[Hit.Left].hit = default;
+        hitCache[Hit.Left].visitable = default;
     }
 
     public void OnRightHitEnter(IExRbVisitor visitor, RaycastHit2D hit)
     {
         var hitv = hit.collider.transform.parent.GetComponent<IExRbVisitable>();
         hitv?.AcceptOnRightHitEnter(visitor, hit);
-
         // キャッシュ
-        if (!onHitCache.ContainsKey(hit)) onHitCache.Add(hit, hitv);
+        hitCache[Hit.Right].hit = hit;
+        hitCache[Hit.Right].visitable = hitv;
     }
-
 
     public void OnRightHitStay(IExRbVisitor visitor, RaycastHit2D hit)
     {
-        IExRbVisitable hitv = null;
-
-        if (onHitCache.ContainsKey(hit))
+        if (hitCache[Hit.Right].hit.collider != hit.collider)
         {
-            hitv = onHitCache[hit];
-        }
-        else
-        {
-            hitv = hit.collider.transform.parent.GetComponent<IExRbVisitable>();
+            hitCache[Hit.Right].visitable?.AcceptOnBottomHitExit(visitor, hitCache[Hit.Right].hit);
 
-            // キャッシュ
-            onHitCache.Add(hit, hitv);
+            var hitv = hit.collider.transform.parent.GetComponent<IExRbVisitable>();
+            hitv?.AcceptOnRightHitEnter(visitor, hit);
+            hitCache[Hit.Right].hit = hit;
+            hitCache[Hit.Right].visitable = hitv;
         }
 
-        hitv?.AcceptOnRightHitStay(visitor, hit);
+        hitCache[Hit.Bottom].visitable?.AcceptOnRightHitStay(visitor, hit);
     }
 
     public void OnRightHitExit(IExRbVisitor visitor, RaycastHit2D hit)
     {
-        IExRbVisitable hitv = null;
-
-        if (onHitCache.ContainsKey(hit))
+        if (hitCache[Hit.Right].hit)
         {
-            hitv = onHitCache[hit];
-
-            // キャッシュを削除
-            onHitCache.Remove(hit);
+            hitCache[Hit.Right].visitable?.AcceptOnRightHitExit(visitor, hitCache[Hit.Right].hit);
         }
         else
         {
-            hitv = hit.collider.transform.parent.GetComponent<IExRbVisitable>();
+            var hitv = hit.collider.transform.parent.GetComponent<IExRbVisitable>();
+            hitv?.AcceptOnRightHitEnter(visitor, hit);
         }
 
-        hitv?.AcceptOnRightHitExit(visitor, hit);
+        hitCache[Hit.Right].hit = default;
+        hitCache[Hit.Right].visitable = default;
     }
 }
 

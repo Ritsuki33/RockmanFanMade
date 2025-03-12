@@ -449,14 +449,8 @@ public class ExpandRigidBody
                 else currentVelocity.y += correct;
             }
 
-            if (casheCollideTop != topHit)
+            if (casheCollideTop)
             {
-                if (casheCollideTop)
-                {
-                    onHitTopExit?.Invoke(casheCollideTop);
-                    onHitExit?.Invoke(casheCollideTop);
-                }
-
                 onHitTopEnter?.Invoke(topHit);
                 onHitEnter?.Invoke(topHit);
             }
@@ -482,14 +476,8 @@ public class ExpandRigidBody
                 if (bottomHit.rigidbody) currentVelocity += bottomHit.rigidbody.velocity;
             }
 
-            if (casheCollideBottom != bottomHit)
+            if (!casheCollideBottom)
             {
-                if (casheCollideBottom)
-                {
-                    onHitBottomExit?.Invoke(casheCollideBottom);
-                    onHitExit?.Invoke(casheCollideBottom);
-                }
-
                 onHitBottomEnter?.Invoke(bottomHit);
                 onHitEnter?.Invoke(bottomHit);
             }
@@ -510,14 +498,8 @@ public class ExpandRigidBody
             float correct = (leftHit.point.x - Left + physicalGap) / Time.fixedDeltaTime;
             if (currentVelocity.x <= 0) currentVelocity.x = correct;
 
-            if (casheCollideLeft != leftHit)
+            if (!casheCollideLeft)
             {
-                if (casheCollideLeft)
-                {
-                    onHitLeftExit?.Invoke(casheCollideBottom);
-                    onHitExit?.Invoke(casheCollideBottom);
-                }
-
                 onHitLeftEnter?.Invoke(leftHit);
                 onHitEnter?.Invoke(leftHit);
             }
@@ -537,14 +519,8 @@ public class ExpandRigidBody
             if (currentVelocity.x >= 0) currentVelocity.x = correct;
             else currentVelocity.x += correct;
 
-            if (casheCollideRight != rightHit)
+            if (!casheCollideRight)
             {
-                if (casheCollideRight)
-                {
-                    onHitRightExit?.Invoke(casheCollideRight);
-                    onHitExit?.Invoke(casheCollideRight);
-                }
-
                 onHitRightEnter?.Invoke(rightHit);
                 onHitEnter?.Invoke(rightHit);
             }
