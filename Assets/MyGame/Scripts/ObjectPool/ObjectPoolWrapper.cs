@@ -38,6 +38,12 @@ public class ObjectPoolWrapper<E> where E : Enum
         }
 
         var obj = assetLoad.Load(str);
+        if (obj == null)
+        {
+            Debug.LogError($"リソースのロードに失敗しました(path:{str})");
+            return;
+        }
+
         asset = obj.GetComponent<BaseObject>();
         _root = root;
         if (asset == null)
