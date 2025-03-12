@@ -47,7 +47,7 @@ public class InCameraSpawn : Spawn<BaseObject>, ISpawn
 
     protected override BaseObject OnGetResource()
     {
-        return ObjectManager.Instance.OnGet<BaseObject>(type, (obj) => { OnDelete(); });
+        return ObjectManager.Instance.OnGet<BaseObject>(type, (obj) => { OnDelete(); this.obj = null; });
     }
 
     /// <summary>
