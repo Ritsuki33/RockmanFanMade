@@ -197,7 +197,7 @@ public class RockBusterWeapon : IPlayerWeapon
             case Chage_StateID.None:
                 if (this.isLaunchTrigger && curMameNum < mameMax)
                 {
-                    if (!isLock) LaunchMame();
+                    LaunchMame();
                     m_stateMachine.TransitReady((int)Chage_StateID.ChargeSmall);
                     callbackAfterLaunch.Invoke();
                 }
@@ -211,7 +211,7 @@ public class RockBusterWeapon : IPlayerWeapon
             case Chage_StateID.ChargeMiddle:
                 if (!this.isLaunchTrigger)
                 {
-                    if (!isLock) LaunchMiddle();
+                    LaunchMiddle();
                     m_stateMachine.TransitReady((int)Chage_StateID.None);
                     callbackAfterLaunch.Invoke();
                 }
@@ -219,7 +219,7 @@ public class RockBusterWeapon : IPlayerWeapon
             case Chage_StateID.ChargeBig:
                 if (!this.isLaunchTrigger)
                 {
-                    if (!isLock) LaunchBig();
+                    LaunchBig();
                     m_stateMachine.TransitReady((int)Chage_StateID.None);
                     callbackAfterLaunch.Invoke();
                 }
@@ -230,28 +230,37 @@ public class RockBusterWeapon : IPlayerWeapon
 
     void LaunchMame()
     {
-        var projectile = ObjectManager.OnGet<RockBuster>(PoolType.RockBuster, (pjt) => { if (curMameNum > 0) curMameNum--; });
-        projectile.Setup(m_player.Launcher.position, m_player.IsRight, 1, 16);
-        curMameNum++;
-        AudioManager.Instance.PlaySe(SECueIDs.buster);
+        if (!isLock)
+        {
+            var projectile = ObjectManager.OnGet<RockBuster>(PoolType.RockBuster, (pjt) => { if (curMameNum > 0) curMameNum--; });
+            projectile.Setup(m_player.Launcher.position, m_player.IsRight, 1, 16);
+            curMameNum++;
+            AudioManager.Instance.PlaySe(SECueIDs.buster);
+        }
     }
 
     void LaunchMiddle()
     {
         if (m_player.chargePlayback.status == CriAtomExPlayback.Status.Playing) m_player.chargePlayback.Stop();
-        var projectile = ObjectManager.OnGet<RockBuster>(PoolType.ChargeShotSmall);
-        projectile.Setup(m_player.Launcher.position, m_player.IsRight, 2, 16);
+        if (!isLock)
+        {
+            var projectile = ObjectManager.OnGet<RockBuster>(PoolType.ChargeShotSmall);
+            projectile.Setup(m_player.Launcher.position, m_player.IsRight, 2, 16);
 
-        AudioManager.Instance.PlaySe(SECueIDs.buster);
+            AudioManager.Instance.PlaySe(SECueIDs.buster);
+        }
     }
 
     void LaunchBig()
     {
         if (m_player.chargePlayback.status == CriAtomExPlayback.Status.Playing) m_player.chargePlayback.Stop();
-        var projectile = ObjectManager.OnGet<RockBuster>(PoolType.ChargeShot);
-        projectile.Setup(m_player.Launcher.position, m_player.IsRight, 3, 24);
+        if (!isLock)
+        {
+            var projectile = ObjectManager.OnGet<RockBuster>(PoolType.ChargeShot);
+            projectile.Setup(m_player.Launcher.position, m_player.IsRight, 3, 24);
 
-        AudioManager.Instance.PlaySe(SECueIDs.chargeshot);
+            AudioManager.Instance.PlaySe(SECueIDs.chargeshot);
+        }
     }
     public void Lock(bool isLock)
     {
