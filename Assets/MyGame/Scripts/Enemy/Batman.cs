@@ -74,6 +74,11 @@ public class Batman : StageEnemy, IHitEvent, IRbVisitor, IExRbVisitor
         mainStateMachine.OnTopHitEnter(this, hit);
     }
 
+    void IRbVisitor.OnTriggerEnter(PlayerAttack collision)
+    {
+        mainStateMachine.OnTriggerEnter(this, collision);
+    }
+
     void IRbVisitor.OnTriggerEnter(RockBuster collision)
     {
         mainStateMachine.OnTriggerEnter(this, collision);
@@ -105,6 +110,12 @@ public class Batman : StageEnemy, IHitEvent, IRbVisitor, IExRbVisitor
             }
             , true);
         }
+
+        protected override void OnTriggerEnter(Batman batman, PlayerAttack collision)
+        {
+            batman.Damaged(collision);
+        }
+
         protected override void OnTriggerEnter(Batman batman, RockBuster collision)
         {
             batman.Damaged(collision);
@@ -132,6 +143,11 @@ public class Batman : StageEnemy, IHitEvent, IRbVisitor, IExRbVisitor
             }
         }
 
+        protected override void OnTriggerEnter(Batman batman, PlayerAttack collision)
+        {
+            batman.Damaged(collision);
+        }
+
         protected override void OnTriggerEnter(Batman batman, RockBuster collision)
         {
             batman.Damaged(collision);
@@ -152,6 +168,11 @@ public class Batman : StageEnemy, IHitEvent, IRbVisitor, IExRbVisitor
         {
             Vector2 move = PlayerPos.position - batman.transform.position;
             batman.exRb.velocity = batman.speed * move.normalized;
+        }
+
+        protected override void OnTriggerEnter(Batman batman, PlayerAttack collision)
+        {
+            batman.Damaged(collision);
         }
 
         protected override void OnTriggerEnter(Batman batman, RockBuster collision)
