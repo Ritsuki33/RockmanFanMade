@@ -84,15 +84,18 @@ public class GameMainScreenPresenter : BaseScreenPresenter<GameMainScreen, GameM
 
     protected override void InputUpdate(InputInfo info)
     {
-        if (info.start)
+        if (m_viewModel.GameMainStateParam.GameMainState != GameMainState.Event)
         {
-            GameMainManager.Instance.TransitToPause();
-            AudioManager.Instance.PlaySystem(SECueIDs.menu);
-        }
-        else if (info.select)
-        {
-            GameMainManager.Instance.TransitToGameMenu();
-            AudioManager.Instance.PlaySystem(SECueIDs.menu);
+            if (info.start)
+            {
+                GameMainManager.Instance.TransitToPause();
+                AudioManager.Instance.PlaySystem(SECueIDs.menu);
+            }
+            else if (info.select)
+            {
+                GameMainManager.Instance.TransitToGameMenu();
+                AudioManager.Instance.PlaySystem(SECueIDs.menu);
+            }
         }
     }
 

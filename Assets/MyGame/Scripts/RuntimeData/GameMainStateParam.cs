@@ -15,6 +15,7 @@ public interface IGameMainStateParam
 {
     event Action<GameMainState> OnChangeGameMainState;
 
+    GameMainState GameMainState { get; }
     void OnRefresh();
 }
 
@@ -23,6 +24,7 @@ public class GameMainStateParam : IGameMainStateParam
     private GameMainState m_gameMainState = GameMainState.None;
     public event Action<GameMainState> OnChangeGameMainState = default;
 
+    public GameMainState GameMainState => m_gameMainState;
     public void ChangeStatus(GameMainState gameMainState)
     {
         m_gameMainState = gameMainState;
