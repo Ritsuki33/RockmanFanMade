@@ -44,6 +44,7 @@ public class ActionChainExecuter : MonoBehaviour
         PlayBGM,
         StopBGM,
         PlayerWarp,
+        DeSpawn,
     }
 
     [Serializable]
@@ -555,6 +556,16 @@ public class ActionChainExecuter : MonoBehaviour
         OnvalidateElement(element);
     }
 
+    [Serializable]
+    class DeSpawnAction : BaseAction
+    {
+        [SerializeField] Spawn spawn;
+        public override void Execute(Action finishCallback)
+        {
+            spawn.DeSpawnObject();
+            finishCallback.Invoke();
+        }
+    }
     void OnvalidateElement(Element element)
     {
         if (element == null || element.actions == null) return;
@@ -751,6 +762,12 @@ public class ActionChainExecuter : MonoBehaviour
                     if (ae.action is not PlayerWarp)
                     {
                         ae.action = new PlayerWarp();
+                    }
+                    break;
+                case ActionType.DeSpawn:
+                    if (ae.action is not DeSpawnAction)
+                    {
+                        ae.action = new DeSpawnAction();
                     }
                     break;
                 default:

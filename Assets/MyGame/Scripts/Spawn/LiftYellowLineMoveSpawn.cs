@@ -1,9 +1,10 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class LiftYellowLineMoveSpawn : InCameraSpawn
+public class LiftYellowLineMoveSpawn : Spawn<LiftYellowLineMove>
 {
     [SerializeField] Transform[] liftPoints;
     [SerializeField] float maxSpeed = 5.0f;     // 最大速度 (v)
@@ -26,16 +27,19 @@ public class LiftYellowLineMoveSpawn : InCameraSpawn
         }
     }
 
+    protected override LiftYellowLineMove OnGetResource()
+    {
+        return ObjectManager.Instance.OnGet<LiftYellowLineMove>(PoolType.LiftYellow_LineMove, (obj) => this.obj = null);
+    }
+
     protected override void InitializeObject()
     {
         base.InitializeObject();
         Obj.Setup(liftPoints, maxSpeed, accelerate);
     }
 
-    protected override void OnDrawGizmos()
+    void OnDrawGizmos()
     {
-        base.OnDrawGizmos();
-
         Gizmos.color = Color.red;
 
         for (int i = 0; i < liftPoints.Length && i + 1 < liftPoints.Length; i++)

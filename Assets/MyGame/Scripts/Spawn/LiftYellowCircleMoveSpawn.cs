@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LiftYellowCircleMoveSpawn : InCameraSpawn
+public class LiftYellowCircleMoveSpawn : Spawn<LiftYellowCircleMove>
 {
     [SerializeField] Transform _center;
     [SerializeField] float speed = 2.0f;
@@ -23,17 +23,18 @@ public class LiftYellowCircleMoveSpawn : InCameraSpawn
             }
         }
     }
-
+    protected override LiftYellowCircleMove OnGetResource()
+    {
+        return ObjectManager.Instance.OnGet<LiftYellowCircleMove>(PoolType.LiftYellow_CircleMove, (obj) => this.obj = null);
+    }
     protected override void InitializeObject()
     {
         base.InitializeObject();
         Obj.Setup(_center, speed);
     }
 
-    protected override void OnDrawGizmos()
+    void OnDrawGizmos()
     {
-        base.OnDrawGizmos();
-
         Gizmos.color = Color.blue;
 
         Gizmos.DrawSphere(this._center.position, 0.3f);
