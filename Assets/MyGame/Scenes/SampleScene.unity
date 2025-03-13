@@ -5016,7 +5016,6 @@ MonoBehaviour:
   tweemAnimator: {fileID: 577391379}
   gaugeSelectController: {fileID: 1322798089}
   itemSelectController: {fileID: 1725449055}
-  footerUI: {fileID: 0}
 --- !u!114 &577391379
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7765,8 +7764,10 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 1a144b6767c6af04e92ab0afda66ed93, type: 2}
     - {fileID: 11400000, guid: c629d4906ec1a9d47a3db8183036e391, type: 2}
     - {fileID: 11400000, guid: 8eeeedfa63295a742a4cab3f725796ec, type: 2}
-    - {fileID: 11400000, guid: a73d81d8153dce9468813bd17aaa4541, type: 2}
+    - {fileID: 11400000, guid: 7a1bcea4e8785a54f8b3c3b13256e39a, type: 2}
+    - {fileID: 11400000, guid: 71649c6e5fd3b984687fcccbea2c1e1d, type: 2}
     - {fileID: 11400000, guid: 4d63e1b88ec999f4f84cc6754f63806f, type: 2}
+    - {fileID: 11400000, guid: eb21e36f2d6b4394d94625b1d97ae178, type: 2}
     - {fileID: 11400000, guid: f7037ea865bed99478a374cb2313a2ae, type: 2}
     - {fileID: 11400000, guid: baa2b397bf7221945bd8df63f9d931af, type: 2}
     - {fileID: 11400000, guid: 632bdbef39667ca428d202d6aed8499f, type: 2}
@@ -7777,6 +7778,7 @@ MonoBehaviour:
     - {fileID: 11400000, guid: d629cd22cf1a381428f87560ab972535, type: 2}
     - {fileID: 11400000, guid: 16afca2f2a98f2e4c949d33ac6c85abd, type: 2}
     - {fileID: 11400000, guid: de9f2d374be338a46817e0995fc8d351, type: 2}
+    - {fileID: 11400000, guid: f17a2d00999cb0e41812698f5de40159, type: 2}
 --- !u!1001 &849655977
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -17097,8 +17099,8 @@ MonoBehaviour:
   m_UpdateMethod: 2
   m_BlendUpdateMethod: 1
   m_DefaultBlend:
-    m_Style: 6
-    m_Time: 0.8
+    m_Style: 0
+    m_Time: 0
     m_CustomCurve:
       serializedVersion: 2
       m_Curve: []
