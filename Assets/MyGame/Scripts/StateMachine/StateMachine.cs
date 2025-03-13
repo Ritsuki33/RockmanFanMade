@@ -266,14 +266,19 @@ public class InheritStateMachine<T, S> : CommonStateMachine<T, S>
             preId = curId;
 
             curId = requestId;
+
+            requestId = -1;
+
             // 出口処理
             curState?.Exit(obj, curId);
             curState = states[curId];
             // 入口処理
             curState?.Enter(obj, preId, requestSubId);
         }
-
-        requestId = -1;
+        else
+        {
+            requestId = -1;
+        }
     }
 }
 
