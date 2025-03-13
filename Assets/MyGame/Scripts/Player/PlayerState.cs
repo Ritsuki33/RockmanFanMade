@@ -792,6 +792,7 @@ public partial class StagePlayer
                     this.TransitSubReady((int)SubStateId.Float);
                 }
             }
+            player.paramStatus.CurrentWeapon.Lock(true);
         }
 
         protected override void FixedUpdate(StagePlayer player)
@@ -800,6 +801,15 @@ public partial class StagePlayer
             player.exRb.velocity = player.gravity.CurrentVelocity;
         }
 
+        protected override void Update(StagePlayer player)
+        {
+            player.paramStatus.CurrentWeapon.LaunchTrigger(player.inputInfo.fire, () => { });
+        }
+
+        protected override void Exit(StagePlayer player, int nextId)
+        {
+            player.paramStatus.CurrentWeapon.Lock(false);
+        }
 
         class Float : ExRbSubState<StagePlayer, Float, AutoMove>
         {

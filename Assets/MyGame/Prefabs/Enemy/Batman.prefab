@@ -31,7 +31,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.5, y: 1.5, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 431874789048566670}
@@ -145,7 +145,7 @@ MonoBehaviour:
   m_mainAnimator: {fileID: 7417334609489879742}
   animSpeed: 1
   rb: {fileID: 7690334316104389653}
-  enemyData: {fileID: 0}
+  enemyData: {fileID: 11400000, guid: 91dfbe4e0e502bb4a88157fc47c421f5, type: 2}
   defeatEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -161,6 +161,7 @@ MonoBehaviour:
     throughFloorLayer:
       serializedVersion: 2
       m_Bits: 768
+  speed: 4
 --- !u!114 &1500649302249205045
 MonoBehaviour:
   m_ObjectHideFlags: 0

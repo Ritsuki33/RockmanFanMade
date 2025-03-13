@@ -17,6 +17,8 @@ public interface IPlayerWeapon
     void OnRefresh();
 
     PlayerWeaponType Type { get; }
+
+    void Lock(bool isLock);
 }
 public class BasePlayerWeapon
 {
@@ -24,7 +26,7 @@ public class BasePlayerWeapon
     public int EnergyMax { get; protected set; } = 27;
     public event Action<int, int> EnergyChangeCallback;
     public event Action<int, int, Action> EnergyRecoveryCallback;
-
+    protected bool isLock = false;
     public void ConsumeEnergy(int amount)
     {
         Energy -= amount;
@@ -43,6 +45,10 @@ public class BasePlayerWeapon
             hpPlayback.Stop();
             callback?.Invoke();
         });
+    }
+    public void Lock(bool isLock)
+    {
+        this.isLock = isLock;
     }
 
     public void OnRefresh()
@@ -72,6 +78,7 @@ public class RockBusterWeapon : IPlayerWeapon
 
     public event Action<int, int> EnergyChangeCallback;
     public event Action<int, int, Action> EnergyRecoveryCallback;
+    protected bool isLock = false;
 
     class None : State<RockBusterWeapon, None>
     {
@@ -177,6 +184,8 @@ public class RockBusterWeapon : IPlayerWeapon
         isLaunchTrigger = false;
         m_stateMachine.TransitReady((int)Chage_StateID.None);
         if (m_player.chargePlayback.status == CriAtomExPlayback.Status.Playing) m_player.chargePlayback.Stop();
+
+        isLock = false;
     }
 
     public void LaunchTrigger(bool trigger, Action callbackAfterLaunch)
@@ -188,7 +197,7 @@ public class RockBusterWeapon : IPlayerWeapon
             case Chage_StateID.None:
                 if (this.isLaunchTrigger && curMameNum < mameMax)
                 {
-                    LaunchMame();
+                    if (!isLock) LaunchMame();
                     m_stateMachine.TransitReady((int)Chage_StateID.ChargeSmall);
                     callbackAfterLaunch.Invoke();
                 }
@@ -202,7 +211,7 @@ public class RockBusterWeapon : IPlayerWeapon
             case Chage_StateID.ChargeMiddle:
                 if (!this.isLaunchTrigger)
                 {
-                    LaunchMiddle();
+                    if (!isLock) LaunchMiddle();
                     m_stateMachine.TransitReady((int)Chage_StateID.None);
                     callbackAfterLaunch.Invoke();
                 }
@@ -210,7 +219,7 @@ public class RockBusterWeapon : IPlayerWeapon
             case Chage_StateID.ChargeBig:
                 if (!this.isLaunchTrigger)
                 {
-                    LaunchBig();
+                    if (!isLock) LaunchBig();
                     m_stateMachine.TransitReady((int)Chage_StateID.None);
                     callbackAfterLaunch.Invoke();
                 }
@@ -243,6 +252,10 @@ public class RockBusterWeapon : IPlayerWeapon
         projectile.Setup(m_player.Launcher.position, m_player.IsRight, 3, 24);
 
         AudioManager.Instance.PlaySe(SECueIDs.chargeshot);
+    }
+    public void Lock(bool isLock)
+    {
+        this.isLock = isLock;
     }
 
     public void ConsumeEnergy(int amount) { /*特になし*/ }

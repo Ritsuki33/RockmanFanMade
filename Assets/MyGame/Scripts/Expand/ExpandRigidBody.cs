@@ -56,12 +56,12 @@ public class ExpandRigidBody
     Vector3 TopColliderCenter
     {
         get { return BoxColliderCenter + new Vector3(0, boxColliderSize.y / 2); }
-        set { BoxColliderCenter = value - new Vector3(0, boxColliderSize.y / 2,0); }
+        set { BoxColliderCenter = value - new Vector3(0, boxColliderSize.y / 2, 0); }
     }
     Vector3 BottomColliderCenter
     {
-        get { return BoxColliderCenter + new Vector3(0, -boxColliderSize.y / 2,0); }
-        set { BoxColliderCenter = value - new Vector3(0, -boxColliderSize.y / 2,0); }
+        get { return BoxColliderCenter + new Vector3(0, -boxColliderSize.y / 2, 0); }
+        set { BoxColliderCenter = value - new Vector3(0, -boxColliderSize.y / 2, 0); }
     }
     Vector3 RigthColliderCenter
     {
@@ -187,14 +187,14 @@ public class ExpandRigidBody
             }
             else if (priority == Priority.Right)
             {
-                float center_x = (Left + (BoxColliderCenter.x + VirtuaBaseSize.x / 2)) / 2; 
+                float center_x = (Left + (BoxColliderCenter.x + VirtuaBaseSize.x / 2)) / 2;
                 float center_y = BoxColliderCenter.y + VirtuaBaseSize.y / 2;
 
                 return new Vector2(center_x, center_y);
             }
             else
             {
-                return BoxColliderCenter + new Vector3(0, VirtuaBaseSize.y / 2,0);
+                return BoxColliderCenter + new Vector3(0, VirtuaBaseSize.y / 2, 0);
             }
         }
     }
@@ -219,7 +219,7 @@ public class ExpandRigidBody
             }
             else
             {
-                return BoxColliderCenter - new Vector3(0, VirtuaBaseSize.y / 2,0);
+                return BoxColliderCenter - new Vector3(0, VirtuaBaseSize.y / 2, 0);
             }
         }
     }
@@ -244,7 +244,7 @@ public class ExpandRigidBody
             }
             else
             {
-                return BoxColliderCenter + new Vector3(VirtuaBaseSize.x / 2, 0,0);
+                return BoxColliderCenter + new Vector3(VirtuaBaseSize.x / 2, 0, 0);
             }
         }
     }
@@ -262,7 +262,7 @@ public class ExpandRigidBody
             }
             else if (priority == Priority.Top)
             {
-                float center_x = BoxColliderCenter.x -  VirtuaBaseSize.x / 2;
+                float center_x = BoxColliderCenter.x - VirtuaBaseSize.x / 2;
                 float center_y = (Bottom + (BoxColliderCenter.y + VirtuaBaseSize.y / 2)) / 2;
 
                 return new Vector2(center_x, center_y);
@@ -355,7 +355,7 @@ public class ExpandRigidBody
 
     public void FixedUpdate()
     {
-       if((boxCollider == null) ? false : (!(boxCollider.enabled) ? false : (boxCollider.isTrigger) ? false : true)) CorrectVelocity();
+        if ((boxCollider == null) ? false : (!(boxCollider.enabled) ? false : (boxCollider.isTrigger) ? false : true)) CorrectVelocity();
         rb.velocity = currentVelocity;
         currentVelocity = Vector2.zero;
     }
@@ -399,7 +399,7 @@ public class ExpandRigidBody
             , HorizenCheckHitRightSize
             , 0
             , Vector2.right
-            , Right - (VirtualRightColliderCenter.x-0.005f) + ((CurrentMovement.x > 0) ? Mathf.Abs(CurrentMovement.x) : 0)
+            , Right - (VirtualRightColliderCenter.x - 0.005f) + ((CurrentMovement.x > 0) ? Mathf.Abs(CurrentMovement.x) : 0)
             , physicalLayer);
 
 
@@ -408,12 +408,12 @@ public class ExpandRigidBody
             , HorizenCheckHitLeftSize
             , 0
             , Vector2.left
-            , VirtualLeftColliderCenter.x+ 0.005f - Left + ((CurrentMovement.x < 0) ? Mathf.Abs(CurrentMovement.x) : 0)
+            , VirtualLeftColliderCenter.x + 0.005f - Left + ((CurrentMovement.x < 0) ? Mathf.Abs(CurrentMovement.x) : 0)
             , physicalLayer);
 
         // ヒット情報から内部ヒットは除外、一番近いヒット情報を利用
         topHit = default;
-        foreach(var hit in topHits)
+        foreach (var hit in topHits)
         {
             if (hit.distance < 0.001f) continue;
             topHit = hit; break;
@@ -449,14 +449,8 @@ public class ExpandRigidBody
                 else currentVelocity.y += correct;
             }
 
-            if (casheCollideTop != topHit)
+            if (!casheCollideTop)
             {
-                if (casheCollideTop)
-                {
-                    onHitTopExit?.Invoke(casheCollideTop);
-                    onHitExit?.Invoke(casheCollideTop);
-                }
-
                 onHitTopEnter?.Invoke(topHit);
                 onHitEnter?.Invoke(topHit);
             }
@@ -482,14 +476,8 @@ public class ExpandRigidBody
                 if (bottomHit.rigidbody) currentVelocity += bottomHit.rigidbody.velocity;
             }
 
-            if (casheCollideBottom != bottomHit)
+            if (!casheCollideBottom)
             {
-                if (casheCollideBottom)
-                {
-                    onHitBottomExit?.Invoke(casheCollideBottom);
-                    onHitExit?.Invoke(casheCollideBottom);
-                }
-
                 onHitBottomEnter?.Invoke(bottomHit);
                 onHitEnter?.Invoke(bottomHit);
             }
@@ -510,14 +498,8 @@ public class ExpandRigidBody
             float correct = (leftHit.point.x - Left + physicalGap) / Time.fixedDeltaTime;
             if (currentVelocity.x <= 0) currentVelocity.x = correct;
 
-            if (casheCollideLeft != leftHit)
+            if (!casheCollideLeft)
             {
-                if (casheCollideLeft)
-                {
-                    onHitLeftExit?.Invoke(casheCollideBottom);
-                    onHitExit?.Invoke(casheCollideBottom);
-                }
-
                 onHitLeftEnter?.Invoke(leftHit);
                 onHitEnter?.Invoke(leftHit);
             }
@@ -537,14 +519,8 @@ public class ExpandRigidBody
             if (currentVelocity.x >= 0) currentVelocity.x = correct;
             else currentVelocity.x += correct;
 
-            if (casheCollideRight!=rightHit)
+            if (!casheCollideRight)
             {
-                if (casheCollideRight)
-                {
-                    onHitRightExit?.Invoke(casheCollideRight);
-                    onHitExit?.Invoke(casheCollideRight);
-                }
-
                 onHitRightEnter?.Invoke(rightHit);
                 onHitEnter?.Invoke(rightHit);
             }
@@ -554,8 +530,8 @@ public class ExpandRigidBody
         }
         else if (casheCollideRight)
         {
-                onHitRightExit?.Invoke(casheCollideRight);
-                onHitExit?.Invoke(casheCollideRight);
+            onHitRightExit?.Invoke(casheCollideRight);
+            onHitExit?.Invoke(casheCollideRight);
         }
 
         casheCollideTop = topHit;

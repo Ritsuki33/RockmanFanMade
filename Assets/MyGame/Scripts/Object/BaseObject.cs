@@ -71,7 +71,7 @@ public class BaseObject : MonoBehaviour, IObjectInterpreter
 
     protected virtual void OnUpdate()
     {
-        if (GameMainManager.Instance.MainCameraControll.CheckOutOfView(gameObject))
+        if (outofCameraDelete && GameMainManager.Instance.MainCameraControll.CheckOutOfView(gameObject))
         {
             Delete();
         }

@@ -300,7 +300,7 @@ MonoBehaviour:
     length: 1
     groundLayer:
       serializedVersion: 2
-      m_Bits: 64
+      m_Bits: 131136
   jump:
     maxSpeed: 15
   walk: 1

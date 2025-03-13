@@ -106,7 +106,7 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!1 &8979186134301190734
+--- !u!1 &2094501963483331450
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -114,55 +114,37 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 8348529158443995604}
-  - component: {fileID: 3586125331220617629}
-  - component: {fileID: 704202969504351679}
-  m_Layer: 6
-  m_Name: Tire
+  - component: {fileID: 8851076707478281530}
+  - component: {fileID: 4555217107251523355}
+  m_Layer: 0
+  m_Name: TriggerBox
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &8348529158443995604
+--- !u!4 &8851076707478281530
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8979186134301190734}
+  m_GameObject: {fileID: 2094501963483331450}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -0.07451572, y: -0.066256635, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 220858981626614421}
-  m_Father: {fileID: 0}
+  m_Children: []
+  m_Father: {fileID: 8348529158443995604}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3586125331220617629
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8979186134301190734}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 172a33b8d51dd044abc936f867e4ad92, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  outofCameraDelete: 1
-  m_mainAnimator: {fileID: 6656847160087917979}
-  animSpeed: 1
-  jumpPower: 40
---- !u!61 &704202969504351679
+--- !u!61 &4555217107251523355
 BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8979186134301190734}
+  m_GameObject: {fileID: 2094501963483331450}
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
@@ -201,3 +183,53 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1.48, y: 0.63254505}
   m_EdgeRadius: 0
+--- !u!1 &8979186134301190734
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8348529158443995604}
+  - component: {fileID: 3586125331220617629}
+  m_Layer: 6
+  m_Name: Tire
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8348529158443995604
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8979186134301190734}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 220858981626614421}
+  - {fileID: 8851076707478281530}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3586125331220617629
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8979186134301190734}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 172a33b8d51dd044abc936f867e4ad92, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  outofCameraDelete: 1
+  m_mainAnimator: {fileID: 6656847160087917979}
+  animSpeed: 1
+  jumpPower: 40

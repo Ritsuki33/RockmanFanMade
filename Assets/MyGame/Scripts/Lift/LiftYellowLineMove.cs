@@ -36,6 +36,7 @@ public class LiftYellowLineMove : PhysicalObject
 
     protected override void OnUpdate()
     {
+        base.OnUpdate();
         _stateMachine.Update(this);
     }
 
@@ -116,7 +117,7 @@ public class LiftYellowLineMove : PhysicalObject
         for (int i = 0; i < _liftPoints.Length; i++)
         {
             int start = i;
-            int end= i + 1;
+            int end = i + 1;
             if (end == _liftPoints.Length) end = 0;
             Gizmos.DrawLine(_liftPoints[start].position, _liftPoints[end].position);
         }

@@ -25,8 +25,6 @@ public class LiftRed : PhysicalObject
 
         base.Init();
         m_StateMachine.TransitReady(0);
-
-        this.transform.position = start.position;
     }
 
     protected override void Init()
@@ -40,7 +38,7 @@ public class LiftRed : PhysicalObject
         m_StateMachine.FixedUpdate(this);
     }
 
-    public void Setup(Transform start,Transform end,float idleSpeed,float maxSpeed,float accelerate)
+    public void Setup(Transform start, Transform end, float idleSpeed, float maxSpeed, float accelerate)
     {
         this.start = start;
         this.end = end;
@@ -126,7 +124,7 @@ public class LiftRed : PhysicalObject
         }
     }
 
-    class UpIdle:State<LiftRed,UpIdle>
+    class UpIdle : State<LiftRed, UpIdle>
     {
         float time = 0;
         protected override void Enter(LiftRed obj, int preId, int subId)

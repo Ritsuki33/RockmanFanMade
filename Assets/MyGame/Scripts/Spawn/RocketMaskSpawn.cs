@@ -2,22 +2,19 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LiftRedSpawn : InCameraSpawn
+public class RocketMastSpawn : InCameraEnemySpawn
 {
-    [SerializeField] Transform start;
-    [SerializeField] Transform end;
-    [SerializeField] float idleSpeed = 5f;
-    [SerializeField] float maxSpeed = 10f;
-    [SerializeField] float accelerate = 15f;
+    [SerializeField] float distance = 5.0f;
+    [SerializeField] float speed = 2.0f;
 
-    public new LiftRed Obj
+    public new RocketMask Obj
     {
         get
         {
-            LiftRed lift = null;
-            if (lift = base.Obj as LiftRed)
+            RocketMask rocketMask = null;
+            if (rocketMask = base.Obj as RocketMask)
             {
-                return lift;
+                return rocketMask;
             }
             else
             {
@@ -30,14 +27,14 @@ public class LiftRedSpawn : InCameraSpawn
     protected override void InitializeObject()
     {
         base.InitializeObject();
-        Obj.Setup(start, end, idleSpeed, maxSpeed, accelerate);
+        Obj.Setup(distance, speed);
     }
 
     protected override void OnDrawGizmos()
     {
         base.OnDrawGizmos();
-
         Gizmos.color = Color.red;
-        Gizmos.DrawLine(start.transform.position, end.transform.position);
+        Gizmos.DrawLine(this.transform.position, this.transform.position - Vector3.right * distance);
     }
+
 }

@@ -1,16 +1,18 @@
 ﻿using UnityEngine;
 
-public interface ISpawn {
+public interface ISpawn
+{
     void Initialize();
     void OnUpdate();
     void Terminate();
 }
 
-public abstract class Spawn: MonoBehaviour
+public abstract class Spawn : MonoBehaviour
 {
     protected BaseObject obj;
     public BaseObject Obj => obj;
     public abstract void TrySpawnObject();
+    public abstract void DeSpawnObject();
 }
 
 public abstract class Spawn<T> : Spawn where T : BaseObject
@@ -24,10 +26,16 @@ public abstract class Spawn<T> : Spawn where T : BaseObject
         if (obj == null)
         {
             Debug.Log("リソースを取得できなかったため、スポーン出来ません");
-            return ;
+            return;
         }
 
         InitializeObject();
+    }
+    public override void DeSpawnObject()
+    {
+        if (!obj) return;
+
+        obj.Delete();
     }
 
     abstract protected T OnGetResource();

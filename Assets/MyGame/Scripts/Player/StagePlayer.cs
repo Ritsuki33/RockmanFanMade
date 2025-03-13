@@ -50,7 +50,7 @@ public partial class StagePlayer : PhysicalObject, IDirect, IBeltConveyorVelocit
 
     Ground curGround = default;
 
-
+    private bool inputable = true;
 
     readonly int rimLightColorId = Shader.PropertyToID("_RimLightColor");
     readonly int FadeLightId = Shader.PropertyToID("_FadeLight");
@@ -132,6 +132,8 @@ public partial class StagePlayer : PhysicalObject, IDirect, IBeltConveyorVelocit
         paramStatus.ChangeWeaponCallback += ChangePlayerColor;
         paramStatus.OnChangeWeapon(PlayerWeaponType.RockBuster);
         paramStatus.CurrentWeapon.ChargeInit();
+
+        inputable = true;
     }
 
     protected override void Destroy()
@@ -196,7 +198,8 @@ public partial class StagePlayer : PhysicalObject, IDirect, IBeltConveyorVelocit
 
     public void UpdateInput(GameMainManager.InputInfo input)
     {
-        inputInfo = input;
+        if (inputable) inputInfo = input;
+        else inputInfo = default;
     }
 
     public void Dead()
@@ -245,7 +248,9 @@ public partial class StagePlayer : PhysicalObject, IDirect, IBeltConveyorVelocit
     /// <param name="actionFinishCallback"></param>
     public void InputProhibit(Action actionFinishCallback)
     {
-        m_mainStateMachine.TransitReady((int)Main_StateID.AutoMove, (int)AutoMove.SubStateId.Wait);
+        inputable = false;
+        invincible = true;
+        paramStatus.CurrentWeapon.ChargeInit();
     }
 
     /// <summary>
@@ -253,6 +258,8 @@ public partial class StagePlayer : PhysicalObject, IDirect, IBeltConveyorVelocit
     /// </summary>
     public void InputPermission()
     {
+        inputable = true;
+        invincible = false;
         m_mainStateMachine.TransitReady((int)Main_StateID.Standing);
     }
 

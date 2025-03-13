@@ -13,7 +13,7 @@ public partial class Mettoru
         protected override void Enter(Mettoru mettoru, int preId, int subId)
         {
             mettoru.MainAnimator.Play(animationHash);
-            timer.Start(0.5f, 2.0f);
+            timer.Start(0.8f, 1.0f);
         }
 
         protected override void FixedUpdate(Mettoru mettoru)
@@ -73,7 +73,7 @@ public partial class Mettoru
         {
             mettoru.MainAnimator.Play(animationHash);
             mettoru.TurnToTarget(mettoru.Player.transform.position);
-            timer.Start(0.5f, 2.0f);
+            timer.Start(1.5f, 2.0f);
         }
 
         protected override void FixedUpdate(Mettoru mettoru)
@@ -170,7 +170,7 @@ public partial class Mettoru
         protected override void Enter(Mettoru mettoru, int preId, int subId)
         {
             mettoru.MainAnimator.Play(animationHash);
-            timer.Start(1, 3);
+            timer.Start(0.2f, 0.5f);
         }
 
         protected override void FixedUpdate(Mettoru mettoru)
@@ -219,7 +219,7 @@ public partial class Mettoru
         {
             mettoru.MainAnimator.Play(animationHash);
             mettoru.Fire();
-            timer.Start(1, 3);
+            timer.Start(1.0f, 2.0f);
         }
 
         protected override void FixedUpdate(Mettoru mettoru)
@@ -264,7 +264,7 @@ public partial class Mettoru
         {
             mettoru.MainAnimator.Play(animationHash);
             mettoru.Fire();
-            timer.Start(0.5f, 2.0f);
+            timer.Start(0.1f, 0.3f);
         }
 
         protected override void FixedUpdate(Mettoru mettoru)

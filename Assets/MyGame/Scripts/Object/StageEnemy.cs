@@ -13,6 +13,7 @@ public class StageEnemy : PhysicalObject
 
     public ParamStatus statusParam = null;
 
+    public Action onDeadCallback = null;
     protected override void Init()
     {
         base.Init();
@@ -74,8 +75,8 @@ public class StageEnemy : PhysicalObject
         explode.Setup(Explode.Layer.None, this.transform.position, 0);
         AudioManager.Instance.PlaySe(SECueIDs.explosion);
 
+        onDeadCallback?.Invoke();
         Delete();
-
     }
 
     /// <summary>

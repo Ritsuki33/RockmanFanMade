@@ -2,20 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[Flags]
-public enum DropItemType
-{
-    Recovery = 1 << 0,
-    Recovery_Big = 1 << 2,
-}
-
 /// <summary>
 /// 敵のスポーン制御
 /// </summary>
 public class InCameraSpawn : Spawn<BaseObject>, ISpawn
 {
     [SerializeField] PoolType type;
-    [SerializeField] DropItemType dropItem = DropItemType.Recovery | DropItemType.Recovery_Big;
 
     public bool IsDeath => Obj == null || !Obj.gameObject.activeSelf;
 
@@ -47,51 +39,7 @@ public class InCameraSpawn : Spawn<BaseObject>, ISpawn
 
     protected override BaseObject OnGetResource()
     {
-        return ObjectManager.Instance.OnGet<BaseObject>(type, (obj) => { OnDelete(); });
-    }
-
-    /// <summary>
-    /// オブジェクト消滅時
-    /// </summary>
-    private void OnDelete()
-    {
-        if (dropItem == 0) return;
-        Probability.BranchMethods(
-            (0, null),
-            (100, OnDropItem)
-            );
-    }
-
-    /// <summary>
-    /// ドロップアイテムの選定
-    /// </summary>
-    private void OnDropItem()
-    {
-        List<DropItemType> targets = new List<DropItemType>();
-
-        foreach (DropItemType item in Enum.GetValues(typeof(DropItemType)))
-        {
-            if ((dropItem & item) != 0)
-            {
-                targets.Add(item);
-            }
-        }
-
-        DropItemType type = targets[(int)UnityEngine.Random.Range(0, targets.Count)];
-
-        switch (type)
-        {
-            case DropItemType.Recovery:
-                Recovery recovery = ObjectManager.Instance.OnGet<Recovery>(PoolType.Recovery);
-                recovery.transform.position = Obj.transform.position;
-                break;
-            case DropItemType.Recovery_Big:
-                Recovery recoveryBig = ObjectManager.Instance.OnGet<Recovery>(PoolType.Recovery_Big);
-                recoveryBig.transform.position = Obj.transform.position;
-                break;
-            default:
-                break;
-        }
+        return ObjectManager.Instance.OnGet<BaseObject>(type, (obj) => this.obj = null);
     }
 
     /// <summary>
@@ -101,7 +49,7 @@ public class InCameraSpawn : Spawn<BaseObject>, ISpawn
     {
         protected override void Update(InCameraSpawn ctr)
         {
-            if (!GameMainManager.Instance.MainCameraControll.CheckOutOfView(ctr.gameObject))
+            if (!GameMainManager.Instance.MainCameraControll.CheckInView(ctr.gameObject, 0.05f))
             {
                 ctr.stateMachine.TransitReady((int)StateID.InCamera);
             }
@@ -125,5 +73,11 @@ public class InCameraSpawn : Spawn<BaseObject>, ISpawn
                 ctr.stateMachine.TransitReady((int)StateID.OutOfCamera);
             }
         }
+    }
+
+    protected virtual void OnDrawGizmos()
+    {
+        Gizmos.color = Color.green;
+        Gizmos.DrawCube(this.transform.position, Vector3.one * 0.4f);
     }
 }
