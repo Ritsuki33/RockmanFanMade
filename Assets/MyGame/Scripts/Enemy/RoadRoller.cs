@@ -42,6 +42,7 @@ public class RoadRoller : StageEnemy, IDirect, IHitEvent, IRbVisitor, IExRbVisit
     protected override void Init()
     {
         base.Init();
+        direct.TurnTo(false);
         m_stateMachine.TransitReady((int)StateId.Float);
     }
 
