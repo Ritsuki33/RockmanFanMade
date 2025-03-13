@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.PackageManager.Requests;
 using UnityEngine;
-using UnityEngine.InputSystem.XR;
 
 public interface IScreen<T> where T : Enum
 {

@@ -1,6 +1,5 @@
 ﻿using System.Collections;
 using UnityEngine;
-using UnityEngine.WSA;
 
 public partial class Mettoru : StageEnemy, IDirect, IHitEvent, IRbVisitor, IExRbVisitor
 {
