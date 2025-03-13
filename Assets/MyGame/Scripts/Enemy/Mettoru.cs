@@ -112,7 +112,7 @@ public partial class Mettoru : StageEnemy, IDirect, IHitEvent, IRbVisitor, IExRb
     {
         var fire = ObjectManager.Instance.OnGet<SimpleProjectileComponent>(PoolType.MettoruFire);
         Vector2 direction = IsRight ? Vector2.right : Vector2.left;
-        float speed = 5;
+        float speed = 10;
         fire.Setup(
            this.transform.position,
            IsRight,

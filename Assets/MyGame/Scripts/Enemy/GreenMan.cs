@@ -354,7 +354,7 @@ public class GreenMan : StageEnemy, IDirect, IRbVisitor, IHitEvent
     void Atack()
     {
         Vector2 direction = IsRight ? Vector2.right : Vector2.left;
-        float speed = 5;
+        float speed = 10;
 
         var projectile = ObjectManager.Instance.OnGet<SimpleProjectileComponent>(PoolType.MettoruFire);
 
