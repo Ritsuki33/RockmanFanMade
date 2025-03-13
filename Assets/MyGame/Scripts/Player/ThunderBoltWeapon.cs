@@ -23,7 +23,7 @@ public class ThunderBoltWeapon : BasePlayerWeapon, IPlayerWeapon
     {
         if (isTrigger && !isLaunchTrigger && num == 0)
         {
-            OnLaunch(m_player.IsRight);
+            if (!isLock) OnLaunch(m_player.IsRight);
             actionFinishCallback?.Invoke();
         }
 
