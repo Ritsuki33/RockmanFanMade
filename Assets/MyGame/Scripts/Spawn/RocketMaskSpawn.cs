@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RocketMastSpawn : InCameraSpawn
+public class RocketMastSpawn : InCameraEnemySpawn
 {
     [SerializeField] float distance = 5.0f;
     [SerializeField] float speed = 2.0f;
