@@ -149,9 +149,13 @@ public class GameMainManager : BaseManager<GameMainManager>
 
     public void GameStageEnd()
     {
-        ObjectManager.Instance.Destroy();
-        DestroyWorld();
-        SceneManager.Instance.ChangeManager(ManagerType.BossSelect);
+        FadeInManager.Instance.FadeOutImmediate();
+        ScreenContainer.Close(true, () =>
+        {
+            ObjectManager.Instance.Destroy();
+            DestroyWorld();
+            SceneManager.Instance.ChangeManager(ManagerType.BossSelect);
+        });
     }
 
     public void TransitToGameMenu()
