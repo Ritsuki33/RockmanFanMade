@@ -25,4 +25,5 @@
     public static readonly int shakin = 23;
     public static readonly int kin = 24;
     public static readonly int thunder = 25;
+    public static readonly int coil2 = 26;
 }

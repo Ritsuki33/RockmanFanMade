@@ -2,7 +2,7 @@
 using UnityEngine;
 
 [CustomEditor(typeof(CameraControllArea))]
-public class CameraControllArea2Editor : Editor
+public class CameraControllAreaEditor : Editor
 {
     public override void OnInspectorGUI()
     {

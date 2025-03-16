@@ -17,13 +17,15 @@ public class SoundPlayHandler
 
     public CriAtomExAcb Acb => m_criAtomAbcAsset ? m_criAtomAbcAsset.Handle : null;
     /// <summary>
-    /// ロード中かどうか
+    /// ロード中かどうか(ロードに失敗した場合は諦めてもらう)
     /// </summary>
-    public bool Loaded => m_criAtomAbcAsset != null && m_criAtomAbcAsset.Loaded;
+    public bool Loaded => !isFailed ? m_criAtomAbcAsset != null && m_criAtomAbcAsset.Loaded : true;
 
+    private bool isFailed = false;
     public SoundPlayHandler(bool enableAudioSyncedTimer)
     {
         m_player = new CriAtomExPlayer(enableAudioSyncedTimer);
+        isFailed = false;
     }
 
     /// <summary>
@@ -46,6 +48,7 @@ public class SoundPlayHandler
             else
             {
                 Debug.LogError("Failed To Get CriAtomAcbAsset Addressable Load!!");
+                isFailed = true;
             }
         };
     }
@@ -96,7 +99,7 @@ public class SoundPlayHandler
 
     public CriAtomExPlayback Play(int cueId)
     {
-        if (m_criAtomAbcAsset.Handle == null)
+        if (m_criAtomAbcAsset == null || m_criAtomAbcAsset.Handle == null)
         {
             Debug.LogError("CriAtomAcbAsset are not Load!!");
             return default;

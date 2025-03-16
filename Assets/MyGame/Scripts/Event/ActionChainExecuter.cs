@@ -299,11 +299,13 @@ public class ActionChainExecuter : MonoBehaviour
             {
                 Debug.LogWarning("複数のメソッドが登録されているため、最初のメソッド以外は削除されます。");
 
+#if UNITY_EDITOR
                 // 最初のリスナー以外を削除
                 for (int i = listenerCount - 1; i >= 1; i--)
                 {
                     UnityEditor.Events.UnityEventTools.RemovePersistentListener(action, i);
                 }
+#endif
             }
         }
     }

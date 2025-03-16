@@ -11,7 +11,7 @@ public class BossIntroScreen : BaseScreen<BossIntroScreen, BossIntroScreenPresen
     //[SerializeField] Animator bossAnimator = default;
     //[SerializeField] LetterRevealText letterRevealText = default;
 
-    [SerializeField] BossIntroManager bossIntro;
+    private BossIntroManager bossIntro;
 
     public BossIntroManager BossIntro => bossIntro;
 
@@ -32,13 +32,24 @@ public class BossIntroScreen : BaseScreen<BossIntroScreen, BossIntroScreenPresen
     {
         return base.HideCoroutine();
     }
+
+    public void SetBossIntro(BossIntroManager bossIntroManager, Animator model)
+    {
+        bossIntro = bossIntroManager;
+        bossIntro.transform.SetParent(this.transform, true);
+        var rectTransform = bossIntro.GetComponent<RectTransform>();
+        rectTransform.anchoredPosition = Vector3.zero;
+        rectTransform.offsetMin = Vector2.zero;  // 左・下（Left, Bottom）
+        rectTransform.offsetMax = Vector2.zero;  // 右・上（Right, Top）
+        bossIntro.Setup(model);
+    }
 }
 
 public class BossIntroScreenPresenter : BaseScreenPresenter<BossIntroScreen, BossIntroScreenPresenter, BossIntroScreenViewModel, BossSelectManager.UI>
 {
     protected override void Initialize()
     {
-        m_screen.BossIntro.Setup(m_viewModel.modelData);
+        m_screen.SetBossIntro(m_viewModel.bossIntroManager, m_viewModel.modelData);
     }
 
     protected override void InputUpdate(InputInfo info)
@@ -59,18 +70,23 @@ public class BossIntroScreenViewModel : BaseViewModel<BossSelectManager.UI>
     public Animator modelData { get; private set; }
     public int modelDataId { get; private set; }
 
+    public BossIntroManager bossIntroManager { get; private set; }
+    public int bossIntroManagerId { get; private set; }
+
     protected override IEnumerator Configure()
     {
         bossName = GameState.bossName;
 
         (modelData, modelDataId) = AddressableAssetLoadUtility.LoadPrefab<Animator>($"{bossName}Intro");
 
+        (bossIntroManager, bossIntroManagerId) = AddressableAssetLoadUtility.LoadPrefab<BossIntroManager>("BossIntro");
         yield return null;
     }
 
     protected override IEnumerator Destroy()
     {
         AddressableAssetLoadUtility.ReleasePrefab(modelDataId);
+        AddressableAssetLoadUtility.ReleasePrefab(bossIntroManagerId);
         yield return null;
     }
 }

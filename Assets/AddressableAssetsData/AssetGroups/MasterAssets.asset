@@ -17,6 +17,11 @@ MonoBehaviour:
     m_SerializedData: []
   m_GUID: 3d6ab667b940649418a6512d7727bc1e
   m_SerializeEntries:
+  - m_GUID: 665bc729f46e99247b0ca5cbda830c2f
+    m_Address: BossIntro
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: d45b38ccd0207684398d15a433e9ef95
     m_Address: PlayerWeaponListData
     m_ReadOnly: 0
