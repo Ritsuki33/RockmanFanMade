@@ -153,7 +153,7 @@ public partial class StagePlayer : PhysicalObject, IDirect, IBeltConveyorVelocit
     {
         exRb.FixedUpdate();
 
-        if (CrashCheck(exRb.BoxColliderCenter, exRb.PhysicalBoxSize, exRb.PhysicalLayer))
+        if (boxPhysicalCollider.enabled && CrashCheck(exRb.BoxColliderCenter, exRb.PhysicalBoxSize, exRb.PhysicalLayer))
         {
             Dead();
         }
@@ -389,12 +389,12 @@ public partial class StagePlayer : PhysicalObject, IDirect, IBeltConveyorVelocit
 
     Vector2 IBeltConveyorVelocity.velocity { get => exRb.velocity; set => exRb.velocity = value; }
 
-    void IRbVisitor.OnTriggerEnter(DamageBase damage)
+    void IRbVisitor.OnTriggerStay(DamageBase damage)
     {
         m_mainStateMachine.OnTriggerStay(this, damage);
     }
 
-    void IRbVisitor.OnTriggerEnter(SimpleProjectileComponent damage)
+    void IRbVisitor.OnTriggerStay(SimpleProjectileComponent damage)
     {
         m_mainStateMachine.OnTriggerStay(this, damage);
     }
@@ -422,7 +422,7 @@ public partial class StagePlayer : PhysicalObject, IDirect, IBeltConveyorVelocit
 
     void IExRbVisitor.OnHitStay(DamageBase damage, RaycastHit2D hit)
     {
-        m_mainStateMachine.OnTriggerStay(this, damage);
+        if (!invincible) Damaged(damage.baseDamageValue);
     }
 
     void IExRbVisitor.OnBottomHitStay(Tire tire, RaycastHit2D hit)
