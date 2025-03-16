@@ -105,6 +105,7 @@ public class GreenMan : StageEnemy, IDirect, IRbVisitor, IHitEvent
     {
         static int animationHash = Animator.StringToHash("Idle");
 
+        Vector3 targetPos = default;
         protected override void Enter(GreenMan greenMan, int preId, int subId)
         {
             greenMan.MainAnimator.Play(animationHash);
@@ -119,7 +120,8 @@ public class GreenMan : StageEnemy, IDirect, IRbVisitor, IHitEvent
 
         protected override void Update(GreenMan greenMan)
         {
-            greenMan.TurnToTarget(greenMan.Player.transform.position);
+            if (greenMan.Player) targetPos = greenMan.Player.transform.position;
+            greenMan.TurnToTarget(targetPos);
             greenMan.timer.MoveAheadTime(Time.deltaTime, () =>
             {
                 Probability.BranchMethods(

@@ -26,7 +26,7 @@ public partial class Mettoru
         {
             if (!mettoru.MainAnimator.IsPlayingCurrentAnimation(animationHash))
             {
-                mettoru.TurnToTarget(mettoru.Player.transform.position);
+                mettoru.TurnToTarget(mettoru.targetPos);
 
                 mettoru.raycastSensor.SearchForTargetEnter((mettoru.IsRight) ? Vector2.right : Vector2.left,
                     (hit) =>
@@ -72,7 +72,7 @@ public partial class Mettoru
         protected override void Enter(Mettoru mettoru, int preId, int subId)
         {
             mettoru.MainAnimator.Play(animationHash);
-            mettoru.TurnToTarget(mettoru.Player.transform.position);
+            mettoru.TurnToTarget(mettoru.targetPos);
             timer.Start(1.5f, 2.0f);
         }
 
@@ -165,6 +165,8 @@ public partial class Mettoru
     {
         int animationHash = 0;
         AmbiguousTimer timer = new AmbiguousTimer();
+
+        Vector2 targetPos = default;
         public Hiding() { animationHash = Animator.StringToHash("Hiding"); }
 
         protected override void Enter(Mettoru mettoru, int preId, int subId)
@@ -181,7 +183,8 @@ public partial class Mettoru
 
         protected override void Update(Mettoru mettoru)
         {
-            mettoru.TurnToTarget(mettoru.Player.transform.position);
+            if (mettoru.Player != null) targetPos = mettoru.targetPos;
+            mettoru.TurnToTarget(targetPos);
 
             if (mettoru.defense == null)
             {
@@ -277,7 +280,7 @@ public partial class Mettoru
         {
             if (!mettoru.MainAnimator.IsPlayingCurrentAnimation(animationHash))
             {
-                mettoru.TurnToTarget(mettoru.Player.transform.position);
+                mettoru.TurnToTarget(mettoru.targetPos);
 
                 mettoru.raycastSensor.SearchForTargetEnter((mettoru.IsRight) ? Vector2.right : Vector2.left,
                     (hit) =>

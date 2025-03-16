@@ -157,8 +157,8 @@ public class Batman : StageEnemy, IHitEvent, IRbVisitor, IExRbVisitor
     class Move : ExRbState<Batman, Move>
     {
         static int anmationHash = Animator.StringToHash("Move");
-
-        Transform PlayerPos => WorldManager.Instance.Player.transform;
+        Vector3 targetPos = default;
+        StagePlayer Player => WorldManager.Instance.Player;
         protected override void Enter(Batman batman, int preId, int subId)
         {
             batman.MainAnimator.Play(anmationHash);
@@ -166,7 +166,8 @@ public class Batman : StageEnemy, IHitEvent, IRbVisitor, IExRbVisitor
 
         protected override void FixedUpdate(Batman batman)
         {
-            Vector2 move = PlayerPos.position - batman.transform.position;
+            if (Player) targetPos = Player.transform.position;
+            Vector2 move = targetPos - batman.transform.position;
             batman.exRb.velocity = batman.speed * move.normalized;
         }
 

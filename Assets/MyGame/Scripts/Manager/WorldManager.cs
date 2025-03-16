@@ -27,7 +27,6 @@ public class WorldManager : SingletonComponent<WorldManager>
         {
             if (!_player)
             {
-                Debug.LogError("Player is NULL");
                 _player = null;
             }
             return _player;

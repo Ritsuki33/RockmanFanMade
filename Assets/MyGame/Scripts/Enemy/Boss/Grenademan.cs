@@ -23,6 +23,8 @@ public class Grenademan : StageBoss, IDirect, IHitEvent, IRbVisitor, IExRbVisito
 
     CachedCollide rbCollide = new CachedCollide();
     CachedHit exRbHit = new CachedHit();
+
+    private Vector2 playerPos = default;
     enum StateId
     {
         Idle,
@@ -71,6 +73,7 @@ public class Grenademan : StageBoss, IDirect, IHitEvent, IRbVisitor, IExRbVisito
 
     protected override void OnUpdate()
     {
+        if (WorldManager.Instance.Player != null) playerPos = WorldManager.Instance.Player.transform.position;
         stateMachine.Update(this);
     }
 
@@ -279,7 +282,7 @@ public class Grenademan : StageBoss, IDirect, IHitEvent, IRbVisitor, IExRbVisito
         int layerMask = LayerMask.GetMask("Ground");
         protected override void Enter(Grenademan ctr, int preId, int subId)
         {
-            ctr.TurnToTarget(WorldManager.Instance.Player.transform.position);
+            ctr.TurnToTarget(ctr.playerPos);
             ctr.MainAnimator.Play(AnimationNameHash.Float);
 
             ctr._jump.Init(jump_vel);
@@ -290,7 +293,7 @@ public class Grenademan : StageBoss, IDirect, IHitEvent, IRbVisitor, IExRbVisito
 
             Probability.BranchMethods((50, () =>
             {
-                vel_x = ParabolaCalc.GetHorizonVelocity(ctr.transform.position.x, WorldManager.Instance.Player.transform.position.x, jump_vel, ctr._gravity.GravityScale);
+                vel_x = ParabolaCalc.GetHorizonVelocity(ctr.transform.position.x, ctr.playerPos.x, jump_vel, ctr._gravity.GravityScale);
             }
             ),
             (50, () =>
@@ -345,7 +348,7 @@ public class Grenademan : StageBoss, IDirect, IHitEvent, IRbVisitor, IExRbVisito
         ObjectManager ObjectManager => ObjectManager.Instance;
         protected override void Enter(Grenademan ctr, int preId, int subId)
         {
-            ctr.TurnToTarget(WorldManager.Instance.Player.transform.position);
+            ctr.TurnToTarget(ctr.playerPos);
             ctr.MainAnimator.Play(animationHash);
 
             ctr._jump.Init(jump_vel);
@@ -354,7 +357,7 @@ public class Grenademan : StageBoss, IDirect, IHitEvent, IRbVisitor, IExRbVisito
             RaycastHit2D right = Physics2D.Raycast(ctr.transform.position, Vector2.right, Mathf.Infinity, layerMask);
 
 
-            vel_x = ParabolaCalc.GetHorizonVelocity(ctr.transform.position.x, WorldManager.Instance.Player.transform.position.x, jump_vel, ctr._gravity.GravityScale);
+            vel_x = ParabolaCalc.GetHorizonVelocity(ctr.transform.position.x, ctr.playerPos.x, jump_vel, ctr._gravity.GravityScale);
             isFire = false;
         }
 
@@ -450,7 +453,7 @@ public class Grenademan : StageBoss, IDirect, IHitEvent, IRbVisitor, IExRbVisito
 
             protected override void Enter(Grenademan ctr, Run parent, int preId, int subId)
             {
-                ctr.TurnToTarget(WorldManager.Instance.Player.transform.position);
+                ctr.TurnToTarget(ctr.playerPos);
                 ctr.MainAnimator.Play(animationHash);
             }
 
@@ -472,7 +475,7 @@ public class Grenademan : StageBoss, IDirect, IHitEvent, IRbVisitor, IExRbVisito
             protected override void Enter(Grenademan ctr, Run parent, int preId, int subId)
             {
                 ctr.MainAnimator.Play(AnimationNameHash.Run);
-                targetPos = WorldManager.Instance.Player.transform.position;
+                targetPos = ctr.playerPos;
                 prePos = ctr.transform.position;
 
                 AudioManager.Instance.PlaySe(SECueIDs.block);
@@ -531,7 +534,7 @@ public class Grenademan : StageBoss, IDirect, IHitEvent, IRbVisitor, IExRbVisito
         protected override void Enter(Grenademan ctr, int preId, int subId)
         {
             this.TransitSubReady(0);
-            ctr.TurnToTarget(WorldManager.Instance.Player.transform.position);
+            ctr.TurnToTarget(ctr.playerPos);
             ctr.MainAnimator.Play(AnimationNameHash.Shoot);
         }
 

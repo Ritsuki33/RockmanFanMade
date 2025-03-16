@@ -39,6 +39,8 @@ public partial class Mettoru : StageEnemy, IDirect, IHitEvent, IRbVisitor, IExRb
     CachedCollide rbCollide = new CachedCollide();
 
     CachedHit exRbHit = new CachedHit();
+
+    Vector3 targetPos = default;
     protected override void Awake()
     {
         m_stateMachine.AddState((int)StateID.Idle, new Idle());
@@ -69,6 +71,7 @@ public partial class Mettoru : StageEnemy, IDirect, IHitEvent, IRbVisitor, IExRb
 
     protected override void OnFixedUpdate()
     {
+        if (Player) targetPos = Player.transform.position;
         m_stateMachine.FixedUpdate(this);
     }
 
