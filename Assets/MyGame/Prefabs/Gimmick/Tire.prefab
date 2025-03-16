@@ -116,7 +116,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8851076707478281530}
   - component: {fileID: 4555217107251523355}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: TriggerBox
   m_TagString: Untagged
   m_Icon: {fileID: 0}
