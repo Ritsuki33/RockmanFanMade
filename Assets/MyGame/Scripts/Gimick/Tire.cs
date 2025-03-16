@@ -84,6 +84,7 @@ public class Tire : AnimObject, IExRbVisitable
         protected override void Enter(Tire tire, int preId, int subId)
         {
             tire.MainAnimator.Play(animationHash, 0, 0.0f);
+            AudioManager.Instance.PlaySe(SECueIDs.coil2);
         }
 
         protected override void Update(Tire tire)
