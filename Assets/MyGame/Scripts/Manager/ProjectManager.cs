@@ -19,5 +19,7 @@ public class ProjectManager : SingletonComponent<ProjectManager>
         footerUi.gameObject.SetActive(false);
         rdh.Initialize();
         DontDestroyOnLoad(gameObject);
+
+        FadeInManager.Instance.FadeOutImmediate();
     }
 }
