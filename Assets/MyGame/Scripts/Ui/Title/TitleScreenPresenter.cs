@@ -37,12 +37,13 @@ public class TitleScreenPresenter : BaseScreenPresenter<TitleScreen, TitleScreen
     {
         if (!inputable) return;
         var dir = GetInputDirection(info);
-        if (dir != InputDirection.None)
-        {
-            m_screen.Select.InputUpdate(dir);
-            AudioManager.Instance.PlaySystem(SECueIDs.select);
-        }
-        else if (info.decide)
+        // if (dir != InputDirection.None)
+        // {
+        //     m_screen.Select.InputUpdate(dir);
+        //     AudioManager.Instance.PlaySystem(SECueIDs.select);
+        // }
+        // else
+        if (info.decide)
         {
             m_screen.Select.Selected();
         }
