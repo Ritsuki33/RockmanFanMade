@@ -545,7 +545,7 @@ public class ActionChainExecuter : MonoBehaviour
             WorldManager.Instance.Player.TransitToWarpOut(() =>
             {
                 if (nextVirtualCamera != null) GameMainManager.Instance.MainCameraControll.ChangePlayerCamera(nextVirtualCamera, Style.Cut, 0, finishCallback);
-                WorldManager.Instance.Player.transform.position = warpDestination.position;
+                WorldManager.Instance.Player.transform.position_xy(warpDestination.position);
                 WorldManager.Instance.Player.TransitToWarpIn();
             });
         }
